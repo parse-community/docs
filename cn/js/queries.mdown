@@ -1,0 +1,332 @@
+# 查询
+
+我们已经知道带 `get` 的 `Parse.Query` 如何从 Parse 中检索单个 `Parse.Object`。使用 `Parse.Query`，还有多种其他方法可以检索数据 － 您可以一次检索多个对象，设置您检索对象的条件等。
+
+## 基本查询
+
+许多情况下，`get` 不够强大，不能指定您想要检索的对象。`Parse.Query` 提供了不同的方法用于检索一系列对象而非仅仅检索单一对象。
+
+常规模式是创建一个 `Parse.Query`，对其设置条件，然后用 `find` 检索一个 `Array` 的匹配 `Parse.Object`。例如，若要检索 `playerName` 的得分，可以使用 `equalTo` 方法限定键值。
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.equalTo("playerName", "Dan Stemkoski");
+query.find({
+  success: function(results) {
+    alert("Successfully retrieved " + results.length + " scores.");
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < results.length; i++) {
+      var object = results[i];
+      alert(object.id + ' - ' + object.get('playerName'));
+    }
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+```
+
+## 查询限制条件
+
+有几种方法可以对 `Parse.Query` 找到的对象设置限制条件。您可以用 `notEqualTo` 将具有特定键值对的对象过滤出来：
+
+```js
+query.notEqualTo("playerName", "Michael Yabuti");
+```
+
+您可以给定多个限制条件，只有满足所有限制条件的对象才会出现在结果中。换句话说，这类似于 AND 类型的限制条件。
+
+```js
+query.notEqualTo("playerName", "Michael Yabuti");
+query.greaterThan("playerAge", 18);
+```
+
+您可以通过设置 `limit` 来限制结果数量。默认结果限值为 100，但是 1 到 1000 之间的任意值都有效：
+
+```js
+query.limit(10); // limit to at most 10 results
+```
+
+如果您想要确切的一个结果，更加方便的方法是使用 `first`，而不是 `find`。
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.equalTo("playerEmail", "dstemkoski@example.com");
+query.first({
+  success: function(object) {
+    // Successfully retrieved the object.
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+```
+
+您可以通过设置 `skip` 跳过前面的结果。这对分页非常有用：
+
+```js
+query.skip(10); // skip the first 10 results
+```
+
+对于可排序的数据，如数字和字符串，您可以控制结果返回的顺序：
+
+```js
+// Sorts the results in ascending order by the score field
+query.ascending("score");
+// Sorts the results in descending order by the score field
+query.descending("score");
+```
+
+对于可排序的数据，你还可以在查询中使用对比：
+
+```js
+// Restricts to wins < 50
+query.lessThan("wins", 50);
+
+// Restricts to wins <= 50
+query.lessThanOrEqualTo("wins", 50);
+
+// Restricts to wins > 50
+query.greaterThan("wins", 50);
+
+// Restricts to wins >= 50
+query.greaterThanOrEqualTo("wins", 50);
+```
+
+若您想要检索与几个不同值匹配的对象，您可以使用 `containedIn`，提供一组可接受的值。这在用单一查询替代多个查询时通常比较有用。例如，如果您检索某个列表中任意玩家的得分：
+
+```js
+// Finds scores from any of Jonathan, Dario, or Shawn
+query.containedIn("playerName",
+                  ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+```
+
+若您想要检索与几个值都不匹配的对象，您可以使用 `notContainedIn`，提供一组可接受的值。例如，如果您想检索列表外玩家的得分：
+
+```js
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+query.notContainedIn("playerName",
+                     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+```
+
+若您想要检索有某一特定键集的对象，可以使用 `exists`。相反，若您想要检索没有某一特定键集的对象，可以使用 `doesNotExist`。
+
+```js
+// Finds objects that have the score set
+query.exists("score");
+
+// Finds objects that don't have the score set
+query.doesNotExist("score");
+```
+您可以使用 `matchesKeyInQuery` 方法获取符合以下要求的对象：对象中的一个键值与另一查询所得结果的对象集中的某一键值匹配。例如，如果您的一个类包含体育团队，而且您在用户类中储存了用户的家乡，那么您可以查询其家乡团队获奖的用户列表。该查询类似于：
+
+```js
+var Team = Parse.Object.extend("Team");
+var teamQuery = new Parse.Query(Team);
+teamQuery.greaterThan("winPct", 0.5);
+var userQuery = new Parse.Query(Parse.User);
+userQuery.matchesKeyInQuery("hometown", "city", teamQuery);
+userQuery.find({
+  success: function(results) {
+    // results has the list of users with a hometown team with a winning record
+  }
+});
+```
+
+类似地，您可以使用 `doesNotMatchKeyInQuery` 获取不符合以下要求的对象：对象中的一个键值与另一查询所得结果的对象集中的某一键值匹配。例如，要查找其家乡团队失利的用户：
+
+```js
+var losingUserQuery = new Parse.Query(Parse.User);
+losingUserQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
+losingUserQuery.find({
+  success: function(results) {
+    // results has the list of users with a hometown team with a losing record
+  }
+});
+```
+
+您可以通过用一组键值调用 `select` 来限制返回的字段。若要检索只包含 `score` 和 `playerName` 字段（以及特殊嵌入字段，如 `objectId`、`createdAt` 和 `updatedAt`）的文件：
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.select("score", "playerName");
+query.find().then(function(results) {
+  // each of results will only have the selected fields available.
+});
+```
+
+稍后，可以通过对返回的对象调用 `fetch` 提取其余的字段：
+
+```js
+query.first().then(function(result) {
+  // only the selected fields of the object will now be available here.
+  return result.fetch();
+}).then(function(result) {
+  // all fields of the object will now be available here.
+});
+```
+
+## 数组值查询
+
+对于数组类型的键，您可以查找键的数组值包含 2 的对象，如下所示：
+
+```js
+// Find objects where the array in arrayKey contains 2.
+query.equalTo("arrayKey", 2);
+```
+
+您还可以查找键的数组值包含元素 2、3 或 4 的对象，如下所示：
+
+```js
+// Find objects where the array in arrayKey contains all of the elements 2, 3, and 4.
+query.containsAll("arrayKey", [2, 3, 4]);
+```
+
+## 字符串值查询
+
+使用 `startsWith` 将结果限制为以某一特定字符串开头的字符串值。与 MySQL LIKE 运算符类似，它包含索引，所以对大型数据集很有效：
+
+```js
+// Finds barbecue sauces that start with "Big Daddy's".
+var query = new Parse.Query(BarbecueSauce);
+query.startsWith("name", "Big Daddy's");
+```
+
+## 关系型查询
+
+有几种方法可以用于关系型数据查询。如果您想检索有字段与某一特定 `Parse.Object` 匹配的对象，可以像检索其他类型的数据一样使用 `equalTo`。例如，如果每个 `Comment` 在 `post` 字段中有一个 `Post` 对象，您可以提取某一特定 `Post` 的评论：
+
+```js
+// Assume Parse.Object myPost was previously created.
+var query = new Parse.Query(Comment);
+query.equalTo("post", myPost);
+query.find({
+  success: function(comments) {
+    // comments now contains the comments for myPost
+  }
+});
+```
+
+如果想要检索的对象中，有字段包含与其他查询匹配的 `Parse.Object`，您可以使用 `matchesQuery`。注意，默认限值 100 和最大限值 1000 也适用于内部查询，因此在大型数据集中进行查询时，您可能需要谨慎构建查询条件才能按需要进行查询。为了查找包含图像的帖子的评论，您可以使用如下代码：
+
+```js
+var Post = Parse.Object.extend("Post");
+var Comment = Parse.Object.extend("Comment");
+var innerQuery = new Parse.Query(Post);
+innerQuery.exists("image");
+var query = new Parse.Query(Comment);
+query.matchesQuery("post", innerQuery);
+query.find({
+  success: function(comments) {
+    // comments now contains the comments for posts with images.
+  }
+});
+```
+
+如果想要检索的对象中，有字段包含与其他查询不匹配的 `Parse.Object`，您可以使用 `doesNotMatchQuery`。为了查找不包含图像的帖子的评论，您可以这样：
+
+```js
+var Post = Parse.Object.extend("Post");
+var Comment = Parse.Object.extend("Comment");
+var innerQuery = new Parse.Query(Post);
+innerQuery.exists("image");
+var query = new Parse.Query(Comment);
+query.doesNotMatchQuery("post", innerQuery);
+query.find({
+  success: function(comments) {
+    // comments now contains the comments for posts without images.
+  }
+});
+```
+
+您还可以用 `objectId` 进行关系型查询：
+
+```js
+var post = new Post();
+post.id = "1zEcyElZ80";
+query.equalTo("post", post);
+```
+
+在一些情况下，您可能想要在一个查询中返回多种类型的相关对象。您可以用 `include` 方法达到这个目的。例如，假设您要检索最新的十条评论，并且想要同时检索这些评论的相关帖子：
+
+```js
+var query = new Parse.Query(Comment);
+
+// Retrieve the most recent ones
+query.descending("createdAt");
+
+// Only retrieve the last ten 
+query.limit(10);
+
+// Include the post data with each comment
+query.include("post");
+
+query.find({
+  success: function(comments) {
+    // Comments now contains the last ten comments, and the "post" field
+    // has been populated. For example
+    for (var i = 0; i < comments.length; i++) 
+      // This does not require a network access.
+      var post = comments[i].get("post");
+    }
+  }
+});
+```
+
+您也可以使用点标记进行多层级检索。如果您想要包含帖子的评论以及帖子的作者，您可以操作如下：
+
+```js
+query.include(["post.author"]);
+```
+
+您可以通过多次调用 `include`，进行包含多个字段的查询。此功能也适用于 `first` 和 `get` 等 Parse.Query 帮助工具。
+
+## 对象计数
+
+如果您只需要计算符合查询的对象数量，不需要检索所有匹配的对象，可以使用 `count`，而不是 `find`。例如，要计算某一特定玩家玩过多少种游戏：
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.equalTo("playerName", "Sean Plott");
+query.count({
+  success: function(count) {
+    // The count request succeeded. Show the count
+    alert("Sean has played " + count + " games");
+  },
+  error: function(error) {
+    // The request failed
+  }
+});
+```
+
+对于含超过 1000 个对象的类，计数操作受超时设定的限制。这种情况下，可能经常遇到超时错误，或只能返回近似正确的结果。因此，在应用程序的设计中，最好能做到避免此类计数操作。
+
+## 混合查询
+
+如果您想查找与几个查询中的一个查询匹配的对象，您可以使用 `Parse.Query.or` 方法来创建一个查询，该查询是多项查询的 OR 运算结果。例如，如果您想查找取得多次胜利或少数几次胜利的玩家，可以进行以下查询：
+
+```js
+var lotsOfWins = new Parse.Query("Player");
+lotsOfWins.greaterThan("wins", 150);
+
+var fewWins = new Parse.Query("Player");
+fewWins.lessThan("wins", 5);
+
+var mainQuery = Parse.Query.or(lotsOfWins, fewWins);
+mainQuery.find({
+  success: function(results) {
+    // results contains a list of players that either have won a lot of games or won only a few games.
+  },
+  error: function(error) {
+    // There was an error.
+  }
+});
+```
+
+您可以对新创建的 `Parse.Query` 添加额外限制条件，作为&ldquo;and&rdquo;运算符。
+
+但是，请注意：在混合查询结果中查询时，我们不支持非过滤型限制条件（如 `limit`、`skip`、`ascending`/`descending`、`include`）。

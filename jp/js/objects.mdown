@@ -1,0 +1,377 @@
+# オブジェクト
+
+## Parse.Object
+
+Parseでのデータ保存は`Parse.Object`に基づいて設計されています。各`Parse.Object`にはJSON互換データのキーの値のペアが入ります。このデータはスキーマレスであり、各`Parse.Object`に存在するキーを事前に指定する必要がありません。必要なキーの値を設定するだけで、バックエンドによって保存されます。
+
+たとえば、ゲームの高得点をトラッキングするとします。`Parse.Object`には次のようなキーを入れることができます。
+
+```js 
+score: 1337, playerName: "Sean Plott", cheatMode: false
+```
+
+キーは英数字で指定します。値には、JSONエンコード可能なものであれば、文字列、数字、ブール値だけでなく配列や辞書も使用できます。
+
+各`Parse.Object`は、データの種類の区別に使用するクラス名を持った特定のサブクラスのインスタンスです。たとえば、高得点オブジェクトには`GameScore`という名前を付けることができます。コードを見やすくするために、NameYourClassesLikeThisやnameYourKeysLikeThisのような名前を付けることをお勧めします。
+
+新しいサブクラスを作成するには、`Parse.Object.extend`メソッドを使用します。`Parse.Query`では、同じクラス名を持った`Parse.Object`の新しいクラスのインスタンスが返されます。`Backbone.Model`を熟知していると、`Parse.Object`の使用方法も分かります。一時的な代用品として使用できます。
+
+```js
+// Simple syntax to create a new subclass of Parse.Object.
+var GameScore = Parse.Object.extend("GameScore");
+
+// Create a new instance of that class.
+var gameScore = new GameScore();
+
+// Alternatively, you can use the typical Backbone syntax.
+var Achievement = Parse.Object.extend({ className: "Achievement" });
+```
+
+`Parse.Object`のサブクラスにはメソッドとプロパティを追加できます。
+
+```js
+// A complex subclass of Parse.Object
+var Monster = Parse.Object.extend("Monster", {
+  // Instance methods
+  hasSuperHumanStrength: function () {
+    return this.get("strength") > 18;
+  },
+  // Instance properties go in an initialize method
+  initialize: function (attrs, options) {
+    this.sound = "Rawr"
+  }
+}, {
+  // Class methods
+  spawn: function(strength) {
+    var monster = new Monster();
+    monster.set("strength", strength);
+    return monster;
+  }
+});
+
+var monster = Monster.spawn(200);
+alert(monster.strength());  // Displays 200.
+alert(monster.sound); // Displays Rawr.
+```
+
+## オブジェクトの保存
+
+上記の`GameScore`をParseクラウドに保存するとします。`save`メソッドなど、インターフェイスは`Backbone.Model`に似ています。
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var gameScore = new GameScore();
+
+gameScore.set("score", 1337); 
+gameScore.set("playerName", "Sean Plott");
+gameScore.set("cheatMode", false);
+gameScore.save(null, {
+  success: function(gameScore) {
+    // Execute any logic that should take place after the object is saved.
+    alert('New object created with objectId: ' + gameScore.id);
+  },
+  error: function(gameScore, error) {
+    // Execute any logic that should take place if the save fails.
+    // error is a Parse.Error with an error code and description.
+    alert('Failed to create new object, with error code: ' + error.description);
+  }
+});
+```
+
+このコードを実行しても、何が行われたのかよく分からないかもしれません。データが保存されたことを確認するには、Parseのアプリのデータブラウザを参照します。次のように表示されます。
+
+```js
+objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false, createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```
+
+ここでは2つの点に注目します。このコードを実行する前には、`GameScore`と呼ばれる新しいクラスを作成したり、設定する必要はありません。コードがあった場合に、Parseアプリによってこのクラスが作成されます。
+
+また、指定しなくても、いくつかのフィールドは必要に応じて入力されます。`objectId`は保存した各オブジェクトの一意のIDです。`createdAt`と`updatedAt`はクラウドでの各オブジェクトの作成日時と、最終更新日時を表します。これらのフィールドはParseが入力することから、保存操作が完了するまで`Parse.Object`上には存在しません。
+
+必要な場合は、`save`への呼び出しに属性を直接設定できます。
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var gameScore = new GameScore();
+gameScore.save({
+  score: 1337,
+  playerName: "Sean Plott",
+  cheatMode: false
+}, {
+  success: function(gameScore) {
+    // The object was saved successfully.
+  },
+  error: function(gameScore, error) {
+    // The save failed.
+    // error is a Parse.Error with an error code and description.
+  }
+});
+```
+
+## オブジェクトの取得
+
+クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`があると、`Parse.Query`を使用して`Parse.Object`全体を取得できます。
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.get("xWMyZ4YEGZ", {
+  success: function(gameScore) {
+    // The object was retrieved successfully.
+  },
+  error: function(object, error) {
+    // The object was not retrieved successfully.
+    // error is a Parse.Error with an error code and description.
+  }
+});
+```
+
+`Parse.Object`から値を取得するには、`get`メソッドを使用します。
+
+```js
+var score = gameScore.get("score");
+var playerName = gameScore.get("playerName");
+var cheatMode = gameScore.get("cheatMode");
+```
+
+次の3つの特殊な値をプロパティとして設定します。
+
+```js
+var objectId = gameScore.id;
+var updatedAt = gameScore.updatedAt;
+var createdAt = gameScore.createdAt;
+```
+
+すでに取得したオブジェクトをParseクラウド内の最新のデータで更新する場合は、次のように`fetch`メソッドを呼び出します。
+
+```js
+myObject.fetch({
+  success: function(myObject) 
+    // The object was refreshed successfully
+  },
+  error: function(myObject, error) {
+    // The object was not refreshed successfully.
+    // error is a Parse.Error with an error code and description.
+  }
+});
+```
+
+
+## オブジェクトの更新
+
+オブジェクトは簡単に更新できます。新しいデータをオブジェクトに設定し、保存メソッドを呼び出すだけです。次に例を示します。
+
+```js
+// Create the object.
+var GameScore = Parse.Object.extend("GameScore");
+var gameScore = new GameScore();
+gameScore.set("score", 1337);
+gameScore.set("playerName", "Sean Plott");
+gameScore.set("cheatMode", false);
+gameScore.set("skills", ["pwnage", "flying"]);
+gameScore.save(null, {
+  success: function(gameScore) {
+    // Now let's update it with some new data. In this case, only cheatMode and score
+    // will get sent to the cloud. playerName hasn't changed.
+    gameScore.set("cheatMode", true);
+    gameScore.set("score", 1338);
+    gameScore.save();
+  }
+});
+```
+
+Parseが変更されたデータを自動的に確認し、「ダーティ」なフィールドのみがParseクラウドに送信されます。更新する必要のない圧縮データは無視してもかまいません。
+
+### カウンタ
+
+上記の例には一般的な使用例が含まれます。「score」フィールドは、プレイヤーの最新スコアで継続的に更新する必要があるカウンタです。上記のメソッドも機能しますが、作業が面倒であり、複数のクライアントが同じカウンタを更新しようとすると問題が発生することになります。
+
+カウンタタイプのデータを簡単に保存できるよう、Parseには番号フィールドをアトミックに増やす、または減らすメソッドが用意されています。同じ更新処理は次のように記述できます。
+
+```js
+gameScore.increment("score");
+gameScore.save();
+```
+
+さらに、`increment`の2つ目の引数を渡せば、任意の増分量を設定できます。指定しない場合は、デフォルトで1が使用されます。
+
+### 配列
+
+配列データを簡単に保存できるよう、次の3つの操作を使用すると、指定したキーに関連付けられている配列をアトミックに変更できます。
+
+*   `add`は、指定したオブジェクトを配列フィールドの末尾に追加します。
+*   `addUnique`は、指定したオブジェクトが配列フィールドにない場合にのみ、そのオブジェクトを追加します。挿入場所は保証されません。
+*   `remove`は、配列フィールドから指定したオブジェクトのインスタンスをすべて削除します。
+
+たとえば、次のようにセットのような「skills」フィールドにアイテムを追加できます。
+
+```js
+gameScore.addUnique("skills", "flying");
+gameScore.addUnique("skills", "kungfu");
+gameScore.save();
+```
+
+現在は、同じ保存操作で配列にアイテムをアトミックに追加したり、配列からアイテムをアトミックに削除することはできません。異なる種類の各配列操作の間に`save`を呼び出す必要があります。
+
+
+## オブジェクトの削除
+
+クラウドからオブジェクトを削除するには:
+
+```js
+myObject.destroy({
+  success: function(myObject) {
+    // The object was deleted from the Parse Cloud.
+  },
+  error: function(myObject, error) {
+    // The delete failed.
+    // error is a Parse.Error with an error code and description.
+  }
+});
+```
+
+`unset`メソッドでは、オブジェクトから単一のフィールドを削除できます。
+
+```js
+// After this, the playerName field will be empty
+myObject.unset("playerName");
+// Saves the field deletion to the Parse Cloud
+myObject.save();
+```
+
+
+## リレーショナルデータ
+
+オブジェクトには他のオブジェクトとの関係を持たせることができます。たとえば、ブログアプリケーションでは、`Post`オブジェクトが多数の`Comment`オブジェクトを持つことがあります。Parseは、1対1、1対多、多対多など、すべての種類の関係をサポートしています。
+
+### 1対1の関係と1対多の関係
+
+1対1の関係と1対多の関係は、`Parse.Object`を他のオブジェクトの値として保存することでモデル化できます。たとえば、ブログアプリのそれぞれの`Comment`が1つの`Post`に対応することもあります。
+
+`Comment`を1つ持つ新しい`Post`を作成するには、次のように記述します。
+
+```js
+  // Declare the types.
+  var Post = Parse.Object.extend("Post");
+  var Comment = Parse.Object.extend("Comment");
+
+  // Create the post var myPost = new Post();
+  myPost.set("title", "I'm Hungry");
+  myPost.set("content", "Where should we go for lunch?");
+
+  // Create the comment var myComment = new Comment();
+  myComment.set("content", "Let's do Sushirrito.");
+
+  // Add the post as a value in the comment
+  myComment.set("parent", myPost);
+
+  // This will save both myPost and myComment
+  myComment.save();
+```
+
+内部的には、一貫性を保持するために、Parseフレームワークによって参照先オブジェクトが一か所に保存されます。また、次のように`objectId`を使用してオブジェクトをリンクさせることができます。
+
+```js
+var post = new Post();
+post.id = "1zEcyElZ80";
+myComment.set("parent", post);
+```
+
+デフォルトでは、オブジェクトを取得する際には、関連する`Parse.Object`は取得されません。次の方法で取得しない限り、これらのオブジェクトの値を取り出すことはできません。
+
+```js
+var post = fetchedComment.get("parent");
+post.fetch({
+  success: function(post) {
+    var title = post.get("title");
+  }
+});
+```
+
+### 多対多の関係
+
+多対多の関係は、`Parse.Relation`を使用してモデル化します。これは`Parse.Object`の配列をキーに格納するのと同じ方法ですが、関係のすべてのオブジェクトを一度に取得する必要がないという点が異なります。さらに、そのおかげで`Parse.Object`の配列による方法よりも、`Parse.Relation`の方がより多くのオブジェクトに対応できます。たとえば、`User`が「いいね！」した多数の`Posts`を持っているとします。この場合、`User`が「いいね！」した一連の`Posts`を、`relation`を使用して格納できます。`Post`を`User`の「いいね！」リストに追加するには、次のような方法があります。
+
+```js
+var user = Parse.User.current();
+var relation = user.relation("likes");
+relation.add(post);
+user.save();
+```
+
+次の方法では、`Parse.Relation`から投稿を削除できます。
+
+```js
+relation.remove(post);
+user.save();
+```
+
+保存を呼び出す前に、`add`と`remove`を複数回呼び出します。
+
+```js
+relation.remove(post1);
+relation.remove(post2);
+user.save();
+```
+
+また、`Parse.Object`の配列を`add`と`remove`に渡すことができます。
+
+```js
+relation.add([post1, post2, post3]);
+user.save();
+```
+
+デフォルトでは、この関係のオブジェクトのリストはダウンロードされません。利用者が「いいね！」した投稿のリストを取得するには、`query`が返す`Parse.Query`を使用します。コードは次のようになります。
+
+```js
+relation.query().find({
+  success: function(list) {
+    // list contains the posts that the current user likes.
+  }
+});
+```
+
+投稿のサブセットのみが必要な場合は、次のように、クエリが返す`Parse.Query`に条件を追加できます。
+
+```js
+var query = relation.query();
+query.equalTo("title", "I'm Hungry");
+query.find({
+  success:function(list) {
+    // list contains post liked by the current user which have the title "I'm Hungry".
+  }
+});
+```
+
+`Parse.Query`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。クエリ目的の場合、`Parse.Relation`は`Parse.Object`の配列と同様の働きをすることから、オブジェクトの配列に実行可能なクエリはすべて`Parse.Relation`に実行できます。
+
+
+## データタイプ
+
+ここまでは`String`、`Number`、`Parse.Object`といったタイプの値を使用してきました。ParseはJavaScript `Date`と`null`もサポートしています。
+
+JavaScript `Object`とJavaScript `Array`をネストすると、単一の`Parse.Object`内により多くの構造化データを格納できます。
+
+次のその例を示します。
+
+```js
+var number = 42;
+var string = "the number is " + number;
+var date = new Date();
+var array = [string, number];
+var object = { number: number, string: string };
+
+var BigObject = Parse.Object.extend("BigObject");
+var bigObject = new BigObject();
+bigObject.set("myNumber", number);
+bigObject.set("myString", string);
+bigObject.set("myDate", date);
+bigObject.set("myArray", array);
+bigObject.set("myObject", object);
+bigObject.set("myNull", null);
+bigObject.save();
+```
+
+`Parse.Object`のサイズは128キロバイト以下にする必要があります。
+
+Parseによるデータの処理方法についての詳細は、[データとセキュリティ](/docs/data)にあるドキュメントをご覧ください。

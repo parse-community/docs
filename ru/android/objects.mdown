@@ -1,0 +1,459 @@
+# Объекты
+
+## ParseObject
+
+Хранение данных в Parse строится вокруг объектов `ParseObject`. Каждый объект `ParseObject` содержит пары данных &laquo;ключ-значение&raquo;, совместимых с форматом JSON. Эти данные являются бессхемными, то есть не нужно заранее указывать, какие ключи существуют для каждого из объектов `ParseObject`. Вы просто настраиваете необходимые пары &laquo;ключ-значение&raquo;, а наш сервер сохраняет их.
+
+Например, вы отслеживаете рекорды игры. Один объект `ParseObject` может содержать:
+
+```js 
+score: 1337, playerName: "Sean Plott", cheatMode: false
+```
+
+Ключи представляют собой буквенно-цифровые строки. Значения могут быть строками, числами, логическими значениями и даже массивами и объектами, то есть любыми объектами, которые можно закодировать в JSON.
+
+Каждому объекту `ParseObject` присваивается имя класса, которое можно использовать для разграничения разных типов данных. Например, можно назвать объект рекордов `GameScore`. Рекомендуем называть классы и ключи следующим образом: NameYourClassesLikeThis и nameYourKeysLikeThis, просто чтобы ваш код выглядел разборчиво.
+
+## Сохранение объектов
+
+Например, вы хотите сохранить описанный выше объект `GameScore` в Parse Cloud. Интерфейс похож на `Map` и метод `saveInBackground`:
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.saveInBackground();
+```
+
+После выполнения этого кода вы, вероятно, захотите проверить результат. Чтобы убедиться, что данные были сохранены, откройте вкладку &laquo;Браузер данных&raquo; вашего приложения в Parse. Отобразится примерно следующее:
+
+```js
+objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false, createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```
+
+Необходимо обратить внимание на два момента. Перед запуском этого кода не нужно было настраивать новый класс под названием `GameScore`. Приложение Parse само создает этот класс при первом обнаружении.
+
+Также есть несколько полей, не обязательных для заполнения и предоставляемых для удобства. Поле `objectId` &mdash; это уникальный идентификатор для каждого сохраненного объекта. Поля `createdAt` и `updatedAt` указывают время создания и последнего изменения каждого объекта в облаке. Каждое из этих полей автоматически заполняется Parse, поэтому они не присутствуют в объекте `ParseObject` до завершения операции сохранения.
+
+## Извлечение объектов
+
+Сохранять данные в облаке очень удобно. Также очень удобно извлекать эти данные. Если имеется поле `objectId`, вы можете полностью извлечь объект `ParseObject` при помощи запроса `ParseQuery`:
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+Для получения значений объекта `ParseObject` существует метод `getX` для каждого типа данных:
+
+```java
+int score = gameScore.getInt("score");
+String playerName = gameScore.getString("playerName");
+boolean cheatMode = gameScore.getBoolean("cheatMode");
+```
+
+Если тип извлекаемых данных неизвестен, можно вызвать метод `get(key)`, однако после этого в любом случае, вероятно, придется сразу применить его. В большинстве ситуаций следует использовать такие набираемые аксессоры, как `getString`.
+
+Три специальные значения имеют собственные аксессоры:
+
+```java
+String objectId = gameScore.getObjectId();
+Date updatedAt = gameScore.getUpdatedAt();
+Date createdAt = gameScore.getCreatedAt();
+```
+
+Если необходимо обновить существующий объект последними данными из облака, можно вызвать метод `fetchInBackground`, например:
+
+```java
+myObject.fetchInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // Success!
+        } else {
+            // Failure!
+        }
+    }
+});
+```
+
+Код в классе `GetCallback` будет выполняться в основном потоке.
+
+## Локальное хранилище данных
+
+В Parse также можно хранить объекты в [локальном хранилище данных](#localdatastore) на устройстве Android. Вы можете использовать хранилище для данных, которые не нужно сохранять в облако. И это особенно удобно для временного хранения данных, чтобы синхронизировать их позже. Для активации хранилища данных вызовите метод `Parse.enableLocalDatastore()` в конструкторе `Application` перед вызовом метода `Parse.initialize()`. После активации локального хранилища данных можно сохранить объект, закрепив его.
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.pinInBackground();
+```
+
+Аналогично сохранению, здесь рекурсивно сохраняются каждый объект и файл, на которые указывает объект `gameScore`, если он был извлечен из облака. При сохранении изменений объекта или извлечении новых изменений из Parse копия в хранилище данных будет автоматически обновлена.
+
+### Извлечение объектов из локального хранилища данных
+
+Хранить объекты целесообразно только в том случае, если можно извлечь их обратно. Чтобы получить данные для конкретного объекта можно использовать запрос `ParseQuery`. Подобно тому, как если бы вы находились в Сети и использовали метод `fromLocalDatastore` для указания пути получения данных.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.fromLocalDatastore();
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+Если у вас уже есть экземпляр объекта, можно использовать метод `fetchFromLocalDatastoreInBackground`.
+
+```java
+ParseObject object = ParseObject.createWithoutData("GameScore", "xWMyZ4YEGZ");
+object.fetchFromLocalDatastoreInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+### Открепление объектов
+
+ Если работа с объектом закончена, и его больше не нужно хранить на устройстве, можно его открепить командой `unpinInBackground`.
+
+```java
+gameScore.unpinInBackground();
+```
+
+## Сохранение объектов офлайн
+
+Большинство функций сохранения выполняются немедленно и сообщают приложению о завершении сохранения. Если вам не обязательно знать, когда завершено сохранение, можно использовать метод `saveEventually`. Преимущество этой команды заключается в том, что если на данный момент у пользователя отсутствует подключение к Сети, метод `saveEventually` сохранит обновление на устройстве, до тех пор, пока подключение не будет повторно установлено.  Если приложение закрывается до возобновления подключения, Parse попробует сохранить в следующий раз, когда приложение будет открыто. Все обращения к методу `saveEventually` (а также `deleteEventually`) выполняются в порядке вызова. Таким образом можно вызвать метод `saveEventually` для объекта несколько раз. Если активировано локальное хранилище данных, тогда любой объект, для которого применяется метод `saveEventually`, будет закреплен, пока выполняется сохранение. Это облегчает извлечение локальных изменений при ожидании подключения к Сети.
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.saveEventually();
+```
+
+## Обновление объектов
+
+Обновление объектов является простой операцией. Установите новые данные для объекта и вызовите один из методов сохранения. Если вы сохранили объект и имеете поле `objectId`, можно извлечь объект `ParseObject` при помощи запроса `ParseQuery` и обновить его данные:
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+// Retrieve the object by id
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject gameScore, ParseException e) {
+        if (e == null) {
+            // Now let's update it with some new data. In this case, only cheatMode and score
+            // will get sent to the Parse Cloud. playerName hasn't changed.
+            gameScore.put("score", 1338);
+            gameScore.put("cheatMode", true);
+            gameScore.saveInBackground();
+        }
+    }
+});
+```
+
+Parse автоматически определяет, какие данные были изменены, таким образом, при сохранении будут передаваться только &laquo;грязные&raquo; поля. В облаке не нужно производить сжатие данных, которые вы не собираетесь обновлять.
+
+### Счетчики
+
+Приведенный выше пример описывает случай общего использования. Поле &quot;score&quot; (&laquo;счет&raquo;) &mdash; это счетчик, который нужно постоянно обновлять последним счетом игрока. Можно использовать указанный выше метод, но он трудоемок и может привести к проблемам, если несколько клиентов попробуют обновить один и тот же счетчик.
+
+Для хранения данных типа &laquo;счетчик&raquo; Parse предоставляет методы, которые атомарно увеличивают (или уменьшают) любое числовое поле. Таким образом, одно и то же обновление можно переписать следующим способом:
+
+```java
+gameScore.increment("score");
+gameScore.saveInBackground();
+```
+
+Счетчик также можно увеличивать в любом объеме при помощи метода `increment(key, amount)`.
+
+### Массивы
+
+Для хранения массива данных существует три операции, которые можно использовать для внесения атомарных изменений в поле массива:
+
+*   Методы `add` и `addAll` добавляют заданные объекты в конец поля массива.
+*   Методы `addUnique` и `addAllUnique` добавляют только заданные объекты, которые еще не содержатся в поле массива для этого поля. Положение вставки не гарантируется.
+*   Метод `removeAll` удаляет все экземпляры заданных объектов из поля массива.
+
+Например, можно добавить элементы к настраиваемым полям &quot;skills&quot; (&laquo;навыки&raquo;):
+
+```java
+gameScore.addAllUnique("skills", Arrays.asList("flying", "kungfu"));
+gameScore.saveInBackground();
+```
+
+Обратите внимание на то, что сейчас невозможно атомарно добавлять или удалять элементы из массива для одного сохранения. Необходимо вызвать метод `save` между каждой новой операцией массива.
+
+## Удаление объектов
+
+Удаление объекта из Parse Cloud:
+
+```java
+myObject.deleteInBackground();
+```
+
+Если необходимо выполнить обратный вызов при подтверждении удаления, можно добавить класс `DeleteCallback` к методу `deleteInBackground`. Если необходимо заблокировать вызывающий поток, можно использовать метод `delete`.
+
+Одиночное поле можно удалить из объекта при помощи метода `remove`:
+
+```java
+// After this, the playerName field will be empty
+myObject.remove("playerName");
+// Saves the field deletion to the Parse Cloud
+myObject.saveInBackground();
+```
+
+## Реляционные данные
+
+Объекты могут иметь связи с другими объектами. Чтобы смоделировать это действие, любой объект `ParseObject` может использоваться как значение для других объектов `ParseObject`. Для поддержки целостности среда разработки Parse сохранит связанный объект в одном месте.
+
+Например, каждый объект `Comment` в приложении для блога может соответствовать одному объекту `Post`. Чтобы создать новый объект `Post` с одним объектом `Comment`, можно написать следующий код:
+
+```java
+// Create the post
+ParseObject myPost = new ParseObject("Post");
+myPost.put("title", "I'm Hungry");
+myPost.put("content", "Where should we go for lunch?");
+
+// Create the comment
+ParseObject myComment = new ParseObject("Comment");
+myComment.put("content", "Let's do Sushirrito.");
+
+// Add a relation between the Post and Comment
+myComment.put("parent", myPost);
+
+// This will save both myPost and myComment
+myComment.saveInBackground();
+```
+
+Объекты можно также связывать, просто используя их идентификаторы `objectId` следующим образом:
+
+```java
+// Add a relation between the Post with objectId "1zEcyElZ80" and the comment
+myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
+```  
+
+По умолчанию при извлечении объекта связанные объекты `ParseObject` не извлекаются.  Эти значения объектов невозможно извлечь, пока они не будут получены следующим образом:
+
+```java
+fetchedComment.getParseObject("post")
+              .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        String title = post.getString("title");
+                    }
+              });
+```
+
+Также можно смоделировать связь &laquo;многие ко многим&raquo;, используя объект `ParseRelation`.  Это работает подобно методу `List<ParseObject>`, только без необходимости сразу загружать все связанные объекты `ParseObject`.  Такая процедура позволяет классу `ParseRelation` изменять масштаб для большего количества объектов, чем метод `List<ParseObject>`.  Например, у пользователя `User` может быть несколько объектов `Post`, которые его интересуют.  В этом случае можно хранить набор публикаций `Post`, которые отмечены пользователем `User`, при помощи метода `getRelation`.  Чтобы добавить публикацию в список, код должен выглядеть приблизительно следующим образом:
+
+```java
+ParseUser user = ParseUser.getCurrentUser();
+ParseRelation<ParseObject> relation = user.getRelation("likes");
+relation.add(post);
+user.saveInBackground();
+```
+
+Можно удалить публикацию из класса `ParseRelation` при помощи следующего кода:
+
+```java
+relation.remove(post);
+```
+
+По умолчанию список объектов в этой связи не загружается.  Можно получить список объектов `Post` при помощи вызова метода `findInBackground` в запросе `ParseQuery`, возвращенного при помощи метода `getQuery`.  Код будет выглядеть приблизительно так:
+
+```java
+relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
+    void done(List<ParseObject> results, ParseException e) {
+        if (e != null) {
+            // There was an error
+        } else {
+            // results have all the Posts the current user liked.
+        }
+    }
+});
+```
+
+Если необходим только подкласс объектов `Post`, можно добавить дополнительные ограничения к запросу `ParseQuery`, возвращенные при помощи метода `getQuery`.  Код будет выглядеть приблизительно так:
+
+```java
+ParseQuery<ParseObject> query = relation.getQuery();
+// Add other query constraints.
+```
+
+Более подробную информацию о запросе `ParseQuery` можно получить в [разделе о запросах данного руководства](#queries).  Класс `ParseRelation` работает подобно классу `List<ParseObject>` для запросов, поэтому все запросы, которые можно выполнить для списка объектов (кроме метода `include`), можно выполнить для класса `ParseRelation`.
+
+## Типы данных
+
+Выше использовались значения с типом `String`, `int`, `bool` и `ParseObject`. Parse также поддерживает типы `java.util.Date`, `byte[]` и `JSONObject.NULL`.
+
+Можно вкладывать объекты `JSONObject` и `JSONArray` для хранения более структурированных данных для одного объекта `ParseObject`.
+
+Ниже есть несколько примеров:
+
+```java
+int myNumber = 42;
+String myString = "the number is " + myNumber;
+Date myDate = new Date();
+
+JSONArray myArray = new JSONArray();
+myArray.put(myString);
+myArray.put(myNumber);
+
+JSONObject myObject = new JSONObject();
+myObject.put("number", myNumber);
+myObject.put("string", myString);
+
+byte[] myData = { 4, 8, 16, 32 };
+
+ParseObject bigObject = new ParseObject("BigObject");
+bigObject.put("myNumber", myNumber);
+bigObject.put("myString", myString);
+bigObject.put("myDate", myDate);
+bigObject.put("myData", myData);
+bigObject.put("myArray", myArray);
+bigObject.put("myObject", myObject);
+bigObject.put("myNull", JSONObject.NULL);
+bigObject.saveInBackground();
+```
+
+Не рекомендуется хранить большие фрагменты бинарных данных, например изображений или документов, используя поля `byte[]` для объектов `ParseObject`. Размер объектов `ParseObjects` не должен превышать 128 килобайт. Чтобы хранить большие фрагменты, рекомендуется использовать класс `ParseFile`. Для получения дополнительных сведений см. [соответствующий раздел данного руководства](#files).
+
+Для получения дополнительных сведений по обработке данных в Parse ознакомьтесь с нашей документацией в разделе [Данные и безопасность](/docs/data).
+
+## Подклассы
+
+Parse создан для того, чтобы как можно быстрее получать работающие программы. Вы можете получить доступ ко всем данным при помощи класса `ParseObject` и получить доступ ко всем полям при помощи метода `get()`. В законченных кодовых базах подклассы имеют много преимуществ, в частности, лаконичность, возможность расширения и поддержку автозавершения. Создание подклассов является необязательным, но может трансформировать такой код:
+
+```java
+ParseObject shield = new ParseObject("Armor");
+shield.put("displayName", "Wooden Shield");
+shield.put("fireproof", false);
+shield.put("rupees", 50);
+```
+
+В такой:
+
+```java
+Armor shield = new Armor();
+shield.setDisplayName("Wooden Shield");
+shield.setFireproof(false);
+shield.setRupees(50);
+```
+
+### Создание подклассов для ParseObject
+
+Чтобы создать подкласс для `ParseObject`:
+
+1.  Опишите подкласс, который расширяет `ParseObject`.
+2.  Добавьте аннотацию `@ParseClassName`. Значение аннотации должно представлять строку, которая вставляется в конструктор `ParseObject`, поэтому не нужно будет ссылаться на имя класса в будущем.
+3.  Убедитесь, что подкласс имеет общедоступный конструктор по умолчанию (например, нулевое значение аргумента). В этом конструкторе не нужно изменять поля `ParseObject`.
+4.  Вызовите метод `ParseObject.registerSubclass(YourClass.class)` в конструкторе `Application` перед вызовом метода `Parse.initialize()`.
+    Приведенный ниже код успешно реализует и регистрирует подкласс `Armor` объекта `ParseObject`:
+
+```java
+// Armor.java
+import com.parse.ParseObject;
+import com.parse.ParseClassName;
+
+@ParseClassName("Armor")
+public class Armor extends ParseObject { }
+
+// App.java
+import com.parse.Parse;
+import android.app.Application;
+
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ParseObject.registerSubclass(Armor.class);
+        Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+    }
+}
+```
+
+### Аксессоры, методы-модификаторы и методы
+
+Добавление методов к подклассу `ParseObject` помогает формировать логику класса. Можно хранить всю логику о предмете в одном месте, а не использовать отдельные классы для бизнес-логики и логики запоминания и передачи.
+
+Можно добавить аксессоры и методы-модификаторы для полей вашего объекта `ParseObject`. Опишите получающий и устанавливающий методы для поля как обычно, но реализуйте их в рамках методов `get()` и `put()`. В приведенном ниже примере создается поле `displayName` в классе `Armor`:
+
+```java
+// Armor.java
+@ParseClassName("Armor")
+public class Armor extends ParseObject {
+    public String getDisplayName() {
+        return getString("displayName");
+    }
+
+    public void setDisplayName(String value) {
+        put("displayName", value);
+    }
+}
+```
+
+Теперь вы можете получить доступ к полю displayName при помощи метода `armor.getDisplayName()` и делать назначения для него при помощи метода `armor.setDisplayName("Wooden Sword")`. Это позволяет вашему интерфейсу IDE обеспечить автозавершение при разработке приложения и отследить опечатки в процессе компиляции.
+
+Аксессоры и методы-модификаторы различных типов можно легко определить таким образом при помощи разных форм метода `get()`, таких как `getInt()`, `getParseFile()` или `getMap()`.
+
+Если требуется более сложная логика, чем простой доступ к полям, можно также описать собственные методы:
+
+```java
+public void takeDamage(int amount) {
+    // Decrease the armor's durability and determine whether it has broken
+    increment("durability", -amount);
+
+    if (getDurability() < 0) {
+        setBroken(true);
+    }
+}
+```
+
+### Инициализация подклассов
+
+Новые экземпляры подклассов следует создавать при помощи определенных вами конструкторов. Подкласс должен определять общедоступный конструктор по умолчанию, который не изменяет поля объекта `ParseObject` и который будет использоваться по всему SDK Parse для создания строго типизированных экземпляров подкласса.
+
+Чтобы создать ссылку на существующий объект, используйте метод `ParseObject.createWithoutData()`:
+
+```java
+Armor armorReference = ParseObject.createWithoutData(Armor.class, armor.getObjectId());
+```
+
+### Запросы
+
+Используя статический метод `ParseQuery.getQuery()`, можно получить запрос на объекты конкретного подкласса. Ниже представлены примеры запросов на класс брони, который доступен пользователю:
+
+```java
+ParseQuery<Armor> query = ParseQuery.getQuery(Armor.class);
+query.whereLessThanOrEqualTo("rupees", ParseUser.getCurrentUser().get("rupees"));
+query.findInBackground(new FindCallback<Armor>() {
+    @Override
+    public void done(List<Armor> results, ParseException e) {
+        for (Armor a : results) {
+            // ...
+        }
+    }
+});
+```

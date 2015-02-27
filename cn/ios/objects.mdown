@@ -1,0 +1,380 @@
+# 对象
+
+## PFObject
+
+Parse 上的数据储存建立在 `PFObject` 的基础上。每个 `PFObject` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `PFObject` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
+
+例如，假设您要跟踪游戏的高分。单个 `PFObject` 可能包括：
+
+```js
+score: 1337, playerName: "Sean Plott", cheatMode: false
+```
+
+键值必须是字母数字字符串。键值可以是字符串、数字、布尔值或设置是数组和字典 － 只要是能用 JSON 编码的任何内容。
+
+每个 `PFObject` 均有可供您用以区分不同数据种类的类名。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
+
+## 保存对象
+
+假如您想要将上述 `GameScore` 保存到 Parse 云中。保存接口与 `NSMutableDictionary` 类似，多了 `saveInBackground` 方法：
+
+```objc
+PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
+gameScore[@"score"] = @1337;
+gameScore[@"playerName"] = @"Sean Plott";
+gameScore[@"cheatMode"] = @NO;
+[gameScore saveInBackground];
+```
+
+该代码运行后，您可能不知道是否执行了相关操作。为确保数据正确保存，您可以在 Parse 上查看应用中的数据浏览器。您应该会看到类似于以下的内容：
+
+```js
+objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
+createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```
+
+这里要注意两点。在运行这个代码前，您不需要配置或创建名称为 `GameScore` 的新类别。您的 Parse 应用在第一次遇到这个类别时会为您创建该类别。
+
+还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在 Parse 云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`PFObject` 上才会存在这些字段。
+
+注意：您可以用 `saveInBackgroundWithBlock` 或 `saveInBackgroundWithTarget:selector:` 方法指定保存完成后运行的额外任务。
+
+## 对象检索
+
+将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `PFQuery` 检索整个 `PFObject`。这是一种异步方法，它还有可以使用代码块或回调方法的变体：
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ" block:^(PFObject *gameScore, NSError *error) {
+    // Do something with the returned PFObject in the gameScore variable.
+    NSLog(@"%@", gameScore);
+}];
+// The InBackground methods are asynchronous, so any code after this will run
+// immediately.  Any code that depends on the query result should be moved
+// inside the completion block above.
+```
+
+若要从 `PFObject` 获取值，您可以使用 `objectForKey:` 方法或通过 `[]` 访问下标：
+
+```objc
+int score = [[gameScore objectForKey:@"score"] intValue];
+NSString *playerName = gameScore[@"playerName"];
+BOOL cheatMode = [gameScore[@"cheatMode"] boolValue];
+```
+
+有三个特殊的属性值：
+
+```objc
+NSString *objectId = gameScore.objectId;
+NSDate *updatedAt = gameScore.updatedAt;
+NSDate *createdAt = gameScore.createdAt;
+```
+
+若您需要用 Parse 云中的最新数据刷新已有对象，您可以像这样调用 `refresh` 方法：
+
+```objc
+[myObject refresh];
+```
+
+## 离线保存对象
+
+大多数保存函数会立即执行，并在完成保存后通知您的应用。如果您不需要知道何时保存结束，您可以使用 `saveEventually` 代替。其优势在于如果用户当前没有网络连接，`saveEventually` 会将更新保存在设备上，直到重新建立网络连接。如果您的应用在连接恢复之前关闭，Parse 将在下次应用打开时重试。对 `saveEventually`（以及 `deleteEventually`）的所有调用均按调用顺序执行，因此针对一个对象调用多次 `saveEventually` 是安全的。
+
+```objc
+// Create the object.
+PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
+gameScore[@"score"] = @1337;
+gameScore[@"playerName"] = @"Sean Plott";
+gameScore[@"cheatMode"] = @NO;
+[gameScore saveEventually];
+```
+
+## 对象更新
+
+进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `PFQuery` 检索 `PFObject` 和更新其数据：
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+// Retrieve the object by id
+[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ" block:^(PFObject *gameScore, NSError *error) {
+    // Now let's update it with some new data. In this case, only cheatMode and score
+    // will get sent to the cloud. playerName hasn't changed.
+    gameScore[@"cheatMode"] = @YES;
+    gameScore[@"score"] = @1338;
+    [gameScore saveInBackground];
+}];
+```
+
+客户端会自动找出修改的数据，并只向 Parse 发送包含修改的字段。您不需要担心其中会包含您不想更新的数据。
+
+### 计数器
+
+上面的例子包含一种常见的使用案例。&ldquo;score&rdquo;（得分）字段是个计数器，需要用玩家的最新得分进行连续更新。上面的方法虽然有用，但是繁琐，如果您有多个客户端在尝试更新同一个计数器就可能会产生一些问题。
+
+为帮助储存计数器类型的数据，Parse 提供了能够以原子递增（或递减）操作任何数字字段的方法。因此，这项更新可以重写为：
+
+```objc
+[gameScore incrementKey:@"score"];
+[gameScore saveInBackground];
+```
+
+您还可以使用 `incrementKey:byAmount:` 实现任何数量的递增。
+
+### 数组
+
+为帮助存储数组数据，有三种操作可用于以原子级方式更改数组字段：
+
+*   `addObject:forKey:` 和 `addObjectsFromArray:forKey:` 将给定对象附加在数组字段末端。
+*   `addUniqueObject:forKey:` 和 `addUniqueObjectsFromArray:forKey:` 仅将尚未包含在数组字段中的给定对象添加至该字段。插入位置是不确定的。
+*   `removeObject:forKey:` 和 `removeObjectsInArray:forKey:` 会从数组字段中删除每个给定对象的所有实例。
+
+例如，我们可以像这样将项目添加到类似于设置的&ldquo;skills&rdquo;（技能）字段中：
+
+```objc
+[gameScore addUniqueObjectsFromArray:@[@"flying", @"kungfu"] forKey:@"skills"];
+[gameScore saveInBackground];
+```
+
+注意：目前不能从位于同一保存位置的数组中进行原子级的项目添加和删除操作。在不同类型的数组操作之间，您必须调用 `save`。
+
+## 删除对象
+
+若要从云中删除对象：
+
+```objc 
+[myObject deleteInBackground];
+```
+
+如果想要在确认删除后执行回调，可以使用 `deleteInBackgroundWithBlock:` 或 `deleteInBackgroundWithTarget:selector:` 方法。如果想要阻塞调用线程，您可以使用 `delete` 方法。
+
+您可以使用 `removeObjectForKey` 方法从对象中删除单一字段：
+
+```objc
+// After this, the playerName field will be empty
+[myObject removeObjectForKey:@"playerName"];
+// Saves the field deletion to the Parse Cloud
+[myObject saveInBackground];
+```
+
+## 关系数据
+
+一些对象可能与另外一些对象有一定的关系。要为此建模，可将任意 `PFObject` 用作其他 `PFObject` 中的值。在内部，Parse 框架只将提及的对象仅存储于一个位置，以便保持一致性。
+
+<div class="callout_green">
+观看[一对多关系](/tutorials/one-to-many-relationships)教程，了解如何在简单的博客应用程序中的两个 `PFObjects` 之间创建一对多关系。
+</div>
+
+例如，一个博客应用中的每个 `Comment` 可能对应一个 `Post`。要创建一篇带有单一 `Comment` 的新 `Post`，您可以这样写：
+
+```objc
+// Create the post
+PFObject *myPost = [PFObject objectWithClassName:@"Post"];
+myPost[@"title"] = @"I'm Hungry";
+myPost[@"content"] = @"Where should we go for lunch?";
+
+// Create the comment
+PFObject *myComment = [PFObject objectWithClassName:@"Comment"];
+myComment[@"content"] = @"Let's do Sushirrito.";
+
+// Add a relation between the Post and Comment
+myComment[@"parent"] = myPost;
+
+// This will save both myPost and myComment
+[myComment saveInBackground];
+```
+
+您还可以用它们的 `objectId` 将多个对象联系起来，如下所示：
+
+```objc
+// Add a relation between the Post with objectId "1zEcyElZ80" and the comment
+myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"];
+```
+
+默认在提取对象时不提取相关的 `PFObject`。这些对象的值在按如下方式提取之前无法检索：
+
+```objc
+PFObject *post = fetchedComment[@"parent"];
+[post fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    NSString *title = post[@"title"]; }];
+```
+
+您还可以使用 `PFRelation` 对象建立多对多关系模型。其机理与 `PFObjects` 的 `NSArray` 类似，但您不必一次性下载关系中的所有对象。因此 `PFRelation` 可以扩展到比 `PFObject` 方法的 `NSArray` 多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `relationforKey:` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
+
+```objc
+PFUser *user = [PFUser currentUser];
+PFRelation *relation = [user relationforKey:@"likes"];
+[relation addObject:post];
+[user saveInBackground];
+```
+
+您可以从 `PFRelation` 删除一个帖子，代码如下：
+
+```objc
+[relation removeObject:post];
+```
+
+默认情况下，不下载这种关系中的对象列表。您可以通过对 `query` 返回的 `PFQuery` 调用 `findObjectsInBackgroundWithBlock:` 获取 `Post` 列表。代码应如下所示：
+
+```objc
+[[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (error) {
+        // There was an error
+    } else {
+        // objects has all the Posts the current user liked.
+    }
+}];
+```
+
+若您只想要 `Post` 的一个子集，可以像这样对 `query` 返回的 `PFQuery` 添加额外限制条件：
+
+```objc
+PFQuery *query = [relation query];
+// Add other query constraints.
+```
+
+若要了解有关 `PFQuery` 的更多详细信息，请查看本指南的查询部分。`PFRelation` 的工作方式类似于 `PFObject` 的 `NSArray`，因此您能对对象组进行的任何查询（不含 `includeKey:`）均可对 `PFRelation` 执行。
+
+## 数据类型
+
+目前，我们使用的数值类型有 `NSString`、`NSNumber` 和 `PFObject`。Parse 还支持 `NSDate`、`NSData` 和 `NSNull`。
+
+您可以嵌套 `NSDictionary` 和 `NSArray` 对象，以在单一 `PFObject` 中存储更多结构数据。
+
+一些示例：
+
+```objc
+NSNumber *number = @42;
+NSString *string = [NSString stringWithFormat:@"the number is %@", number];
+NSDate *date = [NSDate date];
+NSData *data = [@"foo" dataUsingEncoding:NSUTF8StringEncoding];
+NSArray *array = @[string, number];
+NSDictionary *dictionary = @{@"number": number,
+                             @"string": string};
+NSNull *null = [NSNull null];
+
+PFObject *bigObject = [PFObject objectWithClassName:@"BigObject"];
+bigObject[@"myNumber"] = number;
+bigObject[@"myString"] = string;
+bigObject[@"myDate"] = date;
+bigObject[@"myData"] = data;
+bigObject[@"myArray"] = array;
+bigObject[@"myDictionary"] = dictionary;
+bigObject[@"myNull"] = null;
+[bigObject saveInBackground];
+```
+
+我们不建议通过在 `PFObject` 中使用 `NSData` 字段来存储图像或文档等大型二进制数据。`PFObject` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `PFFile`。更多详细信息请参考[指南部分](#files)。
+
+若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](/docs/data)部分的文档。
+
+## 子类
+
+Parse 的设计能让您尽快上手并开始使用。您可以使用 `PFObject` 类访问所有数据，以及通过 `objectForKey:` 或 `[]` 下标索引访问任何字段。在成熟的代码库中，子类具有许多优势，包括简洁性、可扩展性和支持自动完成。子类化纯属可选操作，但它会将以下代码：
+
+```objc
+PFObject *shield = [PFObject objectWithClassName:@"Armor"];
+shield[@"displayName"] = @"Wooden Shield";
+shield[@"fireProof"] = @NO;
+shield[@"rupees"] = @50;
+```
+
+转换为：
+
+```objc
+Armor *shield = [Armor object];
+shield.displayName = @"Wooden Shield";
+shield.fireProof = NO;
+shield.rupees = 50;
+```
+
+### PFObject 子类化
+
+要创建 `PFObject` 子类：
+
+1.  声明符合 `PFSubclassing` 协议的子类。
+2.  执行子类方法 `parseClassName`。您可以将该字符串传送至 `initWithClassName:`，这样后续就不必进行类名引用。
+3.  将 `PFObject+Subclass` 导入您的 .m 文件。该操作可以实施 `parseClassName` 以外的 `PFSubclassing` 中的所有方法。
+4.  在您的 ApplicationDelegate 中调用 `[YourClass registerSubclass]`，然后调用 Parse `setApplicationId:clientKey:`。
+下面的代码成功地声明、实现和注册了 `PFObject` 的 `Armor` 子类：
+
+```objc
+// Armor.h
+@interface Armor : PFObject<PFSubclassing>
++ (NSString *)parseClassName;
+@end
+
+// Armor.m
+// Import this header to let Armor know that PFObject privately provides most
+// of the methods for PFSubclassing.
+#import <Parse/PFObject+Subclass.h>
+
+@implementation Armor
++ (void)load {
+    [self registerSubclass];
+}
+
++ (NSString *)parseClassName {
+    return @"Armor";
+}
+@end
+```
+
+### 属性和方法
+
+向 `PFObject` 子类添加自定义属性和方法有助于封装关于类的逻辑。借助 `PFSubclassing`，您可以将主题的所有相关逻辑保存在一个位置，而不必分别针对事务逻辑和存储/传输逻辑使用单独的类。
+
+`PFObject` 支持动态合成器，这一点与 `NSManagedObject` 类似。像平常一样声明一个属性，但是在您的 .m 文件中使用 `@dynamic` 而不用 `@synthesize`。下面的示例在 `Armor` 类中创建了 `displayName` 属性：
+
+```objc
+// Armor.h
+@interface Armor : PFObject<PFSubclassing>
++ (NSString *)parseClassName;
+@property (retain) NSString *displayName;
+@end
+
+// Armor.m
+@dynamic displayName;
+```
+
+现在，您可以使用 `armor.displayName` 或 `[armor displayName]` 访问 displayName 属性，并使用 `armor.displayName = @"Wooden Shield"` 或 `[armor setDisplayName:@"Wooden Sword"]` 对其进行赋值。动态属性可以让 Xcode 提供自动完成功能和简单的纠错。
+
+`NSNumber` 属性可作为 `NSNumber` 或其原始副本来实施：考虑下面的例子：
+
+```objc
+@property BOOL fireProof;
+@property int rupees;
+```
+
+这种情况下，`game[@"fireProof"]` 将返回 `NSNumber`，可以使用 `boolValue` 访问；`game[@"rupees"]` 将返回 `NSNumber`，可以使用 `intValue` 访问，但是，`fireProof` 属性实际上是 `BOOL`，`rupees` 属性实际上是 `int`。动态 getter 会自动提取 `BOOL` 或 `int` 值，动态 setter 会自动将值包入 `NSNumber` 中。您可以使用任一格式。原始属性类型更易于使用，但是 `NSNumber` 属性类型更清晰地支持 nil 值。
+
+如果您需要比简单属性访问更加复杂的逻辑，您也可以声明自己的方法：
+
+```objc
+@dynamic iconFile;
+
+- (UIImageView *)iconView {
+    PFImageView *view = [[PFImageView alloc] initWithImage:kPlaceholderImage];
+    view.file = self.iconFile;
+    [view loadInBackground];
+    return [view autorelease];
+}
+```
+
+### 初始化子类
+
+您应该使用 `object` 类方法创建新的对象。这样可以构建您的属性类型的自动释放实例，并正确处理进一步子类化。要创建现有对象的引用，使用 `objectWithoutDataWithObjectId:`。
+
+### 查询
+
+您可以使用类方法 `query` 获取对特定子类对象的查询。下面的示例查询了用户可购买的装备：
+
+```objc
+PFQuery *query = [Armor query];
+[query whereKey:@"rupees" lessThanOrEqualTo:PFUser.currentUser.rupees];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        Armor *firstArmor = objects[0];
+        // ...
+    }
+}];
+```

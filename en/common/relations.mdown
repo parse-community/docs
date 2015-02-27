@@ -1,0 +1,671 @@
+# Relations
+
+There are three kinds of relationships. One-to-one relationships enable one object to be associated with another object. One-to-many relationships enable one object to have many related objects. Finally, many-to-many relationships enable complex relationships among many objects.
+
+There are four ways to build relationships in Parse:
+
+## One-to-Many
+
+When you’re thinking about one-to-many relationships and whether to implement Pointers or Arrays, there are several factors to consider. First, how many objects are involved in this relationship? If the "many" side of the relationship could contain a very large number (greater than 100 or so) of objects, then you have to use Pointers. If the number of objects is small (fewer than 100 or so), then Arrays may be more convenient, especially if you typically need to get all of the related objects (the "many" in the "one-to-many relationship") at the same time as the parent object.
+
+### Using Pointers
+
+Let's say we have a game app. The game keeps track of the player's score and achievements every time she chooses to play. In Parse, we can store this data in a single `Game` object. If the game becomes incredibly successful, each player will store thousands of `Game` objects in the system. For circumstances like this, where the number of relationships can be arbitrarily large, Pointers are the best option.
+
+Suppose in this game app, we want to make sure that every `Game` object is associated with a Parse User. We can implement this like so:
+
+```common-java
+ParseObject game = new ParseObject("Game");
+game.put("createdBy", ParseUser.getCurrentUser());
+```
+```common-objc
+PFObject *game= [PFObject objectWithClassName:@"Game"];
+[game setObject:[PFUser currentUser] forKey:@"createdBy"];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+We can obtain all of the `Game` objects created by a Parse User with a query:
+
+```common-java
+ParseQuery<ParseObject> gameQuery = ParseQuery.getQuery("Game");
+gameQuery.whereEqualTo("createdBy", ParseUser.getCurrentUser());
+```
+```common-objc
+PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
+[gameQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+And, if we want to find the Parse User who created a specific `Game`, that is a lookup on the `createdBy` key:
+
+```common-java
+// say we have a Game object
+ParseObject game = ...
+
+// getting the user who created the Game
+ParseUser createdBy = game.getUser("createdBy");
+```
+```common-objc
+// say we have a Game object
+PFObject *game = ...
+
+// getting the user who created the Game
+PFUser *createdBy = [game objectForKey@"createdBy"];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+For most scenarios, Pointers will be your best bet for implementing one-to-many relationships.
+
+### Using Arrays
+
+Arrays are ideal when we know that the number of objects involved in our one-to-many relationship are going to be small. Arrays will also provide some productivity benefit via the `includeKey` parameter. Supplying the parameter will enable you to obtain all of the "many" objects in the "one-to-many" relationship at the same time that you obtain the "one" object. However, the response time will be slower if the number of objects involved in the relationship turns out to be large.
+
+Suppose in our game, we enabled players to keep track of all the weapons their character has accumulated as they play, and there can only be a dozen or so weapons. In this example, we know that the number of weapons is not going to be very large. We also want to enable the player to specify the order in which the weapons will appear on screen. Arrays are ideal here because the size of the array is going to be small and because we also want to preserve the order the user has set each time they play the game:
+
+Let's start by creating a column on our Parse User object called `weaponsList`.
+
+Now let's store some `Weapon` objects in the `weaponsList`:
+
+```common-java
+// let's say we have four weapons
+ParseObject scimitar = ...
+ParseObject plasmaRifle = ...
+ParseObject grenade = ...
+ParseObject bunnyRabbit = ...
+
+// stick the objects in an array
+ArrayList<ParseObject> weapons = new ArrayList<ParseObject>();
+weapons.add(scimitar);
+weapons.add(plasmaRifle);
+weapons.add(grenade);
+weapons.add(bunnyRabbit);
+
+// store the weapons for the user
+ParseUser.getCurrentUser().put("weaponsList", weapons);
+```
+```common-objc
+// let's say we have four weapons
+PFObject *scimitar = ...
+PFObject *plasmaRifle = ...
+PFObject *grenade = ...
+PFObject *bunnyRabbit = ...
+
+// stick the objects in an array
+NSArray *weapons = @[scimitar, plasmaRifle, grenade, bunnyRabbit];
+
+// store the weapons for the user
+[[PFUser currentUser] setObject:weapons forKey:@weaponsList"];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+Later, if we want to retrieve the `Weapon` objects, it's just one line of code:
+
+```common-java
+ArrayList<ParseObject> weapons = ParseUser.getCurrentUser().get("weaponsList");
+```
+```common-objc
+NSArray *weapons = [[PFUser currentUser] objectForKey:@"weaponsList"];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+Sometimes, we will want to fetch the "many" objects in our one-to-many relationship at the same time as we fetch the "one" object. One trick we could employ is to use the `includeKey` (or `include` in Android) parameter whenever we use a Parse Query to also fetch the array of `Weapon` objects (stored in the `weaponsList` column) along with the Parse User object:
+
+```common-java
+// set up our query for a User object
+ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+
+// configure any constraints on your query...
+// for example, you may want users who are also playing with or against you
+// tell the query to fetch all of the Weapon objects along with the user
+// get the "many" at the same time that you're getting the "one"
+userQuery.include("weaponsList");
+
+// execute the query
+userQuery.findInBackground(new FindCallback<ParseUser>() {
+  public void done(List<ParseUser> userList, ParseException e) {
+    // userList contains all of the User objects, and their associated Weapon objects, too
+  }
+});
+```
+```common-objc
+// set up our query for a User object
+PFQuery *userQuery = [PFUser query];
+
+// configure any constraints on your query...
+// for example, you may want users who are also playing with or against you
+
+// tell the query to fetch all of the Weapon objects along with the user
+// get the "many" at the same time that you're getting the "one"
+[userQuery includeKey:@"weaponsList"];
+
+// execute the query
+[userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    // objects contains all of the User objects, and their associated Weapon objects, too
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+You can also get the "one" side of the one-to-many relationship from the "many" side. For example, if we want to find all Parse User objects who also have a given `Weapon`, we can write a constraint for our query like this:
+
+```common-java
+// add a constraint to query for whenever a specific Weapon is in an array
+userQuery.whereEqualTo("weaponsList", scimitar);
+
+// or query using an array of Weapon objects...
+userQuery.whereEqualTo("weaponsList", arrayOfWeapons);
+```
+```common-objc
+// add a constraint to query for whenever a specific Weapon is in an array
+[userQuery whereKey:@"weaponsList" equalTo:scimitar];
+
+// or query using an array of Weapon objects...
+[userQuery whereKey:@"weaponsList" containedIn:arrayOfWeapons];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+## Many-to-Many
+
+Now let’s tackle many-to-many relationships. Suppose we had a book reading app and we wanted to model `Book` objects and `Author` objects. As we know, a given author can write many books, and a given book can have multiple authors. This is a many-to-many relationship scenario where you have to choose between Arrays, Parse Relations, or creating your own Join Table.
+
+The decision point here is whether you want to attach any metadata to the relationship between two entities. If you don’t, Parse Relation or using Arrays are going to be the easiest alternatives. In general, using arrays will lead to higher performance and require fewer queries. If either side of the many-to-many relationship could lead to an array with more than 100 or so objects, then, for the same reason Pointers were better for one-to-many relationships, Parse Relation or Join Tables will be better alternatives.
+
+On the other hand, if you want to attach metadata to the relationship, then create a separate table (the "Join Table") to house both ends of the relationship. Remember, this is information **about the relationship**, not about the objects on either side of the relationship. Some examples of metadata you may be interested in, which would necessitate a Join Table approach, include:
+
+### Using Parse Relations
+
+Using Parse Relations, we can create a relationship between a `Book` and a few `Author` objects. In the Data Browser, you can create a column on the `Book` object of type relation and name it `authors`.
+
+After that, we can associate a few authors with this book:
+
+```common-java
+// let’s say we have a few objects representing Author objects
+ParseObject authorOne =
+ParseObject authorTwo =
+ParseObject authorThree =
+
+// now we create a book object
+ParseObject book = new ParseObject("Book");
+
+// now let’s associate the authors with the book
+// remember, we created a "authors" relation on Book
+ParseRelation<ParseObject> relation = book.getRelation("authors");
+relation.add(authorOne);
+relation.add(authorTwo);
+relation.add(authorThree);
+
+// now save the book object
+book.saveInBackground();
+```
+```common-objc
+// let’s say we have a few objects representing Author objects
+PFObject *authorOne = …
+PFObject *authorTwo = …
+PFObject *authorThree = …
+
+// now we create a book object
+PFObject *book= [PFObject objectWithClassName:@"Book"];
+
+// now let’s associate the authors with the book
+// remember, we created a "authors" relation on Book
+PFRelation *relation = [book relationforKey:@"authors"];
+[relation addObject:authorOne];
+[relation addObject:authorTwo];
+[relation addObject:authorThree];
+
+// now save the book object
+[book saveInBackground];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+To get the list of authors who wrote a book, create a query:
+
+```common-java
+// suppose we have a book object
+ParseObject book = ...
+
+// create a relation based on the authors key
+ParseRelation relation = book.getRelation("authors");
+
+// generate a query based on that relation
+ParseQuery query = relation.getQuery();
+
+// now execute the query
+```
+```common-objc
+// suppose we have a book object
+PFObject *book = ...
+
+// create a relation based on the authors key
+PFRelation *relation = [book relationforKey:@"authors"];
+
+// generate a query based on that relation
+PFQuery *query = [relation query];
+
+// now execute the query
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+Perhaps you even want to get a list of all the books to which an author contributed. You can create a slightly different kind of query to get the inverse of the relationship:
+
+```common-java
+// suppose we have a author object, for which we want to get all books
+ParseObject author = ...
+
+// first we will create a query on the Book object
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Book");
+
+// now we will query the authors relation to see if the author object we have 
+// is contained therein
+query.whereEqualTo("authors", author);
+```
+```common-objc
+// suppose we have a author object, for which we want to get all books
+PFObject *author = ...
+
+// first we will create a query on the Book object
+PFQuery *query = [PFQuery queryWithClassName:@"Book"];
+
+// now we will query the authors relation to see if the author object 
+// we have is contained therein
+[query whereKey:@"authors" equalTo:author];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+### Using Join Tables
+
+There may be certain cases where we want to know more about a relationship. For example, suppose we were modeling a following/follower relationship between users: a given user can follow another user, much as they would in popular social networks. In our app, we not only want to know if User A is following User B, but we also want to know **when** User A started following User B. This information could not be contained in a Parse Relation. In order to keep track of this data, you must create a separate table in which the relationship is tracked. This table, which we will call `Follow`, would have a `from` column and a `to` column, each with a pointer to a Parse User. Alongside the relationship, you can also add a column with a `Date` object named `date`.
+
+Now, when you want to save the following relationship between two users, create a row in the `Follow` table, filling in the `from`, `to`, and `date` keys appropriately:
+
+```common-java
+// suppose we have a user we want to follow
+ParseUser otherUser = ...
+
+// create an entry in the Follow table
+ParseObject follow = new ParseObject("Follow");
+follow.put("from", ParseUser.getCurrentUser());
+follow.put("to", otherUser);
+follow.put("date", Date());
+follow.saveInBackground();
+```
+```common-objc
+// suppose we have a user we want to follow
+PFUser *otherUser = ...
+
+// create an entry in the Follow table
+PFObject *follow = [PFObject objectWithClassName:@"Follow"];
+[follow setObject:[PFUser currentUser]  forKey:@"from"];
+[follow setObject:otherUser forKey:@"to"];
+[follow setObject:[NSDate date] forKey@"date"];
+[follow saveInBackground];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+If we want to find all of the people we are following, we can execute a query on the `Follow` table:
+
+```common-java
+// set up the query on the Follow table
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Follow");
+query.whereEqualTo("from", ParseUser.getCurrentUser());
+
+// execute the query
+query.findInBackground(newFindCallback<ParseObject>() {
+    public void done(List<ParseObject> followList, ParseException e) {
+
+    }
+});
+```
+```common-objc
+// set up the query on the Follow table
+PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
+[query whereKey:@"from" equalTo:[PFUser currentUser]];
+
+// execute the query
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  for(PFObject *o in objects) {
+    // o is an entry in the Follow table
+    // to get the user, we get the object with the to key
+    PFUser *otherUser = [o objectForKey@"to"];
+
+    // to get the time when we followed this user, get the date key
+    PFObject *when = [o objectForKey@"date"];
+  }
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
+
+```common-java
+// set up the query on the Follow table
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Follow");
+query.whereEqualTo("to", ParseUser.getCurrentUser());
+
+// execute the query
+query.findInBackground(newFindCallback<ParseObject>() {
+    public void done(List<ParseObject> followList, ParseException e) {
+
+    }
+});
+```
+```common-objc
+// set up the query on the Follow table
+PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
+[query whereKey:@"to" equalTo:[PFUser currentUser]];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  for(PFObject *o in objects) {
+     // o is an entry in the Follow table
+     // to get the user, we get the object with the from key
+    PFUser *otherUser = [o objectForKey@"from"];
+
+    // to get the time the user was followed, get the date key
+    PFObject *when = [o objectForKey@"date"];
+  }
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+### Using an Array
+
+Arrays are used in Many-to-Many relationships in much the same way that they are for One-to-Many relationships. All objects on one side of the relationship will have an Array column containing several objects on the other side of the relationship.
+
+Suppose we have a book reading app with `Book` and `Author` objects. The `Book` object will contain an Array of `Author` objects (with a key named `authors`). Arrays are a great fit for this scenario because it's highly unlikely that a book will have more than 100 or so authors. We will put the Array in the `Book` object for this reason. After all, an author could write more than 100 books.
+
+Here is how we save a relationship between a `Book` and an `Author`.
+
+```common-java
+// let's say we have an author
+ParseObject author = ...
+
+// and let's also say we have an book
+ParseObject book = ...
+
+// add the author to the authors list for the book
+book.put("authors", author);
+```
+```common-objc
+// let's say we have an author
+PFObject *author = ...
+
+// and let's also say we have an book
+PFObject *book = ...
+
+// add the author to the authors list for the book
+[book addObject:author forKey:@"authors"];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+Because the author list is an Array, you should use the `includeKey` (or `include` on Android) parameter when fetching a `Book` so that Parse returns all the authors when it also returns the book:
+
+```common-java
+// set up our query for the Book object
+ParseQuery bookQuery = ParseQuery.getQuery("Book");
+
+// configure any constraints on your query...
+// tell the query to fetch all of the Author objects along with the Book
+bookQuery.include("authors");
+
+// execute the query
+bookQuery.findInBackground(newFindCallback<ParseObject>() {
+    public void done(List<ParseObject> bookList, ParseException e) {
+    }
+});
+```
+```common-objc
+// set up our query for the Book object
+PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
+
+// configure any constraints on your query...
+// tell the query to fetch all of the Author objects along with the Book
+[bookQuery includeKey:@"authors"];
+
+// execute the query
+[bookQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    // objects is all of the Book objects, and their associated 
+    // Author objects, too
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+At that point, getting all the `Author` objects in a given `Book` is a pretty straightforward call:
+
+```common-java
+ArrayList<ParseObject> authorList = book.getList("authors");
+```
+```common-objc
+NSArray *authorList = [book objectForKey@"authors"];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+Finally, suppose you have an `Author` and you want to find all the `Book` objects in which she appears. This is also a pretty straightforward query with an associated constraint:
+
+```common-java
+// set up our query for the Book object
+ParseQuery bookQuery = ParseQuery.getQuery("Book");
+
+// configure any constraints on your query...
+booKQuery.whereEqualTo("authors", author);
+
+// tell the query to fetch all of the Author objects along with the Book
+bookQuery.include("authors");
+
+// execute the query
+bookQuery.findInBackground(newFindCallback<ParseObject>() {
+    public void done(List<ParseObject> bookList, ParseException e) {
+
+    }
+});
+```
+```common-objc
+// suppose we have an Author object
+PFObject *author = ...
+
+// set up our query for the Book object
+PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
+
+// configure any constraints on your query...
+[bookQuery whereKey:@"authors" equalTo:author];
+
+// tell the query to fetch all of the Author objects along with the Book
+[bookQuery includeKey:@"authors"];
+
+// execute the query
+[bookQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    // objects is all of the Book objects, and their associated Author objects, too
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+// no c# example
+```
+```common-js
+// no js example
+```
+
+## One-to-One
+
+In Parse, a one-to-one relationship is great for situations where you need to split one object into two objects. These situations should be rare, but two examples include:
+
+Thank you for reading this far. We apologize for the complexity. Modeling relationships in data is a hard subject, in general. But look on the bright side: it's still easier than relationships with people.

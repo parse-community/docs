@@ -1,0 +1,35 @@
+# 分析
+
+Parse 提供了很多回调接口，让您可以了解应用的核心。我们知道，了解您的应用程序执行的操作、频率和时间非常重要。
+
+虽然本节将介绍不同的方法来测试您的应用程序，以最好地利用 Parse 的分析后台，不过使用 Parse 存储和检索数据的开发者已经可以利用 Parse 上的分析指标。
+
+无需实施任何客户端逻辑，您就可以在应用面板中查看 API 请求的实时图表和数据细项（按设备类型、Parse 类名或 REST 动词分类），并保存这些图表过滤器以快速访问您感兴趣的数据。
+
+## 自定义分析
+
+`Parse.Analytics` 还可以让您用一些 `string` 键值对监控应用事件。这些额外维度允许您通过应用面板细分自定义事件。
+
+比如说，您的应用提供有公寓清单搜索功能，您想要用一些额外的元数据追踪该功能的使用频率。
+
+```js
+var dimensions = {
+  // Define ranges to bucket data points into meaningful segments
+  priceRange: '1000-1500',
+  // Did the user filter the query?
+  source: 'craigslist',
+  // Do searches happen more often on weekdays or weekends?
+  dayType: 'weekday'
+};
+// Send the dimensions to Parse along with the 'search' event
+Parse.Analytics.track('search', dimensions);
+```
+
+`Parse.Analytics` 甚至可以作为一个轻便的错误跟踪程序使用 － 只需调用以下内容，你将可以在您的应用程序中查看经过错误代码细分的出错率和出错频率：
+
+```js
+var codeString = '' + error.code;
+Parse.Analytics.track('error', { code: codeString });
+```
+
+注意，对于每次调用 `Parse.Analytics.track()`，Parse 目前只能储存前八个键值对。

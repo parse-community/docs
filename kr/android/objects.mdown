@@ -1,0 +1,459 @@
+# 개체
+
+## ParseObject
+
+Parse에 데이터를 저장하면 `ParseObject`를 중심으로 빌드됩니다. 각 `ParseObject`에는 JSON 호환 데이터의 키-값 쌍이 포함됩니다. 이 데이터에는 스키마가 없습니다. 즉, 각 `ParseObject`에 어떤 키가 있는지 미리 지정할 필요가 없습니다. 어떤 키-값 쌍이든 원하는 대로 설정하면 백엔드에서 저장합니다.
+
+예를 들어 어떤 게임의 고득점을 추적하는 경우 싱글 `ParseObject` 개체에 다음 항목이 포함될 수 있습니다.
+
+```js 
+score: 1337, playerName: "Sean Plott", cheatMode: false
+```
+
+키는 영숫자 문자열이어야 합니다. 값은 문자열이나 숫자, 부울, 배열이나 개체 등 JSON 인코딩될 수 있는 항목이면 모두 값이 될 수 있습니다.
+
+각 `ParseObject`에는 다른 종류의 데이터를 구분하는 데 사용할 수 있는 클래스 이름이 있습니다. 예를 들어 고득점 개체를 `GameScore`라고 부를 수 있습니다. 클래스 이름과 키 이름을 각각 NameYourClassesLikeThis와 nameYourKeysLikeThis 같이 지정하여 코드를 보기 좋게 만드는 것이 좋습니다.
+
+## 개체 저장
+
+위에서 설명한 `GameScore`를 Parse Cloud에 저장한다고 가정해 보겠습니다. 인터페이스는 `Map`과 비슷하며 여기에 추가로 `saveInBackground` 메서드가 있습니다.
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.saveInBackground();
+```
+
+이 코드를 실행한 후 실제로 어떤 일이 발생하는지 궁금할 것입니다. 데이터가 저장되었는지 확인하려면 Parse에서 앱의 Data Browser를 살펴볼 수 있습니다. 브라우저에 다음과 같이 표시됩니다.
+
+```js
+objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false, createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```
+
+여기에 주목해야 할 두 가지 사항이 있습니다. 이 코드를 실행하기 전에 `GameScore`라는 새 클래스를 설정할 필요가 없었습니다. Parse 앱이 처음 이 클래스를 만나면 클래스를 천천히 만듭니다.
+
+또한 편의를 위해 제공되는 몇 가지 필드도 지정할 필요가 없습니다. `objectId`는 저장된 각 개체의 고유 ID입니다. `createdAt`과 `updatedAt`은 각 개체가 클라우드에 생성되고 마지막으로 수정된 시간을 나타냅니다. 이러한 각 필드는 Parse에서 채우므로 저장 작업이 완료될 때까지 `ParseObject`에 존재하지 않습니다.
+
+## 개체 검색
+
+클라우드에 손쉽게 데이터를 저장할 수 있으며 데이터 검색은 더욱 간편합니다. `objectId`가 있으면 `ParseQuery`를 사용하여 전체 `ParseObject`를 검색할 수 있습니다.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+`ParseObject`에서 값을 가져오려면 각 데이터 유형에 대해 `getX` 메서드를 사용하세요.
+
+```java
+int score = gameScore.getInt("score");
+String playerName = gameScore.getString("playerName");
+boolean cheatMode = gameScore.getBoolean("cheatMode");
+```
+
+가져오려는 데이터 유형을 모르는 경우 `get(key)`를 호출할 수 있지만, 이 경우 어떤 방법으로든 즉시 캐스팅해야 합니다. 대부분의 경우 `getString`과 같은 형식화된 접근자를 사용해야 합니다.
+
+다음과 같이 세 가지 특수 값은 고유한 접근자를 가집니다.
+
+```java
+String objectId = gameScore.getObjectId();
+Date updatedAt = gameScore.getUpdatedAt();
+Date createdAt = gameScore.getCreatedAt();
+```
+
+클라우드에 있고 이미 있고 최신 데이터를 사용하는 개체를 새로 고쳐야 하는 경우 다음과 같이 `fetchInBackground` 메서드를 호출할 수 있습니다.
+
+```java
+myObject.fetchInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // Success!
+        } else {
+            // Failure!
+        }
+    }
+});
+```
+
+`GetCallback`의 코드는 기본 스레드에서 실행됩니다.
+
+## 로컬 데이터 저장소
+
+Parse에서는 개체를 Android 기기 자체의 [로컬 데이터 저장소](#localdatastore)에도 저장할 수 있습니다. 이 저장소는 클라우드에 저장할 필요가 없는 데이터에 사용할 수 있지만 나중에 동기화할 수 있도록 데이터를 임시로 저장하는 데 특히 유용합니다. 데이터 저장소를 활성화하려면 `Parse.initialize()`를 호출하기 전에 `Application` 생성자에서 `Parse.enableLocalDatastore()`를 호출합니다. 로컬 데이터 저장소가 활성화되면 개체를 고정하여 저장할 수 있습니다.
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.pinInBackground();
+```
+
+저장할 때와 마찬가지로 이렇게 하면 `gameScore`에서 가리키는 모든 개체와 파일이 클라우드에서 가져온 경우 재귀적으로 저장됩니다. 개체에 대한 변경 사항을 저장하거나 Parse에서 새 변경 사항을 가져올 때마다 데이터 저장소의 복사본이 자동으로 업데이트되므로 염려할 필요가 없습니다.
+
+### 로컬 데이터 저장소에서 개체 검색
+
+개체 저장은 저장한 개체를 다시 가져올 수 있는 경우에만 유용합니다. 특정 개체의 데이터를 가져오려면 네트워크에 연결되어 있을 때와 마찬가지로 `ParseQuery`를 사용할 수 있지만, 이번에는 `fromLocalDatastore` 메서드를 사용하여 데이터를 어디서 가져올지 지정합니다.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.fromLocalDatastore();
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+개체의 인스턴스가 이미 있는 경우 대신 `fetchFromLocalDatastoreInBackground` 메서드를 사용할 수 있습니다.
+
+```java
+ParseObject object = ParseObject.createWithoutData("GameScore", "xWMyZ4YEGZ");
+object.fetchFromLocalDatastoreInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+### 개체 고정 취소
+
+ 개체 작업을 마쳤고 개체를 기기에 더 이상 유지할 필요가 없는 경우 `unpinInBackground`를 사용하여 개체를 해제할 수 있습니다.
+
+```java
+gameScore.unpinInBackground();
+```
+
+## 개체를 오프라인으로 저장
+
+대부분의 저장 함수는 즉시 실행되고 저장이 완료되면 앱에 알립니다. 저장이 끝났을 때 알 필요가 없는 경우 `saveEventually`를 대신 사용할 수 있습니다. 이 함수는 사용자가 현재 네트워크에 연결되어 있지 않은 경우 네트워크에 다시 연결될 때까지 `saveEventually`에서 기기에 업데이트를 저장하는 장점이 있습니다. 다시 연결되기 전에 앱이 종료되면 다음에 앱이 실행될 때 Parse에서 다시 시도합니다. `saveEventually`(및 `deleteEventually`)에 대한 모든 호출은 호출 순서대로 실행되므로 개체에서 여러 번 `saveEventually`를 호출해도 안전합니다. 로컬 데이터 저장소를 활성화한 경우 `saveEventually`한 개체는 저장이 진행 중인 동안 고정됩니다. 따라서 네트워크를 사용할 수 있을 때까지 기다리는 동안 로컬 변경 사항을 쉽게 검색할 수 있습니다.
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.saveEventually();
+```
+
+## 개체 업데이트
+
+개체를 간단히 업데이트할 수 있습니다. 개체에 몇 가지 새로운 데이터를 설정하고 저장 메서드 중 하나를 호출하면 됩니다. 개체를 저장하고 `objectId`가 있는 경우 `ParseQuery`를 사용하여 `ParseObject`를 검색하고 데이터를 업데이트할 수 있습니다.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+// Retrieve the object by id
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject gameScore, ParseException e) {
+        if (e == null) {
+            // Now let's update it with some new data. In this case, only cheatMode and score
+            // will get sent to the Parse Cloud. playerName hasn't changed.
+            gameScore.put("score", 1338);
+            gameScore.put("cheatMode", true);
+            gameScore.saveInBackground();
+        }
+    }
+});
+```
+
+Parse에서는 변경된 데이터를 자동으로 파악하므로 저장하는 동안 &quot;변경된&quot; 필드만 전송됩니다. 업데이트하려고 하지 않았던 데이터가 클라우드에 포함될까봐 걱정할 필요가 없습니다.
+
+### 카운터
+
+위의 예는 일반적인 사용 사례를 포함합니다. &quot;score&quot; 필드는 플레이어의 최근 점수로 계속 업데이트되어야 하는 카운터입니다. 위의 메서드를 사용하면 작동은 하지만 작성하기 번거로우며 같은 여러 클라이언트가 같은 카운터를 업데이트하려는 경우 문제가 발생할 수 있습니다.
+
+카운터 유형 데이터의 저장을 돕기 위해 Parse에서는 모든 숫자 필드를 아주 조금씩 증가하거나 감소하는 메서드를 제공합니다. 이에 따라 동일한 업데이트를 다음과 같이 다시 작성할 수 있습니다.
+
+```java
+gameScore.increment("score");
+gameScore.saveInBackground();
+```
+
+`increment(key, amount)`를 사용하여 특정 양만큼 증가시킬 수도 있습니다.
+
+### 배열
+
+배열 데이터의 저장을 돕기 위해 배열 필드를 아주 조금씩 변경하는 데 사용할 수 있는 다음 세 가지 작업이 있습니다.
+
+*   `add` 및 `addAll`은 지정된 개체를 배열 필드의 끝에 추가합니다.
+*   `addUnique` 및 `addAllUnique`는 아직 배열 필드에 포함되지 않은 지정된 개체를 해당 필드에 추가합니다. 삽입 위치는 보장되지 않습니다.
+*   `removeAll`은 배열 필드에서 지정된 개체의 인스턴스를 모두 삭제합니다.
+
+예를 들어 세트와 유사한 &quot;skills&quot; 필드에 다음과 같이 항목을 추가할 수 있습니다.
+
+```java
+gameScore.addAllUnique("skills", Arrays.asList("flying", "kungfu"));
+gameScore.saveInBackground();
+```
+
+현재는 동일한 저장으로 배열에서 항목을 아주 조금씩 추가하거나 삭제할 수는 없습니다. 다른 모든 종류의 배열 작업 사이에 `save`를 호출해야 합니다.
+
+## 개체 삭제
+
+Parse Cloud에서 개체를 삭제하려면 다음과 같이 하세요.
+
+```java
+myObject.deleteInBackground();
+```
+
+삭제가 확인되었을 때 콜백을 실행하려면 `deleteInBackground` 메서드에 `DeleteCallback`을 제공할 수 있습니다. 호출 스레드를 차단하려면 `delete` 메서드를 사용할 수 있습니다.
+
+다음과 같이 `remove` 메서드로 개체에서 싱글 필드를 삭제할 수 있습니다.
+
+```java
+// After this, the playerName field will be empty
+myObject.remove("playerName");
+// Saves the field deletion to the Parse Cloud
+myObject.saveInBackground();
+```
+
+## 관계형 데이터
+
+개체는 다른 개체와 관련될 수 있습니다. 이러한 동작을 모델링하려면 어느 `ParseObject`든 다른 `ParseObject`의 값으로 사용할 수 있습니다. 내부적으로 Parse 프레임워크는 참조된 개체를 한 곳에만 저장하여 일관성을 유지합니다.
+
+예를 들어 한 블로깅 앱의 각 `Comment`는 하나의 `Post`와 대응할 수 있습니다. 싱글 `Comment`를 가지는 새로운 `Post`를 만들려면 다음과 같이 작성할 수 있습니다.
+
+```java
+// Create the post
+ParseObject myPost = new ParseObject("Post");
+myPost.put("title", "I'm Hungry");
+myPost.put("content", "Where should we go for lunch?");
+
+// Create the comment
+ParseObject myComment = new ParseObject("Comment");
+myComment.put("content", "Let's do Sushirrito.");
+
+// Add a relation between the Post and Comment
+myComment.put("parent", myPost);
+
+// This will save both myPost and myComment
+myComment.saveInBackground();
+```
+
+다음과 같이 `objectId`만 사용하여 개체를 링크할 수도 있습니다.
+
+```java
+// Add a relation between the Post with objectId "1zEcyElZ80" and the comment
+myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
+```  
+
+기본적으로 개체를 가져올 때 관련된 `ParseObject`는 가져오지 않습니다.  개체의 값은 다음과 같이 가져올 때까지 검색할 수 없습니다.
+
+```java
+fetchedComment.getParseObject("post")
+              .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        String title = post.getString("title");
+                    }
+              });
+```
+
+`ParseRelation` 개체를 사용하여 일대다 관계를 모델링할 수도 있습니다.  이 개체는 `List<ParseObject>`와 유사하게 작동하지만, 관계의 모든 `ParseObject`를 즉시 다운로드할 필요가 없다는 점이 다릅니다.  따라서 `ParseRelation`이 `List<ParseObject>` 방식보다 훨씬 더 많은 개체로 확장할 수 있습니다.  예를 들어 `User`에게 좋아하는 `Post`가 많을 수 있습니다.  이 경우 `getRelation`을 사용하여 `User`가 좋아하는 `Post` 세트를 저장할 수 있습니다.  게시물을 목록에 추가하려는 경우 코드는 다음과 같습니다.
+
+```java
+ParseUser user = ParseUser.getCurrentUser();
+ParseRelation<ParseObject> relation = user.getRelation("likes");
+relation.add(post);
+user.saveInBackground();
+```
+
+다음과 같이 `ParseRelation`에서 게시물을 삭제할 수 있습니다.
+
+```java
+relation.remove(post);
+```
+
+기본적으로 이러한 관계에 있는 개체의 목록은 다운로드되지 않습니다.  `getQuery`에서 반환한 `ParseQuery`에서 `findInBackground`를 호출하여 `Post`의 목록을 가져올 수 있습니다.  코드는 다음과 같습니다.
+
+```java
+relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
+    void done(List<ParseObject> results, ParseException e) {
+        if (e != null) {
+            // There was an error
+        } else {
+            // results have all the Posts the current user liked.
+        }
+    }
+});
+```
+
+`Post`의 일부만 가져오고 싶은 경우 다음과 같이 `getQuery`에서 반환한 `ParseQuery`에 조건을 추가할 수 있습니다.  코드는 다음과 같습니다.
+
+```java
+ParseQuery<ParseObject> query = relation.getQuery();
+// Add other query constraints.
+```
+
+`ParseQuery`에 대한 자세한 내용은 [이 가이드의 쿼리 부분](#queries)을 참조하세요.  `ParseRelation`은 쿼리에 사용되는 `List<ParseObject>`와 유사하게 작동하므로 개체의 목록에서 수행할 수 있는 모든 쿼리(`include` 제외)를 `ParseRelation`에서 수행할 수 있습니다.
+
+## 데이터 유형
+
+지금까지 `String`, `int`, `bool` 및 `ParseObject` 유형의 값을 사용했습니다. Parse에서도 `java.util.Date`, `byte[]` 및 `JSONObject.NULL`을 지원합니다.
+
+`JSONObject` 및 `JSONArray` 개체를 중첩하여 싱글 `ParseObject` 내에 더욱 구조화된 데이터를 저장할 수 있습니다.
+
+예:
+
+```java
+int myNumber = 42;
+String myString = "the number is " + myNumber;
+Date myDate = new Date();
+
+JSONArray myArray = new JSONArray();
+myArray.put(myString);
+myArray.put(myNumber);
+
+JSONObject myObject = new JSONObject();
+myObject.put("number", myNumber);
+myObject.put("string", myString);
+
+byte[] myData = { 4, 8, 16, 32 };
+
+ParseObject bigObject = new ParseObject("BigObject");
+bigObject.put("myNumber", myNumber);
+bigObject.put("myString", myString);
+bigObject.put("myDate", myDate);
+bigObject.put("myData", myData);
+bigObject.put("myArray", myArray);
+bigObject.put("myObject", myObject);
+bigObject.put("myNull", JSONObject.NULL);
+bigObject.saveInBackground();
+```
+
+`ParseObject`에서 `byte[]` 필드를 사용하여 이미지나 문서 등 대용량의 바이너리 데이터를 저장하지 않는 것이 좋습니다. `ParseObjects` 크기는 128KB를 넘지 않아야 합니다. 더 많이 저장하려면 `ParseFile`을 사용하는 것이 좋습니다. 자세한 내용은 [가이드 섹션](#files)을 참조하세요.
+
+Parse에서 데이터를 처리하는 방식에 대한 자세한 내용은 [데이터 및 보안](/docs/data)에 대한 설명서를 참조하세요.
+
+## 하위 클래스
+
+Parse는 가능한 한 빨리 설정하여 실행하도록 설계되었습니다. `ParseObject` 클래스를 사용하여 모든 데이터에 액세스하고 `get()`으로 모든 필드에 액세스할 수 있습니다. 완성된 코드베이스에서는 하위 클래스에 간결성과 확장성, 자동 완성 지원 등 많은 이점이 있습니다. 하위 클래스 지정은 완전히 선택사항이며, 다음 코드를
+
+```java
+ParseObject shield = new ParseObject("Armor");
+shield.put("displayName", "Wooden Shield");
+shield.put("fireproof", false);
+shield.put("rupees", 50);
+```
+
+다음과 같이 변형할 수 있습니다.
+
+```java
+Armor shield = new Armor();
+shield.setDisplayName("Wooden Shield");
+shield.setFireproof(false);
+shield.setRupees(50);
+```
+
+### ParseObject 하위 클래스 지정
+
+`ParseObject` 하위 클래스를 만들려면 다음 단계를 따르세요.
+
+1.  `ParseObject`를 확장하는 하위 클래스를 선언합니다.
+2.  `@ParseClassName` 주석을 추가합니다. 이 값은 `ParseObject` 생성자에 전달하는 문자열이어야 하며 이후 클래스 이름 참조를 모두 필요 없게 만듭니다.
+3.  하위 클래스에 공용 기본(즉, 0 인수) 생성자가 있는지 확인합니다. 이 생성자에서 `ParseObject` 필드를 수정하면 안 됩니다.
+4.  `Parse.initialize()`를 호출하기 전에 `Application` 생성자에서 `ParseObject.registerSubclass(YourClass.class)`를 호출합니다.
+    다음 코드는 `ParseObject`의 `Armor` 하위 클래스를 성공적으로 구현하고 등록합니다.
+
+```java
+// Armor.java
+import com.parse.ParseObject;
+import com.parse.ParseClassName;
+
+@ParseClassName("Armor")
+public class Armor extends ParseObject { }
+
+// App.java
+import com.parse.Parse;
+import android.app.Application;
+
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ParseObject.registerSubclass(Armor.class);
+        Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+    }
+}
+```
+
+### 접근자, 변경자 및 메서드
+
+메서드를 `ParseObject` 하위 클래스에 추가하면 클래스에 대한 로직을 포함시킬 수 있습니다. 비즈니스 로직과 저장소/전송 로직에 대한 별도 클래스를 사용하지 않고 주제에 대한 모든 로직을 한곳에 보관할 수 있습니다.
+
+`ParseObject`의 필드에 대한 접근자와 변경자를 쉽게 추가할 수 있습니다. 필드의 getter 및 setter는 일반적인 방법으로 선언하지만 `get()` 및 `put()` 측면에서 구현하세요. 다음 예에서는 `Armor` 클래스에 `displayName` 필드를 만듭니다.
+
+```java
+// Armor.java
+@ParseClassName("Armor")
+public class Armor extends ParseObject {
+    public String getDisplayName() {
+        return getString("displayName");
+    }
+
+    public void setDisplayName(String value) {
+        put("displayName", value);
+    }
+}
+```
+
+이제 `armor.getDisplayName()`을 사용하여 displayName 필드에 액세스하고 `armor.setDisplayName("Wooden Sword")`을 사용하여 할당할 수 있습니다. 따라서 앱을 개발할 때 IDE에서 자동 완성 기능을 제공하고 컴파일 타임에 오타를 거를 수 있습니다.
+
+`getInt()`, `getParseFile()`, `getMap()` 등과 같은 다양한 형식의 `get()`을 사용하여 다양한 유형의 접근자와 변경자를 이 방식으로 쉽게 정의할 수 있습니다.
+
+간단한 필드 액세스보다 복잡한 로직이 필요한 경우 다음과 같이 자체 메서드도 선언할 수 있습니다.
+
+```java
+public void takeDamage(int amount) {
+    // Decrease the armor's durability and determine whether it has broken
+    increment("durability", -amount);
+
+    if (getDurability() < 0) {
+        setBroken(true);
+    }
+}
+```
+
+### 하위 클래스 초기화
+
+정의한 생성자를 사용하여 하위 클래스의 새 인스턴스를 만들어야 합니다. 하위 클래스에서는 `ParseObject`의 필드를 수정하지 않는 공용 기본 생성자를 정의해야 하며, 이 생성자는 전체 Parse SDK에서 강력한 형식의 하위 클래스 인스턴스를 만드는 데 사용됩니다.
+
+기존 개체에 대한 참조를 만들려면 `ParseObject.createWithoutData()`를 사용합니다.
+
+```java
+Armor armorReference = ParseObject.createWithoutData(Armor.class, armor.getObjectId());
+```
+
+### 쿼리
+
+정적 메서드 `ParseQuery.getQuery()`를 사용하여 특정 하위 클래스의 개체를 쿼리할 수 있습니다. 다음 예는 사용자가 구입할 수 있는 갑옷을 쿼리합니다.
+
+```java
+ParseQuery<Armor> query = ParseQuery.getQuery(Armor.class);
+query.whereLessThanOrEqualTo("rupees", ParseUser.getCurrentUser().get("rupees"));
+query.findInBackground(new FindCallback<Armor>() {
+    @Override
+    public void done(List<Armor> results, ParseException e) {
+        for (Armor a : results) {
+            // ...
+        }
+    }
+});
+```

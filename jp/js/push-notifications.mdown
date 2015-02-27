@@ -1,0 +1,340 @@
+# プッシュ通知
+
+プッシュ通知は、アプリの利用率を維持し、アプリの情報を利用者に通知するのに非常に便利な手段です。利用者全体にすばやく、効率的にリーチできます。このガイドでは、設定手順と、プッシュ通知送信のためのParseの一般的な使用方法を紹介します。
+
+<div class="callout_green">
+現在、JavaScript SDKはプッシュの受信をサポートしていません。iOS用アプリケーションやAndroid用アプリケーションに通知を送信する場合にのみ使用できます。一般的な使用例は、[Cloud Code](/docs/jp/cloud_code_guide)からのプッシュの送信です。
+</div>
+
+
+## プッシュの設定
+
+プッシュ通知の送信にJavaScript SDKを使用する場合、設定は必要ありません。iOSクライアントやAndroidクライアントでプッシュの使用を構成していない場合は、上部のプラットフォーム切り替え機能を使用して、それぞれの手順を確認します。
+
+
+## Installation
+
+プッシュ通知に登録された端末にインストールされている各Parseアプリケーションには、関連する`Installation`オブジェクトがあります。`Installation`オブジェクトには、プッシュ通知のターゲットを設定するのに必要なすべてのデータが格納されます。たとえば、野球アプリの場合、利用者が興味を持っているチームを格納しておけば、チーム成績に関する更新情報を送信できます。
+
+`Installation`データを修正できるのは、クライアントSDK、データブラウザ、REST APIのいずれかです。
+
+このクラスには、端末の管理とターゲット設定に便利な、特別のフィールドがあります。
+
+*   **`badge`**: iOSアプリのアイコンバッジの現在の値。サーバー上のこの値を変更すると、その値はバッジの値が増やす次のプッシュ通知に使用されます。
+*   **`channels`**: 現在、端末を登録してあるチャンネルの配列。
+*   **`timeZone`**: ターゲット端末がある現在のタイムゾーン。この値は`Installation`オブジェクトが端末から保存されるたびに同期されます（読み取り専用）。
+*   **`deviceType`**: 端末のタイプ（「ios」または「android」）（読み取り専用）。
+*   **`installationId`**: Parseが使用する端末の一意のID （読み取り専用）。
+*   **`deviceToken`**: Appleが生成するiOS端末用のトークン（読み取り専用）。
+
+
+## プッシュの送信
+
+Parseが使用するプッシュ通知の送信方法には、[チャンネル](#sending-channels)と[詳細なターゲット設定](#sending-queries)の2つの方法があります。チャンネルにはプッシュ送信用の簡単で使いやすいモデルが用意されており、詳細なターゲット設定にはより詳細で柔軟性のあるモデルが用意されています。両方の方法とも互いに完全な互換性を持っています。詳細はこのセクションで説明します。
+
+通常、通知はウェブコンソールのREST APIか[Cloud Code](#sending)を使用して送信します。Cloud CodeではJavaScript SDKが使用されていることから、クラウド関数からプッシュを送信する場合は、JavaScript SDKが開始点になります。ただし、Cloud Code外のJavaScript SDKやその他のクライアントSDKから通知を送信する場合は、Parseアプリのプッシュ通知設定に<% if current_user && @apps[0] %><%= link_to_settings @apps[0], "Client Push Enabled", "push"  %>   <% else %>     **Client Push Enabled**   ```を設定する必要があります。
+
+![](docs/client_push_settings.png)
+
+
+### チャンネルの使用
+
+通知を送信するのに最も簡単な方法はチャンネルを使用する方法です。チャンネルでは、プッシュ送信に発行者-登録者モデルを使用できます。まず端末を1つまたは複数のチャンネルに登録すると、後でその登録者に通知が送信されます。特定の`Installation`が登録したチャンネルは`Installation`オブジェクトの`channels`フィールドに格納されます。
+
+#### チャンネルへの登録
+
+<div class="callout_green">
+現在、JavaScript SDKはプッシュ用のiOS端末とAndroid端末の登録をサポートしていません。上部のプラットフォーム切り替え機能を使用して、iOS、Android、RESTのプッシュガイドを参照してください。
+</div>
+
+#### チャンネルへのプッシュの送信
+
+JavaScript SDKでは、次のコードを使用して「ジャイアンツ」チャンネルと「メッツ」チャンネルのすべての登録者に試合結果を知らせることができます。iOSユーザーの場合は通知センターアラートとして表示され、Androidユーザーにはシステムトレイ通知として表示されます。
+
+```js
+Parse.Push.send({
+  channels: [ "Giants", "Mets" ],
+  data: {
+    alert: "The Giants won against the Mets 2-3."
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+
+### 高度なターゲット設定の使用
+
+多くのアプリケーションでチャンネルは大変便利ですが、プッシュの受信者のターゲットを設定する場合は、より詳細な設定が必要になることがあります。Parseでは、[クエリ作成API](#queries)を使用して`Installation`オブジェクトのサブセット用のクエリを記述し、プッシュを送信できます。
+
+`Installation`オブジェクトはParseに格納されるその他のオブジェクトとまったく同じオブジェクトであり、必要なデータを保存したり、`Installation`オブジェクトとその他のオブジェクトの間の関係を作成したりできます。そのため、詳細にカスタマイズした利用者ベースのセグメントや動的なセグメントにプッシュを送信できます。
+
+#### インストールデータの保存
+
+<div class="callout_green">
+現在、JavaScript SDKは`Installation`オブジェクトの修正をサポートしていません。上部のプラットフォーム切り替え機能を使用して、iOS、Android、RESTのプッシュガイドを参照してください。
+</div>
+
+#### クエリへのプッシュの送信
+
+`Installation`オブジェクトにデータを保存したら、クエリを使用してこれらの端末のサブセットにターゲットを設定できます。`Parse.Installation`クエリはその他の[Parseクエリ](#queries)と同様の働きをします。
+
+```js
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('injuryReports', true);
+
+Parse.Push.send({
+  where: query, // Set our Installation query
+  data: {
+    alert: "Willie Hayes injured by own pop fly."
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+Parseのクエリにはチャンネルも使用できます。「ジャイアンツ」チャンネルのすべての登録者の内、得点の更新情報をしりたい登録者に絞り込んでプッシュを送信するには、次のようにします。
+
+```js
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('channels', 'Giants'); // Set our channel
+query.equalTo('scores', true);
+
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "Giants scored against the A's! It's now 2-2."
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+`Installation`クラスに他のオブジェクトへの関係を格納する場合、クエリの関係を使用することもできます。たとえば、特定の場所付近のすべての利用者にプッシュ通知を送信する場合は、次のようにします。
+
+```js
+// Find users near a given location
+var userQuery = new Parse.Query(Parse.User);
+userQuery.withinMiles("location", stadiumLocation, 1.0);
+
+// Find devices associated with these users
+var pushQuery = new Parse.Query(Parse.Installation);
+pushQuery.matchesQuery('user', userQuery);
+// Send push notification to query
+Parse.Push.send({
+  where: pushQuery,
+  data: {
+    alert: "Free hotdogs at the Parse concession stand!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+
+## オプションの送信
+
+プッシュ通知にはメッセージ送信以外の機能もあります。iOSでは、再生する音声、表示するバッジ番号、送信したいカスタムデータをプッシュに入れることができます。Androidでは、通知の受信時に起動する`Intent`を指定できます。さらに、時間制約がある場合は、通知に期日を有効期限できます。
+
+
+### 通知のカスタマイズ
+
+メッセージ以外のコンテンツを送信したい場合は、`data`辞書にその他のフィールドを設定します。次のように、特別な意味を持つ予約済みのフィールドがあります。
+
+*   **`alert`**: 通知のメッセージ。
+*   **`badge`**: （iOSのみ）アプリアイコンの右上に表示される値。値に設定するか、現在の値を1増やすための`Increment`に設定できます。
+*   **`sound`**: （iOSのみ）アプリケーションバンドル内の音声ファイルの名前。
+*   **`content-available`**: (iOSのみ) [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html)アプリを作成する場合や、[introduced in iOS7で導入された](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10)Remote Notification Background Mode（別名「Background Push」）を使用するアプリを作成する場合は、この値を1に設定すると、バックグラウンドでのダウンロードが開始されます。
+*   **`action`**: （Android のみ）プッシュを受信したときに`Intent`を起動します。`title`や`alert`の値が指定されていない場合は、`Intent`は起動しますが、利用者に通知は表示されません。
+*   **`title`**: （Android のみ）Androidのシステムトレイ通知に表示される値。
+
+たとえば、現在のバッジ番号を1増やし、iOS端末でカスタムの音声を再生し、Androidユーザーには特定のタイトルを表示するす通知を送信するには、次のようにします。
+
+```js
+Parse.Push.send({
+  channels: [ "Mets" ],
+  data: {
+    alert: "The Mets scored! The game is now tied 1-1.",
+    badge: "Increment",
+    sound: "cheering.caf",
+    title: "Mets Score!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+この辞書には独自のデータを指定することもできます。iOSとAndroidの「通知の受信」セクションでも説明したとおり、iOSの場合は利用者が通知経由でアプリを開けた場合にのみこのデータにアクセスでき、Androidの場合は`Intent`を指定した場合に、その中でデータが提供されます。
+
+```js
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('channels', 'Indians');
+query.equalTo('injuryReports', true);
+Parse.Push.send({
+  where: query,
+  data: {
+    action: "com.example.UPDATE_STATUS",
+    alert: "Ricky Vaughn was injured in last night's game!",
+    name: "Vaughn",
+    newsItem: "Man bites dog"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+
+### 有効期限の設定
+
+利用者の端末がオフになっていたり、インターネットに接続されていない場合は、プッシュ通知は配信されません。時間制約があり、期日後には配信する必要がない通知の場合は、有効期限を設定できます。これにより、すでに関連性がなくなっている不要な情報を利用者に通知することがなくなります。
+
+Parseに用意された2つのパラメータでは、通知の有効期限を設定できます。1つ目の`expiration_time`は、Parseからの通知の送信を停止する期日を指定する`Date`を持ちます。今からちょうど1週間後に通知の有効期限が切れるように設定するには、次のようにします。
+
+<% date = 1.weeks.from_now.utc %>
+```js
+Parse.Push.send({
+  where: everyoneQuery,
+  expiration_time: new Date(<%= "#{date.year}, #{date.month}, #{date.day}" %>),
+  data: {
+    alert: "Season tickets on sale until <%= "#{date.strftime('%B %e, %Y')}" %>"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+また、`expiration_interval`パラメータを使用すると、通知の有効期限が切れるまでの期間を指定できます。この値は[通知のスケジュール設定](#scheduled)に使用する`push_time`パラメータに関連します。つまり、送信を1日後、有効期間を6日間にスケジュール設定したプッシュ通知を、今から1週間以内であれば受け取るよう設定できます。
+
+```js
+var oneDayAway = new Date(...);
+var sixDaysAwayEpoch = (new Date(...)).getTime();
+
+Parse.Push.send({
+  push_time: oneDayAway,
+  expiration_interval: sixDaysAwayEpoch,
+  data: {
+    alert: "Season tickets on sale until next week!" %>"
+
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+### プラットフォームごとのターゲット設定
+
+クロスプラットフォームのアプリを作成する場合は、iOS端末かAndroid端末のみをターゲットに設定することもできます。いずれの端末をターゲットに設定するかをフィルタするメソッドが2つ用意されています。デフォルトでは両方のプラットフォームがターゲットに設定されています。
+
+次の例はAndroidユーザーとiOSユーザーに異なる通知を送信します。
+
+```js
+// Notification for Android users
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('deviceType', 'android');
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "Your suitcase has been filled with tiny robots!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+// Notification for iOS users
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('deviceType', 'ios');
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "Your suitcase has been filled with tiny apples!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+
+## プッシュのスケジュール設定
+
+`push_time`を指定すると、前もってプッシュのスケジュールを設定しておくことができます。たとえば、ゲームのリマインダーを<%= date.strftime("%B %e, %Y") %>の正午（UTC）にスケジュール設定すると、次のように送信することでプッシュ通知のスケジュールを設定できます。
+
+```js
+var tomorrowDate = new Date(...);
+
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('user_id', 'user_123');
+
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "You previously created a reminder for the game today" 
+  },
+  push_time: tomorrowDate
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+さらに`expiration_interval`を指定した場合は、プッシュの送信時間ではなく、スケジュール設定されたプッシュの時間から計算されます。つまり、送信を1週間後、有効期間を1日にスケジュール設定したプッシュを、送信後8日に有効期限が切れるように設定できます。
+
+スケジュール設定する時間は過去の時間には設定できず、最長2週間後まで設定できます。上記の例のように日時、タイムゾーンを指定できるISO 8601の日付で指定することもできますし、UNIXエポック時間（秒単位、UTC）を表す数値で指定することもできます。<%= date.strftime("%B %e, %Y") %>の正午(UTC時間)にアラートのスケジュールを設定するには、`push_time`を2015-08-022T12:00:00.000Zか1440226800000に設定します。
+
+
+## プッシュの受信
+
+<div class="callout_green">
+現在、JavaScript SDKはプッシュの受信をサポートしていません。iOS端末とAndroid端末でのプッシュ通知の受信方法については、プラットフォーム別のガイドを参照してください。
+</div>

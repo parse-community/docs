@@ -1,0 +1,489 @@
+# ユーザーインターフェイス
+
+最終的にアプリの利用者はUIKitコンポーネントとやり取りするようになります。Parseでは`PFUser`のログインや登録を行ったり、`PFObject`の表示を大幅に簡易化する`UIViewController`のサブクラスをいくつか提供します。
+
+## PFLogInViewController
+
+Parseを利用してモバイルアプリの利用者を管理している場合、`PFUser`クラスには既に精通していることでしょう。アプリでは、`PFUser`をログインさせる画面を表示させるときがあるでしょう。Parseではそれを実行するビューコントローラーを提供しています。
+
+<div class="callout_green">
+[ログインおよび登録ビューの使用に関するチュートリアル](/tutorials/login-and-signup-views)では、すぐにカスタマイズでき、`PFUser`を使用するアプリで利用できる内蔵型ビューを提供しています。
+</div>
+
+`PFLogInViewController`クラスを使用し、例示化してモーダルで表示します。
+
+```objc
+PFLogInViewController *logInController = [[PFLogInViewController alloc] init];
+logInController.delegate = self;
+[self presentModalViewController:logInController animated:YES];
+```
+
+機能的なログイン画面を表示させるために必要なことはこれだけです。
+
+### ログイン要素の設定
+
+![Login Diagram](/images/docs/login_diagram.png)
+
+`PFLogInViewController`を設定してさまざまなログインオプションを提供できます。`PFLogInViewController`ではデフォルトで次のUIを表示します。
+
+*   [ユーザーネーム]と[パスワード]フィールド
+*   [パスワードを忘れた場合]ボタン
+*   [ログイン]ボタン
+*   [登録]ボタン
+*   [終了]ボタン
+
+上記の機能はいずれもオンまたはオフにすることができます。オプションは`PFLogInViewController`で`fields`プロパティを使用して設定できます。
+
+```objc
+logInController.fields = PFLogInFieldsUsernameAndPassword
+                         | PFLogInFieldsLogInButton
+                         | PFLogInFieldsSignUpButton
+                         | PFLogInFieldsPasswordForgotten
+                         | PFLogInFieldsDismissButton;
+```
+
+基本的にはビット単位や演算子（`|`）を使用してログイン画面に含めたいオプションすべてをつなげ、値を`fields`に割り当てます。
+
+また、次のようなさまざまなオプションが追加できます。
+
+*   [Facebook]ボタン
+*   [Twitter]ボタン
+
+同様に、次のようにFacebookまたはTwitterのログインをオンにすることができます。
+
+```objc
+logInController.fields = (PFLogInFieldsUsernameAndPassword
+                          | PFLogInFieldsFacebook
+                          | PFLogInFieldsTwitter);
+```
+
+上記のコードではユーザーネーム、パスワード、FacebookおよびTwitterボタンを含むログイン画面を作成します。Facebookのログイン許可は`facebookPermissions`から設定できます。
+
+```objc
+PFLogInViewController *logInController = [[PFLogInViewController alloc] init];
+logInController.delegate = self;
+logInController.facebookPermissions = @[@"friends_about_me"];
+[self presentModalViewController:logInController animated:YES];
+```
+
+### ログイン成功、失敗、キャンセルへの応答
+
+利用者が登録またはキャンセルする場合、`PFLogInViewController`ではイベントのデリゲートを通知します。このコールバックを受信したら、デリゲートでは少なくとも`PFLogInViewController`を終了する必要があります。また、デリゲートでは独自のビューを更新したり、`PFUser`について知る必要のある別のコンポーネントにメッセージを転送することができます。
+
+```objc
+- (void)logInViewController:(PFLogInViewController *)controller
+        didLogInUser:(PFUser *)user {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
+    [self dismissModalViewControllerAnimated:YES];
+}
+```
+
+デリゲートパターンのほか、`PFLogInViewController`では登録に複数のオブザーバーがいる場合に役立つ通知パターンもサポートしています。
+
+### ロゴと背景画像のカスタマイズ
+
+独自のロゴや背景画像を使用する場合があるでしょう。これは`PFLogInViewController`をサブクラス化して`viewDidLoad`を上書きすることで実行できます。 
+
+```objc
+@interface MyLogInViewController : PFLogInViewController
+
+@end
+
+@implementation MyLogInViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor darkGrayColor];
+
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
+    self.logInView.logo = logoView; // logo can be any UIView
+}
+@end
+```
+
+関連する登録ビューのロゴと背景を変更する場合、`PFLogInViewController`をインスタンス化したらすぐに、`PFSignUpViewController`をサブクラス化し、そのサブクラスのインスタンスを作成して`signUpController`に割り当てます。
+
+```objc
+MyLogInViewController *logInController = [[MyLogInViewController alloc] init];
+logInController.signUpController = [[MySignUpViewController alloc] init];
+[self presentModalViewController:logInController animated:YES];
+```
+
+### ビューの詳細カスタマイズ
+
+`PFLogInViewController`をさらにカスタマイズする場合もあるでしょう。たとえば、プレースホルダ―のテキストを「電子メール」に変更したり、ログインボタンのサイズを変更できます。両方のケースでは、`PFLogInViewController`をサブクラス化して、`viewDidLoad`または`viewDidLayoutSubviews`のいずれかを上書きします。動作がレイアウトに関連していない場合は、前者を上書きし、その他の場合では後者を上書きします。 
+
+```objc
+@interface MyLogInViewController : PFLogInViewController
+
+@end
+
+@implementation MyLogInViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.logInView.usernameField.placeholder = @"email";
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.logInView.logInButton.frame = CGRectMake(...); // Set a different frame.
+}
+
+@end
+```
+
+この種のカスタマイズに興味があるデベロッパーは[`PFLogInView`](ios/api/Classes/PFLogInView.html)のインターフェイスを確認してください。カスタマイズできるすべてのプロパティが文書化されています。
+
+### 縦方向と横方向
+
+`PFLogInViewController`ではデフォルトで、iPhoneの`UIInterfaceOrientationPortraitUpsideDown`以外のすべての方向をサポートしています。`shouldAutorotateToInterfaceOrientation:`をサブクラス化して上書きすることでこの動作を上書きすることができます。
+
+### iPhoneおよびiPad
+
+すべてのiOSのデバイスサイズとピクセル濃度で`PFLogInViewController`が使用できます。
+
+## PFSignUpViewController
+
+`PFLogInFieldsSignUpButton`オプションを有効にした`PFLogInViewController`を使用している場合は、すでに登録機能が有効になっています。利用者がログ画面の登録ボタンをタップすると、登録画面が表示され、登録できるようになります。ただし、ログイン画面とは別に登録画面を使用することがあるかもしれません。そのような場合は`PFSignUpViewController`を使用できます。
+
+`PFSignUpViewController`を使用し、インスタンス化してモーダルで表示します。
+
+```objc
+PFSignUpViewController *signUpController = [[PFSignUpViewController alloc] init];
+signUpController.delegate = self;
+[self presentModalViewController:signUpController animated:YES];
+```
+
+機能的な登録画面を表示させるために必要なのはこれだけです。
+
+### 登録要素の設定
+
+![Signup Diagram](/images/docs/signup_diagram.png) All elements of the PFSignUpViewController
+
+`PFSignUpViewController`を設定してさまざまな登録オプションを提供できます。デフォルトでは次のUIを表示します。
+
+*   [ユーザーネーム]と[パスワード]フィールド
+*   メール
+*   [登録]ボタン
+*   [終了]ボタン
+
+登録画面にデフォルトのフィールドのほかにも「電話番号」などのフィールドが必要な場合は、「追加」フィールドをオンにします。
+
+```objc
+signUpController.fields = PFSignUpFieldsUsernameAndPassword
+                          | PFSignUpFieldsSignUpButton
+                          | PFSignUpFieldsEmail
+                          | PFSignUpFieldsAdditional
+                          | PFSignUpFieldsDismissButton;
+```
+
+基本的にはビット単位や演算子（`|`）を使用して登録画面に含るオプションすべてをつなげ、値を`fields`に割り当てます。同じように、[割り当て先]フィールドでフィールドを削除してオフにします。
+
+### 登録成功、失敗、キャンセルへの応答
+
+利用者が登録またはキャンセルする場合、`PFSignUpViewController`ではイベントのデリゲートを通知します。このコールバックを受信したら、デリゲートでは少なくとも`PFSignUpViewController`を終了する必要があります。また、デリゲートでは独自のビューを更新したり、`PFUser`について知る必要のある別のコンポーネントにメッセージを転送することができます。
+
+```objc
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
+    [self dismissModalViewControllerAnimated:YES];
+}
+```
+
+デリゲートパターンのほか、`PFSignUpViewController`では登録に複数のリスナーがいる場合に役立つ`NSNotification`もサポートしています。
+
+### ロゴと背景画像のカスタマイズ
+
+独自のロゴや背景画像を使用する場合があるでしょう。これは`PFSignUpViewController`をサブクラス化して`viewDidLoad`を上書きすることで実行できます。
+
+```objc
+@interface MySignUpViewController : PFSignUpViewController
+
+@end
+
+@implementation MySignUpViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor darkGrayColor];
+
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:@"logo.png"];
+    self.signUpView.logo = logoView; // logo can be any UIView
+}
+
+@end
+```
+
+### 検証ロジックのカスタマイズ
+
+登録情報をParseクラウドに送信する前に、クライアント側で検証を実行する場合がよくあるでしょう。`PFSignUpViewControllerDelegate`の`signUpViewController:shouldBeginSignUp:`メソッドに検証ロジックを追加することができます。たとえば、8文字以下のパスワードが短すぎると判断した場合は、
+
+を使って次のようにします。
+
+```objc
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController
+           shouldBeginSignUp:(NSDictionary *)info {
+    NSString *password = info[@"password"];
+    return (password.length >= 8); // prevent sign up if password has to be at least 8 characters long
+}
+```
+
+`info`はユーザーネームやパスワード、メール、追加情報などすべての登録フィールドが含まれるディレクトリです。
+
+### ビューの詳細カスタマイズ
+
+`PFSignUpViewController`をさらにカスタマイズする場合もあるでしょう。たとえば、「追加」のプレースホルダ―のテキストを「電話」に変更したり、登録ボタンのサイズを変更したりできます。いつでも、`PFSignUpViewController`をサブクラス化して`UIViewController`のさまざまなメソッドを上書きすることができます。変更する動作にレイアウトが関連しない場合は、`viewDidLoad`を上書きし、そのほかでは`viewWillLayoutSubviews`を上書きする必要があります。 
+
+```objc
+@interface MySignUpViewController : PFSignUpViewController
+
+@end
+
+@implementation MySignUpViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.signUpView.usernameField.placeholder = @"phone";
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.signUpView.signUpButton.frame = CGRectMake(...); // Set a different frame.
+}
+
+@end
+```
+
+この種のカスタマイズに興味があるデベロッパーは[`PFSignUpView`](ios/api/Classes/PFSignUpView.html)のインターフェイスを確認してください。カスタマイズできるすべてのプロパティが文書化されています。
+
+### 縦方向と横方向
+
+`PFSignUpViewController`ではデフォルトで、iPhoneの`UIInterfaceOrientationPortraitUpsideDown`以外のすべての方向をサポートしています。`shouldAutorotateToInterfaceOrientation:`をサブクラス化して上書きすることでこの動作を上書きすることができます。
+
+### iPhoneおよびiPad
+
+すべてのiOSデバイスサイズとピクセル濃度で`PFSignUpViewController`が使用できます。
+
+## PFQueryTableViewController
+
+データ用のiOSアプリはほとんどの場合、`UITableViewController`の集合体で、`UITableView`に対応しています。Parseを使用する場合は、`UITableView`の各セルでは通常`PFObject`からのデータを表示します。`PFQueryTableViewController`は`UITableViewController`のサブクラスで、Parseクラスの1つからのデータを簡単に表示できる、抽象化レイヤーを提供します。
+
+<div class="callout_green">
+Parseアプリケーションの`Todo`クラスからのオブジェクトを表示するには、[PFQueryTableViewControllerの使用についてのチュートリアル](/tutorials/parse-query-table)をご覧ください。
+</div>
+
+`PFQueryTableViewController`は`UITableViewController`を使用するときのように使用します。
+
+1.  `PFQueryTableViewController`のサブクラスを作成してカスタマイズします。開始点として[テンプレートファイル](https://gist.github.com/ba03c1a550f14f88f95d)を使用します。
+2.  デリゲートとデータソースとして自動設定されます。
+3.  `parseClassName`インスタンス変数を設定してデータをクエリするParseのクラスを指定します。
+4.  `queryForTable`メソッドを上書きして、テーブルのオブジェクトを取得するのに使用するカスタム`PFQuery`を作成します。
+5.  `tableView:cellForRowAtIndexPath:object:`を上書きして、それぞれの`PFObject`に合わせたカスタムセルを返します。
+6.  カスタムセルクラスを実装し、`PFTableViewCell`クラスから継承されるようにします。
+<li>ビューがロードされたら、クラスは作成したクエリを通じて自動的に`PFObject`を取得して、テーブルにロードします。ページネーションと「スライドして更新」はすでに指定されているので、すぐに利用できます。
+
+クラスによってインデックスパスを調整するのではなく、`PFObject`と`UITableViewCell`間の一対一マッピングについて考えることができます。また、設定することなく次の機能を使用できます。
+
+*   タップすることで次のページをロードすることができるセルのページネーション。
+*   「スライドして更新」テーブルビューヘッダー。
+*   セルでリモート画像を自動ダウンロードして表示。
+*   データがロードされる前に画面をロードして表示。
+*   オブジェクト配列の自動ローディングと管理。
+*   さまざまなメソッドを上書きして、データサイクルの主要イベントでビヘイビアをカスタマイズできる。
+
+このクラスを理解する最も簡単な方法は例を確認することです。この`PFQueryTableViewController`のサブクラスでは、一連の「Todo」アイテムとその優先順位の数字が表示されています。
+
+```objc
+@interface SimpleTableViewController : PFQueryTableViewController
+@end
+
+@implementation SimpleTableViewController
+- (id)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
+    if (self) {
+        // This table displays items in the Todo class
+        self.parseClassName = @"Todo";
+        self.pullToRefreshEnabled = YES;
+        self.paginationEnabled = YES;
+        self.objectsPerPage = 25;
+    }
+    return self;
+}
+
+- (PFQuery *)queryForTable {
+    PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if (self.objects.count == 0) {
+        query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+    [query orderByDescending:@"createdAt"];
+    return query;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+                     cellForRowAtIndexPath:(NSIndexPath *)indexPath
+                     object:(PFObject *)object {
+    static NSString *cellIdentifier = @"Cell";
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) {
+        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                        reuseIdentifier:cellIdentifier];
+    }
+    // Configure the cell to show todo item with a priority at the bottom
+    cell.textLabel.text = object[@"text"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Priority: %@",
+                                          object[@"priority"]];
+    return cell;
+}
+@end
+```
+
+![Todo view](/images/docs/todo_view.gif)
+
+このビューではTodoアイテムのリストが表示されます。また利用者はスライドして更新し、テーブルの最後にある特別なページネーションセルに触れることで次のページをロードすることができます。さらに、ビューがメモリになくなった場合にオブジェクトを正確にキャッシュし、次回のロード時に、クエリキャッシュを使用して、前回ロードされたオブジェクトを瞬時に表示し、ネットワーク呼び出しを更新します。
+
+書き込んでいないすべてのコードに注意してください。データをテーブルにロードしたり、インデックスパスや扱いにくいページネーションコードを処理する必要はありません。すべては`PFQueryTableViewController`によって自動的に処理されます。
+
+詳細を確認する最適な開始場所は[クラス用API](/docs/ios/api/Classes/PFQueryTableViewController.html)と[テンプレートサブクラスファイル](https://gist.github.com/ba03c1a550f14f88f95d)です。カスタマイズできることを念頭に置いてクラスを作成したので、`UITableViewController`を使用していたインスタンスの多くに対応しているはずです。
+
+### セルでリモート画像をロードする
+
+`PFQueryTableViewController`では、Parseクラウドで`PFFile`として保存されているリモート画像を簡単に表示できます。`tableView:cellForRowAtIndexPath:object:`を上書きして、正しく指定された`imageView`の`file`を`PFTableViewCell`で返すだけでできます。リモート画像をロードする前にプレースホルダ―の画像を表示させる場合、プレースホルダ―の画像を`imageView`の`image`プロパティに割り当てます。
+
+```objc
+@implementation SimpleTableViewController
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *identifier = @"Cell";
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = object[@"title"];
+    PFFile *thumbnail = object[@"thumbnail"];
+    cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    cell.imageView.file = thumbnail;
+    return cell;
+}
+@end
+```
+
+![](/images/docs/images_table.png)
+
+このテーブルでは、Parseクラウドで`PFFile`として保存されているかわいい動物の写真の一覧が表示されます。「placeholder.jpg」はアプリケーションバンドルに含まれる画像で、動物の写真がダウンロードされる前に表示されます。
+
+画像のダウンロードはオンデマンドです。テーブルをスクロールしていくと、現在表示されるセルにある画像がダウンロードされます。帯域幅を節約するだけでなく、表示される画像をタイムリーに表示するため、このジャストインタイムのビヘイビアが便利です。よりアグレッシブなローディングビヘイビアが必要な場合は、`imageView`で`loadInBackground`メソッドを使用して画像をダウンロードできます。
+
+### クエリのカスタマイズ
+
+デフォルトのクエリは`createdAt`の下降順にクラスからオブジェクトを取得するように設定されています。カスタマイズするには、独自の`PFQuery`を返すように`queryForTable`メソッドを上書きします。テーブルでは表示するオブジェクトの取得にはこのクエリを使用します。
+
+### セルのカスタマイズ
+
+テーブルの見た目をカスタマイズするには、カスタマイズしたセルを返すように`tableView:cellForRowAtIndexPath:object:`を上書きします。このメソッドは一般的なテーブルデータソースメソッドと似ていますが、パラメータとして`PFObject`が直接含まれています。
+
+`tableView:cellForRowAtIndexPath:`はもう上書きしないようにします。
+
+_重要:_ テーブルビューセルは`UITableViewCell`ではなく`PFTableViewCell`から継承する必要があります。`PFTableViewCell`はリモート画像のロードをサポートする`UITableViewCell`のサブクラスです。`PFQueryTableViewController`で使用されると、`PFTableViewCell`のリモート画像が自動的にロードされます。
+
+### ライフサイクルメソッド
+
+テーブルのデータライフサイクル中に主要イベントで呼び出されるメソッドがいくつかあります。`objectsDidLoad:`と`objectsWillLoad`で、クエリからオブジェクトがロードされた後と、クエリが実行される直前にそれぞれ呼び出されます。これらを上書きしてこうしたイベント時に追加機能を提供することができます。
+
+### ページネーション
+
+![](/images/docs/pagination.png)
+
+ページネーションでは、テーブルは一度に1ページのオブジェクトのみを取得します。`objectsPerPage`インスタンスの変数を設定することで、ページのオブジェクト数をカスタマイズできます。
+
+クエリはページネーションを適用するように自動的に変更されます。テーブルが最初にロードされる際はオブジェクトの最初のページだけが表示されます。ページネーションセルはテーブルの下部に表示され、利用者はそこから次のページをロードすることができます。このセルは`tableView:cellForNextPageAtIndexPath:`を上書きすることでカスタマイズできます。
+
+ページネーションはデフォルトでオンになっています。オフにするには、`paginationEnabled`を`NO`に設定します。
+
+### スライドして更新
+
+![](/images/docs/pull_to_refresh.png)
+
+「スライドして更新」機能では、利用者はテーブルを下にスライドしリリースすることでデータをリロードすることができます。基本的にデータの最初のページがクラスからリロードされ、テーブルがクリアされて、そのデータで更新されます。Parseではこのエフェクトには`EGOTableViewPullRefresh`ライブラリを使用しています。
+
+「スライドして更新」はデフォルトでオンになっています。オフにするには、`pullToRefreshEnabled`を`NO`に設定します。
+
+### ローディングビュー
+
+ローディングビューは、テーブルビューコントローラがデータの最初のページをロードする際に表示されます。デフォルトではオンになっていますが、プロパティ「`loadingViewEnabled`」からオフにすることができます。
+
+### オフラインメッセージとエラーメッセージ
+
+利用者がオフラインの場合や、Parseのエラーがクエリから生成される場合、アラートが自動的に利用者に表示されます。`PFQueryTableViewController`を使用している場合、この機能はデフォルトでオンになっています。このビヘイビアをオフにする場合、`Parse`クラスで`offlineMessagesEnabled`と`errorMessagesEnabled`メソッドを使用します。
+
+## PFImageView
+
+多くのアプリでは、Parseクラウドで`PFFile`として保存されている画像を表示する必要がありますが、内蔵型の`UIImageView`でリモート画像をロードするには、数多くのボイラープレートコードを書き込む必要があります。`PFImageView`ではそのタスクを簡易化することができます。
+
+```objc
+PFImageView *imageView = [[PFImageView alloc] init];
+imageView.image = [UIImage imageNamed:@"..."]; // placeholder image
+imageView.file = (PFFile *)someObject[@"picture"]; // remote image
+[imageView loadInBackground];
+```
+
+割り当てられた場合、`image`プロパティはリモート画像がダウンロードされる前にプレースホルダ―を表示するために使用されます。ダウンロードは`file`プロパティが割り当てられてもすぐには始まらず、`loadInBackground:`が呼び出された際のみに開始されます。リモート画像はメモリとディスクの両方でキャッシュされます。画像がキャッシュにある場合、 `loadInBackground:`へのコールはすぐに返されます。
+
+## PFTableViewCell
+
+多くのアプリでは、Parseクラウドで`PFFile`として保存されている画像を含むテーブルビューセルを表示する必要がありますが、内蔵型の`UITableViewCell`でリモート画像をロードするには、数多くのボイラープレートコードを書き込む必要があります。`PFTableViewCell`では、リモート画像のロードをサポートする`PFImageView`タイプの`imageView`プロパティを公開することで、そのタスクを簡易化することができます。
+
+```objc
+@implementation SimpleTableViewController
+
+- (UITableViewCell *)tableView:(UITableView *)tableView  cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *identifier = @"cell";
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) { cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = object[@"title"];
+
+    PFFile *thumbnail = object[@"thumbnail"];
+    cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    cell.imageView.file = thumbnail;
+    return cell;
+}
+
+@end
+```
+
+`UITableViewCell`のように`PFTableViewCell`ではデフォルトのレイアウトスタイルをサポートします。`UITableViewCell`とは違い、`PFTableViewCell`の`imageView`プロパティは`PFImageView`タイプであり、`PFFile`へのリモート画像のダウンロードをサポートします。
+
+`PFTableViewCell`は個別に使用することができますが、`PFQueryTableViewController`で使用される場合にその威力を発揮します。`PFQueryTableViewController`では`PFTableViewCell`を把握し、画像を自動的にロードされます。このビヘイビアの詳細は`PFQueryTableViewController`のドキュメントで説明します。
+
+## 文字列リソースのカスタマイズとローカライズ
+
+ParseのUIクラスにあるすべての文字列はカスタマイズ/ローカライズすることができます。文字列をカスタマイズする最も簡単な方法はiOSが提供する[デフォルトのローカリゼーションサポート](https://developer.apple.com/internationalization/)を通じて行うことです。
+
+たとえば、 `PFSignUpViewController`のHUDにおけるローディングメッセージ「読み込み中...」をカスタマイズするとします。ローカリゼーションガイドに従って `en.lproj`ディレクトリで`Localizable.strings`を設定したとします。`Localizable.strings`では、次を入力することができます。 
+
+```js
+"Loading..." = "In progress";
+```
+
+これで文字列は「進行中」にカスタマイズされます。左側のキーはカスタマイズする元の文字列で、右側の値がカスタマイズした値になります。
+
+`PFSignUpViewController`のエラーメッセージ「メールアドレス（andrew@x）は無効です。有効なメールアドレスを入力してください。」にカスタマイズするとします。変数が含まれているので`Localizable.strings`への入力方法が分かりません。
+
+Parse SDKには、`Localizable.string`というファイルがあり、Parseフレームワークのローカライズできるキーがすべて含まれています。このファイルをブラウズすれば、カスタマイズしたい文字列のキーを見つけることができます。文字列「メールアドレス（\&quot;%@\&quot;）は無効です。有効なメールアドレスを入力してください」がファイルのキーであることが確認できます。独自の`Localizable.strings`では、次を入力することができます。
+
+```json
+"The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";
+```
+
+これで文字列がカスタマイズされました。

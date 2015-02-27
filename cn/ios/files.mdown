@@ -1,0 +1,89 @@
+# 文件
+
+## PFFile
+
+`PFFile` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `PFObject` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
+
+<div class="callout_green">
+查看[保存图像教程](/tutorials/saving-images)，了解如何制作应用程序，让用户拍照并把照片直接上传到 Parse 中。
+</div>
+
+`PFFile` 非常容易上手。首先，您需要拥有 `NSData` 格式的数据，然后使用此数据创建 `PFFile`。在该示例中，我们只使用一个字符串：
+
+```objc
+NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
+PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+```
+
+注意，在这个例子中，我们把文件命名为 `resume.txt`。这里要注意两点： 
+
+*   您不需要担心文件名冲突。每次上传都会获得一个唯一标识符，所以上传多个文件名为 `resume.txt` 的文件不同出现任何问题。
+*   重要的是，您要给文件命名（带文件扩展名）。这样 Parse 就能够判断文件类型，并对文件进行相应的处理。所以，若您要储存 PNG 图片，务必使文件名以 `.png` 结尾。
+
+然后，您可以把文件保存到云中。与 `PFObject` 相同，您可以根据回调类型和适合的错误处理方式使用 `save` 方法的多种派生方法。
+
+```objc 
+[file saveInBackground];
+```
+
+最后，保存完成后，您可以像其他数据一样把 `PFFile` 与 `PFObject` 关联起来：
+
+```objc
+PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
+jobApplication[@"applicantName"] = @"Joe Smith";
+jobApplication[@"applicantResumeFile"] = file;
+[jobApplication saveInBackground];
+```
+
+重新获取此数据涉及对 `PFFile` 调用任一 `getData` 版本。这里我们从另一 JobApplication 对象获取恢复文件：
+
+```objc
+PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
+NSData *resumeData = [applicantResume getData];
+```
+
+与 `PFObject` 类似，您极有可能想要使用 `getData` 的后台版本。
+
+## 图像
+
+通过将图片转换成 `NSData` 然后使用 `PFFile` 就可以轻松地储存图片。假设您有一个文件名为 `image` 的 `UIImage`，并想把它另存为 `PFFile`：
+
+```objc
+NSData *imageData = UIImagePNGRepresentation(image);
+PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
+PFObject *userPhoto = [PFObject objectWithClassName:@"UserPhoto"];
+userPhoto[@"imageName"] = @"My trip to Hawaii!";
+userPhoto[@"imageFile"] = imageFile;
+[userPhoto saveInBackground];
+```
+
+您的 `PFFile` 将作为保存操作的一部分被上传到 `userPhoto` 对象。还可以跟踪 `PFFile` 的[上传和下载进度](/docs/cn/ios_guide#files-progress)。
+
+重新获取此图像涉及对 `PFFile` 调用任一 `getData` 版本。这里我们从另一个名为 `anotherPhoto`的 `UserPhoto` 获取图像文件：
+
+```objc
+PFFile *userImageFile = anotherPhoto[@"imageFile"];
+[userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+    if (!error) {
+        UIImage *image = [UIImage imageWithData:imageData];
+    }
+}];
+```
+
+## 进度
+
+使用 `saveInBackgroundWithBlock:progressBlock:` 和 `getDataInBackgroundWithBlock:progressBlock:` 可以分别轻松了解 `PFFile` 的上传和下载进度。例如：
+
+```objc
+NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
+PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+[file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    // Handle success or failure here ... 
+} progressBlock:^(int percentDone) {
+    // Update your progress spinner here. percentDone will be between 0 and 100.
+}];
+```
+
+您可以用 [REST API](/docs/rest#files-deleting) 删除对象引用的文件。您需要提供主密钥才能删除文件。
+
+如果您的文件未被应用中的任何对象引用，则不能通过 REST API 删除它们。您可以在应用的&ldquo;设置&rdquo;页面请求清理未使用的文件。请记住，该操作可能会破坏依赖于访问未被引用文件（通过其地址属性）的功能。当前与对象关联的文件将不会受到影响。

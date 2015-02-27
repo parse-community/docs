@@ -1,0 +1,98 @@
+# 役割
+
+アプリが成熟して、扱う範囲やユーザーベースが大きくなってくると、ユーザー単位のACLでできるよりもっとざっくりとしたアクセス制御が必要になる場合があります。このような必要に応えるため、Parseは[役割ベースのアクセス制御](http://en.wikipedia.org/wiki/Role-based_access_control)もサポートしています。役割を使うと、ユーザーをグループ分けして、グループごとにParseデータへのアクセス権を設定できます。役割は、ユーザーと他の役割を格納する、名前付きオブジェクトです。役割に対して与えられた許可は、その役割のユーザーと、その役割の中に含まれる役割のユーザーに黙示的に付与されます。
+
+たとえば、キュレーションしたコンテンツを表示するアプリケーションの場合、他のユーザーによって作成されたコンテンツを変更したり削除することのできる「Moderator」の役割を持ったユーザーが複数存在します。また、モデレーターと同じアクセス権に加え、アプリケーションのグローバル設定の変更もできる、数名の「Administrator」も必要です。これらの役割にユーザーを追加すると、各ユーザーに手動であらゆるリソースへの許可を設定することなく、それらのユーザーをモデレーターや管理者にすることができます。
+
+Parseには、クライアントのコードでこれらの役割を示す、`ParseRole`という特別なクラスがあります。`ParseRole` は`ParseObject`のサブクラスで、柔軟なスキーマ、自動パーシステンス、キー値インターフェイスをはじめとする機能もすべて、同様に備えています。`ParseObject`にあるメソッドはすべて`ParseRole`でも使えます。これら2つの違いは、`ParseRole`には役割の管理に特化したいくつかの追加機能があるという点です。
+
+
+## プロパティ
+
+`ParseRole` には、`ParseObject`と異なるプロパティがいくつかあります。
+
+*   name:役割の名称です。この値は必須で、役割を作成するときに一度だけ設定できます。名前で使える文字は、英数字、スペース、ハイフン（-）、アンダースコア（_）（すべて半角）です。この名称は、objectIdを使用せずに役割を識別するためにも使われます。
+*   users:役割に与えられた許可を継承する一連のユーザーとの[関係](#objects-pointers)です。
+*   roles:役割に与えられた許可を継承するユーザーや役割を包含する一連の役割との[関係](#objects-pointers)です。
+
+
+## 役割オブジェクトのセキュリティ
+
+`ParseRole`はParseの他のオブジェクトと同じセキュリティスキーム（ACL）を使用しますが、ACLを明示的に設定しなくてはならない点が異なります。一般的に、役割の作成や変更は非常に高レベルの権限を持ったユーザー（マスターユーザーや管理者）のみが行うべきものであり、ACLもそれに従って定義すべきです。ユーザーに`ParseRole`への書き込み権限を与えると、そのユーザーは役割にユーザーを追加したり、役割を削除したりできるということを覚えておいてください。
+
+新しい`ParseRole`を作成するには、以下のように記述します。
+
+```java
+// By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
+ParseACL roleACL = new ParseACL();
+roleACL.setPublicReadAccess(true);
+ParseRole role = new ParseRole("Administrator", roleACL);
+role.saveInBackground();
+```
+
+新しい役割の許可を継承するユーザーや役割は、以下のように`ParseRole`の「users」や「roles」の関係を使って追加できます。
+
+```java
+ParseRole role = new ParseRole(roleName, roleACL);
+for (ParseUser user : usersToAddToRole) {
+    role.getUsers().add(user)
+}
+for (ParseRole childRole : rolesToAddToRole) {
+    role.getRoles().add(childRole);
+}
+role.saveInBackground();
+```
+
+役割にACLを割り当てるときには、変更許可を持つべきでないユーザーにまで許可を与えてしまわないよう、十分に注意してください。
+
+
+## その他のオブジェクトのセキュリティ
+
+アプリケーションで使用する役割を作成したので、役割とACLを使ってユーザーの特権を定義できます。各`ParseObject`では、どのユーザーがそのオブジェクトに読み取りや書き込みのアクセス権を与えられているかを示すアクセス制御リストを提供する、`ParseACL`を指定できます。
+
+役割に、オブジェクトへの読み取りや書き込みの許可を与える手順はシンプルです。以下のように、`ParseRole`を使います。
+
+```java
+ParseRole moderators = /* Query for some ParseRole */;
+ParseObject wallPost = new ParseObject("WallPost");
+ParseACL postACL = new ParseACL();
+postACL.setRoleWriteAccess(moderators);
+wallPost.setACL(postACL);
+wallPost.saveInBackground();
+```
+
+ACLの名前を指定することで、役割をクエリすることを避けられます。
+
+```java
+ParseObject wallPost = new ParseObject("WallPost");
+ParseACL postACL = new ParseACL();
+postACL.setRoleWriteAccess("Moderators", true);
+wallPost.setACL(postACL);
+wallPost.save();
+```
+
+役割ベースの`ParseACL`はアプリケーションのデフォルトACLを指定する際にも使用できます。これにより、ユーザーのデータを保護しつつ、同時に、高レベルの特権を持つユーザーにアクセス権を付与することが簡単にできます。たとえば、モデレーターがつく掲示板のアプリケーションでは、以下のようなデフォルトACLを指定します。
+
+```java 
+ParseACL defaultACL = new ParseACL();
+// Everybody can read objects created by this user
+defaultACL.setPublicReadAccess(true);
+// Moderators can also modify these objects
+defaultACL.setRoleWriteAccess("Moderators");
+// And the user can read and modify its own objects
+ParseACL.setDefaultACL(defaultACL, true);
+```
+
+
+## 役割の階層
+
+上で説明したように、役割の中に別の役割を格納して、親子の関係を作ることができます。このような関係を作ると、親の役割に与えられた許可は黙示的に子の役割にも付与されます。
+
+この種の関係性は、掲示板のような、ユーザーが管理するコンテンツを扱うアプリケーションでよく見られます。ごく少数のユーザーのサブセットにはアプリケーションの設定変更、新しいスレッドの作成、グローバルメッセージの設定などが可能な最高レベルのアクセス権を持つ「Administrator」の役割を割り当てます。別のユーザーのサブセットには、ユーザーが不適切なコンテンツを公開しないようチェックする働きを担う「Moderator」の役割を与えます。「Administrator」の特権を持つユーザーには、「Moderator」の持つ許可も与えます。この関係を構築するには、以下のように、役割「Moderator」の子として役割「Administrator」を作成します。
+
+```java
+ParseRole administrators = /* Your "Administrators" role */;
+ParseRole moderators = /* Your "Moderators" role */;
+moderators.getRoles().add(administrators);
+moderators.saveInBackground();
+```

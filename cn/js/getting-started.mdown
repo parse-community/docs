@@ -1,0 +1,19 @@
+# JavaScript 指南
+
+若您尚未设置项目，请<%= link_to '前往快速入门指南', "/apps/quickstart#js/native/blank" %>开始设置并运行。您还可以查看我们的 [API 参考](/docs/js)，了解有关我们 SDK 的更多详细信息。
+
+## 简介
+
+Parse 平台为您的移动应用程序提供完整的后台解决方案。我们的目标是彻底消除编写服务器代码或维护服务器的需要。
+
+我们的 JavaScript SDK 以流行的 [Backbone.js](http://documentcloud.github.com/backbone/) 框架为基础。它与现有的 Backbone 应用程序兼容，您只需进行极少修改。我们的目标是尽量减少配置需要，让您可以很快在 Parse 上创建 JavaScript 和 HTML5 应用。
+
+我们的 SDK 支持 Firefox 23+、Chrome 17+、Safari 5+ 和 IE 10，仅针对托管于 HTTPS 的应用支持 IE 8 和 IE 9。
+
+### 应用
+
+在 Parse 平台上，您可以为每个移动应用需求创建一个应用。每个应用有自己的应用程序 id 和 JavaScript 客户端密钥，您可以把它用于您的 web 应用程序。您的 Parse 帐户可以容纳多个应用。即使您只有一个应用程序，这也很有用，因为您可以部署不同的版本用于测试和产品。
+
+### 相关性
+
+我们的 JavaScript SDK 不需要任何外部库。只有 `Parse.View` 类别的库除外，该类别需要您提供 jQuery 或与 jQuery 兼容的 `$` 方法。

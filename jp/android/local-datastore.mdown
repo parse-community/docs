@@ -1,0 +1,164 @@
+# ローカルデータストア
+
+Parse Android SDKには、ネットワークに接続できないときにも`ParseObject`を保管したり取得したりできるローカルデータストアがあります。この機能を有効にするには、`initialize`を呼び出す前に`Parse.enableLocalDatastore()`を呼び出します。
+
+```java
+import com.parse.Parse;
+import android.app.Application;
+
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+    }
+}
+```
+
+ただし、ローカルデータストアを有効にした場合、いくつかの副作用があることを覚えておいてください。有効にした場合、`ParseObject`のインスタンスは1つに限定されます。たとえば、`objectId`が`"xWMyZ4YEGZ"`の`"GameScore"`クラスのインスタンスがあり、すべての`"GameScore"`に対してその`objectId`で`ParseQuery`を発行したとします。結果は、そのオブジェクトの、すでにメモリにあるインスタンスになります。
+
+もう一つの副作用は、現在のユーザーと現在のインストールがローカルデータストアに保管されることです。そのため、これらのオブジェクトへの変更は、保存されていなくても、以下のメソッドを使用することにより複数回の実行をまたいで維持されます。
+
+`ParseObject`に対して`saveEventually`メソッドを呼び出すことで、そのオブジェクトは保存が完了するまでローカルデータストアに固定されます。そのため、現在の`ParseUser`を変更し、`ParseUser.getCurrent().saveEventually()`を呼び出しても、アプリは常に変更を把握します。
+
+
+## 固定
+
+固定することで、`ParseObject`をローカルデータストアに保管できます。`ParseObject`の固定は保存と同様に再帰的な処理です。そのため、固定するオブジェクトからポイントされているオブジェクトも同様に固定されます。オブジェクトが固定されると、新しいデータをフェッチしたり保存したりしてそのオブジェクトを更新するたびに、ローカルデータストアのコピーも自動的に更新されます。更新に関する明示的な指示は一切不要です。
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.pinInBackground();
+```
+
+複数のオブジェクトがあるときは、`pinAllInBackground`メソッドを使うと一括ですべてを固定できます。
+
+```java
+ParseObject.pinAllInBackground(listOfObjects);
+```
+
+
+## ローカルデータストアからの取得
+
+オブジェクトを保管できても、後で取得できなくては意味がありません。ローカルデータストアからのオブジェクトの取得は、ネットワーク経由での取得とまったく同じです。ただ一つの違いは、`fromLocalDatastore`メソッドを呼び出して、`ParseQuery`に検索場所を指定することです。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.fromLocalDatastore();
+query.getInBackground("xWMyZ4YE",
+    new GetCallback<ParseObject>() {
+        public void done(ParseObject object, ParseException e) {
+            if (e == null) {
+                // object will be your game score
+            } else {
+                // something went wrong
+            }
+        }
+    });
+```
+
+
+## ローカルデータストアへのクエリ
+
+特定の条件に一致するオブジェクトを1つだけIDで取得するのではなく、一致する全オブジェクトのリストを取得したい場合があります。そのようなときは<%= link_to "ParseQuery", "#queries" %>を使います。すべての`ParseQuery`はネットワークと同様にローカルデータストアでも使用できます。結果には、固定したオブジェクトの中でクエリに合致するものが含まれます。オブジェクトに対して行った変更に保存されてないものがある場合、クエリの評価時にその内容も考慮されます。したがって、そのクエリに対してサーバーから返されたことがないローカルのオブジェクトも検索できることになります。
+
+
+## 固定解除
+
+オブジェクトの処理が終了し、ローカルデータストアに保管しておく必要がなくなったら、固定を解除します。こうすることでディスク容量が解放され、ローカルデータストアへのクエリ実行速度が遅くなりません。
+
+```java
+gameScore.unpinInBackground();
+```
+
+複数のオブジェクトの固定を一括で解除するメソッドもあります。
+
+```java
+ParseObject.unpinAllInBackground(listOfObjects);
+```
+
+
+## ラベルをつけた固定
+
+手動でオブジェクトを1つずつ固定したり解除したりするのは、`malloc`や`free`を使うのと似ています。これは非常に強力なツールですが、複雑なシナリオでは、どのオブジェクトを補完するかを管理するのが困難になる場合があります。たとえば、全世界のハイスコアのリストと友達のハイスコアのリストを別々に記録するゲームを作っているとします。もし友達の1人が全世界のハイスコアに載るようなスコアを出した場合、キャッシュされたクエリから削除するときに、完全に固定を解除してしまわないように注意する必要があります。このようなシナリオを扱いやすくするには、ラベルを使って固定します。ラベルを使うと、まとめて保管する必要のあるオブジェクトをグループ化できます。
+
+```java
+// Add several objects with a label.
+ParseObject.pinAllInBackground("MyScores", someGameScores);
+
+// Add another object with the same label.
+anotherGameScore.pinInBackground("MyScores");
+```
+
+同じラベルのついたオブジェクトをすべて同時に固定解除するには、固定解除メソッドにラベルを渡します。こうすることにより、どのオブジェクトがどのグループにあるかを追跡する必要がなくなります。
+
+```java
+ParseObject.unpinAllInBackground("MyScores");
+```
+
+ラベル付きで固定されている間は、オブジェクトはデータストアに残ります。つまり、あるオブジェクトを2つのラベルで固定した場合、片方のラベルで固定解除しても、もう片方のラベルで固定解除しない限り、そのオブジェクトはデータストアに残ります。
+
+
+## クエリ結果のキャッシュ
+
+ラベル付きで固定することで、クエリの結果を簡単にキャッシュできるようになります。クエリごとに別のラベルをつけて結果を固定できます。ネットワークから新しい結果を取得するには、クエリを実行して、固定されたオブジェクトを更新します。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.orderByDescending(“score”);
+
+// Query for new results from the network.
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scores, ParseException e) {
+        // Remove the previously cached results.
+        ParseObject.unpinAllInBackground(“highScores”, new DeleteCallback() {
+            public void done(ParseException e) {
+                // Cache the new results.
+                ParseObject.pinAllInBackground(“highScores”, scores);
+            }
+        });
+    }
+});
+```
+
+キャッシュされたクエリ結果を取得したいときには、同じクエリをローカルデータストアに対して実行します。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.orderByDescending(“score”);
+query.fromLocalDatastore();
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scores, ParseException e) {
+        // Yay! Cached scores!
+    }
+});
+```
+
+
+## ローカルで加えた変更の同期
+
+ローカルで変更を保存したら、その内容をネットワークを通してParseに保存する方法は複数あります。これを実行する最も簡単な方法は、`saveEventually`を利用することです。`ParseObject`に対して`saveEventually`を呼び出すと、保存されるまで固定されます。SDKは、ネットワークが使用できるようになるまで確実にそのオブジェクトを保存します。
+
+```java
+gameScore.saveEventually();
+```
+
+オブジェクトの同期方法をもっと詳細に制御したい場合は、`saveInBackground`を使って手動で保存するまで、ローカルデータストアにオブジェクトを残しておくこともできます。保存対象のオブジェクトを管理するには、ラベルを使用します。`ParseQuery`で`fromPin`メソッドを使うと、簡単に目的のオブジェクトだけをフェッチできます。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.fromPin(“myChanges”);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scores, ParseException e) {
+        for (ParseObject score in scores) {
+            score.saveInBackground();
+            score.unpinInBackground(“myChanges”);
+        }
+    }
+});
+```

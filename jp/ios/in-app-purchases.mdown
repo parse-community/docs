@@ -1,0 +1,116 @@
+# アプリ内の購入
+
+Parseでは、アプリ内の購入と連携する一連のAPIを提供しています。Parseによって、`StoreKit`での作業が簡単になり、クラウドの受領認証付きのダウンロード可能なコンテンツを容易に配信できます。受領認証とは、支払いをした利用者に対してのみそれぞれのダウンロードを制限することができるメカニズムです。
+
+また、デベロッパーはクエリ可能なメタデータを製品に添付して、購入できる製品の分類、検索、そして動的操作をすることができます。
+
+最後に、ParseにアップロードされたコンテンツはAppleのビュープロセスから除外されるため、アップロードが完了次第提供することができます。
+
+### Appleの設定
+
+アプリ内の購入をParseで使用する前に、Appleでアプリと製品を設定する必要があります。このプロセスはプロビジョニングポータルとiTunes Connectの両方の橋渡しとなります。この[ステップバイステップガイド](https://developer.apple.com/library/ios/#technotes/tn2259/_index.html)に従うことをお勧めいたします。
+
+この設定プロセスは複雑ですので、Appleのドキュメントに正確に従うようにしてください。
+
+## シンプルな購入
+
+上記の設定が完了したら、次のようにアプリ内の購入を操作することができます。
+
+メインスレッドで、製品のハンドラを登録する。
+
+```objc
+// Use the product identifier from iTunes to register a handler.
+[PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+    // Write business logic that should run once this product is purchased.
+    isPro = YES;
+}];
+```
+
+これは購入ではなく、後ほど購入となる場合に実行するブロックを登録するだけです。この登録はメインスレッドなので、アプリが起動したらできるだけ早く`application:didFinishLaunchingWithOptions:`などで実行する必要があります。製品が複数ある場合は、 `application:didFinishLaunchingWithOptions`などの同じメソッドですべての製品のハンドラを登録することをお勧めします。
+
+```objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+        ...
+
+        [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+        isPro = YES;
+    }];
+    [PFPurchase addObserverForProduct:@"VIP" block:^(SKPaymentTransaction *transaction) {
+        isVip = YES;
+    }];
+}
+```
+
+購入を開始するには、`+[PFPurchase buyProduct:block:]`メソッドを使用する。
+
+```objc
+[PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
+    if (!error) {
+        // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    }
+}];
+```
+
+`buyProduct:block:`への呼び出しによって、ダイアログが表示され、利用者にAppleのログイン情報を入力するように促します。利用者の身元が確認されたら、製品購入となります。製品が消耗品ではなく、利用者が以前に購入している場合、支払い請求されることはありません。
+
+## ダウンロード可能な購入
+
+書籍や映画などのIAP製品の多くには、購入が完了したらダウンロードできる関連コンテンツファイルがあります。Parseを使って非常に簡単に行うことができます。
+
+1.  まず、ウェブデータブラウザに移動して`Product`クラスを作成する。
+2.  それぞれの製品で、必要なメタデータ情報を入力し、コンテンツファイルをアップロードする。
+        1.  `productIdentifier:` 製品の製品識別子で、iTunes Connectのものと一致させる。</code>
+        2.  `icon:` `PFProductTableViewController`で表示されるアイコン。
+        3.  `title:` `PFProductTableViewController`で表示されるタイトル。
+        4.  `subtitle:` `PFProductTableViewController`で表示されるサブタイトル。
+        5.  `order`: この製品が`PFProductTableViewController`で表示される順番。これは`PFProductTableViewController`のみで使用します。順番が重要でない場合は0と入力します。
+        6.  `download`: ダウンロード可能なコンテンツファイル。
+
+`download`でアップロードされたファイルは公的にアクセス可能なものではなく、購入する際のみにダウンロードできるようになります。`downloadName`は、ダウンロードした後のディスク上のファイル名です。これを入力する必要はありません。
+
+次に、製品のハンドラを登録します。
+
+```objc
+[PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+    [PFPurchase downloadAssetForTransaction:transaction completion:^(NSString *filePath, NSError *error) {
+        if (!error) {
+            // at this point, the content file is available at filePath.
+        }
+    }];
+}];
+```
+
+これは購入ではなく、後ほど購入となる場合に実行するブロックを登録するだけです。`downloadAssetForTransaction:completion:`への呼び出しではParseクラウドに購入受領をパスした後に、購入されたことをAppleで認証します。受領が認証されると、購入したファイルがダウンロードされます。
+
+購入方法
+
+```objc
+[PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
+    if (!error) {
+        // run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    }
+}];
+```
+
+`buyProduct:block:`への呼び出しによって、ダイアログが表示され、利用者にAppleのログイン情報を入力するように促します。利用者の身元が確認されたら、製品購入となります。
+
+## 製品情報のクエリ
+
+`PFProduct`を使用してデータブラウザで作成した製品オブジェクトをクエリすることができます。`PFUser`や`PFRole`のように、`PFProduct`は`PFObject`のサブクラスで、製品固有のさまざまなプロパティへの便利なアクセサが含まれます。
+
+たとえば、次のシンプルなクエリで製品を取得できます。
+
+```objc
+PFQuery *productQuery = [PFProduct query];
+PFProduct *product = [[productQuery findObjects] anyObject];
+NSLog(@"%@, %@", product.productIdentifier, product.title);
+```
+
+## PFProductTableViewController
+
+![](/images/docs/products_table_screenshot.png)
+
+`PFProductTableViewController`は`PFQueryTableViewController`のサブクラスで、すべてのIAP製品をテーブルビューで表示します。漫画やビデオチュートリアルなどを販売するアプリなどのコンテンツアプリの中には、`PFProductTableViewController`を使用して製品を販売する方が簡単な場合があります。デフォルトでは各セルが製品で、セルをタップすることで製品の購入が開始されます。製品に関連するダウンロード可能なコンテンツがある場合、セルが選択され、ダウンロードの進行を表示する進捗バーが表示されると、ダウンロードが開始されます。
+
+このクラスを使用するためには、データブラウザを通じて`Product`クラスにすべての製品情報を入力する必要があります。

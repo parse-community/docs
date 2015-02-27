@@ -1,0 +1,411 @@
+# 查詢
+
+## 基本查詢
+
+在許多情況下，會發生 `getInBackground` 的功能不夠強大，而無法指定欲擷取的物件。 `ParseQuery` 提供擷取一系列物件的不同方式，而不只是單一物件。
+
+一般模式是建立一個 `ParseQuery`，並在上頭設定條件，然後使用 `findInBackground` 方法和 `FindCallback` 擷取相符 `ParseObject` 的 `List`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `whereEqualTo` 方法限制索引鍵的值：
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Dan Stemkoski");
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            Log.d("score", "Retrieved " + scoreList.size() + " scores");
+        } else {
+            Log.d("score", "Error: " + e.getMessage());
+        }
+    }
+});
+```
+
+`findInBackground` 和 `getInBackground` 具有相似的功能，確保網路要求完成於背景執行緒，並在主要執行緒執行回呼。
+
+## 查詢限制
+
+有幾種方式可以在 `ParseQuery` 找到的物件加上限制。您可以利用 `whereNotEqualTo` 篩選出具有特定鍵值組的物件：
+
+```java
+query.whereNotEqualTo("playerName", "Michael Yabuti");
+```
+
+您可以設下多重限制，只有符合全部限制的物件才會出現在結果中。換句話說，就像是限制條件的 AND。
+
+```java
+query.whereNotEqualTo("playerName", "Michael Yabuti");
+query.whereGreaterThan("playerAge", 18);
+```
+
+您可以利用 `setLimit` 限制結果的數目。依據預設，結果的限制為 100，但是任何從 1 到 1000 的數目都是有效的限制：
+
+```java
+query.setLimit(10); // limit to at most 10 results
+```
+
+如果您只想要一個結果，使用 `getFirst` 或 `getFirstBackground` 或許會更方便，而非使用 `find`。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerEmail", "dstemkoski@example.com");
+query.getFirstInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (object == null) {
+            Log.d("score", "The getFirst request failed.");
+        } else {
+            Log.d("score", "Retrieved the object.");
+        }
+    }
+});
+```
+
+您可以利用 `setSkip` 略過第一個結果。這對分頁十分有用：
+
+```java
+query.setSkip(10); // skip the first 10 results
+```
+
+對數字和字串等可排序類型，您可以控制結果傳回的順序：
+
+```java
+// Sorts the results in ascending order by the score field
+query.orderByAscending("score");
+
+// Sorts the results in descending order by the score field
+query.orderByDescending("score");
+```
+
+您可以用以下方式新增更多排序索引鍵至查詢功能：
+
+```java
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+query.addAscendingOrder("score");
+
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+query.addDescendingOrder("score");
+```
+
+針對可排序類型，您也可以在查詢中使用比較指令：
+
+```java
+// Restricts to wins < 50
+query.whereLessThan("wins", 50);
+
+// Restricts to wins <= 50
+query.whereLessThanOrEqualTo("wins", 50);
+
+// Restricts to wins > 50
+query.whereGreaterThan("wins", 50);
+
+// Restricts to wins >= 50
+query.whereGreaterThanOrEqualTo("wins", 50);
+```
+
+如果您希望擷取符合多個不同值的物件，可以使用 `whereContainedIn`（其中有提供可接受值的集合）。這通常適合用於以單一查詢取代多個查詢。舉例來說，如果您想在特定清單中擷取任何玩家達到的分數：
+
+```java
+String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
+query.whereContainedIn("playerName", Arrays.asList(names));
+```
+
+如果您希望擷取的物件不符合多個值的任何一個，可以使用 `whereKey:notContainedIn:`（其中提供可接受值的陣列）。舉例來說，如果您想擷取清單之外玩家的分數：
+
+```java
+String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
+query.whereNotContainedIn("playerName", Arrays.asList(names));
+```
+
+如果您希望擷取具有特定索引鍵集的物件，可以使用 `whereExists`。相反地，如果您希望擷取不具有特定索引鍵集的物件，可以使用 `whereDoesNotExist`。
+
+```java
+// Finds objects that have the score set
+query.whereExists("score");
+
+// Finds objects that don't have the score set
+query.whereDoesNotExist("score");
+```
+您可以使用 `whereMatchesKeyInQuery` 方法取得符合條件的物件（其中某索引鍵符合另一個查詢所產生之物件集中某索引鍵的值）。舉例來說，如果您有一個含有運動隊伍的類別，並且在使用者類別中存放使用者的家鄉，則您可發出查詢，以找出當地球隊擁有獲勝紀錄之使用者的清單。該查詢看起來可能像：
+
+```java
+ParseQuery<ParseObject> teamQuery = ParseQuery.getQuery("Team");
+teamQuery.whereGreaterThan("winPct", 0.5);
+ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+userQuery.whereMatchesKeyInQuery("hometown", "city", teamQuery);
+userQuery.findInBackground(new FindCallback<ParseUser>() {
+    void done(List<ParseUser> results, ParseException e) {
+        // results has the list of users with a hometown team with a winning record
+    }
+});
+```
+
+相反地，若要取得索引鍵不符合另一個查詢所產生之物件集中某索引鍵值的物件，請使用 `whereDoesNotMatchKeyInQuery`。舉例來說，若要找出家鄉的球隊擁有敗戰紀錄的使用者：
+
+```java
+ParseQuery<ParseUser> losingUserQuery = ParseUser.getQuery();
+losingUserQuery.whereDoesNotMatchKeyInQuery("hometown", "city", teamQuery);
+losingUserQuery.findInBackground(new FindCallback<ParseUser>() {
+    void done(List<ParseUser> results, ParseException e) {
+        // results has the list of users with a hometown team with a losing record
+    }
+});
+```
+
+您可以利用索引鍵的集合呼叫 `selectKeys`，限制傳回的欄位。若要擷取只包含 `score` 和 `playerName` 欄位的文件（還有像是 `objectId`、`createdAt` 和 `updatedAt` 的特殊內建欄位）：
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.selectKeys(Arrays.asList("playerName", "score"));
+List<ParseObject> results = query.find();
+```
+
+在傳回物件上呼叫其中一個 `fetchIfNeeded` 變數，可於稍後擷取剩餘欄位：
+
+```java
+ParseObject object = results.get(0);
+object.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        // all fields of the object will now be available here.
+    }
+});
+```
+
+## 陣列值查詢
+
+如果索引鍵包含陣列值，您可以用下列方式搜尋索引鍵陣列值包含 2 的物件：
+
+```java
+// Find objects where the array in arrayKey contains the number 2.
+query.whereEqualTo("arrayKey", 2);
+```
+
+您也可以利用下列方式搜尋索引鍵陣列值包含 2、3 和 4 的物件：
+
+```java
+// Find objects where the array in arrayKey contains all of the numbers 2, 3, and 4.
+ArrayList<Integer> numbers = new ArrayList<Integer>();
+numbers.add(2);
+numbers.add(3);
+numbers.add(4);
+query.whereContainsAll("arrayKey", numbers);
+```
+
+## 字串值查詢
+
+使用 `whereStartsWith` 限制以特定字串開頭的字串值。與 MySQL LIKE 運算子相似，因為已經編制索引，所以對大型資料集而言很有效：
+
+```java
+// Finds barbecue sauces that start with "Big Daddy's".
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereStartsWith("name", "Big Daddy's");
+```
+
+## 關聯性查詢
+
+有幾種方式可以查詢關聯性資料。如果您希望擷取欄位符合特定 `ParseObject` 的物件，可以使用 `whereEqualTo`，就如其他資料類型一樣。舉例而言，如果每個 `Comment` 在其 `post` 欄位中都有一個 `Post` 物件，您可以針對特定 `Post` 擷取留言：
+
+```java
+// Assume ParseObject myPost was previously created.
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereEqualTo("post", myPost);
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // commentList now has the comments for myPost
+    }
+});
+```
+
+如果您希望擷取欄位包含 `ParseObject` 符合不同查詢的物件，可以使用 `whereMatchesQuery`。請注意，預設限制 100 與最高限制 1000 同樣適用於內部查詢，因此在處理大型資料集時，您可能需要小心地建構您的查詢，以取得您想要的行為。若要尋找圖文貼文的留言，您可以這樣做：
+
+```java
+ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
+innerQuery.whereExists("image");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereMatchesQuery("post", innerQuery);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // comments now contains the comments for posts with images.
+    }
+});
+```
+
+如果您希望擷取欄位包含 `ParseObject` 符合不同查詢的物件，可以使用 `whereDoesNotMatchQuery`。若要尋找非圖文貼文的留言，您可以這樣做：
+
+```java
+ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
+innerQuery.whereExists("image");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereDoesNotMatchQuery("post", innerQuery);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // comments now contains the comments for posts without images.
+    }
+});
+```
+
+在部分情況下，您可以在一次查詢中傳回多種相關物件。您可以利用 `include` 方法執行此操作。舉例來說，假設您正在擷取最後十則留言，而且希望同時擷取與留言相關的貼文：
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+
+// Retrieve the most recent ones
+query.orderByDescending("createdAt");
+
+// Only retrieve the last ten
+query.setLimit(10);
+
+// Include the post data with each comment
+query.include("post");
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // commentList now contains the last ten comments, and the "post"
+        // field has been populated. For example:
+        for (ParseObject comment : commentList) {
+            // This does not require a network access.
+            ParseObject post = comment.getParseObject("post");
+            Log.d("post", "retrieved a related post");
+        }
+    }
+});
+```
+
+您也可以進行多層次查詢，包含使用點標記法。如果您希望加入留言的貼文與貼文的作者，您可以這樣做：
+
+```java
+query.include("post.author");
+```
+
+透過多次呼叫 `include`，您可以發出包含多個欄位的查詢。這個功能也可以與 ParseQuery 協助程式一起使用，像是 `getFirst()` 和 `getInBackground()`。
+
+## 查詢本機資料存放區
+
+若是在開始 `Parse.initialize()` 的呼叫前先透過呼叫 `Parse.enableLocalDatastore()` 啟動本機資料存放區，那麼您也可以針對在本機存放於裝置的物件進行查詢。若要執行這個動作，請在查詢上呼叫 `fromLocalDatastore` 方法。
+
+```java
+query.fromLocalDatastore();
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            // Results were successfully found from the local datastore.
+        } else {
+            // There was an error.
+        }
+    }
+});
+```
+
+您可以使用與在網路上所使用完全相同的查詢，從本機資料存放區進行查詢。結果會包含符合已釘選至裝置之查詢的每個物件。該查詢甚至考量到任何您對物件做出且尚未儲存至雲端的任何變更。舉例來說，如果您在物件上呼叫 `deleteEventually`，物件將不再從這些查詢傳回。
+
+## 快取查詢
+
+在裝置上快取查詢的結果，通常很有幫助。這讓您可以在使用者的裝置離線時，或是在應用程式剛啟動而網路要求未能及時完成時顯示資料。利用本機資料存放區進行此操作，是最簡單的做法。您可以在釘選物件時附加標籤，這將使您可以一起管理整個群組的物件。舉例而言，若要快取上述查詢的結果，您可以呼叫 `pinAllInBackground`，並且附加標籤。
+
+```java
+final String TOP_SCORES_LABEL = "topScores";
+// Query for the latest objects from Parse.
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(final List<ParseObject> scoreList, ParseException e) {
+        if (e != null) {
+            // There was an error or the network wasn't available.
+            return;
+        }
+        // Release any objects previously pinned for this query.
+        ParseObject.unpinAllInBackground(TOP_SCORES_LABEL, scoreList, new DeleteCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    // There was some error.
+                    return;
+                }
+                // Add the latest results for this query to the cache.
+                ParseObject.pinAllInBackground(TOP_SCORES_LABEL, scoreList);
+            }
+        });
+    }
+});
+```
+
+現在，當您利用 `fromLocalDatastore` 進行任何查詢時，如果這些物件仍然符合該查詢，則將會加入結果中。
+
+如果您未使用本機資料存放區，則可以使用 `ParseQuery` 的每個查詢快取。預設查詢的行為不會使用快取，但是您可以利用 `setCachePolicy` 啟用快取。舉例來說，若要嘗試連上網路，並在無法使用網路時切換回快取資料：
+
+```java
+query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            // Results were successfully found, looking first on the
+            // network and then on disk.
+        } else {
+            // The network was inaccessible and we have no cached data
+            // for this query.
+        }
+    }
+});
+```
+
+Parse 提供幾種不同的快取原則：
+
+*   `IGNORE_CACHE` 查詢未從快取載入，或是未將結果儲存至快取。`IGNORE_CACHE` 為預設的快取原則。
+*   `CACHE_ONLY` 查詢只從快取載入，而忽略網路。如果沒有快取結果，則會導致 `ParseException`。
+*   `NETWORK_ONLY` 查詢未從快取載入，但是會將結果儲存至快取。
+*   `CACHE_ELSE_NETWORK` 查詢先嘗試從快取載入，如果失敗，則會從網路載入結果。如果快取或網路皆失敗，就會產生 `ParseException`。
+*   `NETWORK_ELSE_CACHE` 查詢先嘗試從網路載入，如果失敗，則會從快取載入結果。如果網路或快取皆失敗，就會產生 `ParseException`。
+*   `CACHE_THEN_NETWORK` 查詢先從快取載入，然後從網路載入。在這個情況下，實際上會呼叫 `FindCallback` 兩次；第一次是使用快取結果，然後是使用網路結果。這個快取原則不能與 `findInBackground` 同時使用。
+
+如果您需要控制快取的行為，可以使用 ParseQuery 提供的方法與快取互動。您可以於快取上進行以下操作：
+
+*   利用以下操作，查看是否有查詢的快取結果： ```java boolean isInCache = query.hasCachedResult();            ```*   利用以下操作，移除查詢的任何快取結果： ```java query.clearCachedResult();            ```
+*   利用以下操作，移除所有查詢的快取結果： ```java ParseQuery.clearAllCachedResults();        ``` 
+
+查詢快取也能與 ParseQuery 協助程式一起使用，包含 `getFirst()` 和 `getInBackground()`。
+
+## 計算物件
+
+如果您只需要計算有多少符合查詢的物件，但是不需要擷取所有符合的物件，可以使用 `count` 取代 `find`。舉例來說，若要計算某特定玩家已經進行了幾場遊戲：
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Sean Plott");
+query.countInBackground(new CountCallback() {
+    public void done(int count, ParseException e) {
+        if (e == null) {
+            // The count request succeeded. Log the count
+            Log.d("score", "Sean has played " + count + " games");
+        } else {
+            // The request failed
+        }
+    }
+});
+```
+
+如果您希望封鎖呼叫執行緒，也可以使用同步 `query.count()` 方法。
+
+對於超過 1000 個物件的類別，計算作業會受到逾時的限制。這可能會不斷出現逾時錯誤或傳回只是近似正確的結果。因此，比較好的做法是在設計您的應用程式時，避免這種計算作業。
+
+## 複合查詢
+
+如果您希望尋找符合數個查詢其中之一的物件，可以使用 `ParseQuery.or` 方法建構傳入查詢的 OR 查詢。例如，如果您希望尋找勝場數多或勝場數少的玩家，可以這樣做：
+
+```java
+ParseQuery<ParseObject> lotsOfWins = ParseQuery.getQuery("Player");
+lotsOfWins.whereGreaterThan(150);
+
+ParseQuery<ParseObject> fewWins = ParseQuery.getQuery("Player");
+fewWins.whereLessThan(5);
+
+List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+queries.add(lotsOfWins);
+queries.add(fewWins);
+
+ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+mainQuery.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> results, ParseException e) {
+        // results has the list of players that win a lot or haven't won much.
+    }
+});
+```
+
+您可將其他限制新增至作為「and」運轉子的新建 `ParseQuery`。
+
+請注意，我們並不支援複合查詢子查詢中的非篩選條件限制（例如，`setLimit`、`skip`、`orderBy...`、`include`）。

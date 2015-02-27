@@ -1,0 +1,49 @@
+# 分析
+
+Parseには、アプリの動作状態を確認するためのフックが数多く用意されています。アプリが何をどのような頻度でいつ処理しているかを把握することには、大きな意味があります。
+
+この項ではParseの分析バックエンドを最大限に活用してアプリの動作を確認する方法を説明しますが、データの保管や取得にParseを使用している開発者は、Parseが提供している測定値をすぐに利用できます。
+
+クライアント側にロジックを実装することなく、アプリのダッシュボードでAPIリクエストのリアルタイムグラフや詳細（デバイスタイプごと、Parseクラス名ごと、REST命令ごと）を表示し、それらのグラフフィルタを保存して、見たいデータにすばやくアクセスできます。
+
+
+## アプリ起動/プッシュ分析
+
+最初の分析フックでは、アプリケーションの起動を追跡します。メイン`Activity`の`onCreate`メソッドに以下の行を追加すると、アプリケーションがいつ、どの程度の頻度で起動されたかを追跡できます。
+
+```java
+ParseAnalytics.trackAppOpened(getIntent());
+```
+
+この統計値のグラフや詳細は、アプリのダッシュボードからアクセスできます。
+
+さらに、プッシュ通知の配信や開封率に関する分析も可能です。通知のペイロードやプッシュ関連のコールバックの処理に関する詳細情報は『Push Guide』の[「Tracking Pushes and App Opens」サブセクション](/docs/push_guide#receiving-tracking/Android)を参照してください。
+
+
+## カスタム分析
+
+`ParseAnalytics` では、少数の`String`キーと値を使用して、フリーフォームイベントの追跡もできます。これらのディメンションを追加することにより、アプリのダッシュボードでカスタムイベントをより細かく分類できます。
+
+たとえば、あなたのアプリには賃貸住宅の情報を検索する機能があるとすると、その機能がどの程度頻繁に使用されているかを、メタデータを追加して追跡できます。
+
+```java
+Map<String, String> dimensions = new HashMap<String, String>();
+// Define ranges to bucket data points into meaningful segments
+dimensions.put("priceRange", "1000-1500");
+// Did the user filter the query?
+dimensions.put("source", "craigslist");
+// Do searches happen more often on weekdays or weekends?
+dimensions.put("dayType", "weekday");
+// Send the dimensions to Parse along with the 'search' event
+ParseAnalytics.trackEvent("search", dimensions);
+```
+
+`ParseAnalytics` は軽量なエラートラッカーとしても使えます。以下を呼び出すと、アプリにおけるエラーの発生率や頻度の概要をエラーコードごとに分類して確認できます。
+
+```java
+Map<String, String> dimensions = new HashMap<String, String>();
+dimensions.put('code', Integer.toString(error.getCode()));
+ParseAnalytics.trackEvent('error', dimensions);
+```
+
+Parseでは現在、コールごとに最初の8つのディメンションペアを`ParseAnalytics.trackEvent()`に保管します。

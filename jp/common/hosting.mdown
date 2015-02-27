@@ -1,0 +1,368 @@
+# Hosting
+
+Parse Hostingには、ウェブサイトを静的および動的にホストするためのツールがあります。クライアント側でJavaScript SDK、サーバー側でCloud CodeおよびExpressを使用して、任意の静的なウェブコンテンツをアップロードしたり、動的なウェブアプリを作成したりすることができます。これらを使用して、ネイティブアプリに対するコンパニオンウェブアプリやモバイルアプリの移動先ページを作成したり、またUnity Web Playerのバイナリをホストしたりすることもできます。
+
+開発用に使用しているコンピュータに、Parseのコマンドラインツールをインストールする必要があります。これによって、Parse Cloudでウェブサイトを管理できるようになります。コマンドラインツールのバージョンは、1.1.0以降である必要があります。
+
+## コマンドラインツールのインストールまたは更新(Mac/Linux)
+
+Mac OS環境およびLinux/Unix環境では、次のコマンドを実行してParseツールを入手します。
+
+```bash
+curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
+```
+
+これによって、「parse」という名前のツールが`/usr/local/bin/parse`にインストールされます。この他にファイルなどはないため、アンインストールする場合はこのファイルを削除するだけです。また、すでにこのコマンドラインツールがインストールされている場合も、この手順によって更新されます。
+
+## コマンドラインツールのインストール(Windows)
+
+Windows版のParseコマンドラインツールは、[こちら](/downloads/windows/console/parse.zip)から入手できます。zipファイルをダウンロードして解凍した後、ParseConsole.exeをダブルクリックすると、Parseに対応したPowerShellセッションが起動します。PowerShellセッションは、ParseConsoleを初めて実行した後にWindowsキーとRキーを同時に押し、「parse」と入力することでも起動できます。
+
+## プロジェクトディレクトリの作成
+
+次に、クラウドで実行するウェブサイトを保管するためのディレクトリを作成します。このディレクトリを設定するには、`parse new`コマンドを実行します。次のように、Hostingで作成するアプリを選択するよう求められます。
+
+```bash
+$ parse new MyWebsite
+Email: ninja@gmail.com
+Password:
+1:MyApp
+Select an App: 1
+$ cd MyWebsite
+```
+
+メールアドレスとパスワードを使用してParseのアカウントにログインします。OAuthからサインアップして、パスワードを設定していない場合は、ここでアカウント設定を編集してパスワードを設定する必要があります。以上で、現在のディレクトリに`MyWebsite`というディレクトリが作成されます。次のファイルが自動的に作成されます。
+
+```bash
+-config/
+  global.json
+-cloud/
+  main.js
+-public/
+  index.html
+```
+
+`config`ディレクトリにはJSON設定ファイルがありますが、通常はこれを編集する必要はありません。`cloud`ディレクトリには動的ウェブサイトのコードが、`public`ディレクトリにはParseでホストするすべての静的コンテンツが保存されます。この時点では、これらのファイルが正しく作成されていることだけを確認してください。ソースコントロールを使用している場合は、これらのファイルをすべてチェックインすることができます。
+
+## シンプルなウェブサイト
+
+Parseを使用して静的なコンテンツをホストすることは簡単です。`public`ディレクトリにあるすべてのコンテンツが、`your-custom-subdomain.parseapp.com`でホストされます。このディレクトリは、`cloud`ディレクトリおよび`config`ディレクトリと同じ場所に配置します。
+
+Hello Worldウェブサイトの展開は、次の操作だけで実行できます。
+
+```bash
+$ echo "Hello World" > public/index.html
+$ parse deploy
+```
+
+展開したウェブサイトにアクセスするには、サブドメインの定義が必要です。
+
+### サブドメイン名の選択
+
+ホストするコンテンツにアクセスするには、まずParseAppサブドメインを選択する必要があります。アプリ設定の「Web Hosting」セクションでサブドメインを設定できます。ParseAppの名前を入力するフィールドがあります。サブドメイン名はアプリ名と異なり、大文字小文字が区別されません。またParseシステム全体で一意である必要があります。3～20文字の英数字とダッシュ文字を使用して指定します。ダッシュは名前の先頭と末尾には使用できません。一意のサブドメイン名を選択すると、この名前はまだ使用されていないことを表すチェックマークが表示されます。
+
+ウェブサイトのサブドメイン名として`at-the-movies`を選択したとすると、その後はルートURLとして`at-the-movies.parseapp.com`を指定してアクセスできるようになります。別のホストファイルを`public/images/background.png`からアップロードした場合は、`at-the-movies.parseapp.com/images/background.png`と指定してアクセスできます。
+
+### アップロードに関する制約事項
+
+ホストするファイルについては、いくつかの制約事項があります。
+
+*   ファイルの大きさは500メガバイトまで。
+*   アップロードできるファイルの数は500まで。
+*   ファイル名には英数字、ダッシュ、アンダースコア、スペース、「@」記号だけを使用し、ファイル名の先頭は英数字であること。
+*   コマンドラインツールでは、emacsとvimの自動保存ファイルは自動的に無視します。
+
+ホストするあらゆるタイプのコンテンツを自由にアップロードできます。Parseではファイルの拡張子からコンテンツのタイプを推測します。
+
+## ドメイン名のカスタマイズ
+
+カスタマイズしたドメイン名でコンテンツをホストすることもできます。たとえば`at-the-movies`という名前のParseApp名を選び、コンテンツを`www.example.com`でホストする場合は、次の3つの手順が必要です。
+
+1.  `www.example.com`に対するDNSエントリを制御する場合について説明します。これを行うには、CNAMEを`at-the-movies.parseapp.com`に`www.example.com`または`[your_host_name_key].www.example.com`から追加します。使用するホスト名は12文字の文字列で、アプリケーション設定の「Web Hosting」のセクションにあります。新しいDNSエントリが伝達されるには、たいていは15分程度から数時間程度かかります。これが完了するまで、次の手順に進むことはできません。現在ウェブサイトを`www.example.com`でホストしている場合は、このホスト名キーメソッドを使用したいことと思われます。これを使用しないと、次の手順を完了する前にユーザーが新しいDNSエントリを参照したときに、ウェブサイトにダウンタイムが発生するおそれがあります。
+2.  新しいDNSの伝達が完了したら、自身のアプリのホスト設定で、使用するホスト名を`www.example.com`に設定します。最初の手順が正しく完了していれば、チェックマークが表示されています。正しく完了していない場合は、異常を知らせるエラー メッセージが表示されます。
+3.  ホスト名キーを使用して所有権を確認すると、CNAMEを`www.example.com`から`at-the-movies.parseapp.com`に追加して、ホストするアプリへのトラフィックの送信が開始されるようにする必要があることがわかります。
+
+上記の操作が完了すると、`www.example.com`から`at-the-movies.parseapp.com`と同じコンテンツが表示されるようになります。
+
+コンテンツを`example.com`といった最上位のドメインから表示させようとすると、上記の手順では問題が生じる場合があります。これはルートドメインでは通常はCNAMEレコードがサポートされていないためです。この状況に対応するために、Parseでは`example.com`のようなルートドメインから`www.example.com`サブドメインにトラフィックをリダイレクトするサービスを用意しています。このサービスを利用するには、`www.example.com`のようにwwwという接頭辞を使用して上記の手順を実行した後、`example.com`から次のIPアドレスの一方または両方への`A`レコードを作成します。
+
+*   `54.85.233.145`
+*   `54.85.226.190`
+
+`A`レコードは、ドメイン名サービスプロバイダの設定ページで作成できます。`A`レコードを作成した後、`example.com`に対するリクエストは`www.example.com`にリダイレクトされる301 (permanent)となり、このリクエストパスは維持されます。
+
+ホストしているサイトにカスタマイズしたドメインを使用してHTTPSでアクセスすると、このウェブサイトは`*.parseapp.com`に属するSSL証明書を使用してコンテンツを表示しているという警告が表示されることがあります。カスタマイズしたドメインに属するSSL証明書を持っている場合は、アプリ設定の「Web Hosting」セクションにあるパブリック証明書ファイルとプライベートキーファイルをアップロードすると、この警告を解消できます。ドメインのパブリック証明書に中間証明書が必要な場合は、パブリック証明書、中間証明書、ルート証明書を1つのファイルにこの順番でまとめて、これをアプリ設定の「SSL Public Certificate」としてアップロードします。10分から30分で証明書がParseのホスティングサーバーに伝達され、ホストするサイトにHTTPSを使用してアクセスするユーザーにコンテンツが表示されるようになります。
+
+## 動的なウェブサイト
+
+Cloud CodeとExpressを使用して、複数のページを持つ動的なウェブアプリを作成できます。[Express](http://expressjs.com/)のフレームワークでは、リクエストのルーティング、Cookieの処理、テンプレートのレンダリングなど、強力なツールをすぐに使用できます。また[Cloud Code](/docs/jp/cloud_code_guide)では、Parseのデータを利用したり、[HTTPリクエストの送信](/docs/jp/cloud_code_guide#networking)などの機能を使用したりすることができます。
+
+Parseを使用する際には、Expressを使用してページが複数あるウェブアプリを作成するか、クライアント側のParse JavaScript SDKを使用して1ページのBackboneアプリを作成するかを選択できます。Expressの方式には、作成したウェブサイトが検索エンジンでクロールされるという利点があります。またクライアント側のBackboneによる方式では、アプリの応答性がよくなる場合があります。ExpressとCloud Codeの詳細な説明については、「[Express API docs](/docs/js/symbols/express.html)」を参照してください。
+
+Expressを使用すると、アプリを迅速に起動および実行できるようになりますが、より低いレベルの[Node.js](http://nodejs.org/)のようなHTTPインターフェイスを望まれるのであれば、それも使用できます。詳細については、「[HTTP interface API docs](/docs/js/symbols/http.html)」を参照してください。ExpressまたはNode.jsを使用する場合は、まず`public/index.html`を削除して、カスタマイズされたハンドラ関数にリクエストが届くようにする必要があります。
+
+このガイドでは、Express APIを使用してウェブアプリを作成する方法について説明します。
+
+### はじめに
+
+Parse Hostingを[設定](#started-project)した後、次のように入力すると、Parseのプロジェクトフォルダにスターターウェブアプリを作成できます。
+
+```bash
+$ parse generate express
+```
+
+このコマンドによって、cloudフォルダに次のディレクトリ構造が作成されます。既存のmain.js fileは変更されません。
+
+```bash
+-cloud/
+  app.js
+  -views/
+    hello.ejs
+  main.js (not touched)
+```
+
+次に、`main.js`の先頭に次の行を追加します。これによって`app.js`のコードが確実に読み込まれます。
+
+```js
+require('cloud/app.js');
+```
+
+次に、`parse deploy`を実行して、ウェブアプリを展開します。展開後、ウェブアプリは`your-custom-subdomain.parseapp.com/hello`に配置されます。このサンプルアプリについて以下で詳しく説明します。
+
+### サンプルウェブアプリ
+
+それでは、スターターウェブアプリについて詳しく見て行き、Expressで何ができるかについて確認しましょう。スターターアプリをまだ作成していない場合は、[こちらの説明](#webapp-started)に従って作成してください。
+
+Expressアプリのトップレベルのエントリポイントは`app.js`であり、ここでアプリが初期化され、リクエストパスがExpressのルーティングAPIによって対応するロジックにフックされます。このファイルは`main.js`で必要になります。これはCloud CodeでJavaScriptを読み込むときに`main.js`から開始するためです。Cloud Functionは`main.js`に記述し、Expressに関連するコードはすべて`app.js`に記述することをおすすめします。
+
+サンプルアプリでは、`app.js`は次のようになります。
+
+```js
+// These two lines are required to initialize Express.
+var express = require('express');
+var app = express();
+
+// Global app configuration section
+app.set('views', 'cloud/views');  // Specify the folder to find templates
+app.set('view engine', 'ejs');    // Set the template engine
+app.use(express.bodyParser());    // Middleware for reading request body
+
+// This is an example of hooking up a request handler with a specific request
+// path and HTTP verb using the Express routing API.
+app.get('/hello', function(req, res) {
+  res.render('hello', { message: 'Congrats, you just set up your app!' });
+});
+
+// This line is required to make Express respond to http requests.
+app.listen();
+```
+
+先頭部分にあるグローバルアプリの設定セクションで、アプリの設定を指定し、Expressのミドルウェアを初期化します。アプリの設定では、ウェブページをレンダリングするためのテンプレートエンジンや、テンプレートのソースファイルの場所などを指定します。Expressのミドルウェアは、受け取ったリクエストの前処理を実行するオプションのコンポーネントです。このセクションで指定したミドルウェアは、すべてのリクエストパスに適用されます。
+
+このサンプルアプリの場合も`cloud/views`フォルダがあり、ここにEJSテンプレートファイル(`hello.ejs`)が配置されています。このテンプレートでは、`message`変数が`app.js`の`res.render()`の行に指定した値に置き換えられます。
+
+### リクエストの処理
+
+リクエストのテキストを読み取り、リクエストのテキストに含まれているメッセージを使用して応答するという、シンプルなリクエストハンドラについて見て行きましょう。
+
+```js
+app.post('/echo', function(req, res) {
+  res.set('Content-Type', 'text/plain');
+  res.send('echoing: ' + req.body.message);
+});
+```
+
+リクエストハンドラは、すべて`app.VERB`で始まります。ここで`VERB`は、`get`、`post`、`put`、`delete`といった標準的なHTTP動詞のいずれかになります。これによって、このハンドラで応答するHTTPリクエストのタイプをExpressに伝えます。
+
+次に、`'/echo'`パラメータを使用して、このリクエストハンドラの応答先のURLパス(ルートとも呼ばれます)を指定します。次に、リクエストおよびレスポンスオブジェクトに取り込んで、リクエストの処理ロジックを実行するための関数を指定します。`express.bodyParser`ミドルウェアを使用していれば、`req.body`に入力データが設定されます。たとえば、未加工のリクエストボディが`{ "message": "hi" }`の場合は、上記の`req.body.message`には`'hi'`という値が入ります。最後に、[`res.send()`](/docs/js/symbols/express.Response.html#send)によってレスポンスオブジェクトに指定した文字列を入れるようにExpressに伝えます。
+
+### Expressのミドルウェア
+
+ミドルウェアとは、リクエストがリクエストハンドラに到達する前に処理を実行するモジュールです。これらのコンポーネントによって、未加工のHTTPリクエストがリクエストオブジェクトに変換され、リクエストハンドラで処理しやすくなります。Cloud Codeでは、Expressから提供されている次のミドルウェアに対応しています。
+
+*   [`express.basicAuth()`](/docs/js/symbols/express.html#.basicAuth) - ウェブサイトにHTTPのBasic認証を設定できます。
+*   [`express.bodyParser()`](/docs/js/symbols/express.html#.bodyParser) - HTTPのリクエストボディ(JSONまたはwww形式でエンコード)を`request.body`オブジェクトに変換します。
+*   [`express.methodOverride()`](/docs/js/symbols/express.html#.methodOverride) - HTTPポストだけをサポートする標準的なウェブフォームです。このミドルウェアによって、ウェブフォームからHTTPリクエストのputやdeleteがExpressに宛てて発行されます。これは特にRESTの原則に厳密に従いたい場合に便利です。
+*   [`express.cookieParser()`](/docs/js/symbols/express.html#.cookieParser) - ブラウザから送られるリクエストのcookieを読み取って、これを`request.cookies`オブジェクトおよび`express.request.signedCookies`オブジェクトに送ります。
+*   [`express.cookieSession()`](/docs/js/symbols/express.html#.cookieSession) - `request.session`オブジェクトを設定して、セッションのデータを署名付きcookieに保管できます。
+*   [`express.csrf()`](/docs/js/symbols/express.html#.csrf) - クロスサイトリクエストフォージェリから保護します。
+
+この他に、次のようなミドルウェアもあります。
+
+*   [`parseExpressRawBody()`](/docs/js/symbols/parseExpressRawBody.html) - 未加工のリクエストボディに`req.body`の[`Buffer`](/docs/js/symbols/Buffer.html)オブジェクトとしてアクセスできます。この機能はリクエスト内のバイトに直接アクセスしたい場合、またはリクエストハンドラの独自のパーサーを使用してリクエストボディを他のデータ形式(XMLなど)として読み取りたい場合に便利です。
+
+アプリにミドルウェアを追加するには、[`app.use()`](/docs/js/symbols/express.Application.html#use)を使用します。Expressの標準のミドルウェアは関数であり、それに応じた形式で呼び出す必要があります(たとえば`app.use(express.csrf()`)。`app.VERB()`を使用してリクエストハンドラを登録する前に、アプリのミドルウェアを追加する必要があります。
+
+Expressのミドルウェアをグローバルアプリの設定セクションで設定するときには、上記の順序に従ってください。不要なミドルウェアは除外できます。ミドルウェアの順序は重要です。後から設定したミドルウェアは、先に設定されたミドルウェアによって作成されたデータの影響を受けるためです。
+
+### レンダリングテンプレート
+
+テンプレートはウェブコンテンツを動的に作成し、コードの重複を少なくするために非常に有効な手段です。Cloud Codeには、EJSおよびJadeテンプレートエンジン用のモジュールがあります。
+
+テンプレートエンジンは、グローバルアプリの設定セクションで`app.set('view engine', ENGINE_NAME)`という構文を使用して指定します。ここで`ENGINE_NAME`には`'ejs'`または`'jade'`を指定できます。`cloud/views`フォルダにあるテンプレートファイルの拡張子は、`ENGINE_NAME`に対応するものである必要があります。このサンプルアプリのテンプレートは、EJS (`hello.ejs`)またはJade (`hello.jade`)で次のようになります。
+
+```html
+<!-- Using EJS syntax -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sample App</title>
+  </head>
+  <body>
+
+# Hello World
+
+<%%= message %>
+
+  </body>
+</html>
+```
+
+```html
+// Using Jade syntax
+doctype 5
+html
+  head
+    title Sample App
+  body
+    h1 Hello World
+    p= message
+```
+
+各テンプレートエンジンの構文の詳細については、「[EJS](https://github.com/visionmedia/ejs)」および「[Jade](https://github.com/visionmedia/jade)」を参照してください。
+
+テンプレートをレンダリングするには、[`res.render()`](/docs/js/symbols/express.Response.html#render)を呼び出します。最初の引数は、テンプレートファイルの名前です。ファイルに拡張子が付けられていない場合は、Expressによってアプリのテンプレートエンジンの設定に対応する拡張子を持つファイルが検索されます。2番目の引数は、テンプレート内のすべての変数とその値を記述したJSONオブジェクトです。テンプレート内の各変数はプレースホルダとして機能し、テンプレートをレンダリングする際に実際の値に置き換えられます。
+
+### ユーザーによる入力の取得
+
+ユーザーによる入力は、Cloud CodeではExpressを使用して簡単に取得できます。ユーザーがテキストを入力できるフォーム要素をテンプレートに作成し、次にフォームの送信によって発行されるリクエストのためのリクエストハンドラを追加します。
+
+サンプルアプリのテンプレートにシンプルなフォームを追加してみましょう。`hello.ejs`または`hello.jade`の内容を次のコードで置き換えてください。
+
+```html
+<!-- Using EJS syntax -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sample App</title>
+  </head>
+  <body>
+
+# Hello World
+
+    <p><%%= message %>
+
+    <form method="post" action="/hello">
+
+        <input name="message"></input>
+        <input class="button" type="submit" value="Update Greeting">
+
+    </form>
+  </body>
+</html>
+```
+```
+// Using Jade syntax
+doctype 5
+html
+  head
+    title Sample App
+  body
+    h1 Hello World
+    p= message
+    form(method="post", action="/hello")
+      p
+        input(type="text", name="message")
+        input(type="submit", name="submit", value="Update Greeting")
+```
+
+次に、HTTPのpostリクエストに対するリクエストハンドラを`app.js`に追加する必要があります。
+
+```js
+app.post('/hello', function(req, res) {
+  res.render('hello', { message: req.body.message });
+});
+```
+
+ユーザーがテキストボックスに「hi」と入力し、[Update Greeting]ボタンをクリックしたとします。このフォームからHTTPのpostリクエストがURL、`http://example.parseapp.com/hello`に送信されます。リクエストボディは`message=hi`です。`express.bodyParser`ミドルウェアがこのリクエストボディを読み取り、`req.body.message`を`'hi'`に設定します。HTTP動詞とURLパスの両方が一致したため、リクエストによって上記のリクエストハンドラがトリガされます。最後に、リクエストハンドラによって`'hi'`が`message`変数のプレースホルダに挿入されて、`hello.ejs`テンプレートがレンダリングされます。
+
+### ユーザーセッションの管理
+
+`parseExpressCookieSession`ミドルウェアを使用して、[`Parse.User`](/docs/jp/js_guide#users)の認証とセッション管理機能をExpressアプリに加えることができます。Cloud Codeで`Parse.User.logIn()`を呼び出すだけで、このミドルウェアによってユーザーセッションが自動的に管理されます。
+
+ユーザーにログイン情報を求めるウェブフォームを使用して、このフォームからデータを受け取ったときにCloud Codeにユーザーをログインさせることができます。`Parse.User.logIn()`を呼び出すと、このミドルウェアによってユーザーのブラウザにcookieが自動的に設定されます。その後、同じブラウザからHTTPリクエストが送られると、このミドルウェアがこのcookieを使用してCloud Codeに[現在のユーザー](/docs/jp/js_guide#users-current)を設定します。この仕組みによって、Cloud Codeで[ACL](/docs/jp/js_guide#users-acls)が正しく機能し、必要に応じて現在のユーザーオブジェクト全体を取得できます。最後に、`Parse.User.logOut()`を呼び出してユーザーをCloud Codeからログアウトさせると、このミドルウェアによってブラウザのcookieが自動的に削除されます。サンプルアプリのコードについては、このミドルウェアの[マニュアル](/docs/js/symbols/parseExpressCookieSession.html)を参照してください。
+
+ユーザーのデータを取り扱う際には、可能な限りHTTPSを使用する必要があります。`parseExpressCookieSession`ミドルウェアでは、アプリとユーザーを保護するためにHTTPSを使用することを求めています。利便性向上のために、すべてのHTTPリクエストをHTTPSにリダイレクトする`parseExpressHttpsRedirect`ミドルウェアもあります。詳細については、その[マニュアル](/docs/js/symbols/parseExpressHttpsRedirect.html)を参照してください。
+
+### 静的なコンテンツ
+
+Expressアプリは、`public`フォルダから展開する静的なコンテンツと同じ場所に配置できます。リクエストがサブドメインのURLに送られると、Parseは一致するファイルをまず`public`ディレクトリで探します。一致するものがないと、ParseはCloud Codeで登録されているExpressリクエストハンドラを起動します。それでも一致するものがない場合は、Parseによって「404 Not Found」ページがレンダリングされます。
+
+Expressと一緒に静的なコンテンツを使用している場合は、プロジェクトで次のディレクトリ構造を使用することをおすすめします。
+
+```bash
+-cloud/
+  main.js            Cloud Code functions, require cloud/app.js here
+  app.js             Express app configuration and request handling logic
+  -views/            View template files that Express needs to render
+    hello.ejs
+-public/
+  example.html       Static HTML files
+  favicon.ico        Your favicon logo
+  -stylesheets/      CSS stylesheets
+    style.css
+```
+
+## ログ
+
+`parse log`で表示されるログファイルにメッセージのログを記録したい場合は、`console.log`、`console.error`、または`console.warn`を使用できます。`console.error`と`console.warn`はいずれもエラーログに書き込みを行います。
+
+```js
+app.post('/hello', function(req, res) {
+  console.log("New message: " + req.body.message);
+  res.render('hello', { message: req.body.message });
+});
+```
+
+## 開発用と本番用
+
+新しいコードを試すには開発用アプリを使用し、一般に公開するアプリには本番用アプリを使用するということができます。
+
+### プロジェクトへの新規アプリの追加
+
+プロジェクトには複数のアプリをリンクさせる必要が生じてきます。`parse new`は最初のアプリをプロジェクトにリンクさせます。アプリをさらに追加するには、次のように`parse add [alias]`を実行します。
+
+```bash
+$ parse add production
+Email: pirate@gmail.com
+Password:
+1:PiecesOfEightCounterProd
+2:PiecesOfEightCounterDev
+Select an App: 1
+```
+
+上記の例では、`PiecesOfEightCounterProd`アプリをプロジェクトにリンクさせています。また、新規アプリに対して`production`というエイリアスを作成して、短い記述でアプリを参照できるようにしています。
+
+### ウェブサイトの開発
+
+新しいコードを作成する際には、`develop`コマンドを使用して、Parseのコマンドラインツールから継続的にプロジェクトの更新をチェックして、変更がアップロードされるようにすることができます。コマンドは次のようになります。 
+
+```bash
+$ parse develop development
+E2013-11-21T01:05:56.257Z] Deploy failed with error:Error: Uncaught SyntaxError: Unexpected token ; in app.js:30
+    at main.js:1:1
+I2013-11-21T01:06:21.504Z] Deployed v172 with triggers:
+  Cloud Functions:
+    hello
+```
+
+`develop`コマンドでは、新たな変更をプッシュするアプリを明確に指定する必要があることに注意してください。これは、誤って本番用アプリに対して`develop`を実行したり、テスト前のコードを展開したりするのを避けるためです。コマンドラインツールによって、CtrlキーとCキーを押すまでコードの変更がアップロードされ、新しいログメッセージが表示されます。
+
+### コードの本番用への展開
+
+コードのテストと更新が完了したら、次のように本番用アプリを`deploy`コマンドに渡し、コードを本番用に展開します。
+
+```bash
+$ parse deploy production
+New release is named v2
+```

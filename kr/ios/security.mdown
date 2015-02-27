@@ -1,0 +1,19 @@
+# 보안
+
+앱을 빌드할 때는 데이터에 대한 액세스를 최대한 제한하는 것이 좋습니다.  이 점을 염두에 두고 앱을 초기화할 때 자동 [익명 사용자 만들기](#users-anonymous)를 활성화하고 [현재 사용자를 기준으로 기본 ACL을 지정](#users-acls)하는 것이 좋습니다.  데이터에 대한 무단 액세스를 방지하려면 공용 쓰기 가능성(및 공용 읽기 가능성)을 개체별로 명시적으로 설정하세요.
+
+앱 시작에 다음 코드를 추가해 보세요.
+
+```objc
+[PFUser enableAutomaticUser];
+PFACL *defaultACL = [PFACL ACL];
+// Optionally enable public read access while disabling public write access.
+// [defaultACL setPublicReadAccess:YES];
+[PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+```
+
+앱을 빌드할 때 데이터에 대한 보안 액세스를 항상 유념해야만 개발자 자신과 사용자를 모두 보호할 수 있습니다.
+
+## 설정
+
+코드를 안전하게 작성하는 것 외에도 앱의 설정 페이지를 검토하여 앱에 대한 액세스를 필요에 따라 적절하게 제한하는 옵션을 선택하세요.  예를 들어 사용자가 앱에 연결된 Facebook 계정 없이는 로그인할 수 없어야 하는 경우 다른 로그인 메커니즘을 모두 비활성화하세요.  Facebook 앱 ID, Twitter 소비자 키 및 기타 유사한 정보를 지정하여 사용자의 로그인 시도에 대한 서버 측 검증을 활성화하세요.

@@ -1,0 +1,550 @@
+# Пользователи
+
+В основе многих приложений лежит принцип аккаунтов пользователей, которые помогают получить безопасный доступ к своей информации. Мы предоставляем специальный класс пользователей под названием `ParseUser`, который автоматически обрабатывает большинство функций, необходимых для управления аккаунтами пользователей.
+
+При помощи этого класса можно будет добавлять функции аккаунтов пользователей в приложение.
+
+`ParseUser` &mdash; это подкласс объекта `ParseObject`, который имеет такие же функции, например гибкую схему, автоматическое сохранение и интерфейс значений ключа. Все методы для объекта `ParseObject` также существуют для подкласса `ParseUser`. Разница заключается в том, что подкласс `ParseUser` имеет специальные дополнения, специфические для аккаунтов пользователей.
+
+## Свойства
+
+Класс `ParseUser` имеет свойства, которые отличают его от класса `ParseObject`:
+
+*   username: имя пользователя для пользователя (обязательно).
+*   password: пароль для пользователя (обязательно при регистрации).
+*   email: адрес электронной почты для пользователя (не обязательно).
+
+Каждое из этих свойств будет подробно рассмотрено при ознакомлении с различными вариантами использования. Помните, что при настройке свойств `username` и `email` при помощи устанавливающих методов не нужно настраивать их при помощи метода `put`.
+
+## Регистрация
+
+В первую очередь ваше приложение, скорее всего, попросит пользователя зарегистрироваться. Приведенный ниже код демонстрирует типичный процесс регистрации:
+
+```java
+ParseUser user = new ParseUser();
+user.setUsername("my name");
+user.setPassword("my pass");
+user.setEmail("email@example.com");
+
+// other fields can be set just like with ParseObject
+user.put("phone", "650-253-0000");
+
+user.signUpInBackground(new SignUpCallback() {
+    public void done(ParseException e) {
+        if (e == null) {
+            // Hooray! Let them use the app now.
+        } else {
+            // Sign up didn't succeed. Look at the ParseException
+            // to figure out what went wrong
+        }
+    }
+});
+```
+
+Этот вызов асинхронно создаст нового пользователя в вашем приложении Parse. Перед этим будет осуществлена проверка уникальности имени пользователя и адреса электронной почты. Кроме того, осуществляется безопасное хеширование пароля в облаке. Пароли никогда не хранятся, а также не передаются обратно клиентам в виде незашифрованного текста.
+
+Обратите внимание, что использовался метод `signUpInBackground`, а не `saveInBackground`. Новые пользователи `ParseUser` всегда должны создаваться при помощи метода `signUpInBackground` (или `signUp`). Последующие обновления пользователя могут выполняться путем вызова метода `save`.
+
+Метод `signUpInBackground` имеет несколько разновидностей с возможностью возвращать ошибки, а также синхронные версии. Как обычно, настоятельно рекомендуется по возможности использовать асинхронные версии, чтобы не блокировать интерфейс пользователя приложения. Дополнительные сведения об этих специфических методах см. в [документации по API](/docs/android/).
+
+Если регистрация не осуществляется, следует ознакомиться с объектом ошибки, который возвращается. Самая частая ошибка происходит, когда имя пользователя или адрес электронной почты уже заняты другим пользователем. Необходимо четко объяснить это пользователям и попросить их использовать другое имя пользователя.
+
+В качестве имени пользователя можно использовать адрес электронной почты. Просто попросите пользователей ввести адрес электронной почты, но внесите его в свойства имени пользователя. Подкласс `ParseUser` будет работать как обычно. Эта процедура будет описана в разделе о сбросе пароля.
+
+## Вход
+
+После регистрации пользователи должны иметь возможность войти в свой аккаунт. Для этого можно использовать метод класса `logInInBackground`.
+
+```java
+ParseUser.logInInBackground("Jerry", "showmethemoney", new LogInCallback() 
+    public void done(ParseUser user, ParseException e) {
+        if (user != null) {
+            // Hooray! The user is logged in.
+        } else {
+            // Signup failed. Look at the ParseException to see what happened.
+        }
+    }
+});
+```
+
+## Подтверждение электронной почты
+
+Включение подтверждения электронной почты в параметрах приложения позволяет приложению выделить часть функций для пользователей с подтвержденным адресом электронной почты. Подтверждение электронной почты добавляет ключ `emailVerified` к объекту `ParseUser`. Когда ключ `email` объекта `ParseUser` настроен или изменен, для переменной `emailVerified` устанавливается значение `false`. После этого Parse отправит пользователю ссылку, которая установит для переменной `emailVerified` значение `true`.
+
+Существует три состояния переменной `emailVerified`:
+
+1.  `true`: пользователь подтвердил свой электронный адрес, перейдя по ссылке, присланной по электронной почте от Parse. Объекты `ParseUsers` не могут иметь значение `true` при первоначальном создании аккаунта пользователя.
+2.  `false`: при последнем выборе объекта `ParseUser` пользователь не подтвердил свой адрес электронной почты. Если переменная `emailVerified` имеет значение `false`, вызовите метод `fetch()` для объекта `ParseUser`.
+3.  _Отсутствует_: объект `ParseUser` был создан, когда подтверждение электронной почты было отключено, или у объекта `ParseUser` нет поля `email`.
+
+## Текущий пользователь
+
+Если пользователю нужно входить каждый раз при запуске приложения &ndash; это неудобно. Можно избежать этого при помощи кэшированного объекта `currentUser`.
+
+Каждый раз при использовании любого метода регистрации и входа пользователь кэшируется на диске. Этот кэш может считаться сеансом, поэтому автоматически считается, что для пользователя осуществлен вход:
+
+```java
+ParseUser currentUser = ParseUser.getCurrentUser();
+if (currentUser != null) {
+    // do stuff with the user
+} else {
+    // show the signup or login screen
+}
+```
+
+Можно очистить данные по текущему пользователю, осуществив для него выход:
+
+```java
+ParseUser.logOut();
+ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+```
+
+## Анонимные пользователи
+
+Возможность связи данных и объектов с конкретными пользователями является очень важной, но иногда это может быть необходимо без указания имени пользователя и пароля.
+
+Анонимный пользователь &mdash; это пользователь, которого можно создать без имени пользователя и пароля, но который будет иметь такие же возможности, что и любой другой пользователь `ParseUser`. После выхода анонимный пользователь удаляется, а его данные больше не доступны.
+
+Анонимного пользователя можно создать при помощи класса `ParseAnonymousUtils`:
+
+```java
+ParseAnonymousUtils.logIn(new LogInCallback() {
+    @Override
+    public void done(ParseUser user, ParseException e) {
+        if (e != null) {
+            Log.d("MyApp", "Anonymous login failed.");
+        } else {
+            Log.d("MyApp", "Anonymous user logged in.");
+        }
+    }
+});
+```
+
+Анонимного пользователя можно преобразовать в обычного, настроив имя пользователя и пароль, а затем вызвав метод `signUp()`, осуществив вход или связав пользователя со службой [Facebook](#fbusers) или [Twitter](#twitterusers). Для преобразованного пользователя будут сохранены все его данные.  Чтобы определить, является ли текущий пользователь анонимным, можно проверить метод `ParseAnonymousUtils.isLinked()`:
+
+```java
+if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
+    enableSignUpButton();
+} else {
+    enableLogOutButton();
+}
+```
+
+Анонимные пользователи также могут автоматически создаваться без сетевого запроса, поэтому можно начать работу с пользователем сразу же после запуска приложения.  Если включить автоматическое создание анонимных пользователей при запуске приложения, метод `ParseUser.getCurrentUser()` никогда не приобретет значение `null`. Пользователь будет автоматически создаваться в облаке при первоначальном сохранении пользователя или любого объекта, связанного с пользователем.  До этого момента идентификатор объекта пользователя будет иметь значение `null`.  Автоматическое создание пользователей обеспечивает непосредественную ассоциацию данных с пользователями.  Например, в методе `Application.onCreate()` можно использовать такой код:
+
+```java
+ParseUser.enableAutomaticUser();
+ParseUser.getCurrentUser().increment("RunCount");
+ParseUser.getCurrentUser().saveInBackground();
+```
+
+## Настройка текущего пользователя
+
+Если вы создали собственную программу авторизации или другим способом осуществили вход пользователя со стороны сервера, теперь можно передать сеансовый идентификатор клиенту и использовать метод `become`. Этот метод подтвердит сеансовый идентификатор перед настройкой текущего пользователя.
+
+```java
+ParseUser.becomeInBackground("session-token-here", new LogInCallback() {
+    public void done(ParseUser user, ParseException e) {
+        if (user != null) {
+            // The current user is now set to user.
+        } else {
+            // The token could not be validated.
+        }
+    }
+});
+```
+
+## Безопасность объектов &laquo;пользователь&raquo;
+
+Класс `ParseUser` защищен по умолчанию. Данные, хранящиеся в классе `ParseUser`, могут изменяться только этим пользователем. По умолчанию данные по-прежнему может прочитать любой клиент. Поэтому некоторые объекты `ParseUser` могут быть авторизованы и изменены, в то время как другие будут доступны только для чтения.
+
+В частности, будет невозможно вызвать какой-либо из методов ввода `save` или `delete`, если объект `ParseUser` не был получен при помощи метода авторизации, например `logIn` или `signUp`. Это обеспечивает возможность только пользователям изменять собственные данные.
+
+Представленный ниже код демонстрирует эту политику безопасности:
+
+```java
+ParseUser user = ParseUser.logIn("my_username", "my_password");
+user.setUsername("my_new_username"); // attempt to change username
+user.saveInBackground(); // This succeeds, since the user was authenticated on the device
+
+// Get the user from a non-authenticated manner
+ParseQuery<ParseUser> query = ParseUser.getQuery();
+query.getInBackground(user.getObjectId(), new GetCallback<ParseUser>() {
+    public void done(ParseUser object, ParseException e) {
+        object.setUsername("another_username");
+        // This will throw an exception, since the ParseUser is not authenticated
+        object.saveInBackground();
+    }
+});
+```
+
+Объект `ParseUser`, полученный через метод `getCurrentUser()`, будет всегда проверяться на подлинность.
+
+Если необходимо проверить, проверяется ли на подлинность объект `ParseUser`, можно вызвать метод `isAuthenticated()`. Вам не потребуется проверять метод `isAuthenticated()` для объектов `ParseUser`, полученных через метод авторизации.
+
+## Безопасность других объектов
+
+Модель безопасности, применяющаяся к объекту `ParseUser`, может применяться и к другим объектам. Для любого объекта можно указать, какие пользователи могут читать объект, а какие могут изменять его. Для поддержки такого типа безопасности каждый объект имеет [список управления доступом](http://en.wikipedia.org/wiki/Access_control_list), реализованный при помощи класса `ParseACL`.
+
+Самый простой способ использования класса `ParseACL` заключается в указании, что объект может быть только прочитан и записан одним пользователем. Чтобы создать такой объект, сначала необходимо осуществить вход при помощи пользователя `ParseUser`. Затем конструктор `new ParseACL(user)` генерирует класс `ParseACL`, который ограничивает доступ для этого пользователя. ACL объекта обновляется при сохранении объекта, как и любое другое свойство. Таким образом, чтобы создать частное примечание, доступ к которому будет иметь только текущий пользователь, необходимо выполнить следующее:
+
+```java
+ParseObject privateNote = new ParseObject("Note");
+privateNote.put("content", "This note is private!");
+privateNote.setACL(new ParseACL(ParseUser.getCurrentUser()));
+privateNote.saveInBackground();
+```
+
+После этого данное примечание будет доступно только для текущего пользователя, несмотря на то, что оно будет доступно с любого устройства, на котором этот пользователь осуществил вход. Эта функция полезна для приложений, в которых необходимо предоставить доступ к пользовательским данным на разных устройствах, например для личного списка дел.
+
+Разрешения можно также предоставлять для каждого пользователя в отдельности. Вы можете добавлять отдельные разрешения к классу `ParseACL` при помощи методов `setReadAccess` и `setWriteAccess`. Например, у вас есть сообщение, которое будет отправлено группе разных пользователей, при этом каждый из них будет иметь права на чтение и удаление этого сообщения:
+
+```java
+ParseObject groupMessage = new ParseObject("Message");
+ParseACL groupACL = new ParseACL();
+// userList is an Iterable<ParseUser> with the users we are sending this message to.
+for (ParseUser user : userList) {
+    groupACL.setReadAccess(user, true);
+    groupACL.setWriteAccess(user, true);
+}
+
+groupMessage.setACL(groupACL);
+groupMessage.saveInBackground();
+```
+
+Можно также предоставлять разрешения всем пользователям одновременно при помощи методов `setPublicReadAccess` и `setPublicWriteAccess`. Таким образом возможно использовать структуры, подобные публикации комментариев на форуме. Например, чтобы создать публикацию, которую сможет редактировать только ее автор, а читать &ndash; любой пользователь:
+
+```java
+ParseObject publicPost = new ParseObject("Post");
+ParseACL postACL = new ParseACL(ParseUser.getCurrentUser());
+postACL.setPublicReadAccess(true);
+publicPost.setACL(postACL);
+publicPost.saveInBackground();
+```
+
+Чтобы обеспечить безопасность данных пользователей по умолчанию, можно настроить, чтобы ACL по умолчанию применялся для всех вновь созданных объектов `ParseObjects`:
+
+```java
+ParseACL.setDefaultACL(defaultACL, true);
+```
+
+В коде выше второй параметр setDefaultACL создает команду Parse на обеспечение того, что ACL по умолчанию, назначенный во время создания объекта, дает текущему пользователю доступ к чтению и записи в этот момент.  Без этого параметра необходимо будет сбрасывать параметр defaultACL каждый раз, когда пользователь входит или выходит, чтобы текущий пользователь получал соответствующий доступ.  При наличии этого параметра можно игнорировать изменения текущего пользователя, пока явно не нужно будет предоставлять различные виды доступа.
+
+Параметры ACL по умолчанию упрощают создание приложений, придерживающихся общих примеров доступа. Приложения вроде Twitter, в которых материалы пользователя обычно видны всем, могут настраивать ACL по умолчанию следующим образом:
+
+```java
+ParseACL defaultACL = new ParseACL();
+defaultACL.setPublicReadAccess(true);
+ParseACL.setDefaultACL(defaultACL, true);
+```
+
+Для таких приложений, как Dropbox, в которых данные пользователя доступны только самому пользователю, пока не выдано четкое разрешение, будет указываться ACL по умолчанию, при котором только текущий пользователь имеет доступ:
+
+```java
+ParseACL.setDefaultACL(new ParseACL(), true);
+```
+
+Приложение, логирующее данные в Parse, но не предоставляющее доступ пользователям к этим данным, будет запрещать доступ для текущего пользователя с указанием запрещающего ACL:
+
+```java
+ParseACL.setDefaultACL(new ParseACL(), false);
+```
+
+Запрещенные действия, например удаление объекта, к которому отсутствует доступ с правами записи, приведут к появлению кода ошибки `ParseException.OBJECT_NOT_FOUND`. Из соображений безопасности это предотвращает возможность клиентов определять, какие идентификаторы объектов существуют и защищены, а какие идентификаторы не существуют вообще.
+
+## Сброс паролей
+
+Обычно как только в системе появляются пароли, пользователи часто начинают их забывать. В таких случаях наша библиотека обеспечивает безопасные способы сброса паролей.
+
+Чтобы запустить процедуру сброса пароля, запросите у пользователя адрес электронной почты, а затем выполните вызов:
+
+```java
+ParseUser.requestPasswordResetInBackground("myemail@example.com",
+                                           new RequestPasswordResetCallback() {
+    public void done(ParseException e) {
+        if (e == null) {
+            // An email was successfully sent with reset instructions.
+        } else {
+            // Something went wrong. Look at the ParseException to see what's up.
+        }
+    }
+});
+```
+
+Система попытается найти совпадение для указанной электронной почты с электронной почтой пользователя или полем имени пользователя, а затем отправит пользователю электронное письмо для сброса пароля. Благодаря этому можно разрешить пользователям использовать свою электронную почту в качестве имени пользователя. Вы также можете собирать данные об электронной почте отдельно и хранить ее в поле электронной почты.
+
+Процедура сброса пароля выполняется следующим образом:
+
+1.  Пользователь запрашивает сброс пароля и вводит свой адрес электронной почты.
+2.  Parse отправляет на указанный адрес электронное письмо со специальной ссылкой для сброса пароля.
+3.  Пользователь нажимает ссылку для сброса и переадресуется на специальную страницу Parse, где можно ввести новый пароль.
+4.  Пользователь вводит новый пароль. Пароль сбрасывается на новый пароль, указанный пользователем.
+
+Обратите внимание на то, что в этой процедуре рассылка будет ссылаться на ваше приложение по тому названию, которое было указано при создании этого приложения в Parse.
+
+## Запросы
+
+Для выполнения запросов пользователей необходимо использовать специальный запрос пользователей:
+
+```java
+ParseQuery<ParseUser> query = ParseUser.getQuery();
+query.whereEqualTo("gender", "female");
+query.findInBackground(new FindCallback<ParseUser>() {
+    public void done(List<ParseUser> objects, ParseException e) {
+        if (e == null) {
+            // The query was successful.
+        } else {
+            // Something went wrong.
+        }
+    }
+});
+```
+
+Кроме того, можно использовать метод `get`, чтобы найти объект `ParseUser` по его идентификатору.
+
+## Ассоциации
+
+Ассоциации, задействующие объект `ParseUser`, работают в рамках стандартного решения. Например, вы создаете приложение для блогов. Чтобы сохранить новую публикацию для пользователя и извлечь все его публикации:
+
+```java
+ParseUser user = ParseUser.getCurrentUser();
+
+// Make a new post
+ParseObject post = new ParseObject("Post");
+post.put("title", "My New Post");
+post.put("body", "This is some great content.");
+post.put("user", user);
+post.saveInBackground();
+
+// Find all posts by the current user
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+query.whereEqualTo("user", user);
+query.findInBackground(new FindCallback<ParseObject>() { ... });
+```
+
+## Пользователи Facebook
+
+Parse предоставляет простую интеграцию Facebook с вашим приложением. SDK Facebook может использоваться с нашим SDK и интегрируется с классом `ParseUser` для простой связи пользователей с их учетными записями в Facebook.
+
+Благодаря интеграции с Facebook можно связать авторизированного пользователя Facebook с пользователем `ParseUser`. С помощью нескольких строк кода можно предоставить для приложения возможность входа с Facebook и сохранять данные пользователей в Parse.
+
+### Установка
+
+Чтобы начать использовать Facebook с Parse, необходимо выполнить следующие действия:
+
+1.  [Установите приложение Facebook](https://developers.facebook.com/apps), если не установлено.
+2.  Добавьте идентификатор приложения Facebook вашего приложения на странице параметров вашего приложения Parse.
+3.  Выполните инструкции Facebook для [начала работы с SDK Facebook](https://developers.facebook.com/docs/getting-started/facebook-sdk-for-android/3.0/), чтобы создать приложение, связанное с SDK Facebook.  После перехода к шагу 6 остановитесь после связывания проекта SDK Facebook и настройки идентификатора приложения Facebook. Используйте наше руководство, чтобы связать пользователей Parse с их аккаунтами Facebook при входе.
+4.  При инициализации SDK Parse в методе `Application.onCreate()` добавьте следующий код
+```java
+ParseFacebookUtils.initialize("YOUR FACEBOOK APP ID");
+```
+
+SDK Android от Facebook обеспечивает расширенный вход на устройствах с установленным [официальным приложением Facebook для Android](https://market.android.com/details?id=com.facebook.katana). Это предоставляет пользователям приложений с поддержкой входа Facebook входить непосредственно через приложение Facebook, используя данные для входа, которые уже хранятся на устройстве. Если приложение Facebook не установлено, будет использоваться диалоговая авторизация по умолчанию. В Facebook эта функция называется &laquo;системой единого входа&raquo; и требует обхода метода `onActivityResult()` при вызове `Activity`, чтобы вызвать метод `finishAuthentication()`.
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+    ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+}
+```
+
+Если `Activity` уже использует метод `onActivityResult()`, можно избежать конфликтов методов `requestCode` путем вызова методов `link()` и `logIn()`, которые используют параметр `activityCode`, и указания уникального кода.  В противном случае будет использоваться оптимальный метод по умолчанию `activityCode`.
+
+При возникновении любых проблем, связанных с Facebook, рекомендуем обратиться к [официальной странице SDK Facebook для Android](https://developers.facebook.com/android/).
+
+Parse совместим с SDK Facebook для Android версии 3.0.
+
+Существует два основных способа использования Facebook с пользователями Parse: (1) вход при помощи Facebook и создание пользователя `ParseUser`, или (2) связывание Facebook с существующим пользователем `ParseUser`.
+
+### Вход и регистрация
+
+Класс `ParseFacebookUtils` предоставляет разрешение для пользователей `ParseUser` входить или регистрироваться через Facebook. Это осуществляется при помощи метода `logIn()`:
+
+```java
+ParseFacebookUtils.logIn(this, new LogInCallback() {
+    @Override
+    public void done(ParseUser user, ParseException err) {
+        if (user == null) {
+            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+        } else if (user.isNew()) {
+            Log.d("MyApp", "User signed up and logged in through Facebook!");
+        } else {
+            Log.d("MyApp", "User logged in through Facebook!");
+        }
+    }
+});
+```
+
+При выполнении этого кода происходит следующее:
+
+1.  Пользователь видит диалоговое окно входа Facebook или подсказку, которая генерируется приложением Facebook.
+2.  Пользователь авторизируется через Facebook, приложение получает обратный вызов.
+3.  Наш SDK получает данные Facebook и сохраняет их в класс `ParseUser`. Если это новый пользователь на основе идентификатора Facebook, то создается этот пользователь.
+4.  Класс `LogInCallback` вызывается пользователем.
+
+Для отображения диалоговых окон входа Facebook и действий необходимо указать текущее действие `Activity` (часто текущее действие имеет значение `this` при вызове метода `logIn()` из действия `Activity`), как это было сделано выше.
+
+Можно дополнительно указать набор строк, который содержит разрешения для чтения, необходимые для вашего приложения от пользователя Facebook.  Эти строки можно указать самостоятельно или использовать постоянные, которые предоставляются в классе `ParseFacebookUtils.Permissions`.  Например:
+
+```java
+ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
+                         this, new LogInCallback() {
+    @Override
+    public void done(ParseUser user, ParseException err) {
+        // Code to handle login.
+    }
+});
+```
+
+Интеграция пользователей `ParseUser` не требует разрешений для стандартной работы (например, метод `null` или отсутствие указанных разрешений полностью допустимы). При входе можно использовать только разрешения на чтение. См. нашу документацию, приведенную ниже, для получения сведений о [запросе дополнительных разрешений](#fbusers-permissions) (чтение или публикация). [Подробнее о разрешениях см. Руководство для разработчиков Facebook.](https://developers.facebook.com/docs/reference/api/permissions/)
+
+<div class="callout_green">
+  Вы самостоятельно решаете, нужно ли записывать необходимые данные от пользователя Facebook после прохождения авторизации. Чтобы выполнить это, необходимо [создать графический запрос через SDK Facebook](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
+</div>
+
+### Связывание
+
+Если необходимо связать существующего пользователя `ParseUser` с аккаунтом Facebook, это можно сделать следующим образом:
+
+```java
+if (!ParseFacebookUtils.isLinked(user)) {
+    ParseFacebookUtils.link(user, this, new SaveCallback() {
+        @Override
+        public void done(ParseException ex) {
+            if (ParseFacebookUtils.isLinked(user)) {
+                Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+            }
+        }
+    });
+}
+```
+
+Шаги, выполняемые при связывании, очень похожи на действия при входе. Разница состоит в том, что при успешном входе существующий пользователь `ParseUser` обновляется сведениями из Facebook. Последующие входы через Facebook будут осуществлять вход пользователя в его существующий аккаунт.
+
+Если необходимо отменить связь пользователя с Facebook, просто выполните следующее:
+
+```java
+ParseFacebookUtils.unlinkInBackground(user, new SaveCallback() {
+    @Override
+    public void done(ParseException ex) {
+        if (ex == null) {
+            Log.d("MyApp", "The user is no longer associated with their Facebook account.");
+        }
+    }
+});
+```
+
+Иначе, при самостоятельном выполнении обработки можно непосредственно вызвать метод `unlink()` следующим образом:
+
+```java
+try 
+    ParseFacebookUtils.unlink(user);
+    Log.d("MyApp", "The user is no longer associated with their Facebook account.");
+} catch (ParseException e) { }
+```
+
+### Запрос разрешений
+
+В SDK Facebook версии 3.0 разрешения на чтение и публикацию должны запрашиваться раздельно. Классы `ParseFacebookUtils.logIn()` и `ParseFacebookUtils.link()` разрешают вам запрашивать только разрешение на чтение. Чтобы запросить дополнительные разрешения, можно вызвать `ParseFacebookUtils.getSession().requestNewReadPermissions()` или `ParseFacebookUtils.getSession().requestNewPublishPermissions()`. Для получения дополнительной информации о запросе новых разрешений ознакомьтесь с [документацией по API Facebook для этих функций](https://developers.facebook.com/docs/reference/android/3.0/Session#requestNewReadPermissions(NewPermissionsRequest)).
+
+После успешного извлечения новых разрешений вызовите метод `ParseFacebookUtilities.saveLatestSessionData()`, который сохранит любые изменения сеансового идентификатора обратно для пользователя `ParseUser` и обеспечит, что данные этой сессии будут следовать за пользователем при входе из любого места.
+
+### SDK Facebook и Parse
+
+SDK Facebook для Android предоставляет ряд классов вспомогательных средств для взаимодействия с API Facebook. Как правило, класс Request будет использоваться для взаимодействия с Facebook от имени пользователя, осуществившего вход. [Дополнительную информацию о SDK Facebook можно получить здесь](https://developers.facebook.com/docs/reference/android/3.0).
+
+Наша библиотека управляет для вас объектом `Session` пользователя. Можно просто вызвать метод `ParseFacebookUtils.getSession()` для получения доступа к экземпляру сеанса, который затем передается в класс Requests.
+
+## Пользователи Twitter
+
+Аналогично Facebook Parse также предоставляет простую интеграцию Twitter с вашим приложением. SDK Parse предоставляет простой способ авторизации и связи аккаунта Twitter с пользователями `ParseUser`. Написав всего несколько строк кода, можно предоставить приложению возможность входа с Twitter и сохранять данные пользователей в Parse.
+
+### Установка
+
+Чтобы начать использовать Twitter с Parse, необходимо выполнить следующие действия:
+
+1.  [Установите приложение Twitter](https://dev.twitter.com/apps), если не установлено.
+2.  Добавьте ключ клиента Twitter вашего приложения на странице параметров вашего приложения Parse.
+3.  Когда появится запрос указать &quot;Callback URL&quot; для приложения Twitter, вставьте действующий URL-адрес. Это значение не будет использоваться приложением iOS или Android, но оно необходимо для обеспечения авторизации через Twitter.
+4.  При инициализации SDK Parse в методе `Application.onCreate()` добавьте следующий код
+```java
+ParseTwitterUtils.initialize("YOUR CONSUMER KEY", "YOUR CONSUMER SECRET");
+```
+
+При возникновении любых проблем, связанных с Twitter, рекомендуем просмотреть [официальную документацию Twitter](https://dev.twitter.com/docs).
+
+Существует два основных способа использования Twitter с пользователями Parse: (1) вход при помощи Twitter и создание пользователя `ParseUser`, или (2) связывание Twitter с существующим пользователем `ParseUser`.
+
+### Вход и регистрация
+
+Класс `ParseTwitterUtils` предоставляет разрешение для пользователей `ParseUser` входить или регистрироваться через Twitter. Это осуществляется при помощи метода `logIn()`:
+
+```java
+ParseTwitterUtils.logIn(this, new LogInCallback() {
+    @Override
+    public void done(ParseUser user, ParseException err) {
+        if (user == null) {
+            Log.d("MyApp", "Uh oh. The user cancelled the Twitter login.");
+        } else if (user.isNew()) {
+            Log.d("MyApp", "User signed up and logged in through Twitter!");
+        } else {
+            Log.d("MyApp", "User logged in through Twitter!");
+        }
+    }
+});
+```
+
+При выполнении этого кода происходит следующее:
+
+1.  Пользователь видит диалоговое окно входа в Twitter.
+2.  Пользователь авторизируется через Twitter, приложение получает обратный вызов.
+3.  Наш SDK получает данные Twitter и сохраняет их в класс `ParseUser`. Если это новый пользователь на основе обработки Twitter, то создается этот пользователь.
+4.  Класс `LogInCallback` вызывается пользователем.
+
+Для отображения диалоговых окон входа Twitter и действий необходимо указать текущий контекст `Context` (часто текущий контекст имеет значение `this` при вызове метода `logIn()` из действия `Activity`), как это было сделано выше.
+
+### Связывание
+
+Если необходимо связать существующего пользователя `ParseUser` с аккаунтом Twitter, это можно сделать следующим образом:
+
+```java
+if (!ParseTwitterUtils.isLinked(user)) 
+    ParseTwitterUtils.link(user, this, new SaveCallback() {
+        @Override
+        public void done(ParseException ex) {
+            if (ParseTwitterUtils.isLinked(user)) {
+                Log.d("MyApp", "Woohoo, user logged in with Twitter!");
+            }
+        }
+    });
+}
+```
+
+Шаги, выполняемые при связывании, очень похожи на действия при входе. Разница состоит в том, что при успешном входе существующий пользователь `ParseUser` обновляется сведениями из Twitter. Последующие входы через Twitter будут осуществлять вход пользователя в его существующий аккаунт.
+
+Если необходимо отменить связь пользователя с Twitter, просто выполните следующее:
+
+```java
+ParseTwitterUtils.unlinkInBackground(user, new SaveCallback() {
+    @Override
+    public void done(ParseException ex) {
+        if (ex == null) {
+            Log.d("MyApp", "The user is no longer associated with their Twitter account.");
+        }
+    }
+});
+```
+
+### Вызовы API Twitter
+
+Наш SDK обеспечивает простой способ регистрации запросов API HTTP в [Twitter REST API](https://dev.twitter.com/docs/api), когда у приложения есть связанный с Twitter пользователь `ParseUser`.  Чтобы выполнить запрос через наш интерфейс API, можно использовать единичный объект `Twitter`, предоставляемый методом `ParseTwitterUtils`.
+
+```java
+HttpClient client = new DefaultHttpClient();
+HttpGet verifyGet = new HttpGet(
+    "https://api.twitter.com/1/account/verify_credentials.json");
+ParseTwitterUtils.getTwitter().signRequest(verifyGet);
+HttpResponse response = client.execute(verifyGet);
+```

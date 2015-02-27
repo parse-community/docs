@@ -1,0 +1,53 @@
+# GeoPoint
+
+Parseでは、実世界の緯度および経度の座標情報をオブジェクトと関連付けることができます。`ParseObject`に`ParseGeoPoint`を追加することで、クエリを実行する際にオブジェクトと参照ポイントとの距離が考慮されるようになります。これにより、近くにいるユーザーを探したり、最も近いスポットを見つけたりといったことを簡単に実行できます。
+
+
+## ParseGeoPoint
+
+ポイントとオブジェクトを関連付けるには、まず`ParseGeoPoint`を作成します。たとえば、緯度が40.0、経度が-30.0のポイントを作成するには以下のようにします。
+
+```java
+ParseGeoPoint point = new ParseGeoPoint(40.0, -30.0);
+```
+
+このポイントは、通常のフィールドとしてオブジェクトに保管されます。
+
+```java
+placeObject.put("location", point);
+```
+
+
+## ジオクエリ
+
+空間座標を持つオブジェクトが大量にできたら、任意のポイントに最も近いオブジェクトを見つけることができたら便利です。これを実現するには、`whereNear`を使って`ParseQuery`に条件を加えます。以下は、ユーザーから最も近いスポット10件のリストを表示するコードの一例です。
+
+```java
+ParseGeoPoint userLocation = (ParseGeoPoint) userObject.get("location");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceObject");
+query.whereNear("location", userLocation);
+query.setLimit(10);
+query.findInBackground(new FindCallback<ParseObject>() { ... });
+```
+
+ここで、`nearPlaces`は`userLocation`からの距離順（近いものあるいは遠いものから）で並べられたオブジェクトの配列です。ただし、`orderByAscending()`または`orderByDescending()`の条件を適用すると、距離別の順序よりも優先されることに注意してください。
+
+結果を距離で制御するには、`whereWithinKilometers`、`whereWithinMiles`、`whereWithinRadians`を使用します。
+
+ある特定のエリアにある一連のオブジェクトをクエリすることもできます。長方形のエリアを指定して、その中のオブジェクトを検索したい場合は、`ParseQuery`に`whereWithinGeoBox`条件を追加します。
+
+```java
+ParseGeoPoint southwestOfSF = new ParseGeoPoint(37.708813, -122.526398);
+ParseGeoPoint northeastOfSF = new ParseGeoPoint(37.822802, -122.373962);
+ParseQuery<ParseObject> query = ParseQuery.getQuery("PizzaPlaceObject");
+query.whereWithinGeoBox("location", southwestOfSF, northeastOfSF);
+query.findInBackground(new FindCallback<ParseObject>() { ... });
+```
+
+
+## 短所
+
+現時点では、気をつけるべき点が2点あります。
+
+1.  各ParseObjectは、ParseGeoPointオブジェクト1つにつき1つのキーしか持つことができません。
+2.  ポイントの座標は、端点を含むことも、超えることもできません。緯度に、-90.0または90.0は指定できません。経度に、-180.0または180.0は指定できません。また、この範囲を超えた値を設定しようとするとエラーとなります。

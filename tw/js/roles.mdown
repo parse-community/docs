@@ -1,0 +1,82 @@
+# 角色
+
+隨著應用程式的適用範圍和用戶群擴大，您可能會發現自己除了連結使用者的 ACL 所能提供的之外，還需要對資料存取能有更宏觀的控制方式。為了滿足此需求，Parse 支援某種形式的[角色存取控制](http://en.wikipedia.org/wiki/Role-based_access_control)。角色提供一種邏輯方式，來將具有 Parse 資料一般存取權限的使用者編組。角色是指包含使用者和其他角色的已命名物件。任何權限只要授予角色，就會明確地授予其使用者。而此角色所包含的任何角色之使用者，也會得到授權。
+
+例如，在具有策展內容的應用程式中，可能會有一些使用者被視為「仲裁者」。「仲裁者」可以修改和刪除其他使用者所建立的內容。您也可以有一組「管理員」使用者，具有與「仲裁者」相同的權限，但也可以修改應用程式的全域設定。您可以透過將使用者新增至這些角色，確認新的使用者可成為仲裁者或管理員，而不必手動將所有資源的權限授與每個使用者。
+
+我們提供稱為 `Parse.Role` 的特殊類別。此類別代表您用戶端程式碼中的這些角色物件。`Parse.Role` 為 `Parse.Object` 的子類別，具有所有相同功能，比如具彈性的結構描述、自動保留和索引鍵值介面。`Parse.Object` 上的所有方法也存在於 `Parse.Role`。不同之處在於 `Parse.Role` 有一些專用於角色管理的附加功能。
+
+## 屬性
+
+`Parse.Role` 有一些屬性與 `Parse.Object` 有所區別：
+
+*   名稱：角色的名稱。此值是必要的，而且只能在角色建立時設定一次。名稱必須由英數字元、空格、- 或 _ 組成。此名稱將用於在不需角色 ObjectID 的情況下識別角色。
+*   使用者：與使用者集合之[關聯](#objects-pointers)，這些使用者將繼承已授與所含角色的權限。
+*   角色：與角色集合之[關聯](#objects-pointers)，其中的使用者和角色將繼承已授與所含角色的權限。
+
+## 角色物件的安全性
+
+除了需要有明確設定的 ACL 之外，`Parse.Role` 跟 Parse 上的所有其他物件一樣使用相同的安全性配置 (ACL)。一般來說，只有擁有高階權限的使用者（如主使用者或管理員）才能建立或修改角色，所以您應該據此定義其 ACL。請記住，如果您將 `Parse.Role` 的寫入存取權限授予某名使用者，該名使用者即可將其他使用者新增至角色中，或甚至將角色完全刪除。
+
+若要建立新的 `Parse.Role`，您會寫成：
+
+```js
+// By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
+var roleACL = new Parse.ACL();
+roleACL.setPublicReadAccess(true);
+var role = new Parse.Role("Administrator", roleACL);
+role.save();
+```
+
+您可以透過 `Parse.Role` 上的「使用者」和「角色」關係，新增應繼承新角色權限的使用者和角色。
+
+```js
+var role = new Parse.Role(roleName, roleACL);
+for (var i = 0; i < usersToAddToRole.length; i++) {
+  role.getUsers().add(usersToAddToRole[i]);
+}
+for (var i = 0; i < rolesToAddToRole.length; i++) {
+  role.getRoles().add(rolesToAddToRole[i]);
+}
+role.save();
+```
+
+將 ACL 指派給角色時，應特別注意角色只能被擁有修改權限的人修改。
+
+## 其他物件的安全性
+
+既然您已建立要用在應用程式中的一組角色，若要利用這組角色，要先用 ACL 定義其使用者所能得到的權限。每個 `Parse.Object` 可以指定一個 `Parse.ACL`，這可提供存取控制清單，以指示應將物件的讀取或寫入存取權限授與哪個使用者和角色。
+
+將物件的讀取或寫入權限授予某個角色其實很簡單。您可以使用 `Parse.Role`：
+
+```js
+var moderators = /* Query for some Parse.Role */;
+var wallPost = new Parse.Object("WallPost"); 
+var postACL = new Parse.ACL();
+postACL.setRoleWriteAccess(moderators, true);
+wallPost.setACL(postACL);
+wallPost.save();
+```
+
+您可以透過在 ACL 中指定角色名稱，避免對角色進行查詢：
+
+```js
+var wallPost = new Parse.Object("WallPost");
+var postACL = new Parse.ACL();
+postACL.setRoleWriteAccess("Moderators", true);
+wallPost.setACL(postACL);
+wallPost.save();
+```
+
+## 角色階層
+
+如上所述，角色中可包含另一個角色，在兩個角色之間建立父／子關聯性。此關聯性的結果是任何授與給父角色的權限，也會以隱含方式授與其所有子角色。
+
+內容由使用者管理的應用程式（如論壇）中常會發現這些類型的關聯性。部分使用者的小型子集為「管理員」，具有最高層級的存取權限，可微調應用程式設定、建立新論壇、設定全域訊息等等。另一個使用者集合則為「仲裁者」，負責確保由使用者建立的內容適合發佈。任何具有管理員權限的使用者也應獲得仲裁者權限。若要建立此關聯性，您應將「管理員」角色設定為「仲裁者」的子角色，像這樣：
+
+```js
+var administrators = /* Your "Administrators" role */;
+var moderators = /* Your "Moderators" role */;
+moderators.getRoles().add(administrators);
+moderators.save();
+```

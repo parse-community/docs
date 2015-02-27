@@ -1,0 +1,724 @@
+# Queries
+
+We've already seen how a `PFQuery` with `getObjectWithId:` can retrieve a single `PFObject` from Parse. There are many other ways to retrieve data with `PFQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
+
+## Basic Queries
+
+In many cases, `getObjectInBackgroundWithId:block:` isn't powerful enough to specify which objects you want to retrieve. The `PFQuery` offers different ways to retrieve a list of objects rather than just a single object.
+
+The general pattern is to create a `PFQuery`, put conditions on it, and then retrieve a `NSArray` of matching `PFObject`s using either `findObjectsInBackgroundWithBlock:` or `findObjectsInBackgroundWithTarget:selector:`. For example, to retrieve scores with a particular `playerName`, use the `whereKey:equalTo:` method to constrain the value for a key.
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  if (!error) {
+    // The find succeeded.
+    NSLog(@"Successfully retrieved %d scores.", objects.count);
+    // Do something with the found objects
+    for (PFObject *object in objects) { NSLog(@"%@", object.objectId);
+    }
+  } else {
+    // Log details of the failure
+    NSLog(@"Error: %@ %@", error, [error userInfo]);
+  }
+}];
+```
+```swift
+var query = PFQuery(className:"GameScore")
+query.whereKey("playerName", equalTo:"Sean Plott")
+query.findObjectsInBackgroundWithBlock {
+  (objects: [AnyObject]!, error: NSError!) -> Void in
+  if error == nil {
+    // The find succeeded.
+    NSLog("Successfully retrieved \(objects.count) scores.")
+    // Do something with the found objects
+    for object in objects { NSLog("%@", object.objectId)
+    }
+  } else {
+    // Log details of the failure
+    NSLog("Error: %@ %@", error, error.userInfo!)
+  }
+}
+```
+
+Both `findObjectsInBackgroundWithBlock:` and `findObjectsInBackgroundWithTarget:selector:` work similarly in that they assure the network request is done without blocking, and run the block/callback in the main thread. There is a corresponding `findObjects` method that blocks the calling thread, if you are already in a background thread:
+
+```objc
+// Only use this code if you are already running it in a background
+// thread, or for testing purposes!
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+NSArray* scoreArray = [query findObjects];
+```
+```swift
+// Only use this code if you are already running it in a background
+// thread, or for testing purposes!
+NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName = 'Dan Stemkosk'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+NSArray* scoreArray = [query findObjects];
+```
+
+## Specifying Constraints with NSPredicate
+
+To get the most out of `PFQuery` we recommend using its methods listed below to add constraints. However, if you prefer using `NSPredicate`, a subset of the constraints can be specified by providing an `NSPredicate` when creating your `PFQuery`.
+
+```objc
+NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName = 'Dan Stemkosk'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+```swift
+let predicate = NSPredicate(format:"playerName = 'Dan Stemkosk'")
+var query = PFQuery(className:"GameScore", predicate:predicate)
+```
+
+These features are supported:
+
+*   Simple comparisons such as `=`, `!=`, `<`, `>`, `<=`, `>=`, and `BETWEEN` with a key and a constant.
+*   Containment predicates, such as `x IN {1, 2, 3}`.
+*   Key-existence predicates, such as `x IN SELF`.
+*   `BEGINSWITH` expressions.
+*   Compound predicates with `AND`, `OR`, and `NOT`.
+*   Sub-queries with `"key IN %@", subquery`.
+
+The following types of predicates are **not** supported:
+
+*   Aggregate operations, such as `ANY`, `SOME`, `ALL`, or `NONE`.
+*   Regular expressions, such as `LIKE`, `MATCHES`, `CONTAINS`, or `ENDSWITH`.
+*   Predicates comparing one key to another.
+*   Complex predicates with many `OR`ed clauses.
+
+## Query Constraints
+
+There are several ways to put constraints on the objects found by a `PFQuery`. You can filter out objects with a particular key-value pair with `whereKey:notEqualTo`:
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+```
+```swift
+NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Michael Yabuti'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+[query whereKey:@"playerAge" greaterThan:@18];
+```
+```swift
+NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Michael Yabuti' AND playerAge > 18"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+You can limit the number of results by setting `limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
+
+```objc
+query.limit = 10; // limit to at most 10 results
+```
+```swift
+query.limit = 10
+```
+
+If you want exactly one result, a more convenient alternative may be to use `getFirstObject` or `getFirstObjectInBackground` instead of using `findObject`.
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerEmail" equalTo:@"dstemkoski@example.com"];
+[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+  if (!object) {
+    NSLog(@"The getFirstObject request failed.");
+  } else {
+    // The find succeeded.
+    NSLog(@"Successfully retrieved the object.");
+  }
+}];
+```
+```swift
+var query = PFQuery(className:"GameScore")
+query.whereKey("playerEmail", equalTo:"dstemkoski@example.com")
+query.getFirstObjectInBackgroundWithBlock {
+  (object: PFObject!, error: NSError!) -> Void in
+  if object != nil {
+    NSLog("The getFirstObject request failed.")
+  } else {
+    // The find succeeded.
+    NSLog("Successfully retrieved the object.")
+  }
+}
+```
+
+You can skip the first results by setting `skip`. This can be useful for pagination:
+
+```objc
+query.skip = 10; // skip the first 10 results
+```
+```swift
+query.skip = 10
+```
+
+For sortable types like numbers and strings, you can control the order in which results are returned:
+
+```objc
+// Sorts the results in ascending order by the score field
+[query orderByAscending:@"score"];
+
+// Sorts the results in descending order by the score field
+[query orderByDescending:@"score"];
+```
+```swift
+// Sorts the results in ascending order by the score field
+query.orderByAscending("score")
+
+// Sorts the results in descending order by the score field
+query.orderByDescending("score")
+```
+
+You can add more sort keys to the query as follows:
+
+```objc
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+[query addAscendingOrder:@"score"];
+
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+[query addDescendingOrder:@"score"];
+```
+```swift
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+query.addAscendingOrder("score")
+
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+query.addDescendingOrder("score")
+```
+
+For sortable types, you can also use comparisons in queries:
+
+```objc
+// Restricts to wins < 50
+[query whereKey:@"wins" lessThan:@50];
+
+// Restricts to wins <= 50
+[query whereKey:@"wins" lessThanOrEqualTo:@50];
+
+// Restricts to wins > 50
+[query whereKey:@"wins" greaterThan:@50];
+
+// Restricts to wins >= 50
+[query whereKey:@"wins" greaterThanOrEqualTo:@50];
+```
+```swift
+// Restricts to wins < 50
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"wins < 50"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+
+// Restricts to wins <= 50
+predicate = [NSPredicate predicateWithFormat:@"wins <= 50"];
+query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+
+// Restricts to wins > 50
+predicate = [NSPredicate predicateWithFormat:@"wins > 50"];
+query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+
+// Restricts to wins >= 50
+predicate = [NSPredicate predicateWithFormat:@"wins >= 50"];
+query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+If you want to retrieve objects matching several different values, you can use `whereKey:containedIn:`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
+
+```objc
+// Finds scores from any of Jonathan, Dario, or Shawn
+NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
+[query whereKey:@"playerName" containedIn:names];
+```
+```swift
+// Finds scores from any of Jonathan, Dario, or Shawn
+NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
+NSPredicate *pred = [NSPredicate predicateWithFormat:      @"playerName IN %@", names];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
+```
+
+If you want to retrieve objects that do not match any of several values you can use `whereKey:notContainedIn:`, providing an array of acceptable values. For example, if you want to retrieve scores from players besides those in a list:
+
+```objc
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
+[query whereKey:@"playerName" notContainedIn:names];
+```
+```swift
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
+NSPredicate *pred = [NSPredicate predicateWithFormat:      @"NOT (playerName IN %@)", names];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
+```
+
+If you want to retrieve objects that have a particular key set, you can use `whereKeyExists`. Conversely, if you want to retrieve objects without a particular key set, you can use `whereKeyDoesNotExist`.
+
+```objc
+// Finds objects that have the score set
+[query whereKeyExists:@"score"];
+
+// Finds objects that don't have the score set
+[query whereKeyDoesNotExist:@"score"];
+```
+```swift
+// Finds objects that have the score set
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"score IN SELF"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+
+// Finds objects that don't have the score set
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (score IN SELF)"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+You can use the `whereKey:matchesKey:inQuery:` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
+
+```objc
+PFQuery *teamQuery = [PFQuery queryWithClassName:@"Team"];
+[teamQuery whereKey:@"winPct" greaterThan:@(0.5)];
+PFQuery *userQuery = [PFQuery queryForUser];
+[userQuery whereKey:@"hometown" matchesKey:@"city" inQuery:teamQuery];
+[userQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a winning record
+}];
+```
+```swift
+var teamQuery = PFQuery(className:"Team")
+teamQuery.whereKey("winPct", greaterThan:0.5)
+var userQuery = PFUser.query()
+userQuery.whereKey("hometown", matchesKey:"city", inQuery:teamQuery)
+userQuery.findObjectsInBackgroundWithBlock {
+  (results: [AnyObject]!, error: NSError!) -> Void in
+  if error == nil {
+    // results will contain users with a hometown team with a winning record
+  }
+}
+```
+
+Conversely, to get objects where a key does not match the value of a key in a set of objects resulting from another query, use `whereKey:doesNotMatchKey:inQuery:`.  For example, to find users whose hometown teams have losing records:
+
+```objc
+PFQuery *losingUserQuery = [PFQuery queryForUser];
+[losingUserQuery whereKey:@"hometown" doesNotMatchKey:@"city" inQuery:teamQuery];
+[losingUserQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a losing record
+}];
+```
+```swift
+var losingUserQuery = PFUser.query()
+losingUserQuery.whereKey("hometown", doesNotMatchKey:"city", inQuery:teamQuery)
+losingUserQuery.findObjectsInBackgroundWithBlock {
+  (results: [AnyObject]!, error: NSError!) -> Void in
+  // results will contain users with a hometown team with a losing records
+}
+```
+
+You can restrict the fields returned by calling `selectKeys:` with an `NSArray` of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query selectKeys:@[@"playerName", @"score"]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // objects in results will only contain the playerName and score fields
+}];
+```
+```swift
+var query = PFQuery(className:"GameScore")
+query.selectKeys(["playerName", "score"])
+query.findObjectsInBackgroundWithBlock {
+  (objects: [AnyObject]!, error: NSError!) -> Void in
+  if error == nil {
+    // objects in results will only contain the playerName and score fields
+  }
+}
+```
+
+The remaining fields can be fetched later by calling one of the `fetchIfNeeded` variants on the returned objects:
+
+```objc
+PFObject *object = (PFObject*)results[0];
+[object fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+  // all fields of the object will now be available here.
+}];
+```
+```swift
+var object = results[0] as PFObject!
+object.fetchIfNeededInBackgroundWithBlock {
+  (object: PFObject!, error: NSError!) -> Void in
+  // all fields of the object will now be available here.
+}
+```
+
+## Queries on Array Values
+
+For keys with an array type, you can find objects where the key's array value contains 2 by:
+
+```objc
+// Find objects where the array in arrayKey contains 2.
+[query whereKey:@"arrayKey" equalTo:@2];
+```
+```swift
+// Find objects where the array in arrayKey contains 2.
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"2 IN arrayKey"];
+PFQuery *query = [PFQuery queryWithClassName:@"MyClass" predicate:predicate];
+```
+
+You can also find objects where the key's array value contains each of the values 2, 3, and 4 with the following: 
+
+```objc
+// Find objects where the array in arrayKey contains each of the
+// elements 2, 3, and 4.
+[query whereKey:@"arrayKey" containsAllObjectsInArray:@[@2, @3, @4]];
+```
+```swift
+// Find objects where the array in arrayKey contains each of the
+// elements 2, 3, and 4.
+query.whereKey("arrayKey", containsAllObjectsInArray:[2, 3, 4])
+```
+
+## Queries on String Values
+
+Use `whereKey:hasPrefix:` to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
+
+```objc
+// Finds barbecue sauces that start with "Big Daddy's".
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
+[query whereKey:@"name" hasPrefix:@"Big Daddy's"];
+```
+```swift
+// Finds barbecue sauces that start with "Big Daddy's".
+NSPredicate *pred = [NSPredicate predicateWithFormat:@"name BEGINSWITH 'Big Daddy'"];
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce" predicate:pred];
+```
+
+<div class="callout_green">
+  If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/2013/03/19/implementing-scalable-search-on-a-nosql-backend/).
+</div>
+
+## Relational Queries
+
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `PFObject`, you can use `whereKey:equalTo:` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+
+```objc
+// Assume PFObject *myPost was previously created.
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" equalTo:myPost];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for myPost
+}];
+```
+```swift
+// Assume PFObject *myPost was previously created.
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"post = %@", myPost];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for myPost
+}];
+```
+
+You can also do relational queries by `objectId`:
+
+```objc
+[query whereKey:@"post" equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+```
+```swift
+[NSPredicate predicateWithFormat:@"post = %@",
+ [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+```
+
+If you want to retrieve objects where a field contains a `PFObject` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" matchesQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts with images
+}];
+```
+```swift
+NSPredicate *innerPred = [NSPredicate predicateWithFormat:@"image IN SELF"];
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post" predicate:innerPred];
+
+NSPredicate *pred = [NSPredicate predicateWithFormat:@"post IN %@", innerQuery];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts with images
+}];
+```
+
+If you want to retrieve objects where a field contains a `PFObject` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" doesNotMatchQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts without images
+}];
+```
+```swift
+NSPredicate *innerPred = [NSPredicate predicateWithFormat:@"image IN SELF"];
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post" predicate:innerPred];
+
+NSPredicate *pred = [NSPredicate predicateWithFormat:@"NOT (post IN %@)", innerQuery];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts without images
+}];
+```
+
+In some situations, you want to return multiple types of related objects in one query. You can do this with the `includeKey:` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+
+// Retrieve the most recent ones
+[query orderByDescending:@"createdAt"];
+
+// Only retrieve the last ten
+query.limit = 10;
+
+// Include the post data with each comment
+[query includeKey:@"post"];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // Comments now contains the last ten comments, and the "post" field
+    // has been populated. For example:
+    for (PFObject *comment in comments) {  // This does not require a network access.  PFObject *post = comment[@"post"];  NSLog(@"retrieved related post: %@", post);
+    }
+}];
+```
+```swift
+var query = PFQuery(className:"Comment")
+
+// Retrieve the most recent ones
+query.orderByDescending("createdAt")
+
+// Only retrieve the last ten
+query.limit = 10
+
+// Include the post data with each comment
+query.includeKey("post")
+
+query.findObjectsInBackgroundWithBlock {
+  (comments: [AnyObject]!, error: NSError!) -> Void in
+  // Comments now contains the last ten comments, and the "post" field
+  // has been populated. For example:
+  for comment in comments {
+    // This does not require a network access.
+    var post = comment["post"] as PFObject
+    NSLog("retrieved related post: \(post)")
+  }
+}
+```
+
+You can also do multi level includes using dot notation.  If you wanted to include the post for a comment and the post's author as well you can do:
+
+```objc
+[query includeKey:@"post.author"];
+```
+```swift
+query.includeKey("post.author")
+```
+
+You can issue a query with multiple fields included by calling `includeKey:` multiple times. This functionality also works with PFQuery helpers like `getFirstObject` and `getObjectInBackground`
+
+## Querying the Local Datastore
+
+If you have enabled the local datastore by calling `[Parse enableLocalDatastore]` before your call to `[Parse setApplicationId:clientKey:]`, then you can also query against the objects stored locally on the device. To do this, call the `fromLocalDatastore` method on the query.
+
+```objc
+[query fromLocalDatastore];
+[[query findObjectsInBackground] continueWithBlock:^id(BFTask *task) {
+  if (!task.error) {
+    // There was an error.
+    return task;
+  }
+
+  // Results were successfully found from the local datastore.
+  return task;
+}];
+```
+```swift
+query.fromLocalDatastore()
+query.findObjectsInBackground().continueWithBlock({ 
+  (task: BFTask!) -> AnyObject! in
+  if task.error != nil {
+      // There was an error.
+      return task
+  }
+
+  // Results were successfully found from the local datastore.
+
+  return task
+})
+```
+
+You can query from the local datastore using exactly the same kinds of queries you use over the network. The results will include every object that matches the query that's been pinned to your device. The query even takes into account any changes you've made to the object that haven't yet been saved to the cloud. For example, if you call `deleteEventually`, on an object, it will no longer be returned from these queries.
+
+## Caching Queries
+
+It's often useful to cache the result of a query on disk. This lets you show data when the user's device is offline, or when the app has just started and network requests have not yet had time to complete. Parse takes care of automatically flushing the cache when it takes up too much space.
+
+The default query behavior doesn't use the cache, but you can enable caching by setting `query.cachePolicy`. For example, to try the network and then fall back to cached data if the network is not available:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+query.cachePolicy = kPFCachePolicyNetworkElseCache;
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  if (!error) {
+    // Results were successfully found, looking first on the
+    // network and then on disk.
+  } else {
+    // The network was inaccessible and we have no cached data for
+    // this query.
+  }
+}];
+```
+```swift
+var query = PFQuery(className:"GameScore")
+query.cachePolicy = kPFCachePolicyNetworkElseCache
+query.findObjectsInBackgroundWithBlock {
+  (objects: [AnyObject]!, error: NSError!) -> Void in
+  if error == nil {
+    // Results were successfully found, looking first on the
+    // network and then on disk.
+  } else {
+    // The network was inaccessible and we have no cached data for
+    // this query.
+  }
+}
+```
+
+Parse provides several different cache policies:
+
+*   `kPFCachePolicyIgnoreCache`: The query does not load from the cache or save results to the cache. `kPFCachePolicyIgnoreCache` is the default cache policy.
+*   `kPFCachePolicyCacheOnly`: The query only loads from the cache, ignoring the network. If there are no cached results, that causes a `PFError`.
+*   `kPFCachePolicyNetworkOnly`: The query does not load from the cache, but it will save results to the cache.
+*   `kPFCachePolicyCacheElseNetwork`: The query first tries to load from the cache, but if that fails, it loads results from the network. If neither cache nor network succeed, there is a `PFError`.
+*   `kPFCachePolicyNetworkElseCache`:  The query first tries to load from the network, but if that fails, it loads results from the cache. If neither network nor cache succeed, there is a `PFError`.
+*   `kPFCachePolicyCacheThenNetwork`: The query first loads from the cache, then loads from the network. In this case, the callback will actually be called twice - first with the cached results, then with the network results. Since it returns two results at different times, this cache policy cannot be used synchronously with `findObjects`.
+
+If you need to control the cache's behavior, you can use methods provided in PFQuery to interact with the cache.  You can do the following operations on the cache:
+
+*   Check to see if there is a cached result for the query with:
+```objc
+BOOL isInCache = [query hasCachedResult];
+```
+```swift
+let isInCache = query.hasCachedResult()
+```
+*   Remove any cached results for a query with:
+```objc
+[query clearCachedResult];
+```
+```swift
+query.clearCachedResult()
+```
+*   Remove cached results for queries with:
+```objc
+[PFQuery clearAllCachedResults];
+```
+```swift
+PFQuery.clearAllCachedResults()
+```
+
+Query caching also works with PFQuery helpers including `getFirstObject` and `getObjectInBackground`.
+
+## Counting Objects
+
+Caveat: Count queries are rate limited to a maximum of 160 requests per minute.  They can also return inaccurate results for classes with more than 1,000 objects.  Thus, it is preferable to architect your application to avoid this sort of count operation (by using counters, for example.)
+
+If you just need to count how many objects match a query, but you do not need to retrieve the objects that match, you can use `countObjects` instead of `findObjects`. For example, to count how many games have been played by a particular player:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playername" equalTo:@"Sean Plott"];
+[query countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
+  if (!error) {
+    // The count request succeeded. Log the count
+    NSLog(@"Sean has played %d games", count);
+  } else {
+    // The request failed
+  }
+}];
+```
+```swift
+var query = PFQuery(className:"GameScore")
+query.whereKey("playerName", equalTo:"Sean Plott")
+query.countObjectsInBackgroundWithBlock {
+  (count: Int, error: NSError!) -> Void in
+  if error == nil {
+    NSLog("Sean has played %@ games", count)
+  }
+}
+```
+
+If you want to block the calling thread, you can also use the synchronous `countObjects` method.
+
+## Compound Queries
+
+If you want to find objects that match one of several queries, you can use `orQueryWithSubqueries:` method.  For instance, if you want to find players with either have a lot of wins or a few wins, you can do:
+
+```objc
+PFQuery *lotsOfWins = [PFQuery queryWithClassName:@"Player"];
+[lotsOfWins whereKey:@"wins" greaterThan:@150];
+
+PFQuery *fewWins = [PFQuery queryWithClassName:@"Player"];
+[fewWins whereKey:@"wins" lessThan:@5];
+PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+  // results contains players with lots of wins or only a few wins.
+}];
+```
+```swift
+var lotsOfWins = PFQuery(className:"Player")
+lotsOfWins.whereKey("wins", greaterThan:150)
+
+var fewWins = PFQuery(className:"Player")
+fewWins.whereKey("wins", lessThan:5)
+
+var query = PFQuery.orQueryWithSubqueries([lotsOfWins, fewWins])
+query.findObjectsInBackgroundWithBlock {
+  (results: [AnyObject]!, error: NSError!) -> Void in
+  if error == nil {
+    // results contains players with lots of wins or only a few wins.
+  }
+}
+```
+
+You can add additional constraints to the newly created `PFQuery` that act as an 'and' operator.
+
+Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `nearGeoPoint`, `withinGeoBox...:`, `limit`, `skip`, `orderBy...:`, `includeKey:`) in the subqueries of the compound query.
+
+## Subclass Queries
+
+You can get a query for objects of a particular subclass using the class method `query`. The following example queries for armors that the user can afford:
+
+```objc
+PFQuery *query = [Armor query];
+[query whereKey:@"rupees" lessThanOrEqualTo:[PFUser currentUser][@"rupees"]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  if (!error) {
+    Armor *firstArmor = [objects firstObject];
+    // ...
+  }
+}];
+```
+```swift
+let query = Armor.query()
+query.whereKey("rupees", lessThanOrEqualTo: PFUser.currentUser()["rupees"])
+query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
+  if error == nil {
+    let firstArmor = objects.first
+    //...
+  }
+}
+```

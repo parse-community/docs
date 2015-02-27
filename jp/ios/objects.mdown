@@ -1,0 +1,380 @@
+# オブジェクト
+
+## PFObject
+
+Parseでのデータ保存は`PFObject`に基づいて設計されています。各`PFObject`にはJSON互換データのキーの値のペアが入ります。このデータはスキーマレスであり、各`PFObject`に存在するキーを事前に指定する必要がありません。必要なキーの値のペアを設定するだけで、バックエンドで保存されます。
+
+たとえば、ゲームの高得点をトラッキングするとします。1つの`PFObject`には次のようなキーを入れることができます。
+
+```js
+score: 1337, playerName: "Sean Plott", cheatMode: false
+```
+
+キーは英数字で指定します。値には、JSONエンコード可能なものであれば、文字列、数字、ブール値だけでなく配列や辞書も使用できます。
+
+各`PFObject`にはデータの種類の区別に使用するクラス名があります。たとえば、高得点オブジェクトには`GameScore`という名前を付けることができます。コードを見やすくするために、NameYourClassesLikeThisやnameYourKeysLikeThisのような名前を付けることをお勧めします。
+
+## オブジェクトの保存
+
+上述の`GameScore`をParseクラウドに保存するとします。インターフェイスは`NSMutableDictionary`に`saveInBackground`メソッドを合わせたようになります。
+
+```objc
+PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
+gameScore[@"score"] = @1337;
+gameScore[@"playerName"] = @"Sean Plott";
+gameScore[@"cheatMode"] = @NO;
+[gameScore saveInBackground];
+```
+
+このコードを実行しても、何が行われたのかよく分からないかもしれません。データが保存されたことを確認するには、Parseでアプリの「データブラウザ」を確かめます。次のように表示されているはずです。
+
+```js
+objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
+createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```
+
+ここでは2つの点に注目します。このコードを実行する前に`GameScore`と呼ばれる新しいクラスを作成したり、設定したりする必要はありませんでした。コードがあった場合に、Parseアプリによってこのクラスが作成されます。
+
+また、指定しなくても、いくつかのフィールドは必要に応じて入力されます。`objectId`は保存した各オブジェクト用の一意のIDです。`createdAt`と`updatedAt`はParseクラウドでの各オブジェクトの作成日時と、最終更新日時を表します。これらのフィールドはParseが入力することから、保存操作が完了するまで`PFObject`上には存在しません。
+
+注: `saveInBackgroundWithBlock`または`saveInBackgroundWithTarget:selector:`メソッドを利用して、保存が完了した後に実行する別のロジックを提供することができます。
+
+## オブジェクトの取得
+
+クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`がある場合、`PFQuery`を使用して`PFObject`全体を取得できます。これは非同期メソッドで、ブロックやコールバックメソッドのいずれかを使用したバリエーションがあります。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ" block:^(PFObject *gameScore, NSError *error) {
+    // Do something with the returned PFObject in the gameScore variable.
+    NSLog(@"%@", gameScore);
+}];
+// The InBackground methods are asynchronous, so any code after this will run
+// immediately.  Any code that depends on the query result should be moved
+// inside the completion block above.
+```
+
+`PFObject`から値を取得するには、`objectForKey:`メソッドまたは`[]`添字演算子のいずれかを使用します。
+
+```objc
+int score = [[gameScore objectForKey:@"score"] intValue];
+NSString *playerName = gameScore[@"playerName"];
+BOOL cheatMode = [gameScore[@"cheatMode"] boolValue];
+```
+
+次の3つの特殊な値をプロパティとして設定します。
+
+```objc
+NSString *objectId = gameScore.objectId;
+NSDate *updatedAt = gameScore.updatedAt;
+NSDate *createdAt = gameScore.createdAt;
+```
+
+すでに取得したオブジェクトをParseクラウド内の最新のデータで更新する場合は、次のように`refresh`ソッドを呼び出します。
+
+```objc
+[myObject refresh];
+```
+
+## オブジェクトをオフラインで保存する
+
+ほとんどの保存関数は、即時実行し、保存が完了する際にアプリに知らせます。保存が完了したことを知る必要がない場合は、`saveEventually`を使用します。この利点は、利用者に現在ネットワーク接続がない場合、`saveEventually`によってネットワーク接続が再確立するまでデバイスでアップデートを保存できることです。接続が戻る前にアプリを閉じると、Parseでは次にアプリが開かれるときに再試行します。`saveEventually`（および`deleteEventually`）へのすべての呼び出しは呼び出された順番に実行されるので、オブジェクトで`saveEventually`を安全に複数回呼び出すことができます。
+
+```objc
+// Create the object.
+PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
+gameScore[@"score"] = @1337;
+gameScore[@"playerName"] = @"Sean Plott";
+gameScore[@"cheatMode"] = @NO;
+[gameScore saveEventually];
+```
+
+## オブジェクトの更新
+
+オブジェクトは簡単に更新できます。新しいデータをオブジェクトに設定し、保存メソッドの1つを呼び出すだけです。オブジェクトを保存して`objectId`があるとします。`PFQuery`を使用して`PFObject`を取得し、データを更新することができます。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+// Retrieve the object by id
+[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ" block:^(PFObject *gameScore, NSError *error) {
+    // Now let's update it with some new data. In this case, only cheatMode and score
+    // will get sent to the cloud. playerName hasn't changed.
+    gameScore[@"cheatMode"] = @YES;
+    gameScore[@"score"] = @1338;
+    [gameScore saveInBackground];
+}];
+```
+
+クライアントが変更されたデータを自動的に確認し、「ダーティ」なフィールドのみがParseに送信されます。更新する必要のない圧縮データは無視してもかまいません。
+
+### カウンタ
+
+上記の例には一般的な使用例が含まれます。[スコア]フィールドはプレイヤーの最新スコアで継続的に更新する必要があるカウンタです。上記のメソッドも機能しますが、作業が面倒であり、複数のクライアントが同じカウンタを更新しようとすると問題が発生することになります。
+
+カウンタタイプのデータを簡単に保存できるよう、Parseには番号フィールドをアトミックに増やす、または減らすメソッドが用意されています。同じ更新処理は次のように記述できます。
+
+```objc
+[gameScore incrementKey:@"score"];
+[gameScore saveInBackground];
+```
+
+さらに`incrementKey:byAmount:`を使用して値を増やすこともできます。
+
+### 配列
+
+配列データを簡単に保存できるよう、次の3つの操作を使用すると、配列フィールドをアトミックに変更できます。
+
+*   `addObject:forKey:`と`addObjectsFromArray:forKey:`は、指定したオブジェクトを配列フィールドの末尾に追加します。
+*   `addUniqueObject:forKey:`と`addUniqueObjectsFromArray:forKey:`は配列フィールドにはまだ含まれていない指定したオブジェクトのみを追加します。挿入場所は保証されません。
+*   `removeObject:forKey:`と`removeObjectsInArray:forKey:`は、配列フィールドから各オブジェクトのインスタンスをすべて削除します。
+
+たとえば、このようにセットのような[スキル]フィールドにアイテムを追加できます。
+
+```objc
+[gameScore addUniqueObjectsFromArray:@[@"flying", @"kungfu"] forKey:@"skills"];
+[gameScore saveInBackground];
+```
+
+現在は、同じ保存操作で配列にアイテムをアトミックに追加したり、配列からアイテムをアトミックに削除することはできません。異なる種類の各配列操作の間に`save`を呼び出す必要があります。
+
+## オブジェクトの削除
+
+クラウドからオブジェクトを削除するには:
+
+```objc 
+[myObject deleteInBackground];
+```
+
+削除が確定したときにコールバックを実行する場合は、`deleteInBackgroundWithBlock:`または`deleteInBackgroundWithTarget:selector:`メソッドを使用します。呼び出しスレッドをブロックする場合は、`delete`メソッドを使用します。
+
+`removeObjectForKey`メソッドでは、オブジェクトから1つのフィールドを削除できます。
+
+```objc
+// After this, the playerName field will be empty
+[myObject removeObjectForKey:@"playerName"];
+// Saves the field deletion to the Parse Cloud
+[myObject saveInBackground];
+```
+
+## リレーショナルデータ
+
+オブジェクトには他のオブジェクトとの関係を持たせることができます。この動作をモデル化するためには、一意の`PFObject`を別の`PFObject`で値として使用することができます。内部的には、一貫性を保持するために、Parseフレームワークによって参照先オブジェクトが一か所に保存されます。
+
+<div class="callout_green">
+「[一対多数の関係](/tutorials/one-to-many-relationships)」チュートリアルでは、簡単なブログアプリケーションにおいて2つの`PFObjects`間で一対多数の関係を作成する方法を学ぶことができます。
+</div>
+
+たとえば、ブログアプリのそれぞれの`Comment`が1つの`Post`に対応することもあります。1つの`Comment`で新しい`Post`を作成するには、次のように書き込みます。
+
+```objc
+// Create the post
+PFObject *myPost = [PFObject objectWithClassName:@"Post"];
+myPost[@"title"] = @"I'm Hungry";
+myPost[@"content"] = @"Where should we go for lunch?";
+
+// Create the comment
+PFObject *myComment = [PFObject objectWithClassName:@"Comment"];
+myComment[@"content"] = @"Let's do Sushirrito.";
+
+// Add a relation between the Post and Comment
+myComment[@"parent"] = myPost;
+
+// This will save both myPost and myComment
+[myComment saveInBackground];
+```
+
+また、次のように`objectId`だけを使用してオブジェクトをリンクさせることができます。
+
+```objc
+// Add a relation between the Post with objectId "1zEcyElZ80" and the comment
+myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"];
+```
+
+デフォルトでは、オブジェクトを取得する際には、関連する`PFObject`は取得されません。次の方法で取得しない限り、これらのオブジェクトの値を取り出すことはできません。
+
+```objc
+PFObject *post = fetchedComment[@"parent"];
+[post fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    NSString *title = post[@"title"]; }];
+```
+
+また、`PFRelation`オブジェクトを使用すると多対多の関係をモデル化することもできます。これは`PFObjects`の`NSArray`と同様に作用しますが、関係するすべてのオブジェクトを一度にダウンロードする必要はありません。そのおかげで`PFRelation`の方が、`PFObject`の`NSArray`アプローチよりも多くのオブジェクトに拡張することができます。たとえば、`User`が「いいね！」した多数の`Post`を持っているとします。この場合、`relationforKey:`を使用して`User`が「いいね！」した一連の`Post`を格納できます。投稿をリストに追加するためには、コードは次のようにする必要があります。
+
+```objc
+PFUser *user = [PFUser currentUser];
+PFRelation *relation = [user relationforKey:@"likes"];
+[relation addObject:post];
+[user saveInBackground];
+```
+
+次のように、`PFRelation`から投稿を削除できます。
+
+```objc
+[relation removeObject:post];
+```
+
+デフォルトでは、この関係のオブジェクトリストはダウンロードされません。`query`によって返された`PFQuery`で`findObjectsInBackgroundWithBlock:`を呼び出して`Post`のリストを取得します。コードは次のようになります。
+
+```objc
+[[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (error) {
+        // There was an error
+    } else {
+        // objects has all the Posts the current user liked.
+    }
+}];
+```
+
+`Post`のサブセットのみが必要な場合は、次のように`query`が返す`PFQuery`に条件を追加できます。
+
+```objc
+PFQuery *query = [relation query];
+// Add other query constraints.
+```
+
+`PFQuery`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。`PFRelation`は`PFObject`の`NSArray`と同様に作用するので、オブジェクトの配列で実行するクエリ（`includeKey:`以外）は、`PFRelation`で実行できます。
+
+## データタイプ
+
+ここまでは`NSString`、`NSNumber`、`PFObject`といったタイプの値を使用してきました。Parseは`NSDate`、`NSData`、`NSNull`もサポートしています。
+
+`NSDictionary`と`NSArray`オブジェクトをネストさせて、1つの`PFObject`内により多くの構造化データを格納できます。
+
+次のその例を示します。
+
+```objc
+NSNumber *number = @42;
+NSString *string = [NSString stringWithFormat:@"the number is %@", number];
+NSDate *date = [NSDate date];
+NSData *data = [@"foo" dataUsingEncoding:NSUTF8StringEncoding];
+NSArray *array = @[string, number];
+NSDictionary *dictionary = @{@"number": number,
+                             @"string": string};
+NSNull *null = [NSNull null];
+
+PFObject *bigObject = [PFObject objectWithClassName:@"BigObject"];
+bigObject[@"myNumber"] = number;
+bigObject[@"myString"] = string;
+bigObject[@"myDate"] = date;
+bigObject[@"myData"] = data;
+bigObject[@"myArray"] = array;
+bigObject[@"myDictionary"] = dictionary;
+bigObject[@"myNull"] = null;
+[bigObject saveInBackground];
+```
+
+`PFObject`で`NSData`フィールドを使用して画像やドキュメントなどサイズの大きいバイナリデータを保存することはお勧めできません。`PFObject`のサイズは128キロバイト以下にする必要があります。それ以上を保存するには`PFFile`の使用をお勧めいたします。詳細は[ガイドセクション](#files)をご覧ください。
+
+Parseにおけるデータ処理方法に関する詳細情報は、 [データとセキュリティ](/docs/data)ドキュメントをご覧ください。
+
+## サブクラス
+
+Parseは、できるだけ迅速に起動して実行できるようにできています。`PFObject`クラスを使用してすべてのデータにアクセスできます。また`objectForKey:`や `[]`の添字演算子であらゆるフィールドにアクセスできます。成熟したコードベースにおけるサブクラス化には簡潔性や拡張性、オートコンプリートを含む多くの利点があります。サブクラス化は完全なオプションですが、このコードを変換することができます。
+
+```objc
+PFObject *shield = [PFObject objectWithClassName:@"Armor"];
+shield[@"displayName"] = @"Wooden Shield";
+shield[@"fireProof"] = @NO;
+shield[@"rupees"] = @50;
+```
+
+は、以下のように変換します。
+
+```objc
+Armor *shield = [Armor object];
+shield.displayName = @"Wooden Shield";
+shield.fireProof = NO;
+shield.rupees = 50;
+```
+
+### PFObjectのサブクラス化
+
+`PFObject`のサブクラスを作成するには、次のようにします。
+
+1.  `PFSubclassing`プロトコルに準拠するサブクラスを宣言します。
+2.  クラスメソッド`parseClassName`を実装します。これは、`initWithClassName:`に渡す文字列で、今後のすべてのクラスにおける名前参照が不要になります。
+3.  .mファイルに`PFObject+Subclass`をインポートします。これによって`parseClassName`より先の`PFSubclassing`ですべてのメソッドを実装します。
+4.  Parseの`setApplicationId:clientKey:`の前にApplicationDelegateで`[YourClass registerSubclass]`を呼び出します。
+次のコードは`PFObject`のサブクラスである`Armor`を正しく宣言、実装、登録しています。
+
+```objc
+// Armor.h
+@interface Armor : PFObject<PFSubclassing>
++ (NSString *)parseClassName;
+@end
+
+// Armor.m
+// Import this header to let Armor know that PFObject privately provides most
+// of the methods for PFSubclassing.
+#import <Parse/PFObject+Subclass.h>
+
+@implementation Armor
++ (void)load {
+    [self registerSubclass];
+}
+
++ (NSString *)parseClassName {
+    return @"Armor";
+}
+@end
+```
+
+### プロパティとメソッド
+
+カスタムプロパティとメソッドを`PFObject`サブクラスに追加すると、クラスについてのロジックをカプセル化できます。`PFSubclassing`を使用すると、ビジネスロジックやストレージ/送信ロジックに対して個別のクラスを使用する代わりに、サブジェクトに関するすべてのロジックを一ヶ所にまとめておくことができます。
+
+`PFObject`では`NSManagedObject`のようにダイナミック合成をサポートします。通常通りにプロパティを宣言しますが、.mファイルでは`@synthesize`ではなく`@dynamic`を使用します。次の例では`Armor`クラスで`displayName`プロパティを作成します。
+
+```objc
+// Armor.h
+@interface Armor : PFObject<PFSubclassing>
++ (NSString *)parseClassName;
+@property (retain) NSString *displayName;
+@end
+
+// Armor.m
+@dynamic displayName;
+```
+
+`armor.displayName`や`[armor displayName]`を使用してdisplayNameプロパティにアクセスし、`armor.displayName = @"Wooden Shield"`や`[armor setDisplayName:@"Wooden Sword"]`を使用して割り当てることができます。ダイナミックプロパティによってXcodeはオートコンプリートを提供し、誤字を見つけることができます。
+
+`NSNumber`プロパティは`NSNumber`として、または初期のものとして実装することができます。以下の例についても検討してください。
+
+```objc
+@property BOOL fireProof;
+@property int rupees;
+```
+
+この場合、`game[@"fireProof"]`では`boolValue`を使用してアクセスする`NSNumber`を返し、`game[@"rupees"]`では`intValue`を使用してアクセスする`NSNumber`を返しますが、`fireProof`プロパティは実際の`BOOL`、`rupees`プロパティは実際の`int`になります。ダイナミックgetterは`BOOL`または`int`の値を自動的に抽出し、ダイナミックsetterは`NSNumber`の値を自動的にラップします。形式は自由に選択できます。初期プロパティタイプは簡単に使用できますが、`NSNumber`プロパティタイプはより明確にnil値をサポートします。
+
+シンプルなプロパティアクセスよりも複雑なロジックが必要な場合、独自のメソッドを宣言することができます。
+
+```objc
+@dynamic iconFile;
+
+- (UIImageView *)iconView {
+    PFImageView *view = [[PFImageView alloc] initWithImage:kPlaceholderImage];
+    view.file = self.iconFile;
+    [view loadInBackground];
+    return [view autorelease];
+}
+```
+
+### サブクラスの開始
+
+新しいオブジェクトは`object`クラスメソッドで作成します。これは自動リリースされたタイプのインスタンスを構成し、さらなるサブクラス化を正確に処理します。既存のオブジェクトへの参照を作成するには、`objectWithoutDataWithObjectId:`を使用します。
+
+### クエリ
+
+クラスメソッド`query`を使用して特定のサブクラスのオブジェクトにおけるクエリを取得することができます。次の例は利用者が購入できる装甲のクエリです。
+
+```objc
+PFQuery *query = [Armor query];
+[query whereKey:@"rupees" lessThanOrEqualTo:PFUser.currentUser.rupees];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        Armor *firstArmor = objects[0];
+        // ...
+    }
+}];
+```

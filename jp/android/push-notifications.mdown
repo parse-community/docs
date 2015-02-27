@@ -1,0 +1,422 @@
+# プッシュ通知
+
+プッシュ通知は、ユーザーをひきつけ、アプリに関する最新情報を提供するための優れた手段であり、アプリの全ユーザーにすばやく効果的にリーチできます。このガイドでは、セットアップの手順と、Parseでプッシュ通知を送る一般的な方法を説明します。
+
+
+## プッシュ通知のセットアップ
+
+プッシュ通知を使いたい場合は、まず[Androidでのプッシュ通知のチュートリアル](/tutorials/android-push-notifications)を完了し、アプリの設定方法を確認してください。その後このガイドに戻り、Parseで利用できるプッシュ機能について詳細をご覧ください。
+
+Parseライブラリでは、可能な場合にGoogle Cloud Messaging（GCM）でプッシュ通知を送信できます。GCMをサポートしていないデバイス（Amazon Kindle Fireなど）では、ParseはParse Cloudへの継続的な接続を維持するバックグラウンドサービスを通じてプッシュ通知を配信します。これにより、Parse PushはAndroid 2.2以降の動作するあらゆるデバイスで機能します。 
+
+
+## インストール
+
+プッシュ通知を使用するよう登録されたすべてのParseアプリケーションには、`Installation`オブジェクトが関連付けられています。この`Installation`オブジェクトには、プッシュ通知のターゲッティングに必要なあらゆるデータが保管されています。たとえば、野球アプリでは、ユーザーが応援しているチーム名を保管し、それらのチームの最新情報を配信できます。
+
+Androidでは、`Installation`オブジェクトは`ParseObject`のサブクラスである`ParseInstallation`クラスを通じて利用できます。このオブジェクトはデータの保管と取得に[同じAPI](#objects)を使用します。Androidアプリの現在の`Installation`オブジェクトにアクセスするには、`ParseInstallation.getCurrentInstallation()`メソッドを使用します。Parseは、初めて`ParseInstallation`を保存するときに、それを`Installation`クラスに追加します。以後、このオブジェクトはプッシュ通知のターゲット設定に利用できます。
+
+```java
+// Save the current Installation to Parse.
+ParseInstallation.getCurrentInstallation().saveInBackground();
+```
+
+`ParseInstallation`は`ParseObject`と同様に変更できますが、デバイスの管理やターゲッティングに役立つ特別なフィールドがいくつかあります。
+
+*   **`badge`**:iOSアプリの、アイコンバッジの現在の値。サーバー上でこの値を変更すると、その後のバッジ増加プッシュ通知に使用されます。
+*   **`channels`**:デバイスが購読しているチャンネルの配列。
+*   **`timeZone`**:ターゲットデバイスの現在地の時間帯。値はデバイスから`Installation`オブジェクトが保存されるたびに同期されます（読み取り専用）。
+*   **`deviceType`**:デバイスの種別。「ios」または「android」（読み取り専用）。
+*   **`installationId`**:Parseで使用される、デバイスの一意の識別子（読み取り専用）。
+*   **`deviceToken`**:iOSデバイスで使用される、Appleによって生成されたトークン。または、GCMが登録IDを追跡するために使用するトークン（読み取り専用）。
+*   **`channelUris`**:Windowsデバイスで使用される、Microsoftによって生成されたプッシュURI（読み取り専用）。
+*   **`appName`**:このインストールが所属するクライアントアプリケーションの表示名（読み取り専用）。
+*   **`appVersion`**:このインストールが所属するクライアントアプリケーションのバージョン文字列（読み取り専用）。
+*   **`parseVersion`**:このインストールが使用するParse SDKのバージョン（読み取り専用）。
+*   **`appIdentifier`**:このインストールのクライアントアプリケーションの一意の識別子。このパラメータはAndroidではサポートされていません（読み取り専用）。
+*   **`pushType`** このフィールドは、Parseに配信ネットワークを使用するよう指示するために予約されています。このデバイスがGCM経由でプッシュ通知を受信するよう登録された場合、このフィールドは「gcm」とマークされます。デバイスがGCMを使用せず、Parseのプッシュ通知サービスを利用する場合、このフィールドは空白になります（読み取り専用）。
+
+
+## プッシュ通知の送信
+
+Parseでプッシュ通知を送信する方法は2つあります。[チャンネル](#sending-channels)と[詳細ターゲット設定](#sending-queries)です。チャンネルはシンプルで使いやすいプッシュ通知送信モデルで、詳細ターゲット設定はより強力で柔軟性の高いモデルです。この2つは完全な互換性を持っています。この項ではこの2つについて説明します。
+
+通知の送信は、一般的にウェブコンソール、REST API、またはCloud Codeから行います。ただし、既存のクライアントSDKからプッシュ通知をトリガすることもできます。クライアントSDKから通知を送る場合は、Parseアプリの[Push Notifications]で<% if current_user && @apps[0] %> <%= link_to_settings @apps[0], "Client Push Enabled", "push"  %>   <% else %>     **Client Push Enabled**   ```を設定する必要があります。
+
+<%= image_tag 'docs/client_push_settings.png', :style => 'border: 1px solid #eee; width: 100%; max-width: 992px' %>
+
+
+### チャンネルの使用
+
+通知を送る最もシンプルな方法はチャンネルを使用することです。チャンネルを使うことにより、出版-購読型モデルでプッシュ通知を送信できます。このモデルでは、まずデバイス側が1つ以上のチャンネルを購読し、それ以降に通知を受け取れるようにします。各`Installation`の購読チャンネル情報は`Installation`オブジェクトの`channels`フィールドに保管されます。
+
+#### チャンネルの購読
+
+チャンネルは、アルファベットで始まる、英数字、アンダースコア、ダッシュを組み合わせた文字列で識別されます。この文字列は事前に明示的に作成する必要はありません。また、各`Installation`は同時にいくつでもチャンネルを購読できます。
+
+チャンネルの購読は、1つのメソッドを呼び出すだけです。たとえば、野球のスコアアプリでは以下のようにします。
+
+```java
+// When users indicate they are Giants fans, we subscribe them to that channel.
+PushService.subscribe(context, "Giants", YourActivity.class);
+```
+
+提供されているActivityクラスでは、ユーザーがこのチャンネルの通知に反応したときに動作するActivityを指定します。これにより、チャンネルごとに通知の処理を変えることができます。
+
+「Giants」チャンネルを購読した場合、`Installation`オブジェクトの`channels`フィールドを更新します。
+
+![](docs/installation_channel.png)
+
+チャンネルの購読停止も同じように簡単です。
+
+```java
+// When users indicate they are no longer Giants fans, we unsubscribe them.
+PushService.unsubscribe(context, "Giants");
+```
+
+以下のようにして、そのデバイスが購読しているチャンネルのリストを取得することもできます。
+
+```java
+Set<String> setOfAllSubscriptions = PushService.getSubscriptions();
+```
+
+購読メソッドも、購読停止メソッドも、それを呼び出したスレッドをブロックすることはありません。ネットワークに接続できない場合は、購読情報はデバイスのディスクにキャッシュされます。その後、ネットワークにつながるとすぐにParse Cloudに送信されます。つまり、購読の管理に関して、スレッディングやコールバックを考慮する必要はありません。
+
+#### チャンネルへのプッシュ通知の送信
+
+Android SDKでジャイアンツが得点したことを「Giants」チャンネルの全購読者に通知するには、以下のコードのようにします。このコードで通知を送ると、iOSユーザーの場合は通知センターに、Androidユーザーの場合は通知領域に通知が表示されます。
+
+```java
+ParsePush push = new ParsePush();
+push.setChannel("Giants");
+push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
+push.sendInBackground();
+```
+
+1件のプッシュ通知を複数のチャンネルに送信したい場合は、チャンネルの`LinkedList`を使います。
+
+```java
+LinkedList<String> channels = new LinkedList<String>();
+channels.add("Giants");
+channels.add("Mets");
+ParsePush push = new ParsePush();
+push.setChannels(channels);
+// Notice we use setChannels not setChannel
+push.setMessage("The Giants won against the Mets 2-3.");
+push.sendInBackground();
+```
+
+
+### 詳細ターゲット設定の使用
+
+チャンネルは多くのアプリケーションで有益ですが、プッシュ通知のターゲットをもっと詳細に制御したい場合があります。Parseでは、[クエリAPI](#queries)を使用してクエリを作成し、`Installation`のサブセットを指定してプッシュ通知を送信することができます。
+
+`ParseInstallation`は`ParseObject`のサブセットであるため、どのようなデータでも保存できるうえ、`Installation`オブジェクトと他のオブジェクトとの関係を作成することもできます。これにより、ユーザーセグメントを動的にカスタマイズしてプッシュ通知を送信することができます。
+
+#### インストールデータの保存
+
+`Installation`へのデータの保管は、Parse上で[他のデータ](#objects)を保管するのと同様、簡単です。たとえば、野球アプリで、ユーザーが試合結果、スコア、負傷者情報をプッシュ通知で受け取れるようにできます。
+
+```java
+// Store app language and version
+ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+installation.put("scores",true);
+installation.put("gameResults",true);
+installation.put("injuryReports",true);
+installation.saveInBackground();
+```
+
+`Installation`オブジェクトと、Parseに保存されている他のクラスとの関係を作成することもできます。たとえば、Installationを特定のユーザーと関連付けるには、`ParseInstallation`に現在のユーザーを保管します。
+
+```java
+// Associate the device with a user
+ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+installation.put("user",ParseUser.getCurrentUser());
+installation.saveInBackground();
+```
+
+#### クエリ結果へのプッシュ通知の送信
+
+`Installation`オブジェクトにデータを保管したら、`PFQuery`を使用して、これらのデバイスのサブセットをターゲットにします。`Installation` のクエリ動作は、他の[Parseクエリ](#queries)と変わりません。ただし、作成には、特別な静的メソッド`ParseInstallation.getQuery()`を使用します。このクエリを`PFPush`オブジェクト上に設定し、それから通知を送信します。
+
+```java
+// Create our Installation query
+ParseQuery pushQuery = ParseInstallation.getQuery();
+pushQuery.whereEqualTo("injuryReports", true);
+
+// Send push notification to query
+ParsePush push = new ParsePush();
+push.setQuery(pushQuery);
+// Set our Installation query
+push.setMessage("Willie Hayes injured by own pop fly.");
+push.sendInBackground();
+```
+
+クエリではチャンネルを使うこともできます。「Giants」チャンネルの購読者のうち、スコア情報を希望しているユーザーだけにプッシュ通知を送信するには、以下のようにします。
+
+```java
+// Create our Installation query
+ParseQuery pushQuery = ParseInstallation.getQuery();
+pushQuery.whereEqualTo("channels", "Giants");
+// Set the channel
+pushQuery.whereEqualTo("scores", true);
+
+// Send push notification to query
+ParsePush push = new ParsePush();
+push.setQuery(pushQuery);
+push.setMessage("Giants scored against the A's! It's now 2-2.");
+push.sendInBackground();
+```
+
+`Installation`クラスに他のオブジェクトとの関連付けを保管すると、それを他のクエリでも使用できます。たとえば、次のようにすると、指定した場所の近くにいるユーザー全員にプッシュ通知を送信できます。
+
+```java
+// Find users near a given location
+ParseQuery userQuery = ParseUser.getQuery();
+userQuery.whereWithinMiles("location", stadiumLocation, 1.0);
+
+// Find devices associated with these users
+ParseQuery pushQuery = ParseInstallation.getQuery();
+pushQuery.whereMatchesQuery("user", userQuery);
+
+// Send push notification to query
+ParsePush push = new ParsePush();
+push.setQuery(pushQuery);
+// Set our Installation query
+push.setMessage("Free hotdogs at the Parse concession stand!");
+push.sendInBackground();
+```
+
+## 送信のオプション
+
+プッシュ通知でできることは、メッセージの送信だけではありません。Androidでは、プッシュ通知にカスタムデータを含めたり、受領時に`Intent`を実行したりできます。通知に期限がある場合には、有効期限を設定することもできます。
+
+
+### 通知のカスタマイズ
+
+メッセージに追加して送信したいものがある場合には、`JSONObject`ですべてのデータをパッケージ化する必要があります。Androidでは、特別な意味を持つ予約済みフィールドがいくつかあります。
+
+*   **`alert`**: 通知のメッセージ本文。
+*   **`badge`**:（iOSのみ）アプリアイコンの右上に表示される数値。固定値を設定することも、`Increment`で現在の値を1増加させることもできます。
+*   **`sound`**:（iOSのみ）アプリケーションバンドルのサウンドファイルの名称。
+*   **`content-available`**:（iOSのみ）[Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html)アプリや、[iOS7で実装された](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10)リモート通知のバックグラウンドモード（通称「バックグラウンドプッシュ」）を使用するアプリは、この値を1にしてバックグラウンドでのダウンロードをトリガします。
+*   **`action`**:（Androidのみ）プッシュ通知を受信したときには、`Intent`が実行されます。`title`や`alert`の値が指定されていない場合、`Intent`は実行されますが、ユーザーには何の通知も表示されません。
+*   **`title`**:（Android、Windows 8、Windows Phone 8のみ）Androidの通知領域またはWindows 8のトースト通知に表示される値。
+
+たとえば、通知を送ってバッジの数値を1増加させ、カスタムサウンドを再生したい場合は以下のようにします。これらのプロパティの設定はAndroid版のクライアントからできますが、アプリのiOS版でしか実行されないことに注意してください。Android版のアプリで受信した場合、バッジもサウンドも無視されます。
+
+```java
+JSONObject data = new JSONObject("{\"alert\": \"The Mets scored!\",
+                                  \"badge\": \"Increment\",
+                                  \"sound\": \"cheering.caf);
+ParsePush *push = new ParsePush();
+push.setChannel("Mets");
+push.setData(data);
+push.sendPushInBackground();
+```
+
+この辞書で、自分自身のデータを指定することもできます。[「通知の受信」](#receiving)の項で説明するように、`Intent`を使うと、通知の受信時にカスタム処理を行うことができます。通知に設定されたあらゆるデータへのアクセスも可能です。
+
+```java
+JSONObject data = new JSONObject("{\"action\": \"com.example.UPDATE_STATUS\",
+                                  \"name\": \"Vaughn\",
+                                  \"newsItem\": \"Man bites dog\""}));
+ParsePush *push = new ParsePush();
+push.setQuery(injuryReportsQuery);
+push.setChannel("Indians");
+push.setData(data);
+push.sendPushInBackground();
+```
+
+
+### 有効期限の設定
+
+ユーザーのデバイスの電源が入っていなかったり、インターネットに接続していない場合は、プッシュ通知を配信することはできません。一定期間の経過後は表示する必要のない通知には、有効期限を設定することができます。これにより、不要な情報をユーザーに通知することを防げます。
+
+`ParsePush`クラスには、通知に有効期限を設定するためのメソッドが2つ用意されています。1つ目は`setExpirationTime`で、これはシンプルに`time`（UNIXエポック）を使用して、Parseがその通知の送信を停止するタイミングを指定します。
+
+```java
+// Send push notification with expiration date
+ParsePush push = new ParsePush();
+push.setExpirationTime(1424841505);
+push.setQuery(everyoneQuery);
+push.setMessage("Season tickets on sale until February 25th");
+push.sendPushInBackground();
+```
+
+ただし、このメソッドには短所があります。デバイスの時計は必ずしも正確ではないため、正確な結果が得られない場合があるということです。そのため、`ParsePush`クラスには別に`setExpirationTimeInterval`メソッドが用意されています。こちらは`timeInterval`（秒単位）を取ります。通知は指定したインターバルが終了すると期限切れとなります。
+
+```java
+// Create time interval
+long weekInterval = 60*60*24*7; // 1 week
+
+// Send push notification with expiration interval
+ParsePush push = new ParsePush();
+push.setExpirationTimeInterval(weekInterval);
+push.setQuery(everyoneQuery);
+push.setMessage("Season tickets on sale until next week!");
+push.sendPushInBackground();
+```
+
+
+### プラットフォーム別のターゲット設定
+
+クロスプラットフォームのアプリでは、特定のオペレーティングシステムのデバイスだけに通知を送りたい場合があります。詳細ターゲット設定では、フィルタを使ってそうした設定を行うことも可能です。
+
+以下は、Android、iOS、Windows 8のデバイスにそれぞれ異なる通知を送信する例です。
+
+```java
+ParseQuery query = ParseInstallation.getQuery();
+query.whereEqualTo("channels", "suitcaseOwners");
+
+// Notification for Android users
+query.whereEqualTo("deviceType", "android");
+ParsePush androidPush = new ParsePush();
+androidPush.setMessage("Your suitcase has been filled with tiny robots!");
+androidPush.setQuery(query);
+androidPush.sendPushInBackground();
+
+// Notification for iOS users
+query.whereEqualTo("deviceType", "android");
+ParsePush iOSPush = new ParsePush();
+iOSPush.setMessage("Your suitcase has been filled with tiny apples!");
+iOSPush.setQuery(query);
+iOSPush.sendPushInBackground();
+
+// Notification for Windows 8 users
+query.whereEqualTo("deviceType", "winrt");
+ParsePush winPush = new ParsePush();
+winPush.setMessage("Your suitcase has been filled with tiny glass!");
+winPush.setQuery(query);
+winPush.sendPushInBackground();
+
+// Notification for Windows 8 users
+query.whereEqualTo("deviceType", "winrt");
+ParsePush winPush = new ParsePush();
+winPush.setMessage("Your suitcase has been filled with tiny glass!");
+winPush.setQuery(query);
+winPush.sendPushInBackground();
+
+// Notification for Windows Phone 8 users
+query.whereEqualTo("deviceType", "winphone");
+ParsePush wpPush = new ParsePush();
+wpPush.setMessage("Your suitcase is very hip; very metro.");
+wpPush.setQuery(query);
+wpPush.sendPushInBackground();
+```
+
+
+## プッシュ通知のスケジュール設定
+
+<div class="callout_green">Android SDKでは現在、スケジュールを設定してのプッシュ通知の送信はサポートされていません。REST API、JavaScript SDK、またはウェブコンソールを参照してください。</div>
+
+
+## プッシュ通知の受信
+
+プッシュ通知が受信されると、「タイトル」が通知領域に表示され、「メッセージ」はその通知のコンテンツとして表示されます。Androidでは、開いた通知を処理する`Activity`と、通知の受信時にバッグラウンドで実行される`Intent`を指定することで、より細かな制御ができます。
+
+アプリでプッシュ通知を受信できるよう設定するには、<%= link_to 'Android Pushクイックスタートガイド', "/apps/quickstart_push" %>をお読みください。クイックスタートガイドでは、GCMをサポートしていないデバイスを含め、Androidデバイスでプッシュ通知を設定する方法を説明しています。GCMが有効なデバイスに限定してプッシュ通知を行う場合は、`AndroidManifest.xml`から以下の要素を削除してかまいません。
+
+*   `com.parse.ParseBroadcastReceiver`の`receiver`要素（`BOOT_COMPLETED`と`USER_PRESENT`のインテントフィルタを含む）*   `android.permission.RECEIVE_BOOT_COMPLETED`の`permission`要素
+
+その他の要素は（`com.parse.PushService`の要素を含む）クイックスタートで説明されているとおりにすべて必要です。
+
+一部のAndroidエミュレータ（Google APIのサポートがないもの）はGCMをサポートしないため、この種の設定を使用してエミュレータでアプリをテストする際には、必ずGoogle APIがインストールされたエミュレータイメージを使用してください。
+
+
+### Activityによる応答
+
+ユーザーがプッシュ通知を開いたときに起動する`Activity`を指定することができます。[チャンネル](#sending-channels/Android)を使用している場合は、購読メソッドの呼び出しにこの`Activity`を追加します。
+
+```java
+PushService.subscribe(context, "Giants", YourActivity.class);
+```
+
+[詳細ターゲット設定](#sending-queries/Android)を使用している場合は、デフォルトで使用する`Activity`を指定できます。
+
+```java
+PushService.setDefaultPushCallback(context, YourActivity.class);
+```
+
+### Intentによる応答
+
+プッシュ通知を受信したときにバックグラウンドで実行される`Intent`を指定することもできます。これにより、アプリケーションが通知をカスタム処理できます。また、これは通知領域にメッセージを表示するかどうかに関係なく使用できます。カスタムの通知処理を実装するには、プッシュ通知データ辞書の`Action`エントリを、実行したい`Intent`アクションに設定します。Androidのガイドラインでは、実行中の他のアプリと名前空間が衝突することを防ぐために、アクションにはプレフィックスとしてパッケージ名を追加することが推奨されています。
+
+[先ほどの例](#options-data/Android)をもう一度示します。
+
+```java
+JSONObject data = new JSONObject("{\"action\": \"com.example.UPDATE_STATUS\",
+                                  \"name\": \"Vaughn\",
+                                  \"newsItem\": \"Man bites dog\""}));
+ParsePush *push = new ParsePush();
+push.setQuery(injuryReportsQuery);
+push.setChannel("Angels");
+push.setData(data);
+push.sendPushInBackground();
+```
+
+コードが`com.example`パッケージにあり、`com.example.UPDATE_STATUS`アクションのレシーバを登録したい場合は、`AndroidManifest.xml`ファイルで、先ほど作成した`ParseBroadcastReceiver`の末尾に続けて以下のXMLを追加します。
+
+```xml
+<receiver android:name="com.example.MyCustomReceiver" android:exported="false">
+    <intent-filter>
+        <action android:name="com.example.UPDATE_STATUS" />
+    </intent-filter>
+</receiver>
+```
+
+以後、`com.example.UPDATE_STATUS`のアクションパラメータが指定されたプッシュ通知を受け取るごとに、カスタムレシーバが呼び出されます。Parse SDKでは、セキュリティを高めるため、このインテントはあなたのアプリ内のレシーバでしか処理できないようになっています。これに加えて`<receiver>`要素の`android:exported`属性を設定し、他のアプリからあなたのレシーバにプッシュ通知が送られることがないようにしてください。
+
+レシーバに渡された`Intent`オブジェクトには、2つの便利なマッピングを持つ追加の`Bundle`が含まれています。`"com.parse.Channel"`キーは、メッセージが送信されたチャンネルを表す文字列をポイントします。`"com.parse.Data"`キーは、プッシュ通知で設定されている`"data"`辞書の、JSONエンコードされた値を表す文字列をポイントします。たとえば、次のコードはJSONのプッシュ通知を解析し、それをAndroidエミュレータコンソールにログとして記録します。
+
+```java
+public class MyCustomReceiver extends BroadcastReceiver {
+    private static final String TAG = "MyCustomReceiver";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        try {
+            String action = intent.getAction();
+            String channel = intent.getExtras().getString("com.parse.Channel");
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+            Log.d(TAG, "got action " + action + " on channel " + channel + " with:");
+            Iterator itr = json.keys();
+            while (itr.hasNext()) {
+                String key = (String) itr.next();
+                Log.d(TAG, "..." + key + " => " + json.getString(key));
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "JSONException: " + e.getMessage());
+        }
+    }
+}
+```
+
+
+### プッシュ通知とアプリの起動の追跡
+
+`ParseAnalytics`クラスには、ユーザーのエンゲージメントやプッシュ通知の効果を追跡できるよう、いくつかのフックが用意されています。
+
+`Activity`でプッシュ通知に応答する場合、プッシュ通知を処理する`Activity`の`onCreate`メソッドに以下のコードを追加すると、アプリケーションがいつ起動されたか、またどのようなトリガで起動されたのかに関する情報を収集できるようになります。カスタムの`BroadcastReceiver`を実装してプッシュ通知に応答する場合は、`onReceive`に渡された`Intent`を使用するようにコードを書き換えます。
+
+```java
+ParseAnalytics.trackAppOpened(getIntent());
+```
+
+`trackAppOpened`の`null`パラメータは、アプリで起動された通常のイベントのみを追跡します（`Intent`のParseペイロードが空の場合や、明示的に`null`を渡してプッシュ通知を無視した場合など）。
+
+アプリケーションの起動やプッシュ関連の起動率は、アプリケーションのダッシュボードで確認できます。
+
+
+## トラブルシューティング
+
+プッシュ通知の設定は、しばしば開発者のいらだちの原因となります。プロセスは複雑で、開発中にはさまざまな問題も発生します。問題が発生したときには、以下のトラブルシューティングのヒントを参考にしてください。 
+
+*   [最新のSDKにアップグレード](/docs/downloads)します。Androidのプッシュ通知で頻発する複数の問題が、Parseの最近のリリースで解決されています。
+*   `AndroidManifest.xml`ファイルに、[Android Pushクイックスタートガイド](/apps/quickstart_push#android/native/existing)のステップ4から6で説明されている手順どおりに正しく許可が記述されていることを確認します。カスタムレシーバを使用している場合は、正しい`android:name`プロパティと適切なインテントフィルタを使用してそのレシーバをマニフェストファイルに登録してあることを確認します。
+*   アプリケーションIDとクライアントキーが正しいこと、および`Parse.initialize()`が呼び出されていることを確認します。`Parse.initialize()` は、自分がリッスンしているアプリケーションをサービスに知らせます。どのアクティベーションテクニックを使用してもParseの使い方がわかるよう、このコードを`onCreate`ではなく`Application.onCreate`に記述することを推奨します。
+*   デバイスが、あなたのアプリからのプッシュ通知を受信するよう設定されていることを確認します。
+*   Parse Push Consoleで、受信者数を確認し、想定している受信者数と一致しているかをチェックします。意図していないターゲットに送信している可能性があります。
+*   エミュレータでテストしている場合、プロジェクトのクリーニングと再構築を行い、AVDを再起動してみます。*   `Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE)`を使用して、詳細ログを有効にします。エラーメッセージは、何が起こっているかを理解する手掛かりとして有益です。
+*   ダッシュボードに「finished (with error)」（終了（エラーあり））というメッセージがあったら、詳細ログを確認します。デバイスからプッシュ通知を行っている場合は、クライアント側からのプッシュ送信が有効になっているかどうかをダッシュボードで確認します。
+*   ログに、「Could not construct writer」（ライターの構築に失敗）やパイプのエラーに関する問題が含まれることがあります。このような場合、フレームワークは再接続の試行を続けます。アプリのクラッシュにはつながりません。

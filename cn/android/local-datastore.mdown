@@ -1,0 +1,171 @@
+# 本地数据存储库
+
+Parse Android SDK 提供了本地数据存储库，可用于存储和检索 `ParseObject`，甚至在无网络的情况下。要启用此功能，只需调用 `Parse.enableLocalDatastore()`，然后再调用 `initialize`。
+
+```java
+import com.parse.Parse;
+import android.app.Application;
+
+public class App extends Application {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    Parse.enableLocalDatastore(this);
+    Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+  }
+}
+```
+
+应注意，启用本地数据存储库会出现一些副效应。启用时，只存在任何给定 `ParseObject` 的一个实例。例如，假设您有一个 `"GameScore"` 类实例，带 `"xWMyZ4YEGZ"` 的 `objectId`，然后您向带此 `objectId` 的所有 `"GameScore"` 实例发送了 `ParseQuery`。结果会得到您记忆库中已有的对象的同一实例。
+
+另一种副效应是，当前用户和当前安装的应用将存储在本地数据存储库中，所以您可以使用以下方法，在您应用程序不同运行次之间将未保存的更改保留到这些对象中。
+
+对 `ParseObject` 调用 `saveEventually` 方法将会导致该对象被 pin 在本地数据存储库中，直到保存完成。所以现在，如果您更改当前的 `ParseUser` 并且调用 `ParseUser.getCurrent().saveEventually()`，则应用程序将总能看到您所做的更改。
+
+## Pin 操作
+
+您可以通过 pin 操作将 `ParseObject` 存储在本地数据存储库中。Pin 一个 `ParseObject` 是递归性操作，如同保存，所以被您 pin 的对象指向的任何其他对象也将被 pin。Pin 一个对象时，每次通过提取或保存新数据更新该对象时，本地数据存储库中的副本也会自动更新。您完全不必为此担心。
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+
+gameScore.pinInBackground();
+```
+
+如果有多个对象，可采用 `pinAllInBackground` 便捷方法一次性将其全部 pin 起来。
+
+```java
+ParseObject.pinAllInBackground(listOfObjects);
+```
+
+## 从本地数据存储库检索
+
+对象存储是一项好功能，但是只有在以后能再找回这些对象的情况下才有价值。从本地数据存储库检索对象与在网络上检索一样。唯一的不同在于要调用 `fromLocalDatastore` 方法，告知 `ParseQuery` 在何处查找其结果。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.fromLocalDatastore();
+query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+
+// object will be your game score } else {
+
+// something went wrong } } });
+```
+
+## 查询本地数据存储库
+
+通常，您可能想查找符合一定标准的所有对象，而不是通过 ID 找到单个对象。为此，您可以使用 [ParseQuery](#queries). Any `ParseQuery` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Joe Bob");
+query.fromLocalDatastore();
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList,                      ParseException e) {
+               if (e == null) {
+            Log.d("score", "Retrieved " + scoreList.size());
+        } else {
+            Log.d("score", "Error: " + e.getMessage());
+        }
+    }
+});
+```
+
+## 取消 pin
+
+如果您已完成对某个对象的处理，不再需要将其保存在本地数据存储库中，您只需要取消 pin。这样能释放设备上的磁盘空间，从而保证您对本地数据存储库的查询快速运行。
+
+```java
+gameScore.unpinInBackground();
+```
+
+还有一种能够一次取消 pin 多个对象的方法。
+
+```java
+ParseObject.unpinAllInBackground(listOfObjects);
+```
+
+## 使用标签进行 pin 操作
+
+手动 pin 和取消 pin 每个对象有点像使用 `malloc` 和 `free`。它是非常强大的工具，但是却很难实现在复杂情景中存储对象。例如，假设您正在制作一个游戏，其中的全球高分和好友高分分别使用不同列表。如果其中一位朋友恰好取得了全球高分，您需要确保在将这些朋友从某个缓存查询中清除时不会将他们完全取消 pin。为了简化这些情景，您也可以使用标签执行 pin 操作。标签将指示应存储在一起的一组对象。
+
+```java
+// Add several objects with a label. ParseObject.pinAllInBackground("MyScores", someGameScores);
+
+// Add another object with the same label. anotherGameScore.pinInBackground("MyScores");
+```
+
+要使用同一个标签同时取消 pin 所有对象，您可以将标签传送至取消 pin 的方法。如此您便无需手动跟踪您关注的每组对象中有哪些对象。
+
+```java
+ParseObject.unpinAllInBackground("MyScores");
+```
+
+只要被任一标签 pin，任何对象均会保存在数据存储库中。也就是说，如果您用两个不同的标签 pin 一个对象，然后用其中一个标签取消了 pin，则该对象仍会保存在数据存储库中，只有用另外一个标签也取消 pin。
+
+## 缓存查询结果
+
+使用标签进行 pin 使得缓存查询结果很简单。您可以使用一个标签 pin 每个不同查询的结果。要从网络上获得新结果，只需要进行查询，然后更新 pin 的对象即可。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.orderByDescending(“score”);
+
+// Query for new results from the network.
+query.findInBackground(new FindCallback<ParseObject>() {
+        public void done(List<ParseObject> scores, ParseException e) {
+        // Remove the previously cached results.
+            ParseObject.unpinAllInBackground(“highScores”, new DeleteCallback() {
+            public void done(ParseException e) {
+                // Cache the new results.
+                    ParseObject.pinAllInBackground(“highScores”, scores);
+
+      }  
+      });
+    }
+});
+```
+
+如果您想为查询获得缓存结果，随后可在本地数据存储库下执行相同的查询操作。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.orderByDescending(“score”);
+query.fromLocalDatastore();
+
+query.findInBackground(new FindCallback<ParseObject>() {
+        public void done(List<ParseObject> scores, ParseException e) {
+        // Yay! Cached scores!
+    }
+});
+```
+
+## 同步本地更改
+
+您本地保存了一些更改后，可以通过一些不同的办法在网络上把那些更改保存到 Parse。要达到此目的最简单的方法是借助`saveEventually`。当您对 `ParseObject` 调用 `saveEventually` 时，前者将被 pin，直到能被保存。SDK 将确保在网络下次可用时保存此对象。
+
+```java
+gameScore.saveEventually();
+```
+
+如果您想更好地控制同步化各对象的方式，可以将它们保存在本地数据存储库中，直到您准备好使用 `saveInBackground` 亲自保存它们为止。想要管理一组需要保存的对象时，您可以再次使用标签。`ParseQuery` 上的 `fromPin` 方法让您能轻松提取您所关注的对象。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.fromPin(“myChanges”);
+query.findInBackground(new FindCallback<ParseObject>() {
+         public void done(List<ParseObject> scores, ParseException e) {
+       for (ParseObject score in scores) {
+            score.saveInBackground();
+            score.unpinInBackground(“myChanges”);
+        }    
+    }
+});
+```
+

@@ -1,0 +1,5 @@
+# 處理錯誤
+
+許多 `ParseObject` 中的方法（包含 `save()`、`delete()` 及 `get()`）會在有效要求中擲回 `ParseException`，例如刪除或編輯已不存在於雲端中的物件，或是在網路無法連線時防止和 Parse Cloud 通訊。您必需要能夠截住和處理這些例外。
+
+欲了解更多詳情，請參閱 [Android API](/docs/android)。" 

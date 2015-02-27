@@ -1,0 +1,45 @@
+# Обработка ошибок
+
+Большинство функций JavaScript Parse оповещают об успешном или неуспешном использовании объекта с помощью обратных вызовов, подобных объекту «параметры» Backbone.  Два основных используемых обратных вызова: `success` и `error`. `success` используются, если операция выполнена без ошибок.  Как правило, его параметром будет `Parse.Object` в случае `save` или `get`, либо массив `Parse.Object` для `find`.
+
+`error` вызывается для любого рода ошибки, которая возникает при взаимодействии с Parse Cloud через сеть. Эти ошибки связаны с проблемами подключения к облаку или с проблемами выполнения запрошенной операции. Рассмотрим другой пример:  В представленном ниже коде мы попытались получить объект с несуществующим полем `objectId`. Parse Cloud вернет ошибку. Чтобы обработать ее в обратном вызове надлежащим образом, выполните следующее:
+
+```js
+var query = new Parse.Query(Note);
+query.get("aBcDeFgH", {
+  success: function(results) {
+    // This function will *not* be called.
+    alert("Everything went fine!");
+  },
+  error: function(model, error) {
+    // This will be called.
+    // error is an instance of Parse.Error with details about the error.
+    if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
+      alert("Uh oh, we couldn't find the object!");
+    }
+  }
+});
+```
+
+Запрос также может быть неудачным, так как устройство не смогло подключиться к Parse Cloud. Ниже представлен тот же обратный вызов, но добавлен код для обработки этого сценария:
+
+```js
+var query = new Parse.Query(Note);
+query.get("thisObjectIdDoesntExist", {
+  success: function(results) {
+    // This function will *not* be called.
+    alert("Everything went fine!");
+  },
+  error: function(model, error) {
+    // This will be called.
+    // error is an instance of Parse.Error with details about the error.
+    if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
+      alert("Uh oh, we couldn't find the object!");
+    } else if (error.code === Parse.Error.CONNECTION_FAILED) {
+      alert("Uh oh, we couldn't even connect to the Parse Cloud!");
+    }
+  }
+});
+```
+
+Для таких методов, как `save` и `signUp`, которые влияют на определенный `Parse.Object`, первым аргументом для функции ошибки будет сам объект, а вторым &mdash; объект `Parse.Error`.  Это предусмотрено для совместимости с программами типа Backbone.  Список всех возможных типов ошибок `Parse.Error` см. в разделе «Коды ошибок» [JavaScript API](/docs/js).

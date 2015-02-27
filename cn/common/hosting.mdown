@@ -1,0 +1,517 @@
+# 托管
+
+Parse 托管服务提供用来托管静态和动态网站的各种工具。通过客户端的 JavaScript SDK 与服务器端的 Cloud Code 和 Express，您可以上传任何静态网站内容，或创建动态网站应用程序。这可用来为原生应用创建配套 web 应用，为移动应用创建登陆页面，甚至是托管 Unity Web 播放器的二进制文档。
+
+## 入门
+
+在用来进行开发的电脑上，您需要安装 Parse 的命令行工具。之后便可通过 Parse 云管理您的网站。命令行工具的版本至少应是 1.1.0。
+
+### 安装或更新命令行工具 (Mac/Linux)
+
+在 Mac OS 和 Linux/Unix 环境下，可通过运行这条命令获得 parse 工具：
+
+```bash
+curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
+```
+
+此操作将在 `/usr/local/bin/parse` 中安装&ldquo;parse&rdquo;工具。安装时不会产生其他垃圾文件，卸载时只需直接删除该文件即可。如果您已经安装 Parse 工具，此操作也能更新该命令行工具。
+
+### 安装命令行工具 (Windows)
+
+[点击此处](/downloads/windows/console/parse.zip)即可下载 Windows 版 Parse 命令行工具。下载并解压压缩文件后，双击 ParseConsole.exe 文件即可启动关于 Parse 的 PowerShell 会话。首次运行 ParseConsole 后，您也可以通过按 Win + R 快捷键并输入&ldquo;parse&rdquo;来启动 PowerShell 会话。
+
+### 创建您的项目目录
+
+下一步是创建目录，用以存储在 Parse 云中运行的网站。通过命令 `parse new` 即可创建目录，系统会提示您选择为哪个应用程序创建托管：
+
+```bash
+$ parse new MyWebsite
+Email: ninja@gmail.com
+Password:
+1:MyApp
+Select an App: 1
+$ cd MyWebsite
+```
+
+使用您的 Parse 帐户的电子邮箱和密码进行登录。如果您是通过 OAuth 注册且从未设置密码，则应立即通过帐户设置创建密码。此操作将在当前目录中创建一个名为 `MyWebsite` 的目录。系统会自动为您创建多个文件：
+
+```bash
+-config/
+  global.json
+-cloud/
+  main.js
+-public/
+  index.html
+```
+
+`config` 目录中包含 JSON 配置文件（通常无需进行处理）；`cloud` 目录中包含动态网站代码；`public` 目录中保存的是您想在 Parse 中托管的各种静态内容。您目前只需检查这些文件是否已创建成功。如果您使用版本控制，这时候可以导入所有这些文件。
+
+### 一个简单网站
+
+通过 Parse 托管静态内容很简单。`public` 目录中的所有内容将托管到 `your-custom-subdomain.parseapp.com`。此目录与 `cloud` 和 `config` 目录放在一起。
+
+要部署一个 Hello World 网站，只需要执行：
+
+```bash
+$ echo "Hello World" > public/index.html
+$ parse deploy
+```
+
+要访问您刚才部署的网站，需要建立一个二级域名。
+
+### 选择一个二级域名
+
+要访问您托管的内容，首先需要选择一个 ParseApp 二级域名。您可以在应用程序设置的&ldquo;Web Hosting&rdquo;（Web 托管）部分设置您的二级域名。您将需要在一个字段中输入一个 ParseApp 名称。二级域名区分大小写，且和您的应用程序名称不同，它在整个 Parse 系统中必须是唯一的。它可以包含 3 到 20 个数字字母和短划线，但不能以短划线开始或结尾。当您选择了一个唯一的二级域名时，如果显示一个勾号，则表明这个名称尚未被占用。
+
+比如您选择 `at-the-movies` 为您网站的二级域名，那么现在可通过根地址 `at-the-movies.parseapp.com` 访问它。如果您从 `public/images/background.png` 上传了另一个托管的文件，则将浏览器转至 `at-the-movies.parseapp.com/images/background.png` 即可访问它。
+
+### 上传限制条件
+
+托管文件有几个限制条件：
+
+*   文件不得超过 500 MB。
+*   最多能上传 500 个托管文件。
+*   文件名应以数字字母开头，只能包含数字字母、短划线、下划线、空格和&ldquo;@&rdquo;符号。
+*   命令行工具将自动跳过 emacs 和 vim 自动保存文件。
+
+您可上传所需要的任何类型的托管内容，不受限制。Parse 将根据每个文件的扩展名推断内容的类型。
+
+## 自定义域名
+
+用户也可将内容托管到自定义的域名。如果您已选择 ParseApp 名称 `at-the-movies`，并想将内容托管到 `www.example.com`，要求进行三个步骤：
+
+1.  证明您控制着 `www.example.com` 的 DNS 条目。要做到这一点，您可从 `www.example.com` 或 `[your_host_name_key].www.example.com` 将 CNAME 添加到 `at-the-movies.parseapp.com`。您的主机名称键值是一个 12 个字符组成的字符串，可在您的应用程序设置的&ldquo;Web Hosting&rdquo;（Web 托管）部分找到。新 DNS 条目传播可能需要 15 分钟到几小时，完成后才能进行下一步。如果您正将网站托管到 `www.example.com`，可能希望使用主机名称键值方法，否则在您完成下一步前，查看新 DNS 条目的用户可能经历网站无法访问。
+2.  新 DNS 条目传播完成后，可在您应用程序的托管设置中将主机名称设为 `www.example.com`。第一步成功后，应显示一个勾号。否则，将显示一条错误消息，告诉您哪里出错。
+3.  通过主机名称键值验证所有权后，您仍然需要从 `www.example.com` 将 CNAME 添加到 `at-the-movies.parseapp.com`，才能开始将流量发送到您托管的应用。
+
+完成这些步骤后，`www.example.com` 将提供与 `at-the-movies.parseapp.com` 一样的内容。
+
+如果您想在 `example.com` 这样的顶级域名向用户提供内容，可能上述步骤并不顺利，因为根域名通常不支持 CNAME 记录。为了应对这种情况，Parse 提供了一种服务，可将来自 `example.com` 等根域名的流量重定向至 `www.example.com` 二级域名。要使用此服务，先通过以 www 开头的域名（如 `www.example.com`）完成上述步骤，然后从 `example.com` 在下面的一个或两个 IP 地址中创建 `A` 记录：
+
+*   `54.85.233.145`
+*   `54.85.226.190`
+
+`A` 记录可通过您的域名服务提供商的设置页面创建。创建这些 `A` 记录后，对 `example.com` 的请求将产生一个指向 `www.example.com` 的 301 永久重定向，同时保留请求路径。
+
+如果您使用自定义域名访问在 HTTPS 上托管的网站，可能收到一条警告，说明网站正通过属于 `*.parseapp.com` 的 SSL 证书提供内容。如果您有属于该自定义域名的 SSL 证书，可消除这些警告，方法是在您的应用程序设置的&ldquo;Web Hosting&rdquo;（Web 托管）部分上传公共证书文件和私钥文件。如果域的公共证书要求中间证书，则应将您的公共证书、中间证书和根证书按这个顺序并成一个文件，并作为&ldquo;SSL 公共证书&rdquo;将其上传到应用程序设置。10-30 分钟后，您的证书将传播到 Parse 托管服务器，并向通过 HTTPS 访问您托管的网站的用户提供内容。
+
+## 动态网站
+
+您可使用 Cloud Code 和 Express 来构建多页动态 Web 应用。在 [Express](http://expressjs.com/) 框架下，多种强大工具任您选用，例如请求路由、cookie 处理和模板渲染工具。通过[ Cloud Code ](/docs/cn/cloud_code_guide)可实现多种功能，例如与 Parse 数据互动，以及[发送 HTTP 请求](/docs/cn/cloud_code_guide#networking)。
+
+使用 Parse 时，您可选择通过 Express 建立多页 Web 应用，或通过客户端的 Parse JavaScript SDK 建立单页 Backbone 应用。Express 方法有一个优势在于，您的网站可被搜索引擎抓取，而客户端的 Backbone 方法可能生成更具响应性的应用。关于 Express 和 Cloud Code 的详情请查看 [Express API 文档](/docs/js/symbols/express.html)。
+
+Express 能帮您快速创建应用并运行，但如果您更喜欢较底层的类似 [Node.js](http://nodejs.org/) 的 HTTP 接口，我们也能提供。更多详情请查看我们的 [HTTP 接口 API 文档](/docs/js/symbols/http.html)。如果您选择使用 Express 或 Node.js，首先需要删除 `public/index.html`，请求才能传到您的自定义处理函数。
+
+在本指南中，我们将着重讲述使用 Express API 建立 Web 应用。
+
+### 入门
+
+[设置](#started-project)好 Parse 托管后，可在 parse 项目文件夹中输入如下代码，即可生成一个初始 Web 应用。
+
+```bash
+$ parse generate express
+```
+
+此命令会在您的云文件夹内创建如下目录结构。它不会修改您现有的 main.js 文件。
+
+```bash
+-cloud/
+  app.js
+  -views/
+    hello.ejs
+  main.js (not touched)
+```
+
+下一步，您需要在 `main.js` 开头添加以下代码行。这会确保 `app.js` 中的代码被加载。
+
+```js
+require('cloud/app.js');
+```
+
+然后，运行 `parse deploy` 便可部署您的 Web 应用。部署后，应能在 `your-custom-subdomain.parseapp.com/hello` 找到您的 Web 应用。后面我们将详细讲解这一示例应用。
+
+### 示例 Web 应用
+
+我们一起来详细了解初始 Web 应用，了解 Express 能为我们做什么。如果您还没建立初始应用，可按照[这些说明](#webapp-started)建立一个。
+
+Express 应用的顶层入口点是 `app.js`，应用在这里初始化，并且请求路径通过 Express 路由 API 与相应地逻辑挂接起来。您必须在 `main.js` 里加载 app.js，因为 Cloud Code 在加载您的 JavaScript 时，先从 `main.js` 开始。建议您将云函数放到 `main.js`，将所有与 Express 相关的代码放到 `app.js`。
+
+在您的示例应用中，`app.js` 应如下所示：
+
+```js
+// These two lines are required to initialize Express.
+var express = require('express');
+var app = express();
+
+// Global app configuration section
+app.set('views', 'cloud/views');  // Specify the folder to find templates
+app.set('view engine', 'ejs');    // Set the template engine
+app.use(express.bodyParser());    // Middleware for reading request body
+
+// This is an example of hooking up a request handler with a specific request
+// path and HTTP verb using the Express routing API.
+app.get('/hello', function(req, res) {
+  res.render('hello', { message: 'Congrats, you just set up your app!' });
+});
+
+// This line is required to make Express respond to http requests.
+app.listen();
+```
+
+在上方的全局应用配置部分，我们指定了一些应用设置并初始化 Express 中间件。应用设置包括，指定渲染 Web 的模板化引擎，指定在您的模板源文件的位置。Express 中间件是可选组件，用于预处理传入请求。在此部分指定的中间件适用于所有请求路径。
+
+示例应用还有一个 `cloud/views` 文件夹，包含一个 EJS 模板文件 (`hello.ejs`)。在此模板中，`message` 变量将替换为在 `app.js` 的 `res.render()` 行指定的值。
+
+### 处理请求
+
+下面来看一个简单的请求处理代码，它用于读取请求文本，并以包含请求文本的消息进行回应。
+
+```js
+app.post('/echo', function(req, res) {
+  res.set('Content-Type', 'text/plain');
+  res.send('echoing: ' + req.body.message);
+});
+```
+
+每个请求处理代码都以 `app.VERB` 开头，其中 `VERB` 可以是任何标准的 HTTP 动词，比如 `get`、`post`、`put` 或 `delete`。这会告诉 Express 此处理代码应回应哪种 HTTP 请求。
+
+之后的 `'/echo'` 参数指定此请求处理代码应回应的地址路径（也称为路由）。然后，我们指定了一个函数，将请求和回应对象写入其中，以便执行请求处理逻辑。只要我们加入 `express.bodyParser` 中间件，`req.body` 应会由输入数据填充。例如，如果原始请求正文是 `{ "message": "hi" }`，则上例中的 `req.body.message` 值将为 `'hi'`。最后，[`res.send()`](/docs/js/symbols/express.Response.html#send) 指示 Express 用指定字符串填充回应对象。
+
+### Express 中间件
+
+中间件是在请求到达您的请求处理代码前先对其进行处理的模块。这些组件将原始 HTTP 请求转变为请求对象，方便通过您的请求处理代码进行处理。Cloud Code 支持如下的 Express 中间件：
+
+*   [`express.basicAuth()`](/docs/js/symbols/express.html#.basicAuth) － 用来为您的网站设置 HTTP 基本身份验证。
+*   [`express.bodyParser()`](/docs/js/symbols/express.html#.bodyParser) － 将 HTTP 请求正文（JSON 或 www 表单编码的）转变为 `request.body` 对象。
+*   [`express.methodOverride()`](/docs/js/symbols/express.html#.methodOverride) － 只支持 HTTP post 的标准 web 表单。此中间件允许 web 表单将 put/delete HTTP 请求发到 Express。当您想严格遵守 REST-ful 原则时，这会特别有用。
+*   [`express.cookieParser()`](/docs/js/symbols/express.html#.cookieParser) － 读取浏览器发送的请求 cookie，并将它放入 `request.cookies` 和 `express.request.signedCookies` 对象。
+*   [`express.cookieSession()`](/docs/js/symbols/express.html#.cookieSession) － 允许您通过设置 `request.session` 对象，将会话数据存储到签名的 cookie。
+*   [`express.csrf()`](/docs/js/symbols/express.html#.csrf) － 防止跨站请求伪造。
+
+另外，我们还提供下面的自定义中间件：
+
+*   [`parseExpressRawBody()`](/docs/js/symbols/parseExpressRawBody.html) － 允许您在 `req.body` 下将原始请求正文作为 [`Buffer`](/docs/js/symbols/Buffer.html) 对象来访问。如果您想直接访问请求中的字节，或想在请求处理代码中通过自己的解析程序读取其他数据格式（例如，XML）的请求正文，这会很有用。
+
+通过 [`app.use()`](/docs/js/symbols/express.Application.html#use) 函数，可以将中间件添加到您的应用。标准的 Express 中间件是函数，所以一定要正确地调用它们（例如，`app.use(express.csrf()`）。您可以在通过 `app.VERB()` 登记任何请求处理代码前，添加应用的中间件。
+
+在全局应用配置部分配置 Express 中间件时，请遵照上面的顺序。您可以略去不需要的任何中间件。顺序很重要，因为靠后的中间件可能依赖靠前的中间件生成的数据。
+
+### 渲染模板
+
+模板是动态生成 Web 内容并减少代码重复的一种好方法。Cloud Code 为 EJS 和 Jade 模板引擎提供模块。
+
+您可在全局应用配置部分通过 `app.set('view engine', ENGINE_NAME)` 指定模板引擎，其中 `ENGINE_NAME` 可以是 `'ejs'` 或 `'jade'`。`cloud/views` 文件夹中的模板文件应拥有和 `ENGINE_NAME` 匹配的扩展名。示例应用的模板在 EJS (`hello.ejs`) 或 Jade (`hello.jade`) 中如下所示：
+
+```html
+// Using EJS syntax
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sample App</title>
+  </head>
+  <body>
+
+# Hello World
+
+<%%= message %>
+
+  </body>
+</html>
+```
+
+```html
+// Using Jade syntax
+doctype 5
+html
+  head
+    title Sample App
+  body
+    h1 Hello World
+    p= message
+```
+
+如需各个模板引擎语法的更多信息，请查看 [EJS](https://github.com/visionmedia/ejs) 和 [Jade](https://github.com/visionmedia/jade) 的主页。
+
+调用 [`res.render()`](/docs/js/symbols/express.Response.html#render) 即可渲染模板。第一个参数是模板文件的名称。如果它没有文件扩展名，Express 将查找扩展名与您应用的模板引擎设置相匹配的文件。第二个参数是一个 JSON 对象，包含模板中的所有变量及其对应值。模板中的每个变量充当一个占位符，在您渲染模板时替换为实际值。
+
+### 获取用户输入
+
+在 Cloud Code 中使用 Express 能轻易获得用户输入。您可在模板中建立一个表单元素，供用户输入文本，然后通过提交表单，为发出的请求添加一个请求处理代码。
+
+下面我们为示例应用模板添加一个简单的表单。请将 `hello.ejs` 或 `hello.jade` 替换为以下代码：
+
+```html
+// Using EJS syntax
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sample App</title>
+  </head>
+  <body>
+
+# Hello World
+
+    <p><%%= message %>
+
+    <form method="post" action="/hello">
+
+        <input name="message"></input>
+        <input class="button" type="submit" value="Update Greeting">
+
+    </form>
+  </body>
+</html>
+```
+```html
+// Using Jade syntax
+doctype 5
+html
+  head
+    title Sample App
+  body
+    h1 Hello World
+    p= message
+    form(method="post", action="/hello")
+      p
+        input(type="text", name="message")
+        input(type="submit", name="submit", value="Update Greeting")
+```
+
+然后，我们需要在 `app.js` 为 HTTP post 请求添加一个请求处理代码。
+
+```js
+app.post('/hello', function(req, res) {
+  res.render('hello', { message: req.body.message });
+});
+```
+
+假设用户在文本框中输入&ldquo;hi&rdquo;，然后点击&ldquo;Update Greeting&rdquo;（更新问候语）按钮。表单将发送一个 HTTP post 请求到地址 `http://example.parseapp.com/hello`，其请求正文是 `message=hi`。`express.bodyParser` 中间件将读取请求正文，然后将 `req.body.message` 设置为 `'hi'`。请求随后会触发上述请求处理代码，因为 HTTP 动作和地址路径两者均匹配。最后，请求处理代码将 `'hi'` 插入 `message` 变量的相应占位符，从而渲染 `hello.ejs` 模板。
+
+### 用户会话管理
+
+通过 `parseExpressCookieSession` 中间件，可为您的 Express 应用添加 [`Parse.User`](/docs/cn/js_guide#users) 身份验证和会话管理。您只需在 Cloud Code 中调用 `Parse.User.logIn()`，此中间件将自动为您管理用户会话。
+
+您可利用 web 表单要求用户提供登录凭据，并在收到此窗体发来的数据时使用户登入 Cloud Code。在调用 `Parse.User.logIn()` 后，此中间件将在用户的浏览器中自动设置一个 cookie。此后从同一个浏览器发送 HTTP 请求时，此中间件将使用此 cookie 在 Cloud Code 中自动设置[当前用户](/docs/cn/js_guide#users-current)。这使得 [ACL](/docs/cn/js_guide#users-acls) 能在 Cloud Code 中起正常作用，允许您在需要时检索整个当前用户对象。最后，当您通过调用 `Parse.User.logOut()` 将某个用户登出 Cloud Code 时，此中间件将自动移除浏览器 cookie。示例应用代码请查看此中间件的[相应文档](/docs/js/symbols/parseExpressCookieSession.html)。
+
+处理用户数据时，您应尽量使用 HTTPS。为了保护您的应用和您的用户，`parseExpressCookieSession` 中间件要求您使用 HTTPS。为了给您提供方便，我们还提供一个 `parseExpressHttpsRedirect` 中间件，可将所有 HTTP 请求重定向到 HTTPS。如需详情，请查看[相应文档](/docs/js/symbols/parseExpressHttpsRedirect.html)。
+
+### 静态内容
+
+您的 Express 应用可与您从 `public` 文件夹部署的所有静态内容共存。当有请求指向您二级域名的地址时，Parse 将先在 `public` 目录中查找匹配文件。如果没有匹配文件，Parse 则会调用您已在 Cloud Code 中登记的所有 Express 请求处理代码。如果仍然没有匹配，Parse 将呈现&ldquo;404 Not Found&rdquo;（404 未找到）页面。
+
+如果您为静态内容使用 Express，建议您的项目采用如下目录结构。
+
+```bash
+-cloud/
+  main.js            Cloud Code functions, require cloud/app.js here
+  app.js             Express app configuration and request handling logic
+  -views/            View template files that Express needs to render
+    hello.ejs
+-public/
+  example.html       Static HTML files
+  favicon.ico        Your favicon logo
+  -stylesheets/      CSS stylesheets
+    style.css
+```
+
+## 日志记录
+
+要想将一个消息记录到 `parse log` 显示的日志文件，可使用 `console.log`、`console.error` 或 `console.warn`。`console.error` 和 `console.warn` 都将写入错误日志。
+
+```js
+app.post('/hello', function(req, res) {
+  console.log("New message: " + req.body.message);
+  res.render('hello', { message: req.body.message });
+});
+```
+
+## 开发与产品
+
+您可使用开发应用来试验新代码，而使用产品应用来运行您发布给大众的应用。
+
+### 为项目添加新应用程序
+
+您将需要把多个应用程序关联到您的项目。`parse new` 将把第一个应用程序关联到项目。要添加更多应用程序，可以运行 `parse add [alias]`，如下所示：
+
+```bash
+$ parse add production
+Email: pirate@gmail.com
+Password:
+1:PiecesOfEightCounterProd
+2:PiecesOfEightCounterDev
+Select an App: 1
+```
+
+上述示例把 `PiecesOfEightCounterProd` 应用程序关联到您的项目。它还会为新应用建立一个名为 `production` 的别名，为该应用提供一个简略称呼。
+
+### 开发您的网站
+
+在开发新代码时，您可使用 `develop` 命令让 Parse 命令行工具持续检查您项目的更新，并上传您的更改。命令类似于： 
+
+```bash
+$ parse develop development
+E2013-11-21T01:05:56.257Z] Deploy failed with error:Error: Uncaught SyntaxError: Unexpected token ; in app.js:30
+    at main.js:1:1
+I2013-11-21T01:06:21.504Z] Deployed v172 with triggers:
+  Cloud Functions:
+    hello
+```
+
+注意，对于 `develop` 命令，您需要明确将接收新更改推送的应用。这会避免在产品应用上意外运行 `develop`，那有可能对其部署未经测试的代码。命令行工具将上传代码更改并显示新的日志消息，直至您点击 Ctrl-C。
+
+### 向产品部署代码
+
+在完成测试并更新您的代码后，可将代码部署到产品，只需将产品应用作为参数传递到 `deploy` 命令即可，如下所示：
+
+```bash
+$ parse deploy production
+New release is named v2
+```
+
+## 命令行工具
+
+我们已经了解 Parse 的命令行工具如何用来向云部署新代码。它还有其他几个有用的功能。如需安装说明，请阅读[安装工具](#started-installing)部分
+
+### 简介
+
+同一个代码可部署到多个不同的应用。这方便您拥有独立的&ldquo;开发&rdquo;和&ldquo;产品&rdquo;应用。然后，您先在开发应用上测试代码，再将其用到产品应用。
+
+添加的第一个应用（通过 `new` 命令添加）将是所有命令行操作的默认应用。除了 `new` 以外，所有命令都可选择一个应用来执行。
+
+### 部署
+
+要部署一个新版本，运行
+
+```bash
+$ parse deploy
+New release is named v1
+```
+
+这会将新代码（在 `cloud/main.js` 中）推送到 Parse 云，并将此代码部署到默认对象，该对象要么是添加的第一个应用，要么是您通过 `parse default` 设置的那个。可以通过将目标作为一个参数添加到 `deploy`，从而向该目标部署，代码如下所示：
+
+```bash
+$ parse deploy "My Other App"
+New release is named v2
+```
+
+通过 `-d` 或 `--description=` 选项，您可将发行说明添加到部署中
+
+在将 `parse deploy` 嵌入到其他脚本时（例如在自动测试/部署环境中），您可以来 Parse 命令行工具的退出代码得知命令是否成功。部署成功时显示退出代码 0，失败时显示的退出代码不为 0。
+
+### 开发
+
+您还可以通过 `develop` 命令在开发模式运行 Parse 命令行工具。这将让工具监视源目录的任何更新，并将这些更新部署到 Parse，同时提供日志的实时流。
+
+```bash
+$ parse develop development
+E2013-11-21T01:05:56.257Z] Deploy failed with error:Error: Uncaught SyntaxError: Unexpected token ; in app.js:30
+    at main.js:1:1
+I2013-11-21T01:06:21.504Z] Deployed v172 with triggers:
+  Cloud Functions:
+    hello
+```
+
+不同于其他命令，在 `develop` 中，您必须指定作为更新推送对象的 Parse 应用。这是为了避免在产品应用上意外运行 develop 而导致您在产品应用上运行未经测试的代码。
+
+### 添加新目标
+
+通过运行 `add` 命令，您可将新的 parse 应用添加为目标。这会提示您提供 Parse.com 电子邮箱和密码，并为您提供一列应用供选择：
+
+```bash
+$ parse add
+Email: pirate@gmail.com
+Password:
+1:PiecesOfEightCounter
+2:BootyDivider
+Select an App: 1
+```
+
+`add` 命令有一个可选参数，是为应用指定的别名，可取代应用名称。
+
+通常，所有此配置数据都会存储到 `global.json`。但是，您可能有一个用来开发但不想与团体的其他人分享的应用。您可使用 `--local` 标志来添加此配置，而不需要单独的 `local.json` 文件。这样，您可将 `global.json` 上传到版本控制，同时只将 `local.json` 保存在本机上。
+
+### 设置默认应用
+
+`parse deploy`、`parse log`、`parse rollback` 和 `parse releases` 都使用默认应用来执行命令。`parse default` 可用来更改此默认应用。
+
+```bash
+$ parse default MyApp
+Default app set to MyApp.
+$ parse default
+Current default app is MyApp
+```
+
+### 回滚
+
+您可通过 `parse rollback` 回滚版本。如同 `parse deploy` 一样，您可以指定一个版本作为参数。
+
+```bash
+$ parse rollback
+Rolled back to v1
+```
+
+这会回滚到代码的前一版本。通过 `-r` 或 `--release=` 选项，您还可指定要回滚到哪个版本。
+
+### 读取日志
+
+代码的每个部署、回滚和激活都会记录到日志。您可通过 `parse log` 命令检索日志结尾。共有两种类型的日志：
+
+*   `INFO` － 包含所有内容。
+*   `ERROR` － 只包含错误。
+
+Log 命令可以加一个目标参数，同时还有两个选项：
+
+*   `-n` － 要显示的日志行数（默认为 10）
+*   `--level/-l` － 要使用的日志级别（默认为 INFO）
+*   `-f` － 模仿 tail 命令 (Unix) -f
+
+```bash
+$ parse log -n 1
+E2013-11-21T01:05:56.257Z] Deploy failed with error:Error: Uncaught SyntaxError: Unexpected token ; in app.js:30
+    at main.js:1:1
+```
+
+### 版本列表
+
+您可以使用 `releases` 命令在 Parse 云中列出已知的发布版本。Parse 只追踪最近发布的 10 个版本。
+
+### 设置 SDK 版本
+
+此目录中用于 Cloud Code 的默认 Parse JavaScript SDK 版本是对此目录运行 `new` 命令时的最新版本。您可以使用 `parse jssdk` 对其进行更改。您不仅可以通过 `parse jssdk -a` 查看所有可用的 Parse JavaScript SDK，还可以使用 `parse jssdk` 查看当前所用的 Parse JavaScript SDK 版本。
+
+```bash
+$ parse jssdk
+Current JavaScript SDK version is 1.2.13
+$ parse jssdk -a
+  1.2.18
+  1.2.17
+  1.2.16
+  1.2.15
+  1.2.14
+* 1.2.13
+  1.2.12
+  1.2.11
+$ parse jssdk 1.2.18
+Current JavaScript SDK version is 1.2.18
+$ parse jssdk -a
+* 1.2.18
+  1.2.17
+  1.2.16
+  1.2.15
+  1.2.14
+  1.2.13
+  1.2.12
+  1.2.11
+```
+
+### 更新命令行工具
+
+您可以通过 `parse update` 更新命令行工具。它会自动为您更新到最新版 Parse 命令行工具。
+
+```bash
+$ parse update
+Fetching latest version ...
+######################################################################## 100%
+Installing ...
+```

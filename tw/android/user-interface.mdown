@@ -1,0 +1,139 @@
+# 使用者介面
+
+最後，您的應用程式使用者會與 Android 使用者介面元件互動。我們提供常見使用者介面工具的子集，讓您可以更輕鬆地使用 Parse 資料。
+
+## ParseQueryAdapter
+
+若要顯示資料集合，我們提供 `Adapter` 的實作。`ParseQueryAdapter` 沒有使用物件的靜態陣列所支援的基本 `ListAdapter`，而是提供抽象層，讓您能輕易地從所選 `AdapterView`（例如，`ListView` 或 `GridView`）的其中一個 Parse 類別顯示資料。
+
+若要使用 `ParseQueryAdapter` 在 `Activity` 中顯示資料，請在 `Activity` 的 `onCreate` 中遵照以下列出步驟：
+
+1.  將 `ParseQueryAdapter` 執行個體化。如有需要，可以自訂（從特定查詢顯示資料、變更要顯示的 `View` 使用者介面和更多的詳細指示請參閱下方子章節）。
+2.  利用 `setAdapter()` 在 `AdapterView` 上設定新 `Adapter`。
+
+AdapterView 連接至視窗時，您的 `ParseQueryAdapter` 會自動擷取第一組資料。這個子集簡化了可能牽涉的程式碼：
+
+1.  用資料列進行分頁，點按資料列即可載入下一頁。
+2.  在資料列中設定為下載並顯示遠端圖像。
+3.  Parse 物件陣列自動載入和管理。
+4.  從資料循環中的主要活動回呼。
+
+以下程式碼建立非常簡單的 `ParseQueryAdapter` 以在 `ListView` 中顯示資料。只需要非常簡單的設定，就能立刻開始執行擁有大量資料的 `ListView` 功能。
+
+```java
+// Inside an Activity
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Uses a layout with a ListView (id: "listview"), which uses our Adapter.
+    setContentView(R.layout.main);
+    ParseQueryAdapter<ParseObject> adapter = new ParseQueryAdapter<ParseObject>(this, "Instrument");
+    adapter.setTextKey("name");
+    adapter.setImageKey("photo");
+    ListView listView = (ListView) findViewById(R.id.listview);
+    listView.setAdapter(adapter);
+}
+```
+
+此檢視功能會依名稱顯示指示清單。請注意，我們並未編寫的那些程式碼：我們可以略過邏輯截取結果的每個連續頁面、手動更新和維護備份資料陣列、下載背景中的圖像和設定使用者介面工具的圖像資料、還有處理觸發載入結果下一頁的觸控事件。
+
+`ParseQueryAdapter` 可以自訂要使用的資料、顯示方式及資料擷取前後的處理方式。若想了解您可執行的操作，以及如何微調 `ParseQueryAdapter` 以符合您的所有需求，請繼續閱讀。query"
+
+### 自訂查詢
+
+依據預設，最簡易的 `ParseQueryAdapter` 建構函式需要一個 `Context` 和 Parse 類別名稱。然後，該類別中的所有 `ParseObject` 會被擷取並按 `createdAt` 時間戳記的順序顯示。
+
+為了變更這個顯示方式，我們從 `ArrayAdapter` 的功能中取得：但是除了藉由轉接器顯示物件的 Vanilla 陣列，`ParseQueryAdapter` 也可以使用 `QueryFactory` 傳回您定義的 `ParseQuery`。傳送至建構函式後，轉接器就會使用該查詢決定要擷取和顯示哪個物件。
+
+以下這個範例中，建立了 `ParseQueryAdapter` 以顯示只有四位以上成員的龐克或金屬樂團，依據售出的唱片數量排序：
+
+```java
+ParseQueryAdapter<ParseObject> adapter =
+    new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        public ParseQuery<ParseObject> create() {
+            // Here we can configure a ParseQuery to our heart's desire.
+            ParseQuery query = new ParseQuery("Band");
+            query.whereContainedIn("genre", Arrays.asList({ "Punk", "Metal" }));
+            query.whereGreaterThanOrEqualTo("memberCount", 4);
+            query.orderByDescending("albumsSoldCount");
+            return query;
+        }
+    });
+```
+
+### 自訂資料列
+
+在 `AdapterView` 中，個別 `View` 的預設版面配置是含有 `ParseImageView` 和 `TextView` 的簡單 `LinearLayout`。如果將 `setTextKey(String)` 和 `ParseQueryAdapter` 一起使用，前者的參數會用來選擇要在 `TextView` 中顯示 `ParseObject` 的哪一個索引鍵。同理，如果使用 `setImageKey(String)`，參數則是用來決定 ImageView 要顯示的圖像。
+
+自訂資料列的其中一個方法是覆寫 `getItemView(ParseObject, View, ViewGroup)` 和 `getNextPageView(View, ViewGroup)`，並呼叫適合方法的超級類別實作以執行繁重的工作。如果您為超級類別的實作提供自己的版面配置，請注意 `getItemView(ParseObject, View, ViewGroup)` 和 `getNextPageView(View, ViewGroup)` 需要 `TextView` (ID:`android.R.id.text1`)（已設定 `textKey` 時），以及需要 `ParseImageView` (ID:`android.R.id.icon`)（已設定 `imageKey` 時）。
+
+我們在這裡擴大和設定自己的版面配置，做法是使用 `TextView`、`ParseImageView` 及額外的「描述」`TextView` (ID: `R.id.description`):
+
+```java
+@Override
+public View getItemView(ParseObject object, View v, ViewGroup parent) 
+    if (v == null) {
+        v = View.inflate(getContext(), R.layout.adapter_item, null);
+    }
+    // Take advantage of ParseQueryAdapter's getItemView logic for
+    // populating the main TextView/ImageView.
+    // The IDs in your custom layout must match what ParseQueryAdapter expects
+    // if it will be populating a TextView or ImageView for you.
+    super.getItemView(object, v, parent);
+    // Do additional configuration before returning the View.
+    TextView descriptionView = (TextView) v.findViewById(R.id.description);
+    descriptionView.setText(object.getString("description"));
+    return v;
+}
+```
+
+另一個自訂資料列的方法是透過覆寫 `ParseQueryAdapter` 的方法，和完全略過超級類別的實作，然後完全掌控資料列的樣式。本範例利用 `ParseObject` 定義項目檢視的資料列顏色：
+
+```java
+@Override
+public View getItemView(ParseObject object, View v, ViewGroup parent) {
+    if (v == null) {
+        v = View.inflate(getContext(), R.layout.adapter_item, null);
+    }
+    v.setBackgroundColor(object.getInt("color"));
+    return v;
+}
+
+@Override
+public View getNextPageView(View v, ViewGroup parent) {
+    if (v == null) {
+        // R.layout.adapter_next_page contains an ImageView with a custom graphic
+        // and a TextView.
+        v = View.inflate(getContext(), R.layout.adapter_next_page, null);
+    }
+    TextView textView = (TextView) v.findViewById(R.id.nextPageTextViewId);
+    textView.setText("Loaded " + getCount() + " rows. Get more!");
+    return v;
+}
+```
+
+### 將遠端圖像載入資料列
+
+`ParseQueryAdapter` 讓遠端圖像的顯示更容易。透過呼叫 `setImageKey(String)`，您可以在 `ParseObject` 傳送索引鍵名稱，這應該包含一個 `ParseFile`，而其中又含有從 Parse 擷取並載入相應資料列 `ParseImageView` 的圖像。
+
+圖像會以非同步的方式下載，而且會在背景中更新適合的 `ParseImageView`。隨著使用者捲動資料列，且資料列被接合器回收，圖像會在資料列顯示和指派 `ParseObject` 時被擷取。
+
+當圖像擷取尚未完成時，可以定義要使用的預留位置圖像。若要使用特定的 `Drawable` 為後援圖像，可以呼叫 `ParseQueryAdapter` 的 `setPlaceholder(Drawable)`。
+
+### 週期方法
+
+在為了您的資料查詢 Parse 之前，和從查詢載入擷取物件之後，我們在轉接器的資料生命週期中公開兩個監控程式，讓您執行自訂邏輯。這些方法對切換某些載入中的使用者介面特別有幫助。
+
+透過 `setOnQueryLoadListener(OnQueryLoadListener)` 可以設定 `OnQueryLoadListener`，這為實作提供了 `onLoading()` 和 `onLoaded(List<ParseObject>, Exception)` 方法。
+
+### 分頁
+
+分頁能確保表格一次只得到一頁的物件。透過呼叫 `setObjectsPerPage(int)`，您可以設定物件的號碼在同一頁。
+
+查詢將自動變更以套用分頁，而且 `AdapterView` 的底部會出現分頁資料列，讓使用者能夠載入下一頁。
+
+分頁預設為開啟。若要關閉，請呼叫 `setPaginationEnabled(false)` 即可。在分頁關閉的情況下，`ParseQueryAdapter` 會使用預設的 `ParseQuery` 限制，其數量為 100 個項目。
+
+### 自動載入資料
+
+當 `AdapterView` 連接至視窗，且 `ParseQueryAdapter` 是根據它設定時，就會自動呼叫 `ParseQueryAdapter` 的 `loadObjects()` 方法，觸發結果首頁的擷取。若要停用此顯示方式（或許延遲資料的擷取或事先執行某些自訂邏輯），請呼叫 `setAutoload(false)`，如果無法進行自動載入，則請手動呼叫 `loadObjects()`。
+

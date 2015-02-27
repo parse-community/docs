@@ -1,0 +1,79 @@
+# GeoPoints
+
+Parse에서는 실제 위도 및 경도 좌표를 개체와 연결할 수 있습니다.  `PFObject`에 `PFGeoPoint`를 추가하면 쿼리에서 참조점과 개체의 근접도를 고려할 수 있습니다.  따라서 다른 사용자 근처에 있는 사용자나 사용자 근처에 있는 장소를 찾는 등의 작업을 쉽게 수행할 수 있습니다.
+
+<div class="callout_green">
+  [Anywall 튜토리얼](/tutorials/anywall)을 통해 실제 앱에서 `PFGeoPoints`와 `PFUser`의 사용을 시험해 보세요. 기본적인 사용자 관리 워크플로를 구현하는 작업부터 Core Location을 이용한 GPS 위치 추적까지 모든 것을 배울 수 있습니다.
+</div>
+
+## PFGeoPoint
+
+지점을 개체와 연결하려면 먼저 `PFGeoPoint`를 만들어야 합니다.  예를 들어 위도 40.0도, 경도 -30.0도인 지점을 만들려면 다음과 같이 하세요.
+
+```objc
+PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
+```
+
+그런 다음 이 지점을 개체에 일반 필드로 저장합니다.
+
+```objc placeObject[@"location"] = point;```
+
+참고: 현재는 클래스에서 하나의 키만 `PFGeoPoint`일 수 있습니다.
+
+### 사용자의 현재 위치 가져오기
+
+`PFGeoPoint`에서는 사용자의 현재 위치를 가져오는 헬퍼 메서드도 제공합니다. 여기에는 `geoPointForCurrentLocationInBackground`를 사용합니다.
+
+```objc
+[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+    if (!error) {
+        // do something with the new geoPoint
+    }
+}];
+```
+
+이 코드를 실행하면 다음이 수행됩니다.
+
+1.  내부 `CLLocationManager`에서 위치 업데이트를 수신하기 시작합니다(`startsUpdatingLocation` 사용).
+2.  위치를 수신하고 나면 위치 관리자에서 위치 업데이트 수신을 중지하며(`stopsUpdatingLocation` 사용) 새 위치로부터 `PFGeoPoint`가 만들어집니다. 위치 관리자에 오류가 발생하는 경우에도 업데이트 수신을 중지하며 대신 `NSError`를 반환합니다.
+3.  `block`이 `PFGeoPoint`에서 호출됩니다.
+
+`CLLocationManager`를 직접 사용하는 경우에도 `+geoPointWithLocation:` 생성자를 제공하여 `CLLocation`을 직접 `PFGeoPoint`로 변환할 수 있기 때문에 지속적인 폴링이 필요한 앱에 유용합니다.
+
+## 지리적 쿼리
+
+공간 좌표를 갖는 여러 개체가 있으므로 이제 한 지점과 가장 가까운 개체를 찾으면 좋을 것입니다.  이렇게 하려면 `whereKey:nearGeoPoint:`를 사용하여 `PFQuery`에 다른 제한을 추가합니다.  사용자와 가장 가까운 장소 10개의 목록을 가져오는 쿼리는 다음과 같습니다.
+
+```objc
+// User's location
+PFGeoPoint *userGeoPoint = userObject[@"location"];
+// Create a query for places
+PFQuery *query = [PFQuery queryWithClassName:@"PlaceObject"];
+// Interested in locations near user.
+[query whereKey:@"location" nearGeoPoint:userGeoPoint];
+// Limit what could be a lot of points.
+query.limit = 10;
+// Final list of objects
+placesObjects = [query findObjects];
+```
+
+여기서 `placesObjects`는 `userGeoPoint`로부터의 거리를 기준으로 정렬된 개체의 배열입니다(가장 가까운 거리에서 가장 먼 거리순). 추가 `orderByAscending:`/`orderByDescending:` 제약을 적용하는 경우 거리 순서보다 우선합니다.
+
+거리를 사용하여 결과를 제한하려면 `whereKey:nearGeoPoint:withinMiles`, `whereKey:nearGeoPoint:withinKilometers` 및 `whereKey:nearGeoPoint:withinRadians`를 체크아웃하세요.
+
+특정 영역 내에 포함된 개체 집합을 쿼리하는 것도 가능합니다.  사각형 경계 상자 안의 개체를 찾으려면 `PFQuery`에 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 제한을 추가합니다.
+
+```objc
+PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];
+PFGeoPoint *neOfSF = [PFGeoPoint geoPointWithLatitude:37.822802 longitude:-122.373962];
+PFQuery *query = [PFQuery queryWithClassName:@"PizzaPlaceObject"];
+[query whereKey:@"location" withinGeoBoxFromSouthwest:swOfSF toNortheast:neOfSF];
+NSArray *pizzaPlacesInSF = [query findObjects];
+```
+
+## 주의 사항
+
+몇 가지 유의할 사항이 있습니다.
+
+1.  각 PFObject 클래스에는 PFGeoPoint 개체가 있는 키를 하나만 사용할 수 있습니다.
+2.  지점은 범위의 양 끝과 동일하거나 이를 넘으면 안 됩니다.  위도는 -90.0 또는 90.0이면 안 됩니다.  경도는 -180.0 또는 180.0이면 안 됩니다.  범위를 벗어나는 위도 또는 경도를 설정하려고 하면 오류가 발생합니다.

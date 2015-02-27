@@ -1,0 +1,94 @@
+# 角色
+
+随着应用程序使用范围和用户数量的不断壮大，对于各项数据的访问权限，您可能需要更强硬的控制权，与用户关联的 ACL 所提供的控制并不能符合要求。为满足这种需求，Parse 支持[基于角色的访问控制](http://en.wikipedia.org/wiki/Role-based_access_control)。根据角色对拥有您 Parse 数据的公共访问权限的用户进行分组是一种合乎逻辑的方法。角色是包含用户和其他角色的命名对象。给某一角色授予的任何权限也意味着将权限授予拥有该角色的用户，以及授予拥有该角色所含角色的任何用户。
+
+例如，在含有分类内容的应用程序中，有些用户被设定为“版主”，他们可以修改和删除其他用户创建的内容。还有一些用户是“管理员”，他们与版主拥有相同的权利，但是还可以修改应用程序的全局设置。通过将用户添加到这些角色中，您可以让新用户成为版主或管理员，而不必手动向各用户授予每个资源的权限。
+
+我们提供一个类名为 `ParseRole` 的专业类，代表客户端代码中的角色对象。`ParseRole` 是 `ParseObject` 的一个子类，两者具有完全相同的特性，例如灵活架构、自动留存和键值接口。`ParseObject` 上的所有方法也存在于 `ParseRole` 中。区别是 `ParseRole` 有一些专门用于角色管理的附加特性。
+
+## 属性
+
+`ParseRole` 有几种可以将其与 `ParseObject` 区分开的属性：
+
+*   名称：角色名称。该值为必填，只能在创建角色时设置一次。名称只能包含字母数字字符、空格、- 或 _。该名称用于识别角色，不需要其对象 Id 即可达到这个目的。
+*   用户：与用户集的一种[关系](#objects-pointers)，该用户集将继承其母级角色所拥有的权限。
+*   角色：与角色集的一种[关系](#objects-pointers)，该角色集所包含的用户和角色将继承该母级角色所拥有的权限。
+
+## 角色对象的安全性
+
+`ParseRole` 使用与 Parse 上的所有其他对象相同的安全方案 (ACL)，除非它要求特别设置一个 ACL。一般情况下，只有拥有高级权限的用户（如，主用户或管理员）才能创建或修改角色，因此您应该相应地定义其 ACL。请注意，如果您授予用户对 `ParseRole` 的写入权，那么该用户可以将其他用户添加到角色中，甚至可以完全删除该角色。
+
+若要创建新的 `ParseRole`，您可以编写：
+
+```java
+// By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
+ParseACL roleACL = new ParseACL();
+roleACL.setPublicReadAccess(true);
+ParseRole role = new ParseRole("Administrator", roleACL);
+role.saveInBackground();
+```
+
+您可以通过 `ParseRole` 上的“用户”和“角色”关系，添加应该继承新角色权限的用户和角色：
+
+```java
+ParseRole role = new ParseRole(roleName, roleACL);
+for (ParseUser user : usersToAddToRole) {
+  role.getUsers().add(user)
+}
+for (ParseRole childRole : rolesToAddToRole) {
+  role.getRoles().add(childRole);
+}
+role.saveInBackground();
+```
+
+给角色指定 ACL 时要格外小心，确保只有拥有相关权限的人才能对它们进行修改。
+
+## 其他对象的安全性
+
+现在您已经创建了在应用程序中使用的角色集，您可以用带 ACL 的角色确定角色所含用户将拥有的特权。每个 `ParseObject` 可以指定一个 `ParseACL`，从而提供一个访问控制列表，指定应该向哪些用户和角色授予对象读写访问权限。
+
+向对象授予角色读写权限非常简单。您可以使用 `ParseRole`：
+
+```java
+ParseRole moderators = /* Query for some ParseRole */;
+ParseObject wallPost = new ParseObject("WallPost");
+ParseACL postACL = new ParseACL();
+postACL.setRoleWriteAccess(moderators);
+wallPost.setACL(postACL);
+wallPost.saveInBackground();
+```
+
+向 ACL 指定角色名称可以避免角色查询：
+
+```java
+ParseObject wallPost = new ParseObject("WallPost");
+ParseACL postACL = new ParseACL();
+postACL.setRoleWriteAccess("Moderators", true);
+wallPost.setACL(postACL);
+wallPost.save();
+```
+
+向您的应用程序指定默认 ACL 时也能使用基于角色的 `ParseACL`，这样可以在向用户授予具有额外特权的访问权限时轻松保护您用户的数据。例如，有版主的论坛应用程序可以指定默认 ACL，如下：
+
+```java
+ParseACL defaultACL = new ParseACL();
+// Everybody can read objects created by this user
+defaultACL.setPublicReadAccess(true);
+// Moderators can also modify these objects
+defaultACL.setRoleWriteAccess("Moderators");
+// And the user can read and modify its own objects
+ParseACL.setDefaultACL(defaultACL, true);
+```
+
+## 角色层次
+
+如上所述，一个角色可能包含其他角色，两个角色之间可能存在母子关系。这种关系的结果是，授予给母级角色的任何权限实际上也授予给其包含的所有子角色。
+
+这些类型的关系在包含由用户管理的内容的应用程序中很常见，如论坛。一些小的用户子集是“管理员”，拥有最高级别的访问权，可以修改应用程序的设置、创建新论坛、设置全局消息等。另外一个用户集是“版主”，负责确保用户创建的内容适当。拥有管理员权限的任何用户还应被授予任何版主拥有的权限。若要建立这种关系，您应该让“管理员”角色成为“版主”的子角色，如下所示：
+
+```java
+ParseRole administrators = /* Your "Administrators" role */;
+ParseRole moderators = /* Your "Moderators" role */;
+moderators.getRoles().add(administrators);
+moderators.saveInBackground();
+```

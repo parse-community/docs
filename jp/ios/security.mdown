@@ -1,0 +1,19 @@
+# セキュリティ
+
+アプリケーションは、データへのアクセスをできる限り制限して構築することを強くお勧めします。これを念頭におき、自動[匿名利用者の作成](#users-anonymous)の有効化や、アプリが起動する場合[現在の利用者を基にデフォルトのACLを指定する](#users-acls)ことをお勧めします。データを認証されていないアクセスから保護するために、公開書き込み（および公開読み取り）はオブジェクトごとに明確に設定します。
+
+次のコードをアプリのスタートアップに追加することを考慮してください。
+
+```objc
+[PFUser enableAutomaticUser];
+PFACL *defaultACL = [PFACL ACL];
+// Optionally enable public read access while disabling public write access.
+// [defaultACL setPublicReadAccess:YES];
+[PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+```
+
+自分自身と利用者の保護のために、アプリを構築する際は、データへのアクセスの安全性を保つようにしてください。
+
+## 設定
+
+安全なコード化に加えて、アプリのページ設定をレビューして、アプリへのアクセスをニーズに合わせて制限するオプションを選択してください。たとえば、Facebookのアカウントがアプリにリンクさせていなければ利用者がログインできないように、その他すべてのログインメカニズムを無効にすることができます。FacebookアプリケーションID、Twitterコンシューマーキー、その他の情報を指定して、利用者のログイン試行をサーバー側で検証できるようにします。

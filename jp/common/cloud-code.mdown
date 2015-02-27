@@ -1,0 +1,846 @@
+# Cloud Codeとは
+
+Parseには、サーバーに関わる作業を行うことなく任意のモバイルアプリを開発できる手段を提供するというビジョンがあります。複雑なアプリには、モバイルデバイス以外の場所で実行するロジックが必要となる場合がありますが、そのようなロジックはCloud Codeを使用することで記述できます。
+
+Cloud Codeは、非常に多くのアプリと同じくJavaScript SDKをベースに作られているため、手軽に使用できます。ただ、そのコードがモバイルデバイス上ではなくParse Cloud内で実行されるという点だけが異なります。Cloud Codeを更新すると、新しいコードは即座にすべてのモバイル環境で利用可能になります。アプリケーションの新リリースを提供するときまで待つ必要はありません。つまり、アプリの挙動をその場で変更することや、新機能を早く追加することができます。
+
+Cloud Codeは、モバイル環境以外の経験があまりない開発者にもわかりやすく、使いやすいものになっています。
+
+## はじめに
+
+開発に使用するコンピュータには、Parseのコマンドラインツールをインストールする必要があります。Parse Cloud内のコードの管理は、このツールを使って行います。
+
+### コマンドラインツールのインストールと更新(Mac/Linux)
+
+Mac OSおよびLinux/Unix環境の場合、parseツールを入手するには次のコマンドを実行します。
+
+```bash
+curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
+```
+
+これにより、parseという名前のツールが`/usr/local/bin/parse`にインストールされます。付随するファイルはないので、アンインストールする場合はこのファイル1個を削除するだけで済みます。また、既にインストール済みのparseツールを最新版に更新する方法も新規インストールと同じです。
+
+### コマンドラインツールのインストール(Windows)
+
+Windows用のParseコマンドラインツールは、[こちら](/downloads/windows/console/parse.zip)から入手できます。ZIPファイルをダウンロードして解凍し、ParseConsole.exeをダブルクリックすると、parse対応のPowerShellセッションが起動します。一度ParseConsoleを実行した後は、Win + Rを押してから「parse」と入力してPowerShellセッションを起動することも可能になります。
+
+### Cloud Codeのセットアップ
+
+次のステップは、クラウド内で実行するためのコードを保管するディレクトリの作成です。コマンド&quot;`parse new`&quot;を実行すると、このディレクトリがセットアップされ、どのアプリのCloud Codeを作成するかを指定するプロンプトが表示されます。
+
+```bash
+$ parse new MyCloudCode
+Email: ninja@gmail.com
+Password:
+1:MyApp
+Select an App: 1
+$ cd MyCloudCode
+```
+
+Parseアカウントの電子メールアドレスとパスワードを入力してログインします。OAuth経由でサインアップしたアカウントにパスワードをまだ指定していない場合は、この機会にアカウントの設定を編集してパスワードを指定してください。セットアップを行うと、現在のディレクトリの下に`MyCloudCode`というディレクトリが作成されます。また、次のようにいくつかのファイルも自動的に作成されます。
+
+```bash
+-config/
+  global.json
+-cloud/
+  main.js
+-public/
+  index.html
+```
+
+`config`ディレクトリにはJSON設定ファイルが置かれます。通常、開発者がこのファイルを操作する必要はありません。`cloud`ディレクトリにはCloud Codeが格納されます。`public`ディレクトリは、Parse上にホストする静的コンテンツがある場合にそれらを保管する場所です。通常、`cloud`ディレクトリ内のファイルのうち編集する必要があるのは`main.js`のみです。作成するCloud Code関数はすべてこのファイルに記述されます。現時点では、以上のファイルが問題なく作成されたことだけを確認してください。ソースコントロールを使用する場合、これらのファイルはすべてチェックイン可能です。
+
+### シンプルな関数
+
+大昔からの伝統に従って、非常にシンプルな関数をクラウド内で実行してみましょう。`cloud/main.js`を開いてみると、1個の文字列だけを返す関数のサンプルが記述されています。
+
+```js
+Parse.Cloud.define("hello", function(request, response) {
+  response.success("Hello world!");
+});
+```
+
+このコードをParse Cloud上に配置するには、お使いのコンピュータから次のコマンドを実行します。
+
+```bash
+$ parse deploy
+```
+
+配置した関数を実行するには、次のようにします。
+
+```common-java
+ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new FunctionCallback<String>() {
+  void done(String result, ParseException e) {
+    if (e == null) {
+      // result is "Hello world!"
+    }
+  }
+});
+```
+```common-objc
+[PFCloud callFunctionInBackground:@"hello"
+                   withParameters:@{}
+                            block:^(NSString *result, NSError *error) {
+   if (!error) {
+     // result is @"Hello world!"
+   }
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>());
+// result is "Hello world!"
+```
+```common-js
+Parse.Cloud.run('hello', {}, {
+  success: function(result) {
+    // result is 'Hello world!'
+  },
+  error: function(error) {
+  }
+});
+```
+
+すると、次のような応答が表示されます。
+
+```json
+{ "result": "Hello world!" }
+```
+
+以上の結果が得られれば、Cloud Codeを正しく配置して実行できたことになります。
+
+ここで、配置サイクルに関する操作を試してみましょう。`"Hello world!"`を別の文字列に変更してから、この関数をもう一度配置し、実行して、結果が変化したことを確かめてください。Cloud CodeではJavaScript SDKのあらゆる機能が使えるので、いろいろな機能を関数に盛り込むことができます。詳しくは後で例を挙げて説明します。
+
+## クラウド関数
+
+次は、Cloud Codeの便利さがわかるように、もう少し複雑な例を見ることにします。処理をクラウドで実行する理由の一つは、ごくわずかな情報を得ることだけが目的の場合、大量のオブジェクトをデバイス上に取得して処理するのは非効率的だからです。たとえば、ユーザー間で映画レビューを共有するアプリを作成する例を考えましょう。1個の`Review`オブジェクトを次のように表現するとします。
+
+```json
+{ 
+  "movie": "The Matrix",
+  "stars": 5,
+  "comment": "Too bad they never made any sequels."
+}
+```
+
+&quot;The Matrix&quot;に付けられた星の数の平均を知りたい場合、この作品に対するレビューすべてを検索し、デバイス上で星の数の平均を求めても構いませんが、たった1個の数値を得るために大量の通信を行う必要があります。それよりも、Cloud Codeに映画のタイトルだけを渡し、星の数の平均値だけを得るようにした方が効率的です。
+
+クラウド関数は`request`オブジェクト上に1個のJSONパラメータ辞書を受け取れるので、これを使って映画のタイトルを渡すことにします。クラウド環境でもParse JavaScript SDKの全機能が使えることを利用して、`Review`オブジェクトのクエリを実行します。以上を総合すると、`averageStars`を実装したコードは次のようになります。
+
+```js
+Parse.Cloud.define("averageStars", function(request, response) 
+  var query = new Parse.Query("Review");
+  query.equalTo("movie", request.params.movie);
+  query.find({
+    success: function(results) {
+      var sum = 0;
+      for (var i = 0; i < results.length; ++i) {
+        sum += results[i].get("stars");
+      }
+      response.success(sum / results.length);
+    },
+    error: function() {
+      response.error("movie lookup failed");
+    }
+  });
+});
+```
+
+`averageStars`の使い方と`hello`の使い方で一つだけ異なる点は、クラウド関数の呼び出し時に`request.params.movie`でアクセスされるパラメータを渡す必要があることです。クラウド関数の呼び出し方について詳しくは、以後の説明を参照してください。
+
+### クラウド関数の呼び出し
+
+クラウド関数は、任意のクライアントSDKから呼び出せるほか、REST APIから呼び出すこともできます(下の例では、ドロップダウンでSDKの切り替えができます)。たとえば、`averageStars`というクラウド関数に`movie`というパラメータを渡して呼び出すには次のようにします。
+
+```common-java
+HashMap<String, Object> params = new HashMap<String, Object>();
+params.put("movie", "The Matrix");
+ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback<Float>() {
+   void done(Float ratings, ParseException e) {
+       if (e == null) {
+          // ratings is 4.5
+       }
+   }
+});
+```
+```common-objc
+[PFCloud callFunctionInBackground:@"averageStars"
+                   withParameters:@{@"movie": @"The Matrix"}
+                            block:^(NSNumber *ratings, NSError *error) {
+  if (!error) {
+     // ratings is 4.5
+  }
+}];
+```
+```common-swift
+// no swift example
+```
+```common-php
+// no php example
+```
+```common-csharp
+IDictionary<string, object> params = new Dictionary<string, object>
+{
+    { "movie", "The Matrix" }
+};
+var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params);
+```
+```common-js
+Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
+  success: function(ratings) {
+    // ratings should be 4.5
+  },
+  error: function(error) {
+  }
+});
+```
+
+クラウド関数に渡される引数は、大まかには次の2つです。
+
+1.  `request` - リクエストオブジェクト。そのリクエストに関する情報を格納します。設定するフィールドは次のとおりです。
+  1.  `params` - クライアントから関数に送られるパラメータオブジェクト。
+  2.  `user` - そのリクエストの送信者である`Parse.User`。ログイン済みユーザーがいないときは設定されません。
+
+関数が正常に実行されると、クライアントには次のような応答が返されます。
+
+```json
+{ "result": 4.8 }
+```
+
+エラーが発生した場合、クライアントには次のような応答が返されます。
+
+```json
+{ 
+  "code": 141,
+  "error": "movie lookup failed"
+}
+```
+
+### 保存時にコードを実行
+
+特定のデータ形式の適用を強制するという目的も、コードをクラウドで実行する理由の一つです。たとえば、アプリにAndroid版とiOS版の両方があり、それぞれにデータの検証を行う必要がある場合、クライアント環境別に異なる検証コードを記述するのではなく、Cloud Codeにすれば、両方で同じコードを共用できます。
+
+映画レビューの例で考えてみましょう。ある映画に評価の星を付ける場合、普通、指定する値は1、2、3、4、5のいずれかだけです。-6個の星や1,337個の星を付けることはできません。範囲外の値を付けたレビューを却下するコードは、`beforeSave`メソッドを使って次のように記述できます。
+
+```js
+Parse.Cloud.beforeSave("Review", function(request, response) {
+  if (request.object.get("stars") < 1) {
+    response.error("you cannot give less than one star");
+  } else if (request.object.get("stars") > 5) {
+    response.error("you cannot give more than five stars");
+  } else {
+    response.success();
+  }
+});
+```
+
+`response.error`が呼び出された場合、`Review`オブジェクトは保存されず、クライアントにエラーが返されます。`response.success`が呼び出された場合、オブジェクトは正常に保存されます。これら2つのコールバックのうち、どちらかを呼び出すコードを作成してください。
+
+なお、モバイルアプリに多数の異なるバージョンがある場合も、それらによって使われるCloud Codeのバージョンは1つです。このことを利用すると、たとえばアプリのリリース当初には適切な入力データ検証機能が備わっていなくても、後から`beforeSave`による検証を追加して問題を修正できる可能性があります。
+
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`beforeSave`を使いたい場合、第1引数にはStringを渡すのではなく、次のように、そのクラス自体を渡します。
+
+```js
+Parse.Cloud.beforeSave(Parse.User, function(request, response) {
+  if (!request.object.get("email")) {
+    response.error("email is required for signup");
+  } else {
+    response.success();
+  }
+});
+```
+
+### 保存時にオブジェクトを修正
+
+場合によっては、不適切なデータを却下するのではなく、修正を加えて有効なものにしてから保存したいことがあります。そのような場合は、同じく`beforeSave`の中で、修正後のオブジェクトに対して`response.success`を呼び出します。
+
+たとえば、映画レビューのコメントがあまりにも長文だと、表示しにくくなります。そこで、`beforeSave`の中で、`comment`フィールドの140文字を超える部分は切り捨てることにします。
+
+```js
+Parse.Cloud.beforeSave("Review", function(request, response) {
+  var comment = request.object.get("comment");
+  if (comment.length > 140) {
+    // Truncate and add a ...
+    request.object.set("comment", comment.substring(0, 137) + "...");
+  }
+  response.success();
+});
+```
+
+### 保存の後にアクションを実行
+
+オブジェクトを保存した後に、プッシュなど何らかのアクションを実行したいことがあります。そのような処理は、`afterSave`メソッドでハンドラーを登録することにより実現できます。たとえば、ブログの投稿に寄せられたコメントの件数を追跡管理したい場合に、次のような関数を記述することができます。
+
+```js
+Parse.Cloud.afterSave("Comment", function(request) {
+  query = new Parse.Query("Post");
+  query.get(request.object.get("post").id, {
+    success: function(post) {
+      post.increment("comments");
+      post.save();
+    },
+    error: function(error) {
+      console.error("Got an error " + error.code + " : " + error.message);
+    }
+  });
+});
+```
+
+ハンドラーがどのように終了した場合も、ハンドラーの終了後には、クライアントの保存リクエストに対して成功を示す応答が返されます。たとえハンドラー内で例外が送出されたとしても、クライアントに返されるのは成功の応答です。ハンドラーの実行中に発生したエラーは、Cloud Codeのログに記録されます。
+
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`afterSave`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
+
+### 削除時にコードを実行
+
+オブジェクトを削除する前にカスタムCloud Codeを実行するには、`beforeDelete`メソッドを使います。用途としては、Access Control List ([ACL](/docs/js/symbols/Parse.ACL.html))よりも複雑な削除ポリシーによる削除制限を実装する場合などが考えられます。たとえば、写真アルバムアプリでは1冊のアルバムに多数の写真が関連付けられています。アルバムの中身が空ではないときに、ユーザーが間違ってアルバム全体を削除してしまうのを防ぎたい場合は、次のような関数を記述することができます。
+
+```js
+Parse.Cloud.beforeDelete("Album", function(request, response) {
+  query = new Parse.Query("Photo");
+  query.equalTo("album", request.object.id);
+  query.count({
+    success: function(count) {
+      if (count > 0) {
+        response.error("Can't delete album if it still has photos.");
+      } else {
+        response.success();
+      }
+    },
+    error: function(error) {
+      response.error("Error " + error.code + " : " + error.message + " when getting photo count.");
+    }
+  });
+});
+```
+
+`response.error`が呼び出された場合、`Album`オブジェクトは削除されず、クライアントにエラーが返されます。`response.success`が呼び出された場合、オブジェクトは正常に削除されます。これら2つのコールバックのうち、どちらかを呼び出すコードを作成してください。
+
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`beforeDelete`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
+
+### 削除の後にアクションを実行
+
+オブジェクトを削除した後に、プッシュなど何らかのアクションを実行したいことがあります。そのような処理は、`afterDelete`メソッドでハンドラーを登録することにより実現できます。たとえば、ブログ投稿を削除した後に、その投稿に寄せられたコメントもすべて削除する場合は、次のような関数を記述することができます。
+
+```js
+Parse.Cloud.afterDelete("Post", function(request) {
+  query = new Parse.Query("Comment");
+  query.equalTo("post", request.object.id);
+  query.find({
+    success: function(comments) {
+      Parse.Object.destroyAll(comments, {
+        success: function() {},
+        error: function(error) {
+          console.error("Error deleting related comments " + error.code + ": " + error.message);
+        }
+      });
+    },
+    error: function(error) {
+      console.error("Error finding related comments " + error.code + ": " + error.message);
+    }
+  });
+});
+```
+
+`afterDelete`ハンドラーでは、既に`request.object`で削除されたオブジェクトにアクセスできます。このオブジェクトは完全に取得された状態ですが、再取得や再保存はできません。
+
+ハンドラーがどのように終了した場合も、ハンドラーの終了後には、クライアントの削除リクエストに対して成功を示す応答が返されます。たとえハンドラー内で例外が送出されたとしても、クライアントに返されるのは成功の応答です。ハンドラーの実行中に発生したエラーは、Cloud Codeのログに記録されます。
+
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`afterDelete`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
+
+### リソースの制限
+
+#### タイムアウト
+
+クラウド関数は、ウォールクロック時間の15秒が経過すると強制的に終了します。`beforeSave`関数、`afterSave`関数、`beforeDelete`関数、`afterDelete`関数はランタイムの3秒が経過すると強制的に終了します。クラウド関数または`beforeSave`/`afterSave`/`beforeDelete`/`afterDelete`関数が、別のCloud Code呼び出しによって呼び出された場合は、呼び出し元関数に適用される残り時間制限も適用されます。たとえば、あるクラウド関数が実行時間を13秒使った後で`beforeSave`関数を呼び出したとすると、その`beforeSave`関数は、通常の3秒の実行時間ではなく、呼び出し元の残り時間である2秒の時間制限に制約されます。Cloud Code内の処理に長い時間が必要な場合は、[バックグラウンドジョブ](#jobs)の使用を検討してください。
+
+#### ネットワークリクエスト
+
+`success`または`error`が呼び出されると、まだ処理が完了していないネットワークリクエストはキャンセルされます。`success`の呼び出しは、原則として、すべてのネットワークリクエストが完了するのを待ってから行うようにしてください。`afterSave`関数および`afterDelete`関数は、`success`/`error`を呼び出さないため、すべてのネットワークリクエストが完了するまで待機します。
+
+## バックグラウンドジョブ
+
+Parseには、バックグラウンドで動作するジョブを定義できます。バックグラウンドジョブは長時間にわたって継続するタスクの実行に役立ちます。たとえば、応答時間が遅い外部サイトとのインテグレーションや、バッチ処理によるプッシュ通知の送信などの用途が考えられます。クラウド関数の実行でタイムアウトエラーがひんぱんに発生する場合は、バックグラウンドジョブの使用を検討するとよいでしょう。
+
+ただし、バックグラウンドジョブの使用にあたっては次の制約事項に注意する必要があります。
+
+*   ジョブはランタイムの15分が経過すると強制的に終了します。
+*   アプリは、毎秒20件のリクエスト数制限内で1個のジョブをバックグラウンド実行できます。
+*   並列実行数の制限に達した後で開始されたジョブは、即座に強制終了します。
+
+### バックグラウンドジョブの記述方法
+
+バックグラウンドジョブのコードの書き方は、クラウド関数と似ています。ここでは、`Parse.User`オブジェクトに`plan`フィールドを追加した後にユーザー移行ジョブを実行する場合を考えてみましょう。コードは次のようになります。
+
+```js
+Parse.Cloud.job("userMigration", function(request, status) 
+  // Set up to modify user data
+  Parse.Cloud.useMasterKey();
+  var counter = 0;
+  // Query for all users
+  var query = new Parse.Query(Parse.User);
+  query.each(function(user) {
+    // Update to plan value passed in
+    user.set("plan", request.params.plan);
+    if (counter % 100 === 0) {
+      // Set the  job's progress status
+      status.message(counter + " users processed.");
+    }
+    counter += 1;
+    return user.save();
+  }).then(function() {
+    // Set the job's success status
+    status.success("Migration completed successfully.");
+  }, function(error) {
+    // Set the job's error status
+    status.error("Uh oh, something went wrong.");
+  });
+});
+```
+
+成功条件およびエラー条件への対応が求められる点は他のクラウド関数と同様です。バックグラウンドジョブの場合は、関数の終了時に`status.success()`と`status.error()`のどちらかを呼び出すことで行います。呼び出すとジョブの実行ステータスが&quot;完了&quot;になりますが、どちらも呼び出さない場合は、15分が経過するとタイムアウトでジョブが終了します。実行の途中で進行状況のメッセージを設定する場合は、必要に応じて`status.message()`を呼び出します。ただし、`status.success()`の呼び出し後に`status.message()`呼び出した場合、進行状況のメッセージは無視されます。
+
+作成したコードをテストするには、クラウドに配置した後に、開発者のマスターキーを指定して次のコマンドを実行します。
+
+```bash
+curl -X POST \
+  -H "X-Parse-Application-Id: $PARSE_APPLICATION_ID" \
+  -H "X-Parse-Master-Key: $PARSE_MASTER_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"plan":"paid"}' \
+  https://api.parse.com/1/jobs/userMigration
+```
+
+### スケジュールのセットアップ
+
+配置が済んだバックグラウンドジョブコードに対しては、ダッシュボードの[Cloud Code]タブでスケジュールを設定できます。[Scheduled Jobs]パネルに、すべてのスケジュール設定済みジョブの一覧が表示され、新しいスケジュール設定もこのパネルで追加できます。ジョブスケジュールに新規エントリを追加するには、配置済みのジョブを1つ選択し、説明文、必要な各種パラメータ、開始時間、実行頻度を指定します。スケジュールを設定したジョブは、[Run Now]をクリックするとオンデマンドで実行できます。また、ジョブスケジュールのエントリは削除することもできます。[Job Status]パネルには、ジョブの実行結果一覧が表示されます。この一覧を見ると、ジョブが開始された時間および直近のステータスメッセージと、そのジョブが完了済みかどうかを確認できます。
+
+## カスタムウェブフック
+
+Cloud Codeで[Express](http://expressjs.com/)を使うと、柔軟な形式でデータを受け取るカスタムウェブフックを作成できます。これは、別のウェブサービスから呼び出されるウェブフックを作成する場合に便利です。JSON以外の形式でデータを受け取る必要がある場合や、エンドポイントの呼び出し元となるウェブサービスがParseのREST APIヘッダーを送信できない場合は、[クラウド関数](#functions)ではなくカスタムウェブフックを使う必要があります。ロジックが実行される場所はCloud Code内なので、カスタムウェブフックのコードではParse JavaScript SDKのあらゆる機能にアクセスできます。
+
+カスタムウェブフック内では、リクエストのヘッダーと本文に直接アクセスできます。受け取るデータ形式はJSONまたはフォームエンコードに対応するほか、任意のバイト列を受信し、必要に応じたパーサーを使って独自に解析できます。また、ウェブフックにはHTTP基本認証による保護を適用することもできます。次のコードは、メッセージをParse Cloudに保存するウェブフックの例です。
+
+```js
+var express = require('express');
+var app = express();
+
+// Global app configuration section
+app.use(express.bodyParser());
+// Populate req.body
+app.post('/notify_message',
+  express.basicAuth('YOUR_USERNAME', 'YOUR_PASSWORD'),
+  function(req, res) {
+    // Use Parse JavaScript SDK to create a new message and save it.
+    var Message = Parse.Object.extend("Message");
+    var message = new Message();
+    message.save({ text: req.body.text }).then(function(message) {
+      res.send('Success');
+    }, function(error) {
+      res.status(500);
+      res.send('Error');
+    });
+  });
+app.listen();
+```
+
+このコードでは、`express.bodyParser`ミドルウェアを使ってリクエスト本文を読み取り、<nobr>`req.body.text`</nobr>の内容を設定しています。なお、`app.use(express.basicAuth(…))`をグローバルアプリ設定セクションに記述していない点に注意してください。これは、HTTP基本認証をこのエンドポイントでだけ使用し、すべてのエンドポイントにグローバルに適用するのではないことを意味しています。アプリ内の他のエンドポイントについては、これによってパブリックアクセス可能な状態になります。
+
+<p>カスタムエンドポイントをテストするには、次のコマンドを実行して、フォームエンコードされた本文を含むリクエストを送信します。
+
+```bash
+$ curl -X POST \
+-H 'Content-Type: application/x-www-form-urlencoded' \
+-d 'text=hi' http://YOUR_USERNAME:YOUR_PASSWORD@example.parseapp.com
+```
+
+リクエスト本体の無加工のバイト列にアクセスしたい場合は、コード内で、<nobr>`express.bodyParser`</nobr>ではなく<nobr>`parseExpressRawBody`</nobr>を使用します。一部のリクエストハンドラーでJSONやwww-form-encodedによる解析を行い、他のリクエストハンドラーではリクエスト本文のバイト列にアクセスする必要がある場合は、両方のミドルウェアコンポーネントを併用しても構いません。
+
+```js
+var express = require('express');
+var parseExpressRawBody = require('parse-express-raw-body');
+var app = express();
+
+// Global app configuration section
+app.use(express.bodyParser());
+app.use(parseExpressRawBody());
+
+app.post('/receive_raw_data',
+  express.basicAuth('YOUR_USERNAME', 'YOUR_PASSWORD'),
+  function(req, res) {
+    // If you send this endpoint JSON or www-form-encoded data, then
+    // express.bodyParser will fill req.body with the corresponding data.
+    // Otherwise, parseExpressRawBody will fill req.body with a Buffer
+    // object containing the request body.  You can also convert this
+    // Buffer to a string using req.body.toString().
+  });
+app.listen();
+```
+
+## 開発時と運用時
+
+新しいコードの動作を試すときは開発版アプリを使用し、外部向けに公開するアプリの実行には運用版アプリを使用することができます。
+
+### プロジェクトに新規アプリを追加
+
+プロジェクトには複数のアプリをリンクすることが必要になるでしょう。最初のアプリをプロジェクトにリンクするときは、`parse new`を使います。以後、プロジェクトにアプリを追加するときは`parse add [alias]`を使って次のようにします。
+
+```bash
+$ parse add production
+Email: pirate@gmail.com
+Password:
+1:PiecesOfEightCounterProd
+2:PiecesOfEightCounterDev
+Select an App: 1
+```
+
+上の例を実行すると、Cloud Codeプロジェクトに`PiecesOfEightCounterProd`アプリがリンクされます。また、追加したアプリへの参照を短く記述できるように、そのアプリに対して`production`というエイリアスが作成されます。
+
+### Cloud Codeの開発
+
+新しいコードの開発中には、`develop`コマンドを使用すると、Parseコマンドラインツールにプロジェクトの更新を常にチェックさせ、変更をCloud Codeにアップロードさせることができます。このコマンドは次のようにして使用します。 
+
+```bash
+$ parse develop development
+E2013-03-19:20:17:01.423Z] beforeSave handler in release 'v1' ran for GameScore with the input:
+  {"original": null, "update":{"score": 1337}}
+  and failed validation with Each GamesScore must have a playerName
+New release is named v58 I2013-03-19T20:17:10.343Z]
+Deployed v58 with triggers:
+  GameScore:
+    before_save
+```
+
+なお、`develop`を使用する場合は、新しい変更をプッシュする対象のアプリを明示的に指定する必要があります。これは、間違って`develop`コマンドを運用版アプリに対して実行し、未テストのコードを運用環境に配置してしまうのを防ぐためです。コマンドラインツールは、コードの変更をアップロードして新しいログメッセージを表示する動作をCtrl + Cが押されるまで継続します。
+
+### 運用環境へのコード配置
+
+コードのテストと変更が済んだら、次のように運用版アプリを指定して`deploy`コマンドを実行し、コードを運用環境に配置します。
+
+```bash
+$ parse deploy production
+New release is named v2
+```
+
+## Cloud Codeからのログ記録
+
+`parse log`で表示されるログファイルにメッセージを記録するには、`console.log`、`console.error`、`console.warn`のいずれかを使用します。`console.error`と`console.warn`では、記録先はエラーログになります。
+
+```js
+Parse.Cloud.define("Logger", function(request, response) {
+  console.log(request.params);
+  response.success();
+});
+```
+
+クラウド関数では、リクエスト1件ごとに100個までのメッセージを記録できます。
+
+## ネットワーキング
+
+Cloud Codeでは、`Parse.Cloud.httpRequest`を使って、任意のHTTPサーバーにHTTPリクエストを送信できます。この関数には、呼び出し方法を設定するオプションオブジェクトを1個渡します。同時に並行して実行できる`httpRequest`の数は2件までで、それ以上のリクエストは待ち行列に入ります。
+
+シンプルなGETリクエストは次のようになります。
+
+```js
+Parse.Cloud.httpRequest({
+  url: 'http://www.parse.com/',
+  success: function(httpResponse) {
+    console.log(httpResponse.text);
+  },
+  error: function(httpResponse) {
+    console.error('Request failed with response code ' + httpResponse.status);
+  }
+});
+```
+
+成功のHTTPステータスコードが返された場合は`success`が呼び出され、そうでない場合は`error`が呼び出されます。
+
+### クエリパラメータ
+
+URLの末尾に追加するクエリパラメータを指定するには、オプションオブジェクトの`params`を設定します。JSONオブジェクトのキーと値を指定する場合は次のようにします。
+
+```js
+Parse.Cloud.httpRequest({
+  url: 'http://www.google.com/search',
+  params: {
+    q : 'Sean Plott'
+  },
+  success: function(httpResponse) {
+    console.log(httpResponse.text);
+  },
+  error: function(httpResponse) {
+    console.error('Request failed with response code ' + httpResponse.status);
+  }
+});
+```
+
+また、`String`をそのまま指定する場合は次のようにします。
+
+```js
+Parse.Cloud.httpRequest({
+  url: 'http://www.google.com/search',
+  params: 'q=Sean Plott',
+  success: function(httpResponse) {
+    console.log(httpResponse.text);
+  },
+  error: function(httpResponse) {
+    console.error('Request failed with response code ' + httpResponse.status);
+  }
+});
+```
+
+### ヘッダーの設定
+
+HTTPヘッダーを送信するには、オプションオブジェクトの`header`属性を設定します。たとえば、リクエストのContent-Typeヘッダーを設定する場合は次のようにします。
+
+```js
+Parse.Cloud.httpRequest({
+  url: 'http://www.example.com/',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  success: function(httpResponse) {
+    console.log(httpResponse.text);
+  },
+  error: function(httpResponse) {
+    console.error('Request failed with response code ' + httpResponse.status);
+  }
+});
+```
+
+### POSTリクエストの送信
+
+POSTリクエストを送信するには、オプションオブジェクトの`method`属性を設定します。POSTの本文は`body`を使って設定できます。シンプルな例を次に示します。
+
+```js
+Parse.Cloud.httpRequest({
+  method: 'POST',
+  url: 'http://www.example.com/create_post',
+  body: {
+    title: 'Vote for Pedro',
+    body: 'If you vote for Pedro, your wildest dreams will come true'
+  },
+  success: function(httpResponse) {
+    console.log(httpResponse.text);
+  },
+  error: function(httpResponse) {
+    console.error('Request failed with response code ' + httpResponse.status);
+  }
+});
+```
+
+これを実行すると、URLフォームエンコードされた`body`属性を本文とするPOSTが`http://www.example.com/create_post`に対して送信されます。または、次のようにすると本文がJSONエンコードされます。
+
+```js
+Parse.Cloud.httpRequest({
+  method: 'POST',
+  url: 'http://www.example.com/create_post',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8'
+  },
+  body: {
+    title: 'Vote for Pedro',
+    body: 'If you vote for Pedro, your wildest dreams will come true'
+  },
+  success: function(httpResponse) {
+    console.log(httpResponse.text);
+  },
+  error: function(httpResponse) {
+    console.error('Request failed with response code ' + httpResponse.status);
+  }
+});
+```
+
+HTTPリクエストの本文が正しくエンコードされるように、Content-Typeヘッダーには必ずcharsetの指定を含めてください。
+
+### 応答オブジェクト
+
+`success`および`error`に渡される応答オブジェクトには、次の内容が格納されます。
+
+1.  `status` - HTTP応答ステータス
+2.  `headers` - 応答のヘッダー
+3.  `text` - 応答本文の生のデータ
+4.  `data` - 解析された応答内容(送信するcontent-typeの解析方法がCloud Codeに認識されている場合)
+
+## モジュール
+
+Cloud Codeでは、JavaScriptコードをモジュールに分割することができます。モジュールの読み込みによって望ましくない副作用が発生しないように、Cloud CodeのモジュールはCommonJSモジュールに似た形で機能します。モジュールを読み込むと、JavaScriptファイルが読み込まれ、ソースが実行され、グローバル`exports`オブジェクトが返されます。たとえば、`cloud/name.js`のソースが次のようなコードであるとします。
+
+```js
+var coolNames = ['Ralph', 'Skippy', 'Chip', 'Ned', 'Scooter'];
+exports.isACoolName = function(name) {
+  return coolNames.indexOf(name) !== -1;
+}
+```
+
+また、`cloud/main.js`の内容が次のとおりであるとします。
+
+```js
+var name = require('cloud/name.js');
+name.isACoolName('Fred');
+// returns false
+name.isACoolName('Skippy');
+// returns true;
+name.coolNames;
+// undefined.
+```
+
+`name`には、`isACoolName`という関数が含まれています。`require`で使用するパスは、そのParseプロジェクトのルートディレクトリを基準とする相対位置を表します。読み込み可能なモジュールは、`cloud/`ディレクトリにあるモジュールだけです。
+
+### クラウドモジュール
+
+クラウドモジュールを使用すると、最も簡単にParseアプリとサードパーティ製サービスやライブラリとのインテグレーションを実現できます。使い方はJavaScriptのモジュールに似ていますが、あらゆるユーザーが手軽に利用できる点が異なります。詳しくは[クラウドモジュールガイド](/docs/cloud_modules_guide)を参照してください。
+
+## コマンドラインツール
+
+Parseのコマンドラインツールを使って新しいコードをクラウドに配置する方法は既に見たとおりですが、このツールには、ほかにも便利な機能がいくつかあります。インストール方法については、[コマンドラインツールのインストール](#started-installing)を参照してください。
+
+### 概要
+
+コードの配置では、1つのコードを複数の異なるアプリに配置することができます。これを利用すると、&quot;開発版&quot;アプリと&quot;運用版&quot;アプリを別個に扱うことができ、開発版アプリの上でコードのテストを済ませてから運用版アプリにコードを反映することができて便利です。
+
+最初に追加するアプリ(`new`コマンド)は、コマンドラインによる操作すべてのデフォルトの適用対象となります。`new`以外のすべてのコマンドに対しては、実行対象となるアプリをオプションで指定できます。
+
+### 配置
+
+新しいリリースを配置するには、次のようにして`parse deploy`を実行します。
+
+```bash
+$ parse deploy
+New release is named v1
+```
+
+すると、新しいコード(`cloud/main.js`内のコード)がParse Cloudにプッシュされ、デフォルトターゲット(最初に追加したアプリ、または`parse default`で設定したアプリ)に対して配置されます。ターゲットを指定する引数を付けて`deploy`を実行する場合は、次のようにします。
+
+```bash
+$ parse deploy "My Other App"
+New release is named v2
+```
+
+配置の際にリリースノートを追加するには、`-d`または`--description=`オプションを使います。
+
+`parse deploy`を別のスクリプト内に組み込む(自動テスト/配置環境を実現するスクリプトなど)場合、Parseコマンドラインツールの終了コードを参照すると、コマンドの実行に成功したかどうかを判別できます。成功時には終了コードが0になり、配置に失敗した場合は終了コードが0以外の値になります。
+
+### Cloud Codeの開発
+
+`develop`コマンドを使用すると、Parseコマンドラインツールを開発モードで実行できます。このモードではソースディレクトリ内の更新が常にチェックされ、Parseへと配置されるほか、ログのライブストリームが表示されます。
+
+```bash
+$ parse develop development
+E2013-03-19:20:17:01.423Z] beforeSave handler in release 'v1' ran for GameScore with the input:
+  {"original": null, "update":{"score": 1337}}
+  and failed validation with Each GamesScore must have a playerName
+New release is named v58 I2013-03-19T20:17:10.343Z]
+Deployed v58 with triggers:
+  GameScore:
+    before_save
+```
+
+他のコマンドと違って、`develop`の場合は、更新のプッシュ先となるParseアプリの指定が必須です。これは、間違って運用版アプリに対して実行してしまうのを防ぎ、未テストのコードが運用環境に配置されることがないようにするためです。
+
+### 新しいターゲットの追加
+
+新しいparseアプリをターゲットとして追加するには、`add`コマンドを実行します。このコマンドでは、Parse.comに登録した電子メールおよびパスワードの入力を求めるプロンプトと、追加できるアプリの一覧が表示されます。
+
+```bash
+$ parse add
+Email: pirate@gmail.com
+Password:
+1:PiecesOfEightCounter
+2:BootyDivider
+Select an App: 1
+```
+
+`add`コマンドにはオプションの引数が1個あります。この引数でアプリに対するエイリアスを指定すると、以後、アプリ名の代わりにそのエイリアスでもアプリを参照できます。
+
+通常、この設定データはすべて`global.json`内に格納されます。ただし、チームのメンバーと共有したくない開発用アプリの場合は、`--local`フラグを指定すると、`local.json`という別のファイルに設定を追加することができます。これにより、たとえば`global.json`はソースコントロールにチェックインするが`local.json`は自分のコンピュータ上だけで使用するといった使い分けができます。
+
+### デフォルトアプリの設定
+
+`parse deploy`、`parse log`、`parse rollback`、`parse releases`の各コマンドは、デフォルトアプリが実行対象となります。`parse default`を実行すると、そのデフォルトアプリを変更することができます。
+
+```bash
+$ parse default MyApp
+Default app set to MyApp.
+$ parse default
+Current default app is MyApp
+```
+
+### 以前のリリースに戻す
+
+前のリリースに戻す場合は`parse rollback`を実行します。このコマンドには、`parse deploy`と同じく必要に応じてターゲット引数を指定できます。
+
+```bash
+$ parse rollback
+Rolled back to v1
+```
+
+これを実行すると、コードが前のバージョンに戻ります。必要に応じて、`-r`または`--release=`オプションでリリース名を指定し、特定のリリースに戻すこともできます。
+
+### ログの参照
+
+Cloud Codeの配置、ロールバック、アクティブ化操作はすべてログに記録されています。`parse log`コマンドを実行すると、最近のログを参照できます。参照できるログは次の2種類です。
+
+*   `INFO` - 記録された情報すべて
+*   `ERROR` - エラーの情報のみ
+
+logコマンドには、ターゲットを指定するオプションのほか、次のオプションがあります。
+
+*   `-n` - 表示するログの行数(デフォルト: 10行)
+*   `--level/-l` - 表示するログのレベル(デフォルト: INFO)
+*   `-f` - tail -fの動作をエミュレート
+
+```bash
+$ parse log -n 1
+I2012-07-10:13:37:00] beforeSave handler in release 'v1' ran for GameScore with the input:
+  {"original": null, "update":{"score": 1337}}
+  and failed validation with Each GamesScore must have a playerName
+```
+
+### リリースの一覧表示
+
+`releases`コマンドを実行すると、Parse Cloud上で把握されているリリースの一覧を確認できます。Parseが把握しているのは最近10回のリリースだけです。
+
+### SDKバージョンの指定
+
+あるディレクトリ内のCloud Codeに使用されるデフォルトのParse JavaScript SDKバージョンは、そのディレクトリに対して`new`コマンドが実行された時点の最新バージョンです。これを変更する場合は、`parse jssdk`を実行します。指定可能なParse JavaScript SDKの一覧を確認するには、`parse jssdk -a`を実行します。また、現在使われているParse JavaScript SDKバージョンを確認するには`parse jssdk`を使用します。
+
+```bash
+$ parse jssdk
+Current JavaScript SDK version is 1.2.13
+$ parse jssdk -a
+  1.2.18
+  1.2.17
+  1.2.16
+  1.2.15
+  1.2.14
+* 1.2.13
+  1.2.12
+  1.2.11
+$ parse jssdk 1.2.18
+Current JavaScript SDK version is 1.2.18
+$ parse jssdk -a
+* 1.2.18
+  1.2.17
+  1.2.16
+  1.2.15
+  1.2.14
+  1.2.13
+  1.2.12
+  1.2.11
+```
+
+### コマンドラインツールの更新
+
+コマンドラインツールを更新するには、`parse update`を使用します。これを実行すると、Parseコマンドラインツールが自動的に最新バージョンに更新されます。
+
+```bash
+$ parse update
+Fetching latest version ...
+######################################################################## 100%
+Installing ...
+```

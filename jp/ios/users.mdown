@@ -1,0 +1,502 @@
+# 利用者
+
+利用者が安全に情報にアクセスできるように、ユーザーアカウントをどのように考えるかが、多くのアプリのテーマとなっています。Parseでは`PFUser`と呼ばれる特別のユーザークラスを提供していますが、このクラスはユーザーアカウントの管理に必要な機能の大部分を自動的に処理します。 
+
+このクラスでは、ユーザーアカウントの機能をアプリに追加できます。
+
+`PFUser`は`PFObject`のサブクラスであり、柔軟なスキーマ、自動継続、主要な値に関するインターフェイスなど、同じ機能をすべて使用できます。 `PFObject`に関するメソッドはすべて`PFUser`でも使用できます。 PFUserにはユーザーアカウントに固有の特別な追加事項がある点が異なります。 
+
+## プロパティ
+
+`PFUser`には、`PFObject`にはないプロパティをいくつか設定できます。
+
+*   ユーザーネーム:利用者のユーザーネームです（必須）。
+*   パスワード:利用者のパスワードです（必須）。
+*   メール:利用者のメールアドレスです（省略可）。
+
+これらの値については、さまざまな使用例を通じて詳しく見ていきます。`username`と`email`はこうしたプロパティを通じて設定しますが、`setObject:forKey:`メソッドを使用して設定する必要はありませんので注意してください。これは自動的に設定されます。
+
+## 登録
+
+アプリが最初に行うのは、おそらく利用者への登録リクエストでしょう。次のコードは、一般的な登録方法を表しています。 
+
+```objc
+ - (void)myMethod {
+    PFUser *user = [PFUser user];
+    user.username = @"my name";
+    user.password = @"my pass";
+    user.email = @"email@example.com";
+
+    // other fields can be set just like with PFObject
+    user[@"phone"] = @"415-392-0202";
+
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            // Hooray! Let them use the app now.
+        } else {
+            NSString *errorString = [error userInfo][@"error"];
+            // Show the errorString somewhere and let the user try again.
+        }
+    }];
+}
+```
+
+この呼び出しは、Parseアプリ内に新しい利用者を非同期に作成します。作成前には、ユーザーネームとメールの両方が一意であることが確認されます。さらに、パスワードはクラウドに安全にハッシュされます。パスワードはプレーンテキストで保存されることはありません。また、クライアントにパスワードがプレーンテキストで返されることはありません。
+
+Parseは`save`メソッドではなく、`signUp`メソッドを使用します。新しい`PFUser`は常に`signUp`メソッドを使用して作成する必要があります。その後の更新プログラムがある場合は`save`を呼び出して実行します。
+
+`signUp`メソッドはさまざまな特徴があり、エラーを差し戻したり、バージョンを同期化させることができます。アプリでUIをブロックしないように、できる限り非同期化バージョンを使用することを強くお勧めいたします。特定のメソッドについての詳細は[APIドキュメント](/docs/ios/)をお読みください。
+
+正常に登録できない場合は、返されるエラーオブジェクトを確認する必要があります。多くの場合、別の利用者がユーザーネームかメールをすでに取得しているのが原因です。その場合は利用者に分かりやすい通知を送信し、別のユーザーネームを試すよう依頼する必要があります。
+
+メールアドレスをユーザーネームとして使用できます。利用者にはメールを入力するよう依頼するだけですが、そのメールアドレスはユーザーネームプロパティにも入力します。そうすることで`PFUser`は通常通り動作します。この処理方法についてはパスワードの再設定のセクションで後述します。
+
+## ログイン
+
+利用者の登録が終わったら、次はアカウントにログインできるよう設定する必要があります。それにはクラスメソッドの`logInWithUsernameInBackground:password:`を使用します。
+
+```objc
+[PFUser logInWithUsernameInBackground:@"myname" password:@"mypass"
+    block:^(PFUser *user, NSError *error) {
+        if (user) {
+            // Do stuff after successful login.
+        } else {
+            // The login failed. Check error to see why.
+        }
+}];
+```
+
+## メールの認証
+
+アプリケーションの設定でメール認証を有効にすると、認証操作の一部を承認済みのメールアドレスを使用して行うことができます。メール認証では`emailVerified`キーが`PFUser`オブジェクトに追加されます。`PFUser`の`email`が設定または修正された場合、`emailVerified`が`false`に設定されます。その後Parseは`emailVerified`が`true`に設定されたメールで利用者に送信します。
+
+次の3つの`emailVerified`の状態を考慮する必要があります。
+
+1.  `true` - 利用者がParseからメールで送信されたリンクをクリックしてメールアドレスを承認した状態。ユーザーアカウントを初めて作成する場合は、`PFUsers`が`true`の値を持つことはありません。
+2.  `false` - `PFUser`オブジェクトが最後に更新されたときに、利用者がメールアドレスの承認を行わなかった状態。`emailVerified`が`false`の場合は、`PFUser`で`refresh:`を呼び出してみます。
+3.  _missing_ - メール認証が無効な場合に`PFUser`が作成された、または`PFUser`に`email`がない状態。
+
+## 現在の利用者
+
+アプリを開くたびにログインが必要になると、操作がわずらわしく感じられます。キャッシュに保存された現在の`currentUser`オブジェクトを使用すると、このような状況を避けることができます。
+
+使用した登録またはログインメソッドに関わらず、利用者はディスクでキャッシュされます。このキャッシュはセッションとして処理でき、ログインしている利用者を自動的に推定できます。
+
+```objc
+PFUser *currentUser = [PFUser currentUser];
+if (currentUser) {
+    // do stuff with the user
+} else {
+    // show the signup or login screen
+}
+```
+
+利用者をログアウトすると、現在の利用者を消去できます。
+
+```objc
+[PFUser logOut];
+PFUser *currentUser = [PFUser currentUser]; // this will now be nil
+```
+
+## 匿名の利用者
+
+データとオブジェクトを個別の利用者に関連付けられることは非常に価値がありますが、利用者にユーザーネームとパスワードを指定させることなく行いたい場合があります。
+
+匿名の利用者とはユーザーネームやパスワードなしで作成でき、その他の`PFUser`と同じような機能をすべて持っている利用者です。匿名の利用者はログアウトした後に破棄され、データにはアクセスできなくなります。
+
+匿名の利用者は`PFAnonymousUtils`を使用して作成することができます。
+
+```objc
+[PFAnonymousUtils logInWithBlock:^(PFUser *user, NSError *error) {
+    if (error) {
+        NSLog(@"Anonymous login failed.");
+    } else {
+        NSLog(@"Anonymous user logged in.");
+    }
+}];
+```
+
+ユーザーネームとパスワードを設定し、`signUp`を呼び出すか、ログインするか、[Facebook](#fbusers)や[Twitter](#twitterusers)などのサービスにリンクさせることで、匿名の利用者を通常の利用者に変換できます。変換した利用者のデータはすべて保持されます。現在の利用者が匿名の利用者であるかどうかを判断するには、`PFAnonymousUtils isLinkedWithUser`を確認します。
+
+```objc
+if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
+    [self enableSignUpButton];
+} else {
+    [self enableLogOutButton];
+}
+```
+
+匿名の利用者はネットワークのリクエストを要請することなく、自動的に作成することで、アプリが起動したらすぐに利用者と連携することができます。アプリ起動時に匿名利用者の自動作成を有効にする場合、`[PFUser currentUser]`が`nil`になることはありません。利用者は、利用者に関係する利用者まやはオブジェクトが最初に保存されたときに、自動的にクラウドに作成されます。利用者のオブジェクトIDはその時までは`nil`になります。利用者の自動作成を有効にすると、簡単に利用者とデータを関連付けることができます。たとえば`application:didFinishLaunchingWithOptions:`関数では次のように書き込むことができます。
+
+```objc
+[PFUser enableAutomaticUser];
+[[PFUser currentUser] incrementKey:@"RunCount"];
+[[PFUser currentUser] saveInBackground];
+```
+
+## 現在の利用者の設定
+
+独自の認証方法を作成した場合、またはサーバー側で利用者をログインさせた場合、セッショントークンをクライアントにパスし、`become`メソッドを使用することができるようになりました。このメソッドでは、現在の利用者を設定する前にセッショントークンが有効なことを確認できます。
+
+```objc
+[PFUser becomeInBackground:@"session-token-here" block:^(PFUser *user, NSError *error) {
+    if (error) {
+        // The token could not be validated.
+    } else {
+        // The current user is now set to user.
+    }
+}];
+```
+
+## Userオブジェクトのセキュリティ
+
+`PFUser`クラスはデフォルトで保護されています。`PFUser`に格納されているデータは該当する利用者のみが修正できます。デフォルトでは、すべての利用者がデータを読み取ることができます。そのため、一部の`PFUser`オブジェクトは認証され修正できますが、その他のオブジェクトは読み取り専用となります。
+
+具体的には、`logIn`や`signUp`などの認証済みメソッドを使用して`PFUser`を取得していない場合は、`save`メソッドや`delete`メソッドを呼び出すことはできません。これにより、利用者は自分が所有するデータのみを変更できます。
+
+次は、このセキュリティポリシーを説明しています。
+
+```objc
+PFUser *user = [PFUser logInWithUsername:@"my_username" password:@"my_password"];
+user.username = "my_new_username"; // attempt to change username
+[user save]; // This succeeds, since the user was authenticated on the device
+
+// Get the user from a non-authenticated method
+PFQuery *query = [PFUser query];
+PFUser *userAgain = (PFUser *)[query getObjectWithId:user.objectId];
+
+userAgain.username = "another_username";
+
+// This will throw an exception, since the PFUser is not authenticated
+[userAgain save];
+```
+
+`currentUser`から取得した`PFUser`は常に認証済みとなります。
+
+`PFUser`が認証済みか確認するには、`isAuthenticated`メソッドを呼び出します。認証済みのメソッドから取得した`PFUser`オブジェクトを持つ`isAuthenticated`は確認する必要がありません。
+
+## その他のオブジェクトのセキュリティ
+
+`PFUser`に適用するセキュリティモデルと同じモデルを他のオブジェクトにも適用できます。すべてのオブジェクトで、オブジェクトの読み取りを許可する利用者や、オブジェクトの修正を許可する利用者を指定できます。このタイプのセキュリティをサポートするには、各オブジェクトに`PFACL`クラスで実装する[アクセス制御リスト](http://en.wikipedia.org/wiki/Access_control_list)が必要です。
+
+`PFACL`を使用する最も簡単な方法は、オブジェクトの読み取り/書き込みを1人の利用者に限定する方法です。そのようなオブジェクトを作成するには、最初に`PFUser`へのログインが必要です。その後、`ACLWithUser`メソッドでその利用者のみにアクセスを制限する`PFACL`を生成します。オブジェクトのACLは、他のプロパティと同様に、オブジェクトの保存時に更新されます。従って、現在の利用者のみがアクセスできるプライベートノートを作成するには、次のようにします。
+
+```objc
+PFObject *privateNote = [PFObject objectWithClassName:@"Note"];
+privateNote[@"content"] = @"This note is private!";
+privateNote.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
+[privateNote saveInBackground];
+```
+
+このノートは現在の利用者のみがアクセスできるようになりますが、この利用者がログインしているすべての端末からアクセスできます。この機能は、個人のToDoリストのように、複数の端末からユーザーデータにアクセスできるようなアプリケーションの場合に便利です。
+
+また、権限は利用者ごとに付与できます。`setReadAccess:forUser:`と`setWriteAccess:forUser:`では、`PFACL`に個別に権限を追加できます。たとえば、メッセージの読み込みと削除権限を持つ複数の利用者のグループにメッセージを送信する場合は、次のようにします。
+
+```objc
+PFObject *groupMessage = [PFObject objectWithClassName:@"Message"];
+PFACL *groupACL = [PFACL ACL];
+// userList is an NSArray with the users we are sending this message to.
+for (PFUser *user in userList) {
+    [groupACL setReadAccess:YES forUser:user];
+    [groupACL setWriteAccess:YES forUser:user];
+}
+groupMessage.ACL = groupACL;
+[groupMessage saveInBackground];
+```
+
+また、`setPublicReadAccess:`と`setPublicWriteAccess:`では、すべての利用者に一度に権限を付与できます。これにより伝言板へのコメントの投稿といったパターンが可能になります。たとえば、編集は作成者のみに許可し、読み取りはすべての利用者に許可する投稿を作成するには、次の手順で行います。
+
+```objc
+PFObject *publicPost = [PFObject objectWithClassName:@"Post"];
+PFACL *postACL = [PFACL ACLWithUser:[PFUser currentUser]];
+[postACL setPublicReadAccess:YES];
+publicPost.ACL = postACL;
+[publicPost saveInBackground];
+```
+
+利用者のデータがデフォルトで保護されるようにするには、デフォルトのACLをすべての新しく作成された`PFObjects`に適用するように設定できます。
+
+```objc
+[PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+```
+
+上記のコードでは、setDefaultACLへの2番目のパラメータが、オブジェクト作成時に割り当てられたデフォルトのACLでその時点での現在の利用者に読み取りと書き込みのアクセスを許可するようにParseに指示を出しています。この設定がないと、現在の利用者に適切にアクセス権が与えられるように、利用者がログインまたはログアウトする度にdefaultACLをリセットする必要があります。この設定があれば、異なるアクセス権を明らかに授与する必要がない限り、現在の利用者への変更を無視することができます。
+
+デフォルトのACLでは一般的なアクセスパターンに従うアプリが簡単に作成できます。たとえば、利用者のコンテンツが一般公開されているTwitterなどのアプリでは、デフォルトのACLを次のように設定することができます。
+
+```objc
+PFACL *defaultACL = [PFACL ACL];
+[defaultACL setPublicReadAccess:YES];
+[PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+```
+
+利用者のデータが、許可が明らかに与えられた場合を除き、利用者のみにアクセスが制限されるDropboxのようなアプリでは、現在の利用者のみにアクセスが与えられるデフォルトのACLを提供することができます。
+
+```objc
+[PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
+```
+
+Parseにデータをログしますが、そのデータへのユーザーアクセスを提供しないアプリでは、制限されたACLを提供しながら、現在の利用者へのアクセスを拒否することができます。
+
+```objc
+[PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:NO];
+```
+
+書き込みアクセスのないオブジェクトの削除など、禁止された操作は`kPFErrorObjectNotFound`エラーコードが発生することになります。これはセキュリティの目的で、クライアントが存在しているが保護されているオブジェクトIDや、まったく存在していないオブジェクトIDを区別できないようにします。
+
+## パスワードの再設定
+
+実際問題として、システムにパスワードを導入しても、利用者はすぐに忘れてしまいます。そのような場合でも、Parseのライブラリにはパスワードを安全に再設定する方法が用意されています。
+
+再設定フローを開始するには、利用者にメールアドレスを要求し、次の内容を呼び出します。
+
+```objc
+[PFUser requestPasswordResetForEmailInBackground:@"email@example.com"];
+```
+
+指定されたメールと利用者のメールまたはユーザーネームフィールドが照合され、パスワード再設定用のメールが送信されます。これにより、利用者のメールをユーザーネームとして使用するか、メールを別に収集してメールフィールドに格納するかを選択できます。
+
+パスワード再設定のフローは次のとおりです。
+
+1.  利用者がメールによりパスワードの再設定をリクエストする。
+2.  Parseが、パスワード再設定用の特別のリンクが記載されたメールを利用者のアドレスに送信する。
+3.  利用者が再設定リンクをクリックすると、新しいパスワードを入力するための特別なParseページにリダイレクトされる。
+4.  利用者が新しいパスワードを入力する。パスワードが、利用者が指定した値に再設定される。
+
+このフロー内のメッセージは、このアプリをParseに作成したときに指定した名前でアプリを参照します。
+
+## クエリ
+
+利用者をクエリするには、利用者専用クエリを使用する必要があります。
+
+```objc
+PFQuery *query = [PFUser query];
+[query whereKey:@"gender" equalTo:@"female"]; // find all the women
+NSArray *girls = [query findObjects];
+```
+
+また、`getUserObjectWithId:objectId`を使用してID別に`PFUser`を取得することができます。
+
+## 関連付け
+
+`PFUser`に関係する関連付けは設定することなく機能します。たとえば、ブログアプリを作成するとします。新しい投稿を保存し、すべての投稿を取得するには、次のようにします。
+
+```objc
+PFUser *user = [PFUser currentUser];
+// Make a new post
+PFObject *post = [PFObject objectWithClassName:@"Post"];
+post[@"title"] = @"My New Post";
+post[@"body"] = @"This is some great content.";
+post[@"user"] = user;
+[post save];
+
+// Find all posts by the current user
+PFQuery *query = [PFQuery queryWithClassName:@"Post"];
+[query whereKey:@"user" equalTo:user];
+NSArray *usersPosts = [query findObjects];
+```
+
+## Facebook利用者
+
+ParseにはFacebookをアプリケーションに統合できる簡単な方法が用意されています。Facebook SDKは弊社のSDKと一緒に使用することができ、`PFUser`クラスと統合して利用者をFacebookのプロフィールと簡単にリンクさせることができます。
+
+<div class="callout_green">
+ParseをFacebook APIと一緒に使用してプロフィールビューアアプリを作成する方法を確認してください。[iOSにおけるFacebookの統合チュートリアル](/tutorials/integrating-facebook-in-ios)ではFacebookを通じて`PFUsers`を作成し、ログインする方法とFacebookグラフAPIへのクエリ方法について説明します。
+</div>
+
+Facebook統合を使用すると、認証されたFacebook利用者を`PFUser`に関連付けることができます。数行のコードでアプリに「Facebookにログイン」を提供したり、利用者のデータをParseに保存することができるようになります。
+
+### 設定
+
+FacebookをParseとともに使用するには、次の作業が必要になります。
+
+1.  [Facebookアプリを設定します](https://developers.facebook.com/apps)（していない場合）。
+2.  アプリケーションのFacebookアプリケーションIDをParseアプリケーションの設定ページに追加します。
+3.  [Facebook SDKの利用方法の](https://developers.facebook.com/docs/getting-started/facebook-sdk-for-ios/) Facebookの指示に従って、Facebook SDKにリンクしたアプリを作成します。追加したFacebookAppIDとアプリの.plistファイルへのURLスキーム値をダブルクリックします。
+
+
+`application:didFinishLaunchingWithOptions:`などParse SDKを起動する場所に次を追加します。
+
+```objc 
+[PFFacebookUtils initializeFacebook]; 
+```
+
+アプリのデリゲートで次のハンドラを追加します。 
+```objc
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {     
+            return [FBAppCall handleOpenURL:url 
+                          sourceApplication:sourceApplication
+                                withSession:[PFFacebookUtils session]]; 
+}  
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+     [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+} 
+```
+
+FacebookをParse利用者と連動させて使用する主な方法は次の2つです。(1) Facebook利用者としてログイン（または登録）して`PFUser`を作成するか、(2) Facebookを既存の`PFUser`にリンクさせます。
+
+### ログインと登録
+
+`PFUser`にはFacebookを通じて利用者がログインまたは登録できる方法が用意されています。次のような`logInWithPermissions`メソッドを使用して実行します。
+
+```objc
+[PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
+    if (!user) {
+        NSLog(@"Uh oh. The user cancelled the Facebook login.");
+    } else if (user.isNew) {
+        NSLog(@"User signed up and logged in through Facebook!");
+    } else {
+        NSLog(@"User logged in through Facebook!");
+    }
+}];
+```
+
+ParseはFacebook iOS SDKバージョン3.2と互換性を持っています。
+
+このコードを実行すると、次のようになります。
+
+1.  利用者にFacebookログインダイアログが表示されます。
+2.  利用者はFacebookを通じて認証され、アプリが`handleOpenURL`を使用してコールバックを受け取ります。
+3.  ParseのSDKがFacebookデータを受け取り、それを`PFUser`に保存します。Facebook IDを使用した新しい利用者の場合は、その利用者が作成されます。
+4.  コードブロックはその利用者で呼び出されます。
+
+許可因数は文字列の配列で、アプリがFacebook利用者に要求する権限を指定します。こうした権限には読み取り権限だけが含まれるようにする必要があります。`PFUser`統合には設定しないで機能する許可は必要ではありません。[許可についての 詳細はFacebookのデベロッパーガイドをご覧ください。](https://developers.facebook.com/docs/reference/api/permissions/)
+
+たとえばアプリでステータスの更新を掲載できるように、利用者の公開許可を取得するには、`[PFFacebookUtils reauthorizeUser:withPublishPermissions:audience:block]`を呼び出す必要があります。
+
+```objc
+[PFFacebookUtils reauthorizeUser:[PFUser currentUser]
+                 withPublishPermissions:@["publish_actions"]
+                 audience:FBSessionDefaultAudienceFriends
+                 block:^(BOOL succeeded, NSError *error) {
+                    if (succeeded) {
+                        // Your app now has publishing permissions for the user
+                    }
+                 }];
+```
+
+<div class="callout_green">
+認証後にFacebook利用者から取得したデータを保存するかどうかは自由に設定できます。設定する場合は、[FacebookのSDKを介したグラフクエリを実行](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)する必要があります。
+</div>
+
+### リンク
+
+既存の`PFUser`をFacebookアカウントに関連付ける場合は、次のようにリンクします。
+
+```objc
+if (![PFFacebookUtils isLinkedWithUser:user]) {
+    [PFFacebookUtils linkUser:user permissions:nil block:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Woohoo, user logged in with Facebook!");
+        }
+    }];
+}
+```
+
+リンク時に必要な手順はログイン手順に非常に似ていますが、正常にログインした場合は既存の`PFUser`がFacebook情報で更新されるという点が異なります。今後Facebookを通じてグインすると、利用者は既存のアカウントにログインすることになります。
+
+Facebookと利用者のリンクを解除する場合は、次のようにします。
+
+```objc
+[PFFacebookUtils unlinkUserInBackground:user block:^(BOOL succeeded, NSError *error) {
+    if (succeeded) {
+        NSLog(@"The user is no longer associated with their Facebook account.");
+    }
+}];
+```
+
+### Facebook SDKとParse
+
+Facebook iOS SDKではFacebookのAPIとのやり取りで役立つクラスをさまざま提供しています。通常はログイン済みの利用者の代わりにFacebookとやり取りするには`FBRequest`クラスを使用します。[これについて詳しくは、こちらのFacebook SDKをご覧ください。](https://developers.facebook.com/docs/reference/ios/3.2).
+
+Facebookのライブラリは利用者の`FBSession`オブジェクトを管理します。`[PFFacebookUtils session]`を呼び出して、セッションのインスタンスにアクセスし、`FBRequest`にパスすることができます。
+
+## Twitter利用者
+
+Facebookと同じように、ParseにはTwitter認証をアプリに統合する簡単な方法が用意されています。.Parse SDKにはTwitterアカウントを認証し`PFUser`へリンクさせる簡単な方法が用意されています。数行のコードでアプリに「Twitterにログイン」を提供したり、データをParseに保存することができます。%>
+
+### 設定
+
+ParseでTwitterを使用するためには次を実行する必要があります。
+
+1.  [Twitterアプリ](https://dev.twitter.com/apps) を設定します。すでに設定してある場合、この手順は不要です。
+2.  アプリのTwitterコンシューマ―キーをParseアプリケーション設定ページに追加します。
+3.  Twitterアプリで「コールバックURL」を指定するように促された場合、有効なURLを入力してください。この値はiOSやAndroidアプリケーションで使用されることはありませんが、Twitterを通じた認証を有効にするためには必要になります。
+4.  Xcodeプロジェクトに`Accounts.framework`と`Social.framework`を追加します。
+5.  `application:didFinishLaunchingWithOptions:`などParse SDKを起動する場所に次を追加します。
+```objc
+    [PFTwitterUtils initializeWithConsumerKey:@"YOUR CONSUMER KEY"
+                    consumerSecret:@"YOUR CONSUMER SECRET"];
+```
+
+Twitterに関連した問題が発生する場合、[公式のTwitterドキュメント](https://dev.twitter.com/docs)に役立つリソースがあります。
+
+Parse利用者でTwitterを使用する方法は主に次の2つです。(1) Twitter利用者としてログイン（または登録）して`PFUser`を作成するか、(2) Twitterを既存の`PFUser`にリンクします。%>
+
+### ログインと登録
+
+`PFTwitterUtils`にはTwitterを通じて`PFUser`がログインまたは登録できる方法が用意されています。これは`logInWithBlock`や`logInWithTarget`メッセージを使用して行います。
+
+```objc
+[PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
+    if (!user) {
+        NSLog(@"Uh oh. The user cancelled the Twitter login.");
+        return;
+    } else if (user.isNew) {
+        NSLog(@"User signed up and logged in with Twitter!");
+    } else {
+        NSLog(@"User logged in with Twitter!");
+    }
+}];
+```
+
+このコードを実行すると、次のようになります。
+
+1.  利用者にはTwitterのログインダイアログが表示されます。
+2.  利用者はTwitterを通じて認証され、アプリではコールバックを受信します。
+3.  ParseのSDKがTwitterのデータを受け取り、それを`PFUser`に保存します。Twitterハンドルを基にした新しい利用者の場合は、その利用者が作成されます。
+4.  `block`はその利用者で呼び出されます。
+
+### リンク
+
+既存の`PFUser`をTwitterアカウントに関連付ける場合は、次のようにリンクします。
+
+```objc
+if (![PFTwitterUtils isLinkedWithUser:user]) {
+    [PFTwitterUtils linkUser:user block:^(BOOL succeeded, NSError *error) {
+        if ([PFTwitterUtils isLinkedWithUser:user]) {
+            NSLog(@"Woohoo, user logged in with Twitter!");
+        }
+    }];
+}
+```
+
+リンク時に必要な手順はログイン手順に非常に似ていますが、。正常にログインした場合は既存の`PFUser`がTwitterの情報で更新されるという点が異なります。今後Twitterを通じてログインすると、利用者は既存のアカウントにログインすることになります。
+
+Twitterと利用者のリンクを解除する場合は、次のようにします。
+
+```objc
+[PFTwitterUtils unlinkUserInBackground:user block:^(BOOL succeeded, NSError *error) {
+    if (!error && succeeded) {
+        NSLog(@"The user is no longer associated with their Twitter account.");
+    }
+}];
+```" %>
+
+### Twitter APIの呼び出し
+
+ParseのSDKでは、アプリにTwitterにリンクした`PFUser`がいる場合、API HTTPリクエストを[Twitter REST API](https://dev.twitter.com/docs/api)に署名する簡単な方法を提供します。APIを通じてリクエストするには、`PFTwitterUtils`が提供する`PF_Twitter`シングルトンを使用することができます。
+
+```objc
+NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1/account/verify_credentials.json"];
+NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:verify];
+[[PFTwitterUtils twitter] signRequest:request];
+NSURLResponse *response = nil;
+NSData *data = [NSURLConnection sendSynchronousRequest:request
+                                returningResponse:&response
+                                error:&error];
+```

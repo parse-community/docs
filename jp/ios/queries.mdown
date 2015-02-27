@@ -1,0 +1,388 @@
+# クエリ
+
+これまでに`getObjectWithId:`がある`PFQuery`でParseから1つの`PFObject`を取得する方法を確認しました。`PFQuery`を使用したデータの取得には、他にも次のように多数の方法があります。一度に多数のオブジェクトを取得したり、取得するオブジェクトに条件を設定したりできます。また、クエリを自動的にキャッシュしてコードへの書き込みを阻止したりできます。
+
+## 基本的なクエリ
+
+多くの場合、`getObjectInBackgroundWithId:block:`には取得するオブジェクトを指定する機能はありません。`PFQuery`には1つのオブジェクトだけではなく、オブジェクトのリストを取得するさまざまな方法があります。
+
+一般的には、`PFQuery`を作成してそれに条件を設定し、その後`findObjectsInBackgroundWithBlock:`や`findObjectsInBackgroundWithTarget:selector:`のいずれかを使用して`PFObject`が一致する`NSArray`を取得します。たとえば、特定の`playerName`でスコアを取得するには、`whereKey:equalTo:`メソッドを使用してキーの値を制約します。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        // The find succeeded.
+        NSLog(@"Successfully retrieved %d scores.", objects.count);
+        // Do something with the found objects
+        for (PFObject *object in objects) {
+            NSLog(@"%@", object.objectId);
+        }
+    } else {
+        // Log details of the failure
+        NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }
+}];
+```
+
+`findObjectsInBackgroundWithBlock:`と`findObjectsInBackgroundWithTarget:selector:`は両方とも同様に作用し、ブロックすることなくネットワークリクエストを実行できるようにし、主要スレッドでブロック/コールバックを実行します。すでにバックグラウンドスレッドにいる場合には、呼び出しスレッドをブロックする`findObjects`メソッドがあります。
+
+```objc
+// Only use this code if you are already running it in a background
+// thread, or for testing purposes!
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+NSArray* scoreArray = [query findObjects];
+```
+
+## NSPredicateで制約を指定する
+
+`PFQuery`を最大限に活用するためには、次に記載するメソッドを使用して条件を追加することをお勧めします。ただし、`NSPredicate`を使用する場合は、`PFQuery`を作成する際に`NSPredicate`を提供することで条件のサブセットを指定します。
+
+```objc
+NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    @"playerName = 'Dan Stemkosk'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+以下の機能がサポートされています。
+
+*   `=`、`!=`、`<`、`>`、`<=`、`>=`などの単純比較と、キーおよび定数のある`BETWEEN`
+*   `x IN {1, 2, 3}`などの包含述語
+*   `x IN SELF`などの主要存在述語
+*   `BEGINSWITH`式
+*   `AND`、`OR`、`NOT`の複合述語
+*   `"key IN %@", subquery`のサブクエリ
+
+次の述語タイプはサポート**されません**。
+
+*   `ANY`、`SOME`、`ALL`、`NONE`などの集合演算子
+*   `LIKE`、`MATCHES`、`CONTAINS`、`ENDSWITH`などの正規表現
+*   あるキーを別のキーと比較する述語
+*   `OR`節がたくさんある複合述語
+
+## クエリ条件
+
+`PFQuery`で検索するオブジェクトに条件を設定する方法がいくつかあります。`whereKey:notEqualTo`を使用すると特定のキーと値のペアを持つオブジェクトをフィルタで除外できます。
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+$toggle$ NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    @"playerName != 'Michael Yabuti'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+条件は複数設定でき、そのすべての条件に一致したオブジェクトのみが結果に表示されます。つまり、AND条件のように機能します。
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+[query whereKey:@"playerAge" greaterThan:@18];
+```
+
+`limit`を設定すると結果の数を制限できます。デフォルトでは、結果は100件に制限されていますが、1～1000件の範囲で自由に制限を設定できます。
+
+```objc
+query.limit = 10; // limit to at most 10 results
+```
+
+結果を1件だけ表示したいときには、`findObject`の代わりに`getFirstObject`や`getFirstObjectInBackground`を使用すると便利な場合があります。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerEmail" equalTo:@"dstemkoski@example.com"];
+[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    if (!object) {
+        NSLog(@"The getFirstObject request failed.");
+    } else {
+        // The find succeeded.
+        NSLog(@"Successfully retrieved the object.");
+    }
+}];
+```
+
+`skip`を設定すると最初の結果をスキップできます。ページネーションに便利です。
+
+```objc 
+query.skip = 10; // skip the first 10 results     ```
+
+数字や文字列のように並べ替え可能なタイプの場合は、返される結果の順番を制御できます。
+
+```objc
+// Sorts the results in ascending order by the score field
+[query orderByAscending:@"score"];
+// Sorts the results in descending order by the score field
+[query orderByDescending:@"score"];
+```
+
+次のようにクエリにソートキーを追加できます。
+
+```objc
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+[query addAscendingOrder:@"score"];
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+[query addDescendingOrder:@"score"];
+```
+
+並べ替え可能なタイプの場合、クエリ内で比較も使用できます。
+
+```objc
+// Restricts to wins < 50
+[query whereKey:@"wins" lessThan:@50];
+// Restricts to wins <= 50
+[query whereKey:@"wins" lessThanOrEqualTo:@50];
+// Restricts to wins > 50
+[query whereKey:@"wins" greaterThan:@50];
+// Restricts to wins >= 50
+[query whereKey:@"wins" greaterThanOrEqualTo:@50];
+```
+
+複数の異なる値に一致するオブジェクトを取得する場合は、`whereKey:containedIn:`を使用して許容される値の配列を指定します。通常は、複数のクエリを1つのクエリで置き換えるときに便利です。たとえば、特定のリストにあるプレイヤーがあげたスコアを取得する場合は、次のように設定します。
+
+```objc
+// Finds scores from any of Jonathan, Dario, or Shawn
+NSArray *names = @[@"Jonathan Walsh",
+                   @"Dario Wunsch",
+                   @"Shawn Simon"];
+[query whereKey:@"playerName" containedIn:names];
+```
+
+さまざまな値のどれにも一致しないオブジェクトを取得する場合は、`whereKey:notContainedIn:`を使用して、許容可能な値の配列を指定します。たとえば、リストにあるプレイヤー以外のプレイヤーがあげたスコアを取得する場合は、次のように設定します。
+
+```objc
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+NSArray *names = @[@"Jonathan Walsh",
+                   @"Dario Wunsch",
+                   @"Shawn Simon"];
+[query whereKey:@"playerName" notContainedIn:names];
+```
+
+特定のキーセットを持つオブジェクトを取得するには、`whereKeyExists`を使用します。反対に、特定のキーセットを持たないオブジェクトを取得する場合は、`whereKeyDoesNotExist`を使用します。
+
+```objc
+// Finds objects that have the score set
+[query whereKeyExists:@"score"];
+// Finds objects that don't have the score set
+[query whereKeyDoesNotExist:@"score"];
+```
+
+`whereKey:matchesKey:inQuery:`メソッドでは、別のクエリで取得した一連のオブジェクトが持つキーの値に一致するキーを持つオブジェクトを取得できます。たとえば、スポーツチームを持つクラスがあり、利用者のクラスに利用者の出身地を格納してある場合、クエリを1つ発行するだけで、出身地のチームが勝ち越している利用者のリストを取得できます。クエリは次のようになります。
+
+```objc
+PFQuery *teamQuery = [PFQuery queryWithClassName:@"Team"];
+[teamQuery whereKey:@"winPct" greaterThan:@(0.5)];
+PFQuery *userQuery = [PFQuery queryForUser];
+[userQuery whereKey:@"hometown" matchesKey:@"city" inQuery:teamQuery];
+[userQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a winning record
+}];
+```
+
+逆に、別のクエリで取得した一連のオブジェクトが持つキーの値に一致しないオブジェクトを取得するには、`whereKey:doesNotMatchKey:inQuery:`を使用します。たとえば、出身地のチームが負け越している利用者を取得するには、次のように設定します。
+
+```objc
+PFQuery *losingUserQuery = [PFQuery queryForUser];
+[losingUserQuery whereKey:@"hometown" doesNotMatchKey:@"city" inQuery:teamQuery];
+[losingUserQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a losing record
+}];
+```
+
+キーの`NSArray`で`selectKeys:`を呼び出すことで、返されるフィールドを制限できます。`score`と`playerName`（また`objectId`、`createdAt`、`updatedAt`などの特別に組み込まれたフィールド）のみが含まれるドキュメントを取得するには、次のように設定します。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query selectKeys:@[@"playerName", @"score"]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // objects in results will only contain the playerName and score fields
+}];
+```
+
+返されたオブジェクトに`fetchIfNeeded`バリアントの1つを呼び出すと、残りのフィールドを後から取得できます。
+
+```objc
+PFObject *object = (PFObject*)results[0];
+[object fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // all fields of the object will now be available here.
+}];
+```
+
+## 配列の値についてのクエリ
+
+配列タイプのキーの場合、キーの配列の値に2が入っているオブジェクトを取得するには、次のようにします。
+
+```objc
+// Find objects where the array in arrayKey contains 2.
+[query whereKey:@"arrayKey" equalTo:@2];
+```
+
+また、キーの配列値に、値2、3、4がすべて入っているオブジェクトを取得するには、次のようにします。 
+
+```objc
+// Find objects where the array in arrayKey contains each of the
+// elements 2, 3, and 4.
+[query whereKey:@"arrayKey" containsAllObjectsInArray:@[@2, @3, @4]];
+```
+
+## 文字列の値についてのクエリ
+
+特定の文字列で始まる文字列の値のみを取得するには、`whereKey:hasPrefix:`を使用します。MySQL LIKE演算子と同じようにインデックス化されることから、大規模なデータセットに効果的です。
+
+```objc
+// Finds barbecue sauces that start with "Big Daddy's".
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
+[query whereKey:@"name" hasPrefix:@"Big Daddy's"];
+```
+
+## リレーショナルクエリ
+
+リレーショナルデータにはいくつかの方法でクエリを発行できます。特定の`PFObject`に一致するフィールドを持つオブジェクトを取得する場合は、他のデータタイプと同じように`whereKey:equalTo:`を使用できます。たとえば、各`Comment`が`post`フィールドに`Post`オブジェクトを持つ場合、特定の`Post`のコメントを取得できます。
+
+```objc
+// Assume PFObject *myPost was previously created.
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" equalTo:myPost];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for myPost
+}];
+```
+
+次のように、`objectId`によってリレーショナルクエリを実行することもできます。
+
+```objc
+[query whereKey:@"post"
+       equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+```
+
+別のクエリに一致する`PFObject`をフィールドに持つオブジェクトを取得する場合は、`whereKey:matchesQuery`を使用します。デフォルトの制限100と最大制限1000が内部クエリにも適用されることから、大規模のデータセットの場合は、目的の動作が得られるまで慎重にクエリを作成する必要があります。画像がある投稿のコメントを取得するには、次のようにします。
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" matchesQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts with images
+}];
+```
+
+別のクエリに一致しない`PFObject`をフィールドに持つオブジェクトを取得する場合は、`whereKey:doesNotMatchQuery`を使用します。画像のない投稿のコメントを取得するには、次のようにします。
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" doesNotMatchQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts without images
+}];
+```
+
+状況によっては、1つのクエリで複数タイプの関連するオブジェクトを返したい場合があります。その場合は`includeKey:`メソッドを使用します。たとえば、最新10件のコメントを取得し、その関連する投稿を同時に取得する場合は、次のようにします。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+// Retrieve the most recent ones
+[query orderByDescending:@"createdAt"];
+
+// Only retrieve the last ten
+query.limit = 10;
+
+// Include the post data with each comment
+[query includeKey:@"post"];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // Comments now contains the last ten comments, and the "post" field
+    // has been populated. For example:
+    for (PFObject *comment in comments) {
+        // This does not require a network access.
+        PFObject *post = comment[@"post"];
+        NSLog(@"retrieved related post: %@", post);
+    }
+}];
+```
+
+また、ドット表記を使用すると複数レベルを指定できます。コメントの投稿と投稿の作成者も指定する場合は、次のようにします。
+
+```objc
+[query includeKey:@"post.author"];
+```
+
+`includeKey:`を複数回呼び出すことで、複数のフィールドを持つクエリを発行できます。この機能は、`getFirstObject`や`getObjectInBackground`といったPFQueryヘルパーでも使用できます。
+
+## クエリのキャッシュ
+
+クエリの結果をディスクにキャッシュすると役立つことがよくあります。これによって利用者のデバイスがオフラインの時や、アプリが起動したばかりでネットワークのリクエストが完了していない時などのデータを表示させることができます。キャッシュでスペースが大量に使用される場合、Parseでは自動的にキャッシュを消去します。
+
+デフォルトのクエリの動作ではキャッシュは使用しませんが、`query.cachePolicy`を設定するとキャッシュを有効にすることができます。たとえば、ネットワークを試行する際、ネットワークが利用できない場合はキャッシュされたデータにフォールバックします。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+query.cachePolicy = kPFCachePolicyNetworkElseCache;
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        // Results were successfully found, looking first on the
+        // network and then on disk.
+    } else {
+        // The network was inaccessible and we have no cached data for
+        // this query.
+    }
+}];
+```
+
+Parseではさまざまなキャッシュポリシーを提供しています。
+
+*   `kPFCachePolicyIgnoreCache` クエリはキャッシュからロードすることも、結果をキャッシュに保存することもありません。`kPFCachePolicyIgnoreCache`はデフォルトのキャッシュポリシーです。
+*   `kPFCachePolicyCacheOnly` クエリはキャッシュからのみロードし、ネットワークを無視します。キャッシュされた結果がない場合、`PFError`が発生します。
+*   `kPFCachePolicyNetworkOnly` クエリはキャッシュからロードすることはありませんが、結果をキャッシュに保存します。
+*   `kPFCachePolicyCacheElseNetwork` クエリはまずキャッシュからのロードを試みますが、失敗する場合は、ネットワークから結果をロードします。キャッシュもネットワークも成功しない場合、`PFError`になります。
+*   `kPFCachePolicyNetworkElseCache` クエリはまずネットワークからのロードを試みますが、失敗する場合は、キャッシュから結果をロードします。ネットワークもキャッシュも成功しない場合、`PFError`になります。
+*   `kPFCachePolicyCacheThenNetwork` クエリはまずキャッシュからロードし、その後ネットワークからロードします。この場合、コールバックは、キャッシュの結果とネットワークの結果で、2回呼び出されます。異なる時間に2つの結果を返すため、このキャッシュポリシーは`findObjects`と同時に使用することはできません。
+
+キャッシュの動作を制御する必要がある場合、PFQueryで提供されるメソッドを使用してキャッシュとやり取りすることができます。キャッシュでは次の操作を実行できます。
+
+*   次を実行してクエリに対してキャッシュされた結果があるかを確認します。 ```objc BOOL isInCache = [query hasCachedResult];            ```
+*   次を実行してクエリに対してキャッシュされた結果を削除します。 ```objc [query clearCachedResult];            ```
+*   次を実行してクエリに対してキャッシュされた結果を削除します。 ```objc [PFQuery clearAllCachedResults];        ```
+
+クエリのキャッシュは`getFirstObject`や`getObjectInBackground`などのPFQueryヘルパーでも使用できます。
+
+## オブジェクトのカウント
+
+クエリに一致するオブジェクトの数をカウントするが、一致するオブジェクトを取得する必要がない場合は、 `findObjects`の代わりに`countObjects`を使用します。たとえば、特定のプレイヤーがプレイしたゲームの回数をカウントするには、次のように設定します。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playername" equalTo:@"Sean Plott"];
+[query countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
+    if (!error) {
+        // The count request succeeded. Log the count
+        NSLog(@"Sean has played %d games", count);
+    } else {
+        // The request failed
+    }
+}];
+```
+
+呼び出しスレッドをブロックする場合は、`countObjects`メソッドを同時に使用することもできます。
+
+1,000を超えるオブジェクトを持つクラスの場合、タイムアウトによってカウント操作が制限されます。常にタイムアウトエラーが発生したり、おおよその結果のみが返されたりすることがあります。従って、こういったカウント操作が発生しないようにアプリケーションを構築することをお勧めします。
+
+## 複合クエリ
+
+ 複数クエリのいずれかに一致するオブジェクトを検出する場合は、`orQueryWithSubqueries:`メソッドを使用できます。たとえば、勝利回数の多いまたは少ないプレイヤーを検出する場合は、次のように設定します。
+
+```objc
+PFQuery *lotsOfWins = [PFQuery queryWithClassName:@"Player"];
+[lotsOfWins whereKey:@"wins" greaterThan:@150];
+PFQuery *fewWins = [PFQuery queryWithClassName:@"Player"];
+[fewWins whereKey:@"wins" lessThan:@5];
+PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results contains players with lots of wins or only a few wins.
+}];
+```
+
+「AND」演算子として機能する新たに作成した`PFQuery`に条件を追加できます。
+
+ただし、複合クエリのサブクエリ内ではフィルタ以外の条件（`limit`、`skip`、`orderBy...:`、`includeKey:`など）はサポートされません。

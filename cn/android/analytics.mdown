@@ -1,0 +1,47 @@
+# 分析
+
+Parse 提供了很多挂接点，让您可以了解应用的核心。我们知道，了解您的应用程序执行的操作、频率和时间非常重要。
+
+虽然本节将介绍不同的方法来测试您的应用程序，以最好地利用 Parse 的分析后台，不过使用 Parse 存储和检索数据的开发者已经可以利用 Parse 上的分析指标。
+
+无需实施任何客户侧逻辑，您就可以在应用面板中查看 API 请求的实时图表和数据细项（按设备类型、Parse 类名或 REST 动词分类），并保存这些图表过滤器以快速访问您感兴趣的数据。
+
+## 应用开启/推送分析
+
+我们的初始分析挂接点让您可以在应用启动后对其进行跟踪。在主 `Activity` 的 `onCreate` 方法中添加下面的行，您即可开始收集关于您的应用何时开启及其开启频率的数据。
+
+```java
+ParseAnalytics.trackAppOpened(getIntent());
+```
+
+您可以通过应用的面板访问统计数据图表和数据细项。
+
+您还可以获得关于推送通知递送和打开率的进一步分析。请参阅“推送指南”的[“跟踪推送和应用开启次数”小节](/docs/push_guide#receiving-tracking/Android)，了解关于处理通知净负载和与推送相关的回调的更多信息。
+
+## 自定义分析
+
+`ParseAnalytics` 还可以让您用一些 `String` 键和值追踪自由形式事件。这些额外维度允许您通过应用面板细分自定义事件。
+
+比如说，您的应用提供有公寓清单搜索功能，您想要用一些额外的元数据追踪该功能的使用频率。
+
+```java
+Map<String, String> dimensions = new HashMap<String, String>();
+// Define ranges to bucket data points into meaningful segments
+dimensions.put("priceRange", "1000-1500");
+// Did the user filter the query?
+dimensions.put("source", "craigslist");
+// Do searches happen more often on weekdays or weekends?
+dimensions.put("dayType", "weekday");
+// Send the dimensions to Parse along with the 'search' event
+ParseAnalytics.trackEvent("search", dimensions);
+```
+
+`ParseAnalytics` 甚至可以作为一个轻便的错误跟踪程序使用 － 只需调用以下内容，你将可以在您的应用程序中查看经过错误代码细分的出错率和出错频率：
+
+```java
+Map<String, String> dimensions = new HashMap<String, String>();
+dimensions.put('code', Integer.toString(error.getCode()));
+ParseAnalytics.trackEvent('error', dimensions);
+```
+
+注意，对于每次调用 `ParseAnalytics.trackEvent()`，Parse 目前只能储存前八个维度对。

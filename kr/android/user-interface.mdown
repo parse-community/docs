@@ -1,0 +1,138 @@
+# 사용자 인터페이스
+
+마지막으로 앱 사용자는 Android UI 요소와 상호 작용합니다. Parse에서는 Parse 데이터를 쉽게 작업할 수 있도록 일반 UI 위젯의 하위 클래스를 제공합니다.
+
+## ParseQueryAdapter
+
+데이터 컬렉션을 표시하기 위해 `Adapter`에 대한 구현을 제공합니다. 개체의 정적 배열로 지원되는 기본 `ListAdapter`를 사용하는 대신 `ParseQueryAdapter`에서는 추상 계층을 제공하고 선택하는 `AdapterView`(예: `ListView` 또는 `GridView`)에서 Parse 클래스 중 하나의 데이터를 쉽게 표시할 수 있습니다.
+
+`ParseQueryAdapter`를 사용하여 `Activity`의 데이터를 표시하려면 `Activity`의 `onCreate`에서 아래 설명된 단계를 따르세요.
+
+1.  `ParseQueryAdapter`를 인스턴스화합니다.필요한 경우 사용자 지정합니다(특정 쿼리에서 데이터를 표시하고, 표시할 `View`의 UI를 변경하는 등에 대한 자세한 지침은 아래 하위 섹션 참조).
+2.  `AdapterView`에서 `setAdapter()`를 사용하여 새 `Adapter`를 설정합니다.
+
+AdapterView가 창에 연결된 경우 `ParseQueryAdapter`에서 첫 번째 데이터 세트를 자동으로 가져옵니다. 이 하위 클래스는 코드를 간소화합니다. 이 하위 클래스를 사용하지 않으면 다음이 포함됩니다.
+
+1.  행에서 눌러 다음 페이지를 로드할 수 있는 페이지 매기기
+2.  행 내에서 원격 이미지의 다운로드 및 표시 구성 가능
+3.  Parse 개체 배열의 자동 로드 및 관리
+4.  데이터 주기에서 주요 이벤트의 콜백
+
+`ListView`에서 데이터를 표시하는 아주 단순한 `ParseQueryAdapter`를 설정하는 다음 코드를 고려해 보세요. 약간만 구성하면 데이터로 가득찬 기능적인 `ListView`를 설정하고 실행할 수 있습니다.
+
+```java
+// Inside an Activity
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Uses a layout with a ListView (id: "listview"), which uses our Adapter.
+    setContentView(R.layout.main);
+    ParseQueryAdapter<ParseObject> adapter = new ParseQueryAdapter<ParseObject>(this, "Instrument");
+    adapter.setTextKey("name");
+    adapter.setImageKey("photo");
+    ListView listView = (ListView) findViewById(R.id.listview);
+    listView.setAdapter(adapter);
+}
+```
+
+이 보기에는 기기 목록이 이름별로 표시됩니다. 여기서는 전체 코드를 작성하지 않습니다. 연속하는 각 결과 페이지를 가져오고, 지원 데이터 배열을 수동으로 업데이트 및 유지하고, 백그라운드에서 이미지를 다운로드하고 UI 위젯에서 이미지 데이터를 설정하고, 다음 결과 페이지 로드를 트리거하는 터치 이벤트를 처리하는 로직은 건너뛸 수 있습니다.
+
+`ParseQueryAdapter`를 구성하여 사용할 데이터, 데이터 표시 방법 및 데이터를 가져오기 전이나 후에 수행할 작업을 사용자 지정할 수 있습니다. 수행할 수 있는 작업 및 필요에 맞게 `ParseQueryAdapter`를 조정하는 방법은 이어지는 내용을 참조하세요.query"
+
+### 쿼리 사용자 지정
+
+기본적으로 가장 단순한 `ParseQueryAdapter` 생성자에서는 `Context` 및 Parse 클래스 이름을 사용합니다. 그런 다음 해당 클래스의 모든 `ParseObject`를 가져오고 해당 `createdAt` 타임스탬프 순서로 표시합니다.
+
+이 동작을 변경하려면 `ArrayAdapter`의 기능에서 이끌어 냅니다. 그러나 어댑터에서 표시할 개체의 vanilla 배열을 사용하는 대신, `ParseQueryAdapter`에서는 정의하는 `ParseQuery`를 반환하는 `QueryFactory` 클래스를 사용할 수도 있습니다. 이 클래스를 생성자에 전달하면 어댑터에서는 해당 쿼리를 사용하여 가져오고 표시할 개체를 결정합니다.
+
+아래에서 멤버가 4명 이상인 펑크 및 메탈 밴드만 판매된 레코드 수를 기준으로 정렬하여 표시하도록 `ParseQueryAdapter`를 설정하는 예를 참조하세요.
+
+```java
+ParseQueryAdapter<ParseObject> adapter =
+    new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        public ParseQuery<ParseObject> create() {
+            // Here we can configure a ParseQuery to our heart's desire.
+            ParseQuery query = new ParseQuery("Band");
+            query.whereContainedIn("genre", Arrays.asList({ "Punk", "Metal" }));
+            query.whereGreaterThanOrEqualTo("memberCount", 4);
+            query.orderByDescending("albumsSoldCount");
+            return query;
+        }
+    });
+```
+
+### 행 사용자 지정
+
+`AdapterView`에서 개별 `View`의 기본 레이아웃은 `ParseImageView` 및 `TextView`가 포함된 단순한 `LinearLayout`입니다. `ParseQueryAdapter`에 `setTextKey(String)`를 사용하면 해당 매개변수를 사용하여 `ParseObject`의 키 중 `TextView`에 표시되는 키를 선택합니다. 마찬가지로 `setImageKey(String)`를 사용하면 해당 매개변수를 사용하여 ImageView에 표시되는 이미지를 결정합니다.
+
+행을 사용자 지정하는 한 가지 방법은 `getItemView(ParseObject, View, ViewGroup)` 또는 `getNextPageView(View, ViewGroup)`를 재정의하고 적절한 메서드의 상위 클래스 구현을 호출하여 heavy lifting을 수행하는 것입니다. 상위 클래스 구현의 레이아웃을 직접 제공하는 경우에는 `getItemView(ParseObject, View, ViewGroup)` 및 `getNextPageView(View, ViewGroup)`에 `TextView`(id: `android.R.id.text1`)(`textKey`가 설정된 경우) 및 `ParseImageView`(id: `android.R.id.icon`)(`imageKey`가 설정된 경우)가 필요합니다.
+
+여기서는 레이아웃을 직접 팽창 및 구성하는데, `TextView`, `ParseImageView` 및 추가 &quot;설명&quot; `TextView`를 사용합니다(id: `R.id.description`):
+
+```java
+@Override
+public View getItemView(ParseObject object, View v, ViewGroup parent) 
+    if (v == null) {
+        v = View.inflate(getContext(), R.layout.adapter_item, null);
+    }
+    // Take advantage of ParseQueryAdapter's getItemView logic for
+    // populating the main TextView/ImageView.
+    // The IDs in your custom layout must match what ParseQueryAdapter expects
+    // if it will be populating a TextView or ImageView for you.
+    super.getItemView(object, v, parent);
+    // Do additional configuration before returning the View.
+    TextView descriptionView = (TextView) v.findViewById(R.id.description);
+    descriptionView.setText(object.getString("description"));
+    return v;
+}
+```
+
+행을 사용자 지정하는 다른 방법은 `ParseQueryAdapter`의 메서드를 재정의하고 상위 클래스의 구현을 완전히 무시하여 행의 모양을 완벽히 제어하는 것입니다. 이 예에서는 항목 보기가 단순한 행이고, 색은 `ParseObject`로 정의됩니다.
+
+```java
+@Override
+public View getItemView(ParseObject object, View v, ViewGroup parent) {
+    if (v == null) {
+        v = View.inflate(getContext(), R.layout.adapter_item, null);
+    }
+    v.setBackgroundColor(object.getInt("color"));
+    return v;
+}
+
+@Override
+public View getNextPageView(View v, ViewGroup parent) {
+    if (v == null) {
+        // R.layout.adapter_next_page contains an ImageView with a custom graphic
+        // and a TextView.
+        v = View.inflate(getContext(), R.layout.adapter_next_page, null);
+    }
+    TextView textView = (TextView) v.findViewById(R.id.nextPageTextViewId);
+    textView.setText("Loaded " + getCount() + " rows. Get more!");
+    return v;
+}
+```
+
+### 행에서 원격 이미 로드
+
+`ParseQueryAdapter`를 사용하면 원격 이미지를 간단히 표시할 수 있습니다. `setImageKey(String)`를 호출하면 Parse에서 가져와 해당 행의 `ParseImageView`에 로드할 이미지가 포함된 `ParseFile`을 포함하는 키 이름을 `ParseObject`에 전달할 수 있습니다.
+
+이미지는 비동기적으로 다운로드되며 적절한 `ParseImageView`가 백그라운드에서 업데이트됩니다. 사용자가 스크롤하고 어댑터에서 행이 재생되면 행이 표시되고 `ParseObject`가 할당될 때 이미지를 가져옵니다.
+
+이미지 가져오기가 아직 완료되지 않은 동안 사용할 플레이스홀더 이미지를 정의할 수 있습니다. `ParseQueryAdapter`에서 `setPlaceholder(Drawable)`를 호출하여 지정된 `Drawable`을 폴백 이미지로 사용하세요.
+
+### 수명 주기 메서드
+
+사용자 지정 로직을 실행할 어댑터의 데이터 수명 주기에 두 개의 연결 기능을 노출합니다. 즉, Parse에서 데이터를 쿼리하기 바로 전과 가져온 개체가 쿼리에서 로드된 직후에 노출합니다. 이러한 메서드는 일부 로드 UI를 전환하는 데 특히 유용합니다.
+
+`OnQueryLoadListener`를 `setOnQueryLoadListener(OnQueryLoadListener)`를 통해 설정하여, 구현할 `onLoading()` 및 `onLoaded(List<ParseObject>, Exception)` 메서드를 제공할 수 있습니다.
+
+### 페이지 매기기
+
+페이지 매기기는 테이블에 개체 페이지가 한 번에 하나씩만 표시되게 합니다. `setObjectsPerPage(int)`를 설정하여 페이지의 여러 개체를 설정할 수 있습니다.
+
+쿼리가 자동으로 변경되어 페이지 매기기가 적용되며, 페이지 매기기 행이 `AdapterView` 아래쪽에 표시되므로, 이를 사용하여 다음 페이지를 로드할 수 있습니다.
+
+페이지 매기기는 기본적으로 켜져 있습니다. 끄려면 `setPaginationEnabled(false)`를 호출하세요. 페이지 매기기를 끈 경우 `ParseQueryAdapter`에서는 기본 `ParseQuery` 제한인 100개 항목을 사용합니다.
+
+### 데이터 자동 로드
+
+`ParseQueryAdapter`가 설정된 `AdapterView`가 창에 연결된 경우 `ParseQueryAdapter`의 `loadObjects()` 메서드가 자동으로 호출되어 첫 번째 결과 페이지 가져오기가 트리거됩니다. 이 동작을 비활성화하려면(아미도 데이터 가져오기를 지연하거나 그 전에 일부 사용자 지정 로직을 실행하려는 경우), `setAutoload(false)`를 호출하고 자동 로드가 비활성화된 경우 `loadObjects()`를 수동으로 호출하면 됩니다.

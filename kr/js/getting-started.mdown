@@ -1,0 +1,13 @@
+# JavaScript 가이드
+
+아직 프로젝트를 설정하지 않았다면 <%= link_to 'QuickStart 가이드를 참조', "/apps/quickstart#js/native/blank" %>하여 프로젝트를 설정하고 실행하세요. SDK에 대한 자세한 내용은 [API 참조 문서](/docs/js)를 참조하세요.
+
+Parse 플랫폼은 모바일 앱에 완벽한 백엔드 솔루션을 제공합니다. Parse는 서버 코드 작성이나 서버 관리에 대한 필요성을 완전히 없애는 것을 목표로 하고 있습니다.
+
+JavaScript SDK는 많이 사용하는 [Backbone.js](http://documentcloud.github.com/backbone/)를 기반으로 합니다. 조금만 변경하면 기존 Backbone 앱과 호환됩니다. Parse의 목표는 최소한의 구성으로 Parse에서 JavaScript와 HTML5 앱을 바로 빌드할 수 있게 만드는 것입니다.
+
+SDK는 Firefox 23+, Chrome 17+, Safari 5+, IE 10을 지원합니다. IE 8과 IE 9은 HTTPS로 호스팅되는 앱에서만 지원됩니다.
+
+Parse에서 각 모바일 앱용 앱을 만듭니다. 각 앱에는 자체 앱 ID와 웹 앱에 적용되는 JavaScript 클라이언트 키가 있습니다. Parse의 계정에서 여러 앱을 수용할 수 있습니다. 앱이 한 개밖에 없는 경우에도 테스트와 프로덕션용으로 서로 다른 버전을 배포할 수 있으므로 유용합니다.
+
+JavaScript SDK에는 외부 라이브러리가 필요하지 않습니다. 유일한 예외는 `Parse.View` 클래스인데 여기에는 jQuery나 jQuery와 호환되는 `$` 메서드를 제공해야 합니다.

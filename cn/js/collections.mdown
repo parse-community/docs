@@ -1,0 +1,123 @@
+# 收藏
+
+`Parse.Collection` 是 `Parse.Object` 的有序集合。它与 `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)` 兼容，并拥有完全相同的功能。您可以使用模型类或特定的 `Parse.Query` 创建新的子类。
+
+```js
+// A Collection containing all instances of TestObject.
+var TestCollection = Parse.Collection.extend({
+  model: TestObject
+});
+var collection = new TestCollection();
+
+// A Collection of TestObjects whose temperature is "hot".
+var HotCollection = Parse.Collection.extend({
+  model: TestObject,
+  query: (new Parse.Query(TestObject)).equalTo("temperature", "hot")
+});
+var collection = new HotCollection();
+
+// The Collection of TestObjects that match a complex query.
+var query = new Parse.Query(TestObject);
+query.equalTo("temperature", "hot");
+query.greaterThan("degreesF", 100);
+var collection = query.collection();
+```
+
+## 收藏检索
+
+若要加载收藏中的所有项目，可以使用 `fetch` 方法。
+
+```js
+var collection = new TestCollection();
+collection.fetch({
+  success: function(collection) {
+    collection.each(function(object) {
+      console.warn(object);
+    });
+  },
+  error: function(collection, error) {
+    // The collection could not be retrieved.
+  }
+});
+```
+
+## 收藏排序
+
+您可以通过设置 `comparator` 让收藏中的所有项目保持特定排序。
+
+```js
+var collection = new TestCollection();
+collection.comparator = function(object) {
+  return object.get("temperature");
+};
+```
+
+## 收藏修改
+
+收藏是可变的。您可以访问所有项目以及添加或移除项目。
+
+```js
+var collection = new TestCollection();
+collection.add([
+  {"name": "Duke"},
+  {"name": "Scarlett"}
+]);
+// Get the "Duke" Parse.Object by its sorted position.
+var model = collection.at(0);
+// Or you can get it by Parse objectId.
+var modelAgain = collection.get(model.id);
+// Remove "Duke" from the collection.
+collection.remove(model);
+// Completely replace all items in the collection.
+collection.reset([
+  {"name": "Hawk"},
+  {"name": "Jane"}
+]);
+```
+
+# 视图
+
+我们纳入了 `Parse.View`，它完全是 `Backbone.View` 的复制品。请随意用它在您的应用中构建视图。有关如何使用该类的详细信息，请查看 [Backbone.View API](http://documentcloud.github.com/backbone/#View)。注意，一旦您使用 `Parse.View`，则需要加入 jQuery 或与 jQuery 兼容的 `$` 方法。
+
+# 转化 Backbone 应用
+
+如有您有现成的 [Backbone](http://documentcloud.github.com/backbone/) 应用程序，可以轻松地转化它，以便使用我们的 JavaScript SDK。转化完成后，您会得到一系列包含应用功能的静态文件。
+
+<div class="callout_green">
+请阅读我们的 [JavaScript 待办事项应用教程](/tutorials/todo-app-with-javascript)，了解如何把 Parse 用作后台存留用户帐户和数据，继而创建[标准 Backbone 待办事项应用程序](http://addyosmani.github.com/todomvc/)。
+</div>
+
+我们的 JavaScript SDK 与 Backbone 兼容，这意味着我们的 `Parse.Object` 和 `Parse.Collection` 经过细微调整可以兼容 `Backbone.Model` 和 `Backbone.Collection`。以下是转化应用的示例：
+
+[请遵守关于为现有 JavaScript 应用安装 SDK 的说明](/apps/quickstart#js/existing)。
+
+用 `Parse.Object` 替换所有 `Backbone.Model` 实例。替换时，应该用可以将您的对象映射到 Parse 类的适当 `className` 来代替 `url` 和 `urlRoot`。
+```js
+var BackboneTodo = Backbone.Model.extend({
+  urlRoot: "/todos"
+});
+
+    var ParseTodo = Parse.Object.extend({
+  className: "Todo"
+});
+```
+
+用 `Parse.Collection` 替换 `Backbone.Collection` 的所有实例，并把 `Parse.Object` 类指定为 `model`。您还应该指定一个 `query`，这样收藏夹知道如何提取对象：
+
+```js
+var ParseTodoCollection = Parse.Collection.extend({
+  model: ParseTodo
+});
+var todos = new ParseTodoCollection();
+// Construct a query to get the current user's todo items
+var query = new Parse.Query(ParseTodo);
+query.equalTo("user", Parse.User.current());
+todos.query = query;
+todos.fetch();
+```
+
+您通过服务器创建模式的过程中，需要创建一个 `Parse.Query` 来抓取您感兴趣的对象，类似于我们在 `Parse.Collection` 上对 `query` 属性所做的操作。
+
+添加或更新您的应用，以便可以使用[用户验证](/docs/cn/js_guide#users)并按需要对对象应用 ACL。
+
+到此结束。您的应用现在应该能使用，并将 Parse 用作后台。
