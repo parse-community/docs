@@ -347,7 +347,7 @@ The example above links the `PiecesOfEightCounterProd` app to your project. It a
 
 While developing new code, you can use the `develop` command to have the Parse command line tool continuously check for updates to your project and upload your changes.  The command looks like: 
 
-```
+```bash
 $ parse develop development
 E2013-11-21T01:05:56.257Z] Deploy failed with error:Error: Uncaught SyntaxError: Unexpected token ; in app.js:30
     at main.js:1:1

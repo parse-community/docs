@@ -1,0 +1,280 @@
+# Push Notifications
+
+<div class="callout_green">
+  To learn more about push check out our [Push Notification Guide](/docs/push_guide#top/REST)!
+</div>
+
+## Installations
+
+### Uploading Installation Data
+
+An installation object represents an instance of your app being installed on a device. These objects are used to store subscription data for installations which have subscribed to one or more push notification channels. Installations have a flexible schema, except that the special fields below have special type and validation requirements:
+
+*   **`badge`**: is a number field representing the last known application badge for iOS installations.
+*   **`channels`**: An array of the channels to which a device is currently subscribed.
+*   **`timeZone`**: The current time zone where the target device is located.
+*   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet"_(readonly)_.
+*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
+*   **`GCMSenderId`**: This field only has meaning for Android installations that use the GCM push type. It is reserved for directing Parse to send pushes to this installation with an alternate GCM sender ID. This field should generally not be set unless you are uploading installation data from another push provider. If you set this field, then you must set the GCM API key corresponding to this GCM sender ID in your Parse application's push settings.
+*   **`installationId`**: Universally Unique Identifier (UUID) for the device used by Parse. It must be unique across all of an app's installations. _(readonly)_.
+*   **`deviceToken`**: The Apple or Google generated token used to deliver messages to the APNs or GCM push networks respectively.
+*   **`channelUris`**: The Microsoft-generated push URIs for Windows devices.
+*   **`appName`**: The display name of the client application to which this installation belongs.
+*   **`appVersion`**: The version string of the client application to which this installation belongs.
+*   **`parseVersion`**: The version of the Parse SDK which this installation uses.
+*   **`appIdentifier`**: A unique identifier for this installation's client application. In iOS, this is the Bundle Identifier.
+
+Most of the time, installation data is modified by push-related methods in the client SDK. For example, calling `subscribeToChannel` or `unsubscribeFromChannel` from the client SDK will create an object for that installation if it doesn't yet exist and update its channels, and calling `getSubscribedChannels` from the client SDK will read subscription data from that installation's object. The REST methods can be used to mimic these operations. For instance, if you have an iOS device token then you can subscribe it to push notifications by creating an installation object for it with the desired `channels` list. You can also perform operations which aren't possible through the client SDK, like using a query over installations to find the set of subscribers to a given channel.
+
+Creating an installation object is similar to creating a generic object, but the special installation fields listed above must pass validation. For example, if you have a device token provided by the Apple Push Notification service and would like to subscribe it to the broadcast channel `""`, you can use the following command:
+
+```bash
+curl -X POST \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "deviceType": "ios",
+        "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "channels": [
+          ""
+        ]
+      }' \
+  https://api.parse.com/1/installations
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('POST', '/1/installations', json.dumps({
+       "deviceType": "ios",
+       "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+       "channels": [
+         ""
+       ]
+     }), {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new installation:
+
+```js
+Status: 201 Created
+Location: https://api.parse.com/1/installations/mrmBZvsErB
+```
+
+The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created installation:
+
+```json
+{
+  "createdAt": "2012-04-28T17:41:09.106Z",
+  "objectId": "mrmBZvsErB"
+}
+```
+
+When creating Android installation objects containing GCM (Google Cloud Messaging) credentials, you must have at least the following fields in your installation object:
+
+*   A `deviceType` set to `android`.
+*   A `pushType` set to `gcm`.
+*   A GCM registration ID in the `deviceToken` field.
+*   The GCM sender ID associated with this registration ID in the `GCMSenderId` field.
+
+You could create and object with these fields using a command like this:
+
+```bash
+curl -X POST \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "deviceType": "android",
+        "pushType": "gcm",
+        "deviceToken": "APA91bFMvbrGg4cp3KUV_7dhU1gmwE_...",
+        "GCMSenderId": "56712320625545",
+        "channels": [
+          ""
+        ]
+      }' \
+  https://api.parse.com/1/installations
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('POST', '/1/installations', json.dumps({
+       "deviceType": "android",
+       "pushType": "gcm",
+       "deviceToken": "APA91bFMvbrGg4cp3KUV_7dhU1gmwE_...",
+       "GCMSenderId": "56712320625545",
+       "channels": [
+         ""
+       ]
+     }), {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+If you upload Android installations with GCM credentials, then you must also set the GCM API Key associated with this GCM sender ID in your application's push settings.
+
+### Retrieving Installations
+
+You can retrieve the contents of an installation object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the installation created above:
+
+```bash
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  https://api.parse.com/1/installations/mrmBZvsErB
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('GET', '/1/installations/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+The response body is a JSON object containing all the user-provided fields, plus the `createdAt`, `updatedAt`, and `objectId` fields:
+
+```json
+{
+  "deviceType": "ios",
+  "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+  "channels": [
+    ""
+  ],
+  "createdAt": "2012-04-28T17:41:09.106Z",
+  "updatedAt": "2012-04-28T17:41:09.106Z",
+  "objectId": "mrmBZvsErB"
+}
+```
+
+### Updating Installations
+
+Installation objects can be updated by sending a PUT request to the installation URL. For example, to subscribe the installation above to the "foo" push channel:
+
+```bash
+curl -X PUT \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "deviceType": "ios",
+        "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+        "channels": [
+          "",
+          "foo"
+        ]
+      }' \
+  https://api.parse.com/1/installations/mrmBZvsErB
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+       "deviceType": "ios",
+       "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+       "channels": [
+         "",
+         "foo"
+       ]
+     }), {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+### Querying Installations
+
+You can retrieve multiple installations at once by sending a GET request to the root installations URL. This functionality is not available in the SDKs, so you must authenticate this method using the `X-Parse-Master-Key` header in your request instead of the `X-Parse-REST-API-Key` header. Your master key allows you to bypass ACLs and should only be used from within a trusted environment.
+
+Without any URL parameters, a GET request simply lists installations:
+
+```bash
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  https://api.parse.com/1/installations
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('GET', '/1/installations', '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+The return value is a JSON object that contains a results field with a JSON array that lists the users.
+
+```json
+{
+  "results": [
+    {
+      "deviceType": "ios",
+      "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+      "channels": [
+        ""
+      ],
+      "createdAt": "2012-04-28T17:41:09.106Z",
+      "updatedAt": "2012-04-28T17:41:09.106Z",
+      "objectId": "mrmBZvsErB"
+    },
+    {
+      "deviceType": "ios",
+      "deviceToken": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210",
+      "channels": [
+        ""
+      ],
+      "createdAt": "2012-04-30T01:52:57.975Z",
+      "updatedAt": "2012-04-30T01:52:57.975Z",
+      "objectId": "sGlvypFQcO"
+    }
+  ]
+}
+```
+
+All of the options for queries that work for regular objects also work for installation objects, so check the section on [Querying Objects](#queries-basic) for more details. By doing an array query over `channels`, for example, you can find the set of devices subscribed to a given push channel.
+
+
+### Deleting Installations
+
+To delete an installation from the Parse Cloud, send a DELETE request to its URL. This functionality is not available in the client SDKs, so you must authenticate this method using the `X-Parse-Master-Key` header in your request instead of the `X-Parse-REST-API-Key` header. Your master key allows you to bypass ACLs and should only be used from within a trusted environment. For example:
+
+```bash
+curl -X DELETE \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  https://api.parse.com/1/installations/mrmBZvsErB
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('DELETE', '/1/installations/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
