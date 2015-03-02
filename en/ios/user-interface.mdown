@@ -12,9 +12,9 @@ To learn more on how to install it - follow the instructions on the official [Gi
 
 If you are using Parse to manage users in your mobile app, you are already familiar with the `PFUser` class. At some point in your app, you might want to present a screen to log in your `PFUser`. `ParseUI` provides a view controller that does exactly this:
 
-<div class="callout_green">
+<div class='tip info'><div>
   Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `PFUser`.
-</div>
+</div></div>
 
 You use the `PFLogInViewController` class by instantiating it and presenting it modally:
 
@@ -406,9 +406,9 @@ The `PFSignUpViewController` is written to be resolution-independent, meaning it
 
 Data oriented iOS applications are mostly a collection of `UITableViewController`s and corresponding `UITableView`s. When using Parse, each cell of a `UITableView` typically represents data from a `PFObject`. `PFQueryTableViewController` is a sub-class of `UITableViewController` that provides a layer of abstraction that lets you easily display data from one of your Parse classes.
 
-<div class="callout_green">
+<div class='tip info'><div>
   Watch a [tutorial on using PFQueryTableViewController](/tutorials/parse-query-table) to display objects from a `Todo` class in your Parse application.
-</div>
+</div></div>
 
 You use `PFQueryTableViewController` much like how you would use `UITableViewController`:
 

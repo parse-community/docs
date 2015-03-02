@@ -340,9 +340,9 @@ gameScore.saveInBackground()
 
 Objects can have relationships with other objects. To model this behavior, any `PFObject` can be used as a value in other `PFObject`s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.
 
-<div class="callout_green">
+<div class='tip info'><div>
   Watch the [One-To-Many Relationships](/tutorials/one-to-many-relationships) tutorial, where you'll learn how to create a one-to-many relationship between two `PFObjects` in a simple blogging application.
-</div>
+</div></div>
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 

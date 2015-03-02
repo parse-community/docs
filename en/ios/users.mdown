@@ -448,9 +448,9 @@ post.save()
 
 Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the `PFUser` class to make linking your users to their Facebook identities easy.
 
-<div class="callout_green">
+<div class='tip info'><div>
   Learn how to use Parse with the Facebook API to create a profile viewer application. The [Integrating Facebook in iOS tutorial](/tutorials/integrating-facebook-in-ios) will teach you how to create and login `PFUsers` through Facebook and make queries to the Facebook Graph API.
-</div>
+</div></div>
 
 Using our Facebook integration, you can associate an authenticated Facebook user with a `PFUser`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save the user's data to Parse.
 
@@ -558,9 +558,9 @@ PFFacebookUtils.reauthorizeUser(PFUser.currentUser(), withPublishPermissions:["p
 })
 ```
 
-<div class="callout_green">
+<div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
-</div>
+</div></div>
 
 ### Linking
 
