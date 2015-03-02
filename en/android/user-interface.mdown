@@ -8,7 +8,7 @@ If you are using Parse to manage users in your mobile app, you are already famil
 
 This library project contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.
 
-![Android_login_screens](/images/docs/android_login/all_screens.png)
+![](/images/docs/android_login/all_screens.png)
 
 ## Login Library API
 
@@ -44,7 +44,7 @@ When `ParseLoginActivity` finishes, your caller activity will receive either:
 
 We've provided a sample app, [ParseLoginSampleBasic](https://github.com/ParsePlatform/ParseUI-Android) for this use case.  This sample app is a simple profile viewer.  If you are not logged in, `SampleProfileActivity` prompts you to log in.  Clicking on the login button in `SampleProfileActivity` launches the `ParseLoginActivity`, which prompts the user for login credentials.  If the user successfully logs in, `ParseLoginActivity` will automatically finish itself and return `RESULT_OK`.  Then, `SampleProfileActivity` will display the user's name and a logout button.
 
-![Basic_login_integration](/images/docs/android_login/basic_login.png)
+![](/images/docs/android_login/basic_login.png)
 
 This basic integration case works well if your caller activity is designed to function regardless of whether there is a valid current user.  For example, a restaurant reviews app may allow the user to browse restaurants even when the user is not logged in.  If the user does log in, the app could provide a more personalized experience on that same screen.
 
@@ -63,13 +63,13 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
 
 We've provided another sample app, [ParseLoginSampleWithDispatchActivity](https://github.com/ParsePlatform/ParseUI-Android) for this use case.  The `SampleProfileActivity` in this app cannot function without a logged-in user, so it is protected by `SampleDispatchActivity`.
 
-![Login_with_dispatch_activity](/images/docs/android_login/login_with_dispatch.png)
+![](/images/docs/android_login/login_with_dispatch.png)
 
 The dispatch activity does not necessarily need to be the first activity at app launch.  You can launch the dispatch activity from any activity.  When your protected activity finishes, the dispatch activity will automatically forward the result code to your caller activity.
 
 Let's revisit the restaurant reviews app again.  You might have a comment activity that requires a user.  You can protect this activity behind a dispatch activity.  The main restaurant listing activity (supports either user or no user), can launch the dispatch activity when the user presses the comment button.  If no user is logged in, the dispatch activity will start `ParseLoginActivity` to obtain a ParseUser.  If the user refuses to log in, they will be gracefully taken back to the restaurant listings activity.  In the restaurant listings activity, you can always call `ParseUser.getCurrentUser()` to determine whether the user logged in.
 
-![Restaurants_app](/images/docs/android_login/restaurants_app.png)
+![](/images/docs/android_login/restaurants_app.png)
 
 ## Customizing the Login Library
 

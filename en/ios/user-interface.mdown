@@ -31,7 +31,7 @@ self.presentViewController(logInController, animated:true, completion: nil)
 
 ### Configuring the Log In Elements
 
-![Login Diagram](/images/docs/login_diagram.png)
+![](/images/docs/login_diagram.png)
 
 `PFLogInViewController` can be configured to provide a variety of log in options. By default, `PFLogInViewController` presents the following UI:
 
@@ -240,7 +240,7 @@ That is all you need to do to get a functional sign up screen.
 
 ### Configuring the Sign Up Elements
 
-![Signup Diagram](/images/docs/signup_diagram.png)
+![](/images/docs/signup_diagram.png)
 
 `PFSignUpViewController` can be configured to provide a variety of sign up options. By default, it presents the following UI:
 
@@ -484,7 +484,7 @@ The easiest way to understand this class is with an example. This subclass of `P
 @end
 ```
 
-![Todo view](/images/docs/todo_view.gif)
+![](/images/docs/todo_view.gif)
 
 This view shows a list of Todo items and also allows the user to pull-to-refresh and load the next page by touching a special pagination cell at the end of the table. It also properly caches the objects such that  when the view is no longer in memory, the next time it loads it will use the query cache to immediately show the previously loaded objects while making a network call to update.
 

@@ -1,6 +1,6 @@
 # JavaScript 指南
 
-若您尚未设置项目，请<%= link_to '前往快速入门指南', "/apps/quickstart#js/native/blank" %>开始设置并运行。您还可以查看我们的 [API 参考](/docs/js)，了解有关我们 SDK 的更多详细信息。
+若您尚未设置项目，请[前往快速入门指南](/apps/quickstart#js/native/blank)开始设置并运行。您还可以查看我们的 [API 参考](/docs/js)，了解有关我们 SDK 的更多详细信息。
 
 ## 简介
 

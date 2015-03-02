@@ -40,7 +40,7 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 傳送通知通常是從 Web 主控台、REST API 或 Cloud Code 進行。然而，推播通知也可由現有的用戶端 SDK 觸發。如果您決定從用戶端 SDK 傳送通知，則您必須在 Parse 應用程式的「推播通知」設定中設定**Client Push Enabled**。
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### 使用頻道
 
@@ -61,7 +61,7 @@ PushService.subscribe(context, "Giants", YourActivity.class);
 
 訂閱「Giants」頻道後，您的 `Installation` 物件應該會有更新的 `channels` 欄位。
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 取消訂閱頻道也一樣簡單：
 

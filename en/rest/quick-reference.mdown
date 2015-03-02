@@ -6,70 +6,70 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 
 | URL                                 | HTTP Verb | Functionality                              |
 |----------------------------------------------------------------------------------------------|
-| `/1/classes/<className>`            | POST      | [Creating Objects](#objects-creating")     |
-| `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#objects-retrieving") |
-| `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#objects-updating")     |
-| `/1/classes/<className>`            | GET       | [Queries](#queries")                       |
-| `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#objects-deleting")     |
+| `/1/classes/<className>`            | POST      | [Creating Objects](#objects-creating)      |
+| `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#objects-retrieving)  |
+| `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#objects-updating)      |
+| `/1/classes/<className>`            | GET       | [Queries](#queries)                        |
+| `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#objects-deleting)      |
 
 ## Users
 
 | URL                       | HTTP Verb | Functionality                              |
 |------------------------------------------------------------------------------------|
-| `/1/users`                | POST      | [Signing Up](#users-signup")<br/>[Linking Users](#users-linking")
-| `/1/login`                | GET       | [Logging In](#users-login")                |
-| `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving")     |
-| `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating")<br/>[Retrieving Current User](#users-validating")        
-| `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating")<br/>[Linking Users](#users-linking")<br/>[Verifying Emails](#users-emailverification")
-| `/1/users`                | GET       | [Querying Users](#users-querying")         |
-| `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting")         |
-| `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-passwordreset")
+| `/1/users`                | POST      | [Signing Up](#users-signup) <br/>[Linking Users](#users-linking) 
+| `/1/login`                | GET       | [Logging In](#users-login)                 |
+| `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving)      |
+| `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating) <br/>[Retrieving Current User](#users-validating) |
+| `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating) <br/>[Linking Users](#users-linking) <br/>[Verifying Emails](#users-emailverification) |
+| `/1/users`                | GET       | [Querying Users](#users-querying)          |
+| `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting)          |
+| `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-passwordreset)  |
 
 ## Roles
 
 | URL                   | HTTP Verb | Functionality                              |
 |--------------------------------------------------------------------------------|
-| `/1/roles`            | POST      | [Creating Roles](#roles-creating")         |
-| `/1/roles/<objectId>` | GET       | [Retrieving Roles](#roles-retrieving")     |
-| `/1/roles/<objectId>` | PUT       | [Updating Roles](#roles-updating")         |
-| `/1/roles`            | GET       | [Querying Roles](#roles-querying")         |
-| `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#roles-deleting")         |
+| `/1/roles`            | POST      | [Creating Roles](#roles-creating)          |
+| `/1/roles/<objectId>` | GET       | [Retrieving Roles](#roles-retrieving)      |
+| `/1/roles/<objectId>` | PUT       | [Updating Roles](#roles-updating)          |
+| `/1/roles`            | GET       | [Querying Roles](#roles-querying)          |
+| `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#roles-deleting)          |
 
 ## Files
 
 | URL                   | HTTP Verb | Functionality                        |
 |--------------------------------------------------------------------------|
-| `/1/files/<fileName>` | POST      | [Uploading Files](#files-uploading") |
+| `/1/files/<fileName>` | POST      | [Uploading Files](#files-uploading)  |
 
 ## Analytics
 
 | URL                     | HTTP Verb | Functionality                          |
 |------------------------------------------------------------------------------|
-| `/1/events/AppOpened`   | POST      | [Analytics](#analytics")               |
-| `/1/events/<eventName>` | POST      | [Custom Analytics](#analytics-custom") |
+| `/1/events/AppOpened`   | POST      | [Analytics](#analytics)                |
+| `/1/events/<eventName>` | POST      | [Custom Analytics](#analytics-custom)  |
 
 ## Push Notifications
 
 | URL       | HTTP Verb | Functionality                |
 |------------------------------------------------------|
-| `/1/push` | POST      | [Push Notifications](#push") |
+| `/1/push` | POST      | [Push Notifications](#push)  |
 
 ## Installations
 
 | URL                           | HTTP Verb | Functionality                                            |
 |------------------------------------------------------------------------------------------------------|
-| `/1/installations`            | POST      | [Uploading Installation Data](#installations-uploading") |
-| `/1/installations/<objectId>` | GET       | [Retrieving Installations](#installations-retrieving")   |
-| `/1/installations/<objectId>` | PUT       | [Updating Installations](#installations-updating")       |
-| `/1/installations`            | GET       | [Querying Installations](#installations-querying")       |
-| `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#installations-deleting")       |
+| `/1/installations`            | POST      | [Uploading Installation Data](#installations-uploading)  |
+| `/1/installations/<objectId>` | GET       | [Retrieving Installations](#installations-retrieving)    |
+| `/1/installations/<objectId>` | PUT       | [Updating Installations](#installations-updating)        |
+| `/1/installations`            | GET       | [Querying Installations](#installations-querying)        |
+| `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#installations-deleting)        |
 
 ## Cloud Functions
 
 | URL                   | HTTP Verb | Functionality                                   |
 |------------------------------------------------------------------------------------|
-| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloudfunctions")    | 
-| `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#backgroundjobs") |
+| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloudfunctions)     | 
+| `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#backgroundjobs)  |
 
 ## Request Format
 
@@ -82,7 +82,7 @@ In the examples that follow, the keys for your app are included in the command. 
 You may also authenticate your REST API requests using basic HTTP authentication. For example, to retrieve an object you could set the URL using your Parse credentials in the following format:
 
 ```json
-    https://myAppID:javascript-key=myJavaScriptKey@api.parse.com/1/classes/GameScore/Ed1nuqPvcm
+https://myAppID:javascript-key=myJavaScriptKey@api.parse.com/1/classes/GameScore/Ed1nuqPvcm
 ```
 
 For Javascript usage, the Parse Cloud supports [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), so that you can use these headers in conjunction with XMLHttpRequest.

@@ -22,7 +22,7 @@ logInController.delegate = self;
 
 ### ログイン要素の設定
 
-![Login Diagram](/images/docs/login_diagram.png)
+![](/images/docs/login_diagram.png)
 
 `PFLogInViewController`を設定してさまざまなログインオプションを提供できます。`PFLogInViewController`ではデフォルトで次のUIを表示します。
 
@@ -163,7 +163,7 @@ signUpController.delegate = self;
 
 ### 登録要素の設定
 
-![Signup Diagram](/images/docs/signup_diagram.png) All elements of the PFSignUpViewController
+![](/images/docs/signup_diagram.png) All elements of the PFSignUpViewController
 
 `PFSignUpViewController`を設定してさまざまな登録オプションを提供できます。デフォルトでは次のUIを表示します。
 
@@ -348,7 +348,7 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 @end
 ```
 
-![Todo view](/images/docs/todo_view.gif)
+![](/images/docs/todo_view.gif)
 
 このビューではTodoアイテムのリストが表示されます。また利用者はスライドして更新し、テーブルの最後にある特別なページネーションセルに触れることで次のページをロードすることができます。さらに、ビューがメモリになくなった場合にオブジェクトを正確にキャッシュし、次回のロード時に、クエリキャッシュを使用して、前回ロードされたオブジェクトを瞬時に表示し、ネットワーク呼び出しを更新します。
 

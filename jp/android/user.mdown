@@ -344,9 +344,9 @@ Facebookとの統合により、認証済みのFacebookユーザーを`ParseUser
 
 ParseでFacebookを使えるようにするには、以下のことが必要です。
 
-1.  <%= link_to 'まだ設定していない場合は、Facebookアプリ', 'https://developers.facebook.com/apps' %>を設定します。
+1.  [まだ設定していない場合は、Facebookアプリ](https://developers.facebook.com/apps)を設定します。
 2.  Parseアプリケーションの設定ページで、アプリケーションのFacebookアプリIDを追加します。
-3.  <%= link_to 'Facebook SDKスタートガイド', 'https://developers.facebook.com/docs/getting-started/facebook-sdk-for-android/3.0/' %>の手順に従って、Facebook SDKとリンクしたアプリを作成します。手順6まで進んだら、Facebook SDKプロジェクトのリンクとFacebookアプリIDの設定が完了したところでストップします。ログイン時にFacebookアカウントをParseユーザーにアタッチする方法は、Parseガイドを参照してください。
+3.  [Facebook SDKスタートガイド](https://developers.facebook.com/docs/getting-started/facebook-sdk-for-android/3.0/)の手順に従って、Facebook SDKとリンクしたアプリを作成します。手順6まで進んだら、Facebook SDKプロジェクトのリンクとFacebookアプリIDの設定が完了したところでストップします。ログイン時にFacebookアカウントをParseユーザーにアタッチする方法は、Parseガイドを参照してください。
 4.  `Application.onCreate()`でParse SDKを初期化する個所に、以下を追加します。
 ```java
 ParseFacebookUtils.initialize("YOUR FACEBOOK APP ID");
@@ -411,7 +411,7 @@ ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
 });
 ```
 
-`ParseUser` の統合は、特に何の許可も必要とすることなく、すぐに使うことができます（つまり、`null` や、許可の指定なしでもまったく問題ありません）。ログイン時には、読み取り許可しか使用できません。追加許可のリクエスト方法（読み取りまたは公開）については、<%= link_to '以下の項', :anchor => 'fbusers-permissions' %>を参照してください。[許可について詳しくは、Facebookの開発者ガイドを参照してください。](https://developers.facebook.com/docs/reference/api/permissions/)
+`ParseUser` の統合は、特に何の許可も必要とすることなく、すぐに使うことができます（つまり、`null` や、許可の指定なしでもまったく問題ありません）。ログイン時には、読み取り許可しか使用できません。追加許可のリクエスト方法（読み取りまたは公開）については、[以下の項](#fbusers-permissions)を参照してください。[許可について詳しくは、Facebookの開発者ガイドを参照してください。](https://developers.facebook.com/docs/reference/api/permissions/)
 
 <div class="callout_green">
 認証後は、必要なデータをFacebookから記録するかどうかを自由に決定できます。これを行うには、[Facebook SDKでグラフクエリを実行する](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)必要があります。
@@ -483,7 +483,7 @@ Parseは、Facebookと同様、Twitterの認証を簡単に統合する方法も
 
 ParseでTwitterを使えるようにするには、以下のことが必要です。
 
-1.  <%= link_to 'まだ設定していない場合は、Twitterアプリ', 'https://dev.twitter.com/apps' %>を設定します。
+1.  [まだ設定していない場合は、Twitterアプリ](https://dev.twitter.com/apps)を設定します。
 2.  Parseアプリケーションの設定ページで、アプリケーションのTwitterコンシューマーキーを追加します。
 3.  Twitterアプリの「コールバックURL」を求められたら、有効なURLを入力してください。この値はiOSやAndroidアプリケーションで使用するものではなく、Twitterを通しての認証に必要なものです。
 4.  `Application.onCreate()`でParse SDKを初期化する個所に、以下を追加します。

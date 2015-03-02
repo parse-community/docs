@@ -40,7 +40,7 @@ Parse를 사용하여 푸시 알림을 보내는 방법에는  [채널](#sending
 
 알림 전송은 주로 웹 콘솔이나 REST API, Cloud Code에서 수행됩니다. 하지만 기존 클라이언트 SDK에서 푸시 알림을 트리거할 수도 있습니다. 클라이언트 SDK에서 알림을 보내려는 경우 Parse 앱의 Push Notifications 설정에서 **Client Push Enabled** 를 설정해야 합니다.
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### 채널 사용
 
@@ -61,7 +61,7 @@ PushService.subscribe(context, "Giants", YourActivity.class);
 
 &quot;Giants&quot; 채널에 가입하면 `Installation` 개체의 `channels` 필드가 업데이트되어야 합니다.
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 채널 해지도 다음과 같이 쉽게 수행할 수 있습니다.
 

@@ -34,13 +34,13 @@ Almost every class that you create should have these permissions tweaked to some
 
 As a start, you can configure your application so that clients cannot create new classes on Parse. This is done from the Settings tab on the Data Browser. Scroll down to the **App Permissions** section and turn off **Allow client class creation**. Once enabled, classes may only be created from the Data Browser. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
 
-![](docs/security/client_class_creation.png)
+![](/images/docs/security/client_class_creation.png)
 
 ### Configuring CLPs
 
 Parse lets you specify what operations are allowed per class. This lets you restrict the ways in which clients can access or modify your classes. To change these settings, go to the Data Browser, select a class, open the "More" dropdown, and click the "Set permissions" item.
 
-![](docs/security/class_level_permissions.png)
+![](/images/docs/security/class_level_permissions.png)
 
 You can configure the client's ability to perform each of the following operations for the selected class:
 

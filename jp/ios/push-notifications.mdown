@@ -42,7 +42,7 @@ Parseを使用してプッシュ通知を送信する方法は[チャンネル](
 
 通常、通知はウェブコンソールのREST APIかクラウドコードを使用して送信します。ただし、プッシュ通知は既存のクライアントSDKでトリガすることもできます。クライアントのSDKから通知を送信する場合、Parseアプリの[プッシュ通知設定]で **Client Push Enabled** を設定する必要があります。
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### チャンネルの使用
 
@@ -63,7 +63,7 @@ PFInstallation *currentInstallation = [PFInstallation currentInstallation];
 
 「ジャイアンツ」チャンネルに登録すると、`Installation`オブジェクトには更新された`channels`フィールドがあります。
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 チャンネルの登録を解除することも簡単です。
 

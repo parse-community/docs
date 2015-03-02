@@ -41,9 +41,9 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 Parseでプッシュ通知を送信する方法は2つあります。[チャンネル](#sending-channels)と[詳細ターゲット設定](#sending-queries)です。チャンネルはシンプルで使いやすいプッシュ通知送信モデルで、詳細ターゲット設定はより強力で柔軟性の高いモデルです。この2つは完全な互換性を持っています。この項ではこの2つについて説明します。
 
-通知の送信は、一般的にウェブコンソール、REST API、またはCloud Codeから行います。ただし、既存のクライアントSDKからプッシュ通知をトリガすることもできます。クライアントSDKから通知を送る場合は、Parseアプリの[Push Notifications]で<% if current_user && @apps[0] %> <%= link_to_settings @apps[0], "Client Push Enabled", "push"  %>   <% else %>     **Client Push Enabled**   ```を設定する必要があります。
+通知の送信は、一般的にウェブコンソール、REST API、またはCloud Codeから行います。ただし、既存のクライアントSDKからプッシュ通知をトリガすることもできます。クライアントSDKから通知を送る場合は、Parseアプリの[Push Notifications]で**Client Push Enabled**を設定する必要があります。
 
-<%= image_tag 'docs/client_push_settings.png', :style => 'border: 1px solid #eee; width: 100%; max-width: 992px' %>
+![](/images/docs/client_push_settings.png)
 
 
 ### チャンネルの使用
@@ -65,7 +65,7 @@ PushService.subscribe(context, "Giants", YourActivity.class);
 
 「Giants」チャンネルを購読した場合、`Installation`オブジェクトの`channels`フィールドを更新します。
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 チャンネルの購読停止も同じように簡単です。
 
@@ -315,7 +315,7 @@ wpPush.sendPushInBackground();
 
 プッシュ通知が受信されると、「タイトル」が通知領域に表示され、「メッセージ」はその通知のコンテンツとして表示されます。Androidでは、開いた通知を処理する`Activity`と、通知の受信時にバッグラウンドで実行される`Intent`を指定することで、より細かな制御ができます。
 
-アプリでプッシュ通知を受信できるよう設定するには、<%= link_to 'Android Pushクイックスタートガイド', "/apps/quickstart_push" %>をお読みください。クイックスタートガイドでは、GCMをサポートしていないデバイスを含め、Androidデバイスでプッシュ通知を設定する方法を説明しています。GCMが有効なデバイスに限定してプッシュ通知を行う場合は、`AndroidManifest.xml`から以下の要素を削除してかまいません。
+アプリでプッシュ通知を受信できるよう設定するには、[Android Pushクイックスタートガイド](/apps/quickstart_push)をお読みください。クイックスタートガイドでは、GCMをサポートしていないデバイスを含め、Androidデバイスでプッシュ通知を設定する方法を説明しています。GCMが有効なデバイスに限定してプッシュ通知を行う場合は、`AndroidManifest.xml`から以下の要素を削除してかまいません。
 
 *   `com.parse.ParseBroadcastReceiver`の`receiver`要素（`BOOT_COMPLETED`と`USER_PRESENT`のインテントフィルタを含む）*   `android.permission.RECEIVE_BOOT_COMPLETED`の`permission`要素
 

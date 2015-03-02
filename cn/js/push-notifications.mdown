@@ -31,7 +31,7 @@ JavaScript SDK 目前不支持接收推送。它只能用于向 iOS 和 Android 
 
 一般通过 Web Console、REST API 或[ Cloud Code 发送通知。由于 JavaScript SDK 是通过 Cloud Code 实现的，因此，如果您想要通过云函数发送推送，可以从这里开始。但是，如果您决定通过 Cloud Code 以外的 JavaScript SDK 或通过其他任何客户端 SDK 发送通知，则需要在 Parse 应用程序推送通知设置中设置 **Client Push Enabled**。
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### 使用通道
 

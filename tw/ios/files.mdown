@@ -57,7 +57,7 @@ userPhoto[@"imageFile"] = imageFile;
 [userPhoto saveInBackground];
 ```
 
-您的 `PFFile` 會作為 `userPhoto` 物件儲存作業的一部分而上傳。也可以追蹤 `PFFile` 的 <%= link_to ' 上傳和下載進度', '/docs/ios_guide#files-progress' %>。
+您的 `PFFile` 會作為 `userPhoto` 物件儲存作業的一部分而上傳。也可以追蹤 `PFFile` 的 [上傳和下載進度](/docs/ios_guide#files-progress)。
 
 將圖像擷取回來牽涉到在 `PFFile`上呼叫 `getData`的其中一個變數。在此我們從另一個命名為 `anotherPhoto` 的 `UserPhoto` 擷取圖像檔：
 

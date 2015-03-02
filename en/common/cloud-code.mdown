@@ -1161,13 +1161,13 @@ With the [Event Webhook](https://sendgrid.com/docs/API_Reference/Webhooks/event.
 
 Enabling the SendGrid Event Webhook requires simply adding the endpoint in your Parse app to your settings:
 
-![](docs/sendgrid_webhook_endpoint.jpg)
+![](/images/docs/sendgrid_webhook_endpoint.jpg)
 
 The SendGrid [Parse Webhook](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html) allows you to manage inbound email with as a smarter alternative to no-reply addresses. SendGrid can parse the attachments and contents of incoming emails enabling users to post content to an app (blog entries, photo uploads, etc.) via email. The SendGrid Parse API will POST the parsed email to a URL that you specify.
 
 You can enable the SendGrid Parse Webhook by adding the following settings to your account:
 
-![](docs/sendgrid_webhook_path.jpg)
+![](/images/docs/sendgrid_webhook_path.jpg)
 
 ### Stripe
 
@@ -1184,7 +1184,7 @@ Stripe.initialize('mySecretKey');
 
 Charging a credit card using Stripe and Parse will usually follow this flow.
 
-![](docs/parse_stripe_diagram.png)
+![](/images/docs/parse_stripe_diagram.png)
 
 1. Getting a Credit Card Token
 

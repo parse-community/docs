@@ -1,6 +1,6 @@
 # JavaScript 가이드
 
-아직 프로젝트를 설정하지 않았다면 <%= link_to 'QuickStart 가이드를 참조', "/apps/quickstart#js/native/blank" %>하여 프로젝트를 설정하고 실행하세요. SDK에 대한 자세한 내용은 [API 참조 문서](/docs/js)를 참조하세요.
+아직 프로젝트를 설정하지 않았다면 [QuickStart 가이드를 참조](/apps/quickstart#js/native/blank)하여 프로젝트를 설정하고 실행하세요. SDK에 대한 자세한 내용은 [API 참조 문서](/docs/js)를 참조하세요.
 
 Parse 플랫폼은 모바일 앱에 완벽한 백엔드 솔루션을 제공합니다. Parse는 서버 코드 작성이나 서버 관리에 대한 필요성을 완전히 없애는 것을 목표로 하고 있습니다.
 

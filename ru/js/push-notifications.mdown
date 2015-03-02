@@ -31,7 +31,7 @@
 
 Отправка уведомлений часто осуществляется с помощью веб-консоли, [REST API](#sending/REST) или [Cloud Code](#sending/JavaScript). Поскольку SDK JavaScript используется в Cloud Code, то следует начинать работу в нем, если нужно отправлять уведомления с функций облака. Однако, если уведомления будут отправляться с SDK JavaScript за пределами Cloud Code или любого другого клиентского SDK, потребуется установить **Client Push Enabled** в настройках уведомлений приложения Parse.
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### Использование каналов
 

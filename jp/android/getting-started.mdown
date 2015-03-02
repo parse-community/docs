@@ -1,6 +1,6 @@
 # Androidガイド
 
-まだSDKをインストールしていない場合は、<%= link_to 'クイックスタートガイド', "/apps/quickstart#android/native/blank" %>を参照し、EclipseでSDKを起動するまでの手順を確認してください。また、SDKに関する詳細な情報は、[APIリファレンス](/docs/android/api)をご覧ください。
+まだSDKをインストールしていない場合は、[クイックスタートガイド](/apps/quickstart#android/native/blank)を参照し、EclipseでSDKを起動するまでの手順を確認してください。また、SDKに関する詳細な情報は、[APIリファレンス](/docs/android/api)をご覧ください。
 
 # はじめに
 

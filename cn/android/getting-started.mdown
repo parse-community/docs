@@ -1,6 +1,6 @@
 # Android 指南
 
-如果您尚未安装 SDK，请<%= link_to '直接查看快速入门指南', "/apps/quickstart#android/native/blank" %>，安装 SDK 并使之在 Eclipse 中运行。您还可以查看 [API 参考](/docs/android/api)了解有关 SDK 的更多详细信息。
+如果您尚未安装 SDK，请[直接查看快速入门指南](/apps/quickstart#android/native/blank)，安装 SDK 并使之在 Eclipse 中运行。您还可以查看 [API 参考](/docs/android/api)了解有关 SDK 的更多详细信息。
 
 Parse 平台为您的移动应用程序提供完整的后台解决方案。我们的目标是彻底消除编写服务器代码或维护服务器的需要。
 

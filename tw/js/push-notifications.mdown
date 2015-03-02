@@ -31,7 +31,7 @@ JavaScript SDK 目前並不支援接收推播。只能用它來將通知傳送�
 
 傳送通知通常是從 Web 主控台、REST API 或 Cloud Code 進行。由於 JavaScript SDK 是在 Cloud Code 中使用，如果您想從 Cloud 函數傳送推播這是很好的起點。不過，如果您決定從 Cloud Code 或任何其他用戶端 SDK 之外的 JavaScript SDK 傳送通知，則您必須在 Parse 應用程式的「推播通知」設定中設定 **Client Push Enabled**。
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ## 使用頻道
 

@@ -22,7 +22,7 @@ logInController.delegate = self;
 
 ### 設定登入元素
 
-![Login Diagram](/images/docs/login_diagram.png)
+![](/images/docs/login_diagram.png)
 
 `PFLogInViewController` 可加以設定以提供各種登入選項。依照預設，`PFLogInViewController` 將呈現下列使用者介面：
 
@@ -163,7 +163,7 @@ signUpController.delegate = self;
 
 ### 設定註冊元素
 
-![Signup Diagram](/images/docs/signup_diagram.png)
+![](/images/docs/signup_diagram.png)
 
 `PFSignUpViewController` 可加以設定以提供各種註冊選項。依照預設，會呈現下列使用者介面：
 
@@ -350,7 +350,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 @end
 ```
 
-![Todo view](/images/docs/todo_view.gif)
+![](/images/docs/todo_view.gif)
 
 此檢視中顯示待辦事項清單，使用者藉由碰觸表格末端的特殊分頁資料格，即可進行下拉更新並載入下一頁當此檢視不再存在於記憶體中時，也會適當地快取物件，下次載入時就會利用查詢快取立即顯示之前載入的物件，而同時會進行網路呼叫以便更新。
 

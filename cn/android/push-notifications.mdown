@@ -40,7 +40,7 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 一般通过 Web Console、[REST API](#sending/REST) 或[云代码](#sending/JavaScript)发送通知。但是，也可以通过现有的客户端 SDK 触发推送通知。如果决定从客户端 SDK 发送通知，则需要在 Parse 应用程序的推送通知设置中设置 **Client Push Enabled**。
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### 使用通道
 
@@ -61,7 +61,7 @@ PushService.subscribe(context, "Giants", YourActivity.class);
 
 一旦订阅“Giants”（巨人队）通道后，您的 `Installation` 对象会出现更新的 `channels` 字段。
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 退订通道也很简单：
 

@@ -57,7 +57,7 @@ userPhoto[@"imageFile"] = imageFile;
 [userPhoto saveInBackground];
 ```
 
-`PFFile`은 `userPhoto` 개체를 저장할 때 업로드됩니다. 또한 `PFFile`의 <%= link_to '업로드 및 다운로드 진행 상태', '/docs/kr/ios_guide#files-progress' %>를 추적할 수도 있습니다.
+`PFFile`은 `userPhoto` 개체를 저장할 때 업로드됩니다. 또한 `PFFile`의 [업로드 및 다운로드 진행 상태](/docs/kr/ios_guide#files-progress)를 추적할 수도 있습니다.
 
 이미지를 다시 검색하면 `PFFile`의 `getData` 변형 중 하나를 호출합니다. 다음 예에서는 `anotherPhoto`라는 다른 `UserPhoto`에서 이미지 파일을 검색합니다.
 

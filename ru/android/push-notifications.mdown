@@ -40,7 +40,7 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 Отправка уведомлений часто осуществляется с помощью веб-консоли, REST API или Cloud Code. Тем не менее, уведомления могут также срабатывать при помощи существующих клиентских SDK. Если вы решите отправлять уведомления с клиентских SDK, вам понадобится настроить **Client Push Enabled** в параметрах &laquo;Уведомления&raquo; своего приложения Parse.
 
-![](docs/client_push_settings.png)
+![](/images/docs/client_push_settings.png)
 
 ### Использование каналов
 
@@ -61,7 +61,7 @@ PushService.subscribe(context, "Giants", YourActivity.class);
 
 После подписки на канал &quot;Giants&quot; у объекта `Installation` будет обновлено поле `channels`.
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 Отказаться от подписки на канал так же просто:
 
