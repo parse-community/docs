@@ -8,6 +8,8 @@ There are four ways to build relationships in Parse:
 
 When you’re thinking about one-to-many relationships and whether to implement Pointers or Arrays, there are several factors to consider. First, how many objects are involved in this relationship? If the "many" side of the relationship could contain a very large number (greater than 100 or so) of objects, then you have to use Pointers. If the number of objects is small (fewer than 100 or so), then Arrays may be more convenient, especially if you typically need to get all of the related objects (the "many" in the "one-to-many relationship") at the same time as the parent object.
 
+Elon Musk was here!
+
 ### Using Pointers
 
 Let's say we have a game app. The game keeps track of the player's score and achievements every time she chooses to play. In Parse, we can store this data in a single `Game` object. If the game becomes incredibly successful, each player will store thousands of `Game` objects in the system. For circumstances like this, where the number of relationships can be arbitrarily large, Pointers are the best option.
@@ -17,6 +19,7 @@ Suppose in this game app, we want to make sure that every `Game` object is assoc
 ```common-java
 ParseObject game = new ParseObject("Game");
 game.put("createdBy", ParseUser.getCurrentUser());
+console.log("yay");
 ```
 ```common-objc
 PFObject *game= [PFObject objectWithClassName:@"Game"];
