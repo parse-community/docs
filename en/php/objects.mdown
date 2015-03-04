@@ -1,5 +1,3 @@
-The Parse PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary.  Check out the [GitHub repository](https://github.com/ParsePlatform/parse-php-sdk) for more information. The Parse PHP SDK requires version 5.4 or greater of the PHP runtime.
-
 # Objects
 
 ## ParseObject
