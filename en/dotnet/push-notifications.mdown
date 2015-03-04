@@ -4,9 +4,9 @@ Push Notifications are a great way to keep your users engaged and informed about
 
 If you haven't installed the SDK yet, please [head over to the Push QuickStart](/apps/quickstart_push) to get our SDK up and running.
 
-<div class="callout_green">
-  The Windows SDK can send push notifications from all runtimes, but only WinRT and Windows Phone apps can receive pushes from Microsoft push servers.
-</div>
+<div class='tip info'><div>
+The Windows SDK can send push notifications from all runtimes, but only WinRT and Windows Phone apps can receive pushes from Microsoft push servers.
+</div></div>
 
 ## Setting Up Push
 
@@ -305,13 +305,7 @@ await winPhonePush.SendAsync();
 
 ## Scheduling Pushes
 
-<div class="callout_green">
-  Sending scheduled push notifications
-  is not currently supported by the .NET SDK.
-  Take a look at the [REST API](#scheduled/REST),
-  [JavaScript SDK](#scheduled/JavaScript)
-  or the Parse.com push console.
-</div>
+Sending scheduled push notifications is not currently supported by the .NET SDK. Take a look at the [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) or the Parse.com push console.
 
 ## Receiving Pushes
 

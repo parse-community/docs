@@ -160,9 +160,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 オブジェクトには他のオブジェクトとの関係を持たせることができます。この動作をモデル化するためには、一意の`PFObject`を別の`PFObject`で値として使用することができます。内部的には、一貫性を保持するために、Parseフレームワークによって参照先オブジェクトが一か所に保存されます。
 
-<div class="callout_green">
+<div class='tip info'><div>
 「[一対多数の関係](/tutorials/one-to-many-relationships)」チュートリアルでは、簡単なブログアプリケーションにおいて2つの`PFObjects`間で一対多数の関係を作成する方法を学ぶことができます。
-</div>
+</div></div>
 
 たとえば、ブログアプリのそれぞれの`Comment`が1つの`Post`に対応することもあります。1つの`Comment`で新しい`Post`を作成するには、次のように書き込みます。
 

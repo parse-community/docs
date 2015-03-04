@@ -397,9 +397,9 @@ ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
 
 `ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#fbusers-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
+<div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
-</div>
+</div></div>
 
 ### Linking
 

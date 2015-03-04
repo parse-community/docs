@@ -83,9 +83,9 @@ collection.reset([
 
 기존 [Backbone](http://documentcloud.github.com/backbone/) 앱이 이미 있는 경우에는 JavaScript SDK를 사용하도록 간단하게 변환할 수 있습니다. 변환하고 나면 앱의 기능이 모두 포함된 정적 파일 컬렉션이 남습니다.
 
-<div class="callout_green">
+<div class='tip info'><div>
   [JavaScript를 사용한 Todo 앱 튜토리얼](/tutorials/todo-app-with-javascript)을 읽고 사용자 계정과 데이터를 유지하기 위해 Parse를 Backbone으로 사용하여 [표준 Backbone Todo 앱](http://addyosmani.github.com/todomvc/)을 만드는 방법을 확인하세요.
-</div>
+</div></div>
 
 JavaScript SDK는 Backbone과 호환되므로 `Parse.Object` 및 `Parse.Collection`을 약간만 바꾸어 `Backbone.Model` 및 `Backbone.Collection`에 사용할 수 있습니다. 앱을 변환하는 방법은 다음과 같습니다.
 

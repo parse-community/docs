@@ -329,9 +329,9 @@ Parse.FacebookUtils.logIn("user_likes,email", {
 
 `Parse.User` 整合不需要任何权限可以即时使用（即 `null` 或者不指定任何权限都完全可以接受）。[在 Facebook 开发人员指南上阅读关于权限的更多信息。](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
+<div class='tip info'><div>
 您可以自行决定在用户验证后记录从 Facebook 用户处获取的所需的任何数据。要完成这一操作，您需要[通过 Facebook SDK 进行一项图表查询](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)。
-</div>
+</div></div>
 
 ### 关联
 

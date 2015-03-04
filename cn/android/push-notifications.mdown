@@ -298,7 +298,7 @@ wpPush.sendPushInBackground();
 
 ## 推送通知排程
 
-<div class="callout_green">Android SDK 目前不支持发送排程的推送通知。了解 [REST API](#scheduled/REST)、[JavaScript SDK](#scheduled/JavaScript) 或 Web Console。</div>
+Android SDK 目前不支持发送排程的推送通知。了解 [REST API](#scheduled/REST)、[JavaScript SDK](#scheduled/JavaScript) 或 Web Console。
 
 ## 接收推送通知
 

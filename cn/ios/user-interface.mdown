@@ -6,9 +6,9 @@
 
 如果您正在使用 Parse 管理手机应用程序的用户，说明您已经熟悉 `PFUser` 类。有时在应用程序中，您可能想只显示让 `PFUser` 登录的屏幕。Parse 提供可以实现此功能的视图控制器。
 
-<div class="callout_green">
+<div class='tip info'><div>
 查看[登录和注册视图教程](/tutorials/login-and-signup-views)，其提供了一系列的内置视图，可立即进行自定义并放入使用 `PFUser` 的应用程序中。
-</div>
+</div></div>
 
 您可以通过实例化和模态显示的方式使用 `PFLogInViewController` 类。
 
@@ -275,9 +275,9 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 面向数据的 iOS 应用程序主要是 `UITableViewController` 和相应`UITableView` 的集合。使用 Parse 时，`UITableView` 的每个单元格通常代表来自 `PFObject` 的数据。`PFQueryTableViewController` 是 `UITableViewController` 的子类，后者提供了一个抽象层，使您能够轻松显示来自您其中一个 Parse 类的数据。
 
-<div class="callout_green">
+<div class='tip info'><div>
 查看 [PFQueryTableViewController 使用教程](/tutorials/parse-query-table)，了解如何在您的 Parse 应用程序内显示来自 `Todo` 类的对象。
-</div>
+</div></div>
 
 `PFQueryTableViewController` 的使用方法与 `UITableViewController` 的非常相似：
 

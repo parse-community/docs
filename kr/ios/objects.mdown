@@ -160,9 +160,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 개체는 다른 개체와 관련될 수 있습니다. 이러한 동작을 모델링하려면 어느 `PFObject`든 다른 `PFObject`의 값으로 사용할 수 있습니다. 내부적으로 Parse 프레임워크는 참조된 개체를 한 곳에만 저장하여 일관성을 유지합니다.
 
-<div class="callout_green">
+<div class='tip info'><div>
   [일대다 관계](/tutorials/one-to-many-relationships) 튜토리얼에서 간단한 블로깅 앱에서 두 `PFObjects` 사이에 일대다 관계를 만드는 방법에 대해 알아볼 수 있습니다.
-</div>
+</div></div>
 
 예를 들어 한 블로깅 앱의 각 `Comment`는 하나의 `Post`와 대응할 수 있습니다. 싱글 `Comment`를 가지는 새로운 `Post`를 만들려면 다음과 같이 작성할 수 있습니다.
 

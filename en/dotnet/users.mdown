@@ -320,9 +320,9 @@ catch
 
 `ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
-  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use [Microsoft's Facebook SDK](http://www.csharpsdk.org).
-</div>
+<div class='tip info'><div>
+It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use [Microsoft's Facebook SDK](http://www.csharpsdk.org).
+</div></div>
 
 ### Linking
 

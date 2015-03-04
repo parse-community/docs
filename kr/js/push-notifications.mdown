@@ -2,9 +2,9 @@
 
 푸시 알림은 사용자의 참여를 이끌어내고 앱에 대해 알리는 데 유용한 방법입니다. 전체 사용자 층에 빠르고 효과적으로 도달할 수 있습니다. 이 가이드는 푸시 알림을 보내도록 Parse를 설정하는 절차와 일반적인 사용법에 대해 안내합니다.
 
-<div class="callout_green">
+<div class='tip info'><div>
   현재 JavaScript SDK에서는 푸시 받기를 지원하지 않습니다. iOS 및 Android 앱에 알림을 보내는 용도로만 사용할 수 있습니다. 일반적으로는 [Cloud Code](/docs/kr/cloud_code_guide)에서 푸시 알림을 보냅니다.
-</div>
+</div></div>
 
 ## 푸시 설정
 
@@ -39,9 +39,7 @@ Parse를 사용하여 푸시 알림을 보내는 방법에는  [채널](#sending
 
 #### 채널에 가입
 
-<div class="callout_green">
-    현재 JavaScript SDK는 푸시에 대한 iOS 및 Android 기기 가입을 지원하지 않습니다. 위쪽에 있는 플랫폼 선택 메뉴를 사용하여 iOS, Android 또는 REST 푸시 가이드를 살펴보세요.
-</div>
+현재 JavaScript SDK는 푸시에 대한 iOS 및 Android 기기 가입을 지원하지 않습니다. 위쪽에 있는 플랫폼 선택 메뉴를 사용하여 iOS, Android 또는 REST 푸시 가이드를 살펴보세요.
 
 #### 채널에 푸시 전송
 
@@ -71,9 +69,7 @@ JavaScript SDK에서는 다음 코드를 사용하여 &quot;Giants&quot; 및 &qu
 
 #### 설치 데이터 저장
 
-<div class="callout_green">
 현재 JavaScript SDK에서는 `Installation` 개체 수정을 지원하지 않습니다. 위쪽에있는 플랫폼 선택 메뉴를 사용하여 iOS, Android 또는 REST 푸시 가이드를 살펴보세요.
-</div>
 
 #### 쿼리에 푸시 전송
 
@@ -326,7 +322,5 @@ Parse.Push.send({
 
 ## 푸시 수신
 
-<div class="callout_green">
 현재 JavaScript SDK에서는 푸시 받기를 지원하지 않습니다.  플랫폼별 가이드에서 iOS 및 Android 기기의 푸시 알림 수신에 대한 내용을 참조하세요.
-</div>
 

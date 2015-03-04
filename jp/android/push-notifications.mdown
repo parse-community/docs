@@ -308,8 +308,7 @@ wpPush.sendPushInBackground();
 
 ## プッシュ通知のスケジュール設定
 
-<div class="callout_green">Android SDKでは現在、スケジュールを設定してのプッシュ通知の送信はサポートされていません。REST API、JavaScript SDK、またはウェブコンソールを参照してください。</div>
-
+Android SDKでは現在、スケジュールを設定してのプッシュ通知の送信はサポートされていません。REST API、JavaScript SDK、またはウェブコンソールを参照してください。
 
 ## プッシュ通知の受信
 

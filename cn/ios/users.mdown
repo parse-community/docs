@@ -300,9 +300,9 @@ NSArray *usersPosts = [query findObjects];
 
 Parse 提供了一种简单的方法，用于将 Facebook 与您的应用程序整合起来。Facebook SDK 可以与我们的 SDK 一起使用，并且与 `PFUser` 类整合，从而使您能轻松将用户与他们的 Facebook 身份关联。
 
-<div class="callout_green">
+<div class='tip info'><div>
 了解如何通过 Facebook API 使用 Parse 来创建查看个人主页的应用程序。[将 Facebook 整合入 iOS 教程](/tutorials/integrating-facebook-in-ios)将教您如何通过 Facebook 创建和登录 `PFUsers` 以及向 Facebook 图表 API 发出查询请求。
-</div>
+</div></div>
 
 利用我们的 Facebook 整合功能，您可以将通过验证的 Facebook 用户与 `PFUser` 相关联。只需几行代码，您就可以在应用程序中提供&ldquo;log in with Facebook&rdquo;（使用 Facebook 登录）选项，并能够将用户数据保存在 Parse 中。
 
@@ -373,9 +373,9 @@ Parse 与 Facebook iOS SDK 3.2 版兼容。
                  }];
 ```
 
-<div class="callout_green">
+<div class='tip info'><div>
 您可以自行决定在用户验证后记录从 Facebook 用户处获取的所需的任何数据。要完成这一操作，您需要[通过 Facebook SDK 进行一项图表查询](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)。
-</div>
+</div></div>
 
 ### 关联
 

@@ -400,9 +400,9 @@ ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
 
 `ParseUser` 통합은 권한 없이도 바로 작동합니다(즉, `null` 또는 권한을 지정하지 않는 것도 완전히 허용됨). 로그인할 때는 읽기 권한만 사용할 수 있습니다. [추가 권한 요청](#fbusers-permissions)(읽기 또는 게시)에 대한 아래 설명서를 참조하세요. [권한에 대한 자세한 내용은 Facebook의 개발자 가이드를 참조하세요.](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
+<div class='tip info'><div>
   Facebook 사용자가 인증된 후 필요한 사용자의 데이터를 기록하는 일은 앱 개발자의 몫입니다. 이를 위해서는 [Facebook SDK를 통해 그래프 쿼리를 수행](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)해야 합니다.
-</div>
+</div></div>
 
 ### 연결
 

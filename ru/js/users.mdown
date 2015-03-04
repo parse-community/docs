@@ -329,9 +329,9 @@ Parse.FacebookUtils.logIn("user_likes,email", {
 
 Интеграция пользователей `Parse.User` не требует разрешений для стандартной работы (например, метод `null` или отсутствие указанных разрешений полностью допустимы). [Подробнее о разрешениях см. Руководство для разработчиков Facebook.](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
-  Вы самостоятельно решаете, нужно ли записывать необходимые данные от пользователя Facebook после прохождения аутентификации. Чтобы выполнить это, необходимо [создать графический запрос через SDK Facebook](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
-</div>
+<div class='tip info'><div>
+Вы самостоятельно решаете, нужно ли записывать необходимые данные от пользователя Facebook после прохождения аутентификации. Чтобы выполнить это, необходимо [создать графический запрос через SDK Facebook](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
+</div></div>
 
 ### Связывание
 

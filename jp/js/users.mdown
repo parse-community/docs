@@ -342,9 +342,9 @@ Parse.FacebookUtils.logIn("user_likes,email", {
 
 追加設定なしで作業する場合、`Parse.User`の統合には権限は必要ありません（つまり`null`や権限の指定なしも問題なく使用できます）。[詳細については、Facebookの開発者ガイドにある権限に関する記載をご覧ください。](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
+<div class='tip info'><div>
 認証後にFacebook利用者から取得したデータを保存するかどうかは自由に設定できます。設定する場合は、[FacebookのSDKを介したグラフクエリを実行](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)する必要があります。
-</div>
+</div></div>
 
 
 ### リンク

@@ -6,9 +6,9 @@
 
 Parse를 사용하여 모바일 앱에서 사용자를 관리하고 있다면 이미 `PFUser` 클래스에 익숙할 것입니다. 앱에서 원하는 지점에 `PFUser` 로그인 화면을 표시할 수 있습니다.  Parse에는 여기에 사용되는 보기 컨트롤러가 있습니다.
 
-<div class="callout_green">
+<div class='tip info'><div>
   [로그인 및 가입 보기 사용에 관한 튜토리얼](/tutorials/login-and-signup-views)에는 사용자 지정한 후 `PFUser`를 사용하는 앱에 삽입할 수 있는 기본 제공 보기가 있습니다.
-</div>
+</div></div>
 
 `PFLogInViewController` 클래스를 사용하여 보기를 인스턴스화한 후 모달 방식으로 표시합니다.
 
@@ -271,9 +271,9 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 데이터 중심의 iOS 앱은 대부분이 `UITableViewController`와 해당 `UITableView`의 컬렉션입니다. Parse를 사용할 때 `UITableView`의 각 셀은 일반적으로 `PFObject`의 데이터를 나타냅니다. `PFQueryTableViewController`는 Parse 클래스 중 하나에서 데이터를 쉽게 표시할 수 있도록 추상화 레이어를 제공하는 `UITableViewController`의 하위 클래스입니다.
 
-<div class="callout_green">
+<div class='tip info'><div>
   Parse 앱에 `Todo` 클래스의 개체를 표시하려면 [PFQueryTableViewController 사용에 관한 튜토리얼](/tutorials/parse-query-table)을 참조하세요.
-</div>
+</div></div>
 
 `PFQueryTableViewController`를 사용하는 방법은 `UITableViewController`를 사용하는 경우와 비슷합니다.
 

@@ -308,9 +308,7 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## プッシュのスケジュール設定
 
-<div class="callout_green">
 送信がスケジュールされたプッシュ通知は現在iOS SDKではサポートされていません。[REST API](#scheduled/REST)、[JavaScript SDK](#scheduled/JavaScript)、ウェブコンソールを確認してください。
-</div>
 
 ## プッシュの受信
 

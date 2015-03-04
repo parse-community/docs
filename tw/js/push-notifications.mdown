@@ -2,9 +2,9 @@
 
 推播通知是讓使用者對應用程式保持互動和接收通知的好方法。您可以快速且有效地接觸整個使用者群。本指南將協助您了解 Parse 的設定程序和一般用途，以發送推播通知。
 
-<div class="callout_green">
+<div class='tip info'><div>
 JavaScript SDK 目前並不支援接收推播。只能用它來將通知傳送至 iOS 和 Android 應用程式。最常見的使用案例就是從 [Cloud Code](/docs/tw/cloud_code_guide) 傳送推播。
-</div>
+</div></div>
 
 # 設定推播
 
@@ -39,9 +39,7 @@ JavaScript SDK 目前並不支援接收推播。只能用它來將通知傳送�
 
 ### 訂閱頻道
 
-<div class="callout_green">
 JavaScript SDK 目前並不支援在 iOS 和 Android 裝置訂閱推播。請利用上面的平台切換功能，參閱 iOS、Android 或 REST 推播指南。
-</div>
 
 ### 將推播傳送至頻道
 
@@ -71,8 +69,7 @@ Parse.Push.send({
 
 ### 儲存安裝資料
 
-  <div class="callout_green">
-JavaScript SDK 目前並不支援修改 `Installation` 物件。請利用上面的平台切換功能，參閱 iOS、Android 或 REST 推播指南。</div>
+JavaScript SDK 目前並不支援修改 `Installation` 物件。請利用上面的平台切換功能，參閱 iOS、Android 或 REST 推播指南。
 
 ### 將推播傳送至查詢
 
@@ -326,6 +323,4 @@ Parse.Push.send({
 
 # 接收推播
 
-<div class="callout_green">
 JavaScript SDK 目前並不支援接收推播。請參閱針對在 iOS 和 Android 裝置接收推播通知的特定平台指南。
-</div>

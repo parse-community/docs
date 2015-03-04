@@ -311,9 +311,7 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## Планирование уведомлений
 
-<div class="callout_green">
 На данный момент отправка запланированных уведомлений не поддерживается в iOS SDK. Ознакомьтесь с REST API, JavaScript SDK или веб-консолью.
-</div>
 
 ## Получение уведомлений
 

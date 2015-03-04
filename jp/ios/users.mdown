@@ -300,9 +300,9 @@ NSArray *usersPosts = [query findObjects];
 
 ParseにはFacebookをアプリケーションに統合できる簡単な方法が用意されています。Facebook SDKは弊社のSDKと一緒に使用することができ、`PFUser`クラスと統合して利用者をFacebookのプロフィールと簡単にリンクさせることができます。
 
-<div class="callout_green">
+<div class='tip info'><div>
 ParseをFacebook APIと一緒に使用してプロフィールビューアアプリを作成する方法を確認してください。[iOSにおけるFacebookの統合チュートリアル](/tutorials/integrating-facebook-in-ios)ではFacebookを通じて`PFUsers`を作成し、ログインする方法とFacebookグラフAPIへのクエリ方法について説明します。
-</div>
+</div></div>
 
 Facebook統合を使用すると、認証されたFacebook利用者を`PFUser`に関連付けることができます。数行のコードでアプリに「Facebookにログイン」を提供したり、利用者のデータをParseに保存することができるようになります。
 
@@ -379,9 +379,9 @@ ParseはFacebook iOS SDKバージョン3.2と互換性を持っています。
                  }];
 ```
 
-<div class="callout_green">
+<div class='tip info'><div>
 認証後にFacebook利用者から取得したデータを保存するかどうかは自由に設定できます。設定する場合は、[FacebookのSDKを介したグラフクエリを実行](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)する必要があります。
-</div>
+</div></div>
 
 ### リンク
 

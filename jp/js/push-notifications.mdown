@@ -2,10 +2,9 @@
 
 プッシュ通知は、アプリの利用率を維持し、アプリの情報を利用者に通知するのに非常に便利な手段です。利用者全体にすばやく、効率的にリーチできます。このガイドでは、設定手順と、プッシュ通知送信のためのParseの一般的な使用方法を紹介します。
 
-<div class="callout_green">
+<div class='tip info'><div>
 現在、JavaScript SDKはプッシュの受信をサポートしていません。iOS用アプリケーションやAndroid用アプリケーションに通知を送信する場合にのみ使用できます。一般的な使用例は、[Cloud Code](/docs/jp/cloud_code_guide)からのプッシュの送信です。
-</div>
-
+</div></div>
 
 ## プッシュの設定
 
@@ -43,9 +42,7 @@ Parseが使用するプッシュ通知の送信方法には、[チャンネル](
 
 #### チャンネルへの登録
 
-<div class="callout_green">
 現在、JavaScript SDKはプッシュ用のiOS端末とAndroid端末の登録をサポートしていません。上部のプラットフォーム切り替え機能を使用して、iOS、Android、RESTのプッシュガイドを参照してください。
-</div>
 
 #### チャンネルへのプッシュの送信
 
@@ -76,9 +73,7 @@ Parse.Push.send({
 
 #### インストールデータの保存
 
-<div class="callout_green">
 現在、JavaScript SDKは`Installation`オブジェクトの修正をサポートしていません。上部のプラットフォーム切り替え機能を使用して、iOS、Android、RESTのプッシュガイドを参照してください。
-</div>
 
 #### クエリへのプッシュの送信
 
@@ -336,6 +331,4 @@ Parse.Push.send({
 
 ## プッシュの受信
 
-<div class="callout_green">
 現在、JavaScript SDKはプッシュの受信をサポートしていません。iOS端末とAndroid端末でのプッシュ通知の受信方法については、プラットフォーム別のガイドを参照してください。
-</div>

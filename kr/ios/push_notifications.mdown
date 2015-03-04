@@ -310,9 +310,7 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## 푸시 예약
 
-<div class="callout_green">
 현재 iOS SDK에서는 예약된 푸시 알림 전송이 지원되지 않습니다. REST API, JavaScript API 또는 웹 콘솔을 참조하세요.
-</div>
 
 ## 푸시 수신
 

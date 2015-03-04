@@ -310,9 +310,7 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## 推送通知排程
 
-<div class="callout_green">
 iOS SDK 目前不支持发送排程的推送通知。了解 REST API、JavaScript SDK 或 Web Console。
-</div>
 
 ## 接收推送通知
 

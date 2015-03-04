@@ -2,9 +2,9 @@
 
 推送通知是让用户参与您的应用程序并了解其最新动态的有效方法。您可以快速有效地到达整个用户群。本指南将帮助您了解设置流程和 Parse 发送推送通知的基本用法。
 
-<div class="callout_green">
+<div class='tip info'><div>
 JavaScript SDK 目前不支持接收推送。它只能用于向 iOS 和 Android 应用程序发送通知。一个常见的用例就是从[ Cloud Code ](/docs/cn/cloud_code_guide)发送推送。
-</div>
+</div></div>
 
 ## 设置推送
 
@@ -39,8 +39,7 @@ JavaScript SDK 目前不支持接收推送。它只能用于向 iOS 和 Android 
 
 #### 订阅通道
 
-<div class="callout_green">
-JavaScript SDK 目前不支持 iOS 和 Android 设备订阅推送。使用顶部的平台切换工具查看 iOS、Android 或 REST 推送指南。</div>
+JavaScript SDK 目前不支持 iOS 和 Android 设备订阅推送。使用顶部的平台切换工具查看 iOS、Android 或 REST 推送指南。
 
 ### 向通道发送推送通知
 
@@ -70,9 +69,7 @@ Parse.Push.send({
 
 ### 保存安装数据
 
-<div class="callout_green">
 JavaScript SDK 目前不支持修改 `Installation` 对象。使用顶部的平台切换工具查看 iOS、Android 或 REST 推送指南。
-</div>
 
 #### 向查询发送推送通知
 
@@ -325,7 +322,7 @@ Parse.Push.send({
 
 ## 接收推送通知
 
-<div class="callout_green">
+<div class='tip info bottom'><div>
 JavaScript SDK 目前不支持接收推送。若要了解关于在 iOS 和 Android 设备上接收推送通知的信息，请查看各平台专用指南。
-</div>
+</div></div>
 

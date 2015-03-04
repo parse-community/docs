@@ -311,9 +311,7 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## 推播排程
 
-  <div class="callout_green">
 iOS SDK 目前並不支援傳送已排程的推播通知。請參閱 REST API、JavaScript SDK 或 Web 主控台。
-  </div>
 
 ## 接收推播
 

@@ -6,12 +6,9 @@ If you haven't installed the SDK yet, please [head over to the Push QuickStart](
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-<div class="callout_green">
-  The JavaScript SDK does not currently support receiving pushes.
-  It can only be used to send notifications to iOS and Android applications.
-  A common use case is to send pushes
-  from [Cloud Code](/docs/cloud_code_guide).
-</div>
+<div class='tip info'><div>
+The JavaScript SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications. A common use case is to send pushes from [Cloud Code](/docs/cloud_code_guide).
+</div></div>
 
 ## Setting Up Push
 
@@ -58,14 +55,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 #### Subscribing to Channels
 
-<div class="callout_green">
-  The JavaScript SDK does not currently support
-  subscribing iOS and Android devices for pushes.
-  Take a look at the [iOS](#sending-channels/iOS),
-  [Android](#sending-channels/Android)
-  or [REST](#sending-channels/REST) Push guide
-  using the platform toggle at the top.
-</div>
+The JavaScript SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS](#sending-channels/iOS), [Android](#sending-channels/Android) or [REST](#sending-channels/REST) Push guide using the platform toggle at the top.
 
 #### Sending Pushes to Channels
 
@@ -96,13 +86,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 #### Saving Installation Data
 
-<div class="callout_green">
-  The JavaScript SDK does not currently support modifying `Installation` objects.
-  Take a look at the [iOS](#sending-queries/iOS),
-  [Android](#sending-queries/Android)
-  or [REST](#sending-queries/REST) Push guide
-  using the platform toggle at the top.
-</div>
+The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS](#sending-queries/iOS), [Android](#sending-queries/Android) or [REST](#sending-queries/REST) Push guide using the platform toggle at the top.
 
 #### Sending Pushes to Queries
 
@@ -369,20 +353,8 @@ The scheduled time cannot be in the past, and can be up to two weeks in the futu
 
 ## Receiving Pushes
 
-<div class="callout_green">
-  The JavaScript SDK does not currently support receiving pushes.
-  To learn more about handling received notifications
-  in [iOS](#receiving/iOS)
-  or [Android](#receiving/Android),
-  use the platform toggle at the top.
-</div>
+The JavaScript SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS](#receiving/iOS) or [Android](#receiving/Android), use the platform toggle at the top.
 
 ## Troubleshooting
 
-<div class="callout_green">
-  For tips on troubleshooting push notifications, check the troubleshooting sections
-  for 
-  [iOS](#troubleshooting/iOS), 
-  [Android](#troubleshooting/Android), and 
-  [.NET](#troubleshooting/.NET) using the platform toggle at the top.
-</div>
+For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS](#troubleshooting/iOS), [Android](#troubleshooting/Android), and [.NET](#troubleshooting/.NET) using the platform toggle at the top.

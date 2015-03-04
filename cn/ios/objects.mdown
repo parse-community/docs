@@ -160,9 +160,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 一些对象可能与另外一些对象有一定的关系。要为此建模，可将任意 `PFObject` 用作其他 `PFObject` 中的值。在内部，Parse 框架只将提及的对象仅存储于一个位置，以便保持一致性。
 
-<div class="callout_green">
+<div class='tip info'><div>
 观看[一对多关系](/tutorials/one-to-many-relationships)教程，了解如何在简单的博客应用程序中的两个 `PFObjects` 之间创建一对多关系。
-</div>
+</div></div>
 
 例如，一个博客应用中的每个 `Comment` 可能对应一个 `Post`。要创建一篇带有单一 `Comment` 的新 `Post`，您可以这样写：
 

@@ -53,7 +53,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-<div class="callout_green">    
+<div class='tip info'><div>
   Take a look at the [Cloud Code Guide](/docs/cloud_code_guide?language=curl#functions-calling) 
   to learn more about Cloud Functions and Background Jobs.
-</div>
+</div></div>

@@ -4,9 +4,9 @@
 
 `PFFile` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `PFObject` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
 
-<div class="callout_green">
+<div class='tip info'><div>
 查看[保存图像教程](/tutorials/saving-images)，了解如何制作应用程序，让用户拍照并把照片直接上传到 Parse 中。
-</div>
+</div></div>
 
 `PFFile` 非常容易上手。首先，您需要拥有 `NSData` 格式的数据，然后使用此数据创建 `PFFile`。在该示例中，我们只使用一个字符串：
 

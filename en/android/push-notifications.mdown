@@ -318,9 +318,7 @@ wpPush.sendPushInBackground();
 
 ## Scheduling Pushes
 
-<div class="callout_green">
 Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) or the Parse.com push console.
-</div>
 
 ## Receiving Pushes
 

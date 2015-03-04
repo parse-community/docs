@@ -300,9 +300,9 @@ NSArray *usersPosts = [query findObjects];
 
 Parse предоставляет простую интеграцию Facebook с вашим приложением. Пакет SDK Facebook может использоваться с нашим SDK и интегрируется с классом `PFUser` для простой связи пользователей с их учетными записями в Facebook.
 
-<div class="callout_green">
+<div class='tip info'><div>
   Узнайте, как использовать Parse с Facebook API для создания приложения для просмотра профилей. В [Руководстве по интеграции Facebook в iOS](/tutorials/integrating-facebook-in-ios) рассказано о создании и входе для пользователей `PFUsers` через Facebook, а также выполнении запросов в Facebook Graph API.
-</div>
+</div></div>
 
 Благодаря интеграции с Facebook можно связать авторизированного пользователя Facebook с пользователем `PFUser`. С помощью всего нескольких строк кода, можно предоставить для приложения возможность входа с Facebook и сохранения данных пользователей в Parse.
 
@@ -375,9 +375,9 @@ Parse совместим с Facebook SDK для iOS версии 3.2.
                  }];
 ```
 
-<div class="callout_green">
+<div class='tip info'><div>
   Вы самостоятельно решаете, нужно ли записывать необходимые данные от пользователя Facebook после прохождения авторизации. Чтобы выполнить это, необходимо [создать графический запрос через SDK Facebook](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
-</div>
+</div></div>
 
 ### Связывание
 

@@ -1,8 +1,8 @@
 # Push Notifications
 
-<div class="callout_green">
+<div class='tip info'><div>
   To learn more about push check out our [Push Notification Guide](/docs/push_guide#top/REST)!
-</div>
+</div></div>
 
 ## Installations
 

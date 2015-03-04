@@ -171,9 +171,9 @@ $query = new ParseQuery("BarbecueSauce");
 $query->startsWith("name", "Big Daddy's");
 ```
 
-<div class="callout_green">
+<div class='tip info'><div>
   If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/2013/03/19/implementing-scalable-search-on-a-nosql-backend/).
-</div>
+</div></div>
 
 ## Relational Queries
 

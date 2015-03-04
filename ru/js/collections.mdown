@@ -83,9 +83,9 @@ collection.reset([
 
 При наличии уже существующего приложения [Backbone](http://documentcloud.github.com/backbone/) его легко преобразовать для использования нашего SDK JavaScript. В конечном итоге после преобразования вы получите совокупность статических файлов, содержащих все функции приложения.
 
-<div class="callout_green">
+<div class='tip info'><div>
   Ознакомьтесь с [руководством по созданию приложения списка дел с помощью JavaScript](/tutorials/todo-app-with-javascript), в котором объясняется, как создать [классическое приложение списка дел Backbone](http://addyosmani.github.com/todomvc/) с помощью Parse в качестве серверного приложения для хранения аккаунтов и данных пользователей.
-</div>
+</div></div>
 
 Наш SDK JavaScript совместим с Backbone, поэтому  `Parse.Object` и `Parse.Collection` могут использоваться для `Backbone.Model` и `Backbone.Collection` с небольшими настройками. Как преобразовать приложение:
 

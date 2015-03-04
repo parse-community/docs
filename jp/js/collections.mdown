@@ -87,9 +87,9 @@ Parseでは`Backbone.View`のコピーである`Parse.View`を採用していま
 
 すでに[Backbone](http://documentcloud.github.com/backbone/)アプリケーションを使用している場合は、ParseのJavaScript SDKを使えるように簡単に変換できます。変換が終わると、すべてのアプリの機能が記載された静的ファイルのコレクションが作成されます。
 
-<div class="callout_green">
+<div class='tip info'><div>
 Parseをバックエンドと使用してユーザーアカウントとデータを保持する[標準的なBackbone ToDoアプリケーション](http://addyosmani.github.com/todomvc/)の作成方法を紹介した[JavaScriptによるToDoアプリのチュートリアル](/tutorials/todo-app-with-javascript)をご覧ください。
-</div>
+</div></div>
 
 ParseのJavaScript SDKはBackboneと互換性を持つことから、多少調整するだけでParseの`Parse.Object`と`Parse.Collection`を`Backbone.Model`と`Backbone.Collection`に使用できます。次にアプリの変換方法を説明します。
 

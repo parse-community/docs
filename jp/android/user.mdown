@@ -413,9 +413,9 @@ ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
 
 `ParseUser` の統合は、特に何の許可も必要とすることなく、すぐに使うことができます（つまり、`null` や、許可の指定なしでもまったく問題ありません）。ログイン時には、読み取り許可しか使用できません。追加許可のリクエスト方法（読み取りまたは公開）については、[以下の項](#fbusers-permissions)を参照してください。[許可について詳しくは、Facebookの開発者ガイドを参照してください。](https://developers.facebook.com/docs/reference/api/permissions/)
 
-<div class="callout_green">
+<div class='tip info'><div>
 認証後は、必要なデータをFacebookから記録するかどうかを自由に決定できます。これを行うには、[Facebook SDKでグラフクエリを実行する](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)必要があります。
-</div>
+</div></div>
 
 
 ### リンク

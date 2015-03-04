@@ -6,9 +6,9 @@
 
 如果您正在使用 Parse 管理手機應用程式中的使用者，想必您已經很熟悉 `PFUser` 類別。您可能會想在應用程式中的某個位置呈現可登入 `PFUser` 的畫面。Parse 提供專用於此用途的檢視控制器。
 
-<div class="callout_green">
+<div class='tip info'><div>
 觀看[使用登入和註冊檢視教學](/tutorials/login-and-signup-views)，其中提供一組內建檢視，可供您自訂並投入使用 `PFUser` 的應用程式中。
-</div>
+</div></div>
 
 您可以透過將其執行個體化並強制呈現來使用 `PFLogInViewController` 類別：
 
@@ -273,9 +273,9 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 資料導向的 iOS 應用程式大多是 `UITableViewController` 和對應 `UITableView` 的集合。使用 Parse 時，`UITableView` 的每個資料格一般都代表來自 `PFObject` 的資料。`PFQueryTableViewController` 是 `UITableViewController` 的子類別，提供一個抽象層，讓您能輕易從其中一個 Parse 類別顯示資料。
 
-<div class="callout_green">
+<div class='tip info'><div>
 觀看[使用 PFQueryTableViewController 教學](/tutorials/parse-query-table)，從 Parse 應用程式的 `Todo` 類別中顯示物件。
-</div>
+</div></div>
 
 使用 `PFQueryTableViewController` 的方式跟 `UITableViewController` 很接近：
 

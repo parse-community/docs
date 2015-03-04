@@ -47,16 +47,19 @@ Both `findObjectsInBackgroundWithBlock:` and `findObjectsInBackgroundWithTarget:
 ```objc
 // Only use this code if you are already running it in a background
 // thread, or for testing purposes!
+
+// Using PFQuery
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
 NSArray* scoreArray = [query findObjects];
-```
-```swift
-// Only use this code if you are already running it in a background
-// thread, or for testing purposes!
+
+// Using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName = 'Dan Stemkosk'"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 NSArray* scoreArray = [query findObjects];
+```
+```swift
+// no swift example
 ```
 
 ## Specifying Constraints with NSPredicate
@@ -64,12 +67,16 @@ NSArray* scoreArray = [query findObjects];
 To get the most out of `PFQuery` we recommend using its methods listed below to add constraints. However, if you prefer using `NSPredicate`, a subset of the constraints can be specified by providing an `NSPredicate` when creating your `PFQuery`.
 
 ```objc
+// Using PFQuery
 NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName = 'Dan Stemkosk'"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
-```
-```swift
+
+// Using NSPredicate
 let predicate = NSPredicate(format:"playerName = 'Dan Stemkosk'")
 var query = PFQuery(className:"GameScore", predicate:predicate)
+```
+```swift
+// no swift example
 ```
 
 These features are supported:
@@ -93,22 +100,30 @@ The following types of predicates are **not** supported:
 There are several ways to put constraints on the objects found by a `PFQuery`. You can filter out objects with a particular key-value pair with `whereKey:notEqualTo`:
 
 ```objc
+// Using PFQuery
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
-```
-```swift
+
+// Using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Michael Yabuti'"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+```swift
+// no swift example
 ```
 
 You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
 
 ```objc
+// Using PFQuery
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
 [query whereKey:@"playerAge" greaterThan:@18];
-```
-```swift
+
+// Using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Michael Yabuti' AND playerAge > 18"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+```swift
+// no swift example
 ```
 
 You can limit the number of results by setting `limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
@@ -117,7 +132,7 @@ You can limit the number of results by setting `limit`. By default, results are 
 query.limit = 10; // limit to at most 10 results
 ```
 ```swift
-query.limit = 10
+query.limit = 10 // limit to at most 10 results
 ```
 
 If you want exactly one result, a more convenient alternative may be to use `getFirstObject` or `getFirstObjectInBackground` instead of using `findObject`.
@@ -196,60 +211,64 @@ For sortable types, you can also use comparisons in queries:
 ```objc
 // Restricts to wins < 50
 [query whereKey:@"wins" lessThan:@50];
-
-// Restricts to wins <= 50
-[query whereKey:@"wins" lessThanOrEqualTo:@50];
-
-// Restricts to wins > 50
-[query whereKey:@"wins" greaterThan:@50];
-
-// Restricts to wins >= 50
-[query whereKey:@"wins" greaterThanOrEqualTo:@50];
-```
-```swift
-// Restricts to wins < 50
+// Or with NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"wins < 50"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 // Restricts to wins <= 50
+[query whereKey:@"wins" lessThanOrEqualTo:@50];
+// Or with NSPredicate
 predicate = [NSPredicate predicateWithFormat:@"wins <= 50"];
-query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate]
 
 // Restricts to wins > 50
+[query whereKey:@"wins" greaterThan:@50];
+// Or with NSPredicate
 predicate = [NSPredicate predicateWithFormat:@"wins > 50"];
 query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 // Restricts to wins >= 50
+[query whereKey:@"wins" greaterThanOrEqualTo:@50];
+// Or with NSPredicate
 predicate = [NSPredicate predicateWithFormat:@"wins >= 50"];
 query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+```swift
+// no swift example
 ```
 
 If you want to retrieve objects matching several different values, you can use `whereKey:containedIn:`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
 
 ```objc
 // Finds scores from any of Jonathan, Dario, or Shawn
-NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
+// Using PFQuery
+NSArray *names = @[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"];
 [query whereKey:@"playerName" containedIn:names];
+
+// Using NSPredicate
+NSArray *names = @[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"];
+NSPredicate *pred = [NSPredicate predicateWithFormat: @"playerName IN %@", names];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
 ```
 ```swift
-// Finds scores from any of Jonathan, Dario, or Shawn
-NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
-NSPredicate *pred = [NSPredicate predicateWithFormat:      @"playerName IN %@", names];
-PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
+// no swift example
 ```
 
 If you want to retrieve objects that do not match any of several values you can use `whereKey:notContainedIn:`, providing an array of acceptable values. For example, if you want to retrieve scores from players besides those in a list:
 
 ```objc
 // Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
-NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
+// Using PFQuery
+NSArray *names = @[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"];
 [query whereKey:@"playerName" notContainedIn:names];
+
+// Using NSPredicate
+NSArray *names = @[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"];
+NSPredicate *pred = [NSPredicate predicateWithFormat: @"NOT (playerName IN %@)", names];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
 ```
 ```swift
-// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
-NSArray *names = @[@"Jonathan Walsh",    @"Dario Wunsch",    @"Shawn Simon"];
-NSPredicate *pred = [NSPredicate predicateWithFormat:      @"NOT (playerName IN %@)", names];
-PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
+// no swift example
 ```
 
 If you want to retrieve objects that have a particular key set, you can use `whereKeyExists`. Conversely, if you want to retrieve objects without a particular key set, you can use `whereKeyDoesNotExist`.
@@ -257,18 +276,18 @@ If you want to retrieve objects that have a particular key set, you can use `whe
 ```objc
 // Finds objects that have the score set
 [query whereKeyExists:@"score"];
-
-// Finds objects that don't have the score set
-[query whereKeyDoesNotExist:@"score"];
-```
-```swift
-// Finds objects that have the score set
+// Or using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"score IN SELF"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 // Finds objects that don't have the score set
+[query whereKeyDoesNotExist:@"score"];
+// Or using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (score IN SELF)"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+```swift
+// no swift example
 ```
 
 You can use the `whereKey:matchesKey:inQuery:` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
@@ -355,12 +374,15 @@ For keys with an array type, you can find objects where the key's array value co
 
 ```objc
 // Find objects where the array in arrayKey contains 2.
+// Using PFQuery
 [query whereKey:@"arrayKey" equalTo:@2];
-```
-```swift
-// Find objects where the array in arrayKey contains 2.
+
+// Or using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"2 IN arrayKey"];
 PFQuery *query = [PFQuery queryWithClassName:@"MyClass" predicate:predicate];
+```
+```swift
+// no swift example
 ```
 
 You can also find objects where the key's array value contains each of the values 2, 3, and 4 with the following: 
@@ -381,18 +403,21 @@ query.whereKey("arrayKey", containsAllObjectsInArray:[2, 3, 4])
 Use `whereKey:hasPrefix:` to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
 
 ```objc
-// Finds barbecue sauces that start with "Big Daddy's".
+// Finds barbecue sauces that start with "Big Daddy".
+// Using PFQuery
 PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
 [query whereKey:@"name" hasPrefix:@"Big Daddy's"];
+
+// Using NSPredicate
+NSPredicate *pred = [NSPredicate predicateWithFormat:@"name BEGINSWITH 'Big Daddy"];
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce" predicate:pred];
 ```
 ```swift
-// Finds barbecue sauces that start with "Big Daddy's".
-NSPredicate *pred = [NSPredicate predicateWithFormat:@"name BEGINSWITH 'Big Daddy'"];
-PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce" predicate:pred];
+// no swift example
 ```
 
 <div class='tip info'><div>
-  If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/2013/03/19/implementing-scalable-search-on-a-nosql-backend/).
+If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/2013/03/19/implementing-scalable-search-on-a-nosql-backend/).
 </div></div>
 
 ## Relational Queries
@@ -401,15 +426,15 @@ There are several ways to issue queries for relational data. If you want to retr
 
 ```objc
 // Assume PFObject *myPost was previously created.
+// Using PFQuery
 PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
 [query whereKey:@"post" equalTo:myPost];
 
 [query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
     // comments now contains the comments for myPost
 }];
-```
-```swift
-// Assume PFObject *myPost was previously created.
+
+// Using NSPredicate
 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"post = %@", myPost];
 PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
 
@@ -417,20 +442,28 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
     // comments now contains the comments for myPost
 }];
 ```
+```swift
+// no swift example
+```
 
 You can also do relational queries by `objectId`:
 
 ```objc
+// Using PFQuery
 [query whereKey:@"post" equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+
+// Using NSPredicate
+[NSPredicate predicateWithFormat:@"post = %@",
+    [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
 ```
 ```swift
-[NSPredicate predicateWithFormat:@"post = %@",
- [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+// no swift example
 ```
 
 If you want to retrieve objects where a field contains a `PFObject` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
 
 ```objc
+// Using PFQuery
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
 [innerQuery whereKeyExists:@"image"];
 PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
@@ -438,8 +471,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
     // comments now contains the comments for posts with images
 }];
-```
-```swift
+
+// Using NSPredicate
 NSPredicate *innerPred = [NSPredicate predicateWithFormat:@"image IN SELF"];
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post" predicate:innerPred];
 
@@ -450,10 +483,14 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
     // comments now contains the comments for posts with images
 }];
 ```
+```swift
+// no swift example
+```
 
 If you want to retrieve objects where a field contains a `PFObject` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
 ```objc
+// Using PFQuery
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
 [innerQuery whereKeyExists:@"image"];
 PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
@@ -461,8 +498,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
     // comments now contains the comments for posts without images
 }];
-```
-```swift
+
+// Using NSPredicate
 NSPredicate *innerPred = [NSPredicate predicateWithFormat:@"image IN SELF"];
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post" predicate:innerPred];
 
@@ -472,6 +509,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
 [query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
     // comments now contains the comments for posts without images
 }];
+```
+```swift
+// no swift example
 ```
 
 In some situations, you want to return multiple types of related objects in one query. You can do this with the `includeKey:` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:

@@ -6,9 +6,9 @@
 
 Parseを利用してモバイルアプリの利用者を管理している場合、`PFUser`クラスには既に精通していることでしょう。アプリでは、`PFUser`をログインさせる画面を表示させるときがあるでしょう。Parseではそれを実行するビューコントローラーを提供しています。
 
-<div class="callout_green">
+<div class='tip info'><div>
 [ログインおよび登録ビューの使用に関するチュートリアル](/tutorials/login-and-signup-views)では、すぐにカスタマイズでき、`PFUser`を使用するアプリで利用できる内蔵型ビューを提供しています。
-</div>
+</div></div>
 
 `PFLogInViewController`クラスを使用し、例示化してモーダルで表示します。
 
@@ -277,9 +277,9 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 データ用のiOSアプリはほとんどの場合、`UITableViewController`の集合体で、`UITableView`に対応しています。Parseを使用する場合は、`UITableView`の各セルでは通常`PFObject`からのデータを表示します。`PFQueryTableViewController`は`UITableViewController`のサブクラスで、Parseクラスの1つからのデータを簡単に表示できる、抽象化レイヤーを提供します。
 
-<div class="callout_green">
+<div class='tip info'><div>
 Parseアプリケーションの`Todo`クラスからのオブジェクトを表示するには、[PFQueryTableViewControllerの使用についてのチュートリアル](/tutorials/parse-query-table)をご覧ください。
-</div>
+</div></div>
 
 `PFQueryTableViewController`は`UITableViewController`を使用するときのように使用します。
 
@@ -289,7 +289,7 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 4.  `queryForTable`メソッドを上書きして、テーブルのオブジェクトを取得するのに使用するカスタム`PFQuery`を作成します。
 5.  `tableView:cellForRowAtIndexPath:object:`を上書きして、それぞれの`PFObject`に合わせたカスタムセルを返します。
 6.  カスタムセルクラスを実装し、`PFTableViewCell`クラスから継承されるようにします。
-<li>ビューがロードされたら、クラスは作成したクエリを通じて自動的に`PFObject`を取得して、テーブルにロードします。ページネーションと「スライドして更新」はすでに指定されているので、すぐに利用できます。
+7.  ビューがロードされたら、クラスは作成したクエリを通じて自動的に`PFObject`を取得して、テーブルにロードします。ページネーションと「スライドして更新」はすでに指定されているので、すぐに利用できます。
 
 クラスによってインデックスパスを調整するのではなく、`PFObject`と`UITableViewCell`間の一対一マッピングについて考えることができます。また、設定することなく次の機能を使用できます。
 

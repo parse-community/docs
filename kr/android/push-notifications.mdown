@@ -299,7 +299,7 @@ wpPush.sendPushInBackground();
 
 ## 푸시 예약
 
-<div class="callout_green">현재 Android SDK에서는 예약된 푸시 알림 전송이 지원되지 않습니다. [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) 또는 웹 콘솔을 참조하세요.</div>
+현재 Android SDK에서는 예약된 푸시 알림 전송이 지원되지 않습니다. [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) 또는 웹 콘솔을 참조하세요.
 
 ## 푸시 수신
 

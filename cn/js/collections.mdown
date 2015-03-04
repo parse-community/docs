@@ -83,9 +83,9 @@ collection.reset([
 
 如有您有现成的 [Backbone](http://documentcloud.github.com/backbone/) 应用程序，可以轻松地转化它，以便使用我们的 JavaScript SDK。转化完成后，您会得到一系列包含应用功能的静态文件。
 
-<div class="callout_green">
+<div class='tip info'><div>
 请阅读我们的 [JavaScript 待办事项应用教程](/tutorials/todo-app-with-javascript)，了解如何把 Parse 用作后台存留用户帐户和数据，继而创建[标准 Backbone 待办事项应用程序](http://addyosmani.github.com/todomvc/)。
-</div>
+</div></div>
 
 我们的 JavaScript SDK 与 Backbone 兼容，这意味着我们的 `Parse.Object` 和 `Parse.Collection` 经过细微调整可以兼容 `Backbone.Model` 和 `Backbone.Collection`。以下是转化应用的示例：
 
