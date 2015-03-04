@@ -1,5 +1,3 @@
-Our JavaScript SDK does not require any external libraries. The only exception is the `Parse.View` class, which requires that you provide jQuery or a jQuery compatible `$` method.
-
 # Objects
 
 ## Parse.Object

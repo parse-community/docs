@@ -1,0 +1,11 @@
+# Getting Started
+
+If you haven't set up your project yet, please [head over to the QuickStart guide](/apps/quickstart#php/blank) to get up and running. You can also check out our [API Reference](http://parseplatform.github.io/parse-php-sdk/namespaces/Parse.html) for more detailed information about our SDK.
+
+The Parse platform provides a complete backend solution for your mobile application. Generally, our goal is to eliminate the need for managing servers and writing server-side code. Our PHP SDK is for those applications and situations where server-side code is necessary, or simply prefered.
+
+The Parse PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary.  Check out the [https://github.com/ParsePlatform/parse-php-sdk](GitHub repository) for more information.
+
+The Parse PHP SDK requires version 5.4 or greater of the PHP runtime.
+
+On Parse, you create an App for each of your applications. Each App has its own application id and REST API key that you apply to your web app. Your account on Parse can accommodate multiple Apps. This is useful even if you have one application, since you can deploy different versions for test and production.
