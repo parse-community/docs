@@ -243,7 +243,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
 
 なお、モバイルアプリに多数の異なるバージョンがある場合も、それらによって使われるCloud Codeのバージョンは1つです。このことを利用すると、たとえばアプリのリリース当初には適切な入力データ検証機能が備わっていなくても、後から`beforeSave`による検証を追加して問題を修正できる可能性があります。
 
-Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`beforeSave`を使いたい場合、第1引数にはStringを渡すのではなく、次のように、そのクラス自体を渡します。
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/api/symbols/Parse.User.html))に関して`beforeSave`を使いたい場合、第1引数にはStringを渡すのではなく、次のように、そのクラス自体を渡します。
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -293,11 +293,11 @@ Parse.Cloud.afterSave("Comment", function(request) {
 
 ハンドラーがどのように終了した場合も、ハンドラーの終了後には、クライアントの保存リクエストに対して成功を示す応答が返されます。たとえハンドラー内で例外が送出されたとしても、クライアントに返されるのは成功の応答です。ハンドラーの実行中に発生したエラーは、Cloud Codeのログに記録されます。
 
-Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`afterSave`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/api/symbols/Parse.User.html))に関して`afterSave`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
 
 ### 削除時にコードを実行
 
-オブジェクトを削除する前にカスタムCloud Codeを実行するには、`beforeDelete`メソッドを使います。用途としては、Access Control List ([ACL](/docs/js/symbols/Parse.ACL.html))よりも複雑な削除ポリシーによる削除制限を実装する場合などが考えられます。たとえば、写真アルバムアプリでは1冊のアルバムに多数の写真が関連付けられています。アルバムの中身が空ではないときに、ユーザーが間違ってアルバム全体を削除してしまうのを防ぎたい場合は、次のような関数を記述することができます。
+オブジェクトを削除する前にカスタムCloud Codeを実行するには、`beforeDelete`メソッドを使います。用途としては、Access Control List ([ACL](/docs/js/api/symbols/Parse.ACL.html))よりも複雑な削除ポリシーによる削除制限を実装する場合などが考えられます。たとえば、写真アルバムアプリでは1冊のアルバムに多数の写真が関連付けられています。アルバムの中身が空ではないときに、ユーザーが間違ってアルバム全体を削除してしまうのを防ぎたい場合は、次のような関数を記述することができます。
 
 ```js
 Parse.Cloud.beforeDelete("Album", function(request, response) {
@@ -320,7 +320,7 @@ Parse.Cloud.beforeDelete("Album", function(request, response) {
 
 `response.error`が呼び出された場合、`Album`オブジェクトは削除されず、クライアントにエラーが返されます。`response.success`が呼び出された場合、オブジェクトは正常に削除されます。これら2つのコールバックのうち、どちらかを呼び出すコードを作成してください。
 
-Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`beforeDelete`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/api/symbols/Parse.User.html))に関して`beforeDelete`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
 
 ### 削除の後にアクションを実行
 
@@ -350,7 +350,7 @@ Parse.Cloud.afterDelete("Post", function(request) {
 
 ハンドラーがどのように終了した場合も、ハンドラーの終了後には、クライアントの削除リクエストに対して成功を示す応答が返されます。たとえハンドラー内で例外が送出されたとしても、クライアントに返されるのは成功の応答です。ハンドラーの実行中に発生したエラーは、Cloud Codeのログに記録されます。
 
-Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/symbols/Parse.User.html))に関して`afterDelete`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
+Parse JavaScript SDK内の事前定義済みクラス(例: [Parse.User](/docs/js/api/symbols/Parse.User.html))に関して`afterDelete`を使いたい場合、第1引数にはStringを渡すのではなく、そのクラス自体を渡します。
 
 ### リソースの制限
 

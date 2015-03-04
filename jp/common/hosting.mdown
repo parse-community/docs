@@ -97,9 +97,9 @@ $ parse deploy
 
 Cloud CodeとExpressを使用して、複数のページを持つ動的なウェブアプリを作成できます。[Express](http://expressjs.com/)のフレームワークでは、リクエストのルーティング、Cookieの処理、テンプレートのレンダリングなど、強力なツールをすぐに使用できます。また[Cloud Code](/docs/jp/cloud_code_guide)では、Parseのデータを利用したり、[HTTPリクエストの送信](/docs/jp/cloud_code_guide#networking)などの機能を使用したりすることができます。
 
-Parseを使用する際には、Expressを使用してページが複数あるウェブアプリを作成するか、クライアント側のParse JavaScript SDKを使用して1ページのBackboneアプリを作成するかを選択できます。Expressの方式には、作成したウェブサイトが検索エンジンでクロールされるという利点があります。またクライアント側のBackboneによる方式では、アプリの応答性がよくなる場合があります。ExpressとCloud Codeの詳細な説明については、「[Express API docs](/docs/js/symbols/express.html)」を参照してください。
+Parseを使用する際には、Expressを使用してページが複数あるウェブアプリを作成するか、クライアント側のParse JavaScript SDKを使用して1ページのBackboneアプリを作成するかを選択できます。Expressの方式には、作成したウェブサイトが検索エンジンでクロールされるという利点があります。またクライアント側のBackboneによる方式では、アプリの応答性がよくなる場合があります。ExpressとCloud Codeの詳細な説明については、「[Express API docs](/docs/js/api/symbols/express.html)」を参照してください。
 
-Expressを使用すると、アプリを迅速に起動および実行できるようになりますが、より低いレベルの[Node.js](http://nodejs.org/)のようなHTTPインターフェイスを望まれるのであれば、それも使用できます。詳細については、「[HTTP interface API docs](/docs/js/symbols/http.html)」を参照してください。ExpressまたはNode.jsを使用する場合は、まず`public/index.html`を削除して、カスタマイズされたハンドラ関数にリクエストが届くようにする必要があります。
+Expressを使用すると、アプリを迅速に起動および実行できるようになりますが、より低いレベルの[Node.js](http://nodejs.org/)のようなHTTPインターフェイスを望まれるのであれば、それも使用できます。詳細については、「[HTTP interface API docs](/docs/js/api/symbols/http.html)」を参照してください。ExpressまたはNode.jsを使用する場合は、まず`public/index.html`を削除して、カスタマイズされたハンドラ関数にリクエストが届くようにする必要があります。
 
 このガイドでは、Express APIを使用してウェブアプリを作成する方法について説明します。
 
@@ -174,24 +174,24 @@ app.post('/echo', function(req, res) {
 
 リクエストハンドラは、すべて`app.VERB`で始まります。ここで`VERB`は、`get`、`post`、`put`、`delete`といった標準的なHTTP動詞のいずれかになります。これによって、このハンドラで応答するHTTPリクエストのタイプをExpressに伝えます。
 
-次に、`'/echo'`パラメータを使用して、このリクエストハンドラの応答先のURLパス(ルートとも呼ばれます)を指定します。次に、リクエストおよびレスポンスオブジェクトに取り込んで、リクエストの処理ロジックを実行するための関数を指定します。`express.bodyParser`ミドルウェアを使用していれば、`req.body`に入力データが設定されます。たとえば、未加工のリクエストボディが`{ "message": "hi" }`の場合は、上記の`req.body.message`には`'hi'`という値が入ります。最後に、[`res.send()`](/docs/js/symbols/express.Response.html#send)によってレスポンスオブジェクトに指定した文字列を入れるようにExpressに伝えます。
+次に、`'/echo'`パラメータを使用して、このリクエストハンドラの応答先のURLパス(ルートとも呼ばれます)を指定します。次に、リクエストおよびレスポンスオブジェクトに取り込んで、リクエストの処理ロジックを実行するための関数を指定します。`express.bodyParser`ミドルウェアを使用していれば、`req.body`に入力データが設定されます。たとえば、未加工のリクエストボディが`{ "message": "hi" }`の場合は、上記の`req.body.message`には`'hi'`という値が入ります。最後に、[`res.send()`](/docs/js/api/symbols/express.Response.html#send)によってレスポンスオブジェクトに指定した文字列を入れるようにExpressに伝えます。
 
 ### Expressのミドルウェア
 
 ミドルウェアとは、リクエストがリクエストハンドラに到達する前に処理を実行するモジュールです。これらのコンポーネントによって、未加工のHTTPリクエストがリクエストオブジェクトに変換され、リクエストハンドラで処理しやすくなります。Cloud Codeでは、Expressから提供されている次のミドルウェアに対応しています。
 
-*   [`express.basicAuth()`](/docs/js/symbols/express.html#.basicAuth) - ウェブサイトにHTTPのBasic認証を設定できます。
-*   [`express.bodyParser()`](/docs/js/symbols/express.html#.bodyParser) - HTTPのリクエストボディ(JSONまたはwww形式でエンコード)を`request.body`オブジェクトに変換します。
-*   [`express.methodOverride()`](/docs/js/symbols/express.html#.methodOverride) - HTTPポストだけをサポートする標準的なウェブフォームです。このミドルウェアによって、ウェブフォームからHTTPリクエストのputやdeleteがExpressに宛てて発行されます。これは特にRESTの原則に厳密に従いたい場合に便利です。
-*   [`express.cookieParser()`](/docs/js/symbols/express.html#.cookieParser) - ブラウザから送られるリクエストのcookieを読み取って、これを`request.cookies`オブジェクトおよび`express.request.signedCookies`オブジェクトに送ります。
-*   [`express.cookieSession()`](/docs/js/symbols/express.html#.cookieSession) - `request.session`オブジェクトを設定して、セッションのデータを署名付きcookieに保管できます。
-*   [`express.csrf()`](/docs/js/symbols/express.html#.csrf) - クロスサイトリクエストフォージェリから保護します。
+*   [`express.basicAuth()`](/docs/js/api/symbols/express.html#.basicAuth) - ウェブサイトにHTTPのBasic認証を設定できます。
+*   [`express.bodyParser()`](/docs/js/api/symbols/express.html#.bodyParser) - HTTPのリクエストボディ(JSONまたはwww形式でエンコード)を`request.body`オブジェクトに変換します。
+*   [`express.methodOverride()`](/docs/js/api/symbols/express.html#.methodOverride) - HTTPポストだけをサポートする標準的なウェブフォームです。このミドルウェアによって、ウェブフォームからHTTPリクエストのputやdeleteがExpressに宛てて発行されます。これは特にRESTの原則に厳密に従いたい場合に便利です。
+*   [`express.cookieParser()`](/docs/js/api/symbols/express.html#.cookieParser) - ブラウザから送られるリクエストのcookieを読み取って、これを`request.cookies`オブジェクトおよび`express.request.signedCookies`オブジェクトに送ります。
+*   [`express.cookieSession()`](/docs/js/api/symbols/express.html#.cookieSession) - `request.session`オブジェクトを設定して、セッションのデータを署名付きcookieに保管できます。
+*   [`express.csrf()`](/docs/js/api/symbols/express.html#.csrf) - クロスサイトリクエストフォージェリから保護します。
 
 この他に、次のようなミドルウェアもあります。
 
-*   [`parseExpressRawBody()`](/docs/js/symbols/parseExpressRawBody.html) - 未加工のリクエストボディに`req.body`の[`Buffer`](/docs/js/symbols/Buffer.html)オブジェクトとしてアクセスできます。この機能はリクエスト内のバイトに直接アクセスしたい場合、またはリクエストハンドラの独自のパーサーを使用してリクエストボディを他のデータ形式(XMLなど)として読み取りたい場合に便利です。
+*   [`parseExpressRawBody()`](/docs/js/api/symbols/parseExpressRawBody.html) - 未加工のリクエストボディに`req.body`の[`Buffer`](/docs/js/api/symbols/Buffer.html)オブジェクトとしてアクセスできます。この機能はリクエスト内のバイトに直接アクセスしたい場合、またはリクエストハンドラの独自のパーサーを使用してリクエストボディを他のデータ形式(XMLなど)として読み取りたい場合に便利です。
 
-アプリにミドルウェアを追加するには、[`app.use()`](/docs/js/symbols/express.Application.html#use)を使用します。Expressの標準のミドルウェアは関数であり、それに応じた形式で呼び出す必要があります(たとえば`app.use(express.csrf()`)。`app.VERB()`を使用してリクエストハンドラを登録する前に、アプリのミドルウェアを追加する必要があります。
+アプリにミドルウェアを追加するには、[`app.use()`](/docs/js/api/symbols/express.Application.html#use)を使用します。Expressの標準のミドルウェアは関数であり、それに応じた形式で呼び出す必要があります(たとえば`app.use(express.csrf()`)。`app.VERB()`を使用してリクエストハンドラを登録する前に、アプリのミドルウェアを追加する必要があります。
 
 Expressのミドルウェアをグローバルアプリの設定セクションで設定するときには、上記の順序に従ってください。不要なミドルウェアは除外できます。ミドルウェアの順序は重要です。後から設定したミドルウェアは、先に設定されたミドルウェアによって作成されたデータの影響を受けるためです。
 
@@ -231,7 +231,7 @@ html
 
 各テンプレートエンジンの構文の詳細については、「[EJS](https://github.com/visionmedia/ejs)」および「[Jade](https://github.com/visionmedia/jade)」を参照してください。
 
-テンプレートをレンダリングするには、[`res.render()`](/docs/js/symbols/express.Response.html#render)を呼び出します。最初の引数は、テンプレートファイルの名前です。ファイルに拡張子が付けられていない場合は、Expressによってアプリのテンプレートエンジンの設定に対応する拡張子を持つファイルが検索されます。2番目の引数は、テンプレート内のすべての変数とその値を記述したJSONオブジェクトです。テンプレート内の各変数はプレースホルダとして機能し、テンプレートをレンダリングする際に実際の値に置き換えられます。
+テンプレートをレンダリングするには、[`res.render()`](/docs/js/api/symbols/express.Response.html#render)を呼び出します。最初の引数は、テンプレートファイルの名前です。ファイルに拡張子が付けられていない場合は、Expressによってアプリのテンプレートエンジンの設定に対応する拡張子を持つファイルが検索されます。2番目の引数は、テンプレート内のすべての変数とその値を記述したJSONオブジェクトです。テンプレート内の各変数はプレースホルダとして機能し、テンプレートをレンダリングする際に実際の値に置き換えられます。
 
 ### ユーザーによる入力の取得
 
@@ -290,9 +290,9 @@ app.post('/hello', function(req, res) {
 
 `parseExpressCookieSession`ミドルウェアを使用して、[`Parse.User`](/docs/jp/js_guide#users)の認証とセッション管理機能をExpressアプリに加えることができます。Cloud Codeで`Parse.User.logIn()`を呼び出すだけで、このミドルウェアによってユーザーセッションが自動的に管理されます。
 
-ユーザーにログイン情報を求めるウェブフォームを使用して、このフォームからデータを受け取ったときにCloud Codeにユーザーをログインさせることができます。`Parse.User.logIn()`を呼び出すと、このミドルウェアによってユーザーのブラウザにcookieが自動的に設定されます。その後、同じブラウザからHTTPリクエストが送られると、このミドルウェアがこのcookieを使用してCloud Codeに[現在のユーザー](/docs/jp/js_guide#users-current)を設定します。この仕組みによって、Cloud Codeで[ACL](/docs/jp/js_guide#users-acls)が正しく機能し、必要に応じて現在のユーザーオブジェクト全体を取得できます。最後に、`Parse.User.logOut()`を呼び出してユーザーをCloud Codeからログアウトさせると、このミドルウェアによってブラウザのcookieが自動的に削除されます。サンプルアプリのコードについては、このミドルウェアの[マニュアル](/docs/js/symbols/parseExpressCookieSession.html)を参照してください。
+ユーザーにログイン情報を求めるウェブフォームを使用して、このフォームからデータを受け取ったときにCloud Codeにユーザーをログインさせることができます。`Parse.User.logIn()`を呼び出すと、このミドルウェアによってユーザーのブラウザにcookieが自動的に設定されます。その後、同じブラウザからHTTPリクエストが送られると、このミドルウェアがこのcookieを使用してCloud Codeに[現在のユーザー](/docs/jp/js_guide#users-current)を設定します。この仕組みによって、Cloud Codeで[ACL](/docs/jp/js_guide#users-acls)が正しく機能し、必要に応じて現在のユーザーオブジェクト全体を取得できます。最後に、`Parse.User.logOut()`を呼び出してユーザーをCloud Codeからログアウトさせると、このミドルウェアによってブラウザのcookieが自動的に削除されます。サンプルアプリのコードについては、このミドルウェアの[マニュアル](/docs/js/api/symbols/parseExpressCookieSession.html)を参照してください。
 
-ユーザーのデータを取り扱う際には、可能な限りHTTPSを使用する必要があります。`parseExpressCookieSession`ミドルウェアでは、アプリとユーザーを保護するためにHTTPSを使用することを求めています。利便性向上のために、すべてのHTTPリクエストをHTTPSにリダイレクトする`parseExpressHttpsRedirect`ミドルウェアもあります。詳細については、その[マニュアル](/docs/js/symbols/parseExpressHttpsRedirect.html)を参照してください。
+ユーザーのデータを取り扱う際には、可能な限りHTTPSを使用する必要があります。`parseExpressCookieSession`ミドルウェアでは、アプリとユーザーを保護するためにHTTPSを使用することを求めています。利便性向上のために、すべてのHTTPリクエストをHTTPSにリダイレクトする`parseExpressHttpsRedirect`ミドルウェアもあります。詳細については、その[マニュアル](/docs/js/api/symbols/parseExpressHttpsRedirect.html)を参照してください。
 
 ### 静的なコンテンツ
 

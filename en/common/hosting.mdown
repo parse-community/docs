@@ -97,9 +97,9 @@ If you visit your hosted site over HTTPS using your custom domain, you might see
 
 You can use Cloud Code and Express to build multi-page dynamic web apps. With the [Express](http://expressjs.com/) framework, you have many powerful tools at your fingertips, such as request routing, cookie handling, and template rendering. With [Cloud Code](/docs/cloud_code_guide), you have access to functionality such as interacting with Parse data and [sending HTTP requests](/docs/cloud_code_guide#networking).
 
-With Parse, you have a choice of building either a multi-page web app with Express, or a single-page Backbone app with the Parse JavaScript SDK  on the client side.  The Express approach has the advantage that your website  can be crawled by search engines, while the client-side Backbone approach may  result in more responsive apps.  You can find details about Express and Cloud Code in our [Express API docs](/docs/js/symbols/express.html).
+With Parse, you have a choice of building either a multi-page web app with Express, or a single-page Backbone app with the Parse JavaScript SDK  on the client side.  The Express approach has the advantage that your website  can be crawled by search engines, while the client-side Backbone approach may  result in more responsive apps.  You can find details about Express and Cloud Code in our [Express API docs](/docs/js/api/symbols/express.html).
 
-Express can help you get your app up and running quickly, but if you  prefer a lower-level [Node.js](http://nodejs.org/)-like  HTTP interface, we have that too.  For more details, please see our [HTTP interface API docs](/docs/js/symbols/http.html). If you choose to use Express or Node.js, you'll first need to delete `public/index.html` so that requests can get through to your custom handler functions.
+Express can help you get your app up and running quickly, but if you  prefer a lower-level [Node.js](http://nodejs.org/)-like  HTTP interface, we have that too.  For more details, please see our [HTTP interface API docs](/docs/js/api/symbols/http.html). If you choose to use Express or Node.js, you'll first need to delete `public/index.html` so that requests can get through to your custom handler functions.
 
 In this guide, we'll focus on building web apps with the Express API.
 
@@ -174,24 +174,24 @@ app.post('/echo', function(req, res) {
 
 Every request handler starts with `app.VERB`, where the `VERB` could be any of the standard HTTP verbs, such as `get`, `post`, `put`, or `delete`. This tells Express what type of HTTP request this handler should respond to.
 
-Next, the `'/echo'` parameter specifies what url path (also known as route) that this request handler should respond to.  Then, we specify a function that takes in a request and response object to perform the request handling logic. As long as we include the `express.bodyParser` middleware, the `req.body` should be populated with input data. For example, if the raw request body is `{ "message": "hi" }`, then `req.body.message` above will have the value `'hi'`.  Finally, the [`res.send()`](/docs/js/symbols/express.Response.html#send) tells Express to populate the response object with the specified string.
+Next, the `'/echo'` parameter specifies what url path (also known as route) that this request handler should respond to.  Then, we specify a function that takes in a request and response object to perform the request handling logic. As long as we include the `express.bodyParser` middleware, the `req.body` should be populated with input data. For example, if the raw request body is `{ "message": "hi" }`, then `req.body.message` above will have the value `'hi'`.  Finally, the [`res.send()`](/docs/js/api/symbols/express.Response.html#send) tells Express to populate the response object with the specified string.
 
 ### Express Middleware
 
 Middleware are modules that process the request before it reaches your request handler.  These components convert a raw HTTP request into a request object that you can easily work with in your request handler. Cloud Code supports the following Express-provided middleware:
 
-*   [`express.basicAuth()`](/docs/js/symbols/express.html#.basicAuth) - Allows you to set up HTTP basic authentication for your website.
-*   [`express.bodyParser()`](/docs/js/symbols/express.html#.bodyParser) - Converts the HTTP request body (JSON or www-form-encoded) into the `request.body` object.
-*   [`express.methodOverride()`](/docs/js/symbols/express.html#.methodOverride) - A standard web form only supports HTTP post.  This middleware lets the web form issue put/delete HTTP requests to Express.  This is especially useful when you want to closely follow REST-ful principles.
-*   [`express.cookieParser()`](/docs/js/symbols/express.html#.cookieParser) - Reads the request cookie sent by the browser, and puts that into the `request.cookies` and `express.request.signedCookies` objects.
-*   [`express.cookieSession()`](/docs/js/symbols/express.html#.cookieSession) - Allows you to store session data in a signed cookie by setting the `request.session` object
-*   [`express.csrf()`](/docs/js/symbols/express.html#.csrf) - Protects against cross-site request forgery.
+*   [`express.basicAuth()`](/docs/js/api/symbols/express.html#.basicAuth) - Allows you to set up HTTP basic authentication for your website.
+*   [`express.bodyParser()`](/docs/js/api/symbols/express.html#.bodyParser) - Converts the HTTP request body (JSON or www-form-encoded) into the `request.body` object.
+*   [`express.methodOverride()`](/docs/js/api/symbols/express.html#.methodOverride) - A standard web form only supports HTTP post.  This middleware lets the web form issue put/delete HTTP requests to Express.  This is especially useful when you want to closely follow REST-ful principles.
+*   [`express.cookieParser()`](/docs/js/api/symbols/express.html#.cookieParser) - Reads the request cookie sent by the browser, and puts that into the `request.cookies` and `express.request.signedCookies` objects.
+*   [`express.cookieSession()`](/docs/js/api/symbols/express.html#.cookieSession) - Allows you to store session data in a signed cookie by setting the `request.session` object
+*   [`express.csrf()`](/docs/js/api/symbols/express.html#.csrf) - Protects against cross-site request forgery.
 
 In addition, we've provided the following custom middleware:
 
-*   [`parseExpressRawBody()`](/docs/js/symbols/parseExpressRawBody.html) - Allows you to access the raw request body as a [`Buffer`](/docs/js/symbols/Buffer.html) object at `req.body`.  This is useful if you want to directly access bytes in the request, or if you want to read the request body as other data formats (e.g. XML) using your own parser in the request handler.
+*   [`parseExpressRawBody()`](/docs/js/api/symbols/parseExpressRawBody.html) - Allows you to access the raw request body as a [`Buffer`](/docs/js/api/symbols/Buffer.html) object at `req.body`.  This is useful if you want to directly access bytes in the request, or if you want to read the request body as other data formats (e.g. XML) using your own parser in the request handler.
 
-You can add middleware to your app with [`app.use()`](/docs/js/symbols/express.Application.html#use).  The standard Express middleware are functions, so make sure you call them accordingly (e.g. `app.use(express.csrf()`). You should add your app's middleware before registering any request handlers with `app.VERB()`.
+You can add middleware to your app with [`app.use()`](/docs/js/api/symbols/express.Application.html#use).  The standard Express middleware are functions, so make sure you call them accordingly (e.g. `app.use(express.csrf()`). You should add your app's middleware before registering any request handlers with `app.VERB()`.
 
 Please follow the above order when configuring Express middleware in the global app configuration section.  You may leave out any middleware that you don't need.  The order is important because later middleware may depend on the data created by earlier ones.
 
@@ -231,7 +231,7 @@ html
 
 You can find more information about the syntax for each template engine at the homepages for [EJS](https://github.com/visionmedia/ejs) and [Jade](https://github.com/visionmedia/jade).
 
-You render templates by calling [`res.render()`](/docs/js/symbols/express.Response.html#render). The first argument is the template file name. If it does not have a file extension, Express will look for the file with the extension matching your app's template engine setting. The second argument is a JSON object that contains all the variables in the template and their corresponding values.  Each variable in the template serves as a placeholder, and is replaced by its actual value when you render the template.
+You render templates by calling [`res.render()`](/docs/js/api/symbols/express.Response.html#render). The first argument is the template file name. If it does not have a file extension, Express will look for the file with the extension matching your app's template engine setting. The second argument is a JSON object that contains all the variables in the template and their corresponding values.  Each variable in the template serves as a placeholder, and is replaced by its actual value when you render the template.
 
 ### Getting User Input
 
@@ -290,9 +290,9 @@ Suppose the user types "hi" into the text box, and then clicks the "Update Greet
 
 You can add [`Parse.User`](/docs/js_guide#users) authentication and session management to your Express app using the `parseExpressCookieSession` middleware. You just need to call `Parse.User.logIn()` in Cloud Code, and this middleware will automatically manage the user session for you.
 
-You can use a web form to ask for the user's login credentials, and log in the user in Cloud Code when you receive data from this form.  After you call `Parse.User.logIn()`, this middleware will automatically set a cookie in the user's browser.  During subsequent HTTP  requests from the same browser, this middleware will use this cookie to automatically set the  [current user](/docs/js_guide#users-current) in Cloud Code. This will make [ACLs](/docs/js_guide#users-acls) work properly in Cloud Code,  and allow you to retrieve the entire current user object if needed.  Finally, when you  log out a user in Cloud Code by calling `Parse.User.logOut()`, this middleware will  automatically remove the browser cookie.  For sample app code, please see the  [documentation](/docs/js/symbols/parseExpressCookieSession.html) for this middleware.
+You can use a web form to ask for the user's login credentials, and log in the user in Cloud Code when you receive data from this form.  After you call `Parse.User.logIn()`, this middleware will automatically set a cookie in the user's browser.  During subsequent HTTP  requests from the same browser, this middleware will use this cookie to automatically set the  [current user](/docs/js_guide#users-current) in Cloud Code. This will make [ACLs](/docs/js_guide#users-acls) work properly in Cloud Code,  and allow you to retrieve the entire current user object if needed.  Finally, when you  log out a user in Cloud Code by calling `Parse.User.logOut()`, this middleware will  automatically remove the browser cookie.  For sample app code, please see the  [documentation](/docs/js/api/symbols/parseExpressCookieSession.html) for this middleware.
 
-When you work with user data, you should use HTTPS whenever possible.  To protect your app and your users, the `parseExpressCookieSession` middleware requires  you to use HTTPS.  For your convenience, we also provide a `parseExpressHttpsRedirect`  middleware for redirecting all HTTP requests to HTTPS.  Please see its  [documentation](/docs/js/symbols/parseExpressHttpsRedirect.html) for details.
+When you work with user data, you should use HTTPS whenever possible.  To protect your app and your users, the `parseExpressCookieSession` middleware requires  you to use HTTPS.  For your convenience, we also provide a `parseExpressHttpsRedirect`  middleware for redirecting all HTTP requests to HTTPS.  Please see its  [documentation](/docs/js/api/symbols/parseExpressHttpsRedirect.html) for details.
 
 ### Static Content
 

@@ -254,7 +254,7 @@ If `response.error` is called, the `Review` object will not be saved, and the cl
 
 One useful tip is that even if your mobile app has many different versions, the same version of Cloud Code applies to all of them. Thus, if you launch an application that doesn't correctly check the validity of input data, you can still fix this problem by adding a validation with `beforeSave`.
 
-If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself:
+If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself:
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -304,11 +304,11 @@ Parse.Cloud.afterSave("Comment", function(request) {
 
 The client will receive a successful response to the save request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
-If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 ### Running Code On Delete
 
-You can run custom Cloud Code before an object is deleted. You can do this with the `beforeDelete` method. For instance, this can be used to implement a restricted delete policy that is more sophisticated than what can be expressed through  [ACLs](/docs/js/symbols/Parse.ACL.html). For example, suppose you have a photo album app, where many photos are associated with each album, and you want to prevent the user from deleting an album if it still has a photo in it. You can do that by writing a function like this:
+You can run custom Cloud Code before an object is deleted. You can do this with the `beforeDelete` method. For instance, this can be used to implement a restricted delete policy that is more sophisticated than what can be expressed through  [ACLs](/docs/js/api/symbols/Parse.ACL.html). For example, suppose you have a photo album app, where many photos are associated with each album, and you want to prevent the user from deleting an album if it still has a photo in it. You can do that by writing a function like this:
 
 ```js
 Parse.Cloud.beforeDelete("Album", function(request, response) {
@@ -331,7 +331,7 @@ Parse.Cloud.beforeDelete("Album", function(request, response) {
 
 If `response.error` is called, the `Album` object will not be deleted, and the client will get an error. If `response.success` is called, the object will be deleted normally. Your code should call one of these two callbacks.
 
-If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 
 ### Performing Actions After a Delete
@@ -362,7 +362,7 @@ The `afterDelete` handler can access the object that was deleted through `reques
 
 The client will receive a successful response to the delete request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
-If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 ### Resource Limits
 
@@ -725,7 +725,7 @@ The response object passed into the `success` and `error` will contain:
 2.  **`buffer`** - The raw byte representation of the response body.
 3.  **`text`** - The raw response body.
 4.  **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
-5.  **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/symbols/Parse.Cloud.HTTPResponse.html) objects.
+5.  **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/symbols/Parse.Cloud.HTTPResponse.html) objects.
 
 ## Modules
 
@@ -875,7 +875,7 @@ Mailgun.sendEmail({
 });
 ```
 
-For additional information about the Mailgun Cloud Module, take a look at the [API Reference](/docs/js/symbols/Mailgun.html).
+For additional information about the Mailgun Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mailgun.html).
 
 ### Mandrill
 
@@ -917,7 +917,7 @@ Mandrill.sendEmail({
 });
 ```
 
-For additional information about the Mandrill Cloud Module, take a look at the [API Reference](/docs/js/symbols/Mandrill.html).
+For additional information about the Mandrill Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mandrill.html).
 
 
 ### Moment
@@ -1196,7 +1196,7 @@ After successfully creating a token, you can send the card token to a Cloud Code
 
 3. Charging the Credit Card
 
-From a Cloud Code function, you can then use the Stripe Cloud Module to charge the credit card token. Using the [`Stripe.Charges.create`](/docs/js/symbols/Stripe.Charges.html) function you can specify the amount, currency, and card token to use for the purchase. The full list of available parameters can be found in [Stripe's API documentation](https://stripe.com/docs/api?lang=curl#create_charge), but the following example demonstrates the basic use case.
+From a Cloud Code function, you can then use the Stripe Cloud Module to charge the credit card token. Using the [`Stripe.Charges.create`](/docs/js/api/symbols/Stripe.Charges.html) function you can specify the amount, currency, and card token to use for the purchase. The full list of available parameters can be found in [Stripe's API documentation](https://stripe.com/docs/api?lang=curl#create_charge), but the following example demonstrates the basic use case.
 
 ```js
 Stripe.Charges.create({
@@ -1215,7 +1215,7 @@ Stripe.Charges.create({
 
 #### Available Functionality
 
-There are many more functions available from the Stripe Cloud Module. Please consult the Stripe Cloud Module [API reference](/docs/js/symbols/Stripe.html) for the full list of available functions and consult [Stripe's own REST documentation](https://stripe.com/docs/api?lang=curl) for more information on how their platform works.
+There are many more functions available from the Stripe Cloud Module. Please consult the Stripe Cloud Module [API reference](/docs/js/api/symbols/Stripe.html) for the full list of available functions and consult [Stripe's own REST documentation](https://stripe.com/docs/api?lang=curl) for more information on how their platform works.
 
 ### Twilio
 

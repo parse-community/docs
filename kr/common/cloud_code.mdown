@@ -248,7 +248,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
 
 유용한 팁 하나를 알려드리면, 여러 버전의 모바일 앱이 있어도 동일한 버전의 Cloud Code가 모든 버전의 앱에 적용됩니다. 따라서 입력 데이터의 유효성을 확인하지 않는 앱을 출시하더라도 `beforeSave`를 사용해 유효성 검사를 추가하여 이 문제를 해결할 수 있습니다.
 
-Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/symbols/Parse.User.html))에 `beforeSave`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
+Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/api/symbols/Parse.User.html))에 `beforeSave`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -300,12 +300,12 @@ Parse.Cloud.afterSave("Comment", function(request) {
 
 클라이언트는 핸들러가 종료된 후 어떻게 종료되는지에 상관없이 저장 요청에 대한 성공적인 응답을 받습니다. 예를 들어 핸들러에서 예외가 발생하더라도 성공적인 응답을 받습니다. 핸들러 실행 중 발생한 오류는 Cloud Code 로그에서 볼 수 있습니다.
 
-Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/symbols/Parse.User.html))에 `afterSave`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
+Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/api/symbols/Parse.User.html))에 `afterSave`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
 
 
 ### 삭제 시 코드 실행
 
-개체를 삭제하기 전에 사용자 지정 Cloud Code를 실행할 수 있습니다. `beforeDelete` 메서드로 수행할 수 있습니다. 예를 들어 이 메서드를 사용하면 제한된 삭제 정책을 [ACL](/docs/js/symbols/Parse.ACL.html)을 통해 표현할 때보다 더 정교하게 구현할 수 있습니다. 예를 들어 여러 사진이 각 사진첩에 연결되어 있는 사진첩 앱이 있는데, 사진이 들어있는 사진첩은 삭제할 수 없게 하고 싶다고 가정할 경우, 다음과 같은 함수를 작성하여 이렇게 할 수 있습니다.
+개체를 삭제하기 전에 사용자 지정 Cloud Code를 실행할 수 있습니다. `beforeDelete` 메서드로 수행할 수 있습니다. 예를 들어 이 메서드를 사용하면 제한된 삭제 정책을 [ACL](/docs/js/api/symbols/Parse.ACL.html)을 통해 표현할 때보다 더 정교하게 구현할 수 있습니다. 예를 들어 여러 사진이 각 사진첩에 연결되어 있는 사진첩 앱이 있는데, 사진이 들어있는 사진첩은 삭제할 수 없게 하고 싶다고 가정할 경우, 다음과 같은 함수를 작성하여 이렇게 할 수 있습니다.
 
 ```js
 Parse.Cloud.beforeDelete("Album", function(request, response) {
@@ -328,7 +328,7 @@ Parse.Cloud.beforeDelete("Album", function(request, response) {
 
 `response.error`가 호출되면 `Album` 개체가 삭제되지 않고 클라이언트에 오류가 발생합니다. `response.success`가 호출되면 개체가 정상적으로 삭제됩니다. 코드에서 이 두 콜백 중 하나를 호출해야 합니다.
 
-Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/symbols/Parse.User.html))에 `beforeDelete`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
+Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/api/symbols/Parse.User.html))에 `beforeDelete`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
 
 
 ### 삭제 후 작업 수행
@@ -359,7 +359,7 @@ Parse.Cloud.afterDelete("Post", function(request) {
 
 클라이언트는 핸들러가 종료된 후 어떻게 종료되는지에 상관없이 삭제 요청에 대한 성공적인 응답을 받습니다. 예를 들어 핸들러에서 예외가 발생하더라도 성공적인 응답을 받습니다. 핸들러 실행 중 발생한 오류는 Cloud Code 로그에서 볼 수 있습니다.
 
-Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/symbols/Parse.User.html))에 `afterDelete`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
+Parse JavaScript SDK에서 미리 정의된 클래스(예: [Parse.User](/docs/js/api/symbols/Parse.User.html))에 `afterDelete`를 사용하려면 첫 번째 인수로 문자열을 전달해서는 안 됩니다. 대신 클래스 자체를 전달해야 합니다.
 
 
 ### 리소스 제한

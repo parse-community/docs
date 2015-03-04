@@ -99,9 +99,9 @@ $ parse deploy
 
 您可以使用 Cloud Code 和 Express 來建立多頁動態網路應用程式。藉由 [Express](http://expressjs.com/) 架構，您可輕易取得許多功能強大的工具，例如要求路由、Cookie 處理及範本轉譯。[Cloud Code](/docs/tw/cloud_code_guide) 讓您擁有功能的存取權限，例如能與 Parse 資料互動及[傳送 HTTP 要求](/docs/tw/cloud_code_guide#networking)。
 
-有了 Parse，您可以選擇用 Express 建立多頁網路應用程式，或在用戶端使用 Parse JavaScript SDK 建立單頁 Backbone 應用程式。Express 方式的優點是搜尋引擎能將您的網站編目，而用戶端 Backbone 方式會使應用程式的回應更熱烈。您可以在我們的 [Express API 文件](/docs/js/symbols/express.html) 找到 Express 和 Cloud Code 的詳細說明。
+有了 Parse，您可以選擇用 Express 建立多頁網路應用程式，或在用戶端使用 Parse JavaScript SDK 建立單頁 Backbone 應用程式。Express 方式的優點是搜尋引擎能將您的網站編目，而用戶端 Backbone 方式會使應用程式的回應更熱烈。您可以在我們的 [Express API 文件](/docs/js/api/symbols/express.html) 找到 Express 和 Cloud Code 的詳細說明。
 
-Express 可以協助您快速啟動並執行應用程式，若您偏好較低層級的類 [Node.js](http://nodejs.org/) HTTP 介面，我們也有提供。如需更多資訊，請參閱我們的 [HTTP 介面 API 文件](/docs/js/symbols/http.html)。若您選擇使用 Express 或 Node.js，您需要先刪除 `public/index.html`，這樣要求才能傳送到自訂處理函式。
+Express 可以協助您快速啟動並執行應用程式，若您偏好較低層級的類 [Node.js](http://nodejs.org/) HTTP 介面，我們也有提供。如需更多資訊，請參閱我們的 [HTTP 介面 API 文件](/docs/js/api/symbols/http.html)。若您選擇使用 Express 或 Node.js，您需要先刪除 `public/index.html`，這樣要求才能傳送到自訂處理函式。
 
 在本指南中，我們著重於使用 Express API 建立網路應用程式。
 
@@ -176,24 +176,24 @@ app.post('/echo', function(req, res) {
 
 每個要求處理常式都以 `app.VERB` 開頭，其中 `VERB` 可為任一標準 HTTP 動詞命令，例如 `get`、`post`、`put` 或 `delete`。這會告知 Express 這個處理常式應該回應的 HTTP 類型。
 
-接著，`'/echo'` 參數會指定這個要求常式應回覆的網址路徑（也就是路由）。然後，我們指定接受要求及回應物件的函數，以執行要求處理常式邏輯。只要我們加入 `express.bodyParser` 中介軟體，應該會以輸入資料填入 `req.body`。例如，若原始要求本文為 `{ "message": "hi" }`，那麼以上的 `req.body.message` 將會是 `'hi'` 值。最後，[`res.send()`](/docs/js/symbols/express.Response.html#send) 會告知 Express 在指定字串內填入回應物件。
+接著，`'/echo'` 參數會指定這個要求常式應回覆的網址路徑（也就是路由）。然後，我們指定接受要求及回應物件的函數，以執行要求處理常式邏輯。只要我們加入 `express.bodyParser` 中介軟體，應該會以輸入資料填入 `req.body`。例如，若原始要求本文為 `{ "message": "hi" }`，那麼以上的 `req.body.message` 將會是 `'hi'` 值。最後，[`res.send()`](/docs/js/api/symbols/express.Response.html#send) 會告知 Express 在指定字串內填入回應物件。
 
 ### Express 中介軟體
 
 中介軟體是在要求到達處理常式之前先處理要求的模組。這些元件將原始的 HTTP 要求，轉換為讓您輕鬆搭配要求處理常式使用的要求物件。Cloud Code 支援下列 Express 中介軟體：
 
-*   [`express.basicAuth()`](/docs/js/symbols/express.html#.basicAuth) - 讓您能夠設定網站的 HTTP 基本驗證。
-*   [`express.bodyParser()`](/docs/js/symbols/express.html#.bodyParser) - 將 HTTP 要求本文（JSON 或 www 編碼形式）轉換為 `request.body` 物件。
-*   [`express.methodOverride()`](/docs/js/symbols/express.html#.methodOverride) - 只支援 HTTP 貼文的標準網頁表單。此中介軟體會讓網頁表單將放入／刪除 HTTP 要求發送至 Express。當您想要密切遵循 REST-ful 原則時特別實用。
-*   [`express.cookieParser()`](/docs/js/symbols/express.html#.cookieParser) - 讀取瀏覽器傳送的要求 Cookie，並放入 `request.cookies` 和 `express.request.signedCookies` 物件。
-*   [`express.cookieSession()`](/docs/js/symbols/express.html#.cookieSession) - 允許藉由設定 `request.session` 物件，在已簽署 Cookie 中儲存工作階段資料。
-*   [`express.csrf()`](/docs/js/symbols/express.html#.csrf) - 保護您免受跨網站偽造要求之害。
+*   [`express.basicAuth()`](/docs/js/api/symbols/express.html#.basicAuth) - 讓您能夠設定網站的 HTTP 基本驗證。
+*   [`express.bodyParser()`](/docs/js/api/symbols/express.html#.bodyParser) - 將 HTTP 要求本文（JSON 或 www 編碼形式）轉換為 `request.body` 物件。
+*   [`express.methodOverride()`](/docs/js/api/symbols/express.html#.methodOverride) - 只支援 HTTP 貼文的標準網頁表單。此中介軟體會讓網頁表單將放入／刪除 HTTP 要求發送至 Express。當您想要密切遵循 REST-ful 原則時特別實用。
+*   [`express.cookieParser()`](/docs/js/api/symbols/express.html#.cookieParser) - 讀取瀏覽器傳送的要求 Cookie，並放入 `request.cookies` 和 `express.request.signedCookies` 物件。
+*   [`express.cookieSession()`](/docs/js/api/symbols/express.html#.cookieSession) - 允許藉由設定 `request.session` 物件，在已簽署 Cookie 中儲存工作階段資料。
+*   [`express.csrf()`](/docs/js/api/symbols/express.html#.csrf) - 保護您免受跨網站偽造要求之害。
 
 此外，我們還有提供下列自訂中介軟體：
 
-*   [`parseExpressRawBody()`](/docs/js/symbols/parseExpressRawBody.html) - 讓您存取原始要求本文做為在 `req.body` 的 [`Buffer`](/docs/js/symbols/Buffer.html) 物件。若您想要直接存取要求內的位元組，或使用要求處理常式中的自有剖析器以其他資料格式（例如 XML）來讀取要求本文，這會非常實用。
+*   [`parseExpressRawBody()`](/docs/js/api/symbols/parseExpressRawBody.html) - 讓您存取原始要求本文做為在 `req.body` 的 [`Buffer`](/docs/js/api/symbols/Buffer.html) 物件。若您想要直接存取要求內的位元組，或使用要求處理常式中的自有剖析器以其他資料格式（例如 XML）來讀取要求本文，這會非常實用。
 
-您可以用 [`app.use()`](/docs/js/symbols/express.Application.html#use) 新增中介軟體到應用程式。標準 Express 中介軟體是函數，所以請以相應的方式呼叫這些函數（例如 `app.use(express.csrf()`）。您應該先新增應用程式的中介軟體，再使用 `app.VERB()` 登錄所有要求處理常式。
+您可以用 [`app.use()`](/docs/js/api/symbols/express.Application.html#use) 新增中介軟體到應用程式。標準 Express 中介軟體是函數，所以請以相應的方式呼叫這些函數（例如 `app.use(express.csrf()`）。您應該先新增應用程式的中介軟體，再使用 `app.VERB()` 登錄所有要求處理常式。
 
 在全域應用程式組態部分中，設定 Express 中介軟體時，請依照上述順序。您可以略過不需要的中介軟體。由於較晚安裝的中介軟體可能受較早建立的中介軟體的資料影響，所以順序非常重要。
 
@@ -233,7 +233,7 @@ html
 
 您可以在 [EJS](https://github.com/visionmedia/ejs) 和 [Jade](https://github.com/visionmedia/jade) 的首頁找到每個範本引擎語法的更多資訊。
 
-您可以呼叫 [`res.render()`](/docs/js/symbols/express.Response.html#render) 以轉譯範本。第一個引數是範本檔案名稱。若沒有副檔名，Express 會尋找符合應用程式範本引擎設定之副檔名的檔案。第二個引數是包含範本中所有變數及對應值的 JSON 物件。範本中每個變數都作為預留空間，在您轉譯範本時由實際值取代。
+您可以呼叫 [`res.render()`](/docs/js/api/symbols/express.Response.html#render) 以轉譯範本。第一個引數是範本檔案名稱。若沒有副檔名，Express 會尋找符合應用程式範本引擎設定之副檔名的檔案。第二個引數是包含範本中所有變數及對應值的 JSON 物件。範本中每個變數都作為預留空間，在您轉譯範本時由實際值取代。
 
 ### 取得使用者輸入
 
@@ -292,9 +292,9 @@ app.post('/hello', function(req, res) {
 
 您可以使用 `parseExpressCookieSession` 中介軟體，將 [`Parse.User`](/docs/tw/js_guide#users) 驗證和工作階段管理新增到您的 Express 應用程式。您只需要在 Cloud Code 中呼叫 `Parse.User.logIn()`，中介軟體就會自動為您管理使用者工作階段。
 
-您可以使用網頁表單來要求使用者的登入憑證，當您從這個表單接收資料時，便會登入 Cloud Code 使用者。呼叫 `Parse.User.logIn()` 後，中介軟體會自動在使用者的瀏覽器設定 Cookie。在相同瀏覽器的後續 HTTP 要求期間，中介軟體會使用這個 Cookie 來自動設定 Cloud Code 中的[目前使用者](/docs/tw/js_guide#users-current)。這使得 [ACL](/docs/tw/js_guide#users-acls) 能夠在 Cloud Code 中正常運作，並在需要時讓您擷取整個目前使用者物件。最後，當您呼叫 `Parse.User.logOut()` 以登出 Cloud Code 使用者時，這個中介軟體會自動移除瀏覽器的 Cookie。如需應用程式程式碼範例，請參閱本中介軟體的[說明文件](/docs/js/symbols/parseExpressCookieSession.html)。
+您可以使用網頁表單來要求使用者的登入憑證，當您從這個表單接收資料時，便會登入 Cloud Code 使用者。呼叫 `Parse.User.logIn()` 後，中介軟體會自動在使用者的瀏覽器設定 Cookie。在相同瀏覽器的後續 HTTP 要求期間，中介軟體會使用這個 Cookie 來自動設定 Cloud Code 中的[目前使用者](/docs/tw/js_guide#users-current)。這使得 [ACL](/docs/tw/js_guide#users-acls) 能夠在 Cloud Code 中正常運作，並在需要時讓您擷取整個目前使用者物件。最後，當您呼叫 `Parse.User.logOut()` 以登出 Cloud Code 使用者時，這個中介軟體會自動移除瀏覽器的 Cookie。如需應用程式程式碼範例，請參閱本中介軟體的[說明文件](/docs/js/api/symbols/parseExpressCookieSession.html)。
 
-當您使用使用者資料時，您應該盡可能使用 HTTPS。為了保護您的應用程式和使用者，`parseExpressCookieSession` 中介軟體會要求您使用 HTTPS。為了您的方便起見，我們還有提供 `parseExpressHttpsRedirect` 中介軟體，以便將所有 HTTP 要求重新導向至 HTTPS。如需詳細資訊，請參閱其[說明文件](/docs/js/symbols/parseExpressHttpsRedirect.html)。
+當您使用使用者資料時，您應該盡可能使用 HTTPS。為了保護您的應用程式和使用者，`parseExpressCookieSession` 中介軟體會要求您使用 HTTPS。為了您的方便起見，我們還有提供 `parseExpressHttpsRedirect` 中介軟體，以便將所有 HTTP 要求重新導向至 HTTPS。如需詳細資訊，請參閱其[說明文件](/docs/js/api/symbols/parseExpressHttpsRedirect.html)。
 
 ### 靜態內容
 

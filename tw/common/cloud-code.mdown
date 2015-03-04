@@ -248,7 +248,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
 
 Cloud Code 還有一個實用技巧，那就是同一個版本的 Cloud Code 可用於不同版本的行動應用程式。因此如果您啟動的應用程式並未正確檢查輸入資料的有效性，您可以使用 `beforeSave` 新增驗證來修正這個問題。
 
-如果您想將 `beforeSave` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/symbols/Parse.User.html)），第一個引數請勿傳遞字串，您應該傳遞類別本身：
+如果您想將 `beforeSave` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)），第一個引數請勿傳遞字串，您應該傳遞類別本身：
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -300,12 +300,12 @@ Parse.Cloud.afterSave("Comment", function(request) {
 
 在處理常式終止後，用戶端會收到成功儲存要求的回應（無論是以何種方式終止處理常式）。舉例來說，即便處理常式擲出例外狀況，用戶端仍會收到成功回應。執行處理常式時發生的錯誤，都會記錄在 Cloud Code 記錄檔內。
 
-如果您想將 `afterSave` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/symbols/Parse.User.html)），第一個引數請勿傳遞字串，而應傳遞類別本身。
+如果您想將 `afterSave` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)），第一個引數請勿傳遞字串，而應傳遞類別本身。
 
 
 ### 刪除中執行代碼
 
-刪除物件前，您可以執行自訂 Cloud Code。您可以利用 `beforeDelete` 方法執行此操作。舉例來說，這能用來實作比透過 [ACL](/docs/js/symbols/Parse.ACL.html) 建立的刪除原則更為嚴格複雜的刪除原則。舉例來說，假如您有一個相簿應用程式，其中許多相片與每本相簿建立關聯，而您想防止使用者刪除裡面還有相片的相簿，您可以編寫一個函數如下：
+刪除物件前，您可以執行自訂 Cloud Code。您可以利用 `beforeDelete` 方法執行此操作。舉例來說，這能用來實作比透過 [ACL](/docs/js/api/symbols/Parse.ACL.html) 建立的刪除原則更為嚴格複雜的刪除原則。舉例來說，假如您有一個相簿應用程式，其中許多相片與每本相簿建立關聯，而您想防止使用者刪除裡面還有相片的相簿，您可以編寫一個函數如下：
 
 ```js
 Parse.Cloud.beforeDelete("Album", function(request, response) {
@@ -328,7 +328,7 @@ Parse.Cloud.beforeDelete("Album", function(request, response) {
 
 如果呼叫 `response.error`，`Album` 物件將不會刪除，且用戶端會收到錯誤。如果呼叫 `response.success`，將正常刪除物件。您的程式碼會從這兩個回呼中，呼叫其中一個。
 
-如果您想將 `beforeDelete` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/symbols/Parse.User.html)），第一個引數請勿傳遞字串，而應傳遞類別本身。
+如果您想將 `beforeDelete` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)），第一個引數請勿傳遞字串，而應傳遞類別本身。
 
 
 ### 刪除後執行動作
@@ -359,7 +359,7 @@ Parse.Cloud.afterDelete("Post", function(request) {
 
 在處理常式終止後，用戶端會收到成功刪除要求的回應（無論是以何種方式終止處理常式）。舉例來說，即便處理常式擲出例外狀況，用戶端仍會收到成功回應。執行處理常式時發生的錯誤，都會記錄在 Cloud Code 記錄檔內。
 
-如果您想將 `afterDelete` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/symbols/Parse.User.html)），第一個引數請勿傳遞字串，而應傳遞類別本身。
+如果您想將 `afterDelete` 用於 Parse JavaScript SDK 中的預先定義類別（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)），第一個引數請勿傳遞字串，而應傳遞類別本身。
 
 
 ### 資源限制

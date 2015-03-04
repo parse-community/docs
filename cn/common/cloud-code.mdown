@@ -245,7 +245,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
 
 有用提示：即使您的移动应用程序有多个不同版本，均可适用相同版本的 Cloud Code。因此，如果启动的应用程序未正确检查输入数据的有效性，您仍然可以通过添加 `beforeSave` 验证修复这一问题。
 
-如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/symbols/Parse.User.html)）使用 `beforeSave`，则不应为第一个参数传入字符串。相反，您应传入类别本身：
+如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)）使用 `beforeSave`，则不应为第一个参数传入字符串。相反，您应传入类别本身：
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -295,11 +295,11 @@ Parse.Cloud.afterSave("Comment", function(request) {
 
 处理代码终止运行（无论其终止运行的方式）后，客户端将收到对保存请求的成功回应。例如，即使处理代码出现例外情况，客户端仍将收到成功回应。您可以在 Cloud Code 日志中查看处理代码运行时出现的错误。
 
-如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/symbols/Parse.User.html)）使用 `afterSave`，则不应为第一个参数传入字符串。相反，您应传入类别本身。
+如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)）使用 `afterSave`，则不应为第一个参数传入字符串。相反，您应传入类别本身。
 
 ### 删除时运行代码
 
-您可以在删除某个对象前运行自定义 Cloud Code。您可以用 `beforeDelete` 方法达到这个目的。例如，这可以被用来实施比 [ACL](/docs/js/symbols/Parse.ACL.html) 表达更成熟的限制删除政策。假设您有一款相册应用程序，每个相册中有许多相关的照片，而您想防止用户删除有照片的相册。则可以编写以下函数实现此目标：
+您可以在删除某个对象前运行自定义 Cloud Code。您可以用 `beforeDelete` 方法达到这个目的。例如，这可以被用来实施比 [ACL](/docs/js/api/symbols/Parse.ACL.html) 表达更成熟的限制删除政策。假设您有一款相册应用程序，每个相册中有许多相关的照片，而您想防止用户删除有照片的相册。则可以编写以下函数实现此目标：
 
 ```js
 Parse.Cloud.beforeDelete("Album", function(request, response) {
@@ -322,7 +322,7 @@ Parse.Cloud.beforeDelete("Album", function(request, response) {
 
 如果 `response.error` 被调用，则 `Album` 对象将不会删除，客户端会收到错误提示。如果 `response.success` 被调用，则对象将正常删除。您的代码应调用这两种回调函数中的一种。
 
-如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/symbols/Parse.User.html)）使用 `beforeDelete`，则不应为第一个参数传入字符串。相反，您应传入类别本身。
+如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)）使用 `beforeDelete`，则不应为第一个参数传入字符串。相反，您应传入类别本身。
 
 ### 删除后执行操作
 
@@ -352,7 +352,7 @@ Parse.Cloud.afterDelete("Post", function(request) {
 
 处理代码终止运行（无论其终止运行的方式）后，客户端将收到对删除请求的成功回应。例如，即使处理代码出现例外情况，客户端仍将收到成功回应。您可以在 Cloud Code 日志中查看处理代码运行时出现的错误。
 
-如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/symbols/Parse.User.html)）使用 `afterDelete`，则不应为第一个参数传入字符串。相反，您应传入类别本身。
+如果您想在 Parse JavaScript SDK 中对某预定义的类（例如 [Parse.User](/docs/js/api/symbols/Parse.User.html)）使用 `afterDelete`，则不应为第一个参数传入字符串。相反，您应传入类别本身。
 
 ### 资源限制
 
