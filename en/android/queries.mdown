@@ -374,7 +374,7 @@ query.clearCachedResult();
 *   Remove cached results for all queries with:
 ```java
 ParseQuery.clearAllCachedResults();
-``` 
+```
 
 Query caching also works with ParseQuery helpers including `getFirst()` and `getInBackground()`.
 

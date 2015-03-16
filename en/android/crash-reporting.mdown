@@ -122,7 +122,7 @@ parse {
 
 ## Automatic Symbol Uploads
 
-You can manually upload symbol files using the command line tool. First, make sure you have set up a [Cloud Code directory](/docs/cloud_code_guide). Then, you can upload your symbol file:
+You can manually upload symbol files using the command line tool. First, make sure you have set up a [Cloud Code directory](/docs/android/guide#cloud-code). Then, you can upload your symbol file:
 
 ```bash
 $ parse symbols -a path/to/your.apk path/to/mapping.txt

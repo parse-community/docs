@@ -8,7 +8,7 @@ If you haven't installed the SDK yet, [head over to the Push QuickStart](/apps/q
 
 If you want to start using push, start by completing the [Android Push tutorial](/tutorials/android-push-notifications) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
 
-The Parse library provides push notifications using Google Cloud Messaging (GCM) if possible. On devices that do not support GCM (such as Amazon Kindle Fire), Parse will use a background service that maintains a persistent connection to the Parse cloud to deliver pushes. This allows Parse Push to work on all devices running Android 2.3 or higher. 
+The Parse library provides push notifications using Google Cloud Messaging (GCM) if possible. On devices that do not support GCM (such as Amazon Kindle Fire), Parse will use a background service that maintains a persistent connection to the Parse cloud to deliver pushes. This allows Parse Push to work on all devices running Android 2.3 or higher.
 
 When sending pushes to Android devices with GCM, there are several pieces of information that Parse keeps track of automatically:
 
@@ -38,7 +38,7 @@ If you want to register your app with multiple additional sender IDs, then the `
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-In Android, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API](/docs/android_guide#objects) for storing and retrieving data. To access the current `Installation` object from your Android app, use the `ParseInstallation.getCurrentInstallation()` method. The first time you save a `ParseInstallation`, Parse will add it to your `Installation` class and it will be available for targeting push notifications.
+In Android, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your Android app, use the `ParseInstallation.getCurrentInstallation()` method. The first time you save a `ParseInstallation`, Parse will add it to your `Installation` class and it will be available for targeting push notifications.
 
 ```java
 // Save the current Installation to Parse.
@@ -63,9 +63,9 @@ While it is possible to modify a `ParseInstallation` just like you would a `Pars
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#sending-channels/Android) and [advanced targeting](#sending-queries/Android). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](#sending/REST) or from [Cloud Code](#sending/JavaScript). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API](/docs/rest/guide#push-notifications-sending-pushes) or from [Cloud Code](/docs/js/guide#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined  [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/).  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.
 
@@ -85,7 +85,7 @@ Subscribing to a channel can be done using a single method call. For example, in
 
 ```java
 // When users indicate they are Giants fans, we subscribe them to that channel.
-ParsePush.subscribeInBackground("Giants"); 
+ParsePush.subscribeInBackground("Giants");
 ```
 
 By default, the main activity for your app will be run when a user responds to notifications.
@@ -135,13 +135,13 @@ push.sendInBackground();
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](/docs/android_guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
 Since `ParseInstallation` is a subclass of `ParseObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-Storing data on an `Installation` object is just as easy as storing [any other data](/docs/android_guide#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
+Storing data on an `Installation` object is just as easy as storing [any other data](#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
 ```java
 // Store app language and version
@@ -163,7 +163,7 @@ installation.saveInBackground();
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `PFQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](/docs/android_guide#queries), but we use the special static method `ParseInstallation.getQuery()` to create it. We set this query on our `PFPush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `PFQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries), but we use the special static method `ParseInstallation.getQuery()` to create it. We set this query on our `PFPush` object, before sending the notification.
 
 ```java
 // Create our Installation query
@@ -212,7 +212,7 @@ push.sendInBackground();
 
 ## Sending Options
 
-Push notifications can do more than just send a message. In Android, pushes can also include custom data you wish to send. You have complete control of how you handle the data included in your push notification as we will see in the [Receiving Notifications](#receiving/Android) section. An expiration date can also be set for the notification in case it is time sensitive.
+Push notifications can do more than just send a message. In Android, pushes can also include custom data you wish to send. You have complete control of how you handle the data included in your push notification as we will see in the [Receiving Notifications](#push-notifications-receiving-pushes) section. An expiration date can also be set for the notification in case it is time sensitive.
 
 ### Customizing your Notifications
 
@@ -235,7 +235,7 @@ push.setData(data);
 push.sendPushInBackground();
 ```
 
-It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#receiving/Android) section, you're able to use the data sent with your push to do custom processing when  a user receives and interacts with a notification.
+It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#push-notifications-receiving-pushes) section, you're able to use the data sent with your push to do custom processing when  a user receives and interacts with a notification.
 
 ```java
 JSONObject data = new JSONObject("{\"name\": \"Vaughn\",
@@ -318,7 +318,7 @@ wpPush.sendPushInBackground();
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) or the Parse.com push console.
+Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API](/docs/rest/guide#push-notifications-scheduling-pushes), [JavaScript SDK](/docs/js/guide#push-notifications-scheduling-pushes) or the Parse.com push console.
 
 ## Receiving Pushes
 
@@ -374,7 +374,7 @@ ParseAnalytics.trackAppOpened(getIntent());
 
 To track push opens, you should always pass the `Intent` to `trackAppOpened`. Passing null to `trackAppOpened` will track _only_ a standard app-opened event, not the push-opened event. If you don't track the push-opened event, you will not be able to use advanced analytics features such as push-open graphs and A/B testing.
 
-Please be sure to set up your application to [save the Installation object](#installations/Android). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+Please be sure to set up your application to [save the Installation object](#push-notifications-installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 You can view the open rate for a specific push notification on your Parse.com push console. You can also view your application's overall app open and push open graphs on the Parse analytics console.  Our push open analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 
@@ -398,7 +398,7 @@ If you are happy with the way one message performed, you can send that to the re
 
 ![](/images/docs/ios_push/experiment_launch.png)
 
-Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#receiving-tracking).
+Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#push-notifications-tracking-pushes-and-app-opens).
 
 ### Experiment Statistics
 
@@ -416,7 +416,7 @@ Just after a push send, when only a small number of users have opened their push
 
 ## Troubleshooting
 
-Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of these troubleshooting tips. 
+Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of these troubleshooting tips.
 
 *   [Upgrade to the latest SDK](/docs/downloads). This documentation covers the push API introduced in the 1.7.0 version of the Android Parse SDK. Please upgrade if you are getting compiler errors following these instructions.
 *   Make sure you have the correct permissions listed in your `AndroidManifest.xml` file, as outlined in steps 4 and 6 of the [Android Push Quickstart](/apps/quickstart_push#android/native/existing). If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct `android:name` property and the proper intent filters.

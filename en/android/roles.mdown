@@ -7,7 +7,7 @@ For example, in your application with curated content, you may have a number of 
 We provide a specialized class called `ParseRole` that represents these role objects in your client code. `ParseRole` is a subclass of `ParseObject`, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on `ParseObject` also exist on `ParseRole`.  The difference is that `ParseRole` has some additions specific to management of roles.
 
 ## Properties
- 
+
 `ParseRole` has several properties that set it apart from `ParseObject`:
 
 *   **name**: The name for the role. This value is required, and can only be set once as a role is being created. The name must consist of alphanumeric characters, spaces, -, or _.  This name will be used to identify the Role without needing its objectId.

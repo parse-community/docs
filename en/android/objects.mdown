@@ -91,7 +91,7 @@ The code in the `GetCallback` will be run on the main thread.
 
 ## The Local Datastore
 
-Parse also lets you store objects in a [local datastore](#localdatastore) on the Android device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, call `Parse.enableLocalDatastore()` in your `Application` constructor before calling `Parse.initialize()`. Once the local datastore is enabled, you can store an object by pinning it.
+Parse also lets you store objects in a [local datastore](#local-datastore) on the Android device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, call `Parse.enableLocalDatastore()` in your `Application` constructor before calling `Parse.initialize()`. Once the local datastore is enabled, you can store an object by pinning it.
 
 ```java
 ParseObject gameScore = new ParseObject("GameScore");
@@ -345,7 +345,7 @@ bigObject.saveInBackground();
 
 We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObjects`s should not exceed 128 kilobytes in size. To store more, we recommend you use `ParseFile`. See the [guide section](#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data & Security](/docs/data).
+For more information about how Parse handles data, check out our documentation on [Data](#data).
 
 ## Subclasses
 
