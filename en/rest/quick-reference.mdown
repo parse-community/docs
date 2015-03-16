@@ -5,7 +5,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 ## Objects
 
 | URL                                 | HTTP Verb | Functionality                              |
-|----------------------------------------------------------------------------------------------|
+|-------------------------------------|-----------|--------------------------------------------|
 | `/1/classes/<className>`            | POST      | [Creating Objects](#objects-creating)      |
 | `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#objects-retrieving)  |
 | `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#objects-updating)      |
@@ -15,8 +15,8 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 ## Users
 
 | URL                       | HTTP Verb | Functionality                              |
-|------------------------------------------------------------------------------------|
-| `/1/users`                | POST      | [Signing Up](#users-signup) <br/>[Linking Users](#users-linking) 
+|---------------------------|-----------|--------------------------------------------|
+| `/1/users`                | POST      | [Signing Up](#users-signup) <br/>[Linking Users](#users-linking) |
 | `/1/login`                | GET       | [Logging In](#users-login)                 |
 | `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving)      |
 | `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating) <br/>[Retrieving Current User](#users-validating) |
@@ -28,7 +28,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 ## Roles
 
 | URL                   | HTTP Verb | Functionality                              |
-|--------------------------------------------------------------------------------|
+|-----------------------|-----------|--------------------------------------------|
 | `/1/roles`            | POST      | [Creating Roles](#roles-creating)          |
 | `/1/roles/<objectId>` | GET       | [Retrieving Roles](#roles-retrieving)      |
 | `/1/roles/<objectId>` | PUT       | [Updating Roles](#roles-updating)          |
@@ -38,26 +38,26 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 ## Files
 
 | URL                   | HTTP Verb | Functionality                        |
-|--------------------------------------------------------------------------|
+|-----------------------|-----------|--------------------------------------|
 | `/1/files/<fileName>` | POST      | [Uploading Files](#files-uploading)  |
 
 ## Analytics
 
 | URL                     | HTTP Verb | Functionality                          |
-|------------------------------------------------------------------------------|
+|-------------------------|-----------|----------------------------------------|
 | `/1/events/AppOpened`   | POST      | [Analytics](#analytics)                |
 | `/1/events/<eventName>` | POST      | [Custom Analytics](#analytics-custom)  |
 
 ## Push Notifications
 
 | URL       | HTTP Verb | Functionality                |
-|------------------------------------------------------|
+|-----------|-----------|------------------------------|
 | `/1/push` | POST      | [Push Notifications](#push)  |
 
 ## Installations
 
 | URL                           | HTTP Verb | Functionality                                            |
-|------------------------------------------------------------------------------------------------------|
+|-------------------------------|-----------|----------------------------------------------------------|
 | `/1/installations`            | POST      | [Uploading Installation Data](#installations-uploading)  |
 | `/1/installations/<objectId>` | GET       | [Retrieving Installations](#installations-retrieving)    |
 | `/1/installations/<objectId>` | PUT       | [Updating Installations](#installations-updating)        |
@@ -66,8 +66,8 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 
 ## Cloud Functions
 
-| URL                   | HTTP Verb | Functionality                                   |
-|------------------------------------------------------------------------------------|
+| URL                   | HTTP Verb | Functionality                                  |
+|-----------------------|-----------|------------------------------------------------|
 | `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloudfunctions)     | 
 | `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#backgroundjobs)  |
 
@@ -100,3 +100,7 @@ Whether a request succeeded is indicated by the HTTP status code. A 2xx status c
   "error": "invalid field name: bl!ng"
 }
 ```
+
+## Calling from Client Apps
+
+You should not use the REST API Key in client apps (i.e. code you distribute to your customers). If the Parse SDK is available for your client platform, we recommend using our SDK instead of the REST API. If you must call the REST API directly from the client, you should use the corresponding client-side Parse key for that plaform (e.g. JavaScript Key, Client Key for iOS/Android, or Windows Key). If there is no Parse SDK for your client platform, please use your app's Client Key to call the REST API.  Requests made with the Client Key, JavaScript Key, or Windows Key are restricted by client-side app settings that you configure in your Parse.com app dashboard. These settings make your app more secure. For example, turning off the "Client Push Enabled" setting will prevent push notifications from being sent from any device using the Client Key, JavaScript Key, or Windows Key (recommended for all production apps).  Therefore, you should not distribute any app code with the REST API key embedded in it.
