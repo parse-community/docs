@@ -31,7 +31,7 @@ There are two ways to upload your symbol files: automatically after each build i
 
 To automatically upload symbol files for your application whenever you build your app:
 
-*   Download the latest version of [Parse CLI](/docs/cloud_code_guide#clt)
+*   Download the latest version of [Parse CLI](/docs/ios/guide#cloud-code-command-line-tool)
 *   Initialize a new Parse Cloud Code directory by running the following (for example, in the same directory as your Xcode project):
 
 ```bash

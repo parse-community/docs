@@ -326,7 +326,7 @@ print result
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
 
-![docs/installation_channel.png]()
+![](docs/installation_channel.png)
 
 To unsubscribe from a channel you would need to update the `channels` array and remove the unsubscribed channel.
 
@@ -582,7 +582,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-An in depth look at the `Installation` end point can be found in the [REST guide](#installations).
+An in depth look at the `Installation` end point can be found in the [REST guide](#push-notifications-installations).
 
 ## Sending Options
 

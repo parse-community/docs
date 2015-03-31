@@ -1,0 +1,9 @@
+# Analytics
+
+Some examples:
+
+```c
+ParseTrackEvent trackEvent;
+trackEvent.setEventName("ButtonPress");
+trackEvent.send();
+```

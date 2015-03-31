@@ -12,7 +12,7 @@ If you want to start using push, start by completing the [iOS Push tutorial](/tu
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-In iOS, `Installation` objects are available through the `PFInstallation` class, a subclass of `PFObject`. It uses the [same API](/docs/ios_guide#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `PFInstallation`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
+In iOS, `Installation` objects are available through the `PFInstallation` class, a subclass of `PFObject`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `PFInstallation`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
 
 First, make your app register for remote notifications by adding the following in your `application:didFinishLaunchingWithOptions:` method (if you haven't already):
 
@@ -33,15 +33,15 @@ application.registerForRemoteNotifications()
 We will then update our `PFInstallation` with the `deviceToken` once the device is registered for push notifications:
 
 ```objc
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken { 
-	// Store the deviceToken in the current Installation and save it to Parse 
-	PFInstallation *currentInstallation = [PFInstallation currentInstallation]; 
-	[currentInstallation setDeviceTokenFromData:deviceToken]; 
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+	// Store the deviceToken in the current Installation and save it to Parse
+	PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+	[currentInstallation setDeviceTokenFromData:deviceToken];
 	[currentInstallation saveInBackground];
 }
 ```
 ```swift
-func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) { 
+func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
 	// Store the deviceToken in the current Installation and save it to Parse
 	let installation = PFInstallation.currentInstallation()
 	installation.setDeviceTokenFromData(deviceToken)
@@ -66,9 +66,9 @@ While it is possible to modify a `PFInstallation` just like you would a `PFObjec
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#sending-channels/iOS) and [advanced targeting](#sending-queries/iOS). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](#sending/REST) or from [Cloud Code](#sending/JavaScript). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API](/docs/rest/guide#push-notifications-sending-pushes) or from [Cloud Code](/docs/js/guide#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/).  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.
 
@@ -171,13 +171,13 @@ push.sendPushInBackground()
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](/docs/ios_guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
 Since `PFInstallation` is a subclass of `PFObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-Storing data on an `Installation` object is just as easy as storing [any other data](/docs/ios_guide#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
+Storing data on an `Installation` object is just as easy as storing [any other data](#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
 ```objc
 // Store app language and version
@@ -213,7 +213,7 @@ installation.saveInBackground()
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `PFQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](/docs/ios_guide#queries), but we use the special static method `[PFInstallation query]` to create it. We set this query on our `PFPush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `PFQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries), but we use the special static method `[PFInstallation query]` to create it. We set this query on our `PFPush` object, before sending the notification.
 
 ```objc
 // Create our Installation query
@@ -317,10 +317,10 @@ If you want to send more than just a message, you will need to use an `NSDiction
 For example, to send a notification that increases the current badge number by 1 and plays a custom sound, you can do the following:
 
 ```objc
-NSDictionary *data = @{ 
+NSDictionary *data = @{
   @"alert" : @"The Mets scored! The game is now tied 1-1!",
-  @"badge" : @"Increment", 
-  @"sounds" : @"cheering.caf" 
+  @"badge" : @"Increment",
+  @"sounds" : @"cheering.caf"
 };
 PFPush *push = [[PFPush alloc] init];
 [push setChannels:@[ @"Mets" ]];
@@ -328,10 +328,10 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-let data = [ 
+let data = [
   "alert" : "The Mets scored! The game is now tied 1-1!",
-  "badge" : "Increment", 
-  "sounds" : "cheering.caf" 
+  "badge" : "Increment",
+  "sounds" : "cheering.caf"
 ]
 let push = PFPush()
 push.setChannels(["Mets"])
@@ -339,13 +339,13 @@ push.setData(data)
 push.sendPushInBackground()
 ```
 
-It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#receiving/iOS) section, you will have access to this data only when the user opens your app via the notification. This can be useful for displaying a different view controller when a user opens certain notifications.
+It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#push-notifications-receiving-pushes) section, you will have access to this data only when the user opens your app via the notification. This can be useful for displaying a different view controller when a user opens certain notifications.
 
 ```objc
-NSDictionary *data = @{ 
+NSDictionary *data = @{
   @"alert" : @"Ricky Vaughn was injured in last night's game!",
-  @"name" : @"Vaughn", 
-  @"newsItem" : @"Man bites dog" 
+  @"name" : @"Vaughn",
+  @"newsItem" : @"Man bites dog"
 };
 PFPush *push = [[PFPush alloc] init];
 [push setQuery:injuryReportsQuery];
@@ -354,10 +354,10 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-let data = [ 
+let data = [
   "alert" : "Ricky Vaughn was injured in last night's game!",
   "name" : "Vaughn",
-  "newsItem" : "Man bites dog" 
+  "newsItem" : "Man bites dog"
 ]
 let push = PFPush()
 push.setQuery(injuryReportsdata)
@@ -366,7 +366,7 @@ push.setData(data)
 push.sendPushInBackground()
 ```
 
-Whether your push notifications increment the app's badge or set it to a specific value, your app will eventually need to clear its badge. This is covered in [Clearing the Badge](#receiving/iOS).
+Whether your push notifications increment the app's badge or set it to a specific value, your app will eventually need to clear its badge. This is covered in [Clearing the Badge](#push-notifications-receiving-pushes).
 
 ### Setting an Expiration Date
 
@@ -457,11 +457,11 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the iOS SDK. Take a look at the [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) or the Parse.com push console.
+Sending scheduled push notifications is not currently supported by the iOS SDK. Take a look at the [REST API](/docs/rest/guide/#push-notifications-scheduling-pushes), [JavaScript SDK](/docs/js/guide/#push-notifications-scheduling-pushes) or the Parse.com push console.
 
 ## Receiving Pushes
 
-As we saw in the [Customizing Your Notification](#options-data) section, it is possible to send arbitrary data along with your notification message. We can use this data to modify the behavior of your app when a user opens a notification. For example, upon opening a notification saying that a friend commented on a user's picture, it would be nice to display this picture.
+As we saw in the [Customizing Your Notification](#push-notifications-sending-options) section, it is possible to send arbitrary data along with your notification message. We can use this data to modify the behavior of your app when a user opens a notification. For example, upon opening a notification saying that a friend commented on a user's picture, it would be nice to display this picture.
 
 Due to the package size restrictions imposed by Apple, you need to be careful in managing the amount of extra data sent, since it will cut down on the maximum size of your message. For this reason, it is recommended that you keep your extra keys and values as small as possible.
 
@@ -537,7 +537,7 @@ You can read more about handling push notifications in Apple's [Local and Push N
 
 To track your users' engagement over time and the effect of push notifications, we provide some hooks in the `PFAnalytics` class. You can view the open rate for a specific push notification on the Parse.com push console. You can also view overall app open and push open graphs are on the Parse analytics console.  Our analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 
-This section assumes that you've already set up your application to [save the Installation object](#installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+This section assumes that you've already set up your application to [save the Installation object](#push-notifications-installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 First, add the following to your `application:didFinishLaunchingWithOptions:` method to collect information about when your application was launched, and what triggered it. The extra checks ensure that, even with iOS 7's more advanced background push features, a single logical app-open or push-open event is counted as such.
 
@@ -550,7 +550,7 @@ if (application.applicationState != UIApplicationStateBackground) {
   BOOL preBackgroundPush = ![application respondsToSelector:@selector(backgroundRefreshStatus)];
   BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
   BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-  if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) { 
+  if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
   	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   }
 }
@@ -563,7 +563,7 @@ if application.applicationState != UIApplicationState.Background {
   // counting the app-open.
   let oldPushHandlerOnly = !self.respondsToSelector(Selector("application:didReceiveRemoteNotification:fetchCompletionHandler:"))
   let noPushPayload: AnyObject? = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]?
-  if oldPushHandlerOnly || noPushPayload != nil { 
+  if oldPushHandlerOnly || noPushPayload != nil {
   	PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
   }
 }
@@ -573,9 +573,9 @@ Second, if your application is running or backgrounded, the `application:didRece
 
 ```objc
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	if (application.applicationState == UIApplicationStateInactive) { 
-		// The application was just brought from the background to the foreground, 
-		// so we consider the app as having been "opened by a push notification." 
+	if (application.applicationState == UIApplicationStateInactive) {
+		// The application was just brought from the background to the foreground,
+		// so we consider the app as having been "opened by a push notification."
 		[PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
 	}
 }
@@ -663,7 +663,7 @@ If you are happy with the way one message performed, you can send that to the re
 
 ![](/images/docs/ios_push/experiment_launch.png)
 
-Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#receiving-tracking).
+Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#push-notifications-tracking-pushes-and-app-opens).
 
 ### Experiment Statistics
 
@@ -681,7 +681,7 @@ Just after a push send, when only a small number of users have opened their push
 
 ## Troubleshooting
 
-Setting up Push Notifications is often a source of frustration for developers.  The process is complicated and invites problems to happen along the way. If you  run into issues, try some of these troubleshooting tips. 
+Setting up Push Notifications is often a source of frustration for developers.  The process is complicated and invites problems to happen along the way. If you  run into issues, try some of these troubleshooting tips.
 
 *   Make sure you are using the correct Bundle Identifier in th   `Info.plist` file (as described in step 4.1 of th   [iOS Push Notifications tutorial](/tutorials/ios-push-notifications),   titled, "Configuring a Push Enabled iOS Application."
 *   Make sure you set the correct provisioning profile in Project > Build Setting   (as described in step 4.3 of the iOS Push Notifications tutorial.

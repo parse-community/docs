@@ -1,0 +1,20 @@
+# Cloud Functions
+
+Some examples:
+
+Define a cloud function as below. See our [Cloud Code guide](/docs/cloud_code_guide) for details.
+
+```c
+Parse.Cloud.define("hello", function(request, response) {
+	response.success(request.body);
+});
+```
+
+Then you can invoke this Cloud Function from your device:
+
+```c
+ParseCloudFunction cloudFunction;
+cloudFunction.setFunctionName("hello");
+cloudFunction.add("value", "echo from hello");
+ParseResponse response = cloudFunction.send();
+```

@@ -123,7 +123,7 @@ myObject.refresh()
 
 ## The Local Datastore
 
-Parse also lets you store objects in a [local datastore](#localdatastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` in your `AppDelegate` `application:didFinishLaunchWithOptions:` before calling `[Parse setApplicationId:clientKey:]`. Once the local datastore is enabled, you can store an object by pinning it.
+Parse also lets you store objects in a [local datastore](#local-datastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` in your `AppDelegate` `application:didFinishLaunchWithOptions:` before calling `[Parse setApplicationId:clientKey:]`. Once the local datastore is enabled, you can store an object by pinning it.
 
 ```objc
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
@@ -516,7 +516,7 @@ bigObject.saveInBackground()
 
 We do not recommend storing large pieces of binary data like images or documents using `NSData` fields on `PFObject`. `PFObject`s should not exceed 128 kilobytes in size. To store more, we recommend you use `PFFile`. See the [guide section](#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data & Security](/docs/data).
+For more information about how Parse handles data, check out our documentation on [Data &amp; Security](#data).
 
 ## Subclasses
 
