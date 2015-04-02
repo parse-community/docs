@@ -126,12 +126,14 @@ Congratulations! You have successfully deployed and run Cloud Code.
 
 This is a good time to play around with the deployment cycle. Try changing `"Hello world!"` to a different string, then deploy and run the function again to get a different result. The whole JavaScript SDK is available in Cloud Code, so there's a lot you can do. We'll go over some examples in more detail below.
 
-## Cloud Functions
+## Basic Cloud Code
+
+### Cloud Functions
 
 Let's look at a slightly more complex example where Cloud Code is useful. One reason to do computation in the cloud is so that you don't have to send a huge list of objects down to a device if you only want a little bit of information. For example, let's say you're writing an app that lets people review movies. A single `Review` object could look like:
 
 ```json
-{ 
+{
   "movie": "The Matrix",
   "stars": 5,
   "comment": "Too bad they never made any sequels."
@@ -162,9 +164,6 @@ Parse.Cloud.define("averageStars", function(request, response) {
 ```
 
 The only difference between using `averageStars` and `hello` is that we have to provide the parameter that will be accessed in `request.params.movie` when we call the Cloud function. Read on to learn more about how Cloud functions can be called.
-
-
-### Calling a Cloud Function
 
 Cloud functions can be called from any of the client SDKs, as well as through the REST API (use the drop-down in the example below to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
 
@@ -232,7 +231,7 @@ If there is an error, the response in the client looks like:
 }
 ```
 
-### Running Code On Save
+### beforeSave Triggers
 
 Another reason to run code in the cloud is to enforce a particular data format. For example, you might have both an Android and an iOS app, and you want to validate data for each of those. Rather than writing code once for each client environment, you can write it just once with Cloud Code.
 
@@ -266,7 +265,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 });
 ```
 
-### Modifying Objects On Save
+#### Modifying Objects on Save
 
 In some cases, you don't want to throw out invalid data. You just want to tweak it a bit before saving it. `beforeSave` can handle this case, too. You just call `response.success` on the altered object.
 
@@ -283,7 +282,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
 });
 ```
 
-### Performing Actions After a Save
+### afterSave Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been saved. You can do this by registering a handler with the `afterSave` method. For example, suppose you want to keep track of the number of comments on a blog post. You can do that by writing a function like this:
 
@@ -306,7 +305,7 @@ The client will receive a successful response to the save request after the hand
 
 If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
-### Running Code On Delete
+### beforeDelete Triggers
 
 You can run custom Cloud Code before an object is deleted. You can do this with the `beforeDelete` method. For instance, this can be used to implement a restricted delete policy that is more sophisticated than what can be expressed through  [ACLs](/docs/js/api/symbols/Parse.ACL.html). For example, suppose you have a photo album app, where many photos are associated with each album, and you want to prevent the user from deleting an album if it still has a photo in it. You can do that by writing a function like this:
 
@@ -334,7 +333,7 @@ If `response.error` is called, the `Album` object will not be deleted, and the c
 If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 
-### Performing Actions After a Delete
+### afterDelete Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been deleted. You can do this by registering a handler with the `afterDelete` method. For example, suppose that after deleting a blog post, you also want to delete all associated comments. You can do that by writing a function like this:
 
@@ -373,6 +372,432 @@ Cloud functions will be killed after 15 seconds of wall clock time. `beforeSave`
 #### Network requests
 
 Network requests that are still in progress after `success` or `error` are called will be canceled. In general, you should wait for all network requests to finish before calling `success`. For `afterSave` functions and `afterDelete` functions, which don't call `success`/`error`, Cloud Code will wait for all network requests to finish.
+
+## Cloud Code Webhooks
+
+Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`, and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
+
+We've written an example Cloud Code Webhooks server, in Express.js, which you can find on Github: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
+
+### Cloud Function Webhooks
+
+A webhook request for a Cloud function will contain the following parameters:
+
+*   **master**: True if the master key was used and false otherwise.
+*   **user**: If set, this will contain the Parse User who made the request, in our REST API format. This is not set if the master key is used.
+*   **installationId**: If available, the installationId which made the request.
+*   **params**: A JSON object containing the parameters passed to the function. For example: `{ "foo": "bar" }`
+*   **functionName**: The name of the Cloud function.
+
+To respond to this request, send a JSON object with the key `error` or `success` set. In the case of `success`, send back any data your client will expect; or simply `true` if your client doesn't require any data. In the case of `error`, the value provided should be the error message you want to return.
+
+To create a webhook for a Cloud function, start by writing the function's code on your own server. Here's the simple hello world function written in a Rails environment.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity. protect_from_forgery :except => :index
+
+def index
+  # Ensure the request is authorized. You can find this key on your app's settings page
+  # and you should ALWAYS validate it in your request.
+  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key
+    return render :json => { :error => "Request Unauthorized"}
+  end
+
+  # Check the function name and return a message if it's correct
+  if params[:functionName] == "helloWorld"
+    return render :json => { :success => "Hello World!" }
+  end
+
+  # Return an error if it's not the function we expected 
+  return render :json => { :error => "Unknown function"}
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{
+  "master": false, 
+  "user": { 
+    "createdAt": "2015-03-24T20:19:00.542Z", 
+    "objectId": "lValKpphWN", 
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
+    "updatedAt": "2015-03-24T20:19:00.542Z", 
+    "username": "Matt" 
+  }, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "params": {}, 
+  "functionName": "helloWorld" 
+}
+```
+
+This response would indicate a success in the webhook:
+
+```json
+// Returned from the webhook on success
+{ "success": "Hello World!" } 
+```
+
+This response would indicate an error in the webhook:
+
+```json
+// Returned from the webhook on error 
+{ "error": "Error message >:(" } 
+```
+
+You can activate this webhook from the Dashboard UI.
+
+![](/images/docs/new_webhook.png)
+
+Once the webhook is set, you can call it from any of our SDKs or from the REST API, the same way you would a normal Cloud function.
+
+Here's a more complex example where we use a webhook to perform some task for our billing pipeline. We'll use the popular `resque` gem to enqueue a job that handles billing the given user. For this example, the function is named `chargeCustomer` and it should always be called with the master key.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we 
+# use the webhook key to prove authenticity. 
+protect_from_forgery :except => :index
+
+def index 
+  # Ensure the request is validated 
+  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key 
+    return render :json => { :error => "Request Unauthorized"} 
+  end
+
+  # Check the function name 
+  if params[:functionName] == "chargeCustomer" && params[:master] == true 
+    # extract the custom parameters sent with the function 
+    custom_params = params[:params] 
+    user_id = custom_params["userObjectId"]
+
+    # enqueue a resque job to bill the user 
+    Resque.enqueue(BillingJob, user_id)
+
+    # return a json object of this billing info 
+    return render :json => { :success => "User billed!" } 
+  end
+
+  return render :json => { :error => "Unknown function"} 
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{ 
+  "master": true, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "params": { "userObjectId": "6eaI2sTgH6" }, 
+  "functionName": "chargeCustomer" 
+}
+```
+
+This response would indicate a success in the webhook:
+
+```json
+// Returned from the webhook on success 
+{ "success": "User billed!" }
+```
+
+Set your webhook from the Dashboard UI. After that, it's available from all SDKs and the REST API the same way you would a normal Cloud function
+
+Webhooks are great when you want to use a specialized technology not available on Parse's Cloud Code. In this case we made use of an open source library and integrated with a separate data source where our billing info might be stored for legacy reasons.
+
+### beforeSave Webhooks
+
+Let's write a `beforeSave` trigger to truncate movie review comments that are more than 140 characters long using our own Rails server and a webhook.
+
+For triggers, the following parameters are sent to your webhook.
+
+*   **master**: True if the master key was used and false otherwise.
+*   **user**: If set, this will contain the Parse User who made the request, in our REST API format.
+*   **installationId**: If available, the installationId which made the request.
+*   **object**: For triggers, this will contain the Parse Object, in our REST API format. For example: `{ "className": "TestObject", "foo": "bar" }`.
+*   **triggerName**: "beforeSave"
+
+To respond to a `beforeSave` request, send a JSON object with the key `error` or `success` set. This is the same as for Cloud functions, but there's an extra capability with `beforeSave` triggers. By returning an error, you will cancel the save request and the object will not be stored on Parse. You can also return a JSON object in this following format to override the values that will be saved for the object:
+
+```json
+{ 
+  "className": "AwesomeClass", 
+  "existingColumn": "sneakyChange", 
+  "newColumn": "sneakyAddition" 
+}
+```
+
+Let's [recreate our trigger](#cloud-code-beforesave-triggers) to truncate moview review comments that are longer than 140 characters.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we 
+# use the webhook key to prove authenticity. 
+protect_from_forgery :except => :reviews
+
+def reviews 
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
+    return render :json => { :error => "Request Unauthorized"} 
+  end
+
+  review = params[:object] 
+  if params[:triggerName] == "beforeSave" && review["className"] == "Review" 
+    # truncate the object and return the new data 
+    if review["comment"].length > 140 
+      review["comment"] = review["comment"].truncate(140) 
+      return render :json => { :success => review } 
+    end
+
+    # if the comment is ok we just return a success 
+    return render :json => { :success => true } 
+  end
+
+  return render :json => { :error => "Unknown trigger"}
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{ 
+  "master": false, 
+  "user": { 
+    "createdAt": "2015-03-24T20:19:00.542Z", 
+    "objectId": "lValKpphWN", 
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
+    "updatedAt": "2015-03-24T20:19:00.542Z", 
+    "username": "Matt" 
+  }, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "triggerName": "beforeSave", 
+  "object": { 
+    "className": "Comment", 
+    "comment": "A very long comment that will be truncated to be just 140 characters. I sure love using Parse, it's just so easy to get started :)! Hopefully that part doesn't get truncated :/" 
+  } 
+}
+```
+
+This response would indicate a success in the webhook:
+
+```
+// Returned from the webhook on success
+{ 
+  "success": { 
+    "className": "Comment", 
+    "comment": "A very long comment that will be truncated to be just 140 characters. I sure love using Parse, it's just so easy to get started :)! Hopef..."
+  } 
+}
+```
+
+### afterSave Webhooks
+
+Like we've seen in Cloud Code, it's also possible to run some code after an object has been saved using a webhook. The parameters sent to your webhook are the same as for `beforeSave` triggers but we'll repeat them here for clarity.
+
+*   **master**: True if the master key was used and false otherwise.
+*   **user**: If set, this will contain the Parse User who made the request, in our REST API format.
+*   **installationId**: If available, the installationId which made the request.
+*   **object**: For triggers, this will contain the Parse Object, in our REST API format. For example: `{ "className": "TestObject", "foo": "bar" }`.
+*   **triggerName**: "afterSave"
+
+No response is required for `afterSave` triggers.
+
+Let's take the same example we created in Cloud Code [in the last chapter](#cloud-code-aftersave-triggers); keeping track of the number of comments on a blog post. But instead of storing the number in our Parse database, we'll store the count in a separate data source accessible by our Rails app. This could be useful if you're storing data that will be used to run custom analysics instead of being served to your users through a client.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we 
+# use the webhook key to prove authenticity. 
+protect_from_forgery :except => :comments
+
+def comments 
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
+    return render :nothing => true 
+  end
+
+  comment = params[:object] 
+  if params[:triggerName] == "afterSave" && comment["className"] == "Comment" 
+    post = comment["post"] 
+    @post_model = Post.where("id = #{post["objectId"]}") 
+    @post_model.increment(:comments_count, 1) 
+    @post_model.save! 
+    return render :nothing => true 
+  end 
+
+  render :nothing => true
+end
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{ 
+  "master": false, 
+  "user": { 
+    "createdAt": "2015-03-24T20:19:00.542Z", 
+    "objectId": "lValKpphWN", 
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
+    "updatedAt": "2015-03-24T20:19:00.542Z", 
+    "username": "Matt" 
+  }, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "triggerName": "afterSave", 
+  "object": { 
+    "objectId": "zPnDyvj0vd", 
+    "className": "Comment", 
+    "createdAt": "2015-03-25T00:00:57.055Z", 
+    "updatedAt": "2015-03-25T00:00:57.055Z", 
+    "post": { 
+      "__type": "Pointer", 
+      "className": "Post", 
+      "objectId": "jsUd72Sd2l" 
+    } 
+  } 
+}
+```
+
+### beforeDelete Webhooks
+
+You also use webhooks for `beforeDelete` triggers. The parameters sent to your webhook are the same as for `beforeSave` and  `afterSave` triggers but we'll repeat them here for clarity.
+
+*   **master**: True if the master key was used and false otherwise.
+*   **user**: If set, this will contain the Parse User who made the request, in our REST API format.
+*   **installationId**: If available, the installationId which made the request.
+*   **object**: For triggers, this will contain the Parse Object, in our REST API format. For example: `{ "className": "TestObject", "foo": "bar" }`.
+*   **triggerName**: "beforeDelete"
+
+Just like for Cloud functions, to respond to a `beforeDelete` request, send a JSON object with the key `error` or `success` set. Returning an error will cancel the delete and the object will remain in your database.
+
+As an example, let's use this trigger to prohibit a user from deleting or creating a new blog posts if they haven't paid their bill. We'll assume the billing information is currently stored in a SQL database only accessible from our Rails server. We'll use both the `beforeDelete` and the `beforeSave` triggers to disable all modifications to this class.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we 
+# use the webhook key to prove authenticity. 
+protect_from_forgery :except => :posts
+
+def posts 
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
+    return render :json => { :error => "Request Unauthorized"} 
+  end
+
+  post = params[:object] 
+  if (params[:triggerName] == "beforeDelete" || params[:triggerName] == "beforeSave") && post["className"] == "Post" 
+    @user = User.find(post['user']) 
+    if !@user.paid_up 
+      return render :json => { :error => "You have outstanding charges on your account. Please update your credit card information before proceeding." } 
+    end 
+
+    return render :json => { :success => true } 
+  end
+  return render :json => { :error => "Unknown trigger"}
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{ 
+  "master": false, 
+  "user": { 
+    "createdAt": "2015-03-24T20:19:00.542Z", 
+    "objectId": "lValKpphWN", 
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
+    "updatedAt": "2015-03-24T20:19:00.542Z", 
+    "username": "Matt" 
+  }, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "triggerName": "beforeDelete", 
+  "object": { 
+    "objectId": "jsUd72Sd2l", 
+    "className": "Post", 
+    "createdAt": "2015-03-25T00:00:57.055Z", 
+    "updatedAt": "2015-03-25T00:00:57.055Z"
+  } 
+}
+```
+
+This response would indicate a success in the webhook:
+
+```json
+// Returned from the webhook on success 
+{ "success": true }
+```
+
+As with previous examples, for this example to work you would also need to set up the webhooks in the Dashboard for your app.
+
+### afterDelete Webhooks
+
+The `afterDelete` trigger is also accessible via webhooks. The parameters sent to your webhook are the same as for other triggers but we'll repeat them here for clarity.
+
+*   **master**: True if the master key was used and false otherwise.
+*   **user**: If set, this will contain the Parse User who made the request, in our REST API format.
+*   **installationId**: If available, the installationId which made the request.
+*   **object**: For triggers, this will contain the Parse Object, in our REST API format. For example: `{ "className": "TestObject", "foo": "bar" }`.
+*   **triggerName**: "afterDelete"
+
+No response is required for `afterDelete` triggers.
+
+In our [webhooks example for the afterSave](#cloud-code-aftersave-triggers) trigger, we updated a count in our external SQL database to track the number of comments on a post. In this example, let's decrement this count when a comment is deleted.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we 
+# use the webhook key to prove authenticity. 
+protect_from_forgery :except => :comments
+
+def comments 
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
+    return render :nothing => true 
+  end
+
+  comment = params[:object] 
+  if params[:triggerName] == "afterDelete" && comment["className"] == "Comment" 
+    @post_model = Post.where("id = #{comment['post']}") 
+    @post_model.decrement(:comments_count, 1) 
+    @post_model.save! 
+    return render :nothing => true 
+  end
+
+  render :nothing => true
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{ 
+  "master": false, 
+  "user": { 
+    "createdAt": "2015-03-24T20:19:00.542Z", 
+    "objectId": "lValKpphWN", 
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
+    "updatedAt": "2015-03-24T20:19:00.542Z", 
+    "username": "Matt" 
+  }, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "triggerName": "afterDelete", 
+  "object": { 
+    "objectId": "zPnDyvj0vd", 
+    "className": "Comment", 
+    "createdAt": "2015-03-25T00:00:57.055Z", 
+    "updatedAt": "2015-03-25T00:00:57.055Z", 
+    "post": {
+      "__type": "Pointer", 
+      "className": "Post", 
+      "objectId": "jsUd72Sd2l" 
+    } 
+  } 
+}
+```
+
+After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
+
+### Resource Limits
+
+1.  All webhooks are limited to 30 seconds. Parse will time out the request after this time limit.
+2.  Cloud Code Webhooks require an HTTPS connection. Your server must have a valid SSL certificate. Self-signed certificates will not be accepted, for your security.
+3.  In cases where you define a webhook for a function or a trigger that you've also implemented in Cloud Code, Parse will only call your defined webhook. Priority will always be given to your webhook over Cloud Code.
+4.  In order to secure these requests and prevent others from executing this code on your server, we'll send a secret key known only to you and Parse in the `X-Parse-Webhook-Key` header. You should always check this value against your WebhookKey to authenticate that the webhook request is coming from Parse. You can find your Webhook key in the Keys section of your app dashboard.
 
 ## Background Jobs
 
