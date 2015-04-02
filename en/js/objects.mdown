@@ -359,7 +359,7 @@ For more details on `Parse.Query`, please look at the query portion of this guid
 
 So far we've used values with type `String`, `Number`, and `Parse.Object`. Parse also supports JavaScript `Date`s and `null`.
 
-You can nest JavaScript `Object`s and JavaScript `Array`s to store more structured data within a single `Parse.Object`.<p>
+You can nest JavaScript `Object`s and JavaScript `Array`s to store more structured data within a single `Parse.Object`.
 
 Some examples:
 

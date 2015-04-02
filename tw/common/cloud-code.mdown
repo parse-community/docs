@@ -463,7 +463,7 @@ app.listen();
 
 上述程式碼使用 `express.bodyParser` 中介軟體來讀取要求本文及填入 `req.body.text`。請注意，我們不在全域應用程式組態部分寫入 `app.use(express.basicAuth(â€¦))`，是因為我們希望只有這個端點（而非全域所有端點）使用 HTTP 基本驗證。如此一來，就還能公開存取應用程式內的其他端點。
 
-<p>若要測試自訂端點，可執行以下命令來傳送內含表單編碼本文的要求。
+若要測試自訂端點，可執行以下命令來傳送內含表單編碼本文的要求。
 
 ```bash
 $ curl -X POST \
@@ -739,12 +739,12 @@ name.coolNames;
 $ parse deploy
 New release is named v1
 ```
-<p>這會將 `cloud/main.js` 內的新程式碼推播至 Parse Cloud，並部署至預設目標，亦即第一個新增的應用程式，或使用 `parse default` 設定的應用程式。若要將程式碼推播至另一個目標，做法是將目標新增為 `deploy` 的引數，範例如下：
+這會將 `cloud/main.js` 內的新程式碼推播至 Parse Cloud，並部署至預設目標，亦即第一個新增的應用程式，或使用 `parse default` 設定的應用程式。若要將程式碼推播至另一個目標，做法是將目標新增為 `deploy` 的引數，範例如下：
 ```bash
 $ parse deploy "My Other App"
 New release is named v2
 ```
-<p>您可以使用 `-d` 或 `--description=` 選項，將版本說明新增至部署。
+您可以使用 `-d` 或 `--description=` 選項，將版本說明新增至部署。
 
 在其他指令碼內嵌 `parse deploy` 時（例如在自動測試／部署環境下），可藉由 Parse 命令列工具的結束程式碼得知命令是否成功。結束程式碼為 0 表示部署成功，結束程式碼不是零表示部署失敗。
 
