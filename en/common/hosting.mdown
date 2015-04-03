@@ -1,4 +1,4 @@
-# Hosting
+# Cloud Code Hosting
 
 Parse Hosting provides you with the tools to host static and dynamic websites. You can upload arbitraty static web content or create dynamic web apps, using the JavaScript SDK on the client side and Cloud Code plus Express on the server side. This allows you to create companion web apps for your native app, landing pages for your mobile app, or even host Unity Web Player binaries.
 

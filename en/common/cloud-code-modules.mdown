@@ -1,4 +1,4 @@
-# Cloud Modules
+# Cloud Code Modules
 
 Cloud Modules are the easiest way to integrate your Parse app with third-party services and libraries. Read on to learn how to add amazing features to your Parse app, from text messaging to email.
 
