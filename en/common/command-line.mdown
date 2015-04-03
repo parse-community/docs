@@ -1,4 +1,4 @@
-# Parse Command Line Tool
+# Command Line Tool
 
 The Parse command line tool allows you to interact with your Cloud Code from your terminal. Some of the topics here is also covered in the [Cloud Code guide](#cloud-code), but they are repeated here for clarity.
 

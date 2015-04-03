@@ -10,7 +10,7 @@ Even if you're only familiar with mobile development, we hope you'll find Cloud 
 
 ## Getting Started
 
-On the computer you use for development, you will need to install Parse's command line tool. This will let you manage your code in the Parse Cloud. You can learn more about the feautres of the command line tool in the [Command Line Tool guide](#command-line-tool).
+On the computer you use for development, you will need to install Parse's command line tool. This will let you manage your code in the Parse Cloud. You can learn more about the feautres of the command line tool in the [Command Line Tool guide](#command-line).
 
 ### Instllaling the Command Line Tool
 
