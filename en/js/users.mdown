@@ -40,7 +40,7 @@ user.signUp(null, {
 });
 ```
 
-This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
+This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
 Note that we used the `signUp` method, not the `save` method. New `Parse.User`s should always be created using the `signUp` method. Subsequent updates to a user can be done by calling `save`.
 
