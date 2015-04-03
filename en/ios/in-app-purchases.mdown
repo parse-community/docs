@@ -112,7 +112,7 @@ NSLog(@"%@, %@", product.productIdentifier, product.title);
 
 ## PFProductTableViewController
 
-![](/images/docs/products_table_screenshot.png)
+![](/images/docs/products_table_screenshot.png =260x390)
 
 `PFProductTableViewController` is a subclass of `PFQueryTableViewController` that displays all IAP products in a table view. Some content apps, such as an app that sells comic books or video tutorials, may find it handy to use `PFProductTableViewController` to sell the products. By default, each cell is a product, and tapping on a cell initiates the purchase for the product. If the product has associated downloadable content, the download will start when the cell is selected and a progress bar is displayed to indicate the progress of the download.
 
