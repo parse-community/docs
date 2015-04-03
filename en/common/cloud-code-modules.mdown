@@ -1,0 +1,530 @@
+# Cloud Modules
+
+Cloud Modules are the easiest way to integrate your Parse app with third-party services and libraries. Read on to learn how to add amazing features to your Parse app, from text messaging to email.
+
+Cloud Modules work just like the [JavaScript modules](/docs/cloud_code_guide#modules) you can create yourself but they are readily available to everyone. You just add `require('cloudModuleName')` to your Cloud Code and you are ready to go! This guide will help you get started with the current set of available Cloud Modules. But, if you don't see the service you're interested in, fill out the feedback form above to let us know! You can also take a look at the our tutorial on how to create your own modules to integrate with your favorite APIs.
+
+## App Links
+
+We provide Express middleware for generation of App Link metadata, which allows other apps to deep link into your app based on content on your website. You can check out the full documentation of App Links [here](http://applinks.org). To use App Links, you require both `express` and `applinks-metatag` modules and create an Express app.
+
+```js
+var Express = require('express');
+var AppLinks = require('applinks-metatag');
+var app = Express();
+```
+
+The middleware accepts an array of JavaScript objects that must contain a platform name (e.g. "ios", "iphone", "android", or "windows_phone") and a set of fields relevant to the platform as specified on the [App Links official website](http://applinks.org). You can also provide a function that will generate the same metadata based upon the request, so that you can provide different app links data for each page.
+
+```js
+app.use(AppLinks([{
+  platform: "ios",
+  url: "anypic://",
+  app_name: "AnyPic"
+}, {
+  platform: "android",
+  url: "anypic://",
+  package: "com.parse.anypic"
+}]));
+```
+
+The code snippet above will inject the following code into the content of your page's head tag:
+
+```html
+<meta property="al:ios">
+<meta property="al:ios:url" content="anypic://">
+<meta property="al:ios:app_name" content="AnyPic">
+<meta property="al:android">
+<meta property="al:android:url" content="anypic://">
+<meta property="al:android:package" content="com.parse.anypic">
+```
+
+You can also inject the App Links metadata into individual pages:
+
+```js
+app.use(AppLinks([{
+  platform: "ios",
+  url: "anypic://",
+  app_name: "AnyPic"
+}, {
+  platform: "android",
+  url: "anypic://",
+  package: "com.parse.anypic"
+}]));
+
+app.get('/home', AppLinks({
+  platform: "ipad",
+  url: "anypic2://",
+  app_name: "AnyPic for iPad"
+}), yourRenderFunction);
+```
+
+This will include the global iOS and Android metadata, but will also add iPad App Link metadata when rendering `/home`:
+
+```html
+<meta property="al:ipad">
+<meta property="al:ipad:url" content="anypic2://">
+<meta property="al:ipad:app_name" content="AnyPic for iPad">
+<meta property="al:ios">
+<meta property="al:ios:url" content="anypic://">
+<meta property="al:ios:app_name" content="AnyPic">
+<meta property="al:android">
+<meta property="al:android:url" content="anypic://">
+<meta property="al:android:package" content="com.parse.anypic">
+```
+
+You can also generate App Link metadata based on request parameters by supplying a function:
+
+```js
+app.get('/image/:imageId', AppLinks(function(req, res) {
+  return {
+    platform: "ipad",
+    url: "anypic://image/" + req.params.imageId,
+    app_name: "AnyPic for iPad"
+  };
+}), yourRenderFunction);
+```
+
+This will inject the following code when rendering `/image/parsaritas`:
+
+```html
+<meta property="al:ipad">
+<meta property="al:ipad:url" content="anypic://image/parsaritas">
+<meta property="al:ipad:app_name" content="AnyPic for iPad">
+```
+
+## Mailgun
+
+Mailgun is a set of powerful APIs that allow you to send, receive, track and store email effortlessly. You can check out their service at [www.mailgun.com](http://www.mailgun.com). To use this Cloud Module, you will need to head over to the Mailgun website and create an account.
+
+The current version of the Mailgun Cloud Module supports sending emails. To use it in your Cloud Code functions, start by requiring the module and initializing it with your credentials.
+
+```js
+var Mailgun = require('mailgun');
+Mailgun.initialize('myDomainName', 'myAPIKey');
+```
+
+You can then use the `sendEmail` function to fire off some emails. This function takes two parameters. The first is a hash with the Mailgun parameters you want to include in the request. The typical ones are `from`, `to`, `subject` and `text`, but you can find the full list on their [documentation page](http://documentation.mailgun.net/api-sending.html). The second parameter to this function is an object with a `success` and an `error` field containing two callback functions.
+
+```js
+Mailgun.sendEmail({
+  to: "email@example.com",
+  from: "Mailgun@CloudCode.com",
+  subject: "Hello from Cloud Code!",
+  text: "Using Parse and Mailgun is great!"
+}, {
+  success: function(httpResponse) {
+    console.log(httpResponse);
+    response.success("Email sent!");
+  },
+  error: function(httpResponse) {
+    console.error(httpResponse);
+    response.error("Uh oh, something went wrong");
+  }
+});
+```
+
+For additional information about the Mailgun Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mailgun.html).
+
+## Mandrill
+
+Mandrill provides a great platform for sending transactional email. It runs on the delivery infrastructure that powers MailChimp. You can check out their service on [their website](http://www.mandrill.com). To use this Cloud Module, you will need to head over to the Mandrill website and create an account.
+
+The current version of the Mandrill Cloud Module supports sending emails. To use it in your Cloud Code functions, start by requiring the module and initializing it with your credentials.
+
+```js
+var Mandrill = require('mandrill');
+Mandrill.initialize('myAPIKey');
+```
+
+You can then use the `sendEmail` function to fire off some emails. This function takes two parameters. The first is a hash with the Mandrill parameters you want to include in the request. A full list is available on their [documentation page](https://mandrillapp.com/api/docs/messages.html), but here is an example of the common ones. The `message` object is required with every request and contains the email's data such as the `text`, the `subject` and an array of recipients. Optionally, the `async` boolean value can be provided to ensure the request returns once the email is queued instead of waiting until it is sent. If you are sending an email to multiple recipients, you should set `async` to true to ensure your cloud function does not timeout. The second parameter to this function is an object with a `success` and an `error` field containing two callback functions for the request.
+
+```js
+Mandrill.sendEmail({
+  message: {
+    text: "Hello World!",
+    subject: "Using Cloud Code and Mandrill is great!",
+    from_email: "parse@cloudcode.com",
+    from_name: "Cloud Code",
+    to: [
+      {
+        email: "you@parse.com",
+        name: "Your Name"
+      }
+    ]
+  },
+  async: true
+},{
+  success: function(httpResponse) {
+    console.log(httpResponse);
+    response.success("Email sent!");
+  },
+  error: function(httpResponse) {
+    console.error(httpResponse);
+    response.error("Uh oh, something went wrong");
+  }
+});
+```
+
+For additional information about the Mandrill Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mandrill.html).
+
+
+## Moment
+
+Moment.js is a small JavaScript date library for parsing, validating, manipulating, and formatting dates. You can learn more about Moment on [their website](http://momentjs.com/). To use it, you simply need to require it.
+
+```js
+var moment = require('moment');
+```
+
+For additional information about the Moment.js Cloud Module, take a look at their [API reference](http://momentjs.com/docs).
+
+Note that the version of Moment.js that Parse offers is 1.7.2.  If you require a newer version, download moment.js to your `cloud/` folder and require it like this:
+
+```js
+var moment = require('cloud/moment');
+```
+
+## Parse Image
+
+Images are the most common kind of `Parse.File`. The `parse-image` module provides an `Image` class that makes working with images in Cloud Code easier.
+
+### Reading Images from Files
+
+To get started, create an `Image` using a `Buffer` with image file data. Usually, this data comes from a `Parse.File`. To read in the data from a file and create the image object, you can use our networking functions.
+
+```js
+var Image = require("parse-image");
+
+Parse.Cloud.httpRequest({
+  url: object.get("profilePhoto").url(),
+  success: function(response) {
+    // The file contents are in response.buffer.
+    var image = new Image();
+    return image.setData(response.buffer, {
+      success: function() {
+        console.log("Image is " + image.width() + "x" + image.height() + ".");
+      },
+      error: function(error) {
+        // The image data was invalid.
+      }
+    })
+  },
+  error: function(error) {
+    // The networking request failed.
+  }
+});
+```
+
+### Cropping Images
+
+To extract a particular rectangle of an image, use the `crop` method. This lets you specify the area of the image you want to keep.
+
+```js
+// Crop the image to the rectangle from (10, 10) to (30, 20).
+image.crop({
+  left: 10,
+  top: 10,
+  right: 30,
+  bottom: 20,
+  success: function(image) {
+    // The image was cropped.
+  },
+  error: function(error) {
+    // The image could not be cropped.
+  }
+});
+```
+
+Alternatively, you can supply a width and height instead of right and bottom.
+
+```js
+// Crop the image to the rectangle from (10, 10) to (30, 20).
+image.crop({
+  left: 10,
+  top: 10,
+  width: 20,
+  height: 10,
+  success: function(image) {
+    // The image was cropped.
+  },
+  error: function(error) {
+    // The image could not be cropped.
+  }
+});
+```
+
+### Scaling Images
+
+You can also resize an image, scaling the graphic using interpolation. Images can be made either smaller or larger. Just specify the new width and height. If you leave either off, it will assume the current image size.
+
+```js
+// Resize the image to 64x64.
+image.scale({
+  width: 64,
+  height: 64,
+  success: function(image) {
+    // The image was scaled.
+  },
+  error: function(error) {
+    // The image could not be scaled.
+  }
+});
+```
+
+Sometimes it's more convenient to specify a ratio to resize to, instead of absolute dimensions.
+
+```js
+// Resize the image to 25% of its original size.
+image.scale({
+  ratio: 0.25,
+  success: function(image) {
+    // The image was scaled.
+  },
+  error: function(error) {
+    // The image could not be scaled.
+  }
+});
+```
+
+### Changing Image Formats
+
+You can even change the file format of an image file. For example, you may want to convert a file to a JPEG to reduce file size and bandwidth usage.
+
+```js
+// Change the image to be a JPEG.
+image.setFormat("JPEG", {
+  success: function(image) {
+    // The image was changed to a JPEG.
+  },
+  error: function(error) {
+    // The image could not be reformatted.
+  }
+});
+```
+
+### Image Thumbnail Example
+
+Every `Image` method returns a [`Parse.Promise`](/docs/js_guide#promises) in addition to having callbacks. This makes it easy to chain together multiple operations. Consider the common case where a user supplies an image to use for their profile. It's nice to be able to automatically generate a thumbnail of that photo to use in some of your UI. This can be done using a `beforeSave` handler.
+
+```js
+var Image = require("parse-image");
+
+Parse.Cloud.beforeSave("_User", function(request, response) {
+  var user = request.object;
+  if (!user.get("profilePhoto")) {
+    response.error("Users must have a profile photo.");
+    return;
+  }
+
+  if (!user.dirty("profilePhoto")) {
+    // The profile photo isn't being modified.
+    response.success();
+    return;
+  }
+
+  Parse.Cloud.httpRequest({
+    url: user.get("profilePhoto").url()
+
+  }).then(function(response) {
+    var image = new Image();
+    return image.setData(response.buffer);
+
+  }).then(function(image) {
+    // Crop the image to the smaller of width or height.
+    var size = Math.min(image.width(), image.height());
+    return image.crop({
+      left: (image.width() - size) / 2,
+      top: (image.height() - size) / 2,
+      width: size,
+      height: size
+    });
+
+  }).then(function(image) {
+    // Resize the image to 64x64.
+    return image.scale({
+      width: 64,
+      height: 64
+    });
+
+  }).then(function(image) {
+    // Make sure it's a JPEG to save disk space and bandwidth.
+    return image.setFormat("JPEG");
+
+  }).then(function(image) {
+    // Get the image data in a Buffer.
+    return image.data();
+
+  }).then(function(buffer) {
+    // Save the image into a new file.
+    var base64 = buffer.toString("base64");
+    var cropped = new Parse.File("thumbnail.jpg", { base64: base64 });
+    return cropped.save();
+
+  }).then(function(cropped) {
+    // Attach the image file to the original object.
+    user.set("profilePhotoThumbnail", cropped);
+
+  }).then(function(result) {
+    response.success();
+  }, function(error) {
+    response.error(error);
+  });
+});
+```
+
+## SendGrid
+
+SendGrid is a cloud-based email service that delivers email on behalf of companies to increase deliverability and improve customer communications.  If you do not already have a SendGrid account, you can do so (here)[http://www.sendgrid.com].
+
+SendGrid provides reliable delivery, scalability and real-time analytics along with flexible APIs that make custom integration simple. Access advanced metrics and reporting with our powerful APIs to customize, measure and automate your email program.
+
+### Sending Email
+
+The SendGrid module allows you to send attachments to multiple recipients and all the features of the [SMTPAPI Header](https://sendgrid.com/docs/API_Reference/SMTP_API/index.html). For a more comprehensive documentation and examples, please visit the [official repository](https://github.com/elbuo8/sendgrid-parse) for this library.
+
+```js
+var sendgrid = require("sendgrid");
+
+sendgrid.initialize("sendgrid_username", "sendgrid_password");
+SendGrid.sendEmail({
+  to: ["email@example.com (mailto:email@example.com)", "email+1@example.com"],
+  from: "SendGrid@CloudCode.com (mailto:SendGrid@CloudCode.com)",
+  subject: "Hello from Cloud Code!",
+  text: "Using Parse and SendGrid is great!",
+  replyto: "reply@example.com (mailto:reply@example.com)"
+}).then(function(httpResponse) {
+  console.log(httpResponse);
+  response.success("Email sent!");
+},function(httpResponse) {
+  console.error(httpResponse);
+  response.error("Uh oh, something went wrong");
+});
+```
+
+### Email Webhooks
+
+SendGrid offers two webhooks, one for events and another for incoming email. Here are some cool things you can do with these webhooks.
+
+With the [Event Webhook](https://sendgrid.com/docs/API_Reference/Webhooks/event.html), SendGrid allows you to monitor all stats with your SendGrid account in real-time and drill down to individual recipients to see who is opening and clicking your important messages. The Event Webhook will notify a URL of your choice via HTTP POST with information about these events as SendGrid processes your email. Common uses of this data are to remove unsubscribes, react to spam reports, determine unengaged recipients, identify bounced email addresses or create advanced analytics of your email program.
+
+Enabling the SendGrid Event Webhook requires simply adding the endpoint in your Parse app to your settings:
+
+![](/images/docs/sendgrid_webhook_endpoint.jpg)
+
+The SendGrid [Parse Webhook](https://sendgrid.com/docs/API_Reference/Webhooks/parse.html) allows you to manage inbound email with as a smarter alternative to no-reply addresses. SendGrid can parse the attachments and contents of incoming emails enabling users to post content to an app (blog entries, photo uploads, etc.) via email. The SendGrid Parse API will POST the parsed email to a URL that you specify.
+
+You can enable the SendGrid Parse Webhook by adding the following settings to your account:
+
+![](/images/docs/sendgrid_webhook_path.jpg)
+
+## Stripe
+
+Stripe provides a very easy-to-use API for processing credit cards on the web or in your mobile app. You can take a look at their service at [www.stripe.com](https://www.stripe.com). To use this Cloud Module, you will need to head over to the Stripe website and create an account. The current version of the Stripe Cloud Module supports the majority of their [REST API.](https://stripe.com/docs/api?lang=curl)
+
+To use this module in your Cloud Code functions, start by requiring and initializing it with your credentials.
+
+```js
+var Stripe = require('stripe');
+Stripe.initialize('mySecretKey');
+```
+
+### Charging a Credit Card
+
+Charging a credit card using Stripe and Parse will usually follow this flow.
+
+![](/images/docs/parse_stripe_diagram.png)
+
+1. Getting a Credit Card Token
+
+The first step to charging a credit card is to generate a token using the Stripe API. You should do this from your mobile or web client using your "publishable key". This will ensure that only Stripe manipulates the sensitive credit card information. If you are using iOS, you can use the [Stripe iOS SDK](https://github.com/briancollins/stripe-ios), otherwise take a look at the Creating a Token section of their [REST API documentation]().
+
+2. Calling your Cloud Code Function
+
+After successfully creating a token, you can send the card token to a Cloud Code function. For more on creating and calling Parse Cloud Functions from the client SDKs or REST API, take a look at the [Cloud Code Guide](/docs/cloud_code_guide).
+
+3. Charging the Credit Card
+
+From a Cloud Code function, you can then use the Stripe Cloud Module to charge the credit card token. Using the [`Stripe.Charges.create`](/docs/js/api/symbols/Stripe.Charges.html) function you can specify the amount, currency, and card token to use for the purchase. The full list of available parameters can be found in [Stripe's API documentation](https://stripe.com/docs/api?lang=curl#create_charge), but the following example demonstrates the basic use case.
+
+```js
+Stripe.Charges.create({
+  amount: 100 * 10, // $10 expressed in cents
+  currency: "usd",
+  card: "tok_3TnIVhEv9P24T0" // the token id should be sent from the client
+},{
+  success: function(httpResponse) {
+    response.success("Purchase made!");
+  },
+  error: function(httpResponse) {
+    response.error("Uh oh, something went wrong");
+  }
+});
+```
+
+### Available Functionality
+
+There are many more functions available from the Stripe Cloud Module. Please consult the Stripe Cloud Module [API reference](/docs/js/api/symbols/Stripe.html) for the full list of available functions and consult [Stripe's own REST documentation](https://stripe.com/docs/api?lang=curl) for more information on how their platform works.
+
+## Twilio
+
+<div class='tip info'><div>
+  Parse provides the full functionality of the Twilio-node module including SMS, Voice, and Twiml features.  Please refer to the documentation here: [Twilio-node module documentation](http://twilio.github.io/twilio-node/).  You do not need to install the module, as it is already installed and hosted on Parse.
+</div></div>
+
+### Usage Example
+
+```js
+// Require and initialize the Twilio module with your credentials
+var client = require('twilio')('ACCOUNT_SID', 'AUTH_TOKEN');
+
+// Send an SMS message
+client.sendSms({
+    to:'+16515556677', 
+    from: '+14506667788', 
+    body: 'Hello world!' 
+  }, function(err, responseData) { 
+    if (err) {
+      console.log(err);
+    } else { 
+      console.log(responseData.from); 
+      console.log(responseData.body);
+    }
+  }
+);
+```
+
+### Inbound Requests
+
+With Express in Cloud Code, you can define routes to handle incoming requests. The following is an example [Custom Webhook](/docs/cloud_code_guide#webhooks) that receives requests from Twilio.
+
+```js
+var express = require('express');
+var app = express();
+
+// Global app configuration section
+app.use(express.bodyParser());  // Populate req.body
+
+app.post('/receiveSMS',
+         function(req, res) {
+
+  console.log("Received a new text: " + req.body.From);
+  res.send('Success');
+});
+
+app.listen();
+```
+
+After creating the route and deploying, configure the URL with Twilio and your webhook will begin handling requests from Twilio. You will have access to all of the request data through `req.body` in your Custom Webhook. The full list of available data can be found in the [Twilio documentation](http://www.twilio.com/docs/api/twiml/twilio_request).
+
+For additional information about the Twilio Cloud Module, take a look at the [twilio-node Reference](http://twilio.github.io/twilio-node/).
+
+## Underscore
+
+Underscore.js is a utility-belt library for JavaScript that provides a lot of the functional programming support. You can learn more about Underscore on [their website](http://underscorejs.org/). The Parse SDK uses this library internally but it is also available in Cloud Code using the underscore Cloud Module. To use it, you simply need to require it.
+
+```js
+var _ = require('underscore');
+```
+
+For additional information about the Underscore.js Cloud Module, take a look at their [API reference](http://underscorejs.org/)
