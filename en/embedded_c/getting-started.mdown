@@ -16,7 +16,7 @@ On Parse, you create an App for each of your mobile and embedded applications. E
 In order for Parse to know which app is associated with the connected device, simply specify the application ID and client key in the device code:
 
 ```cpp
-ParseClient client = parseInitialize(${APPLICATION_ID}, ${YOUR_CLIENT_KEY});
+ParseClient client = parseInitialize("${APPLICATION_ID}", "${CLIENT_KEY}");
 ```
 
 After this, all calls to the Parse Cloud will use the specified app.
