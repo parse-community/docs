@@ -162,6 +162,14 @@ I2012-07-10:13:37:00] beforeSave handler in release 'v1' ran for GameScore with 
 
 You can list the known set of releases on the Parse Cloud with the `releases` command. Parse only tracks the last 10 releases.
 
+```bash
+$ parse releases
+Name                            Description                     Date
+v14                             Add background job              2015-03-11T18:17:52Z
+v15                             No release notes given          2015-03-11T18:45:32Z
+v16                             Moved to webhooks               2015-03-16T21:32:02Z
+...
+```
 
 ## Setting the SDK version
 

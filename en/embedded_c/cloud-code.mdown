@@ -6,7 +6,7 @@ You write your Cloud Code in JavaScript using the Parse JavaScript SDK. We provi
 
 For example, you define a Cloud Function as below.
 
-```c
+```cpp
 Parse.Cloud.define("hello", function(request, response) {
 	response.success(request.body);
 });
@@ -14,7 +14,7 @@ Parse.Cloud.define("hello", function(request, response) {
 
 Then you can invoke this Cloud Function from your device:
 
-```c
+```cpp
 void myCloudFunctionCallback(ParseClient client, int error, int httpStatus, const char* httpResponseBody) {
 	if (error == 0 && httpResponseBody != NULL) {
 		// httpResponseBody holds the Cloud Function response

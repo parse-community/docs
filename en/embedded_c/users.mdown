@@ -6,7 +6,7 @@ You can sign in users via the REST API, but we do not recommend doing so unless 
 
 Once you have a session token, you can use it to act on the behalf of a particular user. The session token used by the SDK can be set with`parseSetSessionToken`:
 
-```c
+```cpp
 char token[] = "r:olqZkbv8fefVFNjWegyIXIggd";
 parseSetSessionToken(client, token);
 ```
@@ -19,13 +19,13 @@ If a session token is set before an installation is set, the SDK will create an 
 
 The session token can be cleared with`parseClearSessionToken` function. Once the token is cleared, the device will not be authenticated as the user anymore:
 
-```c
+```cpp
 parseClearSessionToken(client);
 ```
 
 One can get the current session token by doing:
 
-```c
+```cpp
 char* session_token = parseGetSessionToken(client);
 ```
 

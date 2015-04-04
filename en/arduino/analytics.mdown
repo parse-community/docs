@@ -2,7 +2,7 @@
 
 Some examples:
 
-```c
+```cpp
 ParseTrackEvent trackEvent;
 trackEvent.setEventName("ButtonPress");
 trackEvent.send();

@@ -8,7 +8,7 @@ Every Parse application installed on a device registered for push notifications 
 
 There are two ways to create an Installation for the Arduino. You can generate an installation ID (random lowercase UUID) elsewhere (e.g. phone), send that to your arduino during initial provisioning, then set the installation ID on the arduino:
 
-```c
+```cpp
 // In this example, we associate this device with a pre-generated installation ID
 ParseClient client;
 client.setInstallationId("ab946c14-757a-4448-8b77-69704b01bb7b");
@@ -20,7 +20,7 @@ If you do not pass in an installation ID, the`ParseClient` will automatically ge
 
 You can retrieve your installation ID with the`getInstallationId` function:
 
-```c
+```cpp
 String installationId = client.getInstallationId();
 ```
 
@@ -39,7 +39,7 @@ The Installation class has several special fields that help you manage and targe
 
 To subscribe to push notifications, make the following call in your`setup` function:
 
-```c
+```cpp
 client.startPushService();
 ```
 

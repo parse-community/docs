@@ -18,7 +18,7 @@ Each object has a class name that you can use to distinguish different sorts of 
 
 Let's say you want to save the`Temperature` described above to the Parse Cloud. You would do the following:
 
-```c
+```cpp
 ParseObjectCreate create;
 create.setClassName("Temperature");
 create.add("temperature", 175.0);
@@ -47,7 +47,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the`objectId`, you can retrieve the object using a query:
 
-```c
+```cpp
 ParseObjectGet get;
 get.setClassName("Temperature");
 get.setObjectId("xWMyZ4YEGZ");
@@ -61,7 +61,7 @@ response.close(); // Free the resource
 
 Updating an object is very similar to creating one. Assuming you have saved the object and have the`objectId`, can do the following:
 
-```c
+```cpp
 ParseObjectUpdate update;
 update.setClassName("Temperature");
 update.setObjectId("xWMyZ4YEGZ");
@@ -73,7 +73,7 @@ update.send();
 
 To delete an object from the cloud:
 
-```c
+```cpp
 ParseObjectDelete del;
 del.setClassName("Temperature");
 del.setObjectId("xWMyZ4YEGZ");
@@ -86,7 +86,7 @@ So far we've used values with type`String,` double, and`bool`. The Parse Arduino
 
 Some examples:
 
-```c
+```cpp
 ParseObjectCreate create;
 create.setClassName("TestObject");
 create.add("number", 42.0);

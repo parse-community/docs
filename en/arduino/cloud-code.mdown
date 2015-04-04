@@ -4,7 +4,7 @@ Some examples:
 
 Define a cloud function as below. See our [Cloud Code guide](/docs/cloud_code_guide) for details.
 
-```c
+```cpp
 Parse.Cloud.define("hello", function(request, response) {
 	response.success(request.body);
 });
@@ -12,7 +12,7 @@ Parse.Cloud.define("hello", function(request, response) {
 
 Then you can invoke this Cloud Function from your device:
 
-```c
+```cpp
 ParseCloudFunction cloudFunction;
 cloudFunction.setFunctionName("hello");
 cloudFunction.add("value", "echo from hello");
