@@ -30,6 +30,11 @@ print result
 
 Similarly, you can trigger a background job from the REST API. For example, to trigger the job named `userMigration`:
 
+<div class='tip info'><div>
+  Take a look at the [Cloud Code Guide](/docs/cloud_code_guide?language=curl#functions-calling) 
+  to learn more about Cloud Functions and Background Jobs.
+</div></div>
+
 ```bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -52,8 +57,3 @@ connection.request('POST', '/1/jobs/userMigration', json.dumps({
 result = json.loads(connection.getresponse().read())
 print result
 ```
-
-<div class='tip info'><div>
-  Take a look at the [Cloud Code Guide](/docs/cloud_code_guide?language=curl#functions-calling) 
-  to learn more about Cloud Functions and Background Jobs.
-</div></div>
