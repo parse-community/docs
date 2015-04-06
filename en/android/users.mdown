@@ -329,38 +329,44 @@ Parse provides an easy way to integrate Facebook with your application. The Face
 
 Using our Facebook integration, you can associate an authenticated Facebook user with a `ParseUser`. With just a few lines of code, you'll be able to provide a "Log in with Facebook" option in your app, and be able to save their data to Parse.
 
+**Note:** Parse is compatible with both Facebook SDK 3.x and 4.x for Android. These instructions are for Facebook SDK 4.x.
+
 ### Setup
 
 To start using Facebook with Parse, you need to:
 
 1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already.
 2.  Add your application's Facebook Application ID on your Parse application's settings page.
-3.  Follow Facebook's instructions for [getting started with the Facebook SDK](https://developers.facebook.com/docs/getting-started/facebook-sdk-for-android/3.0/) to create an app linked to the Facebook SDK.  Once you get to Step 6, stop after linking the Facebook SDK project and configuring the Facebook app ID. You can use our guide to attach your Parse users to Facebook accounts when logging in.
+3.  Follow Facebook's instructions for [getting started with the Facebook SDK](https://developers.facebook.com/docs/android/getting-started) to create an app linked to the Facebook SDK.  Once you get to Step 6, stop after linking the Facebook SDK project and configuring the Facebook app ID. You can use our guide to attach your Parse users to Facebook accounts when logging in.
+4.  Add `ParseFacebookUtilsV4.jar` to your Android project.
+5.  Add the following where you initialize the Parse SDK in your `Application.onCreate()`:
 
-Facebook's Android SDK provides an enhanced login experience on devices that have [Facebook's official Android app](https://market.android.com/details?id=com.facebook.katana) installed. This allows users of apps that support Facebook login to sign in directly through the Facebook app, using credentials that are already on the device. If the Facebook app is not installed, the default dialog-based authentication will be used. Facebook calls this feature "Single sign-on," and requires you to override `onActivityResult()` in your calling `Activity` to invoke `finishAuthentication()`.
+  ```java
+  ParseFacebookUtils.initialize(context);
+  ```
+
+Facebook's Android SDK provides an enhanced login experience on devices that have [Facebook's official Android app](https://market.android.com/details?id=com.facebook.katana) installed. This allows users of apps that support Facebook login to sign in directly through the Facebook app, using credentials that are already on the device. If the Facebook app is not installed, the default dialog-based authentication will be used. Facebook calls this feature "Single sign-on" (SSO), and requires you to override `onActivityResult()` in your calling `Activity`:
 
 ```java
 @Override
 protected void onActivityResult(int requestCode, int resultCode, Intent data) {
   super.onActivityResult(requestCode, resultCode, data);
-  ParseFacebookUtils.finishAuthentication(requestCode, resultCode, data);
+  ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 }
 ```
 
-If your `Activity` is already using `onActivityResult()`, you can avoid `requestCode` collisions by calling the versions of `link()` and `logIn()` that take an `activityCode` parameter and specifying a code you know to be unique.  Otherwise, a sensible default `activityCode` will be used.
+If your `Activity` is already using `onActivityResult()`, you can avoid `requestCode` collisions by specifying your own request code offset when initializing `ParseFacebookUtils.initialize(context, callbackRequestCodeOffset)`. Otherwise, a sensible default `activityCode` will be used.
 
 If you encounter any issues that are Facebook-related, a good resource is the [official Facebook SDK for Android page](https://developers.facebook.com/android/).
-
-Parse is compatible with v3.0 of the Facebook SDK for Android.
 
 There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `ParseUser`, or (2) linking Facebook to an existing `ParseUser`.
 
 ### Login &amp; Signup
 
-`ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is accomplished using the `logIn()` method:
+`ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is generally accomplished using the `logInWithReadPermissionsInBackground(String, Collection<String>)` method:
 
 ```java
-ParseFacebookUtils.logIn(this, new LogInCallback() {
+ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
   @Override
   public void done(ParseUser user, ParseException err) {
     if (user == null) {
@@ -381,21 +387,9 @@ When this code is run, the following happens:
 3.  Our SDK receives the Facebook data and saves it to a `ParseUser`. If it's a new user based on the Facebook ID, then that user is created.
 4.  Your `LogInCallback` is called with the user.
 
-In order to display the Facebook login dialogs and activities, the current `Activity` must be provided (often, the current activity is `this` when calling `logIn()` from within the `Activity`) as we have done above.
+In order to display the Facebook login dialogs and activities, the current `Activity` must be provided (often, the current activity is `this` when calling `logInWithReadPermissionsInBackground()` from within the `Activity`) as we have done above.
 
-You may optionally provide a collection of strings that specifies what read permissions your app requires from the Facebook user.  You may specify these strings yourself, or use the constants we've provided for you in the `ParseFacebookUtils.Permissions` class.  For example:
-
-```java
-ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
-        this, new LogInCallback() {
-  @Override
-  public void done(ParseUser user, ParseException err) {
-    // Code to handle login.
-  }
-});
-```
-
-`ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#fbusers-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+`ParseUser` integration doesn't require any permissions to work out of the box (i.e. `null` is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#fbusers-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 <div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
@@ -407,7 +401,7 @@ If you want to associate an existing `ParseUser` to a Facebook account, you can 
 
 ```java
 if (!ParseFacebookUtils.isLinked(user)) {
-  ParseFacebookUtils.link(user, this, new SaveCallback() {
+  ParseFacebookUtils.linkWithReadPermissionsInBackground(user, this, permissions, new SaveCallback() {
     @Override
     public void done(ParseException ex) {
       if (ParseFacebookUtils.isLinked(user)) {
@@ -433,26 +427,17 @@ ParseFacebookUtils.unlinkInBackground(user, new SaveCallback() {
 });
 ```
 
-Or if you are handling threading yourself, you can call `unlink()` directly like this:
-
-```java
-try {
-  ParseFacebookUtils.unlink(user);
-  Log.d("MyApp", "The user is no longer associated with their Facebook account.");
-} catch (ParseException e) { }
-```
-
 ### Requesting Permissions
 
-As of v3.0 of the Facebook SDK, read and publish permissions must be requested separately. `ParseFacebookUtils.logIn()` and `ParseFacebookUtils.link()` only allow you to request read permissions. To request additional permissions, you may call `ParseFacebookUtils.getSession().requestNewReadPermissions()` or `ParseFacebookUtils.getSession().requestNewPublishPermissions()`. For more information about requesting new permissions, please see [Facebook's API documentation for these functions](https://developers.facebook.com/docs/reference/android/3.0/Session#requestNewReadPermissions(NewPermissionsRequest)).
+As of v3.0 of the Facebook SDK, read and publish permissions must be requested separately. To request additional permissions, you may call `ParseFacebookUtils.linkWithReadPermissionsInBackground()` or `ParseFacebookUtils.linkWithPublishPermissionsInBackground()`. For more information about requesting new permissions, please see [Facebook's API documentation for these functions](https://developers.facebook.com/docs/facebook-login/android/permissions).
 
-After successfully retrieving new permissions, please call `ParseFacebookUtilities.saveLatestSessionDataInBackground()`, which will save any changes to the session token back to the `ParseUser` and ensure that this session data follows the user wherever it logs in.
+After successfully retrieving new permissions, please call `ParseFacebookUtilities.linkInBackground(ParseUser, AccessToken)`, which will save any changes to the session token back to the `ParseUser` and ensure that this session data follows the user wherever it logs in.
 
 ### Facebook SDK and Parse
 
-The Facebook Android SDK provides a number of helper classes for interacting with Facebook's API. Generally, you will use the Request class to interact with Facebook on behalf of your logged-in user. [You can read more about the Facebook SDK here](https://developers.facebook.com/docs/reference/android/3.0).
+The Facebook Android SDK provides a number of helper classes for interacting with Facebook's API. Generally, you will use the `GraphRequest` class to interact with Facebook on behalf of your logged-in user. [You can read more about the Facebook SDK here](https://developers.facebook.com/docs/reference/android/current).
 
-Our library manages the user's `Session` object for you. You can simply call `ParseFacebookUtils.getSession()` to access the session instance, which can then be passed to Requests.
+To access the user's `AccessToken` you can simply call `AccessToken.getCurrentAccessToken()` to access the `AccessToken` instance, which can then be passed to `GraphRequest`s.
 
 
 ## Twitter Users
