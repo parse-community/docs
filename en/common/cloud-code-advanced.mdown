@@ -8,29 +8,27 @@ A simple GET request would look like:
 
 ```js
 Parse.Cloud.httpRequest({
-  url: 'http://www.parse.com/',
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
-  }
+  url: 'http://www.parse.com/'
+}).then(function(httpResponse) {
+  // success
+  console.log(httpResponse.text);
+},function(httpResponse) {
+  // error
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
-`success` will be called on a successful http status code; otherwise `error` will be called.
+`Parse.Cloud.httpRequest` returns a Promise that will be resolved on a successful http status code; otherwise the Promise will be rejected. In the above example, we use `then()` to handle both outcomes.
 
 A GET request that specifies the port number would look like:
 
 ```js
 Parse.Cloud.httpRequest({
-  url: 'http://www.parse.com:8080/',
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
-  }
+  url: 'http://www.parse.com:8080/'
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
@@ -45,13 +43,11 @@ Parse.Cloud.httpRequest({
   url: 'http://www.google.com/search',
   params: {
     q : 'Sean Plott'
-  },
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
   }
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
@@ -60,13 +56,11 @@ or as a raw `String` like this:
 ```js
 Parse.Cloud.httpRequest({
   url: 'http://www.google.com/search',
-  params: 'q=Sean Plott',
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
-  }
+  params: 'q=Sean Plott'
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
@@ -79,13 +73,11 @@ Parse.Cloud.httpRequest({
   url: 'http://www.example.com/',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
-  },
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
   }
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
@@ -101,13 +93,11 @@ Parse.Cloud.httpRequest({
   body: {
     title: 'Vote for Pedro',
     body: 'If you vote for Pedro, your wildest dreams will come true'
-  },
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
   }
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
@@ -123,13 +113,11 @@ Parse.Cloud.httpRequest({
   body: {
     title: 'Vote for Pedro',
     body: 'If you vote for Pedro, your wildest dreams will come true'
-  },
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
   }
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
@@ -143,13 +131,11 @@ By default, `Parse.Cloud.httpRequest` does not follow redirects caused by HTTP 3
 ```js
 Parse.Cloud.httpRequest({
   url: 'http://www.example.com/',
-  followRedirects: true,
-  success: function(httpResponse) {
-    console.log(httpResponse.text);
-  },
-  error: function(httpResponse) {
-    console.error('Request failed with response code ' + httpResponse.status);
-  }
+  followRedirects: true
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
 });
 ```
 
