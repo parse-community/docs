@@ -624,7 +624,7 @@ query.cachePolicy = kPFCachePolicyNetworkElseCache;
 ```
 ```swift
 var query = PFQuery(className:"GameScore")
-query.cachePolicy = kPFCachePolicyNetworkElseCache
+query.cachePolicy = PFCachePolicy.NetworkElseCache
 query.findObjectsInBackgroundWithBlock {
   (objects: [AnyObject]!, error: NSError!) -> Void in
   if error == nil {
@@ -639,12 +639,12 @@ query.findObjectsInBackgroundWithBlock {
 
 Parse provides several different cache policies:
 
-*   `kPFCachePolicyIgnoreCache`: The query does not load from the cache or save results to the cache. `kPFCachePolicyIgnoreCache` is the default cache policy.
-*   `kPFCachePolicyCacheOnly`: The query only loads from the cache, ignoring the network. If there are no cached results, that causes a `PFError`.
-*   `kPFCachePolicyNetworkOnly`: The query does not load from the cache, but it will save results to the cache.
-*   `kPFCachePolicyCacheElseNetwork`: The query first tries to load from the cache, but if that fails, it loads results from the network. If neither cache nor network succeed, there is a `PFError`.
-*   `kPFCachePolicyNetworkElseCache`:  The query first tries to load from the network, but if that fails, it loads results from the cache. If neither network nor cache succeed, there is a `PFError`.
-*   `kPFCachePolicyCacheThenNetwork`: The query first loads from the cache, then loads from the network. In this case, the callback will actually be called twice - first with the cached results, then with the network results. Since it returns two results at different times, this cache policy cannot be used synchronously with `findObjects`.
+*   `IgnoreCache`: The query does not load from the cache or save results to the cache. `IgnoreCache` is the default cache policy.
+*   `CacheOnly`: The query only loads from the cache, ignoring the network. If there are no cached results, that causes a `PFError`.
+*   `NetworkOnly`: The query does not load from the cache, but it will save results to the cache.
+*   `CacheElseNetwork`: The query first tries to load from the cache, but if that fails, it loads results from the network. If neither cache nor network succeed, there is a `PFError`.
+*   `NetworkElseCache`:  The query first tries to load from the network, but if that fails, it loads results from the cache. If neither network nor cache succeed, there is a `PFError`.
+*   `CacheThenNetwork`: The query first loads from the cache, then loads from the network. In this case, the callback will actually be called twice - first with the cached results, then with the network results. Since it returns two results at different times, this cache policy cannot be used synchronously with `findObjects`.
 
 If you need to control the cache's behavior, you can use methods provided in PFQuery to interact with the cache.  You can do the following operations on the cache:
 
