@@ -153,12 +153,12 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.whereKey("playerEmail", equalTo:"dstemkoski@example.com")
 query.getFirstObjectInBackgroundWithBlock {
-  (object: PFObject!, error: NSError!) -> Void in
-  if object != nil {
-    NSLog("The getFirstObject request failed.")
+  (object: PFObject?, error: NSError?) -> Void in
+  if error != nil || object == nil {
+    println("The getFirstObject request failed.")
   } else {
     // The find succeeded.
-    NSLog("Successfully retrieved the object.")
+    println("Successfully retrieved the object.")
   }
 }
 ```
