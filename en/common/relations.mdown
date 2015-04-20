@@ -23,10 +23,12 @@ PFObject *game= [PFObject objectWithClassName:@"Game"];
 [game setObject:[PFUser currentUser] forKey:@"createdBy"];
 ```
 ```common-swift
-// no swift example
+let game = PFObject(className:"Game")
+game["createdBy"] = PFUser.currentUser()
 ```
 ```common-php
-// no php example
+$game = ParseObject::create("Game");
+$game->set("createdBy", ParseUser::getCurrentUser());
 ```
 ```common-csharp
 // no c# example
