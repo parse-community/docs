@@ -84,16 +84,32 @@ PFObject *game = ...
 PFUser *createdBy = [game objectForKey@"createdBy"];
 ```
 ```common-swift
-// no swift example
+// say we have a Game object
+let game = ...
+
+// getting the user who created the Game
+let createdBy = game["createdBy"]
 ```
 ```common-php
-// no php example
+// say we have a Game object
+$game = ...
+
+// getting the user who created the Game
+$user = $game["createdBy"];
 ```
 ```common-csharp
-// no c# example
+// say we have a Game object
+ParseObject game = ...
+
+// getting the user who created the Game
+ParseUser user = game["createdBy"];
 ```
 ```common-js
-// no js example
+// say we have a Game object
+var game = ...
+
+// getting the user who created the Game
+var user = game.get("createdBy");
 ```
 
 For most scenarios, Pointers will be your best bet for implementing one-to-many relationships.
