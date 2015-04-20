@@ -50,16 +50,21 @@ PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
 [gameQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
 ```
 ```common-swift
-// no swift example
+let gameQuery = PFQuery(className:"Game")
+if let user = PFUser.currentUser() {
+  gameQuery.whereKey("createdBy", equalTo: user)
+}
 ```
 ```common-php
-// no php example
+$gameQuery = new ParseQuery("Game");
+$gameQuery->equalTo("createdBy", ParseUser::getCurrentUser());
 ```
 ```common-csharp
-// no c# example
+var query = ParseObject.getQuery("Game").WhereEqualTo("createdBy", ParseUser.CurrentUser);
 ```
 ```common-js
-// no js example
+var query = new Parse.Query("Game");
+query.equalTo("createdBy", Parse.User.current());
 ```
 
 And, if we want to find the Parse User who created a specific `Game`, that is a lookup on the `createdBy` key:
