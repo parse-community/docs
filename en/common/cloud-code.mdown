@@ -95,7 +95,9 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
 }];
 ```
 ```common-swift
-// no swift example
+PFCloud.callFunctionInBackground("hello", withParameters: nil) { (response: AnyObject?, error: NSError?) -> Void in
+  let responseString = response as? String
+}
 ```
 ```common-php
 $result = ParseCloud::run("hello", []);
