@@ -98,7 +98,7 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
 // no swift example
 ```
 ```common-php
-// no php example
+$result = ParseCloud::run("hello", []);
 ```
 ```common-csharp
 var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>());
