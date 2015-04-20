@@ -31,10 +31,12 @@ $game = ParseObject::create("Game");
 $game->set("createdBy", ParseUser::getCurrentUser());
 ```
 ```common-csharp
-// no c# example
+var game = new ParseObject("Game");
+game["createdBy"] = ParseUser.CurrentUser;
 ```
 ```common-js
-// no js example
+var game = new Parse.Object("Game");
+game.set("createdBy", Parse.User.current());
 ```
 
 We can obtain all of the `Game` objects created by a Parse User with a query:
