@@ -187,10 +187,15 @@ ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback
 }];
 ```
 ```common-swift
-// no swift example
+PFCloud.callFunctionInBackground("averageRatings", withParameters: ["movie":"The Matrix"]) {
+  (response: AnyObject?, error: NSError?) -> Void in
+  let ratings = response as? float
+  // ratings is 4.5
+}
 ```
 ```common-php
-// no php example
+$ratings = ParseCloud::run("averageRatings", ["movie" => "The Matrix"]);
+// $ratings is 4.5
 ```
 ```common-csharp
 IDictionary<string, object> params = new Dictionary<string, object>
