@@ -155,10 +155,32 @@ NSArray *weapons = @[scimitar, plasmaRifle, grenade, bunnyRabbit];
 [[PFUser currentUser] setObject:weapons forKey:@weaponsList"];
 ```
 ```common-swift
-// no swift example
+// let's say we have four weapons
+let scimitar = ...
+let plasmaRifle = ...
+let grenade = ...
+let bunnyRabbit = ...
+
+// stick the objects in an array
+let weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit]
+
+// store the weapons for the user
+let user = PFUser.currentUser()
+user["weaponsList"] = weapons
 ```
 ```common-php
-// no php example
+// let's say we have four weapons
+$scimitar = ...
+$plasmaRifle = ...
+$grenade = ...
+$bunnyRabbit = ...
+
+// stick the objects in an array
+$weapons = [$scimitar, $plasmaRifle, $grenade, $bunnyRabbit];
+
+// store the weapons for the user
+$user = ParseUser::getCurrentUser();
+$user->set("weaponsList", weapons);
 ```
 ```common-csharp
 // no c# example
