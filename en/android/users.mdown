@@ -41,7 +41,7 @@ user.signUpInBackground(new SignUpCallback() {
 });
 ```
 
-This call will asynchronously create a new user in your Parse App. Before it does this, it checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
+This call will asynchronously create a new user in your Parse App. Before it does this, it checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
 Note that we used the `signUpInBackground` method, not the `saveInBackground` method. New `ParseUser`s should always be created using the `signUpInBackground` (or `signUp`) method. Subsequent updates to a user can be done by calling `save`.
 
