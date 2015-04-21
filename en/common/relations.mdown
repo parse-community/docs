@@ -23,16 +23,20 @@ PFObject *game= [PFObject objectWithClassName:@"Game"];
 [game setObject:[PFUser currentUser] forKey:@"createdBy"];
 ```
 ```common-swift
-// no swift example
+let game = PFObject(className:"Game")
+game["createdBy"] = PFUser.currentUser()
 ```
 ```common-php
-// no php example
+$game = ParseObject::create("Game");
+$game->set("createdBy", ParseUser::getCurrentUser());
 ```
 ```common-csharp
-// no c# example
+var game = new ParseObject("Game");
+game["createdBy"] = ParseUser.CurrentUser;
 ```
 ```common-js
-// no js example
+var game = new Parse.Object("Game");
+game.set("createdBy", Parse.User.current());
 ```
 
 We can obtain all of the `Game` objects created by a Parse User with a query:
@@ -46,16 +50,21 @@ PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
 [gameQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
 ```
 ```common-swift
-// no swift example
+let gameQuery = PFQuery(className:"Game")
+if let user = PFUser.currentUser() {
+  gameQuery.whereKey("createdBy", equalTo: user)
+}
 ```
 ```common-php
-// no php example
+$gameQuery = new ParseQuery("Game");
+$gameQuery->equalTo("createdBy", ParseUser::getCurrentUser());
 ```
 ```common-csharp
-// no c# example
+var query = ParseObject.getQuery("Game").WhereEqualTo("createdBy", ParseUser.CurrentUser);
 ```
 ```common-js
-// no js example
+var query = new Parse.Query("Game");
+query.equalTo("createdBy", Parse.User.current());
 ```
 
 And, if we want to find the Parse User who created a specific `Game`, that is a lookup on the `createdBy` key:
@@ -75,16 +84,32 @@ PFObject *game = ...
 PFUser *createdBy = [game objectForKey@"createdBy"];
 ```
 ```common-swift
-// no swift example
+// say we have a Game object
+let game = ...
+
+// getting the user who created the Game
+let createdBy = game["createdBy"]
 ```
 ```common-php
-// no php example
+// say we have a Game object
+$game = ...
+
+// getting the user who created the Game
+$user = $game["createdBy"];
 ```
 ```common-csharp
-// no c# example
+// say we have a Game object
+ParseObject game = ...
+
+// getting the user who created the Game
+ParseUser user = game["createdBy"];
 ```
 ```common-js
-// no js example
+// say we have a Game object
+var game = ...
+
+// getting the user who created the Game
+var user = game.get("createdBy");
 ```
 
 For most scenarios, Pointers will be your best bet for implementing one-to-many relationships.
@@ -130,10 +155,32 @@ NSArray *weapons = @[scimitar, plasmaRifle, grenade, bunnyRabbit];
 [[PFUser currentUser] setObject:weapons forKey:@weaponsList"];
 ```
 ```common-swift
-// no swift example
+// let's say we have four weapons
+let scimitar = ...
+let plasmaRifle = ...
+let grenade = ...
+let bunnyRabbit = ...
+
+// stick the objects in an array
+let weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit]
+
+// store the weapons for the user
+let user = PFUser.currentUser()
+user["weaponsList"] = weapons
 ```
 ```common-php
-// no php example
+// let's say we have four weapons
+$scimitar = ...
+$plasmaRifle = ...
+$grenade = ...
+$bunnyRabbit = ...
+
+// stick the objects in an array
+$weapons = [$scimitar, $plasmaRifle, $grenade, $bunnyRabbit];
+
+// store the weapons for the user
+$user = ParseUser::getCurrentUser();
+$user->set("weaponsList", weapons);
 ```
 ```common-csharp
 // no c# example
