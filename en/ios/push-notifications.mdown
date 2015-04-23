@@ -661,7 +661,7 @@ After you send the push, you can come back to the push console to see in real ti
 
 If you are happy with the way one message performed, you can send that to the rest of your app's devices (i.e. the “Launch Group”). This step only applies to A/B tests where you vary the message.
 
-<img src="https://parse.com/images/docs/ios_push/experiment_launch.png" style="width:400px"/>
+<img src="https://parse.com/images/docs/ios_push/experiment_launch.png" style="max-width:400px"/>
 
 Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#push-notifications-tracking-pushes-and-app-opens).
 
