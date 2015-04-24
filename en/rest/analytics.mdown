@@ -32,7 +32,7 @@ curl -X POST \
       }' \
   https://api.parse.com/1/events/AppOpened
 ```
-```pyton
+```python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
