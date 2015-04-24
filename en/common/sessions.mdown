@@ -17,7 +17,7 @@ The `%{ParseSession}` object has these special fields:
 * `sessionToken` (readonly): String token for authentication on Parse API requests. In the response of `%{ParseSession}` queries, only your current `%{ParseSession}` object will contain a session token.
 * `user`: (readonly) Pointer to the `%{ParseUser}` object that this session is for.
 * `createdWith` (readonly): Information about how this session was created (e.g. `{ "action": "login", "authProvider": "password"}`).
-    * `action` could have values: `login`, `signup`, `create`, or `upgrade`. The `create` action is when the developer manually creates the session by saving a ParseSession object.  The `upgrade` action is when the user is upgraded to revocable session from a legacy session token.
+    * `action` could have values: `login`, `signup`, `create`, or `upgrade`. The `create` action is when the developer manually creates the session by saving a `%{ParseSession}` object.  The `upgrade` action is when the user is upgraded to revocable session from a legacy session token.
     * `authProvider` could have values: `password`, `anonymous`, `facebook`, or `twitter`.
 * `restricted` (readonly): Boolean for whether this session is restricted.
     * Restricted sessions do not have write permissions on `%{ParseUser}`, `%{ParseSession}`, and `%{ParseRole}` classes on Parse. Restricted sessions also cannot read unrestricted sessions.
