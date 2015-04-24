@@ -435,7 +435,7 @@ With a response body like:
   "createdAt": "2012-02-28T23:49:36.353Z",
   "updatedAt": "2012-02-28T23:49:36.353Z",
   "objectId": "uMz0YZeAqc",
-  "sessionToken": "samplei3l83eerhnln0ecxgy5",
+  "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
   "authData": {
     "twitter": {
       "id": "12345678",
@@ -463,7 +463,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
   "username": "iwz8sna7sug28v4eyu7t89fij",
   "createdAt": "2012-02-28T23:49:36.353Z",
   "objectId": "uMz0YZeAqc",
-  "sessionToken": "samplei3l83eerhnln0ecxgy5"
+  "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
 }
 ```
 
@@ -475,7 +475,7 @@ Linking an existing user with a service like Facebook or Twitter uses a PUT requ
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: samplei3l83eerhnln0ecxgy5" \
+  -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
   -d '{
         "authData": {
@@ -503,7 +503,7 @@ connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "samplei3l83eerhnln0ecxgy5",
+       "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -520,7 +520,7 @@ Unlinking an existing user with a service also uses a PUT request to clear `auth
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: samplei3l83eerhnln0ecxgy5" \
+  -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
   -d '{
         "authData": {
@@ -540,7 +540,7 @@ connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "samplei3l83eerhnln0ecxgy5",
+       "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
