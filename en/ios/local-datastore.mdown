@@ -5,9 +5,10 @@ The Parse iOS/OSX SDK provides a local datastore which can be used to store and 
 ```objc
 @implementation AppDelegate
 
-- (void)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
+- (BOOL)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
   [Parse enableLocalDatastore];
   [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
+  ...
 }
 
 @end
