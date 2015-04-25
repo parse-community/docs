@@ -28,7 +28,7 @@ You can store a `PFObject` in the local datastore by pinning it. Pinning a `PFOb
 
 ```objc
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
-gameScore[@"score"] = 1337;
+gameScore[@"score"] = @1337;
 gameScore[@"playerName"] = @"Sean Plott";
 gameScore[@"cheatMode"] = @NO;
 [gameScore pinInBackground];
