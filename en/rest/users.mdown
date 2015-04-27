@@ -17,6 +17,7 @@ To sign up a new user, send a POST request to the users root. You may add any ad
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
   -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
   https://api.parse.com/1/users
@@ -32,11 +33,14 @@ connection.request('POST', '/1/users', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-Revocable-Session": "1",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 ```
+
+`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during signup, the Parse Cloud will automatically create a `%{ParseSession}` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new user:
 
@@ -51,7 +55,7 @@ The response body is a JSON object containing the `objectId`, the `createdAt` ti
 {
   "createdAt": "2011-11-07T20:58:34.448Z",
   "objectId": "g7y9tkhB7O",
-  "sessionToken": "pnktnjyb996sj4p156gjtp4im"
+  "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
 ```
 
@@ -63,6 +67,7 @@ After you allow users to sign up, you need to let them log in to their account w
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-Revocable-Session: 1" \
   -G \
   --data-urlencode 'username=cooldude6' \
   --data-urlencode 'password=p_n7!-e8' \
@@ -75,11 +80,14 @@ params = urllib.urlencode({"username":"cooldude6","password":"p_n7!-e8"})
 connection.connect()
 connection.request('GET', '/1/login?%s' % params, '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-Revocable-Session": "1"
      })
 result = json.loads(connection.getresponse().read())
 print result
 ```
+
+`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login, the Parse Cloud will automatically create a `%{ParseSession}` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, `objectId`, and `sessionToken` fields:
 
@@ -90,7 +98,7 @@ The response body is a JSON object containing all the user-provided fields excep
   "createdAt": "2011-11-07T20:58:34.448Z",
   "updatedAt": "2011-11-07T20:58:34.448Z",
   "objectId": "g7y9tkhB7O",
-  "sessionToken": "pnktnjyb996sj4p156gjtp4im"
+  "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
 ```
 
@@ -177,7 +185,7 @@ With a valid session token, you can send a GET request to the `/1/users/me` endp
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im" \
+  -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   https://api.parse.com/1/users/me
 ```
 ```python
@@ -187,7 +195,7 @@ connection.connect()
 connection.request('GET', '/1/users/me', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im"
+       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -197,8 +205,8 @@ The response matches the JSON object above for retrieving users.  If the session
 
 ```json
 {
-  "code": 101,
-  "error": "invalid session"
+  "code": 209,
+  "error": "invalid session token"
 }
 ```
 
@@ -214,7 +222,7 @@ For example, if we wanted to change the phone number for `cooldude6`:
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im" \
+  -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"phone":"415-369-6201"}' \
   https://api.parse.com/1/users/g7y9tkhB7O
@@ -228,7 +236,7 @@ connection.request('PUT', '/1/users/g7y9tkhB7O', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im",
+       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -299,7 +307,7 @@ To delete a user from the Parse Cloud, send a DELETE request to its URL. You mus
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im" \
+  -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   https://api.parse.com/1/users/g7y9tkhB7O
 ```
 ```python
@@ -309,7 +317,7 @@ connection.connect()
 connection.request('DELETE', '/1/users/g7y9tkhB7O', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im"
+       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -369,6 +377,7 @@ Signing a user up with a linked service and logging them in with that service us
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
   -d '{
         "authData": {
@@ -402,11 +411,14 @@ connection.request('POST', '/1/users', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-Revocable-Session": "1",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 ```
+
+`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login or signup, the Parse Cloud will automatically create a `%{ParseSession}` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
@@ -423,7 +435,7 @@ With a response body like:
   "createdAt": "2012-02-28T23:49:36.353Z",
   "updatedAt": "2012-02-28T23:49:36.353Z",
   "objectId": "uMz0YZeAqc",
-  "sessionToken": "samplei3l83eerhnln0ecxgy5",
+  "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
   "authData": {
     "twitter": {
       "id": "12345678",
@@ -451,7 +463,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
   "username": "iwz8sna7sug28v4eyu7t89fij",
   "createdAt": "2012-02-28T23:49:36.353Z",
   "objectId": "uMz0YZeAqc",
-  "sessionToken": "samplei3l83eerhnln0ecxgy5"
+  "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
 }
 ```
 
@@ -463,7 +475,7 @@ Linking an existing user with a service like Facebook or Twitter uses a PUT requ
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: samplei3l83eerhnln0ecxgy5" \
+  -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
   -d '{
         "authData": {
@@ -491,7 +503,7 @@ connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "samplei3l83eerhnln0ecxgy5",
+       "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -508,7 +520,7 @@ Unlinking an existing user with a service also uses a PUT request to clear `auth
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -H "X-Parse-Session-Token: samplei3l83eerhnln0ecxgy5" \
+  -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
   -d '{
         "authData": {
@@ -528,7 +540,7 @@ connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
-       "X-Parse-Session-Token": "samplei3l83eerhnln0ecxgy5",
+       "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())

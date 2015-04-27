@@ -5,9 +5,10 @@ The Parse iOS/OSX SDK provides a local datastore which can be used to store and 
 ```objc
 @implementation AppDelegate
 
-- (void)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
+- (BOOL)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
   [Parse enableLocalDatastore];
   [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
+  ...
 }
 
 @end
@@ -28,7 +29,7 @@ You can store a `PFObject` in the local datastore by pinning it. Pinning a `PFOb
 
 ```objc
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
-gameScore[@"score"] = 1337;
+gameScore[@"score"] = @1337;
 gameScore[@"playerName"] = @"Sean Plott";
 gameScore[@"cheatMode"] = @NO;
 [gameScore pinInBackground];

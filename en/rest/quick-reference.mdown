@@ -18,12 +18,25 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 |---------------------------|-----------|--------------------------------------------------------------------|
 | `/1/users`                | POST      | [Signing Up](#users-signingup) <br/>[Linking Users](#users-linking-users) |
 | `/1/login`                | GET       | [Logging In](#users-logging-in)                                    |
+| `/1/logout`               | POST      | [Logging Out](#sessions-deleting-sessions)                         |
 | `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving-users)                        |
 | `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating-session-tokens-retrieving-current-user) <br/>[Retrieving Current User](#users-retrieving-users)                                        |
 | `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating-users) <br/>[Linking Users](#users-linking-users) <br/>[Verifying Emails](#users-emailverification) |
 | `/1/users`                | GET       | [Querying Users](#users-querying)                                  |
 | `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting-users)                            |
 | `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-requesting-a-password-reset)  |
+
+## Sessions
+
+| URL                       | HTTP Verb |Functionality                               |
+|---------------------------|-----------|--------------------------------------------|
+| `/1/sessions`             | POST      | [Creating Restricted Sessions](#sessions-creating-sessions) |
+| `/1/sessions/<objectId>`  | GET       | [Retrieving Sessions](#sessions-retrieving-sessions) |
+| `/1/sessions/me`          | GET       | [Retrieving Current Session](#sessions-retrieving-sessions) |
+| `/1/sessions/<objectId>`  | PUT       | [Updating Sessions](#sessions-updating-sessions) |
+| `/1/users`                | GET       | [Querying Sessions](#sessions-querying-sessions) |
+| `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#sessions-deleting-sessions) |
+| `/1/sessions/me`          | PUT       | [Pairing with Installation](#sessions-pairing-session-with-installation) |
 
 ## Roles
 
