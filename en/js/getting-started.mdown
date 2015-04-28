@@ -2,6 +2,10 @@
 
 If you haven't set up your project yet, please [head over to the QuickStart guide](/apps/quickstart#js/native/blank) to get up and running. You can also check out our [API Reference](/docs/js/api/) for more detailed information about our SDK.
 
+<div class='tip info'><div>
+  If you're looking to build a React application with Parse, we provide a special library for that. All of the documentation is available at the [GitHub repo](https://github.com/ParsePlatform/ParseReact).
+</div></div>
+
 The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.</p>
 
 Our JavaScript SDK is based on the popular [Backbone.js](http://documentcloud.github.com/backbone/) framework. It is compatible with existing Backbone applications with minimal changes on your part. Our goal is to minimize configuration and let you quickly start building your JavaScript and HTML5 app on Parse.
