@@ -395,7 +395,7 @@ In order to display the Facebook login dialogs and activities, the current `Acti
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
 </div></div>
 
-### Linking
+### Facebook Linking
 
 If you want to associate an existing `ParseUser` to a Facebook account, you can link it like so:
 
@@ -489,7 +489,7 @@ When this code is run, the following happens:
 
 In order to display the Twitter login dialogs and activities, the current `Context` must be provided (often, the current context is `this` when calling `logIn()` from within the `Activity`) as we have done above.
 
-### Linking
+### Twitter Linking
 
 If you want to associate an existing `ParseUser` with a Twitter account, you can link it like so:
 

@@ -562,7 +562,7 @@ PFFacebookUtils.reauthorizeUser(PFUser.currentUser(), withPublishPermissions:["p
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
 </div></div>
 
-### Linking
+### Facebook Linking
 
 If you want to associate an existing `PFUser` to a Facebook account, you can link it like so:
 
@@ -669,7 +669,7 @@ When this code is run, the following happens:
 3.  Our SDK receives the Twitter data and saves it to a `PFUser`. If it's a new user     based on the Twitter handle, then that user is created.
 4.  Your `block` is called with the user.
 
-### Linking
+### Twitter Linking
 
 If you want to associate an existing `PFUser` with a Twitter account, you can link it like so:
 
