@@ -213,7 +213,7 @@ Developers interested in this kind of customization should take a look at the in
 
 ### Portrait and Landscape
 
-By default, the `PFLogInViewController` supports all orientations, except `UIInterfaceOrientationPortraitUpsideDown` on iPhone.
+By default, the `PFLogInViewController` supports all orientations on iPad and `UIInterfaceOrientationPortrait` on iPhone.
 
 ### Resolution Independent
 
@@ -396,7 +396,7 @@ Developer interested in this kind of customization should take a look at the int
 
 ### Portrait and Landscape
 
-By default, the `PFSignUpViewController` supports all orientations, except `UIInterfaceOrientationPortraitUpsideDown` on iPhone.
+By default, the `PFSignUpViewController` supports all orientations on iPad and `UIInterfaceOrientationPortrait` on iPhone.
 
 ### Resolution Independent
 
