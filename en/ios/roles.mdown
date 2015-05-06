@@ -18,7 +18,8 @@ We provide a specialized class called `PFRole` that represents these role object
 ## Security for Role Objects
 
 The `PFRole` uses the same security scheme (ACLs) as all other objects on Parse, except that it requires an ACL to be set explicitly. Generally, only users with greatly elevated privileges (e.g. a master user or Administrator) should be able to create or modify a Role, so you should define its ACLs accordingly.  Remember, if you give write-access to a `PFRole` to a user, that user can add other users to the role, or even delete the role altogether.
- To create a new `PFRole`, you would write:
+
+To create a new `PFRole`, you would write:
 
 ```objc
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.

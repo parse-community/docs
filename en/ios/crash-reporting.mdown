@@ -18,7 +18,7 @@ To enable Crash Reporting, add this line to your AppDelegate before you initiali
 ParseCrashReporting.enable();
 
 // Setup Parse
-Parse.setApplicationId("parseAppId", clientKey:"parseClientKey")
+Parse.setApplicationId("parseAppId", clientKey: "parseClientKey")
 ```
 
 Once this is enabled, all crashes from your app will be sent to Parse and will show up in the analytics dashboard.
@@ -31,7 +31,7 @@ There are two ways to upload your symbol files: automatically after each build i
 
 To automatically upload symbol files for your application whenever you build your app:
 
-*   Download the latest version of [Parse CLI](/docs/ios/guide#cloud-code-command-line-tool)
+*   Download the latest version of [Parse CLI](/docs/ios/guide#command-line)
 *   Initialize a new Parse Cloud Code directory by running the following (for example, in the same directory as your Xcode project):
 
 ```bash
@@ -71,7 +71,7 @@ Once you've enabled Crash Reporting, you'll want to test to make sure your crash
 }
       ```
 ```swift
-NSException(name:NSGenericException, reason:"Everything is ok. This is just a test crash.", userInfo:nil).raise()
+NSException(name: NSGenericException, reason: "Everything is ok. This is just a test crash.", userInfo: nil).raise()
 ```
 
 Then, put this invocation in your main view controllers' `viewDidLoad`, or in `application:didFinishLaunchingWithOptions:` if you're using the App Delegate:
@@ -83,7 +83,8 @@ Then, put this invocation in your main view controllers' `viewDidLoad`, or in `a
 dispatch_after(
     dispatch_time(DISPATCH_TIME_NOW, Int64(5.0 * Double(NSEC_PER_SEC))),
     dispatch_get_main_queue(),
-    { () -> Void in self.crash()
+    { () -> Void in
+        self.crash()
 });
 ```
 

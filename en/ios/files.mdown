@@ -92,16 +92,19 @@ Retrieving the image back involves calling one of the `getData` variants on the 
 ```objc
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
 [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
-    if (!error) { UIImage *image = [UIImage imageWithData:imageData];
+    if (!error) {
+        UIImage *image = [UIImage imageWithData:imageData];
     }
 }];
 ```
 ```swift
 let userImageFile = anotherPhoto["imageFile"] as PFFile
 userImageFile.getDataInBackgroundWithBlock {
-  (imageData: NSData!, error: NSError!) -> Void in
+  (imageData: NSData?, error: NSError?) -> Void in
   if error == nil {
-    let image = UIImage(data:imageData)
+    if let imageData = imageData {
+        let image = UIImage(data:imageData)
+    }
   }
 }
 
@@ -125,7 +128,7 @@ let str = "Working at Parse is great!"
 let data = str.dataUsingEncoding(NSUTF8StringEncoding)
 let file = PFFile(name:"resume.txt", data:data)
 file.saveInBackgroundWithBlock {
-  (succeeded: Bool!, error: NSError!) -> Void in
+  (succeeded: Bool?, error: NSError?) -> Void in
   // Handle success or failure here ...
 }, progressBlock: {
   (percentDone: Int) -> Void in

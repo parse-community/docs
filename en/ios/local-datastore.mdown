@@ -5,16 +5,22 @@ The Parse iOS/OSX SDK provides a local datastore which can be used to store and 
 ```objc
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
+- (void)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
   [Parse enableLocalDatastore];
   [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
-  ...
 }
 
 @end
 ```
 ```swift
-// no swift example
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+  func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    Parse.enableLocalDatastore()
+    Parse.setApplicationId("parseAppId", clientKey: "parseClientKey")
+  }
+}
 ```
 
 There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `PFObject`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `PFQuery` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
@@ -94,6 +100,24 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // no swift example
 ```
 
+## Security
+
+The same security model that applies to objects in Parse applies to objects in the Local Datastore. Read-write permissions are defined by `PFACL`s and a user cannot access or modify anything they don't have permission to.
+
+The only difference is that you won't be able to access any data protected by Role based ACLs due to the fact that the Roles are stored on the server. To access this data protected by Role based ACLs, you will need to ignore ACLs when executing a Local Datastore query:
+
+```objc
+PFQuery *query = [[[PFQuery queryWithClassName:@"Note"]
+                   fromLocalDatastore]
+                  ignoreACLs];
+```
+```swift
+let query = PFQuery(className: "Note")
+    .fromLocalDatastore
+    .ignoreACLs
+```
+
+
 ## Unpinning
 
 When you are done with an object and no longer need it to be in the local datastore, you can simply unpin it. This will free up disk space on the device and keep your queries on the local datastore running quickly.
@@ -167,11 +191,15 @@ query.orderByDescending("score")
 
 // Query for new results from the network
 query.findObjectsInBackground().continueWithSuccessBlock({
-  (ignored: BFTask!) -> AnyObject! in
+    (task: BFTask!) -> AnyObject! in
 
-  // Cache new results
-  let scores = task.result as NSArray
-  return PFObject.pinAllInBackground(scores withName:"HighScores")
+    return PFObject.unpinAllObjectsInBackgroundWithName("HighScores").continueWithSuccessBlock({
+        (ignored: BFTask!) -> AnyObject! in
+
+        // Cache new results
+        let scores = task.result as? NSArray
+        return PFObject.pinAllInBackground(scores as [AnyObject], withName: "HighScores")
+    })
 })
 ```
 
@@ -200,7 +228,9 @@ query.orderByDescending("score")
 
 query.findObjectsInBackground().continueWithBlock({
   (task: BFTask!) -> AnyObject! in
-    if task.error != nil { // There was an error. return task
+    if task.error != nil {
+        // There was an error.
+        return task
     }
 
     // Yay! Cached scores!
@@ -227,7 +257,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [[query findObjectsInBackground] continueWithBlock:^id(BFTask *task) {
   NSArray *scores = task.result;
   for (PFObject *score in scores) {
-    [[score saveInBackground] continueWithSuccessBlock:^id(BFTask *task) { 
+    [[score saveInBackground] continueWithSuccessBlock:^id(BFTask *task) {
       return [score unpinInBackground];
     }];
   }
@@ -241,8 +271,8 @@ query.findObjectsInBackground().continueWithBlock({
   (task: BFTask!) -> AnyObject! in
   let scores = task.result as NSArray
   for score in scores {
-    score.saveInBackground().continueWithSuccessBlock({   
-      (task: BFTask!) -> AnyObject! in   
+    score.saveInBackground().continueWithSuccessBlock({
+      (task: BFTask!) -> AnyObject! in
       return score.unpinInBackground()
     })
   }

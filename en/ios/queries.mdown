@@ -16,7 +16,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // The find succeeded.
     NSLog(@"Successfully retrieved %d scores.", objects.count);
     // Do something with the found objects
-    for (PFObject *object in objects) { NSLog(@"%@", object.objectId);
+    for (PFObject *object in objects) {
+        NSLog(@"%@", object.objectId);
     }
   } else {
     // Log details of the failure
@@ -28,16 +29,20 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.whereKey("playerName", equalTo:"Sean Plott")
 query.findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]!, error: NSError!) -> Void in
+  (objects: [AnyObject]?, error: NSError?) -> Void in
+
   if error == nil {
     // The find succeeded.
-    NSLog("Successfully retrieved \(objects.count) scores.")
+    println("Successfully retrieved \(objects!.count) scores.")
     // Do something with the found objects
-    for object in objects { NSLog("%@", object.objectId)
+    if let objects = objects as? [PFObject] {
+      for object in objects {
+        println(object.objectId)
+      }
     }
   } else {
     // Log details of the failure
-    NSLog("Error: %@ %@", error, error.userInfo!)
+    println("Error: \(error!) \(error!.userInfo!)")
   }
 }
 ```
@@ -54,7 +59,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 NSArray* scoreArray = [query findObjects];
 
 // Using NSPredicate
-NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName = 'Dan Stemkosk'"];
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playerName = 'Dan Stemkosk'"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 NSArray* scoreArray = [query findObjects];
 ```
@@ -67,16 +72,12 @@ NSArray* scoreArray = [query findObjects];
 To get the most out of `PFQuery` we recommend using its methods listed below to add constraints. However, if you prefer using `NSPredicate`, a subset of the constraints can be specified by providing an `NSPredicate` when creating your `PFQuery`.
 
 ```objc
-// Using PFQuery
-NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName = 'Dan Stemkosk'"];
+NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playerName = 'Dan Stemkosk'"];
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
-
-// Using NSPredicate
-let predicate = NSPredicate(format:"playerName = 'Dan Stemkosk'")
-var query = PFQuery(className:"GameScore", predicate:predicate)
 ```
 ```swift
-// no swift example
+let predicate = NSPredicate(format: "playerName = 'Dan Stemkosk'")
+var query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 These features are supported:
@@ -150,8 +151,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 }];
 ```
 ```swift
-var query = PFQuery(className:"GameScore")
-query.whereKey("playerEmail", equalTo:"dstemkoski@example.com")
+var query = PFQuery(className: "GameScore")
+query.whereKey("playerEmail", equalTo: "dstemkoski@example.com")
 query.getFirstObjectInBackgroundWithBlock {
   (object: PFObject?, error: NSError?) -> Void in
   if error != nil || object == nil {
@@ -305,9 +306,9 @@ PFQuery *userQuery = [PFQuery queryForUser];
 var teamQuery = PFQuery(className:"Team")
 teamQuery.whereKey("winPct", greaterThan:0.5)
 var userQuery = PFUser.query()
-userQuery.whereKey("hometown", matchesKey:"city", inQuery:teamQuery)
-userQuery.findObjectsInBackgroundWithBlock {
-  (results: [AnyObject]!, error: NSError!) -> Void in
+userQuery!.whereKey("hometown", matchesKey:"city", inQuery:teamQuery)
+userQuery!.findObjectsInBackgroundWithBlock {
+  (results: [AnyObject]?, error: NSError?) -> Void in
   if error == nil {
     // results will contain users with a hometown team with a winning record
   }
@@ -325,9 +326,9 @@ PFQuery *losingUserQuery = [PFQuery queryForUser];
 ```
 ```swift
 var losingUserQuery = PFUser.query()
-losingUserQuery.whereKey("hometown", doesNotMatchKey:"city", inQuery:teamQuery)
-losingUserQuery.findObjectsInBackgroundWithBlock {
-  (results: [AnyObject]!, error: NSError!) -> Void in
+losingUserQuery!.whereKey("hometown", doesNotMatchKey:"city", inQuery:teamQuery)
+losingUserQuery!.findObjectsInBackgroundWithBlock {
+  (results: [AnyObject]?, error: NSError?) -> Void in
   // results will contain users with a hometown team with a losing records
 }
 ```
@@ -345,7 +346,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.selectKeys(["playerName", "score"])
 query.findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]!, error: NSError!) -> Void in
+  (objects: [AnyObject]?, error: NSError?) -> Void in
   if error == nil {
     // objects in results will only contain the playerName and score fields
   }
@@ -363,7 +364,7 @@ PFObject *object = (PFObject*)results[0];
 ```swift
 var object = results[0] as PFObject!
 object.fetchIfNeededInBackgroundWithBlock {
-  (object: PFObject!, error: NSError!) -> Void in
+  (object: PFObject?, error: NSError?) -> Void in
   // all fields of the object will now be available here.
 }
 ```
@@ -385,7 +386,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"MyClass" predicate:predicate];
 // no swift example
 ```
 
-You can also find objects where the key's array value contains each of the values 2, 3, and 4 with the following: 
+You can also find objects where the key's array value contains each of the values 2, 3, and 4 with the following:
 
 ```objc
 // Find objects where the array in arrayKey contains each of the
@@ -531,7 +532,10 @@ query.limit = 10;
 [query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
     // Comments now contains the last ten comments, and the "post" field
     // has been populated. For example:
-    for (PFObject *comment in comments) {  // This does not require a network access.  PFObject *post = comment[@"post"];  NSLog(@"retrieved related post: %@", post);
+    for (PFObject *comment in comments) {
+         // This does not require a network access.
+         PFObject *post = comment[@"post"];
+         NSLog(@"retrieved related post: %@", post);
     }
 }];
 ```
@@ -548,13 +552,16 @@ query.limit = 10
 query.includeKey("post")
 
 query.findObjectsInBackgroundWithBlock {
-  (comments: [AnyObject]!, error: NSError!) -> Void in
+  (comments: [AnyObject]?, error: NSError?) -> Void in
+
   // Comments now contains the last ten comments, and the "post" field
   // has been populated. For example:
-  for comment in comments {
-    // This does not require a network access.
-    var post = comment["post"] as PFObject
-    NSLog("retrieved related post: \(post)")
+  if let comments = comments as? [PFObject] {
+      for comment in comments {
+          // This does not require a network access.
+          var post = comment["post"] as? PFObject
+          println("retrieved related post: \(post)")
+      }
   }
 }
 ```
@@ -588,9 +595,9 @@ If you have enabled the local datastore by calling `[Parse enableLocalDatastore]
 ```
 ```swift
 query.fromLocalDatastore()
-query.findObjectsInBackground().continueWithBlock({ 
-  (task: BFTask!) -> AnyObject! in
-  if task.error != nil {
+query.findObjectsInBackground().continueWithBlock({
+  (task: BFTask?) -> AnyObject! in
+  if let error = task?.error {
       // There was an error.
       return task
   }
@@ -624,9 +631,9 @@ query.cachePolicy = kPFCachePolicyNetworkElseCache;
 ```
 ```swift
 var query = PFQuery(className:"GameScore")
-query.cachePolicy = PFCachePolicy.NetworkElseCache
+query.cachePolicy = .CacheElseNetwork
 query.findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]!, error: NSError!) -> Void in
+  (objects: [AnyObject]?, error: NSError?) -> Void in
   if error == nil {
     // Results were successfully found, looking first on the
     // network and then on disk.
@@ -694,9 +701,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.whereKey("playerName", equalTo:"Sean Plott")
 query.countObjectsInBackgroundWithBlock {
-  (count: Int, error: NSError!) -> Void in
+  (count: Int, error: NSError?) -> Void in
   if error == nil {
-    NSLog("Sean has played %@ games", count)
+    println("Sean has played \(count) games")
   }
 }
 ```
@@ -727,7 +734,7 @@ fewWins.whereKey("wins", lessThan:5)
 
 var query = PFQuery.orQueryWithSubqueries([lotsOfWins, fewWins])
 query.findObjectsInBackgroundWithBlock {
-  (results: [AnyObject]!, error: NSError!) -> Void in
+  (results: [AnyObject]?, error: NSError?) -> Void in
   if error == nil {
     // results contains players with lots of wins or only a few wins.
   }
@@ -755,10 +762,11 @@ PFQuery *query = [Armor query];
 ```swift
 let query = Armor.query()
 query.whereKey("rupees", lessThanOrEqualTo: PFUser.currentUser()["rupees"])
-query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
+query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
   if error == nil {
-    let firstArmor = objects.first
-    //...
+    if let objects = objects as? [PFObject], firstArmor = objects.first {
+      //...
+    }
   }
 }
 ```
