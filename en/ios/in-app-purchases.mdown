@@ -32,11 +32,11 @@ Note that this does not make the purchase, but simply registers a block to be ru
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     ...
-    [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) { 
-      isPro = YES;
+    [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+        isPro = YES;
     }];
-    [PFPurchase addObserverForProduct:@"VIP" block:^(SKPaymentTransaction *transaction) { 
-      isVip = YES;
+    [PFPurchase addObserverForProduct:@"VIP" block:^(SKPaymentTransaction *transaction) {
+        isVip = YES;
     }];
 }
 ```
@@ -47,8 +47,8 @@ Note that this does not make the purchase, but simply registers a block to be ru
 To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
 ```objc
 [PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
-    if (!error) { 
-      // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    if (!error) {
+        // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }];
 ```
@@ -73,7 +73,10 @@ Many IAP products such as books and movies have associated content files that sh
 3.  Next, you need to register the product handler:
 ```objc
 [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
-    [PFPurchase downloadAssetForTransaction:transaction completion:^(NSString *filePath, NSError *error) { if (!error) {     // at this point, the content file is available at filePath. }
+    [PFPurchase downloadAssetForTransaction:transaction completion:^(NSString *filePath, NSError *error) {
+        if (!error) {
+            // at this point, the content file is available at filePath.
+        }
     }];
 }];
 ```
@@ -85,8 +88,8 @@ Note that this does not make the purchase, but simply registers a block to be ru
 To make the purchase:
 ```objc
 [PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
-    if (!error) { 
-      // run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    if (!error) {
+        // run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }];
 ```
@@ -103,11 +106,14 @@ For example, here's a simple query to get a product:
 
 ```objc
 PFQuery *productQuery = [PFProduct query];
-PFProduct *product = [[productQuery findObjects] anyObject];
+PFProduct *product = [[productQuery findObjects] lastObject];
 NSLog(@"%@, %@", product.productIdentifier, product.title);
 ```
 ```swift
-// no swift example
+let productQuery = PFProduct.query()
+if let product = productQuery.findObjects.lastObject as? PFProduct {}
+  prinln(product.productIdentifier, product.title)
+}
 ```
 
 ## PFProductTableViewController

@@ -8,8 +8,6 @@ Without having to implement any client-side logic, you can view real-time graphs
 
 ## App-Open & Push Analytics
 
-Our initial analytics hook allows you to track your application being launched. By adding the following line to `application:didFinishLaunching:`, you'll begin to collect data on when and how often your application is opened.
-
 Our initial analytics hook allows you to track your application being launched. By adding the following line to `applicationDidFinishLaunching:`, you'll begin to collect data on when and how often your application is opened.
 
 ```objc
@@ -62,7 +60,7 @@ let dimensions = [
 PFAnalytics.trackEvent("search", dimensions:dimensions)
 ```
 
-`PFAnalytics` can even be used as a lightweight error tracker — simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application: 
+`PFAnalytics` can even be used as a lightweight error tracker — simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
 ```objc
 NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
@@ -74,4 +72,3 @@ PFAnalytics.trackEvent("error", dimensions:["code": codeString])
 ```
 
 Note that Parse currently only stores the first eight dimension pairs per call to `trackEvent:dimensions:`.
-

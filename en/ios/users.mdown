@@ -48,12 +48,12 @@ func myMethod() {
   user["phone"] = "415-392-0202"
 
   user.signUpInBackgroundWithBlock {
-    (succeeded: Bool!, error: NSError!) -> Void in
-    if error == nil {
-      // Hooray! Let them use the app now.
-    } else {
-      let errorString = error.userInfo["error"] as NSString
+    (succeeded: Bool?, error: NSError?) -> Void in
+    if let error = error {
+      let errorString = error.userInfo?["error"] as? NSString
       // Show the errorString somewhere and let the user try again.
+    } else {
+      // Hooray! Let them use the app now.
     }
   }
 }
@@ -76,16 +76,16 @@ Of course, after you allow users to sign up, you need to let them log in to thei
 ```objc
 [PFUser logInWithUsernameInBackground:@"myname" password:@"mypass"
   block:^(PFUser *user, NSError *error) {
-    if (user) { 
+    if (user) {
       // Do stuff after successful login.
-    } else { 
+    } else {
       // The login failed. Check error to see why.
     }
 }];
 ```
 ```swift
 PFUser.logInWithUsernameInBackground("myname", password:"mypass") {
-  (user: PFUser!, error: NSError!) -> Void in
+  (user: PFUser?, error: NSError?) -> Void in
   if user != nil {
     // Do stuff after successful login.
   } else {
@@ -158,11 +158,11 @@ You can create an anonymous user using `PFAnonymousUtils`:
 ```
 ```swift
 PFAnonymousUtils.logInWithBlock {
-  (user: PFUser!, error: NSError!) -> Void in
-  if error != nil {
-    NSLog("Anonymous login failed.")
+  (user: PFUser?, error: NSError?) -> Void in
+  if error != nil || user == nil {
+    println("Anonymous login failed.")
   } else {
-    NSLog("Anonymous user logged in.")
+    println("Anonymous user logged in.")
   }
 }
 ```
@@ -212,7 +212,7 @@ If you’ve created your own authentication routines, or otherwise logged in a u
 ```
 ```swift
 PFUser.becomeInBackground("session-token-here", {
-  (user: PFUser!, error: NSError!) -> Void in
+  (user: PFUser?, error: NSError?) -> Void in
   if error != nil {
     // The token could not be validated.
   } else {
@@ -454,6 +454,8 @@ Parse provides an easy way to integrate Facebook with your application. The Face
 
 Using our Facebook integration, you can associate an authenticated Facebook user with a `PFUser`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save the user's data to Parse.
 
+**Note:** Parse SDK is compatible both with Facebook SDK 3.x and 4.x for iOS. These instructions are for Facebook SDK 4.x.
+
 ### Setup
 
 To start using Facebook with Parse, you need to:
@@ -467,38 +469,60 @@ To start using Facebook with Parse, you need to:
 There's also two code changes you'll need to make. First, add the following to your `application:didFinishLaunchingWithOptions:` method, after you've initialized the Parse SDK.
 
 ```objc
-- (void)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
-    [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
-    [PFFacebookUtils initializeFacebook];
+// AppDelegate.m
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+
+@implementation AppDelegate
+
+- (void)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
+  [PFFacebookUtils initializeFacebookWithLaunchOptions:launchOptions];
 }
+
 ```
 ```swift
+// Import this header into your Swift bridge header file
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+
+// AppDelegate.swift
 func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    Parse.setApplicationId("parseAppId", clientKey:"parseClientKey")
-    PFFacebookUtils.initializeFacebook()
+  Parse.setApplicationId("parseAppId", clientKey:"parseClientKey")
+  PFFacebookUtils.initializeFacebookWithLaunchOptions(launchOptions)
 }
 ```
 
 Next, add the following handlers in your app delegate.
 
 ```objc
-- (BOOL)application:(UIApplication *)application     openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication  annotation:(id)annotation {
-     return [FBAppCall handleOpenURL:url   sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+  return [[FBSDKApplicationDelegate sharedInstance] application:application
+                                                        openURL:url
+                                              sourceApplication:sourceApplication
+                                                     annotation:annotation];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+  [FBSDKAppEvents activateApp];
 }
 ```
 ```swift
-func application(application: UIApplication,  openURL url: NSURL,  sourceApplication: String?,  annotation: AnyObject?) -> Bool {
-  return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
-    withSession:PFFacebookUtils.session())
+func application(application: UIApplication,
+                 openURL url: NSURL,
+                 sourceApplication: String?,
+                 annotation: AnyObject?) -> Bool {
+  return FBSDKApplicationDelegate.sharedInstance.application(application,
+                                                             openURL: url,
+                                                             sourceApplication: sourceApplication,
+                                                             annotation: annotation)
 }
 
 func applicationDidBecomeActive(application: UIApplication) {
-  FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+  FBSDKAppEvents.activateApp()
 }
 ```
 
@@ -509,27 +533,30 @@ There are two main ways to use Facebook with your Parse users: (1) to log in (or
 `PFUser` provides a way to allow your users to log in or sign up through Facebook. This is done by using the `logInWithPermissions` method like so:
 
 ```objc
-[PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
-    if (!user) { NSLog(@"Uh oh. The user cancelled the Facebook login.");
-    } else if (user.isNew) { NSLog(@"User signed up and logged in through Facebook!");
-    } else { NSLog(@"User logged in through Facebook!");
-    }
+[PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
+  if (!user) {
+    NSLog(@"Uh oh. The user cancelled the Facebook login.");
+  } else if (user.isNew) {
+    NSLog(@"User signed up and logged in through Facebook!");
+  } else {
+    NSLog(@"User logged in through Facebook!");
+  }
 }];
 ```
 ```swift
-PFFacebookUtils.logInWithPermissions(permissions, {
-  (user: PFUser!, error: NSError!) -> Void in
-  if user == nil {
-    NSLog("Uh oh. The user cancelled the Facebook login.")
-  } else if user.isNew {
-    NSLog("User signed up and logged in through Facebook!")
+PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, {
+  (user: PFUser?, error: NSError?) -> Void in
+  if let user = user {
+    if user.isNew {
+      println("User signed up and logged in through Facebook!")
+    } else {
+      println("User logged in through Facebook!")
+    }
   } else {
-    NSLog("User logged in through Facebook!")
+    println("Uh oh. The user cancelled the Facebook login.")
   }
 })
 ```
-
-Parse is compatible with version 3.2 of the Facebook iOS SDK.
 
 When this code is run, the following happens:
 
@@ -540,19 +567,21 @@ When this code is run, the following happens:
 
 The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The `PFUser` integration doesn't require any permissions to work out of the box. [Read more permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
-To acquire publishing permissions for a user so that your app can, for example, post status updates on their behalf, you must call `[PFFacebookUtils reauthorizeUser:withPublishPermissions:audience:block]`:
+To acquire publishing permissions for a user so that your app can, for example, post status updates on their behalf, you must call `[PFFacebookUtils logInInBackgroundWithPublishPermissions:]`:
 
 ```objc
-[PFFacebookUtils reauthorizeUser:[PFUser currentUser]  withPublishPermissions:@[@"publish_actions"] audience:FBSessionDefaultAudienceFriends    block:^(BOOL succeeded, NSError *error) {
-    if (succeeded) { // Your app now has publishing permissions for the user
-    }
+[PFFacebookUtils logInInBackgroundWithPublishPermissions:@[ @"publish_actions" ] block:^(PFUser *user, NSError *error) {
+  if (!user) {
+    NSLog(@"Uh oh. The user cancelled the Facebook login.");
+  } else {
+    NSLog(@"User now has publish permissions!");
+  }
 }];
 ```
 ```swift
-PFFacebookUtils.reauthorizeUser(PFUser.currentUser(), withPublishPermissions:["publish_actions"],
-  audience:FBSessionDefaultAudienceFriends, {
-  (succeeded: Bool!, error: NSError!) -> Void in
-  if succeeded {
+PFFacebookUtils.logInInBackgroundWithPublishPermissions(["publish_actions"], {
+  (user: PFUser?, error: NSError?) -> Void in
+  if user != nil {
     // Your app now has publishing permissions for the user
   }
 })
@@ -562,22 +591,25 @@ PFFacebookUtils.reauthorizeUser(PFUser.currentUser(), withPublishPermissions:["p
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
 </div></div>
 
-### Facebook Linking
+### Linking
 
 If you want to associate an existing `PFUser` to a Facebook account, you can link it like so:
 
 ```objc
 if (![PFFacebookUtils isLinkedWithUser:user]) {
-    [PFFacebookUtils linkUser:user permissions:nil block:^(BOOL succeeded, NSError *error) { if (succeeded) {     NSLog(@"Woohoo, user logged in with Facebook!"); }
-    }];
+  [PFFacebookUtils linkUserInBackground:user withReadPermissions:nil block:^(BOOL succeeded, NSError *error) {
+    if (succeeded) {
+      NSLog(@"Woohoo, user is linked with Facebook!");
+    }
+  }];
 }
 ```
 ```swift
 if !PFFacebookUtils.isLinkedWithUser(user) {
-  PFFacebookUtils.linkUser(user, permissions:nil, {
-    (succeeded: Bool!, error: NSError!) -> Void in
+  PFFacebookUtils.linkUserInBackground(user, withReadPermissions: nil, {
+    (succeeded: Bool?, error: NSError?) -> Void in
     if succeeded {
-      NSLog("Woohoo, user logged in with Facebook!")
+      println("Woohoo, user is linked with Facebook!")
     }
   })
 }
@@ -589,24 +621,130 @@ If you want to unlink Facebook from a user, simply do this:
 
 ```objc
 [PFFacebookUtils unlinkUserInBackground:user block:^(BOOL succeeded, NSError *error) {
-    if (succeeded) { NSLog(@"The user is no longer associated with their Facebook account.");
-    }
+  if (succeeded) {
+    NSLog(@"The user is no longer associated with their Facebook account.");
+  }
 }];
 ```
 ```swift
 PFFacebookUtils.unlinkUserInBackground(user, {
-  (succeeded: Bool!, error: NSError!) -> Void in
+  (succeeded: Bool?, error: NSError?) -> Void in
   if succeeded {
-    NSLog("The user is no longer associated with their Facebook account.")
+    println("The user is no longer associated with their Facebook account.")
+  }
+})
+```
+
+### Log In / Link via Token
+
+In previous sections - you've seen how `PFFacebookUtils` could be used to log in with Facebook SDK and create `PFUser`s or link with existing ones. There is also an option available to directly log in / link if you already integrate with Facebook SDK and have a `FBSDKAccessToken`, like in this example:
+
+```objc
+FBSDKAccessToken *accessToken = ...; // Use existing access token.
+
+// Log In (create/update currentUser) with FBSDKAccessToken
+[PFFacebookUtils logInInBackgroundWithAccessToken:accessToken
+                                            block:^(PFUser *user, NSError *error) {
+  if (!user) {
+    NSLog(@"Uh oh. There was an error logging in.");
+  } else {
+    NSLog(@"User logged in through Facebook!");
+  }
+}];
+
+//
+// or
+//
+
+// Link PFUser with FBSDKAccessToken
+[PFFacebookUtils linkUserInBackground:user
+                      withAccessToken:accessToken
+                                block:^(BOOL succeeded, NSError *error) {
+  if (succeeded) {
+    NSLog(@"Woohoo, user is linked with Facebook!");
+  }
+}];
+```
+```swift
+let accessToken: FBSDKAccessToken = ...; // Use existing access token.
+
+// Log In (create/update currentUser) with FBSDKAccessToken
+PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
+  (user: PFUser?, error: NSError?) -> Void in
+  if user != nil {
+    println("User logged in through Facebook!)
+  } else {
+    println("Uh oh. There was an error logging in.")
+  }
+})
+
+//
+// or
+//
+
+// Link PFUser with FBSDKAccessToken
+PFFacebookUtils.linkUserInBackground(user, withAccessToken: accessToken, {
+  (succeeded: Bool?, error: NSError?) -> Void in
+  if succeeded {
+    println("Woohoo, user is linked with Facebook!")
+  }
+})
+```
+
+### Additional Permissions
+
+Since Facebook SDK v4.0 - it is required to request **read** and **publish** permissions separately. With Parse SDK integration you can do that by logging in with read permissions first, and later, when the user wants to post to Facebook - linking a user with new set of publish permissions. This also works the other way around: logging in with publish permissions and linking with additional read permissions.
+
+```objc
+// Log In with Read Permissions
+[PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
+  if (!user) {
+    NSLog(@"Uh oh. The user cancelled the Facebook login.");
+  } else if (user.isNew) {
+    NSLog(@"User signed up and logged in through Facebook!");
+  } else {
+    NSLog(@"User logged in through Facebook!");
+  }
+}];
+
+// Request new Publish Permissions
+[PFFacebookUtils linkUserInBackground:[PFUser currentUser]
+                withPublicPermissions:@[ @"publish_actions"]
+                                block:^(BOOL succeeded, NSError *error) {
+  if (succeeded) {
+    NSLog(@"User now has read and publish permissions!");
+  }
+}];
+```
+```swift
+// Log In with Read Permissions
+PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, {
+  (user: PFUser?, error: NSError?) -> Void in
+  if let user = user {
+    if user.isNew {
+      println("User signed up and logged in through Facebook!")
+    } else {
+      println("User logged in through Facebook!")
+    }
+  } else {
+    println("Uh oh. The user cancelled the Facebook login.")
+  }
+})
+
+// Request new Publish Permissions
+PFFacebookUtils.linkUserInBackground(user, withPublishPermissions: ["publish_actions"], {
+  (succeeded: Bool?, error: NSError?) -> Void in
+  if succeeded {
+    println("User now has read and publish permissions!")
   }
 })
 ```
 
 ### Facebook SDK and Parse
 
-The Facebook iOS SDK provides a number of helper classes for interacting with Facebook's API. Generally, you will use the `FBRequest` class to interact with Facebook on behalf of your logged-in user. [You can read more about the Facebook SDK here](https://developers.facebook.com/docs/reference/ios/3.2).
+The Facebook iOS SDK provides a number of helper classes for interacting with Facebook's API. Generally, you will use the `FBSDKGraphRequest` class to interact with Facebook on behalf of your logged-in user. [You can read more about the Facebook SDK here](https://developers.facebook.com/docs/reference/ios/current).
 
-Our library manages the user's `FBSession` object for you. You can simply call `[PFFacebookUtils session]` to access the session instance, which can then be passed to `FBRequest`s.
+To access the user's Facebook access token, you can simply call `[FBSDKAccessToken currentAccessToken]` to access the `FBSDKAccessToken` instance, which can be passed to `FBSDKGraphRequest`s.</p>
 
 ## Twitter Users
 
@@ -639,25 +777,27 @@ There are two main ways to use Twitter with your Parse users: (1) logging in as 
 
 ```objc
 [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
-    if (!user) { 
-      NSLog(@"Uh oh. The user cancelled the Twitter login."); 
+    if (!user) {
+      NSLog(@"Uh oh. The user cancelled the Twitter login.");
       return;
-    } else if (user.isNew) { 
+    } else if (user.isNew) {
       NSLog(@"User signed up and logged in with Twitter!");
-    } else { 
+    } else {
       NSLog(@"User logged in with Twitter!");
     }
 }];
 ```
 ```swift
 PFTwitterUtils.logInWithBlock {
-  (user: PFUser!, error: NSError!) -> Void in
-  if user == nil {
-    NSLog("Uh oh. The user cancelled the Twitter login.")
-  } else if user.isNew {
-    NSLog("User signed up and logged in with Twitter!")
+  (user: PFUser?, error: NSError?) -> Void in
+  if let user = user {
+    if user.isNew {
+      println("User signed up and logged in with Twitter!")
+    } else {
+      println("User logged in with Twitter!")
+    }
   } else {
-    NSLog("User logged in with Twitter!")
+    println("Uh oh. The user cancelled the Twitter login.")
   }
 }
 ```
@@ -666,7 +806,7 @@ When this code is run, the following happens:
 
 1.  The user is shown the Twitter login dialog.
 2.  The user authenticates via Twitter, and your app receives a callback.
-3.  Our SDK receives the Twitter data and saves it to a `PFUser`. If it's a new user     based on the Twitter handle, then that user is created.
+3.  Our SDK receives the Twitter data and saves it to a `PFUser`. If it's a new user based on the Twitter handle, then that user is created.
 4.  Your `block` is called with the user.
 
 ### Twitter Linking
@@ -675,9 +815,9 @@ If you want to associate an existing `PFUser` with a Twitter account, you can li
 
 ```objc
 if (![PFTwitterUtils isLinkedWithUser:user]) {
-    [PFTwitterUtils linkUser:user block:^(BOOL succeeded, NSError *error) { 
+    [PFTwitterUtils linkUser:user block:^(BOOL succeeded, NSError *error) {
         if ([PFTwitterUtils isLinkedWithUser:user]) {
-          NSLog(@"Woohoo, user logged in with Twitter!"); 
+          NSLog(@"Woohoo, user logged in with Twitter!");
         }
     }];
 }
@@ -685,9 +825,9 @@ if (![PFTwitterUtils isLinkedWithUser:user]) {
 ```swift
 if !PFTwitterUtils.isLinkedWithUser(user) {
   PFTwitterUtils.linkUser(user, {
-    (succeeded: Bool!, error: NSError!) -> Void in
+    (succeeded: Bool?, error: NSError?) -> Void in
     if PFTwitterUtils.isLinkedWithUser(user) {
-      NSLog("Woohoo, user logged in with Twitter!")
+      println("Woohoo, user logged in with Twitter!")
     }
   })
 }
@@ -699,16 +839,16 @@ If you want to unlink Twitter from a user, simply do this:
 
 ```objc
 [PFTwitterUtils unlinkUserInBackground:user block:^(BOOL succeeded, NSError *error) {
-    if (!error && succeeded) { 
+    if (!error && succeeded) {
       NSLog(@"The user is no longer associated with their Twitter account.");
     }
 }];
 ```
 ```swift
 PFTwitterUtils.unlinkUserInBackground(user, {
-  (succeeded: Bool!, error: NSError!) -> Void in
+  (succeeded: Bool?, error: NSError?) -> Void in
   if error == nil && succeeded {
-    NSLog("The user is no longer associated with their Twitter account.")
+    println("The user is no longer associated with their Twitter account.")
   }
 })
 ```
