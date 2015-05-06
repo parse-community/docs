@@ -37,7 +37,7 @@ gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
 gameScore["cheatMode"] = false
 gameScore.saveInBackgroundWithBlock {
-  (success: Bool, error: NSError!) -> Void in
+  (success: Bool, error: NSError?) -> Void in
   if (success) {
     // The object has been saved.
   } else {
@@ -76,11 +76,11 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```swift
 var query = PFQuery(className:"GameScore")
 query.getObjectInBackgroundWithId("xWMyZEGZ") {
-  (gameScore: PFObject!, error: NSError!) -> Void in
-  if error == nil {
-    NSLog("%@", gameScore)
+  (gameScore: PFObject?, error: NSError?) -> Void in
+  if error == nil && gameScore != nil {
+    println(gameScore)
   } else {
-    NSLog("%@", error)
+    println(error)
   }
 }
 ```
@@ -162,7 +162,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```swift
 let query = PFQuery(className:"GameScore")
 query.fromLocalDatastore()
-query.getObjectInBackgroundWithId("xWMyZ4YEGZ").continueWithBlock({ 
+query.getObjectInBackgroundWithId("xWMyZ4YEGZ").continueWithBlock({
   (task: BFTask!) -> AnyObject! in
   if task.error != nil {
       // There was an error.
@@ -190,7 +190,7 @@ PFObject *object = [PFObject objectWithoutDataWithClassName:@"GameScore" objectI
 ```
 ```swift
 let object = PFObject(withoutDataWithClassName:"GameScore" objectId:"xWMyZ4YEGZ")
-object.fetchFromLocalDatastoreInBackground().continueWithBlock({ 
+object.fetchFromLocalDatastoreInBackground().continueWithBlock({
   (task: BFTask!) -> AnyObject! in
   if task.error != nil {
       // There was an error.
@@ -241,8 +241,8 @@ Updating an object is simple. Just set some new data on it and call one of the s
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 // Retrieve the object by id
-[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ" block:^(PFObject *gameScore, NSError *error) {
-
+[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ"
+                             block:^(PFObject *gameScore, NSError *error) {
     // Now let's update it with some new data. In this case, only cheatMode and score
     // will get sent to the cloud. playerName hasn't changed.
     gameScore[@"cheatMode"] = @YES;
@@ -254,10 +254,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```swift
 var query = PFQuery(className:"GameScore")
 query.getObjectInBackgroundWithId("xWMyZEGZ") {
-  (gameScore: PFObject!, error: NSError!) -> Void in
+  (gameScore: PFObject?, error: NSError?) -> Void in
   if error != nil {
-    NSLog("%@", error)
-  } else {
+    println(error)
+  } else if let gameScore = gameScore {
     gameScore["cheatMode"] = true
     gameScore["score"] = 1338
     gameScore.saveInBackground()
@@ -402,8 +402,8 @@ PFObject *post = fetchedComment[@"parent"];
 ```swift
 var post = myComment["parent"] as PFObject
 post.fetchIfNeededInBackgroundWithBlock {
-  (post: PFObject!, error: NSError!) -> Void in
-  let title = post["title"] as NSString
+  (post: PFObject?, error: NSError?) -> Void in
+  let title = post?["title"] as? NSString
   // do something with your title variable
 }
 ```
@@ -445,8 +445,8 @@ By default, the list of objects in this relation are not downloaded.  You can ge
 ```
 ```swift
 relation.query().findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]!, error: NSError!) -> Void in
-  if error != nil {
+  (objects: [AnyObject]?, error: NSError?) -> Void in
+  if let error = error {
     // There was an error
   } else {
     // objects has all the Posts the current user liked.
@@ -583,13 +583,24 @@ The following code sucessfully declares, implements, and registers the `Armor` s
 @end
 ```
 ```swift
+// Import this header into your Swift bridge header file to
+// let Armor know that PFObject privately provides most of
+// the methods for PFSubclassing.
+#import <Parse/PFObject+Subclass.h>
+
 // Armor.swift
 
 class Armor : PFObject, PFSubclassing {
-  class func load() {
-    self.registerSubclass()
+  override class func initialize() {
+    struct Static {
+      static var onceToken : dispatch_once_t = 0;
+    }
+    dispatch_once(&Static.onceToken) {
+      self.registerSubclass()
+    }
   }
-  class func parseClassName() -> String! {
+
+  static func parseClassName() -> String! {
     return "Armor"
   }
 }
@@ -604,15 +615,27 @@ Adding custom properties and methods to your `PFObject` subclass helps encapsula
 ```objc
 // Armor.h
 @interface Armor : PFObject<PFSubclassing>
-+ (NSString *)parseClassName;
-@property (retain) NSString *displayName;
+
+@property (nonatomic, strong) NSString *displayName;
+
 @end
 
+
 // Armor.m
+@implementation Armor
+
 @dynamic displayName;
+
+@end
 ```
 ```swift
-// no swift example
+// Armor.swift
+
+class Armor : PFObject, PFSubclassing {
+
+  @NSManaged var displayName: String
+
+}
 ```
 
 You can access the displayName property using `armor.displayName` or `[armor displayName]` and assign to it using `armor.displayName = @"Wooden Shield"` or `[armor setDisplayName:@"Wooden Sword"]`. Dynamic properties allow Xcode to provide autocomplete and catch typos.
@@ -624,7 +647,8 @@ You can access the displayName property using `armor.displayName` or `[armor dis
 @property int rupees;
 ```
 ```swift
-// no swift example
+@NSManaged var fireProof: Boolean
+@NSManaged var rupees: Int
 ```
 
 In this case, `game[@"fireProof"]` will return an `NSNumber` which is accessed using `boolValue` and `game[@"rupees"]` will return an `NSNumber` which is accessed using `intValue`, but the `fireProof` property is an actual `BOOL` and the `rupees` property is an actual `int`. The dynamic getter will automatically extract the `BOOL` or `int` value and the dynamic setter will automatically wrap the value in an `NSNumber`. You are free to use either format. Primitive property types are easier to use but `NSNumber` property types support nil values more clearly.
@@ -642,7 +666,14 @@ If you need more complicated logic than simple property access, you can declare 
 }
 ```
 ```swift
-// no swift example
+@NSManaged var iconFile: PFFile
+
+func iconView() -> UIImageView {
+  let view = PFImageView(imageView: PlaceholderImage)
+  view.file = iconFile
+  view.loadInBackground()
+  return view
+}
 ```
 
 ## Initializing Subclasses
