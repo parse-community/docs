@@ -10,8 +10,7 @@ There are two ways to create an Installation for the Arduino. You can generate a
 
 ```cpp
 // In this example, we associate this device with a pre-generated installation ID
-ParseClient client;
-client.setInstallationId("ab946c14-757a-4448-8b77-69704b01bb7b");
+Parse.setInstallationId("ab946c14-757a-4448-8b77-69704b01bb7b");
 ```
 
 The installation ID is a unique identifier for the device, so you should make sure to assign different installation IDs to different devices (i.e. your UUID generator has enough randomness). After you do the above, the arduino will automatically create an Installation object with this installation ID.
@@ -21,7 +20,7 @@ If you do not pass in an installation ID, the`ParseClient` will automatically ge
 You can retrieve your installation ID with the`getInstallationId` function:
 
 ```cpp
-String installationId = client.getInstallationId();
+String installationId = Parse.getInstallationId();
 ```
 
 The installation ID is persisted across reboots.
@@ -40,14 +39,14 @@ The Installation class has several special fields that help you manage and targe
 To subscribe to push notifications, make the following call in your`setup` function:
 
 ```cpp
-client.startPushService();
+Parse.startPushService();
 ```
 
 Then, in your`loop` function:
 
 ```
-if (client.pushAvailable()) {
-	ParsePush push = client.nextPush();
+if (Parse.pushAvailable()) {
+	ParsePush push = Parse.nextPush();
 	// Print whole JSON body
 	String message = push.getJSONBody();
 	Serial.print("New push message size: ");

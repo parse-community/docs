@@ -9,8 +9,7 @@ The Arduino SDK does not provide methods to directly sign in as a user. If you w
 Once you have created a Restricted Session via the companion app or through the REST API, you can send the Session Token to the Arduino using push notifications, BLE, or some other appropriate method. After that, you can set it:
 
 ```cpp
-ParseClient client;
-client.setSessionToken("r:olqZkbv8fefVFNjWegyIXIggd");
+Parse.setSessionToken("r:olqZkbv8fefVFNjWegyIXIggd");
 ```
 
 From then on, the device will act on behalf of the user.

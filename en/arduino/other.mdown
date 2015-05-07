@@ -5,7 +5,7 @@ Because the Arduino SDK was designed to minimize memory footprint, it doesn't pr
 For example, you could sign up a user from Arduino through a REST call:
 
 ```cpp
-ParseResponse response = client.sendRequest("POST", "/1/users", "{\"username\":\"cooldude6\",\"password\":\"p_n7!-e8\"}", "");
+ParseResponse response = Parse.sendRequest("POST", "/1/users", "{\"username\":\"cooldude6\",\"password\":\"p_n7!-e8\"}", "");
 ```
 
 In this case, the response will contain the objectId of the created user, assuming it was created successfully.
