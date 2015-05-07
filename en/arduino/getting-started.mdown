@@ -14,8 +14,7 @@ In order for Parse to know which app is associated with the Arduino device, simp
 
 ```cpp
 void setup() {
-	ParseClient client;
-	client.begin("${APPLICATION_ID}", "${CLIENT_KEY}");
+	Parse.begin("${APPLICATION_ID}", "${CLIENT_KEY}");
 	// ...
 }
 ```
