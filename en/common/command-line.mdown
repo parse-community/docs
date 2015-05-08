@@ -17,7 +17,7 @@ This installs a tool named "parse" to `/usr/local/bin/parse`. There's no other j
 
 ### Windows
 
-The Parse command line tool for Windows is available [here](https://parse.com/downloads/cloud_code/cli/parse-windows/latest).
+The Parse command line tool for Windows is available [here](/downloads/cloud_code/cli/parse-windows/latest).
 
 ### Updating
 
