@@ -26,7 +26,7 @@ This installs a tool named "parse" to `/usr/local/bin/parse`. There's no other j
 
 #### Windows
 
-The Parse command line tool for Windows is available [here](/downloads/windows/console/parse.zip). After downloading the zip file and unzipping it, you can launch a parse-aware powershell session by double clicking ParseConsole.exe. After the first run of the ParseConsole, you can also start the powershell session by hitting Win + R and typing "parse".
+The Parse command line tool for Windows is available [here](/downloads/cloud_code/cli/parse-windows/latest).
 
 ## Setting Up Cloud Code
 
