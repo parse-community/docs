@@ -390,4 +390,4 @@ Parse.Cloud.define("Logger", function(request, response) {
 });
 ```
 
-Cloud functions may log up to 100 messages per request.
+Cloud functions may log up to 100 messages per request. Log lines are limited to 1KB in size, after which they are truncated.
