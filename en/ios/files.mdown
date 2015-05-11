@@ -93,7 +93,7 @@ Retrieving the image back involves calling one of the `getData` variants on the 
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
 [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
     if (!error) {
-        UIImage *image = [UIImage imageWithData:imageData];
+      UIImage *image = [UIImage imageWithData:imageData];
     }
 }];
 ```
@@ -107,7 +107,6 @@ userImageFile.getDataInBackgroundWithBlock {
     }
   }
 }
-
 ```
 
 ## Progress
