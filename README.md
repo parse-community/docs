@@ -8,4 +8,4 @@ If you have any fix or suggestion, simply send us a pull request! The guides are
 
 ## Can I Access The Docs Offline?
 
-This repository is public and all the files are in markdown. If you'd like to keep a copy locally, please do! 
+This repository is public and all the files are in markdown. If you'd like to keep a copy locally, please do!
