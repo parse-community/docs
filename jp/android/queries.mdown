@@ -1,0 +1,408 @@
+# クエリ
+
+## 基本的なクエリ
+
+多くの場合、`getInBackground`は取得したいオブジェクトを指定するには力不足です。`ParseQuery`は、それとは別の方法で、オブジェクト単体ではなく、オブジェクトのリストを取得します。
+
+一般的なパターンとしては、まず`ParseQuery`を作成し、条件を付加し、`findInBackground`を`FindCallback`と合わせて使用して、一致する`ParseObject`の`List`を取得します。たとえば、特定の`playerName`のスコアを取得するには、`whereEqualTo`を使用してキーの値に条件を与えます。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Dan Stemkoski");
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            Log.d("score", "Retrieved " + scoreList.size() + " scores");
+        } else {
+            Log.d("score", "Error: " + e.getMessage());
+        }
+    }
+});
+```
+
+`findInBackground` は、ネットワークリクエストをバックグラウンドスレッドで実行し、メインスレッドでそのコールバックを実行するという点で、`getInBackground`と似た動作をします。
+
+## クエリの条件
+
+`ParseQuery`で見つけるオブジェクトに条件をつける方法は複数あります。`whereNotEqualTo`を使用すると、キーと値のペアでオブジェクトをフィルタできます。
+
+```java query.whereNotEqualTo("playerName", "Michael Yabuti");     ```
+
+複数の条件を指定することもできます。その場合、すべての条件に一致するオブジェクトだけが結果に表示されます。言い換えれば、条件の論理積（AND）でフィルタします。
+
+```java
+query.whereNotEqualTo("playerName", "Michael Yabuti");
+query.whereGreaterThan("playerAge", 18);
+```
+
+`setLimit`を使用すると、結果の数を限定できます。デフォルトでは100件になっていますが、1から1000までの値を指定できます。
+
+```java query.setLimit(10); // limit to at most 10 results     ```
+
+結果を1件だけ取得したい場合は、`find`ではなく、`getFirst`や`getFirstBackground`を使うと便利です。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerEmail", "dstemkoski@example.com");
+query.getFirstInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (object == null) {
+            Log.d("score", "The getFirst request failed.");
+        } else {
+            Log.d("score", "Retrieved the object.");
+        }
+    }
+});
+```
+
+`setSkip`を使用すると、結果を上からスキップできます。これは、ページネーションを行う場合に便利です。
+
+```java
+query.setSkip(10); // skip the first 10 results
+```
+
+数値や文字列のように、並べ替えが可能なデータタイプの場合、結果の表示順序を指定できます。
+
+```java
+// Sorts the results in ascending order by the score field
+query.orderByAscending("score");
+
+// Sorts the results in descending order by the score field
+query.orderByDescending("score");
+```
+
+以下のように、並べ替えのキーを追加することもできます。
+
+```java
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+query.addAscendingOrder("score");
+
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+query.addDescendingOrder("score");
+```
+
+並べ替えが可能なデータタイプでは、クエリで比較もできます。
+
+```java
+// Restricts to wins < 50
+query.whereLessThan("wins", 50);
+
+// Restricts to wins <= 50
+query.whereLessThanOrEqualTo("wins", 50);
+
+// Restricts to wins > 50
+query.whereGreaterThan("wins", 50);
+
+// Restricts to wins >= 50
+query.whereGreaterThanOrEqualTo("wins", 50);
+```
+
+複数の異なる値と一致するオブジェクトを取得したい場合、`whereContainedIn`を使用して、一致させる値を複数指定します。これを利用して複数のクエリを1つのクエリにまとめることができます。たとえば、特定のリストの任意のプレイヤーが出したスコアを取得したい場合は、以下のようにします。
+
+```java
+String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
+query.whereContainedIn("playerName", Arrays.asList(names));
+```
+
+複数の異なる値のいずれとも一致しないオブジェクトを取得したい場合、`whereKey:notContainedIn:`を使用して、一致させる値を複数指定します。たとえば、リストに載っている以外のプレイヤーが出したスコアを取得したい場合は以下のようにします。
+
+```java
+String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
+query.whereNotContainedIn("playerName", Arrays.asList(names));
+```
+
+特定のキーのセットを持つオブジェクトを取得したい場合は、`whereExists`を使用します。逆に、特定のキーのセットを持たないオブジェクトを取得したい場合は、`whereDoesNotExist`を使用します。
+
+```java
+// Finds objects that have the score set
+query.whereExists("score");
+
+// Finds objects that don't have the score set
+query.whereDoesNotExist("score");
+``` 
+`whereMatchesKeyInQuery`メソッドを使うと、別のクエリの結果として得られた一連のオブジェクトのキーと、キーの値が一致するオブジェクトを取得することができます。たとえば、スポーツチームを格納したクラスとユーザーのクラスがあり、ユーザーのクラスには出身地のデータを保管しているとします。この場合、1つのクエリで、出身地のチームが勝ち越しているユーザーのリストを得ることができます。クエリは以下のようになります。
+
+```java
+ParseQuery<ParseObject> teamQuery = ParseQuery.getQuery("Team");
+teamQuery.whereGreaterThan("winPct", 0.5);
+ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+userQuery.whereMatchesKeyInQuery("hometown", "city", teamQuery);
+userQuery.findInBackground(new FindCallback<ParseUser>() {
+    void done(List<ParseUser> results, ParseException e) {
+        // results has the list of users with a hometown team with a winning record
+    }
+});
+```
+
+逆に、別のクエリの結果として得られた一連のオブジェクトのキーと、キーの値が一致しないオブジェクトを取得するには、`whereDoesNotMatchKeyInQuery`を使用します。たとえば、出身地のチームが負け越しているユーザーを見つけるには、以下のようにします。
+
+```java
+ParseQuery<ParseUser> losingUserQuery = ParseUser.getQuery();
+losingUserQuery.whereDoesNotMatchKeyInQuery("hometown", "city", teamQuery);
+losingUserQuery.findInBackground(new FindCallback<ParseUser>() {
+    void done(List<ParseUser> results, ParseException e) {
+        // results has the list of users with a hometown team with a losing record
+    }
+});
+```
+
+一連のキーを指定して`selectKeys`を呼び出すと、返されるフィールドを条件で絞ることができます。`score`と`playerName`のフィールド（および`objectId`、`createdAt`、`updatedAt`などの特別な組み込みのフィールド）のみを格納している文書を取得するには以下のようにします。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.selectKeys(Arrays.asList("playerName", "score"));
+List<ParseObject> results = query.find();
+```
+
+それ以外のフィールドは、以下に示すように、返されたオブジェクトに`fetchIfNeeded`のバリアントの1つを呼び出すことで、後からフェッチすることができます。
+
+```java
+ParseObject object = results.get(0);
+object.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        // all fields of the object will now be available here.
+    }
+});
+```
+
+## 配列値へのクエリ
+
+キーに配列値が含まれる場合、キーの配列値に「2」を含むオブジェクトを検索するには以下のようにします。
+
+```java
+// Find objects where the array in arrayKey contains the number 2.
+query.whereEqualTo("arrayKey", 2);
+```
+
+また、キーの配列値に「2」、「3」、「4」を含むオブジェクトを検索するには以下のようにします。
+
+```java
+// Find objects where the array in arrayKey contains all of the numbers 2, 3, and 4.
+ArrayList<Integer> numbers = new ArrayList<Integer>();
+numbers.add(2);
+numbers.add(3);
+numbers.add(4);
+query.whereContainsAll("arrayKey", numbers);
+```
+
+## 文字列値へのクエリ
+
+特定の文字列で始まる文字列値を検索するには、`whereStartsWith`を使用します。MySQLのLIKEオペレータと同様にインデックスが作成されるため、大きなデータセットでも効果的に使えます。
+
+```java
+// Finds barbecue sauces that start with "Big Daddy's".
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereStartsWith("name", "Big Daddy's");
+```
+
+## リレーショナルクエリ
+
+リレーショナルデータに対してクエリを発行する方法は複数あります。あるフィールドが特定の`ParseObject`と一致するオブジェクトを取得するには、他のデータタイプと同様に`whereEqualTo`が使えます。たとえば、各`Comment`が`post`フィールドに`Post`オブジェクトを持っている場合、以下のようにして特定の`Post`へのコメントをフェッチできます。
+
+```java
+// Assume ParseObject myPost was previously created.
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereEqualTo("post", myPost);
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // commentList now has the comments for myPost
+    }
+});
+```
+
+別のクエリに一致する`ParseObject`を含むオブジェクトを取得したい場合は、`whereMatchesQuery`を使います。デフォルトでは100件、最大1000件という制限は内部クエリにも適用されることに注意してください。大きなデータセットを扱う場合に期待どおりの動作を得るためには、クエリを注意深く構成する必要があります。投稿へのコメントの中から、画像を含むものを見つけるには、以下のようにします。
+
+```java
+ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
+innerQuery.whereExists("image");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereMatchesQuery("post", innerQuery);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // comments now contains the comments for posts with images.
+    }
+});
+```
+
+別のクエリに一致しない`ParseObject`を含むオブジェクトを取得したい場合は、`whereDoesNotMatchQuery`を使います。投稿へのコメントの中から、画像を含まないものを見つけるには、以下のようにします。
+
+```java
+ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
+innerQuery.whereExists("image");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereDoesNotMatchQuery("post", innerQuery);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // comments now contains the comments for posts without images.
+    }
+});
+```
+
+1つのクエリで、複数のタイプの関連オブジェクトを返したい場合があります。そのときは、`include`メソッドを使います。たとえば、最新10件のコメントを取得し、同時にそれらに関連する投稿も取得したい場合は、以下のようにします。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+
+// Retrieve the most recent ones
+query.orderByDescending("createdAt");
+
+// Only retrieve the last ten
+query.setLimit(10);
+
+// Include the post data with each comment
+query.include("post");
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // commentList now contains the last ten comments, and the "post"
+        // field has been populated. For example:
+        for (ParseObject comment : commentList) {
+            // This does not require a network access.
+            ParseObject post = comment.getParseObject("post");
+            Log.d("post", "retrieved a related post");
+        }
+    }
+});
+```
+
+ドット記号を使った表記で、複数レベルでも実行できます。投稿へのコメントと、その投稿の作者を含めたい場合は、以下のようにします。
+
+```java
+query.include("post.author");
+```
+
+`include`を複数回呼び出すことで、1つのクエリに複数のフィールドを含めることができます。この機能は、`getFirst()`や`getInBackground()`などのParseQueryヘルパーでも使用できます。
+
+## ローカルデータストアへのクエリ
+
+`Parse.initialize()`を呼び出す前に`Parse.enableLocalDatastore()`を呼び出してローカルデータストアを有効にしている場合は、デバイスのローカルで保管されているオブジェクトに対してもクエリを行うことができます。実行するには、クエリで`fromLocalDatastore`メソッドを呼び出します。
+
+```java
+query.fromLocalDatastore();
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            // Results were successfully found from the local datastore.
+        } else {
+            // There was an error.
+        }
+    }
+});
+```
+
+ローカルデータストアへのクエリでは、ネットワーク経由のクエリと全く同じクエリが使用できます。デバイス上に固定されたオブジェクトのうち、クエリと一致するオブジェクトを結果として取得できます。クエリでは、まだクラウドに保存されていない変更も考慮されます。たとえば、あるオブジェクトに対して`deleteEventually`を呼び出した場合、そのオブジェクトは結果に含まれません。
+
+
+## クエリのキャッシュ
+
+クエリ結果をデバイスにキャッシュしておくと有益な場合があります。そうすることにより、ユーザーのデバイスがオフラインであったり、アプリが起動された直後でネットワークリクエストがまだ完了していないときでもデータを表示することができます。これを実行する最も簡単な方法は、ローカルデータストアを利用することです。オブジェクトを固定するときには、固定にラベルを添付して、オブジェクトのグループをまとめて管理できます。たとえば、上で示したクエリの結果をキャッシュするには、`pinAllInBackground`を呼び出して、ラベルをつけます。
+
+```java
+final String TOP_SCORES_LABEL = "topScores";
+// Query for the latest objects from Parse.
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(final List<ParseObject> scoreList, ParseException e) {
+        if (e != null) {
+            // There was an error or the network wasn't available.
+            return;
+        }
+        // Release any objects previously pinned for this query.
+        ParseObject.unpinAllInBackground(TOP_SCORES_LABEL, scoreList, new DeleteCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    // There was some error.
+                    return;
+                }
+                // Add the latest results for this query to the cache.
+                ParseObject.pinAllInBackground(TOP_SCORES_LABEL, scoreList);
+            }
+        });
+    }
+});
+```
+
+`fromLocalDatastore`を使ってクエリする場合、クエリに一致すればこれらのオブジェクトも結果に含まれます。
+
+ローカルデータストアを使用していない場合は、`ParseQuery`のクエリごとのキャッシュを利用します。クエリはデフォルトではキャッシュを行いませんが、`setCachePolicy`を使ってキャッシュを有効にすることができます。たとえば、まずネットワークを試し、ネットワークが利用できない場合にキャッシュされたデータにフォールバックするには以下のようにします。
+
+```java
+query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            // Results were successfully found, looking first on the
+            // network and then on disk.
+        } else {
+            // The network was inaccessible and we have no cached data
+            // for this query.
+        }
+    }
+});
+```
+
+Parseには、以下のように複数のキャッシュポリシーがあります。
+
+*   `IGNORE_CACHE` クエリはキャッシュからは読み込まず、結果をキャッシュに保存することもありません。`IGNORE_CACHE` はデフォルトのキャッシュポリシーです。
+*   `CACHE_ONLY` クエリはキャッシュからのみ読み込み、ネットワークは無視します。キャッシュされた結果が存在しない場合は、`ParseException`となります。
+*   `NETWORK_ONLY` クエリはキャッシュからの読み込みは行いませんが、結果はキャッシュに保存します。
+*   `CACHE_ELSE_NETWORK` クエリはまずキャッシュから読み込もうとし、失敗したときにネットワークから結果を読み込みます。キャッシュでもネットワークでも読み込めなかった場合は`ParseException`になります。
+*   `NETWORK_ELSE_CACHE` クエリはまずネットワークから読み込もうとし、失敗したときにキャッシュから結果を読み込みます。ネットワークでもキャッシュでも読み込めなかった場合は`ParseException`になります。
+*   `CACHE_THEN_NETWORK` クエリはまずキャッシュから読み込み、次いでネットワークから読み込みます。この場合、実際にはキャッシュされた結果のときとネットワークからの結果のときの2回、`FindCallback`が呼び出されます。このキャッシュポリシーは、必ず`findInBackground`と組み合わせて非同期的に使用する必要があります。
+
+キャッシュの動作を制御する必要がある場合は、ParseQueryのキャッシュ操作メソッドを利用します。キャッシュに対して、以下のような操作が可能です。
+
+*   特定のクエリに対して、キャッシュされた結果が存在するかどうかを確認する。 ```java boolean isInCache = query.hasCachedResult();            ```*   特定のクエリに対してキャッシュされた結果を削除する。 ```java query.clearCachedResult();            ```
+*   あらゆるクエリに対してキャッシュされた結果を削除する。 ```java ParseQuery.clearAllCachedResults();        ``` 
+
+クエリのキャッシュは、`getFirst()`や`getInBackground()`などのParseQueryヘルパーでも使用できます。
+
+## オブジェクトのカウント
+
+クエリに一致するオブジェクトの数を数えたいが、オブジェクトそのものを取得する必要はない場合、`find`の代わりに`count`を使います。たとえば、あるプレイヤーが何本のゲームをプレイしたことがあるかを数えたい場合は以下のようにします。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Sean Plott");
+query.countInBackground(new CountCallback() {
+    public void done(int count, ParseException e) {
+        if (e == null) {
+            // The count request succeeded. Log the count
+            Log.d("score", "Sean has played " + count + " games");
+        } else {
+            // The request failed
+        }
+    }
+});
+```
+
+呼び出しスレッドをブロックしたい場合は、同期的な`query.count()`メソッドを使用します。
+
+1000以上のオブジェクトがあるクラスについては、カウント処理はタイムアウトで終了されます。したがって、タイムアウトエラーが頻発したり、大まかな結果しか得られない場合があります。そのため、アプリケーションはこのようなカウント処理を避けるように構築するのが望ましいです。
+
+## 複合クエリ
+
+ 複数のクエリのいずれかに一致するオブジェクトを検索したい場合、`ParseQuery.or`メソッドを使うと、条件を論理和（OR）でまとめたクエリを構築できます。たとえば、勝利数が多いか少ないプレイヤーを検索したい場合は、以下のようにします。
+
+```java
+ParseQuery<ParseObject> lotsOfWins = ParseQuery.getQuery("Player");
+lotsOfWins.whereGreaterThan(150);
+
+ParseQuery<ParseObject> fewWins = ParseQuery.getQuery("Player");
+fewWins.whereLessThan(5);
+
+List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+queries.add(lotsOfWins);
+queries.add(fewWins);
+
+ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+mainQuery.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> results, ParseException e) {
+        // results has the list of players that win a lot or haven't won much.
+    }
+});
+```
+
+新しく作成した`ParseQuery`に条件を追加し、「AND」オペレータでそれらの条件をまとめることもできます。
+
+ただし、サブクエリや複合クエリでは、フィルタ処理を行わない条件（`setLimit`、`skip`、`orderBy...`、`include`など）はサポートされません。

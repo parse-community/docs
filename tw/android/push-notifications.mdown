@@ -1,0 +1,409 @@
+# 推播通知
+
+推播通知是讓使用者對應用程式保持互動和接收通知的好方法。您可以快速且有效地接觸整個使用者群。本指南將協助您了解 Parse 的設定程序和一般用途，以發送推播通知。
+
+## 設定推播
+
+如果您想開始使用推播功能，請先詳閱 [Android 推播教學](/tutorials/android-push-notifications)，以了解如何設定您的應用程式。請於閱讀後回到本指南，了解更多有關 Parse 提供的推播功能。
+
+Parse 程式庫利用 Google 雲端訊息 (GCM)，在可能的情況下提供推播通知。在不支援 GCM 的裝置上（例如 Amazon Kindle Fire），Parse 會使用能夠與 Parse Cloud 維持穩定連線的背景服務傳送推播。這使得 Parse Push 能夠在所有執行 Android 2.2 或更新版本的裝置上運作。 
+
+## 安裝
+
+在已登錄推播通知的裝置上所安裝的每個 Parse 應用程式，都有相關聯的 `Installation` 物件。`Installation` 物件是儲存推播通知目標設定所需全部資料的地方。例如，您可以在棒球應用程式中將某使用者感興趣的球隊儲存起來，以便傳送關於球隊表現的更新資訊。
+
+在 Android 中，`Installation` 物件可透過 `ParseInstallation` 類別使用（`ParseObject` 的子類別）。此物件會使用[相同的 API](#objects) 儲存和擷取資料。若要從 Android 應用程式存取目前的 `Installation` 物件，請使用 `ParseInstallation.getCurrentInstallation()` 方法。初次儲存 `ParseInstallation` 時，Parse 會把它加入 `Installation` 類別，然後即可用於推播通知目標設定。
+
+```java
+// Save the current Installation to Parse.
+ParseInstallation.getCurrentInstallation().saveInBackground();
+```
+
+雖然可以像 `ParseObject` 一樣修改 `ParseInstallation`，不過有幾個特殊欄位有助於管理和鎖定裝置。
+
+*   **`badge`**：iOS 應用程式目前的圖示徽章值。在伺服器上對此值所做的更改，將可用於之後的徽章遞增推播通知。
+*   **`channels`**: 裝置目前訂閱的頻道陣列。
+*   **`timeZone`**：目標裝置所在地點的目前時區。每當從裝置中儲存 `Installation` 物件時，此值就會同步_（唯讀）_。
+*   **`deviceType`**：裝置類型，「iOS」或「Android」_（唯讀）_。
+*   **`installationId`**：Parse 所用裝置的唯一 ID_（唯讀）_。
+*   **`deviceToken`**：Apple 所產生用於 iOS 裝置的權仗或 GCM 為了追蹤登錄 ID 所使用的權杖_（唯讀）_。
+*   **`channelUris`**：Microsoft 所產生供 Windows 裝置使用的推播 URI_（唯讀）_。
+*   **`appName`**：此安裝所屬用戶端應用程式的顯示名稱_（唯讀）_。
+*   **`appVersion`**：此安裝所屬用戶端應用程式的版本字串_（唯讀）_。
+*   **`parseVersion`**：此安裝所使用的 Parse SDK 版本_（唯讀）_。
+*   **`appIdentifier`**：此安裝的用戶端應用程式之唯一識別碼。Android 未支援此參數。_（唯讀）_。
+*   **`pushType`** 此欄位保留用於將 Parse 導向要使用的推播傳送網路。如果裝置已登錄要透過 GCM 接收推播，此欄位將會標記為「gcm」。如果此裝置未使用 GCM，而是使用 Parse 推播通知服務，欄位將保留空白_（唯獨）_。
+
+## 傳送推播
+
+有兩種方法可以使用 Parse 傳送推播通知：[頻道](#sending-channels)和[進階目標設定](#sending-queries)。頻道提供易於使用的傳送推播模型，而進階目標設定則提供功能更強大且更具彈性的模型。兩者之間完全相容，我們將在本節中解說。
+
+傳送通知通常是從 Web 主控台、REST API 或 Cloud Code 進行。然而，推播通知也可由現有的用戶端 SDK 觸發。如果您決定從用戶端 SDK 傳送通知，則您必須在 Parse 應用程式的「推播通知」設定中設定**Client Push Enabled**。
+
+![](/images/docs/client_push_settings.png)
+
+### 使用頻道
+
+開始傳送推播最簡單的方法就是使用頻道。這樣能讓您使用發佈者-訂閱者模式來傳送推播。裝置先開始訂閱一或多個頻道，之後通知就可以傳送給這些訂閱者。特定 `Installation` 所訂閱的頻道，會儲存在 `Installation` 物件的 `channels` 欄位。
+
+#### 訂閱頻道
+
+頻道是用由字母開頭且以英數字元、底線、破折號組成的字串來識別。可以使用之前不必明確地建立頻道，而每個 `Installation` 可同時訂閱任何數目的頻道。
+
+利用單一方法呼叫即可完成頻道訂閱。例如，在棒球比分應用程式中，我們可以：
+
+```java
+// When users indicate they are Giants fans, we subscribe them to that channel.
+PushService.subscribe(context, "Giants", YourActivity.class);
+```
+
+當使用者回應此頻道的通知時，所提供的 Activity 類別將指出要執行的 Activity。這讓您能夠用不同方法處理不同頻道的通知。
+
+訂閱「Giants」頻道後，您的 `Installation` 物件應該會有更新的 `channels` 欄位。
+
+![](/images/docs/installation_channel.png)
+
+取消訂閱頻道也一樣簡單：
+
+```java
+// When users indicate they are no longer Giants fans, we unsubscribe them.
+PushService.unsubscribe(context, "Giants");
+```
+
+若要取得目前裝置訂閱的頻道集合，您可以這樣做：
+
+```java
+Set<String> setOfAllSubscriptions = PushService.getSubscriptions();
+```
+
+訂閱和取消訂閱方法都無法封鎖呼叫的執行緖。如果無法連線，訂閱資訊將被快取到裝置的磁碟，且在網路可以重新使用時傳輸至 Parse Cloud。這代表您無需於管理訂閱時擔心執行緒和回呼問題。
+
+#### 將推播傳送至頻道
+
+在 Android SDK 中，下列程式碼可用來警示所有「Giants」頻道的訂閱者他們喜愛的球隊剛剛得分了。這會向 iOS 使用者顯示通知中心警示，以及向 Android 使用者顯示系統匣通知。
+
+```java
+ParsePush push = new ParsePush();
+push.setChannel("Giants");
+push.setMessage("The Giants just scored! It's now 2-2 against the Mets.");
+push.sendInBackground();
+```
+
+如果您想用單一推播通知鎖定多個頻道，您可以使用頻道的 `LinkedList`。
+
+```java
+LinkedList<String> channels = new LinkedList<String>();
+channels.add("Giants");
+channels.add("Mets");
+ParsePush push = new ParsePush();
+push.setChannels(channels);
+// Notice we use setChannels not setChannel
+push.setMessage("The Giants won against the Mets 2-3.");
+push.sendInBackground();
+```
+
+### 使用進階目標設定
+
+雖然對許多應用程式來說頻道很好用，不過有時您在設定推播的目標接收者時需要更高的準確度。Parse 能讓您利用[查詢 API](#queries)，對 `Installation` 物件的任何子集編寫查詢，再傳送推播給它們。
+
+由於 `ParseInstallation` 是 `ParseObject` 的子類別，因此您可以儲存想儲存的任何資料，甚至能在 `Installation` 物件和其他物件之間建立關聯。這讓您能將推播傳送給自訂程度很高又不斷變化的使用者群。
+
+#### 儲存安裝資料
+
+將資料儲存在 `Installation` 物件上就跟將[任何其他資料](#objects)儲存在 Parse 上一樣簡單。在我們的棒球應用程式中，可以讓使用者得到關於比賽結果、比分和受傷報告的推播。
+
+```java
+// Store app language and version
+ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+installation.put("scores",true);
+installation.put("gameResults",true);
+installation.put("injuryReports",true);
+installation.saveInBackground();
+```
+
+您甚至可以在 `Installation` 物件和儲存於 Parse 的其他類別之間建立關聯性。例如，若您要在 Installation 與特定使用者建立關聯，只需將目前使用者儲存於 `ParseInstallation` 即可。
+
+```java
+// Associate the device with a user
+ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+installation.put("user",ParseUser.getCurrentUser());
+installation.saveInBackground();
+```
+
+#### 將推播傳送至查詢
+
+一旦您將資料儲存於 `Installation` 物件，就可以使用 `PFQuery` 鎖定這些裝置的子集。`Installation` 查詢跟任何其他 [Parse 查詢](#queries)的運作方式一樣，但我們使用特殊的靜態方法 `ParseInstallation.getQuery()` 來建立查詢。在傳送通知之前，我們在 `PFPush` 物件上設定此查詢。
+
+```java
+// Create our Installation query
+ParseQuery pushQuery = ParseInstallation.getQuery();
+pushQuery.whereEqualTo("injuryReports", true);
+
+// Send push notification to query
+ParsePush push = new ParsePush();
+push.setQuery(pushQuery);
+// Set our Installation query
+push.setMessage("Willie Hayes injured by own pop fly.");
+push.sendInBackground();
+```
+
+我們甚至可以在查詢中使用頻道。若要傳送推播給所有「Giants」頻道的訂閱者，但要篩選誰想更新比分，我們可以執行下列動作：
+
+```java
+// Create our Installation query
+ParseQuery pushQuery = ParseInstallation.getQuery();
+pushQuery.whereEqualTo("channels", "Giants");
+// Set the channel
+pushQuery.whereEqualTo("scores", true);
+
+// Send push notification to query
+ParsePush push = new ParsePush();
+push.setQuery(pushQuery);
+push.setMessage("Giants scored against the A's! It's now 2-2.");
+push.sendInBackground();
+```
+
+如果我們在 `Installation` 類別中儲存與其他物件的關聯性，我們也可以在查詢中使用那些物件。例如，我們可以傳送推播通知給特定地點附近的所有使用者。
+
+```java
+// Find users near a given location
+ParseQuery userQuery = ParseUser.getQuery();
+userQuery.whereWithinMiles("location", stadiumLocation, 1.0);
+
+// Find devices associated with these users
+ParseQuery pushQuery = ParseInstallation.getQuery();
+pushQuery.whereMatchesQuery("user", userQuery);
+
+// Send push notification to query
+ParsePush push = new ParsePush();
+push.setQuery(pushQuery);
+// Set our Installation query
+push.setMessage("Free hotdogs at the Parse concession stand!");
+push.sendInBackground();
+```
+
+## 傳送選項
+
+推播通知不只能傳送訊息而己。在 Android 系統中，推播可以包含您想要傳送的自訂資料，以及能夠立即執行的 `Intent`。如果通知具有時效性，也可以在通知中設定到期日。
+
+### 自訂通知
+
+如果您不僅想傳送訊息而己，就必須使用 `JSONObject` 封裝所有資料。Android 中有部分保留欄位具有特殊意義。
+
+*   **`alert`**：通知的訊息。
+*   **`badge`**：_（僅限 iOS）_顯示在應用程式圖示右上角的值。可以設為某個值；也可以設為 `Increment`，使目前值以 1 為遞增單位。
+*   **`sound`**：_（僅限 iOS）_應用程式套件中的聲音檔名稱。
+*   **`content-available`**：_（僅限 iOS）_如果您正在編寫 [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) 應用程式或使用 [iOS7 新推出](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10)的「遠端通知背景模式」（亦稱為「背景推播」），請將此值設定為 1 以觸發背景下載。
+*   **`action`**：_（僅限 Android）_`Intent` 在接收推播時應該要引發。若指定了不是 `title` 或 `alert` 的值，`Intent` 會被引發，但不會傳送通知給使用者。
+*   **`title`**：_（僅限 Android、Windows 8 和 Windows Phone 8）_在 Android 系統匣或 Windosw 8 快顯通知顯示的值。
+
+例如，若要傳送通知，將徽章號碼增加 1 且播放自訂聲音，您可以按照下列步驟進行。請注意，您可以從 Android 用戶端設定這些屬性，不過只有在 iOS 版本的應用程式才會生效。徽章和聲音欄位對 Android 接收者不會產生效果。
+
+```java
+JSONObject data = new JSONObject("{\"alert\": \"The Mets scored!\",
+                                  \"badge\": \"Increment\",
+                                  \"sound\": \"cheering.caf);
+ParsePush *push = new ParsePush();
+push.setChannel("Mets");
+push.setData(data);
+push.sendPushInBackground();
+```
+
+也可在此字典中指定您自己的資料。如[接收通知](#receiving)章節中所述，您可以在接收到通知時使用 `Intent` 執行自訂處理。您也可以存取設定於通知的任何資料。
+
+```java
+JSONObject data = new JSONObject("{\"action\": \"com.example.UPDATE_STATUS\",
+                                  \"name\": \"Vaughn\",
+                                  \"newsItem\": \"Man bites dog\""}));
+ParsePush *push = new ParsePush();
+push.setQuery(injuryReportsQuery);
+push.setChannel("Indians");
+push.setData(data);
+push.sendPushInBackground();
+```
+
+### 設定到期日
+
+使用者的裝置關閉或未連線至網際網路時，就無法傳送推播通知。如果您的通知具有時效性，太晚就不值得傳送的話，您可以設定到期日。這樣做可避免以不再相關的資訊警示使用者。
+
+`ParsePush` 類別提供兩種設定通知到期日的方法。第一種是 `setExpirationTime`，這種方法會用 `time`（UNIX epoch 時間）指定 Parse 應於何時停止嘗試傳送通知。
+
+```java
+// Send push notification with expiration date
+ParsePush push = new ParsePush();
+push.setExpirationTime(1424841505);
+push.setQuery(everyoneQuery);
+push.setMessage("Season tickets on sale until February 25th");
+push.sendPushInBackground();
+```
+
+不過這種方法有一點值得注意。由於裝置上的時鐘並不一定準確，所以可能結果也不準確。因此，`ParsePush` 類別也提供 `setExpirationTimeInterval` 方法。此方法接受 `timeInterval`（以秒計）。指定的時間間隔結束之後，通知就會到期。
+
+```java
+// Create time interval
+long weekInterval = 60*60*24*7; // 1 week
+
+// Send push notification with expiration interval
+ParsePush push = new ParsePush();
+push.setExpirationTimeInterval(weekInterval);
+push.setQuery(everyoneQuery);
+push.setMessage("Season tickets on sale until next week!");
+push.sendPushInBackground();
+```
+
+### 按照平台進行目標設定
+
+如果您建立跨平台的應用程式，有可能只想將目標設定為特定作業系統的裝置。進階目標設定能讓您篩選要將目標設定為哪些裝置。
+
+下列範例將傳送不同通知給 Android、iOS 和 Windows 8 使用者。
+
+```java
+ParseQuery query = ParseInstallation.getQuery();
+query.whereEqualTo("channels", "suitcaseOwners");
+
+// Notification for Android users
+query.whereEqualTo("deviceType", "android");
+ParsePush androidPush = new ParsePush();
+androidPush.setMessage("Your suitcase has been filled with tiny robots!");
+androidPush.setQuery(query);
+androidPush.sendPushInBackground();
+
+// Notification for iOS users
+query.whereEqualTo("deviceType", "android");
+ParsePush iOSPush = new ParsePush();
+iOSPush.setMessage("Your suitcase has been filled with tiny apples!");
+iOSPush.setQuery(query);
+iOSPush.sendPushInBackground();
+
+// Notification for Windows 8 users
+query.whereEqualTo("deviceType", "winrt");
+ParsePush winPush = new ParsePush();
+winPush.setMessage("Your suitcase has been filled with tiny glass!");
+winPush.setQuery(query);
+winPush.sendPushInBackground();
+
+// Notification for Windows 8 users
+query.whereEqualTo("deviceType", "winrt");
+ParsePush winPush = new ParsePush();
+winPush.setMessage("Your suitcase has been filled with tiny glass!");
+winPush.setQuery(query);
+winPush.sendPushInBackground();
+
+// Notification for Windows Phone 8 users
+query.whereEqualTo("deviceType", "winphone");
+ParsePush wpPush = new ParsePush();
+wpPush.setMessage("Your suitcase is very hip; very metro.");
+wpPush.setQuery(query);
+wpPush.sendPushInBackground();
+```
+
+## 推播排程
+
+Android SDK 目前並不支援傳送已排程的推播通知。請參閱 REST API、JavaScript SDK 或 Web 主控台。
+
+## 接收推播
+
+當接收到推播通知，「標題」將會顯示在系統匣中，且「訊息」會顯示為該推播的內容。Android 可以讓您做得更多。只要指定 `Activity` 就能夠處理開啟的推通知，且一旦收到通知，`Intent` 就會在背景中立即執行。
+
+若要設定應用程式以接收推播，請確保您有詳讀 [Android 推播快速入門](/apps/quickstart_push)。快速入門將讓您了解如何為全部的 Android 裝置設定推播，包含那些不支援 GCM 的裝置。如果您只打算發送推播到能夠使用 GCM 的裝置，您可以從 `AndroidManifest.xml` 移除以下元件：
+
+*   `com.parse.ParseBroadcastReceiver` 的 `receiver` 元件（包含 `BOOT_COMPLETED` 和 `USER_PRESENT` 的意圖篩選器）*   `android.permission.RECEIVE_BOOT_COMPLETED` 的 `permission` 元件
+
+您仍然需要快速入門中提到的所有其它元件（包含 `com.parse.PushService` 的元件）。
+
+請注意，某些 Android 模擬器（缺乏 Google API 支援者）不支援 GCM，因此您如果在此類設定的模擬器中進行應用程式的測試，請確保選擇有安裝 Google API 的模擬器圖像。
+
+### 透過 Activity 回應
+
+您可以在使用者開啟推播通知時，指定要啟動的 `Activity`。使用[頻道](#sending-channels)時，在訂閱方法呼叫中加入 `Activity`。
+
+```java
+PushService.subscribe(context, "Giants", YourActivity.class);
+```
+
+如果您使用[進階目標鎖定](#sending-queries)，可以指定要使用的預設 `Activity`。
+
+```java
+PushService.setDefaultPushCallback(context, YourActivity.class);
+```
+
+### 透過 Intent 回應
+
+當接收到推播通知，您也可以指定背景中要執行的 `Intent`。這會使您的應用程式能夠執行自訂的通知處理，且無論是否選擇顯示系統匣訊息，都能使用該應用程式。若要實作自訂通知處理，請將推播通知資料字典的 `Action` 項目設定為您想要執行的 `Intent` 動作。Android 指南建議將動作字首設為封裝名稱，避免命名空間和其它執行中的應用程式發生衝突。
+
+以下是[先前](#options-data)出現的範例：
+
+```java
+JSONObject data = new JSONObject("{\"action\": \"com.example.UPDATE_STATUS\",
+                                  \"name\": \"Vaughn\",
+                                  \"newsItem\": \"Man bites dog\""}));
+ParsePush *push = new ParsePush();
+push.setQuery(injuryReportsQuery);
+push.setChannel("Angels");
+push.setData(data);
+push.sendPushInBackground();
+```
+
+如果您的程式碼存在於 `com.example` 封裝中，且想要登錄 `com.example.UPDATE_STATUS` 動作的接收者，您可以在之前建立的 `ParseBroadcastReceiver` 區塊尾部立即將以下 XML 加入 `AndroidManifest.xml` 檔案：
+
+```html
+  <receiver android:name="com.example.MyCustomReceiver" android:exported="false">
+      <intent-filter>
+          <action android:name="com.example.UPDATE_STATUS" />
+      </intent-filter>
+  </receiver>
+  ```
+
+不論何時收到帶有 `com.example.UPDATE_STATUS` 動作參數的通知，您的自訂接收者就會收到呼叫。基於安全考量，Parse SDK 會確保只有您應用程式中的接收者可以處理此意圖。此外，您應該確保設定 `<receiver>` 元件上的 `android:exported` 屬性，避免其他應用程式傳送推播給您的接收者。
+
+傳送給接收者的 `Intent` 物件包含一個額外的 `Bundle`，其中有兩個有用的對應。`"com.parse.Channel"` 索引鍵指向代表訊息傳送頻道的字串。`"com.parse.Data"` 索引鍵指向建立於推播通知中，代表 `"data"` 字典 JSON 編碼的字串。以下程式碼範例將剖析 JSON 推播通知，並登入 Android 模擬器主控台：
+
+```java
+public class MyCustomReceiver extends BroadcastReceiver {
+    private static final String TAG = "MyCustomReceiver";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        try {
+            String action = intent.getAction();
+            String channel = intent.getExtras().getString("com.parse.Channel");
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+            Log.d(TAG, "got action " + action + " on channel " + channel + " with:");
+            Iterator itr = json.keys();
+            while (itr.hasNext()) {
+                String key = (String) itr.next();
+                Log.d(TAG, "..." + key + " => " + json.getString(key));
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "JSONException: " + e.getMessage());
+        }
+    }
+}
+```
+
+### 追蹤推播和應用程式開啟次數
+
+為了追蹤使用者隨時間經過的參與互動以及追蹤推播通知的效果，我們在 `ParseAnalytics` 類別中提供一些監控程式 (Hook)。
+
+如果您使用 `Activity` 回應推播通知，請將以下內容加入您處理推播 `Activity` 的 `onCreate` 方法，如此就可以收集有關應用程式何時開啟和為何啟動的資訊。如果您透過自訂 `BroadcastReceiver` 回應推播，請調整程式碼，使用傳送至 `onReceive` 的`Intent`。
+
+```java
+ParseAnalytics.trackAppOpened(getIntent());
+```
+
+`trackAppOpened` 的 `null` 參數_只會_追蹤標準應用程式開啟事件（例如，`Intent` 上的 Parse 承載是空的或您透過在 `null` 中傳送忽略推播）。
+
+應用程式開啟次數和推播相關的開啟率可在應用程式的主控板中取得。
+
+## 疑難排解
+
+設定推播通知對開發人員來說通常充滿挫折。過程很複雜且會不斷發生問題。如果您遇到問題，請嘗試這些疑難排解提示。 
+
+*   [升級最新版本的 SDK](/docs/downloads)。幾個常見的 Android 推播通知問題已經在最新推出的 Parse 中修正。
+*   如同 [Android 推播快速入門](/apps/quickstart_push#android/native/existing)中步驟 4 和 6 的說明，請確保 `AndroidManifest.xml` 檔案中有列出正確的授權。如果您使用自訂接收者，請確保有在 Manifest 檔案中使用正確的 `android:name` 屬性和適合的意圖篩選器登錄。
+*   請確保您有使用正確的應用程式 ID 和用戶端金鑰，並且呼叫 `Parse.initialize()`。`Parse.initialize()` 讓服務知道正在偵聽哪一個應用程式；針對特定 Activity，我們建議將此程式碼放入 `Application.onCreate` 方法，而非 `onCreate` 方法，如此任何啟用技術都會知道要如何使用 Parse。
+*   請檢查裝置是否設定為接受來自您應用程式的通播通知。
+*   在您的 Parse Push Console 中檢查接收者的數目。是否符合預期的接收者數目？您的推播目標設定可能不正確。
+*   若是在模擬器中測試，請嘗試清除和重建您的專案，且重新啟動 AVD。*   請利用 `Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE)` 開啟詳細資訊記錄。錯誤訊息可協助您執行後續的處理。
+*   如果您在主控板看見「已完成（有錯誤發生）」訊息，請檢查您的詳細資訊記錄。如果您是在裝置上執行推播，請檢查主控板是否允許用戶端推播。
+*   您或許會在記錄檔中看見這種錯誤訊息：「無法建構寫入器」或其他和管線故障有關的問題。當遇上這種情形，架構會持續嘗試重新連線。這應該不會使您的應用程式當機。

@@ -1,0 +1,370 @@
+# 主機
+
+Parse Hosting 提供您主控靜、動態網站的工具。您可以使用用戶端的 JavaScript SDK 及伺服器端的 Cloud Code plus Express，隨意上傳靜態網頁內容，或建立動態網路應用程式。這可讓您建立原生應用程式的輔助型網路應用程式、行動應用程式的連結頁面，甚至主控 Unity Web Player 二進位檔。
+
+## 快速入門
+
+您必須在用來進行開發作業的電腦上安裝 Parse 命令列工具。這可讓您使用 Parse Cloud 來管理網站。您至少需要命令列工具 1.1.0 版。
+
+### 安裝或更新命令列工具 (Mac/Linux)
+
+在 Mac OS 和 Linux/Unix 環境下，請執行以下命令來取得 Parse 工具：
+
+```bash
+curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
+```
+
+此會將一套名為「parse」的工具安裝至 `/usr/local/bin/parse`。由於沒有其他垃圾檔，因此刪除該檔案即可解除安裝。如果已經安裝命令列，這項命令將會同時更新命令列工具。
+
+### 安裝命令列工具 (Windows)
+
+您可[按此處](/downloads/windows/console/parse.zip)取得 Windows 專用的 Parse 命令列工具。下載 zip 檔案後請解壓縮，雙擊 ParseConsole.exe，即可啟動 Parse 感知 PowerShell 工作階段。初次執行 ParseConsole 後，您也可以按下 Win + R 並輸入「parse」來啟動 PowerShell 工作階段。
+
+### 建立您的專案目錄
+
+下一步是建立目錄，以便儲存要在雲端執行的網站。使用命令 `parse new` 設定此目錄，系統會提示您選擇要建立主控的應用程式：
+
+```bash
+$ parse new MyWebsite
+Email: ninja@gmail.com
+Password:
+1:MyApp
+Select an App: 1
+$ cd MyWebsite
+```
+
+使用電子郵件地址和密碼登入 Parse 帳號。如果透過 OAuth 註冊且尚未設定密碼，現在請編輯帳號設定並設定一組新密碼。這會在目前的目錄內建立名為 `MyWebsite` 的目錄，還會自動建立以下幾個檔案：
+
+```bash
+-config/
+  global.json
+-cloud/
+  main.js
+-public/
+  index.html
+```
+
+`config` 目錄內含通常不太會用到的 JSON 設定檔，`cloud` 目錄儲存您的 Cloud Code，`public` 目錄儲存您想在 Parse 上主控的所有靜態內容。現在請檢查是否成功建立所有檔案。如果使用原始檔控制，您可簽入所有檔案。
+
+### 簡單的網站
+
+使用 Parse 主控靜態內容很簡單。`public` 目錄中的所有物件將在 `your-custom-subdomain.parseapp.com` 主控。本目錄位於 `cloud` 和 `config` 目錄旁。
+
+若要部署 Hello World 網站，只要：
+
+```bash
+$ echo "Hello World" > public/index.html
+$ parse deploy
+```
+
+若要存取您已部署的網站，您需要設定子網域。
+
+### 選擇子網域名稱
+
+若要存取您的主機內容，您需要先選擇 ParseApp 子網域。您可以在應用程式設定的「網站託管」部分設定子網域。有一個欄位供您輸入 ParseApp 名稱。子網域名稱不分大小寫，與應用程式名稱不同的是，子網域名稱在整個 Parse 系統中必須是唯一的。名稱可包含 3 至 20 個英數字元和破折號，不得以破折號開始或結束。當您選擇唯一的子網域名稱時，會顯示勾選記號來表示這個名稱尚未有人使用。
+
+舉例來說，如果您選擇 `at-the-movies` 做為網站的子網域名稱，您就可以在根 URL `at-the-movies.parseapp.com` 存取該名稱。若您從 `public/images/background.png` 上傳其他主機檔案，將瀏覽器指向 `at-the-movies.parseapp.com/images/background.png` 便能存取檔案。
+
+### 上傳限制
+
+主機檔案有幾個限制：
+
+*   檔案大小以 500 MB 為限。
+*   不可上傳超過 500 個主機檔案。
+*   檔案名稱應該以英數字元開頭，只能夠包含英數字元、破折號、底線、空格及「@」符號。
+*   命令列工具會自動跳過 emacs 和 vim 自動儲存檔案。
+
+您可以自由上傳任何所需類型的主機內容。Parse 會從每個檔案的副檔名推測內容類型。
+
+## 自訂網域名稱
+
+使用者也可以用自訂網域名稱主控內容。若您已經選擇 ParseApp 名稱 `at-the-movies`，並且想要在 `www.example.com` 主控內容，需要進行三個步驟：
+
+1.  證實您控制 `www.example.com` 的 DNS 項目。您可以從 `www.example.com` 或 `[your_host_name_key].www.example.com` 將 CNAME 新增到 `at-the-movies.parseapp.com` 來執行這個動作。主機名稱金鑰是 12 字元的字串，您可以在應用程式設定的「網站託管」部分找到它。新的 DNS 項目需要花費 15 分鐘至數小時才會傳播，直到傳播後才能完成下一步。若您目前在 `www.example.com` 主控網站，您或許會想使用主機名稱金鑰方法，否則您的網站可能發生停機狀況，因為使用者在您完成下一步前，就看見新的 DNS 項目。
+2.  在新的 DNS 項目傳播後，您可以在應用程式主機設定中設定 `www.example.com` 的主機名稱。若第一步成功，就會顯示勾選記號。否則，錯誤訊息會告訴您出了什麼問題。
+3.  若您透過主機名稱金鑰驗證所有權，您仍然需要從 `www.example.com` 將 CNAME 新增到 `at-the-movies.parseapp.com`，才能開始傳送流量資料到您的主機應用程式。
+
+完成這些步驟後，`www.example.com` 會提供與 `at-the-movies.parseapp.com` 相同的內容。
+
+若您想要在 `example.com` 等 apex 網域提供內容，您可能會在以上步驟遇到問題，因為根網域通常不支援 CNAME 記錄。為了支援這種情況，Parse 提供從 `example.com` 等根網域將流量重新導向至 `www.example.com` 子網域的服務。若要使用本服務，請使用 `www.example.com` 等 www 開頭的網域來完成以上步驟，然後從 `example.com` 將 `A` 記錄建立至下列一或兩個 IP 位址：
+
+*   `54.85.233.145`
+*   `54.85.226.190`
+
+`A` 記錄可以建立在網域名稱服務供應商的設定頁面。建立 `A` 記錄後，對 `example.com` 的要求將會導致 301（永久）重新導向到 `www.example.com`，同時保留要求路徑。
+
+若您使用自訂網域瀏覽 HTTPS 外的主機網站，您可能看見一個警告，指出網站正在使用屬於 `*.parseapp.com` 的 SSL 憑證提供內容。若您有屬於自訂網域的 SSL 憑證，您可在應用程式設定的「網站託管」部分上傳公開憑證檔案及私密金鑰檔案來修正這些警告。若您的網域公開憑證需要中繼憑證，您應該依序將公開憑證、中繼憑證及根憑證附加至單一檔案，並在應用程式設定中上傳作為「SSL 公開憑證」。10 到 30 分鐘內，您的憑證將會傳播到 Parse 主機伺服器，並提供給透過 HTTPS 瀏覽您的主機網站的使用者。
+
+## 動態網站
+
+您可以使用 Cloud Code 和 Express 來建立多頁動態網路應用程式。藉由 [Express](http://expressjs.com/) 架構，您可輕易取得許多功能強大的工具，例如要求路由、Cookie 處理及範本轉譯。[Cloud Code](/docs/tw/cloud_code_guide) 讓您擁有功能的存取權限，例如能與 Parse 資料互動及[傳送 HTTP 要求](/docs/tw/cloud_code_guide#networking)。
+
+有了 Parse，您可以選擇用 Express 建立多頁網路應用程式，或在用戶端使用 Parse JavaScript SDK 建立單頁 Backbone 應用程式。Express 方式的優點是搜尋引擎能將您的網站編目，而用戶端 Backbone 方式會使應用程式的回應更熱烈。您可以在我們的 [Express API 文件](/docs/js/api/symbols/express.html) 找到 Express 和 Cloud Code 的詳細說明。
+
+Express 可以協助您快速啟動並執行應用程式，若您偏好較低層級的類 [Node.js](http://nodejs.org/) HTTP 介面，我們也有提供。如需更多資訊，請參閱我們的 [HTTP 介面 API 文件](/docs/js/api/symbols/http.html)。若您選擇使用 Express 或 Node.js，您需要先刪除 `public/index.html`，這樣要求才能傳送到自訂處理函式。
+
+在本指南中，我們著重於使用 Express API 建立網路應用程式。
+
+### 快速入門
+
+[設定](#started-project) Parse Hosting 後，您可以在 Parse 專案資料夾內輸入下列命令，產生入門網路應用程式。
+
+```bash
+$ parse generate express
+```
+
+這個命令會在您的雲端資料夾內建立下列目錄結構。這並不會接觸您現有的 main.js 檔案。
+
+```bash
+-cloud/
+  app.js
+  -views/
+    hello.ejs
+  main.js (not touched)
+```
+
+接著，您需要將以下程式碼新增至 `main.js` 的上方。這能夠確保載入 `app.js` 內的程式碼。
+
+```js
+require('cloud/app.js');
+```
+
+然後，執行 `parse deploy` 來部署您的網路應用程式。部署完畢後，您應該會在 `your-custom-subdomain.parseapp.com/hello` 找到您的網路應用程式。我們接下來將會詳細說明應用程式範例。
+
+### 應用程式範例
+
+我們現在開始說明入門網路應用程式，了解 Express 可以提供我們哪些功能。若您尚未建立入門應用程式，您可以依照[指示](#webapp-started)來建立。
+
+Express 應用程式的最上層進入點是 `app.js`，應用程式在此初始化，而要求路徑會透過 Express 路由 API 連接到對應邏輯。您必須從 `main.js` 要求這個檔案，因為載入 JavaScript 時，Cloud Code 會從 `main.js` 開始。我們建議您將 Cloud Functions 放入 `main.js`，並將所有 Express 相關程式碼放入 `app.js`。
+
+在您的應用程式範例中，`app.js` 應該顯示如下：
+
+```js
+// These two lines are required to initialize Express.
+var express = require('express');
+var app = express();
+
+// Global app configuration section
+app.set('views', 'cloud/views');  // Specify the folder to find templates
+app.set('view engine', 'ejs');    // Set the template engine
+app.use(express.bodyParser());    // Middleware for reading request body
+
+// This is an example of hooking up a request handler with a specific request
+// path and HTTP verb using the Express routing API.
+app.get('/hello', function(req, res) {
+  res.render('hello', { message: 'Congrats, you just set up your app!' });
+});
+
+// This line is required to make Express respond to http requests.
+app.listen();
+```
+
+在上方的全域應用程式組態部分中，我們指定一些應用程式設定，並將 Express 中介軟體初始化。應用程式設定包含指定用來轉譯網頁的範本引擎，以及尋找範本來源檔案的位置。Express 中介軟體是預先處理連入要求的選用元件。本部分指定的中介軟體適用於所有要求路徑。
+
+應用程式範例也具有 `cloud/views` 資料夾，包含 EJS 範本檔案 (`hello.ejs`)。在這個範本中，`message` 變數會被 `app.js` 中 `res.render()` 命令列內的指定值取代。
+
+### 處理要求
+
+讓我們先了解讀取要求文字的簡易要求處理常式，以包含要求文字的訊息進行回覆。
+
+```js
+app.post('/echo', function(req, res) {
+  res.set('Content-Type', 'text/plain');
+  res.send('echoing: ' + req.body.message);
+});
+```
+
+每個要求處理常式都以 `app.VERB` 開頭，其中 `VERB` 可為任一標準 HTTP 動詞命令，例如 `get`、`post`、`put` 或 `delete`。這會告知 Express 這個處理常式應該回應的 HTTP 類型。
+
+接著，`'/echo'` 參數會指定這個要求常式應回覆的網址路徑（也就是路由）。然後，我們指定接受要求及回應物件的函數，以執行要求處理常式邏輯。只要我們加入 `express.bodyParser` 中介軟體，應該會以輸入資料填入 `req.body`。例如，若原始要求本文為 `{ "message": "hi" }`，那麼以上的 `req.body.message` 將會是 `'hi'` 值。最後，[`res.send()`](/docs/js/api/symbols/express.Response.html#send) 會告知 Express 在指定字串內填入回應物件。
+
+### Express 中介軟體
+
+中介軟體是在要求到達處理常式之前先處理要求的模組。這些元件將原始的 HTTP 要求，轉換為讓您輕鬆搭配要求處理常式使用的要求物件。Cloud Code 支援下列 Express 中介軟體：
+
+*   [`express.basicAuth()`](/docs/js/api/symbols/express.html#.basicAuth) - 讓您能夠設定網站的 HTTP 基本驗證。
+*   [`express.bodyParser()`](/docs/js/api/symbols/express.html#.bodyParser) - 將 HTTP 要求本文（JSON 或 www 編碼形式）轉換為 `request.body` 物件。
+*   [`express.methodOverride()`](/docs/js/api/symbols/express.html#.methodOverride) - 只支援 HTTP 貼文的標準網頁表單。此中介軟體會讓網頁表單將放入／刪除 HTTP 要求發送至 Express。當您想要密切遵循 REST-ful 原則時特別實用。
+*   [`express.cookieParser()`](/docs/js/api/symbols/express.html#.cookieParser) - 讀取瀏覽器傳送的要求 Cookie，並放入 `request.cookies` 和 `express.request.signedCookies` 物件。
+*   [`express.cookieSession()`](/docs/js/api/symbols/express.html#.cookieSession) - 允許藉由設定 `request.session` 物件，在已簽署 Cookie 中儲存工作階段資料。
+*   [`express.csrf()`](/docs/js/api/symbols/express.html#.csrf) - 保護您免受跨網站偽造要求之害。
+
+此外，我們還有提供下列自訂中介軟體：
+
+*   [`parseExpressRawBody()`](/docs/js/api/symbols/parseExpressRawBody.html) - 讓您存取原始要求本文做為在 `req.body` 的 [`Buffer`](/docs/js/api/symbols/Buffer.html) 物件。若您想要直接存取要求內的位元組，或使用要求處理常式中的自有剖析器以其他資料格式（例如 XML）來讀取要求本文，這會非常實用。
+
+您可以用 [`app.use()`](/docs/js/api/symbols/express.Application.html#use) 新增中介軟體到應用程式。標準 Express 中介軟體是函數，所以請以相應的方式呼叫這些函數（例如 `app.use(express.csrf()`）。您應該先新增應用程式的中介軟體，再使用 `app.VERB()` 登錄所有要求處理常式。
+
+在全域應用程式組態部分中，設定 Express 中介軟體時，請依照上述順序。您可以略過不需要的中介軟體。由於較晚安裝的中介軟體可能受較早建立的中介軟體的資料影響，所以順序非常重要。
+
+### 轉譯範本
+
+範本是動態產生網頁內容的好方法，能夠減少程式碼重複。Cloud Code 提供 EJS 和 Jade 範本引擎的模組。
+
+您在全域應用程式組態部分以 `app.set('view engine', ENGINE_NAME)` 指定範本引擎，其中 `ENGINE_NAME` 可以為 `'ejs'` 或 `'jade'`。`cloud/views` 資料夾中的範本檔案，應該具有符合 `ENGINE_NAME` 的副檔名。應用程式範本範例在 EJS (`hello.ejs`) 或 Jade (`hello.jade`) 中看起來像這樣：
+
+```html
+// Using EJS syntax
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sample App</title>
+  </head>
+  <body>
+
+# Hello World
+
+<%%= message %>
+
+  </body>
+</html>
+```
+
+```html
+// Using Jade syntax
+doctype 5
+html
+  head
+    title Sample App
+  body
+    h1 Hello World
+    p= message
+```
+
+您可以在 [EJS](https://github.com/visionmedia/ejs) 和 [Jade](https://github.com/visionmedia/jade) 的首頁找到每個範本引擎語法的更多資訊。
+
+您可以呼叫 [`res.render()`](/docs/js/api/symbols/express.Response.html#render) 以轉譯範本。第一個引數是範本檔案名稱。若沒有副檔名，Express 會尋找符合應用程式範本引擎設定之副檔名的檔案。第二個引數是包含範本中所有變數及對應值的 JSON 物件。範本中每個變數都作為預留空間，在您轉譯範本時由實際值取代。
+
+### 取得使用者輸入
+
+在 Cloud Code 中使用 Express 取得使用者輸入非常容易。您可以在範本中建立表單項目，讓使用者輸入部分文字，然後提出表單以新增要求處理常式給核發要求。
+
+讓我們新增簡單的表單到應用程式範本範例。請用下列程式碼取代 `hello.ejs` 或 `hello.jade`：
+
+```html
+// Using EJS syntax
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sample App</title>
+  </head>
+  <body>
+
+# Hello World
+
+    <p><%%= message %>
+
+    <form method="post" action="/hello">
+
+        <input name="message"></input>
+        <input class="button" type="submit" value="Update Greeting">
+
+    </form>
+  </body>
+</html>
+```
+```html
+// Using Jade syntax
+doctype 5
+html
+  head
+    title Sample App
+  body
+    h1 Hello World
+    p= message
+    form(method="post", action="/hello")
+      p
+        input(type="text", name="message")
+        input(type="submit", name="submit", value="Update Greeting")
+```
+
+接著，我們需要新增要求處理常式給`app.js`中的 HTTP 貼文要求。
+
+```js
+app.post('/hello', function(req, res) {
+  res.render('hello', { message: req.body.message });
+});
+```
+
+假設使用者在文字方塊中輸入「hi」，然後點擊「更新問候」按鈕，表單就會傳送 HTTP 貼文要求到網址 `http://example.parseapp.com/hello`，包含要求本文 `message=hi`。`express.bodyParser` 中介軟體會讀取要求本文，並將 `req.body.message` 設為 `'hi'`。由於 HTTP 動詞命令和網址路徑相符合，要求稍後會觸發上述的要求處理常式。最後，要求處理常式會將 `'hi'` 插入 `message` 變數的預留空間，以轉譯 `hello.ejs` 範本。
+
+### 使用者工作階段管理
+
+您可以使用 `parseExpressCookieSession` 中介軟體，將 [`Parse.User`](/docs/tw/js_guide#users) 驗證和工作階段管理新增到您的 Express 應用程式。您只需要在 Cloud Code 中呼叫 `Parse.User.logIn()`，中介軟體就會自動為您管理使用者工作階段。
+
+您可以使用網頁表單來要求使用者的登入憑證，當您從這個表單接收資料時，便會登入 Cloud Code 使用者。呼叫 `Parse.User.logIn()` 後，中介軟體會自動在使用者的瀏覽器設定 Cookie。在相同瀏覽器的後續 HTTP 要求期間，中介軟體會使用這個 Cookie 來自動設定 Cloud Code 中的[目前使用者](/docs/tw/js_guide#users-current)。這使得 [ACL](/docs/tw/js_guide#users-acls) 能夠在 Cloud Code 中正常運作，並在需要時讓您擷取整個目前使用者物件。最後，當您呼叫 `Parse.User.logOut()` 以登出 Cloud Code 使用者時，這個中介軟體會自動移除瀏覽器的 Cookie。如需應用程式程式碼範例，請參閱本中介軟體的[說明文件](/docs/js/api/symbols/parseExpressCookieSession.html)。
+
+當您使用使用者資料時，您應該盡可能使用 HTTPS。為了保護您的應用程式和使用者，`parseExpressCookieSession` 中介軟體會要求您使用 HTTPS。為了您的方便起見，我們還有提供 `parseExpressHttpsRedirect` 中介軟體，以便將所有 HTTP 要求重新導向至 HTTPS。如需詳細資訊，請參閱其[說明文件](/docs/js/api/symbols/parseExpressHttpsRedirect.html)。
+
+### 靜態內容
+
+您的 Express 應用程式可以與您從 `public` 資料夾部署的靜態內容同時並存。當要求前往您子網域的網址時，Parse 會先在 `public` 目錄中尋找符合的檔案。若沒有符合的檔案，Parse 會叫用您已經在 Cloud Code 中登錄的 Express 要求處理常式。若還是沒有符合的檔案，Parse 會顯示「404 Not Found」頁面。
+
+ 若您使用靜態內容的 Express，我們建議您的專案使用下列目錄架構。
+
+```bash
+-cloud/
+  main.js            Cloud Code functions, require cloud/app.js here
+  app.js             Express app configuration and request handling logic
+  -views/            View template files that Express needs to render
+    hello.ejs
+-public/
+  example.html       Static HTML files
+  favicon.ico        Your favicon logo
+  -stylesheets/      CSS stylesheets
+    style.css
+```
+
+## 記錄
+
+若您想要將訊息記錄到透過 `parse log` 顯示的記錄檔，您可以使用 `console.log`、`console.error` 或 `console.warn`。`console.error` 和 `console.warn` 都會寫入錯誤記錄。
+
+```js
+app.post('/hello', function(req, res) {
+  console.log("New message: " + req.body.message);
+  res.render('hello', { message: req.body.message });
+});
+```
+
+## 開發與生產
+
+您可以使用開發應用程式試用新程式碼，使用生產應用程式執行公開發表的應用程式。
+
+### 新增新應用程式至專案
+
+您需要將多個應用程式連結至專案。`parse new` 會將第一個應用程式連結至專案，您可透過執行 `parse add [alias]` 來新增其他應用程式，範例如下：
+
+```bash
+$ parse add production
+Email: pirate@gmail.com
+Password:
+1:PiecesOfEightCounterProd
+2:PiecesOfEightCounterDev
+Select an App: 1
+```
+
+上述範例將 `PiecesOfEightCounterProd` 應用程式連結至您的專案。這也會為名為 `production` 的新應用程式建立別名，提供參照該應用程式的速記方式。
+
+### 開發您的網站
+
+開發新程式碼時，可以使用 `develop` 命令讓 Parse 命令列工具持續檢查專案的更新狀態，並上傳您的變更。命令看起來像這樣： 
+
+```bash
+$ parse develop development
+E2013-11-21T01:05:56.257Z] Deploy failed with error:Error: Uncaught SyntaxError: Unexpected token ; in app.js:30
+    at main.js:1:1
+I2013-11-21T01:06:21.504Z] Deployed v172 with triggers:
+  Cloud Functions:
+    hello
+```
+
+請注意，使用 `develop` 命令時，您必須明確指定要將新變更推播至哪個應用程式，以免不小心在生產應用程式執行 `develop`，進而部署尚未測試的程式碼。命令列工具會上傳程式碼變更以及顯示新的記錄訊息，直到您按下 Ctrl-C。
+
+### 將程式碼部署至生產
+
+測試完成並更新程式碼後，您可以將生產應用程式傳給 `deploy` 命令來將程式碼部署至生產，範例如下：
+
+```bash
+$ parse deploy production
+New release is named v2
+```

@@ -1,0 +1,80 @@
+# 處理錯誤
+
+Parse 有一些簡單模式可在程式碼中找出錯誤並加以處理。
+
+您可能會遇到兩種類型的錯誤。第一種是因您使用 SDK 的方式所造成的邏輯錯誤。這種類型的錯誤結果會引發 `NSException`。請觀看下列程式碼中的範例：
+
+```objc
+PFUser *user = [PFUser user];
+[user signUp];
+```
+
+因為在沒有先設定必要屬性（`username` 和 `password`）的情況下就呼叫 `signUp`，因此這段程式碼將擲回 `NSInternalInconsistencyException`。
+
+第二種類型的錯誤是在網路上與 Parse Cloud 互動時發生的錯誤。這些錯誤要不就是有關連線到雲端的問題，要不就是有關執行所要求作業的問題。我們來一起看看另一個範例：
+
+```objc
+- (void)getMyNote {
+    PFQuery *query = [PFQuery queryWithClassName:@"Note"];
+    [query getObjectInBackgroundWithId:@"thisObjectIdDoesntExist"
+           target:self 
+           selector:@selector(callbackForGet:error:)];
+}
+```
+
+在上述程式碼中，我們試圖用不存在的 `objectId` 擷取物件。Parse Cloud 會在 `code` 中設定錯誤代碼，且在錯誤的 `userInfo` 中設定訊息之後，再傳回錯誤。以下是在回呼中正確處理的方式：
+
+```objc
+- (void)callbackForGet:(PFObject *)result error:(NSError *)error {
+    if (result) {
+        NSLog(@"Everything went fine!");
+    } else {
+        if ([error code] == kPFErrorObjectNotFound) {
+            NSLog(@"Uh oh, we couldn't find the object!");
+        } else if (error) {
+            NSLog(@"Error: %@", [error userInfo][@"error"]);
+        }
+    }
+}
+```
+
+也有可能因為裝置並未連線至 Parse Cloud，而造成查詢失敗。以下是同一個回呼，但多了一些程式碼以明確處理該案例：
+
+```objc
+- (void)callbackForGet:(PFObject *)result error:(NSError *)error {
+    if (result) {
+        NSLog(@"Everything went fine!");
+    } else {
+        if ([error code] == kPFErrorObjectNotFound) {
+            NSLog(@"Uh oh, we couldn't find the object!");
+            // Now also check for connection errors:
+        } else if ([error code] == kPFErrorConnectionFailed) {
+            NSLog(@"Uh oh, we couldn't even connect to the Parse Cloud!");
+        } else if (error) {
+            NSLog(@"Error: %@", [error userInfo][@"error"]);
+        }
+    }
+}
+```
+
+回呼預期 `NSNumber` 時，它的 `boolValue` 會告訴您運算是否成功。例如，這是您可能會在 `PFObject` 的 `saveInBackgroundWithTarget:selector:` 方法上實作回呼的方式：
+
+```objc
+- (void)callbackForSave:(NSNumber *)result error:(NSError *)error {
+    if ([result boolValue]) {
+        NSLog(@"Everything went fine!");
+    } else {
+        if ([error code] == kPFErrorConnectionFailed) {
+            NSLog(@"Uh oh, we couldn't even connect to the Parse Cloud!");
+        } else if (error) {
+            NSLog(@"Error: %@", [error userInfo][@"error"]);
+        }
+    }
+}
+```
+
+至於同步（非背景）方法，錯誤處理大致相同，除了並非用 `NSNumber` 代表成功或失敗外，您還會直接得到一個實際的 `BOOL`。
+
+依照預設，所有連線的逾時為 10 秒，所以同步方法不會無限期懸置。
+
+如需所有可能的 `NSError` 類型清單，請參閱 [API](/docs/ios) [API](/docs/osx) 的「錯誤程式碼」章節。

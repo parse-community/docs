@@ -1,0 +1,64 @@
+# GeoPoint
+
+Parse 让您可以把真实的纬度和经度坐标与对象关联起来。通过在 `Parse.Object` 中添加 `Parse.GeoPoint`，可以在查询时实现将对象与参考点的距离临近性纳入考虑。这可以让您轻松某些事情，如找出距离与某个用户最近的其他用户或者距离某个用户最近的地标。
+
+## Parse.GeoPoint
+
+要将某个地点与对象联系起来，您首先要创建一个 `Parse.GeoPoint`。例如，要创建一个纬度为 40.0 度，经度为 -30.0 的点：
+
+```js
+var point = new Parse.GeoPoint({latitude: 40.0, longitude: -30.0});
+```
+
+然后，该点被作为常规字段储存在对象中。
+
+```js
+placeObject.set("location", point);
+```
+
+注意：目前，一个类中只有一个键可能是 `Parse.GeoPoint`。
+
+## Geo 查询
+
+有了一些具有空间坐标的对象后，找到哪些对象距离某个点最近将会产生很好的效应。这可以通过使用 `near` 对 `Parse.Query` 添加另一限制条件完成。举例而言，找出距离某个用户最近的十个地点的方法如下：
+
+```js
+// User's location
+var userGeoPoint = userObject.get("location");
+// Create a query for places
+var query = new Parse.Query(PlaceObject);
+// Interested in locations near user.
+query.near("location", userGeoPoint);
+// Limit what could be a lot of points.
+query.limit(10);
+// Final list of objects
+query.find({
+  success: function(placesObjects) {   }
+});
+```
+
+此时，`placesObjects` 是按照与 `userGeoPoint` 的距离（由近及远）排列的一组对象。注意，若应用另一个按顺序排列的 `ascending()`/`descending()` 限制条件，该限制条件将优先于距离排序。
+
+若要用距离来限定获得哪些结果，请使用 `withinMiles`、`withinKilometers` 和 `withinRadians`。
+
+您还可以查询包含在特定区域内的对象集合。若要查找位于某个矩形区域内的对象，请将 `withinGeoBox` 限制条件添加至您的 `Parse.Query`。
+
+```js
+var southwestOfSF = new Parse.GeoPoint(37.708813, -122.526398);
+var northeastOfSF = new Parse.GeoPoint(37.822802, -122.373962);
+
+var query = new Parse.Query(PizzaPlaceObject);
+query.withinGeoBox("location", southwestOfSF, northeastOfSF);
+query.find({
+  success: function(pizzaPlacesInSF) {
+    ...
+  }
+});
+``
+
+## 注意事项
+
+目前需要注意以下几点：
+
+1.  每个 Parse.Object 类可能仅有一个带 Parse.GeoPoint 对象的键。
+2.  点不应等于或大于最大范围值。纬度不能为 -90.0 或 90.0。经度不能为 -180.0 或 180.0。若纬度或经度设置超出边界，会引起错误。

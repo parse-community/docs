@@ -1,0 +1,459 @@
+# 物件
+
+## Parse 物件
+
+Parse 上的儲存資料是以 `ParseObject` 為建置基礎。每個 `ParseObject` 內含 JSON 相容資料的鍵值組。此資料沒有結構描述，代表您不需要預先指定哪個索引鍵存在於哪個 `ParseObject`。您只要設定任何想要的鍵值組，我們的後端將會儲存您的設定。
+
+舉例而言，假設您正在追蹤某個遊戲的高分排行榜，單一 `ParseObject` 可能包含：
+
+```js 
+score: 1337, playerName: "Sean Plott", cheatMode: false
+```
+
+索引鍵必須是英數字串。值可以是字串、數字、布林值，甚至是陣列和物件；任何可以是 JSON 編碼的東西。
+
+每個 `ParseObject` 都有一個類別名稱，可以用來區別不同的資料。舉例來說，我們可以將高分物件稱作 `GameScore`。我們建議，以 NameYourClassesLikeThis 和 nameYourKeysLikeThis 的方式為您的類別命名，讓您的程式碼看起來比較容易判讀。
+
+## 儲存物件
+
+假設您想將上述的 `GameScore` 儲存至 Parse Cloud。介面與 `Map` 相似，加上使用 `saveInBackground` 方法：
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.saveInBackground();
+```
+
+執行程式碼後，您也許會存疑是否發生任何變化。若要確認資料已經儲存，您可以檢視您 Parse 應用程式中的「資料瀏覽器」。您應該會看見：
+
+```js
+objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false, createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```
+
+在這裡有兩件事需要注意。您不用在執行程式碼之前，設定或是建立名稱為 `GameScore` 的新「類別」。您的 Parse 應用程式初次遇到此「類別」時，就先幫您建立好了。
+
+也有一些您不需要指定的欄位，專為了方便起見而提供。`objectId` 是每個已儲存物件的唯一識別碼。`createdAt` 和 `updatedAt` 代表每個物件在雲端中的建立和最後修改時間。每個欄位都由 Parse 填入，所以在儲存操作完成前，都不會存在於 `ParseObject` 上。
+
+## 擷取物件
+
+將資料儲存於雲端很有趣，但是更有趣的是將資料再次取出。如果您有 `objectId`，可以使用 `ParseQuery` 擷取整個 `ParseObject`：
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+若要從 `ParseObject` 將值取出，每種資料類型都有提供 `getX` 方法：
+
+```java
+int score = gameScore.getInt("score");
+String playerName = gameScore.getString("playerName");
+boolean cheatMode = gameScore.getBoolean("cheatMode");
+```
+
+如果您不了解取出的是何種類型的資料，您可以呼叫 `get(key)`，但是無論如何，接著可能都需要立刻轉換。在多數的情況中，您應該使用像是 `getString` 的具型別存取子。
+
+以下三種特殊值擁有專屬的存取子：
+
+```java
+String objectId = gameScore.getObjectId();
+Date updatedAt = gameScore.getUpdatedAt();
+Date createdAt = gameScore.getCreatedAt();
+```
+
+如果您需要使用雲端內的最新資料來更新您擁有的物件，您可依照下列說明呼叫 `fetchInBackground` 方法：
+
+```java
+myObject.fetchInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // Success!
+        } else {
+            // Failure!
+        }
+    }
+});
+```
+
+`GetCallback` 內的程式碼將會在主執行緒執行。
+
+## 本機資料存放區
+
+Parse 還可讓您於 Android 裝置本身的[本機資料存放區](#localdatastore)儲存物件。對於不需存放於雲端的資料，您可以使用此功能；對於暫時存放資料，此功能更是實用，方便在之後進行同步。若要啟用資料存放區，請於呼叫 `Parse.initialize()` 之前，先呼叫 `Application` 建構函式中的 `Parse.enableLocalDatastore()`。資料存放區一旦啟用，您就可以用釘選的方式存放物件。
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.pinInBackground();
+```
+
+如同儲存功能一樣，這能以遞迴方式存放 `gameScore` 所指的每個物件和檔案（如果這些資料已從雲端擷取）。不論您於何時儲存物件的變更，或是從 Parse 擷取新變更，資料存放區中的副本將會自動更新，因此您無須擔心。
+
+### 從本機資料存放區擷取物件
+
+物件必須能夠重新取出，存放才有意義。若要取得特定物件的資料，您可以使用 `ParseQuery`，如同在網路上的做法一樣；不同的是，需要使用 `fromLocalDatastore` 方法，讓它知道何處取得資料。
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.fromLocalDatastore();
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+如果您已經有物件的執行個體，則可以使用 `fetchFromLocalDatastoreInBackground` 方法。
+
+```java
+ParseObject object = ParseObject.createWithoutData("GameScore", "xWMyZ4YEGZ");
+object.fetchFromLocalDatastoreInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+### 取消釘選物件
+
+ 當您將物件處理完畢，並且不再需要將它保存於裝置中時，您可以透過 `unpinInBackground` 釋放該物件。
+
+```java
+gameScore.unpinInBackground();
+```
+
+## 離線儲存物件
+
+多數的儲存功能會立即執行，並且在儲存完成時通知您的應用程式。如果您不需要於儲存完成時接到通知，則可以使用 `saveEventually`。優點是，如果使用者目前沒有網路連線，`saveEventually` 會將更新存放於裝置，直到重新建立網路連線為止。如果您的應用程式在連線重新建立之前關閉，Parse 會在應用程式下次開啟時重試。`saveEventually`（和 `deleteEventually`）的所有呼叫會根據呼叫順序執行，因此在同一個物件上多次呼叫 `saveEventually` 是安全的。如果您有啟用本機資料存放區，則只要儲存仍在進行中，任何您 `saveEventually` 的物件就會被釘選。如此一來，在等待連線恢復時，想要擷取您的本機變更將更加容易。
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+gameScore.saveEventually();
+```
+
+## 更新物件
+
+更新物件相當簡單。只需要在物件上設定一些新資料，並且呼叫其中一種儲存方法。假設您已經將物件儲存，並且擁有 `objectId`，您可以使用 `ParseQuery` 擷取 `ParseObject`，同時更新物件資料：
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+// Retrieve the object by id
+query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+    public void done(ParseObject gameScore, ParseException e) {
+        if (e == null) {
+            // Now let's update it with some new data. In this case, only cheatMode and score
+            // will get sent to the Parse Cloud. playerName hasn't changed.
+            gameScore.put("score", 1338);
+            gameScore.put("cheatMode", true);
+            gameScore.saveInBackground();
+        }
+    }
+});
+```
+
+Parse 會自動算出變更的資料，因此只有「已變更」的欄位會在儲存時傳送。您無須擔心那些無意更新的資料會於雲端中受到壓縮。
+
+### 計數器
+
+上方範例包含一個常見用法的案例。&quot;score&quot; 欄位為計數器，是我們持續更新玩家最新得分所需的欄位。上述的方法是可行的，但是相當麻煩，且如果您有多個用戶端試圖更新相同的計數器，可能會導致問題產生。
+
+為了協助存放計數器類型資料，Parse 提供能夠自動遞增（或遞減）任何數字欄位的方法。因此，同樣的更新可以重新編寫為：
+
+```java
+gameScore.increment("score");
+gameScore.saveInBackground();
+```
+
+您也可以使用 `increment(key, amount)` 以任何數量遞增。
+
+### 陣列
+
+為協助存放陣列資料，有三種操作方式能夠自動變更陣列欄位：
+
+*   `add` 和 `addAll` 能將特定物件附加於陣列欄位的末端。
+*   `addUnique` 和 `addAllUnique` 只能將尚未包含於陣列欄位的特定物件新增至該欄位。插入的位置並無法保證。
+*   `removeAll` 能從陣列欄位移除特定物件的所有執行個體。
+
+舉例而言，可以新增項目至「Skills」欄位，如下所示：
+
+```java
+gameScore.addAllUnique("skills", Arrays.asList("flying", "kungfu"));
+gameScore.saveInBackground();
+```
+
+請注意，目前無法在相同儲存動作中從某個陣列自動新增和移除項目。您必須在每一個不同的陣列操作之間呼叫 `save`。
+
+## 刪除物件
+
+若要從 Parse Cloud 刪除物件：
+
+```java
+myObject.deleteInBackground();
+```
+
+如果您希望於確認刪除時執行回呼，可以將 `DeleteCallback` 提供給 `deleteInBackground` 方法。如果您希望封鎖呼叫執行緒，可以使用 `delete` 方法。
+
+您可以使用 `remove` 方法從物件刪除單一欄位：
+
+```java
+// After this, the playerName field will be empty
+myObject.remove("playerName");
+// Saves the field deletion to the Parse Cloud
+myObject.saveInBackground();
+```
+
+## 關聯式資料
+
+物件與其他物件可能具有關聯性。若要建立此行為的模型，任何 `ParseObject` 可以作為其他 `ParseObject` 中的值。Parse 框架內部為了維持一致性，會將引用物件只存放於一個地方。
+
+舉例而言，部落格應用程式中的每個 `Comment` 可能會對應到一個 `Post`。若要使用單一 `Comment` 建立新 `Post`，您可以這樣編寫：
+
+```java
+// Create the post
+ParseObject myPost = new ParseObject("Post");
+myPost.put("title", "I'm Hungry");
+myPost.put("content", "Where should we go for lunch?");
+
+// Create the comment
+ParseObject myComment = new ParseObject("Comment");
+myComment.put("content", "Let's do Sushirrito.");
+
+// Add a relation between the Post and Comment
+myComment.put("parent", myPost);
+
+// This will save both myPost and myComment
+myComment.saveInBackground();
+```
+
+您也可以只使用 `objectId` 連結物件，如下所示：
+
+```java
+// Add a relation between the Post with objectId "1zEcyElZ80" and the comment
+myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
+``` 
+
+依據預設，擷取物件時不會擷取相關的 `ParseObject`。在透過下列方式擷取物件之前，您無法擷取這些物件的值：
+
+```java
+fetchedComment.getParseObject("post")
+              .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        String title = post.getString("title");
+                    }
+              });
+```
+
+您也可以使用 `ParseRelation` 物件來建立多對多關聯的模型。這個方式與 `List<ParseObject>` 類似，不過您不需要一次下載同一個關聯中的所有 `ParseObject`。與 `List<ParseObject>` 方法相較之下，這使得 `ParseRelation` 能夠擴大至更多物件。舉例而言，一個 `User` 或許會有許多他們可能喜歡的 `Post`。在這種情況下，您可以使用 `getRelation` 存放 `User` 喜歡的 `Post` 集。若要新增一則貼文至清單，程式碼可能會看起來像：
+
+```java
+ParseUser user = ParseUser.getCurrentUser();
+ParseRelation<ParseObject> relation = user.getRelation("likes");
+relation.add(post);
+user.saveInBackground();
+```
+
+您可以用下列方式從 `ParseRelation` 移除貼文：
+
+```java
+relation.remove(post);
+```
+
+依據預設，此關聯中的物件清單並未被下載。您可以在 `getQuery` 傳回的 `ParseQuery` 上呼叫 `findInBackground`，取得 `Post` 清單。程式碼看起來可能像：
+
+```java
+relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
+    void done(List<ParseObject> results, ParseException e) {
+        if (e != null) {
+            // There was an error
+        } else {
+            // results have all the Posts the current user liked.
+        }
+    }
+});
+```
+
+如果您只希望取得 `Post` 的子集，可以在 `getQuery` 傳回的 `ParseQuery` 上新增額外限制。程式碼看起來可能像：
+
+```java
+ParseQuery<ParseObject> query = relation.getQuery();
+// Add other query constraints.
+```
+
+更多關於 `ParseQuery` 的細節，請參閱[本指南的查詢部分](#queries)。為了查詢之故，`ParseRelation` 的作用與 `List<ParseObject>` 類似，因此任何可以於物件清單上執行的查詢（`include` 除外），皆能於 `ParseRelation` 上執行。
+
+## 資料類型
+
+目前為止我們使用過`String`、`int`、`bool` 和 `ParseObject` 類型的值。Parse 也支援 `java.util.Date`、`byte[]` 和 `JSONObject.NULL`。
+
+若要在單一 `ParseObject` 中存放更多結構化資料，您可以將 `JSONObject` 和 `JSONArray` 物件巢狀化。
+
+部分範例：
+
+```java
+int myNumber = 42;
+String myString = "the number is " + myNumber;
+Date myDate = new Date();
+
+JSONArray myArray = new JSONArray();
+myArray.put(myString);
+myArray.put(myNumber);
+
+JSONObject myObject = new JSONObject();
+myObject.put("number", myNumber);
+myObject.put("string", myString);
+
+byte[] myData = { 4, 8, 16, 32 };
+
+ParseObject bigObject = new ParseObject("BigObject");
+bigObject.put("myNumber", myNumber);
+bigObject.put("myString", myString);
+bigObject.put("myDate", myDate);
+bigObject.put("myData", myData);
+bigObject.put("myArray", myArray);
+bigObject.put("myObject", myObject);
+bigObject.put("myNull", JSONObject.NULL);
+bigObject.saveInBackground();
+```
+
+我們不建議在 `ParseObject` 上使用 `byte[]` 存放大型的二進位資料，如圖像或文件。`ParseObjects` 的大小不應該超過 128 KB。若要存放更多，我們建議您使用 `ParseFile`。如需更多詳細資料，請參閱[指南章節](#files)。
+
+關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](/docs/data)查看我們的說明文件。
+
+## 子類別
+
+Parse 的設計是為了讓您更快上手。您可以使用 `ParseObject` 類別存取所有資料，並且利用 `get()` 存取任何欄位。在成熟的程式碼庫中，子類別擁有許多優勢，包含簡潔、擴充性及支援自動完成功能。子類別化是完全選擇性的功能，但是可以將以下程式碼：
+
+```java
+ParseObject shield = new ParseObject("Armor");
+shield.put("displayName", "Wooden Shield");
+shield.put("fireproof", false);
+shield.put("rupees", 50);
+```
+
+轉換為：
+
+```java
+Armor shield = new Armor();
+shield.setDisplayName("Wooden Shield");
+shield.setFireproof(false);
+shield.setRupees(50);
+```
+
+### 建立 ParseObject 的子類別
+
+若要建立 `ParseObject` 的子類別：
+
+1.  宣告延伸 `ParseObject` 的子類別。
+2.  新增 `@ParseClassName` 註解。其值應該是會讓您傳入 `ParseObject` 建構函式的字串，並使未來所有的類別名稱參考變得沒必要。
+3.  確保您的子類別具有公開預設（即零引數）建構函式。請勿修改此建構函式中的任何 `ParseObject` 欄位。
+4.  請在呼叫 `Parse.initialize()` 前，先呼叫您 `Application` 建構函式中的 `ParseObject.registerSubclass(YourClass.class)`。
+以下程式碼成功地實作和登錄 `ParseObject` 的 `Armor` 子類別：
+
+```java
+// Armor.java
+import com.parse.ParseObject;
+import com.parse.ParseClassName;
+
+@ParseClassName("Armor")
+public class Armor extends ParseObject { }
+
+// App.java
+import com.parse.Parse;
+import android.app.Application;
+
+public class App extends Application {
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        ParseObject.registerSubclass(Armor.class);
+        Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+    }
+}
+```
+
+### 存取子、更動子和方法
+
+將方法加入 `ParseObject` 子類別，有助於封裝有關此類別的邏輯。您可以將有關同一主題的所有邏輯放在同一個位置，而不是在商務邏輯和存放／傳輸邏輯使用獨立的類別。
+
+您可以輕鬆為 `ParseObject` 欄位新增存取子和更動子。如往常般宣告欄位的 Getter 和 Setter，但是以 `get()` 和 `put()` 的方式實作。以下範例於 `Armor` 類別中建立 `displayName` 欄位：
+
+```java
+// Armor.java
+@ParseClassName("Armor")
+public class Armor extends ParseObject {
+    public String getDisplayName() {
+        return getString("displayName");
+    }
+
+    public void setDisplayName(String value) {
+        put("displayName", value);
+    }
+}
+```
+
+您現在可以使用 `armor.getDisplayName()` 存取 displayName 欄位，並使用 `armor.setDisplayName("Wooden Sword")` 指派給它。當您開發應用程式時，這允許您的 IDE 提供自動完成功能，同時允許於編譯期間找到拼字錯誤。
+
+使用不同形式的 `get()`，如 `getInt()`、`getParseFile()` 或 `getMap()`，可以將不同類型的存取子和更動子以這種方式輕易定義。
+
+如果您需要更複雜的邏輯，而不是簡單的欄位存取，您也可以宣告自己的方法：
+
+```java
+public void takeDamage(int amount) {
+    // Decrease the armor's durability and determine whether it has broken
+    increment("durability", -amount);
+
+    if (getDurability() < 0) {
+        setBroken(true);
+    }
+}
+```
+
+### 初始化子類別
+
+您應該使用已經定義的建構函式建立子類別的新執行個體。您的子類別必須定義一個未修改 `ParseObject` 欄位的公開預設建構函式；Parse SDK 將會全程使用此函式，以建立子類別的強型別執行個體。
+
+若要為現有物件建立參考資料，請使用 `ParseObject.createWithoutData()`：
+
+```java
+Armor armorReference = ParseObject.createWithoutData(Armor.class, armor.getObjectId());
+```
+
+### 查詢
+
+您可以使用靜態方法 `ParseQuery.getQuery()` 查詢特定子類別的物件。以下範例為查詢使用者可負擔的盔甲：
+
+```java
+ParseQuery<Armor> query = ParseQuery.getQuery(Armor.class);
+query.whereLessThanOrEqualTo("rupees", ParseUser.getCurrentUser().get("rupees"));
+query.findInBackground(new FindCallback<Armor>() {
+    @Override
+    public void done(List<Armor> results, ParseException e) {
+        for (Armor a : results) {
+            // ...
+        }
+    }
+});
+```

@@ -1,0 +1,36 @@
+# 分析
+
+Parseには、アプリの稼働状況を簡単に確認できるフックが多数用意されています。アプリの機能、使用頻度、使用時間を把握の重要性も認識されています。
+
+このセクションではParseの分析バックエンドを十分に活用するためのアプリの設定方法をいくつか紹介しますが、Parseを使用してデータを保存、取得するだけでも、開発者はすでにParseの指標を活用していることになります。
+
+クライアント側のロジックを実装しなくても、アプリのダッシュボードでAPIリクエストのリアルタイムのグラフや詳細情報（機器の種類、Parseクラス名、REST動詞ごと）を表示したり、必要なデータに簡単にアクセスできるようにグラフフィルタを保存しておくことができます。
+
+
+## カスタム分析
+
+`Parse.Analytics`では、いくつかの`string`キーと値を使用して自由形式のイベントをトラッキングできます。このようにしてトラッキング対象を追加することで、アプリのダッシュボードからカスタムイベントをセグメント化できます。
+
+たとえば、アパートの出品広告を検索するアプリにメタデータを追加することで、機能の使用回数をトラッキングします。
+
+```js
+var dimensions = {
+  // Define ranges to bucket data points into meaningful segments
+  priceRange: '1000-1500',
+  // Did the user filter the query?
+  source: 'craigslist',
+  // Do searches happen more often on weekdays or weekends?
+  dayType: 'weekday'
+};
+// Send the dimensions to Parse along with the 'search' event
+Parse.Analytics.track('search', dimensions);
+```
+
+`Parse.Analytics`は軽量のエラートラッキングツールとしても使用でき、次のコードを呼び出すだけで、アプリのエラー率や頻度の概要、エラーコードごとの詳細を確認できます。
+
+```js
+var codeString = '' + error.code;
+Parse.Analytics.track('error', { code: codeString });
+```
+
+現在、Parseは`Parse.Analytics.track()`への呼び出しごとに最初の8つのトラッキング対象のペアしか保存できません。

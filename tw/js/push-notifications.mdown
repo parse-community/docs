@@ -1,0 +1,326 @@
+# 推播通知
+
+推播通知是讓使用者對應用程式保持互動和接收通知的好方法。您可以快速且有效地接觸整個使用者群。本指南將協助您了解 Parse 的設定程序和一般用途，以發送推播通知。
+
+<div class='tip info'><div>
+JavaScript SDK 目前並不支援接收推播。只能用它來將通知傳送至 iOS 和 Android 應用程式。最常見的使用案例就是從 [Cloud Code](/docs/tw/cloud_code_guide) 傳送推播。
+</div></div>
+
+# 設定推播
+
+使用 JavaScript SDK 傳送推播通知不必進行設定。如果您尚未設定 iOS 或 Android 用戶端以使用推播，請利用上方的平台切換功能參閱個別設定指示。
+
+# 安裝
+
+在已登錄推播通知的裝置上所安裝的每個 Parse 應用程式，都有相關聯的 `Installation` 物件。`Installation` 物件是儲存推播通知目標設定所需全部資料的地方。例如，您可以在棒球應用程式中將某使用者感興趣的球隊儲存起來，以便傳送關於球隊表現的更新資訊。
+
+請注意，`Installation` 資料只能由用戶端 SDK、資料瀏覽器或 REST API 修改。
+
+此類別有幾個特殊欄位，可協助您管理和鎖定裝置。
+
+*   **`badge`**：iOS 應用程式目前的圖示徽章值。在伺服器上對此值所做的更改，將可用於之後的徽章遞增推播通知。
+*   **`channels`**：裝置目前訂閱的頻道陣列。
+*   **`timeZone`**：目標裝置所在地點的目前時區。每當從裝置中儲存 `Installation` 物件時，此值就會同步_（唯讀）_。
+*   **`deviceType`**：裝置類型，「iOS」或「Android」_（唯讀）_。
+*   **`installationId`**：Parse 所用裝置的唯一 ID_（唯讀）_。
+*   **`deviceToken`**：Apple 所產生用於 iOS 裝置的權仗_（唯讀）_。
+
+# 傳送推播
+
+有兩種方法可以使用 Parse 傳送推播通知：[頻道](#sending-channels)和[進階目標設定](#sending-queries)。頻道提供易於使用的傳送推播模型，而進階目標設定則提供功能更強大且更具彈性的模型。兩者之間完全相容，我們將在本節中解說。
+
+傳送通知通常是從 Web 主控台、REST API 或 Cloud Code 進行。由於 JavaScript SDK 是在 Cloud Code 中使用，如果您想從 Cloud 函數傳送推播這是很好的起點。不過，如果您決定從 Cloud Code 或任何其他用戶端 SDK 之外的 JavaScript SDK 傳送通知，則您必須在 Parse 應用程式的「推播通知」設定中設定 **Client Push Enabled**。
+
+![](/images/docs/client_push_settings.png)
+
+## 使用頻道
+
+開始傳送推播最簡單的方法就是使用頻道。這樣能讓您使用發佈者-訂閱者模式來傳送推播。裝置先開始訂閱一或多個頻道，之後通知就可以傳送給這些訂閱者。特定 `Installation` 所訂閱的頻道，會儲存在 `Installation` 物件的 `channels` 欄位。
+
+### 訂閱頻道
+
+JavaScript SDK 目前並不支援在 iOS 和 Android 裝置訂閱推播。請利用上面的平台切換功能，參閱 iOS、Android 或 REST 推播指南。
+
+### 將推播傳送至頻道
+
+在 JavaScript SDK 中，下列程式碼可用來警示所有「Giants」和、「Mets」頻道的訂閱者有關比賽結果。這會向 iOS 使用者顯示通知中心警示，以及向 Android 使用者顯示系統匣通知。
+
+```js
+Parse.Push.send({
+  channels: [ "Giants", "Mets" ],
+  data: {
+    alert: "The Giants won against the Mets 2-3."
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+## 使用進階目標設定
+
+雖然對許多應用程式來說頻道很好用，不過有時您在設定推播的目標接收者時需要更高的準確度。Parse 能讓您利用[查詢 API](/docs/tw/js_guide#queries)，對 `Installation` 物件的任何子集編寫查詢，再傳送推播給它們。
+
+由於 `Installation` 物件就跟任何其他儲存於 Parse 的物件一樣，因此您可以儲存想儲存的任何資料，甚至能在 `Installation` 物件和其他物件之間建立關聯。這讓您能將推播傳送給自訂程度很高又不斷變化的使用者群。
+
+### 儲存安裝資料
+
+JavaScript SDK 目前並不支援修改 `Installation` 物件。請利用上面的平台切換功能，參閱 iOS、Android 或 REST 推播指南。
+
+### 將推播傳送至查詢
+
+一旦您將資料儲存於 `Installation` 物件，就可以使用查詢鎖定這些裝置的子集。`Parse.Installation` 查詢跟任何其他 [Parse 查詢](/docs/tw/js_guide#queries)的運作方式一樣。
+
+```js
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('injuryReports', true);
+
+Parse.Push.send({
+  where: query, // Set our Installation query
+  data: {
+    alert: "Willie Hayes injured by own pop fly."
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+我們甚至可以在查詢中使用頻道。若要傳送推播給所有「Giants」頻道的訂閱者，但要篩選誰想更新比分，我們可以執行下列動作：
+
+```js
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('channels', 'Giants'); // Set our channel
+query.equalTo('scores', true);
+
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "Giants scored against the A's! It's now 2-2."
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+如果我們在 `Installation` 類別中儲存與其他物件的關聯性，我們也可以在查詢中使用那些物件。例如，我們可以傳送推播通知給特定地點附近的所有使用者。
+
+```js
+// Find users near a given location
+var userQuery = new Parse.Query(Parse.User);
+userQuery.withinMiles("location", stadiumLocation, 1.0);
+
+// Find devices associated with these users
+var pushQuery = new Parse.Query(Parse.Installation);
+pushQuery.matchesQuery('user', userQuery);
+// Send push notification to query
+Parse.Push.send({
+  where: pushQuery,
+  data: {
+    alert: "Free hotdogs at the Parse concession stand!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+# 傳送選項
+
+推播通知不只能傳送訊息而己。在 iOS 中，推播也能納入要播放的聲音、要顯示的徽章號碼以及任何您想傳送的自訂資料。在 Android 中，甚至可以指定接收到通知時要引發的 `Intent`。如果通知具有時效性，也可以在通知中設定到期日。
+
+## 自訂通知
+
+如果您不僅想傳送訊息而己，您可以在 `data` 字典中設定其他欄位。部分保留欄位具有特殊意義。
+
+*   **`alert`**：通知的訊息。
+*   **`badge`**：_（僅限 iOS）_顯示在應用程式圖示右上角的值。可以設為某個值；也可以設為 `Increment`，使目前值以 1 為遞增單位。
+*   **`sound`**：_（僅限 iOS）_應用程式套件中的聲音檔名稱。
+*   **`content-available`**：_（僅限 iOS）_如果您正在編寫 [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) 應用程式或使用 [iOS7 新推出](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10)的「遠端通知背景模式」（亦稱為「背景推播」），請將此值設定為 1 以觸發背景下載。
+*   **`action`**：_（僅限 Android）_`Intent` 在接收推播時應該要引發。若指定了不是 `title` 或 `alert` 的值，`Intent` 會被引發，但不會傳送通知給使用者。
+*   **`title`**：_（僅限 Android）_在 Android 系統匣通知顯示的值。
+
+例如，若要傳送通知，將目前徽章號碼增加 1 且在 iOS 裝置播放自訂聲音，並為 Android 使用者顯示特定標題，您可以按照下列步驟進行：
+
+```js
+Parse.Push.send({
+  channels: [ "Mets" ],
+  data: {
+    alert: "The Mets scored! The game is now tied 1-1.",
+    badge: "Increment",
+    sound: "cheering.caf",
+    title: "Mets Score!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+也可在此字典中指定您自己的資料。如我們在 iOS 和 Android 接收通知章節中解說過的，只有當使用者透過通知開啟您的應用程式時，iOS 才會授權存取此資料，而如果有在 `Intent` 中指定，Android 就會提供此資料給您。
+
+```js
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('channels', 'Indians');
+query.equalTo('injuryReports', true);
+Parse.Push.send({
+  where: query,
+  data: {
+    action: "com.example.UPDATE_STATUS",
+    alert: "Ricky Vaughn was injured in last night's game!",
+    name: "Vaughn",
+    newsItem: "Man bites dog"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+## 設定到期日
+
+使用者的裝置關閉或未連線至網際網路時，就無法傳送推播通知。如果您的通知具有時效性，太晚就不值得傳送的話，您可以設定到期日。這樣做可避免以不再相關的資訊警示使用者。
+
+Parse 提供兩種參數來讓您設定通知到期日。第一種是 `expiration_time`，會用 `Date` 指定 Parse 應於何時停止嘗試傳送通知。若要讓通知準確地從現在開始的 1 週後到期，您可以使用下列程式碼：
+
+```js
+var oneDayAway = new Date(...);
+var sixDaysAwayEpoch = (new Date(...)).getTime();
+
+Parse.Push.send({
+  push_time: oneDayAway,
+  expiration_interval: sixDaysAwayEpoch,
+  data: {
+    alert: "Season tickets on sale until next week!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+或者，您可以使用 `expiration_interval` 參數指定通知到期之前的持續時間。此值與用於[排程通知](#scheduled)的 `push_time` 參數有關。這表示已排定要在 1 天內傳送，而到期間隔為 6 天的推播通知，從現在開始的 1 週內都能收到。
+
+```js
+var oneDayAway = new Date(...);
+var sixDaysAwayEpoch = (new Date(...)).getTime();
+
+Parse.Push.send({
+  push_time: oneDayAway,
+  expiration_interval: sixDaysAwayEpoch,
+  data: {
+    alert: "Season tickets on sale until next week!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+## 按照平台進行目標設定
+
+如果您建立跨平台的應用程式，有可能只想鎖定 iOS 或 Android 裝置。有兩個方法能讓您篩選要鎖定哪些裝置。請注意，依照預設已鎖定這兩個平台。
+
+下列範例將傳送不同通知給 Android 和 iOS 使用者。
+
+```js
+// Notification for Android users
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('deviceType', 'android');
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "Your suitcase has been filled with tiny robots!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+// Notification for iOS users
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('deviceType', 'ios');
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "Your suitcase has been filled with tiny apples!"
+  }
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+# 推播排程
+
+您可以透過指定 `push_time` 事先排定推播。例如，如果使用者於 12PM UTC 中午時間排定遊戲提醒，您可以傳送下列程式碼來排定推播通知：
+
+```js
+var tomorrowDate = new Date(...);
+
+var query = new Parse.Query(Parse.Installation);
+query.equalTo('user_id', 'user_123');
+
+Parse.Push.send({
+  where: query,
+  data: {
+    alert: "You previously created a reminder for the game today" 
+  },
+  push_time: tomorrowDate
+}, {
+  success: function() {
+    // Push was successful
+  },
+  error: function(error) {
+    // Handle error
+  }
+});
+```
+
+如果您也指定了 `expiration_interval`，就會從排定的推播時間開始計算，而不是從提交推播的時間開始。這表示排定要在 1 週內傳送而到期間隔為 1 天的推播，在要求送出 8 天後會到期。
+
+排定的時間不能為過去的時間，而且最久可排定到未來兩週內。如上述範例所示，可以是具有日期、時間和時區的 ISO 8601 日期，也可以是代表以秒為單位的 UNIX 紀元時間 (UTC) 的數值。若要排定 08/22/2015 12PM UTC 中午時間的警示，您可以將 `push_time` 設定為 `2015-08-022T12:00:00.000Z` 或 `1440226800000`。
+
+# 接收推播
+
+JavaScript SDK 目前並不支援接收推播。請參閱針對在 iOS 和 Android 裝置接收推播通知的特定平台指南。

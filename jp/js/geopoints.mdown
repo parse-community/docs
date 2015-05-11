@@ -1,0 +1,66 @@
+# GeoPoint
+
+Parseでは、現実世界の緯度と経度座標をオブジェクトに関連付けることができます。`Parse.GeoPoint`を`Parse.Object`に追加すると、オブジェクトから参照点までの距離を考慮したクエリを実行できます。こうすることで、別の利用者に最も近い場所にいる利用者や、利用者に最も近い場所を簡単に探すことができます。
+
+
+## Parse.GeoPoint
+
+場所をオブジェクトに関連付けるには、最初に`Parse.GeoPoint`を作成する必要があります。たとえば、緯度40.0度、経度-30.0度の場所を作成する場合は、次のようにします。
+
+```js
+var point = new Parse.GeoPoint({latitude: 40.0, longitude: -30.0});
+```
+
+そうすると、この場所がオブジェクトの不変フィールドに格納されます。
+
+```js
+placeObject.set("location", point);
+```
+
+注: 現在、クラス内のキーを1つだけ`Parse.GeoPoint`に設定できます。
+
+
+## 地理クエリ
+
+これで、空間座標を持つオブジェクトがまとめて作成されました。どのオブジェクトが場所に最も近いかを調べてみましょう。それには、`near`を使用して、`Parse.Query`に別の制限を追加します。利用者に最も近い10の場所のリストを取得する場合は、次のようになります。
+
+```js
+// User's location
+var userGeoPoint = userObject.get("location");
+// Create a query for places
+var query = new Parse.Query(PlaceObject);
+// Interested in locations near user.
+query.near("location", userGeoPoint);
+// Limit what could be a lot of points.
+query.limit(10);
+// Final list of objects
+query.find({
+  success: function(placesObjects) {   }
+});
+```
+
+この時点では、`placesObjects`は`userGeoPoint`からの距離（最も近いものから最も遠いもの）で並べられたオブジェクトの配列になります。追加の`ascending()`/`descending()`の並べ替え制限を適用すると、距離の順番よりも優先されます。
+
+距離を使用して結果を絞り込むには、`withinMiles`、`withinKilometers`、`withinRadians`の詳細を確認してください。
+
+さらに、特定の区域内に限定した一連のオブジェクトにクエリを実行することもできます。長方形の境界ボックス内のオブジェクトを探すには、`Parse.Query`に`withinGeoBox`制限を追加します。
+
+```js
+var southwestOfSF = new Parse.GeoPoint(37.708813, -122.526398);
+var northeastOfSF = new Parse.GeoPoint(37.822802, -122.373962);
+
+var query = new Parse.Query(PizzaPlaceObject);
+query.withinGeoBox("location", southwestOfSF, northeastOfSF);
+query.find({
+  success: function(pizzaPlacesInSF) {
+    ...
+  }
+});
+```
+
+## 注意事項
+
+現在のところ、次のような点に注意が必要です。
+
+1.  各Parse.Objectクラスには、Parse.GeoPointオブジェクトを持ったキーを1つだけ設定できます。
+2.  範囲の限度と同じ、または超過した地点に場所を設定できません。緯度を-90.0または90.0に設定することはできません。経度を-180.0または180.0に設定することはできません。境界外に緯度や経度を設定しようとするとエラーが発生します。

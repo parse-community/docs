@@ -1,0 +1,113 @@
+# 應用程式內建購買功能
+
+Parse 提供一組 API 來處理應用程式內建購買功能。Parse 讓使用 `StoreKit` 變得更容易，而且藉由在雲端驗證收據，讓傳送下載內容更加便利。收據驗證是一種機制，可讓您限制只有付費使用者才能下載。
+
+此外，開發人員可以在產品上附加可查詢的中繼資料，以便針對可供購買的產品進行分類、搜尋以及動態管理。
+
+最後，任何上傳至 Parse 的內容均可免經 Apple 審查程序，因此一完成上傳即可使用。
+
+### Apple 設定
+
+在 Parse 上使用應用程式內建購買功能之前，您必須先向 Apple 設定您的應用程式和產品。此程序要橫跨佈建入口網站和 iTunes Connect 進行。我們建議您遵照此[逐步指南](https://developer.apple.com/library/ios/#technotes/tn2259/_index.html)。
+
+請注意，此設定程序有點繁複，所以請確實按照 Apple 的文件進行。
+
+## 簡易購買
+
+上述設定完成後，您就可以開始處理應用程式內建購買功能：
+
+在主執行緖，請登錄產品的處理常式：
+
+```objc
+// Use the product identifier from iTunes to register a handler.
+[PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+    // Write business logic that should run once this product is purchased.
+    isPro = YES;
+}];
+```
+
+請注意，這樣做並不會進行購買，而只會登錄之後進行購買時要執行的區塊。此登錄必須在主執行緒完成，最好是應用程式一啟動愈快完成愈好，亦即 `application:didFinishLaunchingWithOptions:`。如果有多個產品，我們建議您在相同方法中登錄所有產品處理常式，如 `application:didFinishLaunchingWithOptions`：
+
+```objc
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+        ...
+
+        [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+        isPro = YES;
+    }];
+    [PFPurchase addObserverForProduct:@"VIP" block:^(SKPaymentTransaction *transaction) {
+        isVip = YES;
+    }];
+}
+```
+
+若要開始購買，請使用 `+[PFPurchase buyProduct:block:]` 方法：
+
+```objc
+[PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
+    if (!error) {
+        // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    }
+}];
+```
+
+呼叫 `buyProduct:block:` 會顯示對話方塊，要求使用者輸入他們的 Apple 憑證。使用者身分經驗證之後，產品就會被購買。如果此產品非消耗品且使用者之前曾購買過，就不會向使用者收費。
+
+## 有可下載內容的購買
+
+許多 IAP（In-App Purchase，應用程式內建購買）產品如書籍和電影，都有購買之後應下載的相關內容檔案。這點用 Parse 很容易處理：
+
+1.  首先，請前往網路資料瀏覽器再建立一個 `Product` 類別，
+2.  針對每個產品填寫必要的中繼資料資訊，再上傳內容檔案：
+        1.  `productIdentifier:` 產品識別碼，要與 iTunes Connect 上的相符
+        2.  `icon:` 要在 `PFProductTableViewController` 中顯示的圖示
+        3.  `title:` 要在 `PFProductTableViewController` 中顯示的標題
+        4.  `subtitle:` 要在 `PFProductTableViewController` 中顯示的副標題
+        5.  `order`：本產品應出現在 `PFProductTableViewController` 中的順序。這僅適用於 `PFProductTableViewController`；如果順序並不重要，請填入 0，
+        6.  `download`：可下載的內容檔案請注意，上傳至 `download` 的檔案無法公開存取，而且只有在有人進行購買時才能下載。`downloadName` 為下載後在磁碟中的檔案名稱。您不必填寫此項。
+3.  接下來，您必須登錄產品處理常式：
+
+```objc
+[PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
+    [PFPurchase downloadAssetForTransaction:transaction completion:^(NSString *filePath, NSError *error) {
+        if (!error) {
+            // at this point, the content file is available at filePath.
+        }
+    }];
+}];
+```
+
+請注意，這樣做並不會進行購買，而只會登錄之後進行購買時要執行的區塊。對 `downloadAssetForTransaction:completion:` 的呼叫會將此次購買的收據傳至 Parse Cloud，之後會向 Apple 驗證已進行購買。收據一經驗證，就會下載已購買的檔案。
+
+若要購買，
+
+```objc
+[PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
+    if (!error) {
+        // run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    }
+}];
+```
+
+呼叫 `buyProduct:block:` 會顯示對話方塊，要求使用者輸入他們的 Apple 憑證。使用者身分經驗證之後，產品就會被購買。
+
+## 查詢產品資訊
+
+您可以使用 `PFProduct` 查詢在資料瀏覽器中建立的產品物件。跟 `PFUser` 或 `PFRole` 一樣，`PFProduct` 是 `PFObject` 的子類別，其中包含便利存取子乃至於各種產品專用的屬性。
+
+例如，以下是為了取得產品而進行的簡易查詢：
+
+```objc
+PFQuery *productQuery = [PFProduct query];
+PFProduct *product = [[productQuery findObjects] anyObject];
+NSLog(@"%@, %@", product.productIdentifier, product.title);
+```
+
+## PFProductTableViewController
+
+![](/images/docs/products_table_screenshot.png)
+
+`PFProductTableViewController` 是 `PFQueryTableViewController` 的子類別，會在表格檢視中顯示所有 IAP 產品。您會發現有些內容應用程式，比如銷售漫畫書或影片教學的應用程式，利用 `PFProductTableViewController` 銷售產品會很方便。依照預設，每個資料格即為一項產品，而且點按資料格就會啟動對該產品的購買動作。如果該產品有相關的下載內容，選擇資料格時就會開始下載內容，而且會顯示進度列以表示下載進度。
+
+請注意，若要使用此類別，您必須透過資料瀏覽器在 `Product` 類別中輸入所有產品資訊。

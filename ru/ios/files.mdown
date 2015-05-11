@@ -1,0 +1,89 @@
+# Файлы
+
+## PFFile
+
+`PFFile` позволяет хранить файлы приложения в облаке, иначе они будут слишком объемными, или их будет сложно поместить в обычный объект `PFObject`. Чаще всего пользователи хранят изображения, но также можно хранить документы, видео, музыку и любые другие бинарные данные (до 10 мегабайт).
+
+<div class='tip info'><div>
+  Узнайте, как создать приложение для создания фото и их загрузки непосредственно в Parse в нашем [руководстве «Сохранение изображений»](/tutorials/saving-images).
+</div></div>
+
+Приступить к работе с `PFFile` довольно просто. Для начала следует располагать данными в форме `NSData`, затем создать с ними класс `PFFile`. В этом примере просто используется строка:
+
+```objc
+NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
+PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+```
+
+Обратите внимание на то, что в этом примере файлу дается название `resume.txt`. Необходимо обратить внимание на два момента: 
+
+*   Не беспокойтесь о конфликте названий файлов. Каждый загруженный файл получает уникальный идентификатор, поэтому не возникает проблем при загрузке нескольких файлов под названием `resume.txt`.
+*   Важно давать файлам названия с определенным расширением файла. Это позволяет Parse определить тип файла и соответствующим образом его обработать. Поэтому при хранении изображений в формате PNG убедитесь, что название файла имеет расширение `.png`.
+
+Затем необходимо загрузить файл в облако. Как и для объекта `PFObject`, существует множество вариантов метода `save`, который можно использовать, в зависимости от подходящего типа обратного вызова и обработки ошибок.
+
+```objc
+[file saveInBackground];
+```
+
+Наконец, после завершения сохранения можно ассоциировать класс `PFFile` с объектом `PFObject`, как и любые другие данные:
+
+```objc
+PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
+jobApplication[@"applicantName"] = @"Joe Smith";
+jobApplication[@"applicantResumeFile"] = file;
+[jobApplication saveInBackground];
+```
+
+Процесс извлечения предполагает вызов одного из вариантов метода `getData` для объекта `PFFile`. Ниже представлен пример извлечения файла анкеты из другого объекта JobApplication:
+
+```objc
+PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
+NSData *resumeData = [applicantResume getData];
+```
+
+Как и для объекта `PFObject`, вероятнее всего, вы пожелаете использовать фоновую версию метода `getData`.
+
+## Изображения
+
+Можно просто хранить изображения, преобразовывая их в формат `NSData`, а затем использовав `PFFile`. Предположим, у вас есть `UIImage` под названием `image`, который необходимо сохранить как файл `PFFile`:
+
+```objc
+NSData *imageData = UIImagePNGRepresentation(image);
+PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
+PFObject *userPhoto = [PFObject objectWithClassName:@"UserPhoto"];
+userPhoto[@"imageName"] = @"My trip to Hawaii!";
+userPhoto[@"imageFile"] = imageFile;
+[userPhoto saveInBackground];
+```
+
+Файл `PFFile` будет загружен как часть операции сохранения для объекта `userPhoto`. Также можно отслеживать [процесс передачи и загрузки](/docs/ru/ios_guide#files-progress) файла `PFFile`.
+
+Процесс извлечения изображения предполагает вызов одного из вариантов метода `getData` для файла `PFFile`. Ниже представлен пример извлечения файла изображения другой фотографии `UserPhoto` под названием `anotherPhoto`:
+
+```objc
+PFFile *userImageFile = anotherPhoto[@"imageFile"];
+[userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+    if (!error) {
+        UIImage *image = [UIImage imageWithData:imageData];
+    }
+}];
+```
+
+## Ход выполнения
+
+При помощи класса `PFFile` можно получить ход выполнения передачи и загрузки при помощи методов `saveInBackgroundWithBlock:progressBlock:` и `getDataInBackgroundWithBlock:progressBlock:` соответственно. Например:
+
+```objc
+NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
+PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+[file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    // Handle success or failure here ... 
+} progressBlock:^(int percentDone) {
+    // Update your progress spinner here. percentDone will be between 0 and 100.
+}];
+```
+
+Можно удалить файлы, на которые ссылаются объекты, при помощи интерфейса [REST API](/docs/rest#files-deleting). Для получения разрешения на удаление файла нужно предоставить главный ключ.
+
+Если на ваши файлы не ссылаются объекты в приложении, будет невозможно удалить их через интерфейс REST API. Можно запросить очистку неиспользуемых файлов на странице настроек приложения. Помните, что это может нарушить функции, которые зависят от доступа к файлам, на которые нет ссылок, через свойство URL. Файлы, которые на данный момент связаны с объектом, не будут затронуты.

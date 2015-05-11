@@ -1,0 +1,388 @@
+# 查詢
+
+我們已經見過具有 `getObjectWithId:` 的 `PFQuery`，如何自 Parse 取回單一 `PFObject`。還有許多其他方式可以用 `PFQuery` 擷取資料：您可以一次擷取許多物件、在您想擷取的物件上設立條件、自動對查詢進行快取而不必自己編寫程式碼等等。
+
+## 基本查詢
+
+在許多情況下，會發生 `getObjectInBackgroundWithId:block:` 的功能不夠強大，而無法指定欲擷取的物件。`PFQuery` 提供擷取一系列物件的不同方式，而不只是單一物件。
+
+一般模式是建立一個 `PFQuery`，並在上頭設立條件，然後使用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 擷取相符 `PFObject` 的 `NSArray`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `whereKey:equalTo:` 方法限制索引鍵的值。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        // The find succeeded.
+        NSLog(@"Successfully retrieved %d scores.", objects.count);
+        // Do something with the found objects
+        for (PFObject *object in objects) {
+            NSLog(@"%@", object.objectId);
+        }
+    } else {
+        // Log details of the failure
+        NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }
+}];
+```
+
+`findObjectsInBackgroundWithBlock:` 和 `findObjectsInBackgroundWithTarget:selector:` 的運作方式類似，兩者都能確保網路要求在不被封鎖的情況下完成，且能在主要執行緒執行封鎖／回呼。如果您已在背景執行緖中，有相應的 `findObjects` 方法可以封鎖呼叫執行緒：
+
+```objc
+// Only use this code if you are already running it in a background
+// thread, or for testing purposes!
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+NSArray* scoreArray = [query findObjects];
+```
+
+## 使用 NSPredicate 指定限制
+
+若要充分利用 `PFQuery`，我們建議使用下列方法新增限制。不過如果您較喜歡使用 `NSPredicate`，建立 `PFQuery` 時可提供 `NSPredicate` 以指定限制的子集。
+
+```objc
+NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    @"playerName = 'Dan Stemkosk'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+以下為支援的功能：
+
+*   簡單的比較，例如 `=`、`!=`、`<`、`>`、`<=`、`>=` 和具有索引鍵與常數的 `BETWEEN`。
+*   內含項目述詞，如 `x IN {1, 2, 3}`。
+*   索引鍵存在述詞，如 `x IN SELF`。
+*   `BEGINSWITH` 運算式。
+*   具有 `AND`、`OR` 和 `NOT` 的複合述詞。
+*   含 `"key IN %@", subquery` 的子查詢。
+
+**不**支援下列類型的述詞：
+
+*   彙總運算，如 `ANY`、`SOME`、`ALL` 或 `NONE`。
+*   規則運算式，如 `LIKE`、`MATCHES`、`CONTAINS` 或 `ENDSWITH`。
+*   對索引鍵進行比較的述詞。
+*   有許多 `OR` 子句的複雜述詞。
+
+## 查詢限制
+
+有幾種方式可以在 `PFQuery` 找到的物件加上限制。您可以利用 `whereKey:notEqualTo` 篩選出具有特定鍵值組的物件：
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+$toggle$ NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    @"playerName != 'Michael Yabuti'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+您可以設下多重限制，只有符合全部限制的物件才會出現在結果中。換句話說，就像是限制條件的 AND。
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+[query whereKey:@"playerAge" greaterThan:@18];
+```
+
+您可以透過設定 `limit` 限制結果的數目。依據預設，結果的限制為 100，但是任何從 1 到 1000 的數目都是有效的限制：
+
+```objc
+query.limit = 10; // limit to at most 10 results
+```
+
+如果您只想要一個結果，使用 `getFirstObject` 或 `getFirstObjectInBackground` 或許會更方便，而非使用 `findObject`。
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerEmail" equalTo:@"dstemkoski@example.com"];
+[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    if (!object) {
+        NSLog(@"The getFirstObject request failed.");
+    } else {
+        // The find succeeded.
+        NSLog(@"Successfully retrieved the object.");
+    }
+}];
+```
+
+您可以透過設定 `skip` 略過第一個結果。這對分頁十分有用：
+
+```objc
+query.skip = 10; // skip the first 10 results
+```
+
+對數字和字串等可排序類型，您可以控制結果傳回的順序：
+
+```objc
+// Sorts the results in ascending order by the score field
+[query orderByAscending:@"score"];
+// Sorts the results in descending order by the score field
+[query orderByDescending:@"score"];
+```
+
+您可以用以下方式新增更多排序索引鍵至查詢功能：
+
+```objc
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+[query addAscendingOrder:@"score"];
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+[query addDescendingOrder:@"score"];
+```
+
+針對可排序類型，您也可以在查詢中使用比較指令：
+
+```objc
+// Restricts to wins < 50
+[query whereKey:@"wins" lessThan:@50];
+// Restricts to wins <= 50
+[query whereKey:@"wins" lessThanOrEqualTo:@50];
+// Restricts to wins > 50
+[query whereKey:@"wins" greaterThan:@50];
+// Restricts to wins >= 50
+[query whereKey:@"wins" greaterThanOrEqualTo:@50];
+```
+
+如果您希望擷取符合多個不同值的物件，可以使用 `whereKey:containedIn:`（其中有提供可接受值的陣列）。這通常適合用於以單一查詢取代多個查詢。舉例來說，如果您想在特定清單中擷取任何玩家達到的分數：
+
+```objc
+// Finds scores from any of Jonathan, Dario, or Shawn
+NSArray *names = @[@"Jonathan Walsh",
+                   @"Dario Wunsch",
+                   @"Shawn Simon"];
+[query whereKey:@"playerName" containedIn:names];
+```
+
+如果您希望擷取的物件不符合多個值的任何一個，可以使用 `whereKey:notContainedIn:`（其中提供可接受值的陣列）。舉例來說，如果您想擷取清單之外玩家的分數：
+
+```objc
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+NSArray *names = @[@"Jonathan Walsh",
+                   @"Dario Wunsch",
+                   @"Shawn Simon"];
+[query whereKey:@"playerName" notContainedIn:names];
+```
+
+如果您希望擷取具有特定索引鍵集的物件，可以使用 `whereKeyExists`。相反地，如果您希望擷取不具有特定索引鍵集的物件，可以使用 `whereKeyDoesNotExist`。
+
+```objc
+// Finds objects that have the score set
+[query whereKeyExists:@"score"];
+// Finds objects that don't have the score set
+[query whereKeyDoesNotExist:@"score"];
+```
+
+您可以使用 `whereKey:matchesKey:inQuery:` 方法取得符合條件的物件（其中某索引鍵符合另一個查詢所產生之物件集中某索引鍵的值）。舉例來說，如果您有一個含有運動隊伍的類別，並且在使用者類別中存放使用者的家鄉，則您可發出查詢，以找出當地球隊擁有獲勝紀錄之使用者的清單。該查詢看起來可能像：
+
+```objc
+PFQuery *teamQuery = [PFQuery queryWithClassName:@"Team"];
+[teamQuery whereKey:@"winPct" greaterThan:@(0.5)];
+PFQuery *userQuery = [PFQuery queryForUser];
+[userQuery whereKey:@"hometown" matchesKey:@"city" inQuery:teamQuery];
+[userQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a winning record
+}];
+```
+
+相反地，若要取得索引鍵不符合另一個查詢所產生之物件集中某索引鍵值的物件，請使用 `whereKey:doesNotMatchKey:inQuery:`。舉例來說，若要找出家鄉的球隊擁有敗戰紀錄的使用者：
+
+```objc
+PFQuery *losingUserQuery = [PFQuery queryForUser];
+[losingUserQuery whereKey:@"hometown" doesNotMatchKey:@"city" inQuery:teamQuery];
+[losingUserQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a losing record
+}];
+```
+
+您可以利用用索引鍵的 `NSArray` 呼叫 `selectKeys:`，限制傳回的欄位。若要擷取只包含 `score` 和 `playerName` 欄位的文件（還有像是 `objectId`、`createdAt` 和 `updatedAt` 的特殊內建欄位）：
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query selectKeys:@[@"playerName", @"score"]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // objects in results will only contain the playerName and score fields
+}];
+```
+
+在傳回物件上呼叫其中一個 `fetchIfNeeded` 變數，可於稍後擷取剩餘欄位：
+
+```objc
+PFObject *object = (PFObject*)results[0];
+[object fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // all fields of the object will now be available here.
+}];
+```
+
+## 陣列值查詢
+
+對於具有陣列類型的索引鍵，您可以用下列方式找出索引鍵陣列值包含 2 的物件：
+
+```objc
+// Find objects where the array in arrayKey contains 2.
+[query whereKey:@"arrayKey" equalTo:@2];
+```
+
+您也可以利用下列方式找出索引鍵陣列值包含 2、3 和 4 的物件： 
+
+```objc
+// Find objects where the array in arrayKey contains each of the
+// elements 2, 3, and 4.
+[query whereKey:@"arrayKey" containsAllObjectsInArray:@[@2, @3, @4]];
+```
+
+## 字串值查詢
+
+使用 `whereKey:hasPrefix:` 限制以特定字串開頭的字串值。與 MySQL LIKE 運算子相似，因為已經編制索引，所以對大型資料集而言很有效：
+
+```objc
+// Finds barbecue sauces that start with "Big Daddy's".
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
+[query whereKey:@"name" hasPrefix:@"Big Daddy's"];
+```
+
+## 關聯性查詢
+
+有幾種方式可以查詢關聯性資料。如果您希望擷取欄位符合特定 `PFObject` 的物件，可以使用 `whereKey:equalTo:`，就如其他資料類型一樣。舉例而言，如果每個 `Comment` 在其 `post` 欄位中都有一個 `Post` 物件，您可以針對特定 `Post` 擷取留言：
+
+```objc
+// Assume PFObject *myPost was previously created.
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" equalTo:myPost];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for myPost
+}];
+```
+
+您也可以透過 `objectId` 執行關聯性查詢：
+
+```objc
+[query whereKey:@"post"
+       equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+```
+
+如果您希望擷取欄位包含 `PFObject` 符合不同查詢的物件，可以使用 `whereKey:matchesQuery`。請注意，預設限制 100 與最高限制 1000 同樣適用於內部查詢，因此在處理大型資料集時，您可能需要小心地建構您的查詢，以取得您想要的行為。若要尋找圖文貼文的留言，您可以這樣做：
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" matchesQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts with images
+}];
+```
+
+如果您希望擷取欄位包含 `PFObject` 符合不同查詢的物件，可以使用 `whereKey:doesNotMatchQuery`。若要尋找非圖文貼文的留言，您可以這樣做：
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" doesNotMatchQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts without images
+}];
+```
+
+在部分情況下，您可以在一次查詢中傳回多種相關物件。您可以利用 `includeKey:` 方法執行此操作。舉例來說，假設您正在擷取最後十則留言，而且希望同時擷取與留言相關的貼文：
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+// Retrieve the most recent ones
+[query orderByDescending:@"createdAt"];
+
+// Only retrieve the last ten
+query.limit = 10;
+
+// Include the post data with each comment
+[query includeKey:@"post"];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // Comments now contains the last ten comments, and the "post" field
+    // has been populated. For example:
+    for (PFObject *comment in comments) {
+        // This does not require a network access.
+        PFObject *post = comment[@"post"];
+        NSLog(@"retrieved related post: %@", post);
+    }
+}];
+```
+
+您也可以進行多層次查詢，包含使用點標記法。如果您希望加入留言的貼文與貼文的作者，您可以這樣做：
+
+```objc
+[query includeKey:@"post.author"];
+```
+
+透過多次呼叫 `includeKey:`，您可以發出包含多個欄位的查詢。這個功能也可以與 PFQuery 協助程式一起使用，像是 `getFirstObject` 和 `getObjectInBackground`
+
+## 快取查詢
+
+在磁碟上快取查詢的結果，通常很有幫助。這讓您可以在使用者的裝置離線時，或是在應用程式剛啟動而網路要求未能及時完成時顯示資料。快取佔用太多空間時，Parse 會自動清除快取。
+
+預設查詢的行為不會使用快取，但您可以透過設定 `query.cachePolicy` 啟用快取。舉例來說，若要嘗試連上網路，並在無法使用網路時切換回快取資料：
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+query.cachePolicy = kPFCachePolicyNetworkElseCache;
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        // Results were successfully found, looking first on the
+        // network and then on disk.
+    } else {
+        // The network was inaccessible and we have no cached data for
+        // this query.
+    }
+}];
+```
+
+Parse 提供幾種不同的快取原則：
+
+*   `kPFCachePolicyIgnoreCache` 查詢未從快取載入，或是未將結果儲存至快取。`kPFCachePolicyIgnoreCache` 為預設的快取原則。
+*   `kPFCachePolicyCacheOnly` 查詢只從快取載入，而忽略網路。如果沒有快取結果，則會導致 `PFError`。
+*   `kPFCachePolicyNetworkOnly` 查詢未從快取載入，但是會將結果儲存至快取。
+*   `kPFCachePolicyCacheElseNetwork` 查詢先嘗試從快取載入，如果失敗，則會從網路載入結果。如果快取或網路皆失敗，就會產生 `PFError`。
+*   `kPFCachePolicyNetworkElseCache` 查詢先嘗試從網路載入，如果失敗，則會從快取載入結果。如果網路或快取皆失敗，就會產生 `PFError`。
+*   `kPFCachePolicyCacheThenNetwork` 查詢先從快取載入，然後從網路載入。在這個情況下，實際上會呼叫回呼兩次；第一次是使用快取結果，然後是使用網路結果。由於此快取原則會在不同時間傳回兩個結果，所以不能與 `findObjects` 同步使用。
+
+如果您需要控制快取的行為，可以使用 ParseQuery 提供的方法與快取互動。您可以於快取上進行以下操作：
+
+*   利用以下操作，查看是否有查詢的快取結果：```objc BOOL isInCache = [query hasCachedResult];```*   利用以下操作，移除查詢的任何快取結果：```objc [query clearCachedResult];```
+*   利用以下操作，移除查詢的快取結果：```objc [PFQuery clearAllCachedResults];```
+
+查詢快取也能與 PFQuery 協助程式一起使用，包含 `getFirstObject` 和 `getObjectInBackground`。
+
+## 計算物件
+
+如果您只需要計算有多少符合查詢的物件，但是不需要擷取符合的物件，可以使用 `countObjects` 取代 `findObjects`。舉例來說，若要計算某特定玩家已經進行了幾場遊戲：
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playername" equalTo:@"Sean Plott"];
+[query countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
+    if (!error) {
+        // The count request succeeded. Log the count
+        NSLog(@"Sean has played %d games", count);
+    } else {
+        // The request failed
+    }
+}];
+```
+
+如果您希望封鎖呼叫執行緒，也可以使用同步 `countObjects` 方法。
+
+對於超過 1,000 個物件的類別，計算作業會受到逾時的限制。這可能會不斷出現逾時錯誤或傳回只是近似正確的結果。因此，比較好的做法是在設計您的應用程式時，避免這種計算作業。
+
+## 複合查詢
+
+如果您想尋找符合多個查詢之一的物件，可以使用 `orQueryWithSubqueries:` 方法。例如，如果您希望尋找勝場數多或勝場數少的玩家，可以這樣做：
+
+```objc
+PFQuery *lotsOfWins = [PFQuery queryWithClassName:@"Player"];
+[lotsOfWins whereKey:@"wins" greaterThan:@150];
+PFQuery *fewWins = [PFQuery queryWithClassName:@"Player"];
+[fewWins whereKey:@"wins" lessThan:@5];
+PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results contains players with lots of wins or only a few wins.
+}];
+```
+
+您可將其他限制新增至作為「and」運轉子的新建 `PFQuery`。
+
+請注意，我們並不支援複合查詢子查詢中的非篩選條件限制（例如，`limit`、`skip`、`orderBy...:`、`includeKey:`）。

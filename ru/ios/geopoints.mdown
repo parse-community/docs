@@ -1,0 +1,79 @@
+# Геоточки
+
+Parse позволяет связывать реальные географически координаты с объектом.  Добавление класса `PFGeoPoint` к объекту `PFObject` позволяет запросам учитывать местоположение объекта рядом с ориентиром.  Эта функция позволяет легко определять, какой пользователь ближе всего находится к другому пользователю, или какие места находятся ближе всего к пользователю.
+
+<div class='tip info'><div>
+  Ознакомьтесь с использованием объектов `PFGeoPoints` и `PFUser` в реальном приложении при помощи [Руководства по Anywall](/tutorials/anywall). Вы узнаете о работе всех функций, от реализации основного потока управления пользователями до отслеживания местонахождения GPS, при помощи Core Location.
+</div></div>
+
+## PFGeoPoint
+
+Чтобы связать точку с объектом, сначала нужно создать `PFGeoPoint`.  Например, чтобы создать точку с широтой 40.0 градусов и долготой -30.0 градусов, необходимо выполнить следующее:
+
+```objc
+PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
+```
+
+Затем эта точка хранится в объекте как регулярное поле.
+
+```objc placeObject[@"location"] = point;```
+
+Примечание. На данный момент только один ключ для класса может быть объектом `PFGeoPoint`.
+
+### Получение текущего местонахождения пользователя
+
+Объект `PFGeoPoint` также предоставляет вспомогательный метод получения текущего местонахождения пользователя. Это осуществляется при помощи метода `geoPointForCurrentLocationInBackground`:
+
+```objc
+[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+    if (!error) {
+        // do something with the new geoPoint
+    }
+}];
+```
+
+При выполнении этого кода происходит следующее:
+
+1.  Внутренний метод `CLLocationManager` начинается с прослушивания обновлений местонахождения (через `startsUpdatingLocation`).
+2.  После получения местонахождения менеджер местонахождений прекращает прослушивать обновления местонахождений (через `stopsUpdatingLocation`), и создается объект `PFGeoPoint` для нового местонахождения. Если менеджер местонахождений выдает ошибку, он все равно прекращает прослушивать обновления и возвращает ошибку `NSError`.
+3.  Метод `block` вызывается при помощи объекта `PFGeoPoint`.
+
+Для пользователей, которые будут непосредственно использовать `CLLocationManager`, также предоставляется конструктор `+geoPointWithLocation:` для преобразования объектов `CLLocation` непосредственно в объекты `PFGeoPoint`, что идеально подходит для приложений, которые требуют постоянного голосования.
+
+## Запросы географических координат
+
+Теперь, когда существует несколько объектов с пространственными координатами, можно узнать, какие объекты находятся ближе всего к точке.  Это можно выполнить при помощи добавления дополнительного ограничения к запросу `PFQuery` при помощи метода `whereKey:nearGeoPoint:`.  Получение списка из десяти мест, которые находятся ближе всего к пользователю, может выглядеть приблизительно следующим образом:
+
+```objc
+// User's location
+PFGeoPoint *userGeoPoint = userObject[@"location"];
+// Create a query for places
+PFQuery *query = [PFQuery queryWithClassName:@"PlaceObject"];
+// Interested in locations near user.
+[query whereKey:@"location" nearGeoPoint:userGeoPoint];
+// Limit what could be a lot of points.
+query.limit = 10;
+// Final list of objects
+placesObjects = [query findObjects];
+```
+
+В этой точке значение `placesObjects` будет представлять собой массив объектов, упорядоченных по расстоянию (от самого ближнего до самого дальнего) от точки `userGeoPoint`. Обратите внимание, что если применяется дополнительное ограничение `orderByAscending:`/`orderByDescending:`, оно будет иметь более высокий приоритет, чем упорядочивание по расстоянию.
+
+Чтобы ограничить результаты при помощи расстояния, проверьте поля `whereKey:nearGeoPoint:withinMiles`, `whereKey:nearGeoPoint:withinKilometers` и `whereKey:nearGeoPoint:withinRadians`.
+
+Также можно выполнить запрос объектов, которые находятся в определенном месте.  Чтобы найти объекты в прямоугольной области, добавьте ограничение `whereKey:withinGeoBoxFromSouthwest:toNortheast:` к запросу `PFQuery`.
+
+```objc
+PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];
+PFGeoPoint *neOfSF = [PFGeoPoint geoPointWithLatitude:37.822802 longitude:-122.373962];
+PFQuery *query = [PFQuery queryWithClassName:@"PizzaPlaceObject"];
+[query whereKey:@"location" withinGeoBoxFromSouthwest:swOfSF toNortheast:neOfSF];
+NSArray *pizzaPlacesInSF = [query findObjects];
+```
+
+## Предупреждения
+
+На данный момент существует несколько моментов, за которыми необходимо следить:
+
+1.  Каждый класс PFObject может иметь только один ключ по отношению к объекту PFGeoPoint.
+2.  Точки не должны равняться границам диапазонов или превышать их.  Широта не должна равняться значениям -90.0 или 90.0.  Долгота не должна равняться значениям -180.0 или 180.0.  Попытка установить широту или долготу, которые превышают границы, приведет к ошибке.

@@ -1,0 +1,127 @@
+# コレクション
+
+`Parse.Collection`は一連の`Parse.Object`を順番に並べたものです。`[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)`との互換性があり、完全に同じ機能を持ちます。モデルクラスか特定の`Parse.Query`のいずれかを使用して新しいサブクラスを作成できます。
+
+```js
+// A Collection containing all instances of TestObject.
+var TestCollection = Parse.Collection.extend({
+  model: TestObject
+});
+var collection = new TestCollection();
+
+// A Collection of TestObjects whose temperature is "hot".
+var HotCollection = Parse.Collection.extend({
+  model: TestObject,
+  query: (new Parse.Query(TestObject)).equalTo("temperature", "hot")
+});
+var collection = new HotCollection();
+
+// The Collection of TestObjects that match a complex query.
+var query = new Parse.Query(TestObject);
+query.equalTo("temperature", "hot");
+query.greaterThan("degreesF", 100);
+var collection = query.collection();
+```
+
+
+## コレクションの取得
+
+コレクション内のすべてのアイテムを読み込むには、`fetch`メソッドを使用します。
+
+```js
+var collection = new TestCollection();
+collection.fetch({
+  success: function(collection) {
+    collection.each(function(object) {
+      console.warn(object);
+    });
+  },
+  error: function(collection, error) {
+    // The collection could not be retrieved.
+  }
+});
+```
+
+
+## コレクションの並べ替え
+
+コレクション内のすべてのアイテムを`comparator`で設定した順番で並べ替えておくことができます。
+
+```js
+var collection = new TestCollection();
+collection.comparator = function(object) {
+  return object.get("temperature");
+};
+```
+
+
+## コレクションの修正
+
+コレクションは変更可能です。すべてのアイテムにアクセスできますし、アイテムの追加や削除も可能です。
+
+```js
+var collection = new TestCollection();
+collection.add([
+  {"name": "Duke"},
+  {"name": "Scarlett"}
+]);
+// Get the "Duke" Parse.Object by its sorted position.
+var model = collection.at(0);
+// Or you can get it by Parse objectId.
+var modelAgain = collection.get(model.id);
+// Remove "Duke" from the collection.
+collection.remove(model);
+// Completely replace all items in the collection.
+collection.reset([
+  {"name": "Hawk"},
+  {"name": "Jane"}
+]);
+```
+
+# View
+
+Parseでは`Backbone.View`のコピーである`Parse.View`を採用しています。アプリでビューを作成する場合はこれを自由に使用できます。このクラスの使用方法の詳細については、[Backbone.View API](http://documentcloud.github.com/backbone/#View)をご覧ください。`Parse.View`では、jQueryかjQueryへの互換性を持つ`$`メソッドを入れる必要があります。
+
+
+# Backboneアプリの変換
+
+すでに[Backbone](http://documentcloud.github.com/backbone/)アプリケーションを使用している場合は、ParseのJavaScript SDKを使えるように簡単に変換できます。変換が終わると、すべてのアプリの機能が記載された静的ファイルのコレクションが作成されます。
+
+<div class='tip info'><div>
+Parseをバックエンドと使用してユーザーアカウントとデータを保持する[標準的なBackbone ToDoアプリケーション](http://addyosmani.github.com/todomvc/)の作成方法を紹介した[JavaScriptによるToDoアプリのチュートリアル](/tutorials/todo-app-with-javascript)をご覧ください。
+</div></div>
+
+ParseのJavaScript SDKはBackboneと互換性を持つことから、多少調整するだけでParseの`Parse.Object`と`Parse.Collection`を`Backbone.Model`と`Backbone.Collection`に使用できます。次にアプリの変換方法を説明します。
+
+1.  [既存のJavaScriptアプリにSDKをインストールする手順に従って操作します](/apps/quickstart#js/existing)。
+2.  `Backbone.Model`のすべてのインスタンスを`Parse.Object`で置き換えます。そうすると、`url`と`urlRoot`が、オブジェクトをParseクラスにマッピングする、適切な`className`で置き換えられます。
+
+```js
+var BackboneTodo = Backbone.Model.extend({
+  urlRoot: "/todos"
+});
+
+var ParseTodo = Parse.Object.extend({
+  className: "Todo"
+});
+```
+3.  `Backbone.Collection`のすべてのインスタンスを`Parse.Collection`で置き換え、`Parse.Object`クラスを`model`として指定します。さらに、`query`を指定すると、コレクションにオブジェクトの取得方法を指定できます。
+
+```js
+var ParseTodoCollection = Parse.Collection.extend({
+  model: ParseTodo
+});
+var todos = new ParseTodoCollection();
+// Construct a query to get the current user's todo items
+var query = new Parse.Query(ParseTodo);
+query.equalTo("user", Parse.User.current());
+todos.query = query;
+todos.fetch();
+```
+4.  サーバーからモデルを作成している場合は、必ず`Parse.Query`を作成して、興味のあるオブジェクトを取得する必要があります。これは、`Parse.Collection`の`query`属性に対して行う作業と同じです。
+
+5.  [利用者認証](#users)を使用できるようにアプリを追加、更新し、必要に応じてACLをオブジェクトに適用します。
+
+これで終わりです。アプリが機能し、Parseをバックエンドとして使用します。
+
+

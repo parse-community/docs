@@ -1,0 +1,138 @@
+# Интерфейс пользователя
+
+В конечном счете пользователи вашего приложения будут взаимодействовать с компонентами интерфейса пользователя Android. Для упрощения работы с данными Parse предоставляются подклассы общих виджетов интерфейса пользователя.
+
+## ParseQueryAdapter
+
+Для отображения наборов данных предоставляется реализация метода `Adapter`. Вместо использования базового метода `ListAdapter`, поддерживаемого статическим массивом объектов, наш метод `ParseQueryAdapter` предоставляет слой абстрактного представления и позволяет легко отображать данные из одного из классов Parse в выбранном представлении `AdapterView` (например `ListView` или `GridView`).
+
+Чтобы использовать метод `ParseQueryAdapter` для отображения данных действия `Activity`, выполните шаги, указанные ниже в методе `onCreate` для действия `Activity`:
+
+1.  Создайте экземпляр метода `ParseQueryAdapter`. При необходимости настройте его (см. подразделы ниже для получения подробных инструкций для отображения данных из специальных запросов, изменения интерфейса пользователя отображаемых представлений `View` и пр.).
+2.  Настройте новый метод `Adapter` в представлении `AdapterView` при помощи метода `setAdapter()`.
+
+Когда AdapterView прикреплено к окну, метод `ParseQueryAdapter` автоматически получит первый набор данных. Этот подкласс упрощает код, который в противном случае будет включать:
+
+1.  Разбивку на страницы со строкой, которую можно нажать для перехода на следующую страницу.
+2.  Настраиваемую загрузку и отображение удаленных изображений в строках.
+3.  Автоматическую загрузку и управление массивом объектов Parse.
+4.  Обратные вызовы от крупных событий в цикле данных.
+
+Используйте следующий код, который настраивает очень простой метод `ParseQueryAdapter` для отображения данных в представлении `ListView`. Ваше приложение может работать с функциональным представлением `ListView` с различными данными с небольшими настройками.
+
+```java
+// Inside an Activity
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    // Uses a layout with a ListView (id: "listview"), which uses our Adapter.
+    setContentView(R.layout.main);
+    ParseQueryAdapter<ParseObject> adapter = new ParseQueryAdapter<ParseObject>(this, "Instrument");
+    adapter.setTextKey("name");
+    adapter.setImageKey("photo");
+    ListView listView = (ListView) findViewById(R.id.listview);
+    listView.setAdapter(adapter);
+}
+```
+
+Это представление отображает список инструментов по имени. Обратите внимание на весь код, который не записывается: можно пропустить логику для получения каждой последующей страницы результатов, для обновления вручную и поддержки резервного массива данных, для загрузки изображений на фоне и настройки данных изображений в виджетах интерфейса пользователя, а также для обработки событий касания для загрузки следующей страницы результатов.
+
+Метод `ParseQueryAdapter` можно настроить для адаптации, какие данные следует использовать, как их отображать и что делать до и после получения данных. Читайте дальше, чтобы узнать о возможных действиях и о том, как получить метод `ParseQueryAdapter` для удовлетворения всех потребностей.query"
+
+### Настройка запроса
+
+По умолчанию самый простой конструктор `ParseQueryAdapter` использует контекст `Context` и имя класса Parse. После этого все объекты `ParseObject` в этом классе получаются и отображаются в порядке их меток времени `createdAt`.
+
+Чтобы изменить это действие, были использованы функции метода `ArrayAdapter`: но вместо использования простого массива объектов для отображения адаптером `ParseQueryAdapter` может также использовать класс `QueryFactory`, который возвращает определяемый запрос `ParseQuery`. Передайте это в конструктор. После этого адаптер использует этот запрос для определения, какие объекты необходимо получить и отобразить.
+
+См. ниже пример настройки `ParseQueryAdapter` для отображения только панк-групп и металл-групп с четырьмя и более участниками, упорядоченными в порядке количества проданных дисков:
+
+```java
+ParseQueryAdapter<ParseObject> adapter =
+    new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
+        public ParseQuery<ParseObject> create() {
+            // Here we can configure a ParseQuery to our heart's desire.
+            ParseQuery query = new ParseQuery("Band");
+            query.whereContainedIn("genre", Arrays.asList({ "Punk", "Metal" }));
+            query.whereGreaterThanOrEqualTo("memberCount", 4);
+            query.orderByDescending("albumsSoldCount");
+            return query;
+        }
+    });
+```
+
+### Настройка строк
+
+Разбивка по умолчанию для отдельных представлений `View` в представлении `AdapterView` &mdash; это простая разбивка `LinearLayout` с представлениями `ParseImageView` и `TextView`. Если используется метод `setTextKey(String)` с `ParseQueryAdapter`, его параметр будет использоваться для выбора ключа объекта `ParseObject` для отображения в представлении `TextView`. Аналогично, при использовании метода `setImageKey(String)` его параметр будет использоваться для определения отображаемого изображения в ImageView.
+
+Один из способов настройки строк заключается в обходе методов `getItemView(ParseObject, View, ViewGroup)` или `getNextPageView(View, ViewGroup)` и вызове реализации суперкласса соответствующего метода для выполнения большого объема работы. Если для реализации суперкласса предоставляется личная разбивка, обратите внимание, что методы `getItemView(ParseObject, View, ViewGroup)` и `getNextPageView(View, ViewGroup)` ожидают представление `TextView` (идентификатор: `android.R.id.text1`), если настроено поле `textKey`, и представление `ParseImageView` (идентификатор: `android.R.id.icon`), если настроено поле `imageKey`.
+
+В данном примере используется пользовательская разбивка с представлением `TextView`, классом `ParseImageView` и дополнительным &laquo;описанием&raquo; `TextView` (идентификатор: `R.id.description`):
+
+```java
+@Override
+public View getItemView(ParseObject object, View v, ViewGroup parent) 
+    if (v == null) {
+        v = View.inflate(getContext(), R.layout.adapter_item, null);
+    }
+    // Take advantage of ParseQueryAdapter's getItemView logic for
+    // populating the main TextView/ImageView.
+    // The IDs in your custom layout must match what ParseQueryAdapter expects
+    // if it will be populating a TextView or ImageView for you.
+    super.getItemView(object, v, parent);
+    // Do additional configuration before returning the View.
+    TextView descriptionView = (TextView) v.findViewById(R.id.description);
+    descriptionView.setText(object.getString("description"));
+    return v;
+}
+```
+
+Другой способ настройки строк заключается в полном контроле над внешним видом строк путем обхода методов `ParseQueryAdapter` и полного игнорирования реализации суперкласса. В данном примере представление элементов &mdash; это просто строки, где цвет определяется объектом `ParseObject`:
+
+```java
+@Override
+public View getItemView(ParseObject object, View v, ViewGroup parent) {
+    if (v == null) {
+        v = View.inflate(getContext(), R.layout.adapter_item, null);
+    }
+    v.setBackgroundColor(object.getInt("color"));
+    return v;
+}
+
+@Override
+public View getNextPageView(View v, ViewGroup parent) {
+    if (v == null) {
+        // R.layout.adapter_next_page contains an ImageView with a custom graphic
+        // and a TextView.
+        v = View.inflate(getContext(), R.layout.adapter_next_page, null);
+    }
+    TextView textView = (TextView) v.findViewById(R.id.nextPageTextViewId);
+    textView.setText("Loaded " + getCount() + " rows. Get more!");
+    return v;
+}
+```
+
+### Загрузка удаленных изображений в строки
+
+`ParseQueryAdapter` упрощает отображение удаленных изображений. При вызове `setImageKey(String)` можно подать имя ключа для объекта `ParseObject`, которое должно содержать файл `ParseFile` с изображением, которое получается от Parse и загружается в представление `ParseImageView` соответствующей строки.
+
+Изображение будет загружено асинхронно, а соответствующее представление `ParseImageView` будет обновлено в фоновом режиме. Когда пользователь прокручивает страницы, а строки обрабатываются адаптером, изображения будут получены при проявлении строк и назначении объектов `ParseObject`.
+
+Можно определить изображение-заполнитель, которое будет использоваться, пока не завершено получение изображения. Вызовите метод `setPlaceholder(Drawable)` в адаптере `ParseQueryAdapter` для использования специального поля `Drawable` в качестве резервного изображения.
+
+### Методы жизненного цикла
+
+Для выполнения пользовательской логики в жизненном цикле данных адаптера предоставляются два обработчика: прямо перед выполнением запроса на ваши данные в Parse и сразу же после загрузки полученных объектов из запроса. Эти методы особенно полезны для переключения интерфейса пользователя при загрузке.
+
+Метод `OnQueryLoadListener` можно установить через `setOnQueryLoadListener(OnQueryLoadListener)`, который обеспечивает реализацию методов `onLoading()` и `onLoaded(List<ParseObject>, Exception)`.
+
+### Разбивка на страницы
+
+Разбивка на страницы обеспечивает одновременное получение только одной страницы объектов для таблицы. Можно установить количество объектов на странице при помощи вызова метода `setObjectsPerPage(int)`.
+
+Запрос автоматически изменяется для применения разбивки на страницы, в нижний части представления `AdapterView` появляется строка разбивки на страницы, которая позволяет пользователям загружать следующую страницу.
+
+Разбивка на страницы включена по умолчанию. Чтобы отключить ее, вызовите метод `setPaginationEnabled(false)`. При выключенной разбивке на страницы адаптер `ParseQueryAdapter` будет использовать стандартное ограничение для запроса `ParseQuery` в 100 элементов.
+
+### Автозагрузка данных
+
+Когда для окна закреплено представление `AdapterView`, на которое настроен адаптер `ParseQueryAdapter`, метод `loadObjects()` для адаптера `ParseQueryAdapter` вызывается автоматически и приводит в действие процесс получения первой страницы результатов. Чтобы отключить это действие (возможно, для задержки получения данных или досрочного выполнения некоторой пользовательской логики), просто вызовите метод `setAutoload(false)` или `loadObjects()`, если автозагрузка отключена.

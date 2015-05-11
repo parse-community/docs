@@ -1,0 +1,333 @@
+# Запросы
+
+Мы уже рассмотрели, как запрос `Parse.Query` при помощи метода `get` может извлечь отдельный объект `Parse.Object` из Parse. Существует много других способов извлечения данных при помощи запроса `Parse.Query`: можно извлекать несколько объектов одновременно, задавать условия для извлекаемых объектов и т.д.
+
+## Основные запросы
+
+Во многих случаях метод `get` недостаточно эффективен для определения извлекаемых объектов. `Parse.Query` предлагает различные способы для извлечения списка объектов, а не только одного объекта.
+
+Общая схема заключается в создании запроса `Parse.Query`, внесении условий, а затем извлечении списка `Array` подходящих объектов `Parse.Object` при помощи метода `find`. Например, для извлечения счета для определенного игрока `playerName` используйте метод `equalTo` для ограничения значения ключа.
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.equalTo("playerName", "Dan Stemkoski");
+query.find({
+  success: function(results) {
+    alert("Successfully retrieved " + results.length + " scores.");
+    // Do something with the returned Parse.Object values
+    for (var i = 0; i < results.length; i++) {
+      var object = results[i];
+      alert(object.id + ' - ' + object.get('playerName'));
+    }
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+```
+
+## Ограничения запроса
+
+Существует несколько способов установить ограничения для объектов, найденных при помощи запроса `Parse.Query`. Объекты можно отфильтровать при помощи определенной пары «ключ-значение» с методом `notEqualTo`:
+
+```js
+query.notEqualTo("playerName", "Michael Yabuti");
+```
+
+Также можно задать несколько ограничений. Таким образом, в результатах будут отображаться только те объекты, которые не нарушают ни одно ограничение.  Другими словами, это похоже на логический оператор &quot;AND&quot;.
+
+```js
+query.notEqualTo("playerName", "Michael Yabuti");
+query.greaterThan("playerAge", 18);
+```
+
+Можно ограничить количество результатов при помощи настройки метода `limit`. По умолчанию, количество результатов ограничивается 100, но любые значения от 1 до 1 000 являются допустимыми: 
+
+```js
+query.limit(10); // limit to at most 10 results
+```
+
+Если необходим только один результат, удобнее всего использовать метод `first` вместо `find`.
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.equalTo("playerEmail", "dstemkoski@example.com");
+query.first({
+  success: function(object) {
+    // Successfully retrieved the object.
+  },
+  error: function(error) {
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+```
+
+Можно пропустить первые результаты при помощи настройки метода `skip`, что может пригодиться для разбивки на страницы:
+
+```js
+query.skip(10); // skip the first 10 results
+```
+
+Для сортируемых типов данных, например, чисел или строк, возможно управление порядком получения результатов:
+
+```js
+// Sorts the results in ascending order by the score field
+query.ascending("score");
+// Sorts the results in descending order by the score field
+query.descending("score");
+```
+
+Для сортируемых типов данных в запросах можно также использовать сравнения:
+
+```js
+// Restricts to wins < 50
+query.lessThan("wins", 50);
+
+// Restricts to wins <= 50
+query.lessThanOrEqualTo("wins", 50);
+
+// Restricts to wins > 50
+query.greaterThan("wins", 50);
+
+// Restricts to wins >= 50
+query.greaterThanOrEqualTo("wins", 50);
+```
+
+Если необходимо извлечь объекты, которые совпадают с несколькими разными значениями, можно использовать метод `containedIn`, указывая массив допустимых значений. Этот метод часто используется для замены нескольких запросов одним. Например, если необходимо извлечь счет любого игрока из определенного списка:
+
+```js
+// Finds scores from any of Jonathan, Dario, or Shawn
+query.containedIn("playerName",
+                  ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+```
+
+Если необходимо извлечь объекты, которые не совпадают ни с одним из нескольких значений, можно использовать метод `notContainedIn`, указывая массив допустимых значений.  Например, если необходимо извлечь счет игроков не из списка:
+
+```js
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+query.notContainedIn("playerName",
+                     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+```
+
+Если необходимо извлечь объекты с определенным набором ключей, можно использовать метод `exists`. Если же необходимо извлечь объекты без определенного набора ключей, можно использовать метод `doesNotExist`.
+
+```js
+// Finds objects that have the score set
+query.exists("score");
+
+// Finds objects that don't have the score set
+query.doesNotExist("score");
+```
+Можно использовать метод `matchesKeyInQuery` для извлечения объектов, для которых ключ совпадает со значением ключа в наборе объектов от другого запроса.  Например, если есть класс со спортивными командами, и вы сохраняете родной город пользователя в класс пользователя, можно сделать один запрос для поиска списка пользователей, у которых команды из родных городов имеют победные результаты.  Запрос будет выглядеть приблизительно так:
+
+```js
+var Team = Parse.Object.extend("Team");
+var teamQuery = new Parse.Query(Team);
+teamQuery.greaterThan("winPct", 0.5);
+var userQuery = new Parse.Query(Parse.User);
+userQuery.matchesKeyInQuery("hometown", "city", teamQuery);
+userQuery.find({
+  success: function(results) {
+    // results has the list of users with a hometown team with a winning record
+  }
+});
+```
+
+В свою очередь, чтобы извлечь объекты, для которых ключ не совпадает со значением ключа в наборе объектов от другого запроса, используйте метод `doesNotMatchKeyInQuery`. Например, чтобы найти пользователей, у которых команды из родных городов имеют проигрыши, можно создать такой запрос:
+
+```js
+var losingUserQuery = new Parse.Query(Parse.User);
+losingUserQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
+losingUserQuery.find({
+  success: function(results) {
+    // results has the list of users with a hometown team with a losing record
+  }
+});
+```
+
+Можно ограничить поля, возвращаемые в результате вызова метода `select`, при помощи совокупности ключей. Чтобы извлечь документы, которые содержат только поля `score` и `playerName` (а также специальные встроенные поля `objectId`, `createdAt` и `updatedAt`), можно создать такой запрос:
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.select("score", "playerName");
+query.find().then(function(results) {
+  // each of results will only have the selected fields available.
+});
+```
+
+Оставшиеся поля можно получить позже, вызвав `fetch` на возвращенных объектах:
+
+```js
+query.first().then(function(result) {
+  // only the selected fields of the object will now be available here.
+  return result.fetch();
+}).then(function(result) {
+  // all fields of the object will now be available here.
+});
+```
+
+## Запросы на значения массива
+
+Для ключей типа «массив» можно выполнить поиск объектов, для которых значение массива ключа содержит 2, при помощи следующего запроса:
+
+```js
+// Find objects where the array in arrayKey contains 2.
+query.equalTo("arrayKey", 2);
+```
+
+Также можно выполнять поиск объектов, для которых значение массива ключа содержит каждое из значений 2, 3 и 4, при помощи следующего запроса:
+
+```js
+// Find objects where the array in arrayKey contains all of the elements 2, 3, and 4.
+query.containsAll("arrayKey", [2, 3, 4]);
+```
+
+## Запросы на значения строки
+
+Используйте метод `startsWith` для ограничения до значений строк, начиная с определенной строки. Аналогично оператору MySQL LIKE, этот метод индексируется, поэтому он будет эффективен для больших наборов данных:
+
+```js
+// Finds barbecue sauces that start with "Big Daddy's".
+var query = new Parse.Query(BarbecueSauce);
+query.startsWith("name", "Big Daddy's");
+```
+
+## Реляционные запросы
+
+Существует несколько способов создания запросов для реляционных данных. Если необходимо извлечь объекты, для которых поле совпадает с определенным объектом `Parse.Object`, можно использовать метод `equalTo`, как и для других типов данных. Например, если каждый объект `Comment` имеет объект `Post` в поле `post`, можно получить комментарии для конкретного объекта `Post`:
+
+```js
+// Assume Parse.Object myPost was previously created.
+var query = new Parse.Query(Comment);
+query.equalTo("post", myPost);
+query.find({
+  success: function(comments) {
+    // comments now contains the comments for myPost
+  }
+});
+```
+
+Если необходимо извлечь объекты, для которых поле содержит объект `Parse.Object`, которое совпадает с другим запросом, можно использовать метод `matchesQuery`. Обратите внимание на то, что по умолчанию указано ограничение в 100 объектов при максимальном ограничении в 1 000 объектов, которое также применяется к внутреннему запросу. Поэтому для больших наборов данных, чтобы получить необходимый эффект, может понадобиться создавать запросы тщательно. Чтобы найти комментарии для публикаций с изображениями, можно выполнить следующий запрос:
+
+```js
+var Post = Parse.Object.extend("Post");
+var Comment = Parse.Object.extend("Comment");
+var innerQuery = new Parse.Query(Post);
+innerQuery.exists("image");
+var query = new Parse.Query(Comment);
+query.matchesQuery("post", innerQuery);
+query.find({
+  success: function(comments) {
+    // comments now contains the comments for posts with images.
+  }
+});
+```
+
+Если необходимо извлечь объекты, для которых поле содержит объект `Parse.Object`, который не совпадает с другим запросом, можно использовать метод `doesNotMatchQuery`.  Чтобы найти комментарии для публикаций без изображений, можно выполнить следующий запрос:
+
+```js
+var Post = Parse.Object.extend("Post");
+var Comment = Parse.Object.extend("Comment");
+var innerQuery = new Parse.Query(Post);
+innerQuery.exists("image");
+var query = new Parse.Query(Comment);
+query.doesNotMatchQuery("post", innerQuery);
+query.find({
+  success: function(comments) {
+    // comments now contains the comments for posts without images.
+  }
+});
+```
+
+Вы также можете выполнять реляционные запросы по идентификатору `objectId`:
+
+```js
+var post = new Post();
+post.id = "1zEcyElZ80";
+query.equalTo("post", post);
+```
+
+В некоторых случаях необходимо получить несколько типов связанных объектов в одном запросе. Вы можете сделать это при помощи метода `include`. Например, вы извлекаете последние десять комментариев, и вам необходимо одновременно извлечь связанные с ними публикации:
+
+```js
+var query = new Parse.Query(Comment);
+
+// Retrieve the most recent ones
+query.descending("createdAt");
+
+// Only retrieve the last ten 
+query.limit(10);
+
+// Include the post data with each comment
+query.include("post");
+
+query.find({
+  success: function(comments) {
+    // Comments now contains the last ten comments, and the "post" field
+    // has been populated. For example
+    for (var i = 0; i < comments.length; i++) 
+      // This does not require a network access.
+      var post = comments[i].get("post");
+    }
+  }
+});
+```
+
+Также можно выполнять включения на нескольких уровнях при помощи записи через точку.  Если необходимо включить публикацию для комментирования и данные об авторе публикации, можно выполнить следующий запрос:
+
+```js
+query.include(["post.author"]);
+```
+
+Можно выполнить запрос с несколькими включенными полями при помощи вызова метода `include` несколько раз. Эта функция также работает с такими вспомогательными средствами Parse.Query как `first` и `get`.
+
+## Подсчет объектов
+
+Если необходимо просто подсчитать, сколько объектов соответствуют запросу, но при этом не нужно извлекать все соответствующие объекты, можно использовать метод `count` вместо `find`. Например, чтобы подсчитать, сколько игр было сыграно определенным игроком:
+
+```js
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.equalTo("playerName", "Sean Plott");
+query.count({
+  success: function(count) {
+    // The count request succeeded. Show the count
+    alert("Sean has played " + count + " games");
+  },
+  error: function(error) {
+    // The request failed
+  }
+});
+```
+
+Для классов, которые имеют более 1 000 объектов, операции подсчета ограничиваются тайм-аутами. Эти операции могут регулярно создавать ошибки по тайм-ауту или возвращать результаты, которые являются правильными только приблизительно. Поэтому желательно планировать архитектуру вашего приложения, чтобы избежать подобных операций подсчета.
+
+## Сложные запросы
+
+Если нужно найти объекты, соответствующие одному из нескольких запросов, можно использовать метод `Parse.Query.or` для создания запроса, который является запросом &quot;OR&quot; поданных запросов. Например, если нужно найти игроков с большим или малым количеством побед, можно выполнить следующее:
+
+```js
+var lotsOfWins = new Parse.Query("Player");
+lotsOfWins.greaterThan("wins", 150);
+
+var fewWins = new Parse.Query("Player");
+fewWins.lessThan("wins", 5);
+
+var mainQuery = Parse.Query.or(lotsOfWins, fewWins);
+mainQuery.find({
+  success: function(results) {
+    // results contains a list of players that either have won a lot of games or won only a few games.
+  },
+  error: function(error) {
+    // There was an error.
+  }
+});
+```
+
+Можно добавить дополнительные параметры к вновь созданному запросу `Parse.Query`, которые действуют как оператор &quot;AND&quot;.
+
+Обратите внимание, что параметры, не использующиеся для фильтрования (например, `limit`, `skip`, `ascending`/`descending`, `include`), не поддерживаются для подчиненных запросов сложного запроса.
+

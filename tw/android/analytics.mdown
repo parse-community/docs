@@ -1,0 +1,47 @@
+# 分析
+
+Parse 提供許多監控程式 (Hook)，讓您得以一窺應用程式的核心。我們理解，要了解您的應用程式正在執行的操作、執行頻率及時間點，是很重要的工作。
+
+雖然本節囊括各種檢測應用程式的方式，以將 Parse 的分析後端做最好的利用，不過使用 Parse 存放和擷取資料的開發人員已經可以好好利用 Parse 上的衡量指標。
+
+您不必實作任何用戶端邏輯，可以在應用程式的主控板中查看 API 要求的即時圖表和詳細分析（透過裝置類型、Parse 類別名稱或 REST 動詞命令），並且儲存這些圖表的篩選條件以快速存取您感興趣的資料。
+
+## 應用程式開啟／推播分析
+
+我們的初始分析監控程式可讓您追蹤目前啟動的應用程式。將以下這行指令加入主要 `Activity` 的 `onCreate` 方法，就可以開始收集應用程式啟動時間和頻率的資料。
+
+```java
+ParseAnalytics.trackAppOpened(getIntent());
+```
+
+統計資料的圖表和詳細分析可以從應用程式的主控板取得。
+
+還可以取得關於推播通知傳送和開啟率的進一步分析。如需處理通知承載和推播相關回呼的詳細資訊，請查看我們「推播指南」的[追蹤推播和應用程式開啟次數小節](#receiving-tracking)。
+
+## 自訂分析
+
+`ParseAnalytics` 也可以讓您利用少數 `String` 鍵和值，追蹤任意形式的事件。這些額外的維度可讓您經由應用程式的主控板來區隔您的自訂事件。
+
+假設您的應用程式提供公寓刊登的搜尋功能，並想使用一些額外的中繼資料追蹤這個功能的使用頻率。
+
+```java
+Map<String, String> dimensions = new HashMap<String, String>();
+// Define ranges to bucket data points into meaningful segments
+dimensions.put("priceRange", "1000-1500");
+// Did the user filter the query?
+dimensions.put("source", "craigslist");
+// Do searches happen more often on weekdays or weekends?
+dimensions.put("dayType", "weekday");
+// Send the dimensions to Parse along with the 'search' event
+ParseAnalytics.trackEvent("search", dimensions);
+```
+
+`ParseAnalytics` 甚至可以當作輕量型錯誤追蹤器，只要叫用以下程式碼，您就可在應用程式中一覽錯誤的發生率和頻率（依錯誤碼細分）：
+
+```java
+Map<String, String> dimensions = new HashMap<String, String>();
+dimensions.put('code', Integer.toString(error.getCode()));
+ParseAnalytics.trackEvent('error', dimensions);
+```
+
+請注意，Parse 目前只將每個呼叫的前八個維度對存放至 `ParseAnalytics.trackEvent()`。

@@ -1,0 +1,118 @@
+# Quick Reference
+
+All API access is over HTTPS, and accessed via the `https://api.parse.com` domain. The relative path prefix `/1/` indicates that we are currently using version 1 of the API.
+
+## Objects
+
+| URL                                 | HTTP Verb | Functionality                                      |
+|-------------------------------------|-----------|----------------------------------------------------|
+| `/1/classes/<className>`            | POST      | [Creating Objects](#objects-creating-objects)      |
+| `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#objects-retrieving-objects)  |
+| `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#objects-updating-objects)      |
+| `/1/classes/<className>`            | GET       | [Queries](#queries)                                |
+| `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#objects-deleting-objects)      |
+
+## Users
+
+| URL                       | HTTP Verb | Functionality                                                      |
+|---------------------------|-----------|--------------------------------------------------------------------|
+| `/1/users`                | POST      | [Signing Up](#users-signingup) <br/>[Linking Users](#users-linking-users) |
+| `/1/login`                | GET       | [Logging In](#users-logging-in)                                    |
+| `/1/logout`               | POST      | [Logging Out](#sessions-deleting-sessions)                         |
+| `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving-users)                        |
+| `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating-session-tokens-retrieving-current-user) <br/>[Retrieving Current User](#users-retrieving-users)                                        |
+| `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating-users) <br/>[Linking Users](#users-linking-users) <br/>[Verifying Emails](#users-emailverification) |
+| `/1/users`                | GET       | [Querying Users](#users-querying)                                  |
+| `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting-users)                            |
+| `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-requesting-a-password-reset)  |
+
+## Sessions
+
+| URL                       | HTTP Verb |Functionality                               |
+|---------------------------|-----------|--------------------------------------------|
+| `/1/sessions`             | POST      | [Creating Restricted Sessions](#sessions-creating-sessions) |
+| `/1/sessions/<objectId>`  | GET       | [Retrieving Sessions](#sessions-retrieving-sessions) |
+| `/1/sessions/me`          | GET       | [Retrieving Current Session](#sessions-retrieving-sessions) |
+| `/1/sessions/<objectId>`  | PUT       | [Updating Sessions](#sessions-updating-sessions) |
+| `/1/users`                | GET       | [Querying Sessions](#sessions-querying-sessions) |
+| `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#sessions-deleting-sessions) |
+| `/1/sessions/me`          | PUT       | [Pairing with Installation](#sessions-pairing-session-with-installation) |
+
+## Roles
+
+| URL                   | HTTP Verb | Functionality                               |
+|-----------------------|-----------|---------------------------------------------|
+| `/1/roles`            | POST      | [Creating Roles](#roles-creating-roles)     |
+| `/1/roles/<objectId>` | GET       | [Retrieving Roles](#roles-retrieving-roles) |
+| `/1/roles/<objectId>` | PUT       | [Updating Roles](#roles-updating-roles)     |
+| `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#roles-deleting-roles)     |
+
+## Files
+
+| URL                   | HTTP Verb | Functionality                             |
+|-----------------------|-----------|-------------------------------------------|
+| `/1/files/<fileName>` | POST      | [Uploading Files](#files-uploading-files) |
+
+## Analytics
+
+| URL                     | HTTP Verb | Functionality                                   |
+|-------------------------|-----------|-------------------------------------------------|
+| `/1/events/AppOpened`   | POST      | [Analytics](#analytics-app-open-analytics)      |
+| `/1/events/<eventName>` | POST      | [Custom Analytics](#analytics-custom-analytics) |
+
+## Push Notifications
+
+| URL       | HTTP Verb | Functionality                |
+|-----------|-----------|------------------------------|
+| `/1/push` | POST      | [Push Notifications](#push-notifications)  |
+
+## Installations
+
+| URL                           | HTTP Verb | Functionality                                            |
+|-------------------------------|-----------|----------------------------------------------------------|
+| `/1/installations`            | POST      | [Uploading Installation Data](#push-notifications-uploading-installation-data)  |
+| `/1/installations/<objectId>` | GET       | [Retrieving Installations](#push-notifications-retrieving-installations)        |
+| `/1/installations/<objectId>` | PUT       | [Updating Installations](#push-notifications-updating-installations)        |
+| `/1/installations`            | GET       | [Querying Installations](#push-notifications-querying-installations)        |
+| `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#push-notifications-deleting-installations)        |
+
+## Cloud Functions
+
+| URL                   | HTTP Verb | Functionality                                             |
+|-----------------------|-----------|-----------------------------------------------------------|
+| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloud-code-cloud-functions)    | 
+| `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#cloud-code-background-jobs) |
+
+## Request Format
+
+For POST and PUT requests, the request body must be JSON, with the `Content-Type` header set to `application/json`.
+
+Authentication is done via HTTP headers. The `X-Parse-Application-Id` header identifies which application you are accessing, and the `X-Parse-REST-API-Key` header authenticates the endpoint.
+
+In the examples that follow, the keys for your app are included in the command. You can use the drop-down to construct example code for other apps.
+
+You may also authenticate your REST API requests using basic HTTP authentication. For example, to retrieve an object you could set the URL using your Parse credentials in the following format:
+
+```json
+https://myAppID:javascript-key=myJavaScriptKey@api.parse.com/1/classes/GameScore/Ed1nuqPvcm
+```
+
+For Javascript usage, the Parse Cloud supports [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), so that you can use these headers in conjunction with XMLHttpRequest.
+
+
+## Response Format
+
+The response format for all requests is a JSON object.
+
+Whether a request succeeded is indicated by the HTTP status code. A 2xx status code indicates success, whereas a 4xx status code indicates failure. When a request fails, the response body is still JSON, but always contains the fields `code` and `error` which you can inspect to use for debugging. For example, trying to save an object with invalid keys will return the message:
+
+```json
+{
+  "code": 105,
+  "error": "invalid field name: bl!ng"
+}
+```
+
+## Calling from Client Apps
+
+You should not use the REST API Key in client apps (i.e. code you distribute to your customers). If the Parse SDK is available for your client platform, we recommend using our SDK instead of the REST API. If you must call the REST API directly from the client, you should use the corresponding client-side Parse key for that plaform (e.g. JavaScript Key, Client Key for iOS/Android, or Windows Key). If there is no Parse SDK for your client platform, please use your app's Client Key to call the REST API.  Requests made with the Client Key, JavaScript Key, or Windows Key are restricted by client-side app settings that you configure in your Parse.com app dashboard. These settings make your app more secure. For example, turning off the "Client Push Enabled" setting will prevent push notifications from being sent from any device using the Client Key, JavaScript Key, or Windows Key (recommended for all production apps).  Therefore, you should not distribute any app code with the REST API key embedded in it.

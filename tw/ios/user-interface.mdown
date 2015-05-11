@@ -1,0 +1,491 @@
+# 使用者介面
+
+一天結束時，應用程式的使用者會與 UIKit 元件互動。Parse 提供一些 `UIViewController` 子類別，可用來登入／註冊 `PFUser` 並讓顯示 `PFObject` 變得容易許多。
+
+## PFLogInViewController
+
+如果您正在使用 Parse 管理手機應用程式中的使用者，想必您已經很熟悉 `PFUser` 類別。您可能會想在應用程式中的某個位置呈現可登入 `PFUser` 的畫面。Parse 提供專用於此用途的檢視控制器。
+
+<div class='tip info'><div>
+觀看[使用登入和註冊檢視教學](/tutorials/login-and-signup-views)，其中提供一組內建檢視，可供您自訂並投入使用 `PFUser` 的應用程式中。
+</div></div>
+
+您可以透過將其執行個體化並強制呈現來使用 `PFLogInViewController` 類別：
+
+```objc
+PFLogInViewController *logInController = [[PFLogInViewController alloc] init];
+logInController.delegate = self;
+[self presentModalViewController:logInController animated:YES];
+```
+
+只要這樣做就能取得具有實際功能的登入畫面。
+
+### 設定登入元素
+
+![](/images/docs/login_diagram.png)
+
+`PFLogInViewController` 可加以設定以提供各種登入選項。依照預設，`PFLogInViewController` 將呈現下列使用者介面：
+
+*   使用者名稱和密碼欄位
+*   忘記密碼按鈕
+*   登入按鈕
+*   註冊按鈕
+*   關閉按鈕
+
+上述功能任一個均可開啟或關閉。可以使用 `PFLogInViewController` 上的 `fields` 屬性設定這些選項：
+
+```objc
+logInController.fields = PFLogInFieldsUsernameAndPassword
+                         | PFLogInFieldsLogInButton
+                         | PFLogInFieldsSignUpButton
+                         | PFLogInFieldsPasswordForgotten
+                         | PFLogInFieldsDismissButton;
+```
+
+基本上來說，您會用位元或運算子 (`|`) 串連想納入登入畫面的所有選項，再指定 `fields` 的值。
+
+此外，還有一些可以開啟的其他選項，包括：
+
+*   Facebook 按鈕
+*   Twitter 按鈕
+
+同樣地，您可以開啟 Facebook 或 Twitter 登入，像這樣：
+
+```objc
+logInController.fields = PFLogInFieldsUsernameAndPassword
+        | PFLogInFieldsFacebook
+        | PFLogInFieldsTwitter;
+```
+
+上述程式碼將產生一個登入畫面，其中包括：使用者名稱、密碼、Facebook 和 Twitter 按鈕。Facebook 登入權限可以透過 `facebookPermissions` 設定。
+
+```objc
+PFLogInViewController *logInController = [[PFLogInViewController alloc] init];
+logInController.delegate = self;
+logInController.facebookPermissions = @[@"friends_about_me"];
+[self presentModalViewController:logInController animated:YES];
+```
+
+### 回應登入成功、失敗或取消
+
+使用者登入或取消時，`PFLogInViewController` 會通知此事件的委派。一接收到此回呼，委派至少應該關閉 `PFLogInViewController`。此外，委派有可能會更新自己的檢視或將訊息轉發到其他需要了解 `PFUser` 的元件。
+
+```objc
+- (void)logInViewController:(PFLogInViewController *)controller
+        didLogInUser:(PFUser *)user {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
+    [self dismissModalViewControllerAnimated:YES];
+}
+```
+
+除了委派模式之外，`PFLogInViewController` 也支援通知模式，此模式在登入事件有多個觀察者的情況下會很有用。
+
+### 自訂標誌和背景圖像
+
+您可能想使用自己的標誌或背景圖像。將 `PFLogInViewController` 子類別化，再覆寫 `viewDidLoad`，就能辦到：
+
+```objc
+@interface MyLogInViewController : PFLogInViewController
+
+@end
+
+@implementation MyLogInViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor darkGrayColor];
+
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo.png"]];
+    self.logInView.logo = logoView; // logo can be any UIView
+}
+@end
+```
+
+如果您想修改相關註冊檢視的標誌或背景圖像，必須先將 `PFSignUpViewController` 子類別化，然後建立此子類別的執行個體。之後在您將 `PFLogInViewController` 執行個體化後，再立刻將此子類別指定到 `signUpController`：
+
+```objc
+MyLogInViewController *logInController = [[MyLogInViewController alloc] init];
+logInController.signUpController = [[MySignUpViewController alloc] init];
+[self presentModalViewController:logInController animated:YES];
+```
+
+### 進一步自訂檢視
+
+有時您會想更進一步自訂 `PFLogInViewController`。例如，您想將預留位置文字更改為「電子郵件」，或是更改登入按鈕的大小。這兩種情況您都必須將 `PFLogInViewController` 子類別化，再覆寫 `viewDidLoad` 或 `viewDidLayoutSubviews`。如果相關行為並未與版面配置建立關聯就覆寫前者，否則就覆寫後者：
+
+```objc
+@interface MyLogInViewController : PFLogInViewController
+
+@end
+
+@implementation MyLogInViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.logInView.usernameField.placeholder = @"email";
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.logInView.logInButton.frame = CGRectMake(...); // Set a different frame.
+}
+
+@end
+```
+
+對這種類型的自訂感興趣的開發人員，應該參閱 [`PFLogInView`](ios/api/Classes/PFLogInView.html) 的介面，其中記載了所有可以自訂的屬性。
+
+### 直向和橫向
+
+依照預設，除了 iPhone 上的 `UIInterfaceOrientationPortraitUpsideDown` 以外，`PFLogInViewController` 支援所有方向。您可以透過子類別化以及覆寫 `shouldAutorotateToInterfaceOrientation:` 來覆寫此行為。
+
+### iPhone 及 iPad
+
+`PFLogInViewController` 在所有尺寸和像素密度的 iOS 裝置上均能運作。
+
+## PFSignUpViewController
+
+如果您在啟用 `PFLogInFieldsSignUpButton` 選項的情況下使用 `PFLogInViewController`，則不必多做其他動作即可啟用註冊功能。使用者點按登入畫面上的註冊按鈕時，會出現註冊畫面讓他們得以註冊。不過，在某些情況下您會想在登入畫面之外單獨使用註冊畫面。此時 `PFSignUpViewController` 就能派上用場。
+
+使用 `PFSignUpViewController` 的方法為先將其執行個體化再強制呈現：
+
+```objc
+PFSignUpViewController *signUpController = [[PFSignUpViewController alloc] init];
+signUpController.delegate = self;
+[self presentModalViewController:signUpController animated:YES];
+```
+
+只要這樣做就能取得具有實際功能的註冊畫面。
+
+### 設定註冊元素
+
+![](/images/docs/signup_diagram.png)
+
+`PFSignUpViewController` 可加以設定以提供各種註冊選項。依照預設，會呈現下列使用者介面：
+
+*   使用者名稱和密碼欄位
+*   電子郵件
+*   註冊按鈕
+*   關閉按鈕
+
+如果註冊畫面的預設欄位上方還有需要額外欄位，比如「電話號碼」，您可以開啟命名為「其他」的欄位：
+
+```objc
+signUpController.fields = PFSignUpFieldsUsernameAndPassword
+                          | PFSignUpFieldsSignUpButton
+                          | PFSignUpFieldsEmail
+                          | PFSignUpFieldsAdditional
+                          | PFSignUpFieldsDismissButton;
+```
+
+基本上來說，您會用位元或運算子 (`|`) 串連想納入註冊畫面的所有選項，再指定 `fields` 的值。同樣地，若要關閉任何欄位，指定欄位時直接忽略該欄位即可。
+
+### 回應註冊成功、失敗或取消
+
+使用者註冊或取消時，`PFSignUpViewController` 會通知事件的委派。一接收到此回呼，委派至少應該關閉 `PFSignUpViewController`。此外，委派會更新自己的檢視或將訊息轉發到其他需要了解 `PFUser` 的元件。
+
+```objc
+- (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
+    [self dismissModalViewControllerAnimated:YES];
+}
+```
+
+除了委派模式之外，`PFSignUpViewController` 也支援 `NSNotification`，此模式在註冊事件有多個接聽程式時會很有用
+
+### 自訂標誌和背景圖像
+
+```objc
+@interface MySignUpViewController : PFSignUpViewController
+
+@end
+
+@implementation MySignUpViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+
+    self.view.backgroundColor = [UIColor darkGrayColor];
+
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:@"logo.png"];
+    self.signUpView.logo = logoView; // logo can be any UIView
+}
+
+@end
+```
+
+### 自訂驗證邏輯
+
+通常在將註冊資料提交至 Parse Cloud 之前，您會想針對註冊資料執行一些用戶端驗證。您可以將驗證邏輯加入 `PFSignUpViewControllerDelegate` 的 `signUpViewController:shouldBeginSignUp:` 方法。例如，如果您覺得少於 8 個字元的密碼太短，您可以透過下列程式碼達成：
+
+```objc
+- (BOOL)signUpViewController:(PFSignUpViewController *)signUpController
+           shouldBeginSignUp:(NSDictionary *)info {
+    NSString *password = info[@"password"];
+    return (password.length >= 8); // prevent sign up if password has to be at least 8 characters long
+}
+```
+
+`info` 是包含所有註冊欄位（如使用者名稱、密碼、電子郵件和其他欄位）的字典。
+
+### 進一步自訂檢視
+
+有時您會想更進一步自訂 `PFSignUpViewController`。例如，您想將「其他」預留位置文字更改為「電話」，或是更改註冊按鈕的大小。您隨時可將 `PFSignUpViewController` 子類別化，並且覆寫 `UIViewController` 的各種方法。如果您想更改的行為與檢視版面配置並無關聯，就應該要覆寫 `viewDidLoad`，否則就要覆寫 `viewWillLayoutSubviews`：
+
+```objc
+@interface MySignUpViewController : PFSignUpViewController
+
+@end
+
+@implementation MySignUpViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.signUpView.usernameField.placeholder = @"phone";
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.signUpView.signUpButton.frame = CGRectMake(...); // Set a different frame.
+}
+
+@end
+```
+
+對這種類型的自訂感興趣的開發人員，應該要參閱 [`PFSignUpView`](ios/api/Classes/PFSignUpView.html) 的介面，其中記載了所有可以自訂的屬性。
+
+### 直向和橫向
+
+依照預設，除了 iPhone 上的 `UIInterfaceOrientationPortraitUpsideDown` 以外，`PFSignUpViewController` 支援所有方向。您可以透過子類別化以及覆寫 `shouldAutorotateToInterfaceOrientation:` 來覆寫此行為。
+
+### iPhone 及 iPad
+
+`PFSignUpViewController` 在所有尺寸和像素密度的 iOS 裝置上均能運作。
+
+## PFQueryTableViewController
+
+資料導向的 iOS 應用程式大多是 `UITableViewController` 和對應 `UITableView` 的集合。使用 Parse 時，`UITableView` 的每個資料格一般都代表來自 `PFObject` 的資料。`PFQueryTableViewController` 是 `UITableViewController` 的子類別，提供一個抽象層，讓您能輕易從其中一個 Parse 類別顯示資料。
+
+<div class='tip info'><div>
+觀看[使用 PFQueryTableViewController 教學](/tutorials/parse-query-table)，從 Parse 應用程式的 `Todo` 類別中顯示物件。
+</div></div>
+
+使用 `PFQueryTableViewController` 的方式跟 `UITableViewController` 很接近：
+
+1.  建立 `PFQueryTableViewController` 的子集再加以自訂。使用[範本檔案](https://gist.github.com/ba03c1a550f14f88f95d)作為起點。
+2.  範本檔案會將本身設定為委派和資料來源。
+3.  設定 `parseClassName` 執行個體變數，以指定應查詢哪個 Parse 類別以取得資料。
+4.  覆寫 `queryForTable` 方法以建構自訂的 `PFQuery`。此 PF Query 應能用來自表格中取得物件。
+5.  覆寫 `tableView:cellForRowAtIndexPath:object:` 方法，傳回為每個 `PFObject` 量身訂做的自訂資料格。
+6.  實作自訂資料格類別；確認它繼承自 `PFTableViewCell` 類別。檢視載入時，此類別會透過已建構的查詢自動取得 `PFObject`，並將它載入表格中。此類別甚至包含可立即使用的分頁和下拉更新功能。
+
+此類別能讓您考慮在 `PFObject` 和 `UITableViewCell` 之間進行一對一對應，而不是修改索引路徑。您也能立即取得下列功能：
+
+*   用資料格進行分頁，點按資料格即可載入下一頁。
+*   下拉更新表格檢視標題。
+*   在資料格中自動下載並顯示遠端圖像。
+*   載入畫面，載入任何資料之前先顯示。
+*   物件陣列自動載入和管理。
+*   可覆寫的不同方法，用於自訂資料循環中主要事件的行為。
+
+要了解此類別最簡單的方法就是透過範例。此 `PFQueryTableViewController` 子類別會顯示一系列待辦事項項目及以數字呈現的優先順序：
+
+```objc
+@interface SimpleTableViewController : PFQueryTableViewController
+
+@end
+
+@implementation SimpleTableViewController
+
+- (instancetype)initWithStyle:(UITableViewStyle)style {
+    self = [super initWithStyle:style];
+    if (self) { // This table displays items in the Todo class 
+      self.parseClassName = @"Todo"; 
+      self.pullToRefreshEnabled = YES; 
+      self.paginationEnabled = YES; 
+      self.objectsPerPage = 25;
+    }
+    return self;
+}
+
+- (PFQuery *)queryForTable {
+    PFQuery *query = [PFQuery queryWithClassName:self.parseClassName];
+
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if (self.objects.count == 0) { 
+      query.cachePolicy = kPFCachePolicyCacheThenNetwork;
+    }
+
+    [query orderByDescending:@"createdAt"];
+
+    return query;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView  
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath 
+                        object:(PFObject *)object {
+    static NSString *cellIdentifier = @"cell";
+
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (!cell) { 
+      cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                    reuseIdentifier:cellIdentifier];
+    }
+
+    // Configure the cell to show todo item with a priority at the bottom
+    cell.textLabel.text = object[@"text"];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Priority: %@",  object[@"priority"]];
+
+    return cell;
+}
+
+@end
+```
+
+![](/images/docs/todo_view.gif)
+
+此檢視中顯示待辦事項清單，使用者藉由碰觸表格末端的特殊分頁資料格，即可進行下拉更新並載入下一頁當此檢視不再存在於記憶體中時，也會適當地快取物件，下次載入時就會利用查詢快取立即顯示之前載入的物件，而同時會進行網路呼叫以便更新。
+
+請注意，我們並未編寫的那些程式碼。將資料載入表格、爭論索引路徑或處理棘手的分頁程式碼，這些事我們都不必處理。全部會由 `PFQueryTableViewController` 自動處理。
+
+如果想要深入學習，參閱[類別的 API](/docs/ios/api/Classes/PFQueryTableViewController.html) 和[子類別檔案範本](https://gist.github.com/ba03c1a550f14f88f95d)會是很好的開始。我們在設計類別時有考慮到可自訂性，所以應該在您習慣使用 `UITableViewController` 的地方採用大量執行個體。
+
+### 將遠端圖像載入資料格
+
+`PFQueryTableViewController` 讓顯示儲存於 Parse Cloud 中的遠端圖像就像 `PFFile` 一樣簡單。您只需覆寫 `tableView:cellForRowAtIndexPath:object:` 再於指定其 `imageView` 的 `file` 屬性之情況下傳回 `PFTableViewCell`。如果您想在載入遠端圖像之前顯示預留位置圖像，請將預留位置圖像指派至 `imageView` 的 `image` 屬性。
+
+```objc
+@implementation SimpleTableViewController
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *identifier = @"Cell";
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = object[@"title"];
+    PFFile *thumbnail = object[@"thumbnail"];
+    cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    cell.imageView.file = thumbnail;
+    return cell;
+}
+@end
+```
+
+![](/images/docs/images_table.png)
+
+此表格會顯示可愛動物相片的清單，這些相片是當作 `PFFile` 儲存在 Parse Cloud 中。「placeholder.jpg」是包括在應用程式套件中的圖像，在下載動物相片之前會先顯示此圖像。
+
+將依需求指定下載這些圖像。當您捲動表格時，會下載目前可見資料格中的圖像。這種及時行為很令人滿意，因為不單能節省頻寬，還能確保適時顯示可見的圖像。如果您想要更積極的載入行為，可以用 `imageView` 上的 `loadInBackground` 方法下載圖像。
+
+### 自訂查詢
+
+預設查詢設為從遞減 `createdAt` 所排序的類別中取得物件。若要進行自訂，只需覆寫 `queryForTable` 方法，以傳回您自己的 `PFQuery`。取得要顯示的物件時，此表格會使用這個查詢。
+
+### 自訂資料格
+
+若要自訂表格外觀，請覆寫 `tableView:cellForRowAtIndexPath:object:` 以傳回自訂的資料格。請注意，此方法跟一般表格資料來源方法很類似，但直接將 `PFObject` 納為參數。
+
+您不應該再覆寫 `tableView:cellForRowAtIndexPath:`。
+
+_重要：_您的表格檢視資料格應繼承自 `PFTableViewCell`，而不是 `UITableViewCell`。`PFTableViewCell` 是 `UITableViewCell` 的子類別，支援遠端圖像載入。用於 `PFQueryTableViewController`時，`PFTableViewCell` 的遠端圖像會自動載入。
+
+### 週期方法
+
+在表格的資料生命週期中，若發生重大事件會呼叫一些已公開方法。這些方法為 `objectsDidLoad:` 和 `objectsWillLoad`。從查詢中載入物件之後和引發查詢之前，會分別呼叫這兩個方法。您可以覆寫這些方法，以便在這些事件中提供額外功能。
+
+### 分頁
+
+![](/images/docs/pagination.png)
+
+分頁能確保表格一次只得到一頁的物件。您可以透過設定 `objectsPerPage` 執行個體變數，自訂一頁中有多少個物件。
+
+查詢將自動變更以套用分頁。而且初次載入表格時，只會顯示第一頁的物件。能讓使用者載入下一頁的分頁資料格會出現在表格底部。您可以透過覆寫 `tableView:cellForNextPageAtIndexPath:` 自訂此資料格
+
+分頁預設為開啟。如果您想關閉分頁，只需將 `paginationEnabled` 設定為 `NO`。
+
+### 下拉更新
+
+![](/images/docs/pull_to_refresh.png)
+
+下拉更新是一種功能，能讓使用者將表格向下拉再放開以重新載入資料。基本上，資料的第一頁會從您的類別中重新載入，而表格會先經清除之後再以這些資料更新。Parse 使用 `EGOTableViewPullRefresh` 程式庫達成此效果。
+
+下拉更新預設為開啟。如果您想關閉分頁，只需將 `pullToRefreshEnabled` 設定為 `NO`。
+
+### 載入檢視
+
+表格檢視控制器載入第一頁資料時會顯示載入檢視。載入檢視預設為開啟，而且可透過 `loadingViewEnabled` 屬性關閉。
+
+### 離線和錯誤訊息
+
+使用者離線或查詢時若產生 Parse 錯誤，就會自動向使用者顯示警示。使用 `PFQueryTableViewController` 時，此功能預設為開啟。如果您想關閉此行為，可以使用 `Parse` 類別上的 `offlineMessagesEnabled` 和 `errorMessagesEnabled` 方法。
+
+## PFImageView
+
+許多應用程式必須將儲存在 Parse Cloud 上的圖像顯示為 `PFFile`。不過若要用內建的 `UIImageView` 載入遠端圖像，牽涉到要編寫許多行的未定案程式碼。`PFImageView` 簡化此工作：
+
+```objc
+PFImageView *imageView = [[PFImageView alloc] init];
+imageView.image = [UIImage imageNamed:@"..."]; // placeholder image
+imageView.file = (PFFile *)someObject[@"picture"]; // remote image
+[imageView loadInBackground];
+```
+
+若經指定，`image` 屬性可用於在下載遠端圖像之前顯示預留位置。請注意，指定 `file` 屬性後並不會立刻開始下載，在呼叫 `loadInBackground:` 時才會開始載入。遠端圖像會被快取在記憶體和磁碟中。如果在快取中找到此圖像，對 `loadInBackground:` 的呼叫就會立即傳回。
+
+## PFTableViewCell
+
+許多應用程式必須顯示表格檢視資料格，這些資料格中含有在 Parse Cloud 上儲存為 `PFFile` 的圖像。不過若要用內建的 `UITableViewCell` 載入遠端圖像，牽涉到要編寫許多行的未定案程式碼。`PFTableViewCell` 公開 `PFImageView` 類型（支援遠端圖像載入）的 `imageView` 屬性即可簡化此工作：
+
+```objc
+@implementation SimpleTableViewController
+
+- (UITableViewCell *)tableView:(UITableView *)tableView  cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
+    static NSString *identifier = @"cell";
+    PFTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) { cell = [[PFTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    }
+    cell.textLabel.text = object[@"title"];
+
+    PFFile *thumbnail = object[@"thumbnail"];
+    cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
+    cell.imageView.file = thumbnail;
+    return cell;
+}
+
+@end
+```
+
+就像 `UITableViewCell` 一樣，`PFTableViewCell` 支援預設的版面配置風格。與 `UITableViewCell` 不同的是，`PFTableViewCell` 的 `imageView` 屬性屬於 `PFImageView` 類型，可支援在 `PFFile` 中下載遠端圖像。
+
+雖然可以獨立使用，只有在 `PFQueryTableViewController` 中使用時，才能真正展現出 `PFTableViewCell` 的價值。`PFQueryTableViewController` 了解 `PFTableViewCell` 並且會自動載入圖像。此行為會在 `PFQueryTableViewController` 的文件中詳細討論。
+
+## 自訂／本地化字串資源
+
+Parse 使用者介面類別中的所有字串均可自訂／本地化。自訂字串最簡單的方法，是透過 iOS 提供的[預設本地化支援](https://developer.apple.com/internationalization/)。
+
+舉例來說，您想在 `PFSignUpViewController` 的 HUD 中自訂顯示「載入中……」的載入訊息假設您已遵照本地化指南，並且在 `en.lproj` 目錄中設定了 `Localizable.strings`。在 `Localizable.strings` 中，您可以接著輸入： 
+
+```js
+"Loading..." = "In progress";
+```
+
+這樣就會將此字串自訂為「進行中」左側索引鍵是您想自訂的原始字串，而右側的值則為自訂的值。
+
+假設，您想在 `PFSignUpViewController` 中自訂顯示「電子郵件地址『andrew@x』無效。請輸入有效的電子郵件。」錯誤訊息。因為其中包含一個變數，所以您不確定要如何將其輸入至 `Localizable.strings`。
+
+Parse SDK 中有收錄名稱為 `Localizable.string` 的檔案，其中包含 Parse 架構中的所有本地化索引鍵。開發人員藉由瀏覽此檔案，可以找到他們想要自訂的字串的索引鍵。您注意到「電子郵件地址 \&quot;%@\&quot; 無效。請輸入有效的電子郵件。」字串是檔案中的索引鍵。在您自己的 `Localizable.strings` 中，接下來可以輸入：
+
+```js
+"The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";
+```
+
+字串自訂程序到此結束。

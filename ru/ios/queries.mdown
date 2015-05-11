@@ -1,0 +1,388 @@
+# Запросы
+
+Мы уже рассмотрели, как запрос `PFQuery` при помощи метода `getObjectWithId:` может извлечь отдельный объект `PFObject` из Parse. Существует много других способов извлечения данных при помощи запроса `PFQuery`: можно извлекать много объектов одновременно, задавать условия для объектов, которые необходимо извлечь, кэшировать запросы автоматически, чтобы не писать этот код самостоятельно, и пр.
+
+## Основные запросы
+
+Во многих случаях метод `getObjectInBackgroundWithId:block:` недостаточно эффективен для указания объектов, которые необходимо извлечь. Запрос `PFQuery` предлагает различные способы извлечения списка объектов, а не единичного объекта.
+
+Общая схема заключается в создании запроса `PFQuery`, внесении условий, а затем извлечении списка `NSArray` подходящих объектов `PFObject` при помощи метода `findObjectsInBackgroundWithBlock:` или `findObjectsInBackgroundWithTarget:selector:`. Например, для извлечения счета для определенного игрока `playerName` используйте метод `whereKey:equalTo:` для ограничения значения ключа.
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        // The find succeeded.
+        NSLog(@"Successfully retrieved %d scores.", objects.count);
+        // Do something with the found objects
+        for (PFObject *object in objects) {
+            NSLog(@"%@", object.objectId);
+        }
+    } else {
+        // Log details of the failure
+        NSLog(@"Error: %@ %@", error, [error userInfo]);
+    }
+}];
+```
+
+Методы `findObjectsInBackgroundWithBlock:` и `findObjectsInBackgroundWithTarget:selector:` действуют одинаково в том, что они обеспечивают выполнение сетевого запроса без блокирования и выполняют блокирование или обратный вызов в основном потоке. Существует соответствующий метод `findObjects`, который блокирует вызывающий поток, если вы уже находитесь в фоновом потоке:
+
+```objc
+// Only use this code if you are already running it in a background
+// thread, or for testing purposes!
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerName" equalTo:@"Dan Stemkoski"];
+NSArray* scoreArray = [query findObjects];
+```
+
+## Указание параметров при помощи NSPredicate
+
+Чтобы использовать запрос `PFQuery` наиболее эффективно, рекомендуется использовать приведенные ниже методы этого запроса для добавления параметров. Однако, если вы предпочитаете использовать `NSPredicate`, можно указать подкласс параметров, предоставив `NSPredicate` при создании запроса `PFQuery`.
+
+```objc
+NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    @"playerName = 'Dan Stemkosk'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+Поддерживаются следующие функции:
+
+*   Простые сравнения, например `=`, `!=`, `<`, `>`, `<=`, `>=` и `BETWEEN` с ключом и переменной.
+*   Предикаты включения, например `x IN {1, 2, 3}`.
+*   Предикаты существования ключей, например `x IN SELF`.
+*   Выражения `BEGINSWITH`.
+*   Сложные предикаты с `AND`, `OR` и `NOT`.
+*   Подчиненные запросы с `"key IN %@", subquery`.
+
+Следующие типы предикатов **не** поддерживаются:
+
+*   Агрегатные операции, например `ANY`, `SOME`, `ALL` или `NONE`.
+*   Регулярные выражения, например `LIKE`, `MATCHES`, `CONTAINS` или `ENDSWITH`.
+*   Предикаты, сравнивающие один ключ с другим.
+*   Сложные предикаты с большим количеством операторов `OR`.
+
+## Ограничения запроса
+
+Существует несколько способов установить ограничения для объектов, найденных при помощи запроса `PFQuery`. Объекты можно отфильтровать при помощи определенной пары «ключ-значение» с методом `whereKey:notEqualTo`:
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+$toggle$ NSPredicate *predicate = [NSPredicate predicateWithFormat:
+    @"playerName != 'Michael Yabuti'"];
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
+```
+
+Также можно задать несколько ограничений. Таким образом, в результатах будут отображаться только те объекты, которые не нарушают ни одно ограничение.  Другими словами, это похоже на логический оператор &quot;AND&quot;.
+
+```objc
+[query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
+[query whereKey:@"playerAge" greaterThan:@18];
+```
+
+Можно ограничить количество результатов при помощи настройки метода `limit`. По умолчанию, количество результатов ограничивается 100, но любые значения от 1 до 1 000 являются допустимыми: 
+
+```objc
+query.limit = 10; // limit to at most 10 results
+```
+
+Если необходимо отображать только один результат, удобнее всего использовать метод `getFirstObject` или `getFirstObjectInBackground` вместо метода `findObject`.
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playerEmail" equalTo:@"dstemkoski@example.com"];
+[query getFirstObjectInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    if (!object) {
+        NSLog(@"The getFirstObject request failed.");
+    } else {
+        // The find succeeded.
+        NSLog(@"Successfully retrieved the object.");
+    }
+}];
+```
+
+Можно пропустить первые результаты при помощи настройки метода `skip`, что может пригодиться для разбивки на страницы:
+
+```objc
+query.skip = 10; // skip the first 10 results
+```
+
+Для сортируемых типов данных, например, чисел или строк, возможно управление порядком получения результатов:
+
+```objc
+// Sorts the results in ascending order by the score field
+[query orderByAscending:@"score"];
+// Sorts the results in descending order by the score field
+[query orderByDescending:@"score"];
+```
+
+Можно добавить больше ключей сортировки к запросу следующим образом:
+
+```objc
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+[query addAscendingOrder:@"score"];
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+[query addDescendingOrder:@"score"];
+```
+
+Для сортируемых типов данных в запросах можно также использовать сравнения:
+
+```objc
+// Restricts to wins < 50
+[query whereKey:@"wins" lessThan:@50];
+// Restricts to wins <= 50
+[query whereKey:@"wins" lessThanOrEqualTo:@50];
+// Restricts to wins > 50
+[query whereKey:@"wins" greaterThan:@50];
+// Restricts to wins >= 50
+[query whereKey:@"wins" greaterThanOrEqualTo:@50];
+```
+
+Если необходимо извлечь объекты, которые совпадают с несколькими разными значениями, можно использовать метод `whereKey:containedIn:`, указывая массив допустимых значений. Этот метод часто используется для замены нескольких запросов одним. Например, если необходимо извлечь счет любого игрока из определенного списка:
+
+```objc
+// Finds scores from any of Jonathan, Dario, or Shawn
+NSArray *names = @[@"Jonathan Walsh",
+                   @"Dario Wunsch",
+                   @"Shawn Simon"];
+[query whereKey:@"playerName" containedIn:names];
+```
+
+Если необходимо извлечь объекты, которые не совпадают ни с одним из нескольких значений, можно использовать метод `whereKey:notContainedIn:`, указывая массив допустимых значений. Например, если необходимо извлечь счет игроков вне списка:
+
+```objc
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+NSArray *names = @[@"Jonathan Walsh",
+                   @"Dario Wunsch",
+                   @"Shawn Simon"];
+[query whereKey:@"playerName" notContainedIn:names];
+```
+
+Если необходимо извлечь объекты с определенным набором ключей, можно использовать метод `whereKeyExists`. Если же необходимо извлечь объекты без определенного набора ключей, можно использовать метод `whereKeyDoesNotExist`.
+
+```objc
+// Finds objects that have the score set
+[query whereKeyExists:@"score"];
+// Finds objects that don't have the score set
+[query whereKeyDoesNotExist:@"score"];
+```
+
+Можно использовать метод `whereKey:matchesKey:inQuery:` для извлечения объектов, для которых ключ совпадает со значением ключа в наборе объектов от другого запроса.  Например, если есть класс со спортивными командами, и вы сохраняете родной город пользователя в класс пользователя, можно сделать один запрос для поиска списка пользователей, у которых команды из родных городов имеют победные результаты.  Запрос будет выглядеть приблизительно так:
+
+```objc
+PFQuery *teamQuery = [PFQuery queryWithClassName:@"Team"];
+[teamQuery whereKey:@"winPct" greaterThan:@(0.5)];
+PFQuery *userQuery = [PFQuery queryForUser];
+[userQuery whereKey:@"hometown" matchesKey:@"city" inQuery:teamQuery];
+[userQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a winning record
+}];
+```
+
+В свою очередь, чтобы извлечь объекты, для которых ключ не совпадает со значением ключа в наборе объектов от другого запроса, используйте метод `whereKey:doesNotMatchKey:inQuery:`.  Например, чтобы найти пользователей, у которых команды из родных городов имеют проигрыши, можно создать такой запрос:
+
+```objc
+PFQuery *losingUserQuery = [PFQuery queryForUser];
+[losingUserQuery whereKey:@"hometown" doesNotMatchKey:@"city" inQuery:teamQuery];
+[losingUserQuery findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results will contain users with a hometown team with a losing record
+}];
+```
+
+Можно ограничить поля, возвращаемые в результате вызова метода `selectKeys:`, при помощи массива `NSArray` ключей. Чтобы извлечь документы, которые содержат только поля `score` и `playerName` (а также специальные встроенные поля `objectId`, `createdAt` и `updatedAt`), можно создать такой запрос:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query selectKeys:@[@"playerName", @"score"]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // objects in results will only contain the playerName and score fields
+}];
+```
+
+Оставшиеся поля можно извлечь позже, вызвав один из вариантов `fetchIfNeeded` для возвращенных объектов:
+
+```objc
+PFObject *object = (PFObject*)results[0];
+[object fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // all fields of the object will now be available here.
+}];
+```
+
+## Запросы на значения массива
+
+Для ключей типа «массив» можно выполнить поиск объектов, для которых значение массива ключа содержит 2, при помощи следующего запроса:
+
+```objc
+// Find objects where the array in arrayKey contains 2.
+[query whereKey:@"arrayKey" equalTo:@2];
+```
+
+Также можно выполнять поиск объектов, для которых значение массива ключа содержит каждое из значений 2, 3 и 4, при помощи следующего запроса: 
+
+```objc
+// Find objects where the array in arrayKey contains each of the
+// elements 2, 3, and 4.
+[query whereKey:@"arrayKey" containsAllObjectsInArray:@[@2, @3, @4]];
+```
+
+## Запросы на значения строки
+
+Используйте метод `whereKey:hasPrefix:` для ограничения до значений строк, начиная с определенной строки. Аналогично оператору MySQL LIKE, этот метод индексируется, поэтому он будет эффективен для больших наборов данных:
+
+```objc
+// Finds barbecue sauces that start with "Big Daddy's".
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
+[query whereKey:@"name" hasPrefix:@"Big Daddy's"];
+```
+
+## Реляционные запросы
+
+Существует несколько способов создания запросов для реляционных данных. Если необходимо извлечь объекты, для которых поле совпадает с определенным объектом `PFObject`, можно использовать метод `whereKey:equalTo:`, как и для других типов данных. Например, если каждый объект `Comment` имеет объект `Post` в поле `post`, можно получить комментарии для конкретного объекта `Post`:
+
+```objc
+// Assume PFObject *myPost was previously created.
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" equalTo:myPost];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for myPost
+}];
+```
+
+Вы также можете выполнять реляционные запросы по идентификатору `objectId`:
+
+```objc
+[query whereKey:@"post"
+       equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
+```
+
+Если необходимо извлечь объекты, для которых поле содержит объект `PFObject`, который совпадает с другим запросом, можно использовать метод `whereKey:matchesQuery`. Обратите внимание на то, что по умолчанию указано ограничение в 100 объектов при максимальном ограничении в 1 000 объектов, которое также применяется к внутреннему запросу. Поэтому для больших наборов данных, чтобы получить необходимый эффект, может понадобиться создавать запросы тщательно. Чтобы найти комментарии для публикаций с изображениями, можно выполнить следующий запрос:
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" matchesQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts with images
+}];
+```
+
+Если необходимо извлечь объекты, для которых поле содержит объект `PFObject`, который не совпадает с другим запросом, можно использовать метод `whereKey:doesNotMatchQuery`.  Чтобы найти комментарии для публикаций без изображений, можно выполнить следующий запрос:
+
+```objc
+PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
+[innerQuery whereKeyExists:@"image"];
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+[query whereKey:@"post" doesNotMatchQuery:innerQuery];
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // comments now contains the comments for posts without images
+}];
+```
+
+В некоторых случаях необходимо получить несколько типов связанных объектов в одном запросе. Вы можете сделать это с помощью метода `includeKey:`. Например, вы извлекаете последние десять комментариев, и вам необходимо одновременно извлечь связанные с ними публикации:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
+// Retrieve the most recent ones
+[query orderByDescending:@"createdAt"];
+
+// Only retrieve the last ten
+query.limit = 10;
+
+// Include the post data with each comment
+[query includeKey:@"post"];
+
+[query findObjectsInBackgroundWithBlock:^(NSArray *comments, NSError *error) {
+    // Comments now contains the last ten comments, and the "post" field
+    // has been populated. For example:
+    for (PFObject *comment in comments) {
+        // This does not require a network access.
+        PFObject *post = comment[@"post"];
+        NSLog(@"retrieved related post: %@", post);
+    }
+}];
+```
+
+Также можно выполнять включения на нескольких уровнях при помощи записи через точку.  Если необходимо включить публикацию для комментирования и данные об авторе публикации, можно выполнить следующий запрос:
+
+```objc
+[query includeKey:@"post.author"];
+```
+
+Можно выполнить запрос с несколькими включенными полями при помощи вызова метода `includeKey:` несколько раз. Эта функция также работает с такими вспомогательными средствами PFQuery, как методы `getFirstObject` и `getObjectInBackground`.
+
+## Кэширование запросов
+
+Часто бывает полезно кэшировать результаты запроса на диске. Это позволяет отображать данные при нахождении устройства пользователя вне сети, или когда приложение только что запущено и прошло недостаточно времени для завершения сетевых запросов. Parse автоматически сбрасывает кэш на диск, если он занимает слишком много пространства.
+
+Действие запроса по умолчанию не использует кэш, но можно включить кэширование при помощи настройки метода `query.cachePolicy`. Например, чтобы попытаться использовать сеть, а затем вернуться к кэшированным данным, если сеть недоступна:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+query.cachePolicy = kPFCachePolicyNetworkElseCache;
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+    if (!error) {
+        // Results were successfully found, looking first on the
+        // network and then on disk.
+    } else {
+        // The network was inaccessible and we have no cached data for
+        // this query.
+    }
+}];
+```
+
+Parse предлагает несколько разных политик кэширования:
+
+*   `kPFCachePolicyIgnoreCache` Запрос не загружается из кэша и не сохраняет результаты в кэш. `kPFCachePolicyIgnoreCache` является политикой кэширования по умолчанию.
+*   `kPFCachePolicyCacheOnly` Запрос загружается только из кэша, игнорируя сеть. Если кэшированных результатов нет, это создает исключение `PFError`.
+*   `kPFCachePolicyNetworkOnly` Запрос не загружается из кэша, но сохраняет результаты в кэш.
+*   `kPFCachePolicyCacheElseNetwork` Запрос сначала пытается загрузиться из кэша, но в случае неудачной попытки результаты загружаются из сети. Если не удается загрузить ни из кэша, ни из сети, возникает исключение `PFError`.
+*   `kPFCachePolicyNetworkElseCache` Запрос сначала пытается загрузиться из сети, но в случае неудачной попытки результаты загружаются из кэша. Если не удается загрузить ни из сети, ни из кэша, возникает исключение `PFError`.
+*   `kPFCachePolicyCacheThenNetwork` Запрос сначала загружается из кэша, затем &mdash; из сети. В этом случае обратный вызов будет выполнен дважды: в первый раз &mdash; с результатами из кэша, во второй раз &mdash; с результатами из сети. Поскольку возвращается два результата в разное время, эта политика кэширования не может использоваться синхронно с методом `findObjects`.
+
+Если необходимо управлять действиями кэша, можно использовать методы, предоставленные в запросе PFQuery, для взаимодействия с кэшем.  С кэшем можно выполнять следующие операции:
+
+*   Проверять наличие кэшированного результата для запроса при помощи кода:```objc BOOL isInCache = [query hasCachedResult];```*   Удалять все кэшированные результаты для запроса при помощи кода:```objc [query clearCachedResult];```
+*   Удалять кэшированные результаты для запросов при помощи кода:```objc [PFQuery clearAllCachedResults];```
+
+Кэширование запросов также работает с вспомогательными средствами PFQuery, включая методы `getFirstObject` и `getObjectInBackground`.
+
+## Подсчет объектов
+
+Если необходимо просто подсчитать, сколько объектов соответствует запросу, но при этом не нужно извлекать соответствующие объекты, можно использовать метод `countObjects` вместо метода `findObjects`. Например, чтобы подсчитать, сколько игр было сыграно определенным игроком:
+
+```objc
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+[query whereKey:@"playername" equalTo:@"Sean Plott"];
+[query countObjectsInBackgroundWithBlock:^(int count, NSError *error) {
+    if (!error) {
+        // The count request succeeded. Log the count
+        NSLog(@"Sean has played %d games", count);
+    } else {
+        // The request failed
+    }
+}];
+```
+
+Если необходимо заблокировать вызывающий поток, можно также использовать синхронный метод `countObjects`.
+
+Для классов, которые имеют более 1 000 объектов, операции подсчета ограничиваются тайм-аутами. Эти операции могут регулярно создавать ошибки по тайм-ауту или возвращать результаты, которые являются правильными только приблизительно. Поэтому желательно планировать архитектуру вашего приложения, чтобы избежать подобных операций подсчета.
+
+## Сложные запросы
+
+Если необходимо найти объекты, соответствующие одному из нескольких запросов, можно использовать метод `orQueryWithSubqueries:`.  Например, если необходимо найти игроков, у которых было много или мало побед, можно выполнить следующий запрос:
+
+```objc
+PFQuery *lotsOfWins = [PFQuery queryWithClassName:@"Player"];
+[lotsOfWins whereKey:@"wins" greaterThan:@150];
+PFQuery *fewWins = [PFQuery queryWithClassName:@"Player"];
+[fewWins whereKey:@"wins" lessThan:@5];
+PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *results, NSError *error) {
+    // results contains players with lots of wins or only a few wins.
+}];
+```
+
+Можно добавить дополнительные параметры к вновь созданному запросу `PFQuery`, которые действуют как оператор &quot;AND&quot;.
+
+Помните, что параметры, не использующиеся для фильтрации (например `limit`, `skip`, `orderBy...:`, `includeKey:`), не поддерживаются для подчиненных запросов сложного запроса.

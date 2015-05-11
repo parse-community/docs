@@ -1,0 +1,81 @@
+# GeoPoint
+
+Parseでは、現実世界の緯度と経度座標をオブジェクトに関連付けることができます。`PFGeoPoint`を`PFObject`に追加すると、オブジェクトから参照点までの距離を考慮したクエリを実行できます。こうすることで、別の利用者に最も近い場所にいる利用者や、利用者に最も近い場所を簡単に探すことができます。
+
+div class="callout_green">
+[Anywalチュートリアル](/tutorials/anywall)で実際のアプリの`PFGeoPoints`と`PFUser`を使用してみてください。基本的な利用者管理のワークフローの実装からCore LocationでのGPS位置の追跡まで、あらゆる事項を説明しています。
+</div>
+
+## PFGeoPoint
+
+場所をオブジェクトに関連付けるには、最初に`PFGeoPoint`を作成する必要があります。たとえば、緯度40.0度、経度-30.0度の場所を作成する場合は、次のようにします。
+
+```objc
+PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
+```
+
+そうすると、この場所がオブジェクトの不変フィールドに格納されます。
+
+```objc
+placeObject[@"location"] = point;
+```
+
+注: 現在、クラス内のキーを1つだけ`PFGeoPoint`に設定できます。
+
+### 利用者の現在の場所を把握する
+
+`PFGeoPoint`では、利用者の現在の場所を取得するのに便利なメソッドも用意しています。これは`geoPointForCurrentLocationInBackground`で実行します。
+
+```objc
+[PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
+    if (!error) {
+        // do something with the new geoPoint
+    }
+}];
+```
+
+このコードを実行すると、次のようになります。
+
+1.  内部の`CLLocationManager`では場所のアップデートの聞き取りを開始します（`startsUpdatingLocation`経由）。
+2.  場所を受信したら、 Location Managerでは場所のアップデートの聞き取りを停止します(`stopsUpdatingLocation`経由) 。新しい場所から`PFGeoPoint`が作成されます。Location Managerでエラーが発生する場合もアップデートの聞き取りは停止し、代わりに`NSError`を返します。
+3.  `block`は`PFGeoPoint`で呼び出されます。
+
+`CLLocationManager`を直接使用する場合は、`CLLocation`を`PFGeoPoint`に直接変換する`+geoPointWithLocation:`コンストラクタも提供します。これはアンケートを頻繁に実行する必要があるアプリに最適です。
+
+## 地理クエリ
+
+これで、空間座標を持つオブジェクトがまとめて作成されました。どのオブジェクトが場所に最も近いかを調べてみましょう。それには、`whereKey:nearGeoPoint:`を使用して`PFQuery`に別の制限を追加します。利用者に最も近い10の場所のリストを取得する場合は、次のようになります。
+
+```objc
+// User's location
+PFGeoPoint *userGeoPoint = userObject[@"location"];
+// Create a query for places
+PFQuery *query = [PFQuery queryWithClassName:@"PlaceObject"];
+// Interested in locations near user.
+[query whereKey:@"location" nearGeoPoint:userGeoPoint];
+// Limit what could be a lot of points.
+query.limit = 10;
+// Final list of objects
+placesObjects = [query findObjects];
+```
+
+この時点では、`placesObjects`は`userGeoPoint`からの距離で並べられた（最も近いものから最も遠いもの）オブジェクトの配列になります。追加の`orderByAscending:`/`orderByDescending:`の並べ替え制限を適用すると、距離の順番よりも優先されます。
+
+距離を使用して結果を制限するには、`whereKey:nearGeoPoint:withinMiles`、`whereKey:nearGeoPoint:withinKilometers`、`whereKey:nearGeoPoint:withinRadians`を確認してください。
+
+さらに、特定の区域内に限定した一連のオブジェクトにクエリを実行することもできます。長方形の境界ボックス内のオブジェクトを探すには、`PFQuery`に`whereKey:withinGeoBoxFromSouthwest:toNortheast:`制限を追加します。
+
+```objc
+PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];
+PFGeoPoint *neOfSF = [PFGeoPoint geoPointWithLatitude:37.822802 longitude:-122.373962];
+PFQuery *query = [PFQuery queryWithClassName:@"PizzaPlaceObject"];
+[query whereKey:@"location" withinGeoBoxFromSouthwest:swOfSF toNortheast:neOfSF];
+NSArray *pizzaPlacesInSF = [query findObjects];
+```
+
+## 注意事項
+
+現在のところ、次のような点に注意が必要です。
+
+1.  各PFObjectクラスには、PFGeoPointオブジェクトを持ったキーを1つだけ設定できます。
+2.  範囲の限度と同じ、または超過した地点に場所を設定できません。緯度を-90.0または90.0に設定することはできません。経度を-180.0または180.0に設定することはできません。境界外に緯度や経度を設定しようとするとエラーが発生します。

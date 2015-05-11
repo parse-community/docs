@@ -1,0 +1,7 @@
+# Getting Started
+
+The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.
+
+If you're familiar with web frameworks like ASP.NET MVC we've taken many of the same principles and applied them to our platform. In particular, our SDK is ready to use out of the box with minimal configuration on your part.
+
+Parse's Unity SDK makes heavy use of a subset of the [Task-based Asynchronous Pattern](http://msdn.microsoft.com/en-us/library/hh873175.aspx) so that your apps remain responsive. For more information, please see the section on Tasks [below.](#tasks)

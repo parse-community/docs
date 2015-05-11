@@ -1,0 +1,35 @@
+# 분석
+
+Parse는 앱의 동작을 한 눈에 볼 수 있는 다양한 연결 기능을 제공합니다. 앱이 무엇을, 얼마나 자주, 언제 수행하는지 이해하는 것이 중요하다는 사실을 잘 알고 있습니다.
+
+이 섹션에서는 Parse의 분석 백엔드를 최대한 활용하도록 앱을 만드는 다양한 방법을 다룹니다. Parse를 사용하여 데이터를 저장하고 검색하는 개발자는 이미 Parse의 지표를 이용할 수 있습니다.
+
+클라이언트 측 로직을 구현할 필요없이 앱의 대시보드에서 API 요청에 대한 실시간 그래프와 분석(기기 유형이나 Parse 클래스 이름, REST verb별)을 보고 이 그래프 필터를 저장하여 관심있는 데이터에만 빠르게 액세스할 수 있습니다.
+
+## 사용자 지정 분석
+
+`Parse.Analytics`를 사용하여 몇 개의 `string` 키와 값으로 자유 형식의 이벤트를 추적할 수 있습니다. 이러한 추가 차원을 분석하여 앱의 대시보드를 통해 사용자 지정 이벤트를 세분화할 수 있습니다.
+
+앱에서 아파트 목록에 대한 검색 기능을 제공한다면 일부 메타데이터를 추가하여 해당 기능이 사용되는 빈도를 추적할 수 있습니다.
+
+```js
+var dimensions = {
+  // Define ranges to bucket data points into meaningful segments
+  priceRange: '1000-1500',
+  // Did the user filter the query?
+  source: 'craigslist',
+  // Do searches happen more often on weekdays or weekends?
+  dayType: 'weekday'
+};
+// Send the dimensions to Parse along with the 'search' event
+Parse.Analytics.track('search', dimensions);
+```
+
+`Parse.Analytics`를 간단한 오류 추적기로 사용할 수도 있습니다. 다음과 같이 호출하면 앱의 오류율과 오류 빈도를 오류 코드별로 분석한 전반적인 정보를 얻을 수 있습니다.
+
+```js
+var codeString = '' + error.code;
+Parse.Analytics.track('error', { code: codeString });
+```
+
+현재 Parse에서는 `Parse.Analytics.track()` 호출당 처음 8개의 차원 쌍만 저장합니다.

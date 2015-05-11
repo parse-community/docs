@@ -1,0 +1,393 @@
+# Cloud Code
+
+## What is Cloud Code?
+
+Parse's vision is to let developers build any mobile app without dealing with servers. For complex apps, sometimes you just need a bit of logic that isn't running on a mobile device. Cloud Code makes this possible.
+
+Cloud Code is easy to use because it's built on the same JavaScript SDK that powers thousands of apps. The only difference is that this code runs in the Parse Cloud rather than running on a mobile device. When you update your Cloud Code, it becomes available to all mobile environments instantly. You don't have to wait for a new release of your application. This lets you change app behavior on the fly and add new features faster.
+
+Even if you're only familiar with mobile development, we hope you'll find Cloud Code straightforward and easy to use.
+
+## Getting Started
+
+On the computer you use for development, you will need to install Parse's command line tool. This will let you manage your code in the Parse Cloud. You can learn more about the feautres of the command line tool in the [Command Line Tool guide](#command-line).
+
+### Instllaling the Command Line Tool
+
+#### Mac/Linux
+
+In Mac OS and Linux/Unix environments, you can get the parse tool by running this command:
+
+```bash
+curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
+```
+
+This installs a tool named "parse" to `/usr/local/bin/parse`. There's no other junk, so to uninstall, just delete that file. This will also update your command line tool if you already have it installed.
+
+#### Windows
+
+The Parse command line tool for Windows is available [here](/downloads/cloud_code/cli/parse-windows/latest).
+
+## Setting Up Cloud Code
+
+The next step is to create a directory to store the code that you will run in the cloud. The command `parse new` sets up this directory, and will prompt you to pick which app you are creating Cloud Code for:
+
+```bash
+$ parse new MyCloudCode
+Email: ninja@gmail.com
+Password:
+1:MyApp
+Select an App: 1
+$ cd MyCloudCode
+```
+
+Use the email address and password for your Parse account to log in. If you signed up via OAuth and never set a password, you should now set one by editing your account settings. This will create a directory called `MyCloudCode` in the current directory. Several files are automatically created for you:
+
+```bash
+-config/
+  global.json
+-cloud/
+  main.js
+-public/
+  index.html
+```
+
+The `config` directory contains a JSON configuration file that you shouldn't normally need to deal with, the `cloud` directory stores your Cloud Code, and the `public` directory stores any static content that you want to host on Parse. In the `cloud` directory, you'll typically just be editing `main.js`, which stores all of your Cloud Code functions. For now, just check that these files were created successfully. If you're using source control, you can check all of these files in.
+
+<div class='tip warning'><div>
+  We recommend using source control to check in all of these files. If you're not already set up with source control, try this [tutorial from GitHub](https://guides.github.com/introduction/getting-your-project-on-github/). Keep in mind that these files will contain keys you want to keep private.
+</div></div>
+
+### A Simple Function
+
+Following ancient tradition, let's see how to run the simplest possible function in the cloud. If you take a look at `cloud/main.js`, you'll see an example function that just returns a string:
+
+```js
+Parse.Cloud.define("hello", function(request, response) {
+  response.success("Hello world!");
+});
+```
+
+To deploy the code from your machine to the Parse Cloud, run:
+
+```bash
+$ parse deploy
+```
+
+To run this function once it's deployed, run:
+
+```common-java
+ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new FunctionCallback<String>() {
+  void done(String result, ParseException e) {
+    if (e == null) {
+      // result is "Hello world!"
+    }
+  }
+});
+```
+```common-objc
+[PFCloud callFunctionInBackground:@"hello"
+                   withParameters:@{}
+                            block:^(NSString *result, NSError *error) {
+   if (!error) {
+     // result is @"Hello world!"
+   }
+}];
+```
+```common-swift
+PFCloud.callFunctionInBackground("hello", withParameters: nil) { 
+  (response: AnyObject?, error: NSError?) -> Void in
+  let responseString = response as? String
+}
+```
+```common-php
+$result = ParseCloud::run("hello", []);
+```
+```common-csharp
+var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>());
+// result is "Hello world!"
+```
+```common-js
+Parse.Cloud.run('hello', {}, {
+  success: function(result) {
+    // result is 'Hello world!'
+  },
+  error: function(error) {
+  }
+});
+```
+
+You should see this response:
+
+```json
+{ "result": "Hello world!" }
+```
+
+Congratulations! You have successfully deployed and run Cloud Code.
+
+This is a good time to play around with the deployment cycle. Try changing `"Hello world!"` to a different string, then deploy and run the function again to get a different result. The whole JavaScript SDK is available in Cloud Code, so there's a lot you can do. We'll go over some examples in more detail below.
+
+## Cloud Functions
+
+Let's look at a slightly more complex example where Cloud Code is useful. One reason to do computation in the cloud is so that you don't have to send a huge list of objects down to a device if you only want a little bit of information. For example, let's say you're writing an app that lets people review movies. A single `Review` object could look like:
+
+```json
+{
+  "movie": "The Matrix",
+  "stars": 5,
+  "comment": "Too bad they never made any sequels."
+}
+```
+
+If you wanted to find the average number of stars for The Matrix, you could query for all of the reviews, and average the stars on the device. However, this uses a lot of bandwidth when you only need a single number. With Cloud Code, we can just pass up the name of the movie, and return the average star rating.
+
+Cloud functions accept a JSON parameters dictionary on the `request` object, so we can use that to pass up the movie name. The entire Parse JavaScript SDK is available in the cloud environment, so we can use that to query over `Review` objects. Together, the code to implement `averageStars` looks like:
+
+```js
+Parse.Cloud.define("averageStars", function(request, response) {
+  var query = new Parse.Query("Review");
+  query.equalTo("movie", request.params.movie);
+  query.find({
+    success: function(results) {
+      var sum = 0;
+      for (var i = 0; i < results.length; ++i) {
+        sum += results[i].get("stars");
+      }
+      response.success(sum / results.length);
+    },
+    error: function() {
+      response.error("movie lookup failed");
+    }
+  });
+});
+```
+
+The only difference between using `averageStars` and `hello` is that we have to provide the parameter that will be accessed in `request.params.movie` when we call the Cloud function. Read on to learn more about how Cloud functions can be called.
+
+Cloud functions can be called from any of the client SDKs, as well as through the REST API (use the drop-down in the example below to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
+
+```common-java
+HashMap<String, Object> params = new HashMap<String, Object>();
+params.put("movie", "The Matrix");
+ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback<Float>() {
+   void done(Float ratings, ParseException e) {
+       if (e == null) {
+          // ratings is 4.5
+       }
+   }
+});
+```
+```common-objc
+[PFCloud callFunctionInBackground:@"averageStars"
+                   withParameters:@{@"movie": @"The Matrix"}
+                            block:^(NSNumber *ratings, NSError *error) {
+  if (!error) {
+     // ratings is 4.5
+  }
+}];
+```
+```common-swift
+PFCloud.callFunctionInBackground("averageRatings", withParameters: ["movie":"The Matrix"]) {
+  (response: AnyObject?, error: NSError?) -> Void in
+  let ratings = response as? Float
+  // ratings is 4.5
+}
+```
+```common-php
+$ratings = ParseCloud::run("averageRatings", ["movie" => "The Matrix"]);
+// $ratings is 4.5
+```
+```common-csharp
+IDictionary<string, object> params = new Dictionary<string, object>
+{
+    { "movie", "The Matrix" }
+};
+var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params);
+```
+```common-js
+Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
+  success: function(ratings) {
+    // ratings should be 4.5
+  },
+  error: function(error) {
+  }
+});
+```
+
+In general, two arguments will be passed into cloud functions:
+
+1.  **`request`** - The request object contains information about the request. The following fields are set:
+  1.  **`params`** - The parameters object sent to the function by the client.
+  2.  **`user`** - The `Parse.User` that is making the request.  This will not be set if there was no logged-in user.
+
+If the function is successful, the response in the client looks like:
+
+```json
+{ "result": 4.8 }
+```
+
+If there is an error, the response in the client looks like:
+
+```json
+{ 
+  "code": 141,
+  "error": "movie lookup failed"
+}
+```
+
+## beforeSave Triggers
+
+### Implementing validation
+
+Another reason to run code in the cloud is to enforce a particular data format. For example, you might have both an Android and an iOS app, and you want to validate data for each of those. Rather than writing code once for each client environment, you can write it just once with Cloud Code.
+
+Let's take a look at our movie review example. When you're choosing how many stars to give something, you can typically only give 1, 2, 3, 4, or 5 stars. You can't give -6 stars or 1337 stars in a review. If we want to reject reviews that are out of bounds, we can do this with the `beforeSave` method:
+
+```js
+Parse.Cloud.beforeSave("Review", function(request, response) {
+  if (request.object.get("stars") < 1) {
+    response.error("you cannot give less than one star");
+  } else if (request.object.get("stars") > 5) {
+    response.error("you cannot give more than five stars");
+  } else {
+    response.success();
+  }
+});
+```
+
+If `response.error` is called, the `Review` object will not be saved, and the client will get an error. If `response.success` is called, the object will be saved normally. Your code should call one of these two callbacks.
+
+One useful tip is that even if your mobile app has many different versions, the same version of Cloud Code applies to all of them. Thus, if you launch an application that doesn't correctly check the validity of input data, you can still fix this problem by adding a validation with `beforeSave`.
+
+If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself:
+
+```js
+Parse.Cloud.beforeSave(Parse.User, function(request, response) {
+  if (!request.object.get("email")) {
+    response.error("email is required for signup");
+  } else {
+    response.success();
+  }
+});
+```
+
+### Modifying Objects on Save
+
+In some cases, you don't want to throw out invalid data. You just want to tweak it a bit before saving it. `beforeSave` can handle this case, too. You just call `response.success` on the altered object.
+
+In our movie review example, we might want to ensure that comments aren't too long. A single long comment might be tricky to display. We can use `beforeSave` to truncate the `comment` field to 140 characters:
+
+```js
+Parse.Cloud.beforeSave("Review", function(request, response) {
+  var comment = request.object.get("comment");
+  if (comment.length > 140) {
+    // Truncate and add a ...
+    request.object.set("comment", comment.substring(0, 137) + "...");
+  }
+  response.success();
+});
+```
+
+## afterSave Triggers
+
+In some cases, you may want to perform some action, such as a push, after an object has been saved. You can do this by registering a handler with the `afterSave` method. For example, suppose you want to keep track of the number of comments on a blog post. You can do that by writing a function like this:
+
+```js
+Parse.Cloud.afterSave("Comment", function(request) {
+  query = new Parse.Query("Post");
+  query.get(request.object.get("post").id, {
+    success: function(post) {
+      post.increment("comments");
+      post.save();
+    },
+    error: function(error) {
+      console.error("Got an error " + error.code + " : " + error.message);
+    }
+  });
+});
+```
+
+The client will receive a successful response to the save request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
+
+If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+
+## beforeDelete Triggers
+
+You can run custom Cloud Code before an object is deleted. You can do this with the `beforeDelete` method. For instance, this can be used to implement a restricted delete policy that is more sophisticated than what can be expressed through  [ACLs](/docs/js/api/symbols/Parse.ACL.html). For example, suppose you have a photo album app, where many photos are associated with each album, and you want to prevent the user from deleting an album if it still has a photo in it. You can do that by writing a function like this:
+
+```js
+Parse.Cloud.beforeDelete("Album", function(request, response) {
+  query = new Parse.Query("Photo");
+  query.equalTo("album", request.object.id);
+  query.count({
+    success: function(count) {
+      if (count > 0) {
+        response.error("Can't delete album if it still has photos.");
+      } else {
+        response.success();
+      }
+    },
+    error: function(error) {
+      response.error("Error " + error.code + " : " + error.message + " when getting photo count.");
+    }
+  });
+});
+```
+
+If `response.error` is called, the `Album` object will not be deleted, and the client will get an error. If `response.success` is called, the object will be deleted normally. Your code should call one of these two callbacks.
+
+If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+
+
+## afterDelete Triggers
+
+In some cases, you may want to perform some action, such as a push, after an object has been deleted. You can do this by registering a handler with the `afterDelete` method. For example, suppose that after deleting a blog post, you also want to delete all associated comments. You can do that by writing a function like this:
+
+```js
+Parse.Cloud.afterDelete("Post", function(request) {
+  query = new Parse.Query("Comment");
+  query.equalTo("post", request.object.id);
+  query.find({
+    success: function(comments) {
+      Parse.Object.destroyAll(comments, {
+        success: function() {},
+        error: function(error) {
+          console.error("Error deleting related comments " + error.code + ": " + error.message);
+        }
+      });
+    },
+    error: function(error) {
+      console.error("Error finding related comments " + error.code + ": " + error.message);
+    }
+  });
+});
+```
+
+The `afterDelete` handler can access the object that was deleted through `request.object`. This object is fully fetched, but cannot be refetched or resaved.
+
+The client will receive a successful response to the delete request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
+
+If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+
+## Resource Limits
+
+### Timeouts
+
+Cloud functions will be killed after 15 seconds of wall clock time. `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete` functions will be killed after 3 seconds of run time. If a Cloud function or a `beforeSave`/`afterSave`/`beforeDelete`/`afterDelete` function is called from another Cloud Code call, it will be further limited by the time left in the calling function. For example, if a `beforeSave` function is triggered by a cloud function after it has run for 13 seconds, the `beforeSave` function will only have 2 seconds to run, rather than the normal 3 seconds. If you need additional time to perform operations in Cloud Code, consider using a [background job](#jobs).
+
+### Network requests
+
+Network requests that are still in progress after `success` or `error` are called will be canceled. In general, you should wait for all network requests to finish before calling `success`. For `afterSave` functions and `afterDelete` functions, which don't call `success`/`error`, Cloud Code will wait for all network requests to finish.
+
+## Logging from Cloud Code
+
+If you want to log a message to the log files displayed by `parse log`, you can use `console.log`, `console.error`, or `console.warn`. Both `console.error` and `console.warn` will write to the error log.
+
+```js
+Parse.Cloud.define("Logger", function(request, response) {
+  console.log(request.params);
+  response.success();
+});
+```
+
+Cloud functions may log up to 100 messages per request. Log lines are limited to 1KB in size, after which they are truncated.

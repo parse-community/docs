@@ -1,0 +1,411 @@
+# Запросы
+
+## Основные запросы
+
+Во многих случаях метод `getInBackground` недостаточно эффективен для указания объектов, которые необходимо извлечь. Запрос `ParseQuery` предлагает различные способы извлечения списка объектов, а не единичного объекта.
+
+Общая схема заключается в создании запроса `ParseQuery`, внесении условий, а затем извлечении списка `List` подходящих объектов `ParseObject` при помощи метода `findInBackground` с конструктором `FindCallback`. Например, для извлечения счета определенного игрока `playerName` используйте метод `whereEqualTo`, чтобы ограничить значения ключа:
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Dan Stemkoski");
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            Log.d("score", "Retrieved " + scoreList.size() + " scores");
+        } else {
+            Log.d("score", "Error: " + e.getMessage());
+        }
+    }
+});
+```
+
+Метод `findInBackground` действует подобно методу `getInBackground` в том, что он обеспечивает выполнение запроса сети в фоновом потоке и выполняет обратный вызов в основном потоке.
+
+## Ограничения запроса
+
+Существует несколько способов внесения ограничений для объектов, найденных при помощи запроса `ParseQuery`. Объекты можно отфильтровать при помощи определенной пары &laquo;ключ-значение&raquo; с методом `whereNotEqualTo`:
+
+```java
+query.whereNotEqualTo("playerName", "Michael Yabuti");
+```
+
+Также можно задать несколько ограничений. Таким образом, в результатах будут отображаться только те объекты, которые совпадают со всеми параметрами ограничений.  Другими словами, это похоже на логический оператор &quot;AND&quot;.
+
+```java
+query.whereNotEqualTo("playerName", "Michael Yabuti");
+query.whereGreaterThan("playerAge", 18);
+```
+
+Можно ограничить количество результатов при помощи метода `setLimit`. По умолчанию, количество результатов ограничивается 100, но любые значения от 1 до 1&nbsp;000 являются допустимыми: 
+
+```java
+query.setLimit(10); // limit to at most 10 results
+```
+
+Если необходимо отображать только один результат, удобнее всего использовать метод `getFirst` или `getFirstBackground` вместо метода `find`.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerEmail", "dstemkoski@example.com");
+query.getFirstInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (object == null) {
+            Log.d("score", "The getFirst request failed.");
+        } else {
+            Log.d("score", "Retrieved the object.");
+        }
+    }
+});
+```
+
+Можно пропустить первые результаты при помощи метода `setSkip`. Это может быть полезно для разбивки на страницы:
+
+```java
+query.setSkip(10); // skip the first 10 results
+```
+
+Для сортируемых типов данных, например, чисел или строк, возможно управление порядком получения результатов:
+
+```java
+// Sorts the results in ascending order by the score field
+query.orderByAscending("score");
+
+// Sorts the results in descending order by the score field
+query.orderByDescending("score");
+```
+
+Можно добавить больше ключей сортировки к запросу следующим образом:
+
+```java
+// Sorts the results in ascending order by the score field if the previous sort keys are equal.
+query.addAscendingOrder("score");
+
+// Sorts the results in descending order by the score field if the previous sort keys are equal.
+query.addDescendingOrder("score");
+```
+
+Для типов данных, которые можно сортировать, в запросах можно также использовать сравнения:
+
+```java
+// Restricts to wins < 50
+query.whereLessThan("wins", 50);
+
+// Restricts to wins <= 50
+query.whereLessThanOrEqualTo("wins", 50);
+
+// Restricts to wins > 50
+query.whereGreaterThan("wins", 50);
+
+// Restricts to wins >= 50
+query.whereGreaterThanOrEqualTo("wins", 50);
+```
+
+Если необходимо извлечь объекты, которые совпадают с несколькими разными значениями, можно использовать метод `whereContainedIn`, указывая совокупность допустимых значений. Этот метод часто используется для замены нескольких запросов одним запросом. Например, если необходимо извлечь счет любого игрока из определенного списка:
+
+```java
+String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
+query.whereContainedIn("playerName", Arrays.asList(names));
+```
+
+Если необходимо извлечь объекты, которые не совпадают ни с одним из нескольких значений, можно использовать метод `whereKey:notContainedIn:`, указывая массив допустимых значений.  Например, если необходимо извлечь счет игроков вне списка:
+
+```java
+String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
+query.whereNotContainedIn("playerName", Arrays.asList(names));
+```
+
+Если необходимо извлечь объекты с определенным набором ключей, можно использовать метод `whereExists`. Если же необходимо извлечь объекты без определенного набора ключей, можно использовать метод `whereDoesNotExist`.
+
+```java
+// Finds objects that have the score set
+query.whereExists("score");
+
+// Finds objects that don't have the score set
+query.whereDoesNotExist("score");
+```
+Можно использовать метод `whereMatchesKeyInQuery` для извлечения объектов, для которых ключ совпадает со значением ключа в наборе объектов от другого запроса.  Например, если есть класс, содержащий спортивные команды, и вы сохраняете родной город пользователя в класс пользователя, можно сделать один запрос для поиска списка пользователей, чьи команды из родных городов имеют победы.  Запрос будет выглядеть приблизительно так:
+
+```java
+ParseQuery<ParseObject> teamQuery = ParseQuery.getQuery("Team");
+teamQuery.whereGreaterThan("winPct", 0.5);
+ParseQuery<ParseUser> userQuery = ParseUser.getQuery();
+userQuery.whereMatchesKeyInQuery("hometown", "city", teamQuery);
+userQuery.findInBackground(new FindCallback<ParseUser>() {
+    void done(List<ParseUser> results, ParseException e) {
+        // results has the list of users with a hometown team with a winning record
+    }
+});
+```
+
+В свою очередь, чтобы извлечь объекты, для которых ключ не совпадает со значением ключа в наборе объектов от другого запроса, используйте метод `whereDoesNotMatchKeyInQuery`. Например, чтобы найти пользователей, чьи команды из родных городов имеют проигрыши, можно создать такой запрос:
+
+```java
+ParseQuery<ParseUser> losingUserQuery = ParseUser.getQuery();
+losingUserQuery.whereDoesNotMatchKeyInQuery("hometown", "city", teamQuery);
+losingUserQuery.findInBackground(new FindCallback<ParseUser>() {
+    void done(List<ParseUser> results, ParseException e) {
+        // results has the list of users with a hometown team with a losing record
+    }
+});
+```
+
+Можно ограничить поля, возвращаемые в результате вызова метода `selectKeys`, при помощи совокупности ключей. Чтобы извлечь документы, которые содержат только поля `score` и `playerName` (а также специальные встроенные поля `objectId`, `createdAt` и `updatedAt`), можно создать такой запрос:
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.selectKeys(Arrays.asList("playerName", "score"));
+List<ParseObject> results = query.find();
+```
+
+Оставшиеся поля можно извлечь позже, вызвав один из вариантов `fetchIfNeeded` для возвращенных объектов:
+
+```java
+ParseObject object = results.get(0);
+object.fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        // all fields of the object will now be available here.
+    }
+});
+```
+
+## Запросы на значения массива
+
+Если ключ содержит значение массива, можно выполнить поиск объектов, для которых значение массива ключа содержит 2, при помощи следующего запроса:
+
+```java
+// Find objects where the array in arrayKey contains the number 2.
+query.whereEqualTo("arrayKey", 2);
+```
+
+Также можно выполнять поиск объектов, для которых значение массива ключа содержит каждое из значений 2, 3 и 4, при помощи следующего запроса:
+
+```java
+// Find objects where the array in arrayKey contains all of the numbers 2, 3, and 4.
+ArrayList<Integer> numbers = new ArrayList<Integer>();
+numbers.add(2);
+numbers.add(3);
+numbers.add(4);
+query.whereContainsAll("arrayKey", numbers);
+```
+
+## Запросы на значения строки
+
+Используйте метод `whereStartsWith` для ограничения до значений строк, начиная с определенной строки. Аналогично оператору MySQL LIKE, этот метод индексируется, поэтому он будет эффективен для больших наборов данных:
+
+```java
+// Finds barbecue sauces that start with "Big Daddy's".
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereStartsWith("name", "Big Daddy's");
+```
+
+## Реляционные запросы
+
+Существует несколько способов создания запросов для реляционных данных. Если необходимо извлечь объекты, для которых поле совпадает с определенным объектом `ParseObject`, можно использовать метод `whereEqualTo`, как и для других типов данных. Например, если каждый объект `Comment` имеет объект `Post` в поле `post`, можно получать комментарии для конкретного объекта `Post`:
+
+```java
+// Assume ParseObject myPost was previously created.
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereEqualTo("post", myPost);
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // commentList now has the comments for myPost
+    }
+});
+```
+
+Если необходимо извлечь объекты, для которых поле содержит объект `ParseObject`, которое совпадает с другим запросом, можно использовать метод `whereMatchesQuery`. Обратите внимание на то, что по умолчанию указано ограничение в 100 объектов при максимальном ограничении в 1&nbsp;000 объектов, которое также применимо к внутреннему запросу. Поэтому, для получения необходимого эффекта в ситуации с большим набором данных, придется составлять запросы более тщательно. Чтобы найти комментарии для публикаций с изображениями, можно выполнить следующий запрос:
+
+```java
+ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
+innerQuery.whereExists("image");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereMatchesQuery("post", innerQuery);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // comments now contains the comments for posts with images.
+    }
+});
+```
+
+Если необходимо извлечь объекты, для которых поле содержит объект `ParseObject`, который не совпадает с другим запросом, можно использовать метод `whereDoesNotMatchQuery`. Чтобы найти комментарии для публикаций без изображений, можно выполнить следующий запрос:
+
+```java
+ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
+innerQuery.whereExists("image");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+query.whereDoesNotMatchQuery("post", innerQuery);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // comments now contains the comments for posts without images.
+    }
+});
+```
+
+В некоторых случаях необходимо получить несколько типов связанных объектов в одном запросе. Вы можете сделать это при помощи метода `include`. Например, вы извлекаете последние десять комментариев, и вам необходимо одновременно извлечь связанные с ними публикации:
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Comment");
+
+// Retrieve the most recent ones
+query.orderByDescending("createdAt");
+
+// Only retrieve the last ten
+query.setLimit(10);
+
+// Include the post data with each comment
+query.include("post");
+
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> commentList, ParseException e) {
+        // commentList now contains the last ten comments, and the "post"
+        // field has been populated. For example:
+        for (ParseObject comment : commentList) {
+            // This does not require a network access.
+            ParseObject post = comment.getParseObject("post");
+            Log.d("post", "retrieved a related post");
+        }
+    }
+});
+```
+
+Также можно выполнять включения на нескольких уровнях при помощи точки.  Если необходимо включить публикацию для комментирования и данных об авторе, можно выполнить следующий запрос:
+
+```java
+query.include("post.author");
+```
+
+Можно выполнить запрос с несколькими включенными полями при помощи вызова метода `include` несколько раз. Эта функция также работает с такими вспомогательными средствами ParseQuery как методы `getFirst()` и `getInBackground()`.
+
+## Запрос в локальное хранилище данных
+
+Если вы включили локальное хранилище данных, вызвав метод `Parse.enableLocalDatastore()` перед вызовом метода `Parse.initialize()`, можно также сделать запрос для объектов, хранящихся локально в устройстве. Для этого вызовите в запросе метод `fromLocalDatastore`.
+
+```java
+query.fromLocalDatastore();
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            // Results were successfully found from the local datastore.
+        } else {
+            // There was an error.
+        }
+    }
+});
+```
+
+Можно выполнить запрос из локального хранилища данных, используя те же запросы, что и при работе в сети. Результаты будут включать все объекты, которые совпадают с запросом, прикрепленным к вашему устройству. Запрос также учитывает любые изменения, выполненные для объекта, которые еще не были сохранены в облаке. Например, если вызвать метод `deleteEventually` для объекта, он больше не будет возвращаться для этих запросов.
+
+## Кэширование запросов
+
+Во многих случаях целесообразно кэшировать результаты запроса на устройстве. Это позволяет отображать данные при нахождении устройства пользователя вне сети, или когда приложение только что запущено и прошло недостаточно времени для завершения сетевых запросов. Проще всего это сделать при помощи локального хранилища данных. При закреплении объектов можно добавить ярлык к объекту, что позволит управлять группами объектов вместе. Например, для кэширования результатов запроса, указанного выше, можно вызвать метод `pinAllInBackground` и назначить ему ярлык.
+
+```java
+final String TOP_SCORES_LABEL = "topScores";
+// Query for the latest objects from Parse.
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(final List<ParseObject> scoreList, ParseException e) {
+        if (e != null) {
+            // There was an error or the network wasn't available.
+            return;
+        }
+        // Release any objects previously pinned for this query.
+        ParseObject.unpinAllInBackground(TOP_SCORES_LABEL, scoreList, new DeleteCallback() {
+            public void done(ParseException e) {
+                if (e != null) {
+                    // There was some error.
+                    return;
+                }
+                // Add the latest results for this query to the cache.
+                ParseObject.pinAllInBackground(TOP_SCORES_LABEL, scoreList);
+            }
+        });
+    }
+});
+```
+
+Теперь при выполнении любого запроса при помощи метода `fromLocalDatastore` эти объекты будут включены в результаты, если они по-прежнему соответствуют запросу.
+
+Если локальное хранилище данных не используется, вместо него можно использовать кэш по каждому запросу для `ParseQuery`. Действие запроса по умолчанию не использует кэш, но можно включить кэширование при помощи метода `setCachePolicy`. Например, чтобы попытаться использовать сеть, а затем вернуться к кэшированным данным, если сеть недоступна:
+
+```java
+query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList, ParseException e) {
+        if (e == null) {
+            // Results were successfully found, looking first on the
+            // network and then on disk.
+        } else {
+            // The network was inaccessible and we have no cached data
+            // for this query.
+        }
+    }
+});
+```
+
+Parse предлагает несколько разных политик кэширования:
+
+*   `IGNORE_CACHE` Запрос не загружается из кэша и не сохраняет результаты в кэш. `IGNORE_CACHE` является политикой кэширования по умолчанию.
+*   `CACHE_ONLY` Запрос загружается только из кэша, игнорируя сеть. Если кэшированных результатов нет, это создает исключение `ParseException`.
+*   `NETWORK_ONLY` Запрос не загружается из кэша, но сохраняет результаты в кэш.
+*   `CACHE_ELSE_NETWORK` Запрос сначала пытается загрузиться из кэша, но в случае неудачной попытки результаты загружаются из сети. Если не удается загрузить ни из кэша, ни из сети, возникает исключение `ParseException`.
+*   `NETWORK_ELSE_CACHE` Запрос сначала пытается загрузиться из сети, но в случае неудачной попытки результаты загружаются из кэша. Если не удается загрузить ни из сети, ни из кэша, возникает исключение `ParseException`.
+*   `CACHE_THEN_NETWORK` Запрос сначала загружается из кэша, затем &mdash; из сети. В этом случае метод `FindCallback` будет вызван дважды: в первый раз &mdash; с результатами из кэша, во второй раз &mdash; с результатами из сети. Эту политику кэширования можно использовать только асинхронно с методом `findInBackground`.
+
+Если необходимо управлять действиями кэша, можно использовать методы, предоставленные в ParseQuery, для взаимодействия с кэшем.  С кэшем можно выполнять следующие операции:
+
+*   Проверять наличие кэшированного результата для запроса при помощи кода: ```java boolean isInCache = query.hasCachedResult();            ```*   Удалять все кэшированные результаты для запроса при помощи кода: ```java query.clearCachedResult();            ```
+*   Удалять кэшированные результаты для всех запросов при помощи кода: ```java ParseQuery.clearAllCachedResults();        ``` 
+
+Кэширование запросов также работает со вспомогательными средствами ParseQuery, включая методы `getFirst()` и `getInBackground()`.
+
+## Подсчет объектов
+
+Если необходимо просто подсчитать, сколько объектов соответствуют запросу, но при этом не нужно извлекать все соответствующие объекты, можно использовать метод `count` вместо метода `find`. Например, чтобы подсчитать, сколько игр было сыграно определенным игроком:
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Sean Plott");
+query.countInBackground(new CountCallback() {
+    public void done(int count, ParseException e) {
+        if (e == null) {
+            // The count request succeeded. Log the count
+            Log.d("score", "Sean has played " + count + " games");
+        } else {
+            // The request failed
+        }
+    }
+});
+```
+
+Если необходимо заблокировать вызывающий поток, можно также использовать синхронный метод `query.count()`.
+
+Для классов, которые имеют более 1&nbsp;000 объектов, операции подсчета ограничиваются тайм-аутами. Эти операции могут регулярно создавать ошибки по тайм-ауту или возвращать результаты, которые являются правильными только приблизительно. Поэтому желательно планировать архитектуру вашего приложения, чтобы избежать подобных операций подсчета.
+
+## Сложные запросы
+
+Если нужно найти объекты, соответствующие одному из нескольких запросов, можно использовать метод `ParseQuery.or` для создания запроса, который является запросом &quot;OR&quot; поданных запросов. Например, если нужно найти игроков с наибольшим или наименьшим количеством побед, можно выполнить следующее:
+
+```java
+ParseQuery<ParseObject> lotsOfWins = ParseQuery.getQuery("Player");
+lotsOfWins.whereGreaterThan(150);
+
+ParseQuery<ParseObject> fewWins = ParseQuery.getQuery("Player");
+fewWins.whereLessThan(5);
+
+List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
+queries.add(lotsOfWins);
+queries.add(fewWins);
+
+ParseQuery<ParseObject> mainQuery = ParseQuery.or(queries);
+mainQuery.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> results, ParseException e) {
+        // results has the list of players that win a lot or haven't won much.
+    }
+});
+```
+
+Можно добавить дополнительные параметры к вновь созданному запросу `ParseQuery`, которые действуют как оператор &quot;AND&quot;.
+
+Помните, что параметры, не использующиеся для фильтрации (например `setLimit`, `skip`, `orderBy...`, `include`), не поддерживаются для подчиненных запросов сложного запроса.

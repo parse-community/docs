@@ -1,0 +1,89 @@
+# ファイル
+
+## PFFile
+
+`PFFile`では、通常の`PFObject`には大きすぎたり重すぎるアプリケーションファイルをクラウドに保存することができます。最も一般的な使用例は画像の保存ですが、ドキュメントや動画、音楽、その他のバイナリデータ（10メガバイトまで）などの保存に使用することができます。
+
+<div class='tip info'><div>
+利用者が写真を撮ってParseに直接アップロードできるアプリを作成する方法は[画像の保存チュートリアル](/tutorials/saving-images)で学べます。
+</div></div>
+
+`PFFile`は簡単に操作できます。まず、データを`NSData`形式にし、そのデータで`PFFile`を作成します。この例では、文字列だけを使用しています。
+
+```objc
+NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
+PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+```
+
+この例では、ファイル名を`resume.txt`としています。ここでは2つの点に注目します。 
+
+*   ファイル名の競合を考慮する必要はありません。それぞれのアップロードには一意のIDが設定されるため、`resume.txt`という名前のファイルを複数アップロードしても問題ありません。
+*   ファイルにはファイル拡張子の付いた名前を指定するようにします。そうすることで、Parseでファイルの種類が識別され、適切に処理すされます。たとえば、PNG画像を保存する場合は、ファイル名の末尾に必ず`.png`を付けます。
+
+次に、ファイルをクラウドに保存します。`PFObject`と同じように、自分に都合の良いコールバックの種類やエラー処理に合わせて、さまざまな`save`メソッドを使用できます。
+
+```objc 
+[file saveInBackground];
+```
+
+最後に、保存が完了したら、データの他の部分と同じように`PFFile`を`PFObject`に関連付けます。
+
+```objc
+PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
+jobApplication[@"applicantName"] = @"Joe Smith";
+jobApplication[@"applicantResumeFile"] = file;
+[jobApplication saveInBackground];
+```
+
+取得しなおすには、`PFFile`で`getData`のうちの1つを呼び出す必要があります。ここでは別のJobApplicationオブジェクトからレジュメファイルを取得しています。
+
+```objc
+PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
+NSData *resumeData = [applicantResume getData];
+```
+
+`PFObject`と同じように、 `getData`のバックグラウンドバージョンを使用したいと思うことでしょう。
+
+## 画像
+
+画像はまず`NSData`に変換し、`PFFile`を使用して簡単に保存できます。`PFFile`として保存したい`image`という名前の`UIImage`があるとします。
+
+```objc
+NSData *imageData = UIImagePNGRepresentation(image);
+PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
+PFObject *userPhoto = [PFObject objectWithClassName:@"UserPhoto"];
+userPhoto[@"imageName"] = @"My trip to Hawaii!";
+userPhoto[@"imageFile"] = imageFile;
+[userPhoto saveInBackground];
+```
+
+`PFFile`は`userPhoto`オブジェクトでの保存操作の一環としてアップロードされます。`PFFile`の [アップロードとダウンロードの進行状況](/docs/jp/ios_guide#files-progress)を追跡することもできます。
+
+画像を取得しなおすには、`PFFile`で`getData`のうちの1つを呼び出す必要があります。ここでは`anotherPhoto`という名前の別の`UserPhoto`から画像ファイルを取得しています。
+
+```objc
+PFFile *userImageFile = anotherPhoto[@"imageFile"];
+[userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
+    if (!error) {
+        UIImage *image = [UIImage imageWithData:imageData];
+    }
+}];
+```
+
+## 進行状況
+
+アップロードとダウンロード両方の進行状況は、`PFFile`、`saveInBackgroundWithBlock:progressBlock:`および`getDataInBackgroundWithBlock:progressBlock:`をそれぞれ使用することで簡単に把握することができます。次に例を示します。
+
+```objc
+NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
+PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+[file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    // Handle success or failure here ... 
+} progressBlock:^(int percentDone) {
+    // Update your progress spinner here. percentDone will be between 0 and 100.
+}];
+```
+
+[REST API](/docs/rest#files-deleting)を使用してオブジェクトの参照先ファイルを削除できます。ファイルの削除を許可するにはマスターキーを入力する必要があります。
+
+アプリ内のオブジェクトがファイルを参照していない場合は、REST APIを使用してファイルを削除できません。アプリの[設定]ページで未使用ファイルのクリーンアップをリクエストすることもできます。ファイルのクリーンアップを実行すると、URLのプロパティを通じて未参照ファイルへのアクセスに依存する機能が壊れる場合があるのでご注意ください。現在オブジェクトに関連付けられているファイルは影響を受けません。

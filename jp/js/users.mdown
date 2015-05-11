@@ -1,0 +1,385 @@
+# User
+
+利用者が安全に情報にアクセスできるように、ユーザーアカウントをどのように考えるかが、多くのアプリのテーマとなっています。Parseでは`Parse.User`と呼ばれる特別のユーザークラスを提供していますが、このクラスはユーザーアカウントの管理に必要な機能の大部分を自動的に処理します。
+
+このクラスでは、ユーザーアカウントの機能をアプリに追加できます。
+
+`Parse.User`は`Parse.Object`のサブクラスであり、柔軟なスキーマ、自動継続、主要な値に関するインターフェイスなど、同じ機能をすべて使用できます。`Parse.Object`に関するメソッドはすべて`Parse.User`でも使用できます。Parse.Userにはユーザーアカウントに固有の特別な追加事項がある点が異なります。
+
+
+## プロパティ
+
+`Parse.User`には、`Parse.Object`にはない値をいくつか設定できます。
+
+*   username: 利用者のユーザーネームです（必須）。
+*   password: 利用者のパスワードです（必須）。
+*   email: 利用者のメールアドレスです（省略可）。
+
+これらの値については、さまざまな使用例を通じて詳しく見ていきます。
+
+
+## 登録
+
+アプリが最初に行うのは、おそらく利用者への登録リクエストでしょう。次のコードは、一般的な登録方法を表しています。
+
+```js
+var user = new Parse.User();
+user.set("username", "my name");
+user.set("password", "my pass");
+user.set("email", "email@example.com");
+
+// other fields can be set just like with Parse.Object
+user.set("phone", "415-392-0202");
+user.signUp(null, {
+  success: function(user) {
+    // Hooray! Let them use the app now.
+  },
+  error: function(user, error) {
+    // Show the error message somewhere and let the user try again.
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+```
+
+この呼び出しは、Parseアプリ内に新しい利用者を非同期に作成します。作成前には、ユーザーネームとメールの両方が一意であることが確認されます。さらに、パスワードはクラウドに安全にハッシュされます。パスワードはプレーンテキストで保存されることはありません。また、クライアントにパスワードがプレーンテキストで返されることはありません。
+
+Parseは`save`メソッドではなく、`signUp`メソッドを使用します。新しい`Parse.User`は常に`signUp`メソッドを使用して作成する必要があります。その後の更新プログラムがある場合は`save`を呼び出して実行します。
+
+正常に登録できない場合は、返されるエラーオブジェクトを確認する必要があります。多くの場合、別の利用者がユーザーネームかメールをすでに取得しているのが原因です。その場合は利用者に分かりやすい通知を送信し、別のユーザーネームを試すよう依頼する必要があります。
+
+ユーザーネームにはメールアドレスを使用できます。利用者にはメールを入力するよう依頼するだけですが、そのメールアドレスはユーザーネームプロパティにも入力します。そうすることで`Parse.User`は通常通り動作します。この処理方法についてはパスワードの再設定のセクションで後述します。
+
+
+## ログイン
+
+利用者の登録が終わったら、次はアカウントにログインできるよう設定する必要があります。それにはクラスメソッドの`logIn`を使用します。
+
+```js
+Parse.User.logIn("myname", "mypass", {
+  success: function(user) {
+    // Do stuff after successful login.
+  },
+  error: function(user, error) {
+    // The login failed. Check error to see why.
+  }
+});
+```
+
+
+## メールの認証
+
+アプリケーションの設定でメール認証を有効にすると、認証操作の一部を承認済みのメールアドレスを使用して行うことができます。メール認証では`emailVerified`キーが`Parse.User`オブジェクトに追加されます。`Parse.User`の`email`が設定または修正された場合、`emailVerified`が`false`に設定されます。その後Parseは`emailVerified`が`true`に設定されたリンクをメールで利用者に送信します。
+
+次の3つの`emailVerified`の状態を考慮する必要があります。
+
+1.  `true` - 利用者がParseからメールで送信されたリンクをクリックしてメールアドレスを承認した状態。ユーザーアカウントを初めて作成する場合は、`Parse.Users`が`true`の値を持つことはありません。
+2.  `false` - `Parse.User`オブジェクトが最後に更新されたときに、利用者がメールアドレスの承認を行わなかった状態。`emailVerified`が`false`の場合は、`Parse.User`で`fetch`を呼び出してみます。
+3.  _missing_ - メール認証が無効な場合に`Parse.User`が作成された、または`Parse.User`に`email`がない状態。
+
+
+## 現在の利用者
+
+アプリを開くたびにログインが必要になると、操作がわずらわしく感じられます。キャッシュに保存された現在の`Parse.User`オブジェクトを使用すると、このような状況を避けることができます。
+
+登録やログインメソッドを使用するときは、利用者がlocalStorageのキャッシュに常に保存されます。このキャッシュはセッションとして処理でき、ログインしている利用者を自動的に推定できます。
+
+```js
+var currentUser = Parse.User.current();
+if (currentUser) {
+  // do stuff with the user
+} else {
+  // show the signup or login page
+}
+```
+
+利用者をログアウトすると、現在の利用者を消去できます。
+
+```js
+Parse.User.logOut();
+var currentUser = Parse.User.current(); // this will now be null
+```
+
+
+## 現在の利用者の設定
+
+独自の認証ルールを作成している、または利用者がサーバー側でログインする場合に、セッショントークンをクライアントに渡して`become`メソッドを使用できるようになりました。このメソッドでは、現在の利用者を設定する前にセッショントークンが有効なことを確認できます。
+
+```js
+Parse.User.become("session-token-here").then(function (user) 
+  // The current user is now set to user.
+}, function (error) {
+  // The token could not be validated.
+});
+```
+
+
+## Userオブジェクトのセキュリティ
+
+`Parse.User`クラスはデフォルトで保護されています。`Parse.User`に格納されているデータは該当する利用者のみが修正できます。デフォルトでは、すべての利用者がデータを読み取ることができます。そのため、一部の`Parse.User`オブジェクトは認証され修正できますが、その他のオブジェクトは読み取り専用となります。
+
+具体的には、`logIn`や`signUp`などの認証済みメソッドを使用して`Parse.User`を取得していない場合は、`save`メソッドや`delete`メソッドを呼び出すことはできません。これにより、利用者は自分が所有するデータのみを変更できます。
+
+次は、このセキュリティポリシーを説明しています。
+
+```js
+var user = Parse.User.logIn("my_username", "my_password", {
+  success: function(user) {
+    user.set("username", "my_new_username");  // attempt to change username
+    user.save(null, {
+      success: function(user) {
+        // This succeeds, since the user was authenticated on the device
+        // Get the user from a non-authenticated method
+        var query = new Parse.Query(Parse.User);
+        query.get(user.objectId, {
+          success: function(userAgain) {
+            userAgain.set("username", "another_username");
+            userAgain.save(null, {
+              error: function(userAgain, error) {
+                // This will error, since the Parse.User is not authenticated
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+});
+```
+
+`Parse.User.current()`から取得した`Parse.User`は常に認証済みとなります。
+
+`Parse.User`が認証済みか確認するには、`authenticated`メソッドを呼び出します。認証済みのメソッドから取得した`Parse.User`オブジェクトを持つ`authenticated`は確認する必要がありません。
+
+
+## その他のオブジェクトのセキュリティ
+
+`Parse.User`に適用するセキュリティモデルと同じモデルを他のオブジェクトにも適用できます。すべてのオブジェクトで、オブジェクトの読み取りを許可する利用者や、オブジェクトの修正を許可する利用者を指定できます。このタイプのセキュリティをサポートするには、各オブジェクトに`Parse.ACL`クラスで実装する[アクセス制御リスト](http://en.wikipedia.org/wiki/Access_control_list)が必要です。
+
+`Parse.ACL`を使用する最も簡単な方法は、オブジェクトの読み取り/書き込みを1人の利用者に限定する方法です。そのようなオブジェクトを作成するには、最初に`Parse.User`へのログインが必要です。その後、`new Parse.ACL(user)`がアクセス権を該当する利用者に制限する`Parse.ACL`を生成します。オブジェクトのACLは、他のプロパティと同様に、オブジェクトの保存時に更新されます。従って、現在の利用者のみがアクセスできるプライベートノートを作成するには、次のようにします。
+
+```js
+var Note = Parse.Object.extend("Note");
+var privateNote = new Note();
+privateNote.set("content", "This note is private!");
+privateNote.setACL(new Parse.ACL(Parse.User.current()));
+privateNote.save();
+```
+
+このノートは現在の利用者のみがアクセスできるようになりますが、この利用者がログインしているすべての端末からアクセスできます。この機能は、個人のToDoリストのように、複数の端末からユーザーデータにアクセスできるようなアプリケーションの場合に便利です。
+
+また、権限は利用者ごとに付与できます。`setReadAccess`と`setWriteAccess`では、`Parse.ACL`に個別に権限を追加できます。たとえば、メッセージの読み込みと削除権限を持つ複数の利用者のグループにメッセージを送信する場合は、次のようにします。
+
+```js
+var Message = Parse.Object.extend("Message");
+var groupMessage = new Message();
+var groupACL = new Parse.ACL();
+
+// userList is an array with the users we are sending this message to.
+for (var i = 0; i < userList.length; i++) {
+  groupACL.setReadAccess(userList[i], true);
+  groupACL.setWriteAccess(userList[i], true);
+}
+
+groupMessage.setACL(groupACL);
+groupMessage.save();
+```
+
+また、`setPublicReadAccess`と`setPublicWriteAccess`では、すべての利用者に一度に権限を付与できます。これにより伝言板へのコメントの投稿といったパターンが可能になります。たとえば、編集は作成者のみに許可し、読み取りはすべての利用者に許可する投稿を作成するには、次の手順で行います。
+
+```js
+var publicPost = new Post();
+var postACL = new Parse.ACL(Parse.User.current());
+postACL.setPublicReadAccess(true);
+publicPost.setACL(postACL);
+publicPost.save();
+```
+
+書き込み権限を持たないオブジェクトを削除するといったように、禁止されている操作を行うと`Parse.Error.OBJECT_NOT_FOUND`エラーコードが発生します。セキュリティ目的から、存在しているオブジェクトIDで保護されているものと、存在していないオブジェクトIDをクライアントが区別できないようになっています。
+
+
+## パスワードの再設定
+
+実際問題として、システムにパスワードを導入しても、利用者はすぐに忘れてしまいます。そのような場合でも、Parseのライブラリにはパスワードを安全に再設定する方法が用意されています。
+
+再設定フローを開始するには、利用者にメールアドレスを要求し、次の内容を呼び出します。
+
+```js
+Parse.User.requestPasswordReset("email@example.com", {
+  success: function() {
+    // Password reset request was sent successfully
+  },
+  error: function(error) {
+    // Show the error message somewhere
+    alert("Error: " + error.code + " " + error.message);
+  }
+});
+```
+
+指定されたメールと利用者のメールまたはユーザーネームフィールドが照合され、パスワード再設定用のメールが送信されます。これにより、利用者のメールをユーザーネームとして使用するか、メールを別に収集してメールフィールドに格納するかを選択できます。
+
+パスワード再設定のフローは次のとおりです。
+
+1.  利用者がメールによりパスワードの再設定をリクエストする。
+2.  Parseが、パスワード再設定用の特別のリンクが記載されたメールを利用者のアドレスに送信する。
+3.  利用者が再設定リンクをクリックすると、新しいパスワードを入力するための特別なParseページにリダイレクトされる。
+4.  利用者が新しいパスワードを入力する。パスワードが、利用者が指定した値に再設定される。
+
+このフロー内のメッセージは、このアプリをParseに作成したときに指定した名前でアプリを参照しています。
+
+
+## クエリ
+
+利用者にクエリを実行するには、`Parse.User`に新しい`Parse.Query`を作成します。
+
+```js
+var query = new Parse.Query(Parse.User);
+query.equalTo(gender, "female");
+// find all the women
+query.find({
+  success: function(women) {
+    // Do stuff
+  }
+});
+```
+
+
+## 関連付け
+
+`Parse.User`に関連する関連付けは細かい設定なしにすぐに利用できます。たとえば、ブログアプリを作成するとします。新しい投稿を保存し、すべての投稿を取得するには、次のようにします。
+
+```js
+var user = Parse.User.current();
+// Make a new post
+var Post = Parse.Object.extend("Post");
+var post = new Post();
+post.set("title", "My New Post");
+post.set("body", "This is some great content.");
+post.set("user", user);
+post.save(null, {
+  success: function(post) {
+    // Find all posts by the current user
+    var query = new Parse.Query(Post);
+    query.equalTo("user", user);
+    query.find({
+      success: function(usersPosts) {
+        // userPosts contains all of the posts by the current user.
+      }
+    });
+  }
+});
+```
+
+## Facebook利用者
+
+ParseにはFacebookをアプリケーションに統合できる簡単な方法が用意されています。`Parse.FacebookUtils`クラスは`Parse.User`とFacebook Javascript SDKを統合することで、利用者とそのFacebook IDとの結び付けを簡単にします。
+
+Facebookの統合では、認証されたFacebook利用者を`Parse.User`に関連付けることができます。数行のコードだけで、「Facebookでログイン」オプションをアプリに設置でき、そのデータをParseに保存できるようになります。
+
+
+### 設定
+
+FacebookをParseとともに使用するには、次の作業が必要になります。
+
+1.  [Facebookアプリを設定](https://developers.facebook.com/apps)します。すでに設定してある場合、この手順は不要です。[アプリをFacebookに結合する方法を選択]で[Facebookログインのあるウェブサイト]オプションを選択し、サイトのURLを入力します。
+2.  アプリケーションのFacebookアプリケーションIDをParseアプリケーションの設定ページに追加します。
+3.  [こちらにある手順](https://developers.facebook.com/docs/reference/javascript/)に従って、Facebook Javascript SDKをアプリケーションに読み込みます。
+4.  `FB.init()`への呼び出しを`Parse.FacebookUtils.init()`への呼び出しに置き換えます。たとえば、Facebook SDKを非同期に読み込んだ場合、`fbAsyncInit`関数は次のようになります。
+```js
+window.fbAsyncInit = function() {
+  Parse.FacebookUtils.init({
+   appId: 'YOUR_APP_ID', // Facebook App ID
+   channelUrl: '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel File
+   status: true, // check login status
+   cookie: true, // enable cookies to allow Parse to access the session
+   xfbml: true  // parse  });
+  // Additional initialization code here
+};
+```
+
+Facebookに関連する問題が発生した場合は、[Facebookの公式スタートガイド](https://developers.facebook.com/docs/reference/javascript/)をご覧ください。
+
+FacebookをParse利用者と連動させて使用するには、(1) Facebook利用者にログインして`Parse.User`を作成する方法と、(2) Facebookを既存の`Parse.User`にリンクさせる方法の2つがあります。
+
+
+### ログインと登録
+
+`Parse.FacebookUtils`には、`Parse.User`がFacebookを通じてログインまたは登録するための手段が用意されています。これは`logIn()`メソッドを使用して行います。
+
+```js
+Parse.FacebookUtils.logIn(null, {
+  success: function(user) {
+    if (!user.existed()) {
+      alert("User signed up and logged in through Facebook!");
+    } else {
+      alert("User logged in through Facebook!");
+    }
+  },
+  error: function(user, error) {
+    alert("User cancelled the Facebook login or did not fully authorize.");
+  }
+});
+```
+
+このコードを実行すると、次のようになります。
+
+1.  利用者にFacebookログインダイアログが表示されます。
+2.  利用者はFacebookを通じて認証を行い、アプリがコールバックを受け取ります。
+3.  ParseのSDKがFacebookデータを受け取り、それを`Parse.User`に保存します。Facebook IDを使用した新しい利用者の場合は、その利用者が作成されます。
+4.  利用者が`success`コールバックを呼び出します。
+
+コンマ区切りの文字列を使用すると、アプリがFacebook利用者に要求する[権限](https://developers.facebook.com/docs/authentication/permissions/)を指定することもできます。次に例を示します。
+
+```js
+Parse.FacebookUtils.logIn("user_likes,email", {
+  success: function(user) {
+    // Handle successful login
+  },
+  error: function(user, error) {
+    // Handle errors and cancellation
+  }
+});
+```
+
+追加設定なしで作業する場合、`Parse.User`の統合には権限は必要ありません（つまり`null`や権限の指定なしも問題なく使用できます）。[詳細については、Facebookの開発者ガイドにある権限に関する記載をご覧ください。](https://developers.facebook.com/docs/reference/api/permissions/)
+
+<div class='tip info'><div>
+認証後にFacebook利用者から取得したデータを保存するかどうかは自由に設定できます。設定する場合は、[FacebookのSDKを介したグラフクエリを実行](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user)する必要があります。
+</div></div>
+
+
+### リンク
+
+既存の`Parse.User`をFacebookアカウントに関連付ける場合は、次のようにリンクします。
+
+```js
+if (!Parse.FacebookUtils.isLinked(user)) {
+  Parse.FacebookUtils.link(user, null, {
+    success: function(user) {
+      alert("Woohoo, user logged in with Facebook!");
+    },
+    error: function(user, error) {
+      alert("User cancelled the Facebook login or did not fully authorize.");
+    }
+  });
+}
+```
+
+リンク時に必要な手順はログイン手順に非常に似ていますが、正常にログインした場合は既存の`Pars.eUser`がFacebook情報で更新されるという点が異なります。今後Facebookを通じてログインすると、利用者は既存のアカウントにログインすることになります。
+
+Facebookと利用者のリンクを解除する場合は、次のようにします。
+
+```js
+Parse.FacebookUtils.unlink(user, {
+  success: function(user) {
+    alert("The user is no longer associated with their Facebook account.");
+  }
+});
+```
+
+### Facebook SDKとParse
+
+Facebook Javascript SDKには、多数のFacebookのAPIとのやり取りの開始点となるメインの`FB`オブジェクトがあります。[SDKについて詳しくは、こちらをご覧ください](https://developers.facebook.com/docs/reference/javascript/)。
+
+Parse SDKを使用するFacebookログインの場合、`Parse.FacebookUtils.init()`を呼び出す前にFacebook SDKを前もって読み込んでおく必要があります。
+
+Facebookのライブラリは`FB`オブジェクトを管理します。`FB`シングルトンはデフォルトで現在の利用者に同期されるため、呼び出したメソッドはすべて、現在の`Parse.User`に関連付けられているFacebook利用者に対して実行されます。`FB.login()`か`FB.logOut()`の明示的な呼び出しは、`Parse.User`と`FB`オブジェクトの同期がずれる原因となるため、推奨されません。
