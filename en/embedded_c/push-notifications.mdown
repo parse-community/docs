@@ -62,7 +62,7 @@ In cases where there is already an explicit application loop, we can integrate p
 // ...
 parseSetPushCallback(client, myPushCallback);
 parseStartPushService(client);
-int socket = parseGetPushSelectHandle(client);
+int socket = parseGetPushSocket(client);
 while(1) {
 	struct timeval tv;
 	fd_set receive, send, error;
@@ -78,6 +78,6 @@ while(1) {
 
 	// ...
 
-	parseProcessNextPushEvent(client);
+	parseProcessNextPushNotification(client);
 }
 ```
