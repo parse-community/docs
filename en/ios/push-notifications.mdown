@@ -681,16 +681,119 @@ Just after a push send, when only a small number of users have opened their push
 
 ## Troubleshooting
 
-Setting up Push Notifications is often a source of frustration for developers.  The process is complicated and invites problems to happen along the way. If you  run into issues, try some of these troubleshooting tips.
+Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. We have created a [tutorial which covers all the necessary steps to configure your app for push notifications] (https://parse.com/tutorials/ios-push-notifications). If you run into issues, try some of the following troubleshooting tips.
 
-*   Make sure you are using the correct Bundle Identifier in th   `Info.plist` file (as described in step 4.1 of th   [iOS Push Notifications tutorial](/tutorials/ios-push-notifications),   titled, "Configuring a Push Enabled iOS Application."
-*   Make sure you set the correct provisioning profile in Project > Build Setting   (as described in step 4.3 of the iOS Push Notifications tutorial.
-*   Clean your project and restart Xcode.
-*   Try regenerating the provisioning profile by navigating t   [Certificates   Identifiers & Profiles](https://developer.apple.com/account/overview.action), changing the App ID set on the provisioning profile   and changing it back. You will need to reinstall the profile as described in step   two of the tutorial (Creating the Provisioning Profile) and set it in your Project'   Build Settings as described in step 4 ( Configuring a Push Enabled iO   Application).
-*   Open the Xcode Organizer and delete all expired and unused provisionin   profiles from both your computer and your iOS device.
-*   If everything compiles and runs with no errors, but you are still not receivin   pushes, make sure that your app has been given permission to receive notifications   You can verify this in your iOS device's `Settings > Notification    YourAppName`.*   If your app has been granted permission to receive push notifications, make sur   that you are code signing your app with the correct provisioning profile. If yo   have uploaded a Development Push Notification Certificate to Parse, you will onl   receive push notifications if you built your app with a Development Provisionin   Profile. If you have uploaded a Production Push Notification Certificate, you shoul   sign your app with a Distribution Provisioning Profile. Ad Hoc and App Stor   Distribution Provisioning Profiles should both work when your app is configure   with a Production Push Notification Certificate.
-*   When enabling push notifications for an existing App ID in the Apple iO   Provisioning Portal, make sure to regenerate the provisioning profile, then ad   the updated profile to the Xcode Organizer.
-*   Distribution push notifications need to be enabled prior to submitting an ap   to the App Store. Make sure you have followed Section 7, Preparing for the Ap   Store, prior to submitting your app. If you skipped any of these steps, you migh   need to submit a new binary to the App Store.
-*   Double check that your app can receive distribution push notification   when signed with an Ad Hoc profile. This configuration is the closest you can ge   to an App Store provisioned app.
-*   Check the number of recipients in your Parse.com push console. Does it match the   expected number of recipients? Your push might be targeted incorrectly.
-*   If your app has been released for a while, it's possible for the recipient estimate   on the push composer page to be higher than the pushes sent value on the push results page.   The push composer estimate is generated via running your push segment query over   your app's installation table.  We do not automatically delete installation objects when   the users uninstall your app.  When we try to send a push, we detect uninstalled   installations and do not include them in the pushes sent value on the results page.
+It's important to break down the system into components when troubleshooting push notification issues. You can start by asking yourself the following questions:
+
+* Is the push notification listed in your push logs?
+* Are you targeting your push notification to the correct audience?
+* Are your devices registering for push notifications?
+* Is your app set up to receive these notifications?
+
+If the answer is Yes to all of these questions, there may be an operational issue that is affecting the delivery of push notifications. You can see the current status of the platform in our status page. If everything looks green, please create a bug report with more information. Every bug report opened against the push notification category will be redirected to this troubleshooting guide unless it includes evidence of having gone through these steps, so please be as verbose as possible.
+
+If you're unsure about the answer to any of the above questions, read on!
+
+### Confirm that the push campaign was created
+
+Having everything set up correctly in your Parse app won't help if your request to send a push notification does not reach Parse. The first step in debugging a push issue is to confirm that the push campaign is listed in your push logs. You can find these logs by visiting your app's [Dashboard](https://parse.com/apps) and clicking on Push.
+
+If the push notification campaign is not showing up on that list, the issue is quite simple to resolve. Go back to your push notification sending code and make sure to check for any error responses. If you're using any of the client SDKs, make sure to listen for and catch any errors that may be returned. For example, in iOS you could log errors like so:
+
+```objc
+[push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+  if (success) {
+		NSLog(@"The push campaign has been created.");
+  } else if (error.code == kPFErrorPushMisconfigured) {
+    NSLog(@"Could not send push. Push is misconfigured: %@", error.description);
+  } else {
+    NSLog(@"Error sending push: %@", error.description);
+  }
+}];
+```
+```swift
+push.sendPushInBackgroundWithBlock {
+		(success: Bool , error: NSError?) -> Void in
+		if (success) {
+				println("The push campaign has been created.");
+		} else if (error!.code == 112) {
+				println("Could not send push. Push is misconfigured: \(error!.description).");
+		} else {
+				println("Error sending push: \(error!.description).");
+		}
+}
+```
+
+Please note that client SDKs such as the iOS SDK can only send push notifications if Client Push is enabled in your Parse app's Push Notification settings. Otherwise, you'll only be able to send pushes from the web console, the REST API, or by using the JavaScript SDK from Cloud Code. We strongly encourage developers to turn off Client Push before releasing their app publicly unless your use case allows for any amount of arbitrary pushes to be sent by any of your users. You can read our security guide for more information.
+
+### Verify your Targeting
+
+You have confirmed that the push notification is making it to your push logs. Now what? The next step is to verify if your push notification targeting is correct. Say, if you're debugging why notifications are not reaching a specific device, it's important to make sure that this device is actually included in the targeting of this push notification. You can't deliver something that is not addressed correctly.
+
+In order to do this, you'll have to confirm that the device's Installation object is included in your push notification targeting criteria. This is quite straightforward if you're using channels: all you need to verify is that your device's Installation is subscribed to the channel by checking the channels array. If you're using advanced targeting, e.g. you're using a push query with constraints, you'll have to work a bit more to determine if your targeting is on point.
+
+Basically, you will need to run the same push query you're using for your targeting, and verify that your installation of interest is included in the result set. As you can only query the installation class programmatically using the Master Key, you will need to use one of the Master Key capable SDKs (JavaScript SDK, .NET) or the REST API. Ideally, you would use the same SDK that you're currently using to send the push notifications.
+
+#### Debugging using the REST API
+
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](https://parse.com/docs/rest#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+
+```bash
+# Query over installations
+curl -X GET \
+-H "X-Parse-Application-Id: {YOUR_APPLICATION_ID}" \
+-H "X-Parse-Master-Key: {YOUR_MASTER_KEY}" \
+-G \
+--data-urlencode 'limit=1000' \
+--data-urlencode 'where={ "city": "San Francisco", "deviceType": { "$in": [ "ios", "android", "winphone", "embedded" ] } }' \
+https://api.parse.com/1/installations
+```
+
+If you type the above into a console, you should be able to see the first 1,000 objects that match your query. Note that constraints are always ANDed, so if you want to further reduce the search scope, you can add a constraint that matches the specific installation for your device:
+
+```bash
+# Query over installations
+curl -X GET \
+-H "X-Parse-Application-Id: {YOUR_APPLICATION_ID}" \
+-H "X-Parse-Master-Key: {YOUR_MASTER_KEY}" \
+-G \
+--data-urlencode 'limit=1' \
+--data-urlencode 'where={ “objectId”: {YOUR_INSTALLATION_OBJECT_ID}, "city": "San Francisco", "deviceType": { "$in": [ "ios", "android", "winphone", "embedded" ] } }' \
+https://api.parse.com/1/installations
+```
+
+If the above query returns no results, it is likely that your installation does not meet the targeting criteria for your campaign.
+
+#### Check your Device Configuration
+
+Your push campaign is created and the device is included in the targeting, but you're still not receiving push notifications. What gives?
+
+This is a good time to go through your project settings and make sure everything is in order.
+
+* Make sure you are using the correct Bundle Identifier in the `Info.plist` file in your Xcode project. This should match your push certificate bundle identifier as well as your Installation object's bundle identifier.
+* Make sure you set the correct provisioning profile in `Project > Build Settings` in Xcode.
+* Clean your project and restart Xcode.
+* Try regenerating the provisioning profile by navigating to [Certificates, Identifiers & Profiles](https://developer.apple.com/account/overview.action), changing the App ID set on the provisioning profile, and changing it back. You will need to reinstall the profile as described in step two of the tutorial (Creating the Provisioning Profile) and set it in your Project's Build Settings.
+* Open the Xcode Organizer and delete all expired and unused provisioning profiles from both your computer and your iOS device.
+* When enabling push notifications for an existing App ID in the Apple iOS Provisioning Portal, make sure to regenerate the provisioning profile, then add the updated profile to the Xcode Organizer.
+* Distribution push notifications need to be enabled prior to submitting an app to the App Store. Make sure you have followed Section 7 of the tutorial, "Preparing for the App Store", prior to submitting your app. If you skipped any of these steps, you might need to submit a new binary to the App Store.
+* Double check that your app can receive distribution push notifications when signed with an Ad Hoc profile. This configuration is the closest you can get to an App Store provisioned app.
+
+If everything compiles and runs with no errors, but you are still not receiving pushes:
+
+* Check that the device token registration call is being called successfully when the user opts in to push notifications. Your device must successfully register an Installation object with a valid device token.
+* Make sure that your app has been given permission to receive notifications. You can verify this in your iOS device's `Settings > Notification > YourAppName`.
+* If your app has been granted permission to receive push notifications, make sure that you are code signing your app with the correct provisioning profile.
+* If you have uploaded a Development Push Notification Certificate to Parse, you will only receive push notifications if you built your app with a Development Provisioning Profile.
+* If you have uploaded a Production Push Notification Certificate, you should sign your app with a Distribution Provisioning Profile. Ad Hoc and App Store Distribution Provisioning Profiles should both work when your app is configured with a Production Push Notification Certificate.
+* Make sure that all of the push certificates that you've uploaded to Parse are valid. Check and see if there are any expired push certificates that may be preventing your push from being delivered to all your recipients successfully.
+
+If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table. We do not automatically delete installation objects when the users uninstall your app or opt out of push notifications. When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.
+
+#### Handling Push Notifications
+
+If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check. For example, if your app is in the foreground when the push notification is received, an alert will not be displayed by default. You will need to handle the incoming push notification and perform the necessary action as documented in [Responding to the Payload](/docs/ios/guide#push-notifications-responding-to-the-payload).
+
+If your app is not running in the foreground and the push notification is not showing up, make sure that you're specifying an "alert" key in your payload. Otherwise, the push notification will be treated as a silent push notification.
+
+When using `content-available` to send silent push notifications, keep in mind that APNS may throttle push notifications sent to the same device token within a short period of time.
