@@ -198,11 +198,11 @@ PFObject *post = fetchedComment[@"parent"];
     NSString *title = post[@"title"]; }];
 ```
 
-また、`PFRelation`オブジェクトを使用すると多対多の関係をモデル化することもできます。これは`PFObjects`の`NSArray`と同様に作用しますが、関係するすべてのオブジェクトを一度にダウンロードする必要はありません。そのおかげで`PFRelation`の方が、`PFObject`の`NSArray`アプローチよりも多くのオブジェクトに拡張することができます。たとえば、`User`が「いいね！」した多数の`Post`を持っているとします。この場合、`relationforKey:`を使用して`User`が「いいね！」した一連の`Post`を格納できます。投稿をリストに追加するためには、コードは次のようにする必要があります。
+また、`PFRelation`オブジェクトを使用すると多対多の関係をモデル化することもできます。これは`PFObjects`の`NSArray`と同様に作用しますが、関係するすべてのオブジェクトを一度にダウンロードする必要はありません。そのおかげで`PFRelation`の方が、`PFObject`の`NSArray`アプローチよりも多くのオブジェクトに拡張することができます。たとえば、`User`が「いいね！」した多数の`Post`を持っているとします。この場合、`relationForKey:`を使用して`User`が「いいね！」した一連の`Post`を格納できます。投稿をリストに追加するためには、コードは次のようにする必要があります。
 
 ```objc
 PFUser *user = [PFUser currentUser];
-PFRelation *relation = [user relationforKey:@"likes"];
+PFRelation *relation = [user relationForKey:@"likes"];
 [relation addObject:post];
 [user saveInBackground];
 ```

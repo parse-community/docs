@@ -331,7 +331,7 @@ PFObject *book= [PFObject objectWithClassName:@"Book"];
 
 // now let’s associate the authors with the book
 // remember, we created a "authors" relation on Book
-PFRelation *relation = [book relationforKey:@"authors"];
+PFRelation *relation = [book relationForKey:@"authors"];
 [relation addObject:authorOne];
 [relation addObject:authorTwo];
 [relation addObject:authorThree];
@@ -371,7 +371,7 @@ ParseQuery query = relation.getQuery();
 PFObject *book = ...
 
 // create a relation based on the authors key
-PFRelation *relation = [book relationforKey:@"authors"];
+PFRelation *relation = [book relationForKey:@"authors"];
 
 // generate a query based on that relation
 PFQuery *query = [relation query];
@@ -400,7 +400,7 @@ ParseObject author = ...
 // first we will create a query on the Book object
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Book");
 
-// now we will query the authors relation to see if the author object we have 
+// now we will query the authors relation to see if the author object we have
 // is contained therein
 query.whereEqualTo("authors", author);
 ```
@@ -411,7 +411,7 @@ PFObject *author = ...
 // first we will create a query on the Book object
 PFQuery *query = [PFQuery queryWithClassName:@"Book"];
 
-// now we will query the authors relation to see if the author object 
+// now we will query the authors relation to see if the author object
 // we have is contained therein
 [query whereKey:@"authors" equalTo:author];
 ```
@@ -623,7 +623,7 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
 
 // execute the query
 [bookQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-    // objects is all of the Book objects, and their associated 
+    // objects is all of the Book objects, and their associated
     // Author objects, too
 }];
 ```
