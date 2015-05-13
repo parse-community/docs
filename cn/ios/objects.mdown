@@ -141,7 +141,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 若要从云中删除对象：
 
-```objc 
+```objc
 [myObject deleteInBackground];
 ```
 
@@ -198,11 +198,11 @@ PFObject *post = fetchedComment[@"parent"];
     NSString *title = post[@"title"]; }];
 ```
 
-您还可以使用 `PFRelation` 对象建立多对多关系模型。其机理与 `PFObjects` 的 `NSArray` 类似，但您不必一次性下载关系中的所有对象。因此 `PFRelation` 可以扩展到比 `PFObject` 方法的 `NSArray` 多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `relationforKey:` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
+您还可以使用 `PFRelation` 对象建立多对多关系模型。其机理与 `PFObjects` 的 `NSArray` 类似，但您不必一次性下载关系中的所有对象。因此 `PFRelation` 可以扩展到比 `PFObject` 方法的 `NSArray` 多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `relationForKey:` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
 
 ```objc
 PFUser *user = [PFUser currentUser];
-PFRelation *relation = [user relationforKey:@"likes"];
+PFRelation *relation = [user relationForKey:@"likes"];
 [relation addObject:post];
 [user saveInBackground];
 ```

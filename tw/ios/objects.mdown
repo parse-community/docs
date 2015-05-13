@@ -198,11 +198,11 @@ PFObject *post = fetchedComment[@"parent"];
     NSString *title = post[@"title"]; }];
 ```
 
-您也可以使用 `PFRelation` 物件來建立多對多關聯的模型。這個方式與 `PFObjects` 的 `NSArray` 類似，不過您不需要一次下載同一個關聯中的所有物件。與 `PFObject` 方法的 `NSArray` 相較之下，這使得 `PFRelation` 能夠擴大至更多物件。舉例而言，一個 `User` 或許會有許多他們可能喜歡的 `Post`。在這種情況下，您可以使用 `relationforKey:` 存放 `User` 喜歡的 `Post` 集。若要新增一則貼文至清單，程式碼可能會看起來像：
+您也可以使用 `PFRelation` 物件來建立多對多關聯的模型。這個方式與 `PFObjects` 的 `NSArray` 類似，不過您不需要一次下載同一個關聯中的所有物件。與 `PFObject` 方法的 `NSArray` 相較之下，這使得 `PFRelation` 能夠擴大至更多物件。舉例而言，一個 `User` 或許會有許多他們可能喜歡的 `Post`。在這種情況下，您可以使用 `relationForKey:` 存放 `User` 喜歡的 `Post` 集。若要新增一則貼文至清單，程式碼可能會看起來像：
 
 ```objc
 PFUser *user = [PFUser currentUser];
-PFRelation *relation = [user relationforKey:@"likes"];
+PFRelation *relation = [user relationForKey:@"likes"];
 [relation addObject:post];
 [user saveInBackground];
 ```
