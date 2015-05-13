@@ -681,7 +681,7 @@ Just after a push send, when only a small number of users have opened their push
 
 ## Troubleshooting
 
-Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. We have created a [tutorial which covers all the necessary steps to configure your app for push notifications] (https://parse.com/tutorials/ios-push-notifications). If you run into issues, try some of the following troubleshooting tips.
+Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. We have created a [tutorial which covers all the necessary steps to configure your app for push notifications](/tutorials/ios-push-notifications). If you run into issues, try some of the following troubleshooting tips.
 
 It's important to break down the system into components when troubleshooting push notification issues. You can start by asking yourself the following questions:
 
@@ -696,7 +696,7 @@ If you're unsure about the answer to any of the above questions, read on!
 
 ### Confirm that the push campaign was created
 
-Having everything set up correctly in your Parse app won't help if your request to send a push notification does not reach Parse. The first step in debugging a push issue is to confirm that the push campaign is listed in your push logs. You can find these logs by visiting your app's [Dashboard](https://parse.com/apps) and clicking on Push.
+Having everything set up correctly in your Parse app won't help if your request to send a push notification does not reach Parse. The first step in debugging a push issue is to confirm that the push campaign is listed in your push logs. You can find these logs by visiting your app's [Dashboard](/apps) and clicking on Push.
 
 If the push notification campaign is not showing up on that list, the issue is quite simple to resolve. Go back to your push notification sending code and make sure to check for any error responses. If you're using any of the client SDKs, make sure to listen for and catch any errors that may be returned. For example, in iOS you could log errors like so:
 
@@ -736,7 +736,7 @@ Basically, you will need to run the same push query you're using for your target
 
 #### Debugging using the REST API
 
-The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](https://parse.com/docs/rest#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](/docs/rest#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
 ```bash
 # Query over installations
