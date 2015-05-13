@@ -12,7 +12,7 @@ Even if you're only familiar with mobile development, we hope you'll find Cloud 
 
 On the computer you use for development, you will need to install Parse's command line tool. This will let you manage your code in the Parse Cloud. You can learn more about the features of the command line tool in the [Command Line Tool guide](#command-line).
 
-### Instllaling the Command Line Tool
+### Installing the Command Line Tool
 
 #### Mac/Linux
 
@@ -400,16 +400,16 @@ Parse.Cloud.define("ThisFunctionWillNotReturnAllDataAsExpected", function(reques
 This is a common mistake that can be easily avoided. Make sure that you only call `success` once all of your network queries have returned data, such as in the following example:
 
 ```js
-Parse.Cloud.define("ThisFunctionWillNotReturnAllDataAsExpected", function(request, response) {
+Parse.Cloud.define("ThisFunctionWillReturnAllData", function(request, response) {
   var results = "Retrieved all Posts:\n"
   var query = new Parse.Query("Post");
 
-  // This query.find() is unlikely to finish before response.success() is called.
   query.find().then(function(posts) {
     for (var i = 0; i < posts.length; i++) {
       results += posts[i].get('title') + "\n";
     }
 
+    // success has been moved inside the callback for query.find()
     response.success(results);
   }, function(error) {
     // Make sure to catch any errors, otherwise you may see a "success/error not called" error in Cloud Code.
