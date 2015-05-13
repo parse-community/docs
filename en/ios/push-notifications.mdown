@@ -764,7 +764,7 @@ https://api.parse.com/1/installations
 
 If the above query returns no results, it is likely that your installation does not meet the targeting criteria for your campaign.
 
-#### Check your Device Configuration
+### Check your Device Configuration
 
 Your push campaign is created and the device is included in the targeting, but you're still not receiving push notifications. What gives?
 
@@ -790,7 +790,7 @@ If everything compiles and runs with no errors, but you are still not receiving 
 
 If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table. We do not automatically delete installation objects when the users uninstall your app or opt out of push notifications. When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.
 
-#### Handling Push Notifications
+### Handling Push Notifications
 
 If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check. For example, if your app is in the foreground when the push notification is received, an alert will not be displayed by default. You will need to handle the incoming push notification and perform the necessary action as documented in [Responding to the Payload](/docs/ios/guide#push-notifications-responding-to-the-payload).
 
