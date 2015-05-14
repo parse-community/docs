@@ -7,7 +7,7 @@ Parse 上的数据储存建立在 `ParseObject` 的基础上。每个 `ParseObje
 例如，假设您要跟踪游戏的高分。单个 `ParseObject` 可能包括：
 
 ```js
-score: 1337, playerName: "Sean Plott", cheatMode: false     
+score: 1337, playerName: "Sean Plott", cheatMode: false
 ```
 
 键值必须是字母数字字符串。键值可以是字符串、数字、布尔值或设置是数组和对象 － 只要是能用 JSON 编码的任何内容。
@@ -256,7 +256,7 @@ myComment.saveInBackground();
 ```java
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
-```    
+```
 
 默认在提取对象时不提取相关的 `ParseObject`。这些对象的值在按如下方式提取之前无法检索：
 
@@ -343,7 +343,7 @@ bigObject.saveInBackground();
 
 我们不建议通过在 `ParseObject` 中使用 `byte[]` 字段来存储图像或文档等大型二进制数据。`ParseObjects` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `ParseFile`。更多详细信息请参考[指南部分](#files)。
 
-若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](/docs/data)部分的文档。
+若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](#data)部分的文档。
 
 ## 子类
 

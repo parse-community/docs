@@ -62,7 +62,7 @@ alert(monster.sound); // Displays Rawr.
 var GameScore = Parse.Object.extend("GameScore");
 var gameScore = new GameScore();
 
-gameScore.set("score", 1337); 
+gameScore.set("score", 1337);
 gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 gameScore.save(null, {
@@ -146,7 +146,7 @@ var createdAt = gameScore.createdAt;
 
 ```js
 myObject.fetch({
-  success: function(myObject) 
+  success: function(myObject)
     // The object was refreshed successfully
   },
   error: function(myObject, error) {
@@ -370,4 +370,4 @@ bigObject.save();
 
 `Parse.Object` 的大小不應該超過 128 KB。
 
-關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](/docs/data)查看我們的說明文件。
+關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](#data)查看我們的說明文件。

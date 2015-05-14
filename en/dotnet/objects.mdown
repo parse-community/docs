@@ -76,7 +76,7 @@ await bigObject.SaveAsync();
 
 We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size.
 
-For more information about how Parse handles data, check out our documentation on [Data & Security](/docs/data).
+For more information about how Parse handles data, check out our documentation on [Data](#data).
 
 ## Retrieving Objects
 
@@ -124,7 +124,7 @@ var gameScore = new ParseObject("GameScore")
 };
 await gameScore.SaveAsync();
 
-// Now let's update it with some new data.  In this case, only cheatMode 
+// Now let's update it with some new data.  In this case, only cheatMode
 // and score will get sent to the cloud.  playerName hasn't changed.
 gameScore["cheatMode"] = true;
 gameScore["score"] = 1338;
@@ -192,7 +192,7 @@ For example, each `Comment` in a blogging app might correspond to one `Post`. To
 var myPost = new ParseObject("Post")
 {
     { "title", "I'm Hungry" },
-    { "content", "Where should we go for lunch?" }    
+    { "content", "Where should we go for lunch?" }
 };
 
 // Create the comment
@@ -317,7 +317,7 @@ public class Armor : ParseObject
 // App.xaml.cs
 using Parse;
 
-public class App : Application 
+public class App : Application
 {
   public App()
   {

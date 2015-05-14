@@ -2,7 +2,7 @@
 
 ## Valid Data Types
 
-We've designed the Parse SDKs so that you typically don't need to worry about how data is saved while using the client SDKs. Simply add data to the Parse Object, and it'll be saved correctly.
+We've designed the Parse SDKs so that you typically don't need to worry about how data is saved while using the client SDKs. Simply add data to the `%{ParseObject}`, and it'll be saved correctly.
 
 Nevertheless, there are some cases where it's useful to be aware of how data is stored on the Parse platform.
 
@@ -14,23 +14,20 @@ Internally, Parse stores data as JSON, so any datatype that can be converted to 
 * Array
 * Object
 * Date
-* Bytes
-* File
+* `%{ParseFile}`
+* `%{ParseObject}`
+* `%{ParseRelation}`
 * Null
-* Pointer
-* Relation
 
 The type `Object` simply denotes that each value can be composed of nested objects that are JSON-encodable. Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself.
 
-Our SDK handles translating native Objective-C, Java, JavaScript types and so on to JSON. For example, if you save an `NSString` object, it will be translated into a `String` type in our system.
-
-There are two ways to store binary data. The `Bytes` type allows you to associate `NSData`/`bytes[]` types directly on a Parse Object. This is recommended only for small pieces of binary-encoded data. For actual files (images, documents, etc.), the `File` type can be used by instantiating a Parse File and setting it on a field.
+We do not recommend storing large pieces of binary data like images or documents in a `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `File`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field.
 
 ## Data Type Lock-in
 
 When a class is initially created, it doesn't have an inherent schema defined. This means that for the first object, it could have any types of fields you want.
 
-However, after a field has been set at least once, that field is locked into the particular type that was saved. For example, if a `User` object is saved with field `name` of type `String`, that field will be restricted to the `String` type only (our SDK will return an error if you try to save anything else).
+However, after a field has been set at least once, that field is locked into the particular type that was saved. For example, if a `%{ParseUser}` object is saved with field `name` of type `String`, that field will be restricted to the `String` type only (our SDK will return an error if you try to save anything else).
 
 One special case is that any field can be set to `null`, no matter what type it is.
 
@@ -77,7 +74,7 @@ Normally, when objects are saved to Parse, they are automatically assigned a uni
 
 In addition to the exposed fields, objects in the Parse User class can also have the `bcryptPassword` field set. The value of this field is a `String` that is the bcrypt hashed password + salt in the modular crypt format described in this [StackOverflow answer](http://stackoverflow.com/a/5882472/1351961). Most OpenSSL based bcrypt implementations should have built-in methods to produce these strings.
 
-A file containing a `User` object could look like:
+A file containing a `%{ParseUser}` object could look like:
 
 ```js
 { "results":
@@ -96,13 +93,17 @@ Note that in CSV the import field types are limited to `String`, `Boolean`, and 
 
 ## Exporting your Data
 
-You can request an export of your data at any time from your app's Settings page. Each collection will be exported in the same JSON format used by our REST API and delivered in a single zipped file.
+You can request an export of your data at any time from your app's Settings page. The data export runs at a lower priority than production queries, so if your app is still serving queries, production traffic will always be given a higher priority, which may slow down the delivery of your data export.
 
-The data export runs at a lower priority than production queries, so if your app is still serving queries, production traffic will always be given a higher priority, which may slow down the delivery of your data export.
+### Export Formats
+
+Each collection will be exported in the same JSON format used by our REST API and delivered in a single zipped file. Since data is stored internally as JSON, this allows us to ensure that the export closely matches how the data is saved to Parse. Other formats such as CSV cannot represent all of the data types supported by Parse without losing information. If you'd like to work with your data in CSV format, you can use any of the JSON-to-CSV converters available widely on the web.
+
+### Offline Analysis
 
 For offline analysis of your data, we highly recommend using alternate ways to access your data that do not require extracting the entire collection at once. For example, you can try exporting only the data that has changed since your last export. Here are some ways of achieving this:
 
-* Use the JavaScript SDK in a node app. Parse.Query.each() will allow you to extract every single object that matches a query. You can use date constraints to make sure the query only matches data that has been updated since you last ran this app. Your node app can write this data to disk for offline analysis.
+* Use the JavaScript SDK in a node app. `Parse.Query.each()`` will allow you to extract every single object that matches a query. You can use date constraints to make sure the query only matches data that has been updated since you last ran this app. Your node app can write this data to disk for offline analysis.
 
 * Use the REST API in a script. You can run queries against your class and use skip/limit to page through results, which can then be written to disk for offline analysis. You can again use date constraints to make sure only newly updated data is extracted.
 

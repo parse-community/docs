@@ -75,7 +75,7 @@ $updatedAt = $gameScore->getUpdatedAt();
 $createdAt = $gameScore->getCreatedAt();
 ```
 
-If you need to refresh an object you already have with the latest data that 
+If you need to refresh an object you already have with the latest data that
     is in the Parse Cloud, you can call the `fetch` method like so:
 
 ```php
@@ -134,7 +134,7 @@ $gameScore->addUnique("skills", ["kungfu"]);
 $gameScore->save();
 ```
 
-Note that it is not currently possible to atomically add and remove items from an array in the same save. 
+Note that it is not currently possible to atomically add and remove items from an array in the same save.
     You will have to call `save` in between every different kind of array operation.
 
 
@@ -278,4 +278,4 @@ $bigObject->save();
 
 `ParseObject`s should not exceed 128 kilobytes in size.
 
-For more information about how Parse handles data, check out our documentation on [Data & Security](/docs/data).
+For more information about how Parse handles data, check out our documentation on [Data](#data).

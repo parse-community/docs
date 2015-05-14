@@ -6,7 +6,7 @@ Parseでデータを保管するには、`ParseObject`を使用します。各`P
 
 たとえば、ゲームのハイスコアをトラッキングしているとします。1つの`ParseObject`には、次のものを格納できます。
 
-```js 
+```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
 ```
 
@@ -139,7 +139,7 @@ object.fetchFromLocalDatastoreInBackground(new GetCallback<ParseObject>() {
 
  オブジェクトの処理が終了し、デバイス上に保管しておく必要がなくなったら、`unpinInBackground`でリリースできます。
 
-```java 
+```java
 gameScore.unpinInBackground();
 ```
 
@@ -258,7 +258,7 @@ myComment.saveInBackground();
 ```java
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
-```    
+```
 
 デフォルトでは、オブジェクトをフェッチするときには、関係付けられた`ParseObject`はフェッチされません。これらのオブジェクトの値は、フェッチされるまで取得されません。
 
@@ -345,7 +345,7 @@ bigObject.saveInBackground();
 
 `ParseObject`の`byte[]`フィールドに、画像や文書のような、大きなバイナリデータを保管することは推奨しません。`ParseObjects`は、128キロバイトを超えないようにしてください。それより大きなものを保管するには、`ParseFile`の使用を推奨します。詳細は[ガイドの項](#files)を参照してください。
 
-Parseによるデータハンドリングの詳細は、[データとセキュリティ](/docs/data)に関する文書を参照してください。
+Parseによるデータハンドリングの詳細は、[データとセキュリティ](#data)に関する文書を参照してください。
 
 ## サブクラス
 

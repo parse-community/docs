@@ -99,4 +99,4 @@ create.send();
 
 We do not recommend storing large pieces of binary data like images or documents in a Parse Object. Parse Objects should not exceed 128 kilobytes in size. To store more, we recommend you use Parse Files. See the [Files section in the REST documentation](/docs/rest#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data & Security](/docs/data).
+For more information about how Parse handles data, check out our documentation on [Data](#data).
