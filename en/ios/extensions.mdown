@@ -25,23 +25,27 @@ To share your local data between app and extensions you need to do the following
     Please note, that App Group identifier and Keychain Group should be the same between your app and all extensions for data sharing to work.
     ![](https://parse.com/images/docs/extensions/capabilities.png)
 *   Add the following before you initialize Parse in your Main App:
+
 ```objc
 // Enable data sharing in main app.
 [Parse enableDataSharingWithApplicationGroupIdentifier:@"group.com.parse.parseuidemo"];
 // Setup Parse
 [Parse setApplicationId:@"<ParseAppId>" clientKey:@"<ClientKey>"];
 ```
+
 ```swift
 // Enable data sharing in main app.
 Parse.enableDataSharingWithApplicationGroupIdentifier("group.com.parse.parseuidemo")
 // Setup Parse
 Parse.setApplicationId("<ParseAppId>", clientKey: "<ClientKey>")
 ```
+
 *   Add the following before you initialize Parse in your App Extension:
+
 ```objc
 // Enable data sharing in app extensions.
 [Parse enableDataSharingWithApplicationGroupIdentifier:@"group.com.parse.parseuidemo"
-                             containingApplication:@"com.parse.parseuidemo"];
+                                 containingApplication:@"com.parse.parseuidemo"];
 // Setup Parse
 [Parse setApplicationId:@"<ParseAppId>" clientKey:@"<ClientKey>"];
 ```
