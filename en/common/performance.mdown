@@ -132,7 +132,8 @@ query.find().then(function(results) {
 
 The new query you use depends  on your use case. This may sometimes mean a redesign of your data model.
 
-**Not Contained In**
+### Not Contained In
+
 Similar to “Not Equal To”, the “Not Contained In” query constraint can't use an index. You should try and use the complementary “Contained In” constraint. Building on the User example, if the state column had one more value, “Blocked”, to represent blocked users, a slow query to find active users would be:
 
 ```objc
@@ -148,7 +149,8 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 
 This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
 
-**Regular Expressions**
+### Regular Expressions
+
 Most regular expression queries in Parse have been deprecated due to performance considerations. MongoDB is not efficient for doing partial string matching except for the special case where you only want a prefix match. Queries that have regular expression constraints are therefore very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
 
 You should avoid using regular expression constraints that don't use indexes. For example, the following query looks for data with a given string in the playerName field. The string search is case insensitive:
