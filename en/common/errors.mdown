@@ -79,6 +79,6 @@ The following is a comprehensive list of all the error codes that can be returne
 | `InvalidLinkedSession`	         |  251 | A user with a linked (e.g. Facebook or Twitter) account has an invalid session. |
 | `UnsupportedService`	           |  252 | A service being linked (e.g. Facebook or Twitter) is unsupported. |
 | `InvalidAuthDataError`	         |  253 | An invalid authData value was passed. It must be a Hash, not String. |
-| `AggregateError	                 |  600 | There were multiple errors. Aggregate errors have an "errors" property, which is an array of error objects with more detail about each error that occurred. |
-| `XDomainRequest	                 |      | A real error code is unavailable because we had to use an XDomainRequest object to allow CORS requests in Internet Explorer, which strips the body from HTTP responses that have a non-2XX status code. |
-| `Unauthorized	                   |      | Unauthorized request. Are you missing an authentication header? |
+| `AggregateError`                 |  600 | There were multiple errors. Aggregate errors have an "errors" property, which is an array of error objects with more detail about each error that occurred. |
+| `XDomainRequest`                 |      | A real error code is unavailable because we had to use an XDomainRequest object to allow CORS requests in Internet Explorer, which strips the body from HTTP responses that have a non-2XX status code. |
+| `Unauthorized`	                 |      | Unauthorized request. Are you missing an authentication header? |
