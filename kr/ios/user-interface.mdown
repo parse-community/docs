@@ -1,6 +1,6 @@
 # 사용자 인터페이스
 
-앱 사용자들은 하루가 끝날 때 UIKit 구성 요소와 상호 작용합니다. Parse에서는 `PFUser` 로그인/가입과 `PFObject` 표시를 쉽게 수행할 수 있는 `UIViewController` 하위 클래스를 몇 개 제공합니다.
+앱 사용자들은 하루가 끝날 때 UIKit 구성 요소와 상호 작용합니다. Parse에서는 `PFUser` 로그인/가입과 `%{ParseObject}` 표시를 쉽게 수행할 수 있는 `UIViewController` 하위 클래스를 몇 개 제공합니다.
 
 ## PFLogInViewController
 
@@ -221,7 +221,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 검증 로직 사용자 지정
 
-가입 정보를 Parse Cloud에 제출하기 전에 클라이언트 측 검증을 실행하는 것이 좋을 수도 있습니다. `PFSignUpViewControllerDelegate`의 `signUpViewController:shouldBeginSignUp:` 메서드에 검증 로직을 추가할 수 있습니다. 예를 들어 8자 미만인 비밀번호가 너무 짧다고 생각되는 경우에는 다음을 수행할 수 있습니다.
+가입 정보를 Parse Cloud에 제출하기 전에 클라이언트 측 검증을 실행하는 것��� 좋을 수도 있습니다. `PFSignUpViewControllerDelegate`의 `signUpViewController:shouldBeginSignUp:` 메서드에 검증 로직을 추가할 수 있습니다. 예를 들어 8자 미만인 비밀번호가 너무 짧다고 생각되는 경우에는 다음을 수행할 수 있습니다.
 
 ```objc
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController
@@ -269,7 +269,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ## PFQueryTableViewController
 
-데이터 중심의 iOS 앱은 대부분이 `UITableViewController`와 해당 `UITableView`의 컬렉션입니다. Parse를 사용할 때 `UITableView`의 각 셀은 일반적으로 `PFObject`의 데이터를 나타냅니다. `PFQueryTableViewController`는 Parse 클래스 중 하나에서 데이터를 쉽게 표시할 수 있도록 추상화 레이어를 제공하는 `UITableViewController`의 하위 클래스입니다.
+데이터 중심의 iOS 앱은 대부분이 `UITableViewController`와 해당 `UITableView`의 컬렉션입니다. Parse를 사용할 때 `UITableView`의 각 셀은 일반적으로 `%{ParseObject}`의 데이터를 나타냅니다. `PFQueryTableViewController`는 Parse 클래스 중 하나에서 데이터를 쉽게 표시할 수 있도록 추상화 레이어를 제공하는 `UITableViewController`의 하위 클래스입니다.
 
 <div class='tip info'><div>
   Parse 앱에 `Todo` 클래스의 개체를 표시하려면 [PFQueryTableViewController 사용에 관한 튜토리얼](/tutorials/parse-query-table)을 참조하세요.
@@ -281,10 +281,10 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 2.  그러면 이 파일이 자동으로 델리게이트 및 데이터 소스로 설정됩니다.
 3.  `parseClassName` 인스턴스 변수를 설정하여 데이터를 쿼리할 Parse 클래스를 지정합니다.
 4.  `queryForTable` 메서드를 재정의하여 테이블의 개체를 가져오는 데 사용할 사용자 지정 `PFQuery`를 생성합니다.
-5.  `tableView:cellForRowAtIndexPath:object:` 메서드를 재정의하여 각 `PFObject`에 맞는 사용자 지정 셀을 반환합니다.
-6.  사용자 지정 셀 클래스를 구현하고 `PFTableViewCell` 클래스에서 상속하게 합니다. 보기가 로드되면 클래스는 구성된 쿼리를 통해 자동으로 `PFObject`를 확보하고 테이블에 로드합니다. 여기에는 바로 사용할 수 있는 페이지 매기기와 당겨서 새로고침(pull-to-refresh)도 포함되어 있습니다.
+5.  `tableView:cellForRowAtIndexPath:object:` 메서드를 재정의하여 각 `%{ParseObject}`에 맞는 사용자 지정 셀을 반환합니다.
+6.  사용자 지정 셀 클래스를 구현하고 `PFTableViewCell` 클래스에서 상속하게 합니다. 보기가 로드되면 클래스는 구성된 쿼리를 통해 자동으로 `%{ParseObject}`를 확보하고 테이블에 로드합니다. 여기에는 바로 사용할 수 있는 페이지 매기기와 당겨서 새로고침(pull-to-refresh)도 포함되어 있습니다.
 
-이 클래스를 사용하면 인덱스 경로에 대해 고심하지 않고 `PFObject`와 `UITableViewCell`의 일대일 매핑만 생각할 수 있습니다. 다음과 같은 기능도 바로 사용할 수 있습니다.
+이 클래스를 사용하면 인덱스 경로에 대해 고심하지 않고 `%{ParseObject}`와 `UITableViewCell`의 일대일 매핑만 생각할 수 있습니다. 다음과 같은 기능도 바로 사용할 수 있습니다.
 
 *   셀을 눌러 다음 페이지를 로드할 수 있는 페이지 매기기
 *   당겨서 새로 고칠 수 있는 테이블 보기 헤더
@@ -390,7 +390,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 셀 사용자 지정
 
-테이블의 모양을 사용자 지정하려면 사용자 지정된 셀을 반환하도록 `tableView:cellForRowAtIndexPath:object:`를 재정의합니다. 이 메서드는 일반적인 테이블 데이터 소스 메서드와 비슷하지만 `PFObject`가 매개변수로 직접 포함되어 있습니다.
+테이블의 모양을 사용자 지정하려면 사용자 지정된 셀��� 반환하도록 `tableView:cellForRowAtIndexPath:object:`를 재정의합니다. 이 메서드는 일반적인 테이블 데이터 소스 메서드와 비슷하지만 `%{ParseObject}`가 매개변수로 직접 포함되어 있습니다.
 
 더 이상 `tableView:cellForRowAtIndexPath:`는 재정의하지 않습니다.
 

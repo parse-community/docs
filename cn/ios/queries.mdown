@@ -1,12 +1,12 @@
 # 查询
 
-我们已经知道带 `getObjectWithId:` 的 `PFQuery` 如何从 Parse 中检索单个 `PFObject`。使用 `PFQuery`，还有多种其他方法可以检索数据 － 您可以一次检索多个对象，设置您检索对象的条件，自动缓存查询避免您自己写代码等。
+我们已经知道带 `getObjectWithId:` 的 `PFQuery` 如何从 Parse 中检索单个 `%{ParseObject}`。使用 `PFQuery`，还有多种其他方法可以检索数据 － 您可以一次检索多个对象，设置您检索对象的条件，自动缓存查询避免您自己写代码等。
 
 ## 基本查询
 
 在许多情况下，`getObjectInBackgroundWithId:block:` 不够强大，不能指定您想要检索的对象。`PFQuery` 提供了不同的方法用于检索一系列对象而非仅仅检索单一对象。
 
-常规模式是创建一个 `PFQuery`，对其设置条件，然后用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 检索一个 `NSArray` 的匹配 `PFObject`。例如，若要检索 `playerName` 的得分，可以使用 `whereKey:equalTo:` 方法限定键值。
+常规模式是创建一个 `PFQuery`，对其设置条件，然后用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 检索一个 `NSArray` 的匹配 `%{ParseObject}`。例如，若要检索 `playerName` 的得分，可以使用 `whereKey:equalTo:` 方法限定键值。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -237,7 +237,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
 
 ## 关系型查询
 
-有几种方法可以用于关系型数据查询。如果您想检索有字段与某一特定 `PFObject` 匹配的对象，可以像检索其他类型的数据一样使用 `whereKey:equalTo:`。例如，如果每个 `Comment` 在 `post` 字段中有一个 `Post` 对象，您可以提取某一特定 `Post` 的评论：
+有几种方法可以用于关系型数据查询。如果您想检索有字段与某一特定 `%{ParseObject}` 匹配的对象，可以像检索其他类型的数据一样使用 `whereKey:equalTo:`。例如，如果每个 `Comment` 在 `post` 字段中有一个 `Post` 对象，您可以提取某一特定 `Post` 的���论：
 
 ```objc
 // Assume PFObject *myPost was previously created.
@@ -255,7 +255,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
        equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
 ```
 
-如果想要检索的对象中，有字段包含与其他查询匹配的 `PFObject`，您可以使用 `whereKey:matchesQuery`。注意，默认限值 100 和最大限值 1000 也适用于内部查询，因此在大型数据集中进行查询时，您可能需要谨慎构建查询条件才能按需要进行查询。为了查找包含图像的帖子的评论，您可以这样：
+如果想要检索的对象中，有字段包含与其他查询匹配的 `%{ParseObject}`，您可以使用 `whereKey:matchesQuery`。注意，默认限值 100 和最大限值 1000 也适用于内部查询，因此在大型数据集中进行查询时，您可能需要谨慎构建查询条件才能按需要进行查询。为了查找包含图像的帖子的评论，您可以这样：
 
 ```objc
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
@@ -267,7 +267,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
 }];
 ```
 
-如果想要检索的对象中，有字段包含与其他查询不匹配的 `PFObject`，您可以使用 `whereKey:doesNotMatchQuery`。为了查找不包含图像的帖子的评论，您可以这样：
+如果想要检索的对象中，有字段包含与其他查询不匹配的 `%{ParseObject}`，您可以使用 `whereKey:doesNotMatchQuery`。为了查找不包含图像的帖子的评论，您可以这样：
 
 ```objc
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];

@@ -1,6 +1,6 @@
 # 使用者介面
 
-一天結束時，應用程式的使用者會與 UIKit 元件互動。Parse 提供一些 `UIViewController` 子類別，可用來登入／註冊 `PFUser` 並讓顯示 `PFObject` 變得容易許多。
+一天結束時，應用程式的使用者會與 UIKit 元件互動。Parse 提供一些 `UIViewController` 子類別，可用來登入／註冊 `PFUser` 並讓顯示 `%{ParseObject}` 變得容易許多。
 
 ## PFLogInViewController
 
@@ -271,7 +271,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ## PFQueryTableViewController
 
-資料導向的 iOS 應用程式大多是 `UITableViewController` 和對應 `UITableView` 的集合。使用 Parse 時，`UITableView` 的每個資料格一般都代表來自 `PFObject` 的資料。`PFQueryTableViewController` 是 `UITableViewController` 的子類別，提供一個抽象層，讓您能輕易從其中一個 Parse 類別顯示資料。
+資料導向的 iOS 應用程式大多是 `UITableViewController` 和對應 `UITableView` 的集合。使用 Parse 時，`UITableView` 的每個資料格一般都代表來自 `%{ParseObject}` 的資料。`PFQueryTableViewController` 是 `UITableViewController` 的子類別，提供一個抽象層，讓您能輕易從其中一個 Parse 類別顯示資料。
 
 <div class='tip info'><div>
 觀看[使用 PFQueryTableViewController 教學](/tutorials/parse-query-table)，從 Parse 應用程式的 `Todo` 類別中顯示物件。
@@ -283,10 +283,10 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 2.  範本檔案會將本身設定為委派和資料來源。
 3.  設定 `parseClassName` 執行個體變數，以指定應查詢哪個 Parse 類別以取得資料。
 4.  覆寫 `queryForTable` 方法以建構自訂的 `PFQuery`。此 PF Query 應能用來自表格中取得物件。
-5.  覆寫 `tableView:cellForRowAtIndexPath:object:` 方法，傳回為每個 `PFObject` 量身訂做的自訂資料格。
-6.  實作自訂資料格類別；確認它繼承自 `PFTableViewCell` 類別。檢視載入時，此類別會透過已建構的查詢自動取得 `PFObject`，並將它載入表格中。此類別甚至包含可立即使用的分頁和下拉更新功能。
+5.  覆寫 `tableView:cellForRowAtIndexPath:object:` 方法，傳回為每個 `%{ParseObject}` 量身訂做的自訂資料格。
+6.  實作自訂資料格類別；確認它繼承自 `PFTableViewCell` 類別。檢視載入時，此類別會透過已建構的查詢自動取得 `%{ParseObject}`，並將它載入表格中。此類別甚至包含可立即使用的分頁和下拉更新功能。
 
-此類別能讓您考慮在 `PFObject` 和 `UITableViewCell` 之間進行一對一對應，而不是修改索引路徑。您也能立即取得下列功能：
+此類別能讓您考慮在 `%{ParseObject}` 和 `UITableViewCell` 之間進行一對一對應，而不是修改索引路徑。您也能立即取得下列功能：
 
 *   用資料格進行分頁，點按資料格即可載入下一頁。
 *   下拉更新表格檢視標題。
@@ -392,7 +392,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 自訂資料格
 
-若要自訂表格外觀，請覆寫 `tableView:cellForRowAtIndexPath:object:` 以傳回自訂的資料格。請注意，此方法跟一般表格資料來源方法很類似，但直接將 `PFObject` 納為參數。
+若要自訂表格外觀，請覆寫 `tableView:cellForRowAtIndexPath:object:` 以傳回自訂的資料格。請注意，此方法跟一般表格資料來源方法很類似，但直接將 `%{ParseObject}` 納為參數。
 
 您不應該再覆寫 `tableView:cellForRowAtIndexPath:`。
 

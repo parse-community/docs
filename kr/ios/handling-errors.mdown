@@ -57,7 +57,7 @@ PFUser *user = [PFUser user];
 }
 ```
 
-콜백에서 `NSNumber`를 기대하는 경우 콜백의 `boolValue`에서 작업의 성공 여부를 알립니다. 예를 들어 `PFObject`의 `saveInBackgroundWithTarget:selector:` 메서드에 대한 콜백을 구현하는 방법은 다음과 같습니다.
+콜백에서 `NSNumber`를 기대하는 경우 콜백의 `boolValue`에서 작업의 성공 여부를 알립니다. 예를 들어 `%{ParseObject}`의 `saveInBackgroundWithTarget:selector:` 메서드에 대한 콜백을 구현하는 방법은 다음과 같습니다.
 
 ```objc
 - (void)callbackForSave:(NSNumber *)result error:(NSError *)error {

@@ -12,7 +12,7 @@ If you want to start using push, start by completing the [iOS Push tutorial](/tu
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-In iOS, `Installation` objects are available through the `%{ParseInstallation}` class, a subclass of `PFObject`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `%{ParseInstallation}`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
+In iOS, `Installation` objects are available through the `%{ParseInstallation}` class, a subclass of `%{ParseObject}`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `%{ParseInstallation}`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
 
 First, make your app register for remote notifications by adding the following in your `application:didFinishLaunchingWithOptions:` method (if you haven't already):
 
@@ -49,7 +49,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 }
 ```
 
-While it is possible to modify a `%{ParseInstallation}` just like you would a `PFObject`, there are several special fields that help manage and target devices.
+While it is possible to modify a `%{ParseInstallation}` just like you would a `%{ParseObject}`, there are several special fields that help manage and target devices.
 
 *   **`badge`**: The current value of the icon badge for iOS apps. Changing this value on the `%{ParseInstallation}` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
@@ -84,7 +84,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 A channel is identified by a string that starts with a letter and consists of alphanumeric characters, underscores, and dashes. It doesn't need to be explicitly created before it can be used and each `Installation` can subscribe to any number of channels at a time.
 
-Adding a channel subscription can be done using the `addUniqueObject:` method in `PFObject`. For example, in a baseball score app, we could do:
+Adding a channel subscription can be done using the `addUniqueObject:` method in `%{ParseObject}`. For example, in a baseball score app, we could do:
 
 ```objc
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -173,7 +173,7 @@ push.sendPushInBackground()
 
 While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
-Since `%{ParseInstallation}` is a subclass of `PFObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
+Since `%{ParseInstallation}` is a subclass of `%{ParseObject}`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 

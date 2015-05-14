@@ -1,12 +1,12 @@
 # クエリ
 
-これまでに`getObjectWithId:`がある`PFQuery`でParseから1つの`PFObject`を取得する方法を確認しました。`PFQuery`を使用したデータの取得には、他にも次のように多数の方法があります。一度に多数のオブジェクトを取得したり、取得するオブジェクトに条件を設定したりできます。また、クエリを自動的にキャッシュしてコードへの書き込みを阻止したりできます。
+これまでに`getObjectWithId:`がある`PFQuery`でParseから1つの`%{ParseObject}`を取得する方法を確認しました。`PFQuery`を使用したデータの取得には、他にも次のように多数の方法があります。一度に多数のオブジェクトを取得したり、取得するオブジェクトに条件を設定したりできます。また、クエリを自動的にキャッシュしてコードへの書き込みを阻止したりできます。
 
 ## 基本的なクエリ
 
 多くの場合、`getObjectInBackgroundWithId:block:`には取得するオブジェクトを指定する機能はありません。`PFQuery`には1つのオブジェクトだけではなく、オブジェクトのリストを取得するさまざまな方法があります。
 
-一般的には、`PFQuery`を作成してそれに条件を設定し、その後`findObjectsInBackgroundWithBlock:`や`findObjectsInBackgroundWithTarget:selector:`のいずれかを使用して`PFObject`が一致する`NSArray`を取得します。たとえば、特定の`playerName`でスコアを取得するには、`whereKey:equalTo:`メソッドを使用してキーの値を制約します。
+一般的には、`PFQuery`を作成してそれに条件を設定し、その後`findObjectsInBackgroundWithBlock:`や`findObjectsInBackgroundWithTarget:selector:`のいずれかを使用して`%{ParseObject}`が一致する`NSArray`を取得します。たとえば、特定の`playerName`でスコアを取得するには、`whereKey:equalTo:`メソッドを使用してキーの値を制約します。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -236,7 +236,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
 
 ## リレーショナルクエリ
 
-リレーショナルデータにはいくつかの方法でクエリを発行できます。特定の`PFObject`に一致するフィールドを持つオブジェクトを取得する場合は、他のデータタイプと同じように`whereKey:equalTo:`を使用できます。たとえば、各`Comment`が`post`フィールドに`Post`オブジェクトを持つ場合、特定の`Post`のコメントを取得できます。
+リレーショナルデータにはいくつかの方法でクエリを発行できます。特定の`%{ParseObject}`に一致するフィールドを持つオブジェクトを取得する場合は、他のデータタイプと同じように`whereKey:equalTo:`を使用できます。たとえば、各`Comment`が`post`フィールドに`Post`オブジェクトを持つ場合、特定の`Post`のコメントを取得できます。
 
 ```objc
 // Assume PFObject *myPost was previously created.
@@ -254,7 +254,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
        equalTo:[PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
 ```
 
-別のクエリに一致する`PFObject`をフィールドに持つオブジェクトを取得する場合は、`whereKey:matchesQuery`を使用します。デフォルトの制限100と最大制限1000が内部クエリにも適用されることから、大規模のデータセットの場合は、目的の動作が得られるまで慎重にクエリを作成する必要があります。画像がある投稿のコメントを取得するには、次のようにします。
+別のクエリに一致する`%{ParseObject}`をフィールドに持つオブジェクトを取得する場合は、`whereKey:matchesQuery`を使用します。デフォルトの制限100と最大制限1000が内部クエリにも適用されることから、大規模のデータセットの場合は、目的の動作が得られるまで慎重にクエリを作成する必要があります。画像がある投稿のコメントを取得するには、次のようにします。
 
 ```objc
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
@@ -266,7 +266,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment"];
 }];
 ```
 
-別のクエリに一致しない`PFObject`をフィールドに持つオブジェクトを取得する場合は、`whereKey:doesNotMatchQuery`を使用します。画像のない投稿のコメントを取得するには、次のようにします。
+別のクエリに一致しない`%{ParseObject}`をフィールドに持つオブジェクトを取得する場合は、`whereKey:doesNotMatchQuery`を使用します。画像のない投稿のコメントを取得するには、次のようにします。
 
 ```objc
 PFQuery *innerQuery = [PFQuery queryWithClassName:@"Post"];
@@ -366,7 +366,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 呼び出しスレッドをブロックする場合は、`countObjects`メソッドを同時に使用することもできます。
 
-1,000を超えるオブジェクトを持つクラスの場合、タイムアウトによってカウント操作が制限されます。常にタイムアウトエラーが発生したり、おおよその結果のみが返されたりすることがあります。従って、こういったカウント操作が発生しないようにアプリケーションを構築することをお勧めします。
+1,000を超えるオブ���ェクトを持つクラスの場合、タイムアウトによってカウント操作が制限されます。常にタイムアウトエラーが発生したり、おおよその結果のみが返されたりすることがあります。従って、こういったカウント操作が発生しないようにアプリケーションを構築することをお勧めします。
 
 ## 複合クエリ
 

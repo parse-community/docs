@@ -10,7 +10,7 @@
 
 在已登錄推播通知的裝置上所安裝的每個 Parse 應用程式，都有相關聯的 `Installation` 物件。`Installation` 物件是儲存推播通知目標設定所需全部資料的地方。例如，您可以在棒球應用程式中將某使用者感興趣的球隊儲存起來，以便傳送關於球隊表現的更新資訊。
 
-在 iOS 中，`Installation` 物件可透過 `%{ParseInstallation}` 類別使用（`PFObject` 的子類別）。此物件會使用[相同的 API](#objects) 儲存和擷取資料。若要從 iOS 應用程式存取目前的 `Installation` 物件，請使用 `[PFInstallation currentInstallation]` 方法。初次儲存 `%{ParseInstallation}` 時，Parse 會把它加入 `Installation` 類別，而且只要設定其 `deviceToken` 欄位，即可用於推播通知目標設定。
+在 iOS 中，`Installation` 物件可透過 `%{ParseInstallation}` 類別使用（`%{ParseObject}` 的子類別）。此物件會使用[相同的 API](#objects) 儲存和擷取資料。若要從 iOS 應用程式存取目前的 `Installation` 物件，請使用 `[PFInstallation currentInstallation]` 方法。初次儲存 `%{ParseInstallation}` 時，Parse 會把它加入 `Installation` 類別，而且只要設定其 `deviceToken` 欄位，即可用於推播通知目標設定。
 
 ```objc
 - (void)application:(UIApplication *)application
@@ -22,7 +22,7 @@
 }
 ```
 
-雖然可以像 `PFObject` 一樣修改 `%{ParseInstallation}`，不過有幾個特殊欄位有助於管理和鎖定裝置。
+雖然可以像 `%{ParseObject}` 一樣修改 `%{ParseInstallation}`，不過有幾個特殊欄位有助於管理和鎖定裝置。
 
 *   **`badge`**：iOS 應用程式目前的圖示徽章值。在 `%{ParseInstallation}` 上更改此值，會更新應用程式圖示的徽章值。您所做的更改可儲存至伺服器，以便用於將來的徽章遞增推播通知。
 *   **`channels`**：裝置目前訂閱的頻道陣列。
@@ -52,7 +52,7 @@
 
 頻道是用由字母開頭且以英數字元、底線、破折號組成的字串來識別。可以使用之前不必明確地建立頻道，而每個 `Installation` 可同時訂閱任何數目的頻道。
 
-可以利用 `PFObject` 中的 `addUniqueObject:` 方法訂閱頻道。例如，在棒球比分應用程式中，我們可以：
+可以利用 `%{ParseObject}` 中的 `addUniqueObject:` 方法訂閱頻道。例如，在棒球比分應用程式中，我們可以：
 
 ```objc
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -110,7 +110,7 @@ PFPush *push = [[PFPush alloc] init];
 
 雖然對許多應用程式來說頻道很好用，不過有時您在設定推播的目標接收者時需要更高的準確度。Parse 能讓您利用[查詢 API](#queries)，對 `Installation` 物件的任何子集編寫查詢，再傳送推播給它們。
 
-由於 `%{ParseInstallation}` 是 `PFObject` 的子類別，因此您可以儲存想儲存的任何資料，甚至能在 `Installation` 物件和其他物件之間建立關聯。這讓您能將推播傳送給自訂程度很高又不斷變化的使用者群。
+由於 `%{ParseInstallation}` 是 `%{ParseObject}` 的子類別，因此您可以儲存想儲存的任何資料，甚至能在 `Installation` 物件和其他物件之間建立關聯。這讓您能將推播傳送給自訂程度很高又不斷變化的使用者群。
 
 #### 儲存安裝資料
 

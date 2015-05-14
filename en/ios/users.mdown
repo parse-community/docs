@@ -4,11 +4,11 @@ At the core of many apps, there is a notion of user accounts that lets users acc
 
 With this class, you'll be able to add user account functionality in your app.
 
-`PFUser` is a subclass of `PFObject` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `PFObject` also exist in `PFUser`. The difference is that PFUser has some special additions specific to user accounts.
+`PFUser` is a subclass of `%{ParseObject}` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `%{ParseObject}` also exist in `PFUser`. The difference is that PFUser has some special additions specific to user accounts.
 
 ## Properties
 
-`PFUser` has several properties that set it apart from `PFObject`:
+`PFUser` has several properties that set it apart from `%{ParseObject}`:
 
 *   **username**: The username for the user (required).
 *   **password**: The password for the user (required on signup).

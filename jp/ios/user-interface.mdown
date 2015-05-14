@@ -1,6 +1,6 @@
 # ユーザーインターフェイス
 
-最終的にアプリの利用者はUIKitコンポーネントとやり取りするようになります。Parseでは`PFUser`のログインや登録を行ったり、`PFObject`の表示を大幅に簡易化する`UIViewController`のサブクラスをいくつか提供します。
+最終的にアプリの利用者はUIKitコンポーネントとやり取りするようになります。Parseでは`PFUser`のログインや登録を行ったり、`%{ParseObject}`の表示を大幅に簡易化する`UIViewController`のサブクラスをいくつか提供します。
 
 ## PFLogInViewController
 
@@ -275,7 +275,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ## PFQueryTableViewController
 
-データ用のiOSアプリはほとんどの場合、`UITableViewController`の集合体で、`UITableView`に対応しています。Parseを使用する場合は、`UITableView`の各セルでは通常`PFObject`からのデータを表示します。`PFQueryTableViewController`は`UITableViewController`のサブクラスで、Parseクラスの1つからのデータを簡単に表示できる、抽象化レイヤーを提供します。
+データ用のiOSアプリはほとんどの場合、`UITableViewController`の集合体で、`UITableView`に対応しています。Parseを使用する場合は、`UITableView`の各セルでは通常`%{ParseObject}`からのデータを表示します。`PFQueryTableViewController`は`UITableViewController`のサブクラスで、Parseクラスの1つからのデータを簡単に表示できる、抽象化レイヤーを提供します。
 
 <div class='tip info'><div>
 Parseアプリケーションの`Todo`クラスからのオブジェクトを表示するには、[PFQueryTableViewControllerの使用についてのチュートリアル](/tutorials/parse-query-table)をご覧ください。
@@ -287,11 +287,11 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 2.  デリゲートとデータソースとして自動設定されます。
 3.  `parseClassName`インスタンス変数を設定してデータをクエリするParseのクラスを指定します。
 4.  `queryForTable`メソッドを上書きして、テーブルのオブジェクトを取得するのに使用するカスタム`PFQuery`を作成します。
-5.  `tableView:cellForRowAtIndexPath:object:`を上書きして、それぞれの`PFObject`に合わせたカスタムセルを返します。
+5.  `tableView:cellForRowAtIndexPath:object:`を上書きして、それぞれの`%{ParseObject}`に合わせたカスタムセルを返します。
 6.  カスタムセルクラスを実装し、`PFTableViewCell`クラスから継承されるようにします。
-7.  ビューがロードされたら、クラスは作成したクエリを通じて自動的に`PFObject`を取得して、テーブルにロードします。ページネーションと「スライドして更新」はすでに指定されているので、すぐに利用できます。
+7.  ビューがロードされたら、クラスは作成したクエリを通じて自動的に`%{ParseObject}`を取得して、テーブルにロードします。ページネーションと「スライドして更新」はすでに指定されているので、すぐに利用できます。
 
-クラスによってインデックスパスを調整するのではなく、`PFObject`と`UITableViewCell`間の一対一マッピングについて考えることができます。また、設定することなく次の機能を使用できます。
+クラスによってインデックスパスを調整するのではなく、`%{ParseObject}`と`UITableViewCell`間の一対一マッピングについて考えることができます。また、設定することなく次の機能を使用できます。
 
 *   タップすることで次のページをロードすることができるセルのページネーション。
 *   「スライドして更新」テーブルビューヘッダー。
@@ -390,7 +390,7 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 
 ### セルのカスタマイズ
 
-テーブルの見た目をカスタマイズするには、カスタマイズしたセルを返すように`tableView:cellForRowAtIndexPath:object:`を上書きします。このメソッドは一般的なテーブルデータソースメソッドと似ていますが、パラメータとして`PFObject`が直接含まれています。
+テーブルの見た目をカスタマイズするには、カスタマイズしたセルを返すように`tableView:cellForRowAtIndexPath:object:`を上書きします。このメソッドは一般的なテーブルデータソースメソッドと似ていますが、パラメータとして`%{ParseObject}`が直接含まれています。
 
 `tableView:cellForRowAtIndexPath:`はもう上書きしないようにします。
 
@@ -480,7 +480,7 @@ ParseのUIクラスにあるすべての文字列はカスタマイズ/ローカ
 
 `PFSignUpViewController`のエラーメッセージ「メールアドレス（andrew@x）は無効です。有効なメールアドレスを入力してください。」にカスタマイズするとします。変数が含まれているので`Localizable.strings`への入力方法が分かりません。
 
-Parse SDKには、`Localizable.string`というファイルがあり、Parseフレームワークのローカライズできるキーがすべて含まれています。このファイルをブラウズすれば、カスタマイズしたい文字列のキーを見つけることができます。文字列「メールアドレス（\&quot;%@\&quot;）は無効です。有効なメールアドレスを入力してください」がファイルのキーであることが確認できます。独自の`Localizable.strings`では、次を入力することができます。
+Parse SDKには、`Localizable.string`というファイルがあり、Parseフレームワークのローカライズできるキーがすべて含まれています。このファイルをブラウズすれば、カスタマイズしたい文字列のキーを見つけることができます。文字列「メールアドレス（\&quot;%@\&quot;）は無効です。有効なメールアドレスを入力してください」がファイルのキーであることが確認できます。���自の`Localizable.strings`では、次を入力することができます。
 
 ```json
 "The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";

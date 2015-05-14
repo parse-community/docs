@@ -10,7 +10,7 @@
 
 安装于注册了推送通知的设备上的每个 Parse 应用程序均有一个相关的 `Installation` 对象。该 `Installation` 对象是您储存推送通知目标定位所需的全部信息的位置。例如，在某个棒球应用中，您可以保存用户感兴趣的球队，以便发送关于球队成绩的更新信息。
 
-在 iOS 中，可以通过 `ParseInstallation` 类（`PFObject` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](#objects) 来储存和检索数据。要想从您的 iOS 应用程序中访问当前的 `Installation` 对象，请采用 `[PFInstallation currentInstallation]` 方法。第一次保存 `%{ParseInstallation}` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知，只要其 `deviceToken` 字段置位。
+在 iOS 中，可以通过 `ParseInstallation` 类（`%{ParseObject}` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](#objects) 来储存和检索数据。要想从您的 iOS 应用程序中访问当前的 `Installation` 对象，请采用 `[PFInstallation currentInstallation]` 方法。第一次保存 `%{ParseInstallation}` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知，只要其 `deviceToken` 字段置位。
 
 ```objc
 - (void)application:(UIApplication *)application
@@ -22,7 +22,7 @@
 }
 ```
 
-可以像修改 `PFObject` 一样修改 `%{ParseInstallation}`，但有几个特殊字段有助于管理和定位设备。
+可以像修改 `%{ParseObject}` 一样修改 `%{ParseInstallation}`，但有几个特殊字段有助于管理和定位设备。
 
 *   **`badge`**：iOS 应用程序图标标记的当前值。在 `%{ParseInstallation}` 上修改该值会更新应用图标上的标记值。更改将保存到服务器上，使之能用于之后根据推送通知的数量计算图标标记增量。
 *   **`channels`**：设备当前订阅内容的各种传送通道。
@@ -52,7 +52,7 @@
 
 通道通过以字母开头，由字母数字字符、下划线和短划线组成的一个字符串识别。这些通道只有明确创建才能使用，每个 `Installation` 可以订阅任意数量的通道。
 
-在 `PFObject` 中使用 `addUniqueObject:` 方法即可添加订阅通道。例如，在棒球分数应用程序中，我们可以这样：
+在 `%{ParseObject}` 中使用 `addUniqueObject:` 方法即可添加订阅通道。例如，在棒球分数应用程序中，我们可以这样：
 
 ```objc
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -109,7 +109,7 @@ PFPush *push = [[PFPush alloc] init];
 
 对于很多应用程序来说，通道非常好用，但是有时您在定位推送通知接收者时需要更精确。Parse 允许您使用[查询 API](#queries) 编写关于 `Installation` 对象任何子集的查询，然后向它们发送推送通知。
 
-由于 `%{ParseInstallation}` 是 `PFObject` 的子类，因此您可以保存您想要的任何数据，甚至可以在 `Installation` 对象与其他对象之间创建关系。这样您可以将推送通知发送给您自定义并且动态变化的一部分用户群体。
+由于 `%{ParseInstallation}` 是 `%{ParseObject}` 的子类，因此您可以保存您想要的任何数据，甚至可以在 `Installation` 对象与其他对象之间创建关系。这样您可以将推送通知发送给您自定义并且动态变化的一部分用户群体。
 
 #### 保存安装数据
 
@@ -186,7 +186,7 @@ PFPush *push = [[PFPush alloc] init];
 
 ## 发送选项
 
-推送通知不仅仅只是发���消息。在 iOS 中，推送通知还可以包括待播放的声音、待显示的图标标记数字以及您希望发送的任何自定义数据。若是时效性通知，还可设置通知的到期日期。
+���送通知不仅仅只是发���消息。在 iOS 中，推送通知还可以包括待播放的声音、待显示的图标标记数字以及您希望发送的任何自定义数据。若是时效性通知，还可设置通知的到期日期。
 
 ### 自定义您的通知
 

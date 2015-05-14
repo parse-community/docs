@@ -4,11 +4,11 @@
 
 이 클래스로 앱에 사용자 계정 기능을 추가할 수 있습니다.
 
-`PFUser`는 `PFObject`의 하위 클래스로서, 유연한 스키마, 자동 지속 및 키 값 인터페이스 등 동일한 기능이 모두 포함되어 있습니다. 또한 `PFObject`에 있는 모든 메서드가 `PFUser`에도 있습니다. PFUser에는 사용자 계정과 관련된 몇 가지 특별한 추가 기능이 있다는 점만 다릅니다.
+`PFUser`는 `%{ParseObject}`의 하위 클래스로서, 유연한 스키마, 자동 지속 및 키 값 인터페이스 등 동일한 기능이 모두 포함되어 있습니다. 또한 `%{ParseObject}`에 있는 모든 메서드가 `PFUser`에도 있습니다. PFUser에는 사용자 계정과 관련된 몇 가지 특별한 추가 기능이 있다는 점만 다릅니다.
 
 ## 속성
 
-`PFUser`에는 다음과 같이 `PFObject`와 구분되는 여러 속성이 있습니다.
+`PFUser`에는 다음과 같이 `%{ParseObject}`와 구분되는 여러 속성이 있습니다.
 
 *   username: 사용자의 사용자 이름입니다(필수).
 *   password: 사용자의 비밀번호입니다(가입 시 필수).
@@ -171,7 +171,7 @@ userAgain.username = "another_username";
 [userAgain save];
 ```
 
-`currentUser`에서 가져온 `PFUser`는 항상 인증됩니다.
+`currentUser`에서 가져온 `PFUser`는 ���상 인증됩니다.
 
 `PFUser`가 인증되었는지 확인해야 하는 경우 `isAuthenticated` 메서드를 호출할 수 있습니다. 인증된 메서드를 통해 가져온 `PFUser` 개체에서는 `isAuthenticated`를 확인할 필요가 없습니다.
 

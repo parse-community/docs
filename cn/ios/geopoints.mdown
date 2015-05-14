@@ -1,6 +1,6 @@
 # GeoPoint
 
-Parse 让您可以把真实的纬度和经度坐标与对象关联起来。通过在 `PFObject` 中添加 `PFGeoPoint`，可以在查询时实现将对象与参考点的距离临近性纳入考虑。这可以让您轻松某些事情，如找出距离与某个用户最近的其他用户或者距离某个用户最近的地标。
+Parse 让您可以把真实的纬度和经度坐标与对象关联起来。通过在 `%{ParseObject}` 中添加 `PFGeoPoint`，可以在查询时实现将对象与参考点的距离临近性纳入考虑。这可以让您轻松某些事情，如找出距离与某个用户最近的其他用户或者距离某个用户最近的地标。
 
 <div class='tip info'><div>
 查看我们的 [Anywall 教程](/tutorials/anywall)，了解如何在真实应用程序中使用 `PFGeoPoints` 和 `PFUser`。您可以了解到从实施基本用户管理工作流程到通过核心位置追踪 GPS 位置等各方面信息。
@@ -16,7 +16,7 @@ PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
 
 然后，该点被作为常规字段储存在对象中。
 
-```objc 
+```objc
 placeObject[@"location"] = point;
 ```
 

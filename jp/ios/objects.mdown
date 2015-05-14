@@ -2,9 +2,9 @@
 
 ## PFObject
 
-Parseでのデータ保存は`PFObject`に基づいて設計されています。各`PFObject`にはJSON互換データのキーの値のペアが入ります。このデータはスキーマレスであり、各`PFObject`に存在するキーを事前に指定する必要がありません。必要なキーの値のペアを設定するだけで、バックエンドで保存されます。
+Parseでのデータ保存は`%{ParseObject}`に基づいて設計されています。各`%{ParseObject}`にはJSON互換データのキーの値のペアが入ります。このデータはスキーマレスであり、各`%{ParseObject}`に存在するキーを事前に指定する必要がありません。必要なキーの値のペアを設定するだけで、バックエンドで保存されます。
 
-たとえば、ゲームの高得点をトラッキングするとします。1つの`PFObject`には次のようなキーを入れることができます。
+たとえば、ゲームの高得点をトラッキングするとします。1つの`%{ParseObject}`には次のようなキーを入れることができます。
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 キーは英数字で指定します。値には、JSONエンコード可能なものであれば、文字列、数字、ブール値だけでなく配列や辞書も使用できます。
 
-各`PFObject`にはデータの種類の区別に使用するクラス名があります。たとえば、高得点オブジェクトには`GameScore`という名前を付けることができます。コードを見やすくするために、NameYourClassesLikeThisやnameYourKeysLikeThisのような名前を付けることをお勧めします。
+各`%{ParseObject}`にはデータの種類の区別に使用するクラス名があります。たとえば、高得点オブジェクトには`GameScore`という名前を付けることができます。コードを見やすくするために、NameYourClassesLikeThisやnameYourKeysLikeThisのような名前を付けることをお勧めします。
 
 ## オブジェクトの保存
 
@@ -35,13 +35,13 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 ここでは2つの点に注目します。このコードを実行する前に`GameScore`と呼ばれる新しいクラスを作成したり、設定したりする必要はありませんでした。コードがあった場合に、Parseアプリによってこのクラスが作成されます。
 
-また、指定しなくても、いくつかのフィールドは必要に応じて入力されます。`objectId`は保存した各オブジェクト用の一意のIDです。`createdAt`と`updatedAt`はParseクラウドでの各オブジェクトの作成日時と、最終更新日時を表します。これらのフィールドはParseが入力することから、保存操作が完了するまで`PFObject`上には存在しません。
+また、指定しなくても、いくつかのフィールドは必要に応じて入力されます。`objectId`は保存した各オブジェクト用の一意のIDです。`createdAt`と`updatedAt`はParseクラウドでの各オブジェクトの作成日時と、最終更新日時を表します。これらのフィールドはParseが入力することから、保存操作が完了するまで`%{ParseObject}`上には存在しません。
 
 注: `saveInBackgroundWithBlock`または`saveInBackgroundWithTarget:selector:`メソッドを利用して、保存が完了した後に実行する別のロジックを提供することができます。
 
 ## オブジェクトの取得
 
-クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`がある場合、`PFQuery`を使用して`PFObject`全体を取得できます。これは非同期メソッドで、ブロックやコールバックメソッドのいずれかを使用したバリエーションがあります。
+クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`がある場合、`PFQuery`を使用して`%{ParseObject}`全体を取得できます。これは非同期メソッドで、ブロックやコールバックメソッドのいずれかを使用したバリエーションがあります。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -54,7 +54,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // inside the completion block above.
 ```
 
-`PFObject`から値を取得するには、`objectForKey:`メソッドまたは`[]`添字演算子のいずれかを使用します。
+`%{ParseObject}`から値を取得するには、`objectForKey:`メソッドまたは`[]`添字演算子のいずれかを使用します。
 
 ```objc
 int score = [[gameScore objectForKey:@"score"] intValue];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## オブジェクトの更新
 
-オブジェクトは簡単に更新できます。新しいデータをオブジェクトに設定し、保存メソッドの1つを呼び出すだけです。オブジェクトを保存して`objectId`があるとします。`PFQuery`を使用して`PFObject`を取得し、データを更新することができます。
+オブジェクトは簡単に更新できます。新しいデータをオブジェクトに設定し、保存メソッドの1つを呼び出すだけです。オブジェクトを保存して`objectId`があるとします。`PFQuery`を使用して`%{ParseObject}`を取得し、データを更新することができます。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -158,7 +158,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 ## リレーショナルデータ
 
-オブジェクトには他のオブジェクトとの関係を持たせることができます。この動作をモデル化するためには、一意の`PFObject`を別の`PFObject`で値として使用することができます。内部的には、一貫性を保持するために、Parseフレームワークによって参照先オブジェクトが一か所に保存されます。
+オブジェクトには他のオブジェクトとの関係を持たせることができます。この動作をモデル化するためには、一意の`%{ParseObject}`を別の`%{ParseObject}`で値として使用することができます。内部的には、一貫性を保持するために、Parseフレームワークによって参照先オブジェクトが一か所に保存されます。
 
 <div class='tip info'><div>
 「[一対多数の関係](/tutorials/one-to-many-relationships)」チュートリアルでは、簡単なブログアプリケーションにおいて2つの`PFObjects`間で一対多数の関係を作成する方法を学ぶことができます。
@@ -190,7 +190,7 @@ myComment[@"parent"] = myPost;
 myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"];
 ```
 
-デフォルトでは、オブジェクトを取得する際には、関連する`PFObject`は取得されません。次の方法で取得しない限り、これらのオブジェクトの値を取り出すことはできません。
+デフォルトでは、オブジェクトを取得する際には、関連する`%{ParseObject}`は取得されません。次の方法で取得しない限り、これらのオブジェクトの値を取り出すことはできません。
 
 ```objc
 PFObject *post = fetchedComment[@"parent"];
@@ -198,7 +198,7 @@ PFObject *post = fetchedComment[@"parent"];
     NSString *title = post[@"title"]; }];
 ```
 
-また、`PFRelation`オブジェクトを使用すると多対多の関係をモデル化することもできます。これは`PFObjects`の`NSArray`と同様に作用しますが、関係するすべてのオブジェクトを一度にダウンロードする必要はありません。そのおかげで`PFRelation`の方が、`PFObject`の`NSArray`アプローチよりも多くのオブジェクトに拡張することができます。たとえば、`User`が「いいね！」した多数の`Post`を持っているとします。この場合、`relationForKey:`を使用して`User`が「いいね！」した一連の`Post`を格納できます。投稿をリストに追加するためには、コードは次のようにする必要があります。
+また、`PFRelation`オブジェクトを使用すると多対多の関係をモデル化することもできます。これは`PFObjects`の`NSArray`と同様に作用しますが、関係するすべてのオブジェクトを一度にダウンロードする必要はありません。そのおかげで`PFRelation`の方が、`%{ParseObject}`の`NSArray`アプローチよりも多くのオブジェクトに拡張することができます。たとえば、`User`が「いいね！」した多数の`Post`を持っているとします。この場合、`relationForKey:`を使用して`User`が「いいね！」した一連の`Post`を格納できます。投稿をリストに追加するためには、コードは次のようにする必要があります。
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -232,13 +232,13 @@ PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-`PFQuery`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。`PFRelation`は`PFObject`の`NSArray`と同様に作用するので、オブジェクトの配列で実行するクエリ（`includeKey:`以外）は、`PFRelation`で実行できます。
+`PFQuery`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。`PFRelation`は`%{ParseObject}`の`NSArray`と同様に作用するので、オブジェクトの配列で実行するクエリ（`includeKey:`以外）は、`PFRelation`で実行できます。
 
 ## データタイプ
 
-ここまでは`NSString`、`NSNumber`、`PFObject`といったタイプの値を使用してきました。Parseは`NSDate`、`NSData`、`NSNull`もサポートしています。
+ここまでは`NSString`、`NSNumber`、`%{ParseObject}`といったタイプの値を使用してきました。Parseは`NSDate`、`NSData`、`NSNull`もサポートしています。
 
-`NSDictionary`と`NSArray`オブジェクトをネストさせて、1つの`PFObject`内により多くの構造化データを格納できます。
+`NSDictionary`と`NSArray`オブジェクトをネストさせて、1つの`%{ParseObject}`内により多くの構造化データを格納できます。
 
 次のその例を示します。
 
@@ -263,13 +263,13 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-`PFObject`で`NSData`フィールドを使用して画像やドキュメントなどサイズの大きいバイナリデータを保存することはお勧めできません。`PFObject`のサイズは128キロバイト以下にする必要があります。それ以上を保存するには`PFFile`の使用をお勧めいたします。詳細は[ガイドセクション](#files)をご覧ください。
+`%{ParseObject}`で`NSData`フィールドを使用して画像やドキュメントなどサイズの大きいバイナリデータを保存することはお勧めできません。`%{ParseObject}`のサイズは128キロバイト以下にする必要があります。それ以上を保存するには`PFFile`の使用をお勧めいたします。詳細は[ガイドセクション](#files)をご覧ください。
 
 Parseにおけるデータ処理方法に関する詳細情報は、 [データとセキュリティ](/docs/data)ドキュメントをご覧ください。
 
 ## サブクラス
 
-Parseは、できるだけ迅速に起動して実行できるようにできています。`PFObject`クラスを使用してすべてのデータにアクセスできます。また`objectForKey:`や `[]`の添字演算子であらゆるフィールドにアクセスできます。成熟したコードベースにおけるサブクラス化には簡潔性や拡張性、オートコンプリートを含む多くの利点があります。サブクラス化は完全なオプションですが、このコードを変換することができます。
+Parseは、できるだけ迅速に起動して実行できるようにできています。`%{ParseObject}`クラスを使用してすべてのデータにアクセスできます。また`objectForKey:`や `[]`の添字演算子であらゆるフィールドにアクセスできます。成熟したコードベースにおけるサブクラス化には簡潔性や拡張性、オートコンプリートを含む多くの利点があります。サブクラス化は完全なオプションですが、このコードを変換することができます。
 
 ```objc
 PFObject *shield = [PFObject objectWithClassName:@"Armor"];
@@ -289,13 +289,13 @@ shield.rupees = 50;
 
 ### PFObjectのサブクラス化
 
-`PFObject`のサブクラスを作成するには、次のようにします。
+`%{ParseObject}`のサブクラスを作成するには、次のようにします。
 
 1.  `PFSubclassing`プロトコルに準拠するサブクラスを宣言します。
 2.  クラスメソッド`parseClassName`を実装します。これは、`initWithClassName:`に渡す文字列で、今後のすべてのクラスにおける名前参照が不要になります。
 3.  .mファイルに`PFObject+Subclass`をインポートします。これによって`parseClassName`より先の`PFSubclassing`ですべてのメソッドを実装します。
 4.  Parseの`setApplicationId:clientKey:`の前にApplicationDelegateで`[YourClass registerSubclass]`を呼び出します。
-次のコードは`PFObject`のサブクラスである`Armor`を正しく宣言、実装、登録しています。
+次のコードは`%{ParseObject}`のサブクラスである`Armor`を正しく宣言、実装、登録しています。
 
 ```objc
 // Armor.h
@@ -321,9 +321,9 @@ shield.rupees = 50;
 
 ### プロパティとメソッド
 
-カスタムプロパティとメソッドを`PFObject`サブクラスに追加すると、クラスについてのロジックをカプセル化できます。`PFSubclassing`を使用すると、ビジネスロジックやストレージ/送信ロジックに対して個別のクラスを使用する代わりに、サブジェクトに関するすべてのロジックを一ヶ所にまとめておくことができます。
+カスタムプロパティとメソッドを`%{ParseObject}`サブクラスに追加すると、クラスについてのロジックをカプセル化できます。`PFSubclassing`を使用すると、ビジネスロジックやストレージ/送信ロジックに対して個別のクラスを使用する代わりに、サブジェクトに関するすべてのロジックを一ヶ所にまとめておくことができます。
 
-`PFObject`では`NSManagedObject`のようにダイナミック合成をサポートします。通常通りにプロパティを宣言しますが、.mファイルでは`@synthesize`ではなく`@dynamic`を使用します。次の例では`Armor`クラスで`displayName`プロパティを作成します。
+`%{ParseObject}`では`NSManagedObject`のようにダイナミック合成をサポートします。通常通りにプロパティを宣言しますが、.mファイルでは`@synthesize`ではなく`@dynamic`を使用します。次の例では`Armor`クラスで`displayName`プロパティを作成します。
 
 ```objc
 // Armor.h
