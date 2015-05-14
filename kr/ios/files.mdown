@@ -2,7 +2,7 @@
 
 ## PFFile
 
-`PFFile`을 사용하면 일반 `PFObject`에 보관하기에 너무 크거나 번거로운 앱 파일을 클라우드에 저장할 수 있습니다. 가장 일반적인 사용 사례는 이미지 저장이지만 문서와 동영상, 음악, 기타 바이너리 데이터(최대 10MB) 저장에도 사용할 수 있습니다.
+`PFFile`을 사용하면 일반 `%{ParseObject}`에 보관하기에 너무 크거나 번거로운 앱 파일을 클라우드에 저장할 수 있습니다. 가장 일반적인 사용 사례는 이미지 저장이지만 문서와 동영상, 음악, 기타 바이너리 데이터(최대 10MB) 저장에도 사용할 수 있습니다.
 
 <div class='tip info'><div>
 사용자가 사진을 찍고 곧바로 Parse에 업로드할 수 있도록 하는 앱을 만드는 방법은 [이미지 저장 튜토리얼](/tutorials/saving-images)을 참조하세요.
@@ -20,13 +20,13 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 *   파일 이름이 충돌할 것을 염려할 필요가 없습니다. 각 업로드에는 고유 ID가 부여되므로 `resume.txt`라는 파일을 여러 개 업로드해도 문제가 되지 않습니다.
 *   파일에 파일 확장명이 있는 이름을 지정하는 것이 중요합니다. Parse에서는 확장명을 통해 파일 유형을 파악하고 이에 따라 처리합니다. 즉, PNG 이미지를 저장하는 경우 파일 이름이 `.png`로 끝나야 합니다.
 
-그런 다음 파일을 클라우드에 저장합니다. `PFObject`에서와 같이 본인에게 맞는 콜백 종류나 오류 처리에 따라 사용할 수 있는 `save` 메서드의 다양한 변형이 있습니다.
+그런 다음 파일을 클라우드에 저장합니다. `%{ParseObject}`에서와 같이 본인에게 맞는 콜백 종류나 오류 처리에 따라 사용할 수 있는 `save` 메서드의 다양한 변형이 있습니다.
 
 ```objc
 [file saveInBackground];
 ```
 
-마지막으로, 저장이 완료되면 다른 데이터와 마찬가지로 `PFFile`을 `PFObject`에 연결할 수 있습니다.
+마지막으로, 저장이 완료되면 다른 데이터와 마찬가지로 `PFFile`을 `%{ParseObject}`에 연결할 수 있습니다.
 
 ```objc
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
@@ -42,7 +42,7 @@ PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
 NSData *resumeData = [applicantResume getData];
 ```
 
-`PFObject`에서와 같이 `getData`의 백그라운드 버전을 사용할 가능성이 높습니다.
+`%{ParseObject}`에서와 같이 `getData`의 백그라운드 버전을 사용할 가능성이 높습니다.
 
 ## 이미지
 

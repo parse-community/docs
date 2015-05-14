@@ -602,7 +602,7 @@ The `Bytes` type contains a field `base64` which contains a base64 encoding of b
 }
 ```
 
-The `Pointer` type is used when mobile code sets a `PFObject` or `ParseObject` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
+The `Pointer` type is used when mobile code sets a `%{ParseObject}` or `ParseObject` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
 
 ```json
 {

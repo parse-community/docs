@@ -57,7 +57,7 @@ PFUser *user = [PFUser user];
 }
 ```
 
-コールバックで`NSNumber`が予測される場合、`boolValue`では操作が正常にできたかどうかを表示します。たとえば、`PFObject`の`saveInBackgroundWithTarget:selector:`メソッドのコールバックを実装する方法はこちらです。
+コールバックで`NSNumber`が予測される場合、`boolValue`では操作が正常にできたかどうかを表示します。たとえば、`%{ParseObject}`の`saveInBackgroundWithTarget:selector:`メソッドのコールバックを実装する方法はこちらです。
 
 ```objc
 - (void)callbackForSave:(NSNumber *)result error:(NSError *)error {

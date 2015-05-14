@@ -2,7 +2,7 @@
 
 ## PFFile
 
-`PFFile` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `PFObject` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
+`PFFile` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `%{ParseObject}` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
 
 <div class='tip info'><div>
 查看[保存图像教程](/tutorials/saving-images)，了解如何制作应用程序，让用户拍照并把照片直接上传到 Parse 中。
@@ -20,13 +20,13 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 *   您不需要担心文件名冲突。每次上传都会获得一个唯一标识符，所以上传多个文件名为 `resume.txt` 的文件不同出现任何问题。
 *   重要的是，您要给文件命名（带文件扩展名）。这样 Parse 就能够判断文件类型，并对文件进行相应的处理。所以，若您要储存 PNG 图片，务必使文件名以 `.png` 结尾。
 
-然后，您可以把文件保存到云中。与 `PFObject` 相同，您可以根据回调类型和适合的错误处理方式使用 `save` 方法的多种派生方法。
+然后，您可以把文件保存到云中。与 `%{ParseObject}` 相同，您可以根据回调类型和适合的错误处理方式使用 `save` 方法的多种派生方法。
 
 ```objc 
 [file saveInBackground];
 ```
 
-最后，保存完成后，您可以像其他数据一样把 `PFFile` 与 `PFObject` 关联起来：
+最后，保存完成后，您可以像其他数据一样把 `PFFile` 与 `%{ParseObject}` 关联起来：
 
 ```objc
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
@@ -42,7 +42,7 @@ PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
 NSData *resumeData = [applicantResume getData];
 ```
 
-与 `PFObject` 类似，您极有可能想要使用 `getData` 的后台版本。
+与 `%{ParseObject}` 类似，您极有可能想要使用 `getData` 的后台版本。
 
 ## 图像
 

@@ -1,12 +1,12 @@
 # Queries
 
-We've already seen how a `PFQuery` with `getObjectWithId:` can retrieve a single `PFObject` from Parse. There are many other ways to retrieve data with `PFQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
+We've already seen how a `PFQuery` with `getObjectWithId:` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `PFQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
 
 ## Basic Queries
 
 In many cases, `getObjectInBackgroundWithId:block:` isn't powerful enough to specify which objects you want to retrieve. The `PFQuery` offers different ways to retrieve a list of objects rather than just a single object.
 
-The general pattern is to create a `PFQuery`, put conditions on it, and then retrieve a `NSArray` of matching `PFObject`s using either `findObjectsInBackgroundWithBlock:` or `findObjectsInBackgroundWithTarget:selector:`. For example, to retrieve scores with a particular `playerName`, use the `whereKey:equalTo:` method to constrain the value for a key.
+The general pattern is to create a `PFQuery`, put conditions on it, and then retrieve a `NSArray` of matching `%{ParseObject}`s using either `findObjectsInBackgroundWithBlock:` or `findObjectsInBackgroundWithTarget:selector:`. For example, to retrieve scores with a particular `playerName`, use the `whereKey:equalTo:` method to constrain the value for a key.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -423,7 +423,7 @@ If you're trying to implement a generic search feature, we recommend taking a lo
 
 ## Relational Queries
 
-There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `PFObject`, you can use `whereKey:equalTo:` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `%{ParseObject}`, you can use `whereKey:equalTo:` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
 ```objc
 // Assume PFObject *myPost was previously created.
@@ -461,7 +461,7 @@ You can also do relational queries by `objectId`:
 // no swift example
 ```
 
-If you want to retrieve objects where a field contains a `PFObject` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
 
 ```objc
 // Using PFQuery
@@ -488,7 +488,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
 // no swift example
 ```
 
-If you want to retrieve objects where a field contains a `PFObject` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
 ```objc
 // Using PFQuery
