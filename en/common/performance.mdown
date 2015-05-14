@@ -89,7 +89,8 @@ Additionally, the following queries under certain scenarios may result in slow q
 * Regular Expressions
 * Ordered By
 
-**Not Equal To**
+### Not Equal To
+
 For example, let's say you're tracking high scores for a game in a GameScore class. Now say you want to retrieve the scores for all players except a certain one. You could create this query:
 
 ```objc
