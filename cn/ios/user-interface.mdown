@@ -1,13 +1,13 @@
 # 用户界面
 
-最终，您应用程序的用户将与 UIKit 组件进行互动。Parse 提供一些 `UIViewController` 子类，可以显著降低登录/注册 `PFUser` 以及显示 `PFObject` 的难度。
+最终，您应用程序的用户将与 UIKit 组件进行互动。Parse 提供一些 `UIViewController` 子类，可以显著降低登录/注册 `%{ParseUser}%` 以及显示 `PFObject` 的难度。
 
 ## PFLogInViewController
 
-如果您正在使用 Parse 管理手机应用程序的用户，说明您已经熟悉 `PFUser` 类。有时在应用程序中，您可能想只显示让 `PFUser` 登录的屏幕。Parse 提供可以实现此功能的视图控制器。
+如果您正在使用 Parse 管理手机应用程序的用户，说明您已经熟悉 `%{ParseUser}%` 类。有时在应用程序中，您可能想只显示让 `%{ParseUser}%` 登录的屏幕。Parse 提供可以实现此功能的视图控制器。
 
 <div class='tip info'><div>
-查看[登录和注册视图教程](/tutorials/login-and-signup-views)，其提供了一系列的内置视图，可立即进行自定义并放入使用 `PFUser` 的应用程序中。
+查看[登录和注册视图教程](/tutorials/login-and-signup-views)，其提供了一系列的内置视图，可立即进行自定义并放入使用 `%{ParseUser}%` 的应用程序中。
 </div></div>
 
 您可以通过实例化和模态显示的方式使用 `PFLogInViewController` 类。
@@ -68,7 +68,7 @@ logInController.facebookPermissions = @[@"friends_about_me"];
 
 ### 响应登录成功、失败或取消
 
-用户注册或取消时，`PFLogInViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFLogInViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `PFUser` 的其他组件。
+用户注册或取消时，`PFLogInViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFLogInViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `%{ParseUser}%` 的其他组件。
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -186,7 +186,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 响应注册成功、失败或取消
 
-用户注册或取消时，`PFSignUpViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFSignUpViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `PFUser` 的其他组件。
+用户注册或取消时，`PFSignUpViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFSignUpViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `%{ParseUser}%` 的其他组件。
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
@@ -435,7 +435,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 [imageView loadInBackground];
 ```
 
-若指定，`image` 属性用于在远程图像下载前显示占位符。注意，下载不会在指定 `file` 属性后立即开始，而是在调用 `loadInBackground:` 时开始加载。远程图像会缓存在内存和磁盘中。若图像在缓存中，对 `loadInBackground:` 的调用会立即返回。
+若指定，`image` 属性用于在远程图像下载前显示占位符。注意，下载不会在指定 `file` 属性后立���开始，而是在调��� `loadInBackground:` 时开始加载。远程图像会缓存在内存和磁盘中。若图像在缓存中，对 `loadInBackground:` 的调用会立即返回。
 
 ## PFTableViewCell
 

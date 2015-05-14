@@ -94,7 +94,7 @@ Parse 提供一組 API 來處理應用程式內建購買功能。Parse 讓使用
 
 ## 查詢產品資訊
 
-您可以使用 `PFProduct` 查詢在資料瀏覽器中建立的產品物件。跟 `PFUser` 或 `PFRole` 一樣，`PFProduct` 是 `PFObject` 的子類別，其中包含便利存取子乃至於各種產品專用的屬性。
+您可以使用 `PFProduct` 查詢在資料瀏覽器中建立的產品物件。跟 `%{ParseUser}%` 或 `PFRole` 一樣，`PFProduct` 是 `PFObject` 的子類別，其中包含便利存取子乃至於各種產品專用的屬性。
 
 例如，以下是為了取得產品而進行的簡易查詢：
 

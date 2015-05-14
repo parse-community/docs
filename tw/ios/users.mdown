@@ -1,14 +1,14 @@
 # 使用者
 
-許多應用程式有個核心觀念，就是使用者帳號要讓使用者以安全的方式存取資訊。我們提供稱為 `PFUser` 的特殊使用者類別，此類別將自動處理管理使用者帳號所需的大部分功能。
+許多應用程式有個核心觀念，就是使用者帳號要讓使用者以安全的方式存取資訊。我們提供稱為 `%{ParseUser}%` 的特殊使用者類別，此類別將自動處理管理使用者帳號所需的大部分功能。
 
 您可以透過此類別在應用程式中加入使用者帳號功能。
 
-`PFUser` 為 `PFObject` 的子類別，並且具有所有相同功能，比如具彈性的結構描述、自動保留和索引鍵值介面。`PFObject` 的所有方法也存在於 `PFUser`。不同之處在於 PFUser 有一些專用於使用者帳號的特殊附加功能。
+`%{ParseUser}%` 為 `PFObject` 的子類別，並且具有所有相同功能，比如具彈性的結構描述、自動保留和索引鍵值介面。`PFObject` 的所有方法也存在於 `%{ParseUser}%`。不同之處在於 PFUser 有一些專用於使用者帳號的特殊附加功能。
 
 ## 屬性
 
-`PFUser` 有一些屬性與 `PFObject` 有所區別：
+`%{ParseUser}%` 有一些屬性與 `PFObject` 有所區別：
 
 *   使用者名稱：使用者的名稱（必要）。
 *   密碼：使用者的密碼（註冊時需要）。
@@ -43,13 +43,13 @@
 
 此次呼叫將以非同步方式在您的 Parse 應用程式中建立新使用者。在進行此操作之前，會先查看以確定使用者名稱和電子郵件是唯一的。為求安全還會在雲端將密碼雜湊處理。我們絕不會以純文字格式儲存密碼，也不會以純文字格式將密碼傳回用戶端。
 
-請注意我們用的是 `signUp` 方法，而不是 `save` 方法。新的 `PFUser` 應該都要使用 `signUp` 方法建立。使用者的後續更新均可透過呼叫 `save` 完成。
+請注意我們用的是 `signUp` 方法，而不是 `save` 方法。新的 `%{ParseUser}%` 應該都要使用 `signUp` 方法建立。使用者的後續更新均可透過呼叫 `save` 完成。
 
 `signUp` 方法有幾種不同用法，能傳回錯誤也有同步版本。我們通常極力建議盡可能使用非同步版本，以免擋到應用程式中的使用者介面。您可以在 [API 文件](/docs/ios/)中參閱有關這些特定方法的更多詳細資料。
 
 如果註冊不成功，您應該要讀取傳回的錯誤物件。最可能發生的情況是，使用者名稱或電子郵件已有其他使用者採用。您應該要清楚地向使用者溝通此情況，並要求他們嘗試不同的使用者名稱。
 
-您可隨意將電子郵件地址當成使用者名稱使用。只需要求使用者輸入電子郵件，但要將電子郵件填在使用者名稱屬性中；`PFUser` 將如平常一樣運作。我們將在「重設密碼」章節中討論上述情況是如何處理的。
+您可隨意將電子郵件地址當成使用者名稱使用。只需要求使用者輸入電子郵件，但要將電子郵件填在使用者名稱屬性中；`%{ParseUser}%` 將如平常一樣運作。我們將在「重設密碼」章節中討論上述情況是如何處理的。
 
 ## 登入
 
@@ -68,13 +68,13 @@
 
 ## 驗證電子郵件
 
-在應用程式的設定中啟用電子郵件驗證，能讓應用程式將部分體驗保留給電子郵件地址經過確認的使用者。電子郵件驗證會將 `emailVerified` 索引鍵加入 `PFUser` 物件。`PFUser` 的 `email` 被設定或修改時，就會將 `emailVerified` 設定成 `false`。然後 Parse 會以電子郵件將一個連結寄給使用者，此連結會將 `emailVerified` 設定為 `true`。
+在應用程式的設定中啟用電子郵件驗證，能讓應用程式將部分體驗保留給電子郵件地址經過確認的使用者。電子郵件驗證會將 `emailVerified` 索引鍵加入 `%{ParseUser}%` 物件。`%{ParseUser}%` 的 `email` 被設定或修改時，就會將 `emailVerified` 設定成 `false`。然後 Parse 會以電子郵件將一個連結寄給使用者，此連結會將 `emailVerified` 設定為 `true`。
 
 有三種 `emailVerified` 狀態需要考慮：
 
 1.  `true` - 使用者透過點擊 Parse 寄來的連結，確認他／她的電子郵件地址。最初建立使用者帳號時，`PFUsers` 不會包含 `true` 值。
-2.  `false` - `PFUser` 物件最後一次重新整理時，使用者並未確認他／她的電子郵件地址。如果 `emailVerified` 為 `false`，請考慮呼叫 `PFUser` 上的 `refresh:`。
-3.  _遺失_ - `PFUser` 建立時未進行電子郵件驗證或 `PFUser` 沒有 `email`。
+2.  `false` - `%{ParseUser}%` 物件最後一次重新整理時，使用者並未確認他／她的電子郵件地址。如果 `emailVerified` 為 `false`，請考慮呼叫 `%{ParseUser}%` 上的 `refresh:`。
+3.  _遺失_ - `%{ParseUser}%` 建立時未進行電子郵件驗證或 `%{ParseUser}%` 沒有 `email`。
 
 ## 目前使用者
 
@@ -102,7 +102,7 @@ PFUser *currentUser = [PFUser currentUser]; // this will now be nil
 
 能將資料和物件與個別使用者建立關聯具有高度價值，但有時您會想在不強制使用者指定使用者名稱和密碼的情況下，做到這一點。
 
-匿名使用者是無需使用者名稱和密碼即可建立的使用者，但仍具有與任何其他 `PFUser` 一樣的所有相同功能。登出後，匿名使用者就會被棄用，其資料再也無法存取。
+匿名使用者是無需使用者名稱和密碼即可建立的使用者，但仍具有與任何其他 `%{ParseUser}%` 一樣的所有相同功能。登出後，匿名使用者就會被棄用，其資料再也無法存取。
 
 您可以用 `PFAnonymousUtils` 建立匿名使用者：
 
@@ -150,9 +150,9 @@ if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
 
 ## 使用者物件的安全性
 
-依照預設，`PFUser` 是受保護的類別。儲存在 `PFUser` 中的資料只能由該使用者進行修改。依照預設，任何用戶端仍能讀取這些資料。因此，部分 `PFUser` 物件已經過驗證且能加以修改，而其他物件則為唯讀。
+依照預設，`%{ParseUser}%` 是受保護的類別。儲存在 `%{ParseUser}%` 中的資料只能由該使用者進行修改。依照預設，任何用戶端仍能讀取這些資料。因此，部分 `%{ParseUser}%` 物件已經過驗證且能加以修改，而其他物件則為唯讀。
 
-具體而言，除非 `PFUser` 是透過已驗證的方法取得（如 `logIn` 或 `signUp`），否則您不能叫用任何 `save` 或 `delete` 方法。這樣做能確保只有使用者能更改自己擁有的資料。
+具體而言，除非 `%{ParseUser}%` 是透過已驗證的方法取得（如 `logIn` 或 `signUp`），否則您不能叫用任何 `save` 或 `delete` 方法。這樣做能確保只有使用者能更改自己擁有的資料。
 
 以下將示範此安全性原則：
 
@@ -171,15 +171,15 @@ userAgain.username = "another_username";
 [userAgain save];
 ```
 
-從 `currentUser` 取得的 `PFUser` 永遠會進行驗證。
+從 `currentUser` 取得的 `%{ParseUser}%` 永遠會進行驗證。
 
-如果有必要檢查 `PFUser` 是否已經過驗證，您可以叫用 `isAuthenticated` 方法。透過已驗證方法取得的 `PFUser` 物件，您不必檢查 `isAuthenticated`。
+如果有必要檢查 `%{ParseUser}%` 是否已經過驗證，您可以叫用 `isAuthenticated` 方法。透過已驗證方法取得的 `%{ParseUser}%` 物件，您不必檢查 `isAuthenticated`。
 
 ## 其他物件的安全性
 
-套用至 `PFUser` 的相同安全性模型，也能套用至其他物件。就任何物件而言，您可以指定哪個使用者能讀取物件，以及哪個使用者可以修改物件。為了支援此類型的安全性，每個物件都有由 `PFACL` 類別實作的[存取控制清單](http://en.wikipedia.org/wiki/Access_control_list)。
+套用至 `%{ParseUser}%` 的相同安全性模型，也能套用至其他物件。就任何物件而言，您可以指定哪個使用者能讀取物件，以及哪個使用者可以修改物件。為了支援此類型的安全性，每個物件都有由 `PFACL` 類別實作的[存取控制清單](http://en.wikipedia.org/wiki/Access_control_list)。
 
-使用 `PFACL` 最簡單的方法，是指定物件只能由單一使用者讀取或寫入。若要建立這樣的物件，必須先有已登入的 `PFUser`。接著，`ACLWithUser` 方法會產生限制該使用者存取權限的 `PFACL`。儲存物件時，物件的 ACL （Access Control List，存取控制清單）跟其他屬性一樣會更新。因此，若要建立只能由目前使用者存取的私人記事：
+使用 `PFACL` 最簡單的方法，是指定物件只能由單一使用者讀取或寫入。若要建立這樣的物件，必須先有已登入的 `%{ParseUser}%`。接著，`ACLWithUser` 方法會產生限制該使用者存取權限的 `PFACL`。儲存物件時，物件的 ACL （Access Control List，存取控制清單）跟其他屬性一樣會更新。因此，若要建立只能由目前使用者存取的私人記事：
 
 ```objc
 PFObject *privateNote = [PFObject objectWithClassName:@"Note"];
@@ -188,7 +188,7 @@ privateNote.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 [privateNote saveInBackground];
 ```
 
-此記事只能由目前使用者存取，然而該名使用者登入的任何裝置都能存取。如果您想讓應用程式跨多個裝置存取使用者資料，比如個人待辦事項清單，這項功能會很有用。
+此記事只能由目前使用者存取，然而該名使用者登入的任何裝置都能存取。如果您想讓應用程式跨多個裝置存取使用者資料，比如個人待辦事項清單，這項功能���很有用。
 
 您也可依個別使用者授與權限。您可以使用 `setReadAccess:forUser:` 和 `setWriteAccess:forUser:` 個別將權限新增至 `PFACL`。例如，假設您有一則訊息要傳送給含有多名使用者的群組，而他們之中每個人都有權限可以閱讀和刪除此訊息：
 
@@ -275,11 +275,11 @@ PFQuery *query = [PFUser query];
 NSArray *girls = [query findObjects];
 ```
 
-此外，您可以使用 `getUserObjectWithId:objectId`，按照 ID 取得 `PFUser`。
+此外，您可以使用 `getUserObjectWithId:objectId`，按照 ID 取得 `%{ParseUser}%`。
 
 ## 關聯
 
-涉及 `PFUser` 的關聯能立即使用。例如，假設您正在建立部落格應用程式。若要儲存使用者的新貼文並擷取他們的所有貼文：
+涉及 `%{ParseUser}%` 的關聯能立即使用。例如，假設您正在建立部落格應用程式。若要儲存使用者的新貼文並擷取他們的所有貼文：
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -297,13 +297,13 @@ NSArray *usersPosts = [query findObjects];
 ```
 ## Facebook 使用者
 
-Parse 提供將 Facebook 與您的應用程式整合的簡單方法。Facebook SDK 能搭配我們的 SDK 使用，並與 `PFUser` 類別整合，讓您可以輕鬆地將使用者連結至他們的 Facebook 身分。
+Parse 提供將 Facebook 與您的應用程式整合的簡單方法。Facebook SDK 能搭配我們的 SDK 使用，並與 `%{ParseUser}%` 類別整合，讓您可以輕鬆地將使用者連結至他們的 Facebook 身分。
 
 <div class='tip info'><div>
 深入了解如何搭配使用 Parse 和 Facebook API 建立設定檔檢視器應用程式。[在 iOS 中整合 Facebook 教學](/tutorials/integrating-facebook-in-ios)將教導您如何透過 Facebook 建立和登入 `PFUsers` 以及查詢 Facebook Graph API。
 </div></div>
 
-藉由使用我們的 Facebook 整合功能，您可以將已驗證的 Facebook 使用者與 `PFUser` 建立關聯。只要幾行程式碼，您就能在應用程式中提供「使用 Facebook 登入」選項，而且還能將使用者的資料儲存至 Parse。
+藉由使用我們的 Facebook 整合功能，您可以將已驗證的 Facebook 使用者與 `%{ParseUser}%` 建立關聯。只要幾行程式碼，您就能在應用程式中提供「使用 Facebook 登入」選項，而且還能將使用者的資料儲存至 Parse。
 
 ### 設定
 
@@ -332,11 +332,11 @@ Parse 提供將 Facebook 與您的應用程式整合的簡單方法。Facebook S
 }
 ```
 
-透過 Parse 使用者使用 Facebook 有兩種主要的方式：(1) 使用 Facebook 用戶身分登入（或註冊）並建立一個 `PFUser`，或是 (2) 將 Facebook 連結至現有的 `PFUser`。
+透過 Parse 使用者使用 Facebook 有兩種主要的方式：(1) 使用 Facebook 用戶身分登入（或註冊）並建立一個 `%{ParseUser}%`，或是 (2) 將 Facebook 連結至現有的 `%{ParseUser}%`。
 
 ### 登入與註冊
 
-`PFUser` 提供讓使用者透過 Facebook 登入或註冊的方式。這是利用 `logInWithPermissions` 方法完成的，例如：
+`%{ParseUser}%` 提供讓使用者透過 Facebook 登入或註冊的方式。這是利用 `logInWithPermissions` 方法完成的，例如：
 
 ```objc
 [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
@@ -356,10 +356,10 @@ Parse 與 Facebook iOS SDK 3.2 版相容。
 
 1.  會向使用者顯示 Facebok 登入對話方塊。
 2.  使用者透過 Facebook 通過驗證，而您的應用程式則使用 `handleOpenURL` 收到回呼。
-3.  我們的 SDK 會收到 Facebook 的資料，並將其儲存於 `PFUser`。如果是基於 Facebook ID 的新使用者，就會建立該使用者。
+3.  我們的 SDK 會收到 Facebook 的資料，並將其儲存於 `%{ParseUser}%`。如果是基於 Facebook ID 的新使用者，就會建立該使用者。
 4.  您的程式碼區塊會與該使用者一起呼叫。
 
-權限引數是字串陣列，用來指定您的應用程式必須自 Facebook 使用者取得哪些權限。這些權限必須只包括讀取權限。`PFUser` 整合不需任何權限即可立即使用。[請參閱 Facebook 開發人員指南，取得更多關於權限的資料](https://developers.facebook.com/docs/reference/api/permissions/)。
+權限引數是字串陣列，用來指定您的應用程式必須自 Facebook 使用者取得哪些權限。這些權限必須只包括讀取權限。`%{ParseUser}%` 整合不需任何權限即可立即使用。[請參閱 Facebook 開發人員指南，取得更多關於權限的資料](https://developers.facebook.com/docs/reference/api/permissions/)。
 
 例如，若要取得使用者的發佈權限，好讓您的應用程式能代替使用者發佈近況更新，您必須呼叫 `[PFFacebookUtils reauthorizeUser:withPublishPermissions:audience:block]`：
 
@@ -380,7 +380,7 @@ Parse 與 Facebook iOS SDK 3.2 版相容。
 
 ### 連結
 
-如果您想將現有的 `PFUser` 關聯至 Facebook 帳號，可以像這樣加以連結：
+如果您想將現有的 `%{ParseUser}%` 關聯至 Facebook 帳號，可以像這樣加以連結：
 
 ```objc
 if (![PFFacebookUtils isLinkedWithUser:user]) {
@@ -392,7 +392,7 @@ if (![PFFacebookUtils isLinkedWithUser:user]) {
 }
 ```
 
-進行連結時的步驟跟登入很相似。不同之處在於成功登入時，會在現有的 `PFUser` 更新 Facebook 資訊。之後透過 Facebook 的登入，會將使用者登入至他們現有的帳號。
+進行連結時的步驟跟登入很相似。不同之處在於成功登入時，會在現有的 `%{ParseUser}%` 更新 Facebook 資訊。之後透過 Facebook 的登入，會將使用者登入至他們現有的帳號。
 
 如果您想從某個使用者上取消連結 Facebook，只需這樣做：
 
@@ -412,7 +412,7 @@ Facebook iOS SDK 提供一些用來跟 Facebook API 互動的協助程式類別�
 
 ## Twitter 使用者
 
-和 Facebook 一樣，Parse 也提供將 Twitter 驗證整合至應用程式的簡單方法。Parse SDK 提供直接的方式來授權並將 Twitter 帳號連結至 `PFUser`。只要幾行程式碼，您就能在應用程式中提供「使用 Twitter 登入」的選項，而且能將他們的資料儲存至 Parse。
+和 Facebook 一樣，Parse 也提供將 Twitter 驗證整合至應用程式的簡單方法。Parse SDK 提供直接的方式來授權並將 Twitter 帳號連結至 `%{ParseUser}%`。只要幾行程式碼，您就能在應用程式中提供「使用 Twitter 登入」的選項，而且能將他們的資料儲存至 Parse。
 
 ### 設定
 
@@ -430,11 +430,11 @@ Facebook iOS SDK 提供一些用來跟 Facebook API 互動的協助程式類別�
 
 如果您遇到任何 Twitter 相關問題，[官方 Twitter 文件](https://dev.twitter.com/docs)是很好的參考資源。
 
-透過 Parse 使用者使用 Twitter 有兩個主要的方式：(1) 以 Twitter 使用者身分登入並建立 `PFUser`，或 (2) 將 Twitter 連結至現有的 `PFUser`。
+透過 Parse 使用者使用 Twitter 有兩個主要的方式：(1) 以 Twitter 使用者身分登入並建立 `%{ParseUser}%`，或 (2) 將 Twitter 連結至現有的 `%{ParseUser}%`。
 
 ### 登入與註冊
 
-`PFTwitterUtils` 提供讓 `PFUser` 透過 Twitter 登入或註冊的方式。此方式利用 `logInWithBlock` 或 `logInWithTarget` 訊息來完成：
+`PFTwitterUtils` 提供讓 `%{ParseUser}%` 透過 Twitter 登入或註冊的方式。此方式利用 `logInWithBlock` 或 `logInWithTarget` 訊息來完成：
 
 ```objc
 [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
@@ -453,12 +453,12 @@ Facebook iOS SDK 提供一些用來跟 Facebook API 互動的協助程式類別�
 
 1.  會向使用者顯示 Twitter 登入對話方塊。
 2.  使用者透過 Twitter 通過驗證，而您的應用程式則會收到回呼。
-3.  我們的 SDK 會收到 Twitter 的資料，並將其儲存於 `PFUser`。如果是基於 Twitter 控制代碼的新使用者，就會建立該使用者。
+3.  我們的 SDK 會收到 Twitter 的資料，並將其儲存於 `%{ParseUser}%`。如果是基於 Twitter 控制代碼的新使用者，就會建立該使用者。
 4.  您的 `block` 會與該使用者一起呼叫。
 
 ### 連結
 
-如果您想將現有 `PFUser` 連結至 Twitter 帳號，可以像這樣加以連結：
+如果您想將現有 `%{ParseUser}%` 連結至 Twitter 帳號，可以像這樣加以連結：
 
 ```objc
 if (![PFTwitterUtils isLinkedWithUser:user]) {
@@ -470,7 +470,7 @@ if (![PFTwitterUtils isLinkedWithUser:user]) {
 }
 ```
 
-進行連結時的步驟跟登入很相似。不同之處在於成功登入時，會在現有的 `PFUser` 更新 Twitter 資訊。之後透過 Twitter 的登入，會將使用者登入至他們現有的帳號。
+進行連結時的步驟跟登入很相似。不同之處在於成功登入時，會在現有的 `%{ParseUser}%` 更新 Twitter 資訊。之後透過 Twitter 的登入，會將使用者登入至他們現有的帳號。
 
 如果您想從某個使用者上取消連結 Twitter，只需這樣做：
 
@@ -484,7 +484,7 @@ if (![PFTwitterUtils isLinkedWithUser:user]) {
 
 ### Twitter API 呼叫
 
-應用程式擁有連結 Twitter 的 `PFUser` 時，我們的 SDK 會提供將 API HTTP 要求簽署至 [Twitter REST API](https://dev.twitter.com/docs/api) 的直接方法。若要透過 API 提出要求，您可以使用由 `PFTwitterUtils` 提供的 `PF_Twitter` 單例：
+應用程式擁有連結 Twitter 的 `%{ParseUser}%` 時，我們的 SDK 會提供將 API HTTP 要求簽署至 [Twitter REST API](https://dev.twitter.com/docs/api) 的直接方法。若要透過 API 提出要求，您可以使用由 `PFTwitterUtils` 提供的 `PF_Twitter` 單例：
 
 ```objc
 NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1/account/verify_credentials.json"];

@@ -1,13 +1,13 @@
 # 使用者介面
 
-一天結束時，應用程式的使用者會與 UIKit 元件互動。Parse 提供一些 `UIViewController` 子類別，可用來登入／註冊 `PFUser` 並讓顯示 `PFObject` 變得容易許多。
+一天結束時，應用程式的使用者會與 UIKit 元件互動。Parse 提供一些 `UIViewController` 子類別，可用來登入／註冊 `%{ParseUser}%` 並讓顯示 `PFObject` 變得容易許多。
 
 ## PFLogInViewController
 
-如果您正在使用 Parse 管理手機應用程式中的使用者，想必您已經很熟悉 `PFUser` 類別。您可能會想在應用程式中的某個位置呈現可登入 `PFUser` 的畫面。Parse 提供專用於此用途的檢視控制器。
+如果您正在使用 Parse 管理手機應用程式中的使用者，想必您已經很熟悉 `%{ParseUser}%` 類別。您可能會想在應用程式中的某個位置呈現可登入 `%{ParseUser}%` 的畫面。Parse 提供專用於此用途的檢視控制器。
 
 <div class='tip info'><div>
-觀看[使用登入和註冊檢視教學](/tutorials/login-and-signup-views)，其中提供一組內建檢視，可供您自訂並投入使用 `PFUser` 的應用程式中。
+觀看[使用登入和註冊檢視教學](/tutorials/login-and-signup-views)，其中提供一組內建檢視，可供您自訂並投入使用 `%{ParseUser}%` 的應用程式中。
 </div></div>
 
 您可以透過將其執行個體化並強制呈現來使用 `PFLogInViewController` 類別：
@@ -68,7 +68,7 @@ logInController.facebookPermissions = @[@"friends_about_me"];
 
 ### 回應登入成功、失敗或取消
 
-使用者登入或取消時，`PFLogInViewController` 會通知此事件的委派。一接收到此回呼，委派至少應該關閉 `PFLogInViewController`。此外，委派有可能會更新自己的檢視或將訊息轉發到其他需要了解 `PFUser` 的元件。
+使用者登入或取消時，`PFLogInViewController` 會通知此事件的委派。一接收到此回呼，委派至少應該關閉 `PFLogInViewController`。此外，委派有可能會更新自己的檢視或將訊息轉發到其他需要了解 `%{ParseUser}%` 的元件。
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -186,7 +186,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 回應註冊成功、失敗或取消
 
-使用者註冊或取消時，`PFSignUpViewController` 會通知事件的委派。一接收到此回呼，委派至少應該關閉 `PFSignUpViewController`。此外，委派會更新自己的檢視或將訊息轉發到其他需要了解 `PFUser` 的元件。
+使用者註冊或取消時，`PFSignUpViewController` 會通知事件的委派。一接收到此回呼，委派至少應該關閉 `PFSignUpViewController`。此外，委派會更新自己的檢視或將訊息轉發到其他需要了解 `%{ParseUser}%` 的元件。
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {

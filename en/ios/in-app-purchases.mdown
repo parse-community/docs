@@ -100,7 +100,7 @@ The call to `buyProduct:block:` brings up a dialogue that asks users to enter th
 
 ## Querying Product Information
 
-You can query the product objects created in the data browser using `PFProduct`. Like `PFUser` or `PFRole`, `PFProduct` is a subclass of `PFObject` that contains convenience accessors to various product-specific properties.
+You can query the product objects created in the data browser using `PFProduct`. Like `%{ParseUser}` or `PFRole`, `PFProduct` is a subclass of `PFObject` that contains convenience accessors to various product-specific properties.
 
 For example, here's a simple query to get a product:
 

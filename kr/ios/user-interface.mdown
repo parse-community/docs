@@ -1,13 +1,13 @@
 # 사용자 인터페이스
 
-앱 사용자들은 하루가 끝날 때 UIKit 구성 요소와 상호 작용합니다. Parse에서는 `PFUser` 로그인/가입과 `PFObject` 표시를 쉽게 수행할 수 있는 `UIViewController` 하위 클래스를 몇 개 제공합니다.
+앱 사용자들은 하루가 끝날 때 UIKit 구성 요소와 상호 작용합니다. Parse에서는 `%{ParseUser}%` 로그인/가입과 `PFObject` 표시를 쉽게 수행할 수 있는 `UIViewController` 하위 클래스를 몇 개 제공합니다.
 
 ## PFLogInViewController
 
-Parse를 사용하여 모바일 앱에서 사용자를 관리하고 있다면 이미 `PFUser` 클래스에 익숙할 것입니다. 앱에서 원하는 지점에 `PFUser` 로그인 화면을 표시할 수 있습니다.  Parse에는 여기에 사용되는 보기 컨트롤러가 있습니다.
+Parse를 사용하여 모바일 앱에서 사용자를 관리하고 있다면 이미 `%{ParseUser}%` 클래스에 익숙할 것입니다. 앱에서 원하는 지점에 `%{ParseUser}%` 로그인 화면을 표시할 수 있습니다.  Parse에는 여기에 사용되는 보기 컨트롤러가 있습니다.
 
 <div class='tip info'><div>
-  [로그인 및 가입 보기 사용에 관한 튜토리얼](/tutorials/login-and-signup-views)에는 사용자 지정한 후 `PFUser`를 사용하는 앱에 삽입할 수 있는 기본 제공 보기가 있습니다.
+  [로그인 및 가입 보기 사용에 관한 튜토리얼](/tutorials/login-and-signup-views)에는 사용자 지정한 후 `%{ParseUser}%`를 사용하는 앱에 삽입할 수 있는 기본 제공 보기가 있습니다.
 </div></div>
 
 `PFLogInViewController` 클래스를 사용하여 보기를 인스턴스화한 후 모달 방식으로 표시합니다.
@@ -64,7 +64,7 @@ logInController.facebookPermissions = @[@"friends_about_me"];
 
 ### 로그인 성공, 실패, 취소에 응답
 
-사용자가 로그인하거나 로그인을 취소하면 `PFLogInViewController`에서 델리게이트에게 이벤트를 알립니다. 이 콜백을 받으면 델리게이트가 최소한 `PFLogInViewController`를 무시해야 합니다. 또한 델리게이트는 보기를 업데이트하거나 `PFUser`에 대해 알아야 할 다른 구성 요소로 메시지를 전달할 수 있습니다.
+사용자가 로그인하거나 로그인을 취소하면 `PFLogInViewController`에서 델리게이트에게 이벤트를 알립니다. 이 콜백을 받으면 델리게이트가 최소한 `PFLogInViewController`를 무시해야 합니다. 또한 델리게이트는 보기를 업데이트하거나 `%{ParseUser}%`에 대해 알아야 할 다른 구성 요소로 메시지를 전달할 수 있습니다.
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -182,7 +182,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 가입 성공, 실패, 취소에 응답
 
-사용자가 가입하거나 가입을 취소하면 `PFSignUpViewController`에서 델리게이트에 이벤트를 알립니다. 이 콜백을 받으면 델리게이트가 최소한 `PFSignUpViewController`를 무시해야 합니다. 또한 델리게이트는 보기를 업데이트하거나 `PFUser`에 대해 알아야 할 다른 구성 요소로 메시지를 전달할 수 있습니다.
+사용자가 가입하거나 가입을 취소하면 `PFSignUpViewController`에서 델리게이트에 이벤트를 알립니다. 이 콜백을 받으면 델리게이트가 최소한 `PFSignUpViewController`를 무시해야 합니다. 또한 델리게이트는 보기를 업데이트하거나 `%{ParseUser}%`에 대해 알아야 할 다른 구성 요소로 메시지를 전달할 수 있습니다.
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
@@ -221,7 +221,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 검증 로직 사용자 지정
 
-가입 정보를 Parse Cloud에 제출하기 전에 클라이언트 측 검증을 실행하는 것이 좋을 수도 있습니다. `PFSignUpViewControllerDelegate`의 `signUpViewController:shouldBeginSignUp:` 메서드에 검증 로직을 추가할 수 있습니다. 예를 들어 8자 미만인 비밀번호가 너무 짧다고 생각되는 경우에는 다음을 수행할 수 있습니다.
+가입 정보를 Parse Cloud에 제출하기 전에 클라이언트 측 검증을 실행하는 것��� 좋을 수도 있습니다. `PFSignUpViewControllerDelegate`의 `signUpViewController:shouldBeginSignUp:` 메서드에 검증 로직을 추가할 수 있습니다. 예를 들어 8자 미만인 비밀번호가 너무 짧다고 생각되는 경우에는 다음을 수행할 수 있습니다.
 
 ```objc
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController
@@ -390,7 +390,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 셀 사용자 지정
 
-테이블의 모양을 사용자 지정하려면 사용자 지정된 셀을 반환하도록 `tableView:cellForRowAtIndexPath:object:`를 재정의합니다. 이 메서드는 일반적인 테이블 데이터 소스 메서드와 비슷하지만 `PFObject`가 매개변수로 직접 포함되어 있습니다.
+테이블의 모양을 사용자 지정하���면 사용자 지정된 셀��� 반환하도록 `tableView:cellForRowAtIndexPath:object:`를 재정의합니다. 이 메서드는 일반적인 테이블 데이터 소스 메서드와 비슷하지만 `PFObject`가 매개변수로 직접 포함되어 있습니다.
 
 더 이상 `tableView:cellForRowAtIndexPath:`는 재정의하지 않습니다.
 
