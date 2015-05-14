@@ -3,7 +3,7 @@
 Parse 能讓您將現實世界的經緯度座標與物件建立關聯。將 `PFGeoPoint` 加入 `PFObject`，能在進行查詢時，將某個物件與參考點之間的鄰近性列入考慮。這讓您很容易完成一些操作，比如找出哪些使用者距離其他使用者最近，或是哪些地點離使用者最近。
 
 <div class='tip info'><div>
-請在我們的 [Anywall 教學](/tutorials/anywall)中探索 `PFGeoPoints` 和 `PFUser` 在真實應用程式中的用法。您將學到包括實作基本使用者管理的工作流程，乃至於用核心位置追蹤 GPS 位置在內的所有作法。
+請在我們的 [Anywall 教學](/tutorials/anywall)中探索 `PFGeoPoints` 和 `%{ParseUser}%` 在真實應用程式中的用法。您將學到包括實作基本使用者管理的工作流程，乃至於用核心位置追蹤 GPS 位置在內的所有作法。
 </div></div>
 
 ## PFGeoPoint

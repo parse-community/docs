@@ -1,13 +1,13 @@
 # ユーザーインターフェイス
 
-最終的にアプリの利用者はUIKitコンポーネントとやり取りするようになります。Parseでは`PFUser`のログインや登録を行ったり、`PFObject`の表示を大幅に簡易化する`UIViewController`のサブクラスをいくつか提供します。
+最終的にアプリの利用者はUIKitコンポーネントとやり取りするようになります。Parseでは`%{ParseUser}%`のログインや登録を行ったり、`PFObject`の表示を大幅に簡易化する`UIViewController`のサブクラスをいくつか提供します。
 
 ## PFLogInViewController
 
-Parseを利用してモバイルアプリの利用者を管理している場合、`PFUser`クラスには既に精通していることでしょう。アプリでは、`PFUser`をログインさせる画面を表示させるときがあるでしょう。Parseではそれを実行するビューコントローラーを提供しています。
+Parseを利用してモバイルアプリの利用者を管理している場合、`%{ParseUser}%`クラスには既に精通していることでしょう。アプリでは、`%{ParseUser}%`をログインさせる画面を表示させるときがあるでしょう。Parseではそれを実行するビューコントローラーを提供しています。
 
 <div class='tip info'><div>
-[ログインおよび登録ビューの使用に関するチュートリアル](/tutorials/login-and-signup-views)では、すぐにカスタマイズでき、`PFUser`を使用するアプリで利用できる内蔵型ビューを提供しています。
+[ログインおよび登録ビューの使用に関するチュートリアル](/tutorials/login-and-signup-views)では、すぐにカスタマイズでき、`%{ParseUser}%`を使用するアプリで利用できる内蔵型ビューを提供しています。
 </div></div>
 
 `PFLogInViewController`クラスを使用し、例示化してモーダルで表示します。
@@ -68,7 +68,7 @@ logInController.facebookPermissions = @[@"friends_about_me"];
 
 ### ログイン成功、失敗、キャンセルへの応答
 
-利用者が登録またはキャンセルする場合、`PFLogInViewController`ではイベントのデリゲートを通知します。このコールバックを受信したら、デリゲートでは少なくとも`PFLogInViewController`を終了する必要があります。また、デリゲートでは独自のビューを更新したり、`PFUser`について知る必要のある別のコンポーネントにメッセージを転送することができます。
+利用者が登録またはキャンセルする場合、`PFLogInViewController`ではイベントのデリゲートを通知します。このコールバックを受信したら、デリゲートでは少なくとも`PFLogInViewController`を終了する必要があります。また、デリゲートでは独自のビューを更新したり、`%{ParseUser}%`について知る必要のある別のコンポーネントにメッセージを転送することができます。
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -186,7 +186,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 登録成功、失敗、キャンセルへの応答
 
-利用者が登録またはキャンセルする場合、`PFSignUpViewController`ではイベントのデリゲートを通知します。このコールバックを受信したら、デリゲートでは少なくとも`PFSignUpViewController`を終了する必要があります。また、デリゲートでは独自のビューを更新したり、`PFUser`について知る必要のある別のコンポーネントにメッセージを転送することができます。
+利用者が登録またはキャンセルする場合、`PFSignUpViewController`ではイベントのデリゲートを通知します。このコールバックを受信したら、デリゲートでは少なくとも`PFSignUpViewController`を終了する必要があります。また、デリゲートでは独自のビューを更新したり、`%{ParseUser}%`について知る必要のある別のコンポーネントにメッセージを転送することができます。
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
@@ -480,7 +480,7 @@ ParseのUIクラスにあるすべての文字列はカスタマイズ/ローカ
 
 `PFSignUpViewController`のエラーメッセージ「メールアドレス（andrew@x）は無効です。有効なメールアドレスを入力してください。」にカスタマイズするとします。変数が含まれているので`Localizable.strings`への入力方法が分かりません。
 
-Parse SDKには、`Localizable.string`というファイルがあり、Parseフレームワークのローカライズできるキーがすべて含まれています。このファイルをブラウズすれば、カスタマイズしたい文字列のキーを見つけることができます。文字列「メールアドレス（\&quot;%@\&quot;）は無効です。有効なメールアドレスを入力してください」がファイルのキーであることが確認できます。独自の`Localizable.strings`では、次を入力することができます。
+Parse SDKには、`Localizable.string`というファイルがあり、Parseフレームワークのローカライズできるキーがすべて含まれています。このファイルをブラウズすれば、カスタマイズしたい文字列のキーを見つけることができます。文字列「メールアドレス（\&quot;%@\&quot;）は無効です。有効なメールアドレスを入力してください」がファイルのキーであること���確認できます。���自の`Localizable.strings`では、次を入力することができます。
 
 ```json
 "The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";

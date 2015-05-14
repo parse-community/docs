@@ -1,14 +1,14 @@
 # 사용자
 
-많은 앱의 핵심에는 사용자가 안전하게 정보에 액세스할 있도록 하는 사용자 계정의 개념이 있습니다. Parse에서는 사용자 계정 관리에 필요한 많은 기능을 자동으로 처리하는 `PFUser`라는 전문화된 사용자 클래스를 제공합니다.
+많은 앱의 핵심에는 사용자가 안전하게 정보에 액세스할 있도록 하는 사용자 계정의 개념이 있습니다. Parse에서는 사용자 계정 관리에 필요한 많은 기능을 자동으로 처리하는 `%{ParseUser}%`라는 전문화된 사용자 클래스를 제공합니다.
 
 이 클래스로 앱에 사용자 계정 기능을 추가할 수 있습니다.
 
-`PFUser`는 `PFObject`의 하위 클래스로서, 유연한 스키마, 자동 지속 및 키 값 인터페이스 등 동일한 기능이 모두 포함되어 있습니다. 또한 `PFObject`에 있는 모든 메서드가 `PFUser`에도 있습니다. PFUser에는 사용자 계정과 관련된 몇 가지 특별한 추가 기능이 있다는 점만 다릅니다.
+`%{ParseUser}%`는 `PFObject`의 하위 클래스로서, 유연한 스키마, 자동 지속 및 키 값 인터페이스 등 동일한 기능이 모두 포함되어 있습니다. 또한 `PFObject`에 있는 모든 메서드가 `%{ParseUser}%`에도 있습니다. PFUser에는 사용자 계정과 관련된 몇 가지 특별한 추가 기능이 있다는 점만 다릅니다.
 
 ## 속성
 
-`PFUser`에는 다음과 같이 `PFObject`와 구분되는 여러 속성이 있습니다.
+`%{ParseUser}%`에는 다음과 같이 `PFObject`와 구분되는 여러 속성이 있습니다.
 
 *   username: 사용자의 사용자 이름입니다(필수).
 *   password: 사용자의 비밀번호입니다(가입 시 필수).
@@ -43,13 +43,13 @@
 
 이 호출은 Parse 앱에서 비동기식으로 새 사용자를 만듭니다. 사용자를 만들기 전에 사용자 이름과 이메일이 고유한지도 확인합니다. 또한 비밀번호를 클라우드에 안전하게 암호화하여 저장(hash)합니다. 비밀번호는 일반 텍스트로 저장되지 않으며 일반 텍스트로 클라이언트에게 다시 전송되지도 않습니다.
 
-`save` 메서드가 아니라 `signUp` 메서드를 사용합니다. 새로운 `PFUser`는 항상 `signUp` 메서드를 사용하여 생성되어야 합니다. 사용자에 대한 이후 업데이트는 `save`를 호출하여 수행할 수 있습니다.
+`save` 메서드가 아니라 `signUp` 메서드를 사용합니다. 새로운 `%{ParseUser}%`는 항상 `signUp` 메서드를 사용하여 생성되어야 합니다. 사용자에 대한 이후 업데이트는 `save`를 호출하여 수행할 수 있습니다.
 
 `signUp` 메서드는 오류와 동기 버전을 다시 전달하는 기능을 다양한 기능을 제공합니다. 평소처럼 가능하면 앱의 UI를 차단하지 않도록 비동기 버전을 사용하는 것이 좋습니다. 이러한 특별 메서드에 대한 자세한 내용은 [API 문서](/docs/ios/)를 참조하세요.
 
 가입을 완료하지 못한 경우 반환된 오류 개체를 읽어야 합니다. 대개의 경우 이미 다른 사용자가 사용자 이름이나 이메일을 사용하기 때문일 가능성이 높습니다. 이에 대해 사용자에게 명확하게 설명하고 다른 사용자 이름을 사용하도록 요청해야 합니다.
 
-이메일 주소를 사용자 이름으로 사용해도 됩니다. 사용자에게 이메일을 입력하도록 요청하되 username 속성에 작성하도록 요청하세요. 그러면 `PFUser`가 정상적으로 작동합니다. 비밀번호 재설정 섹션에서 이를 처리하는 방법에 대해 검토하겠습니다.
+이메일 주소를 사용자 이름으로 사용해도 됩니다. 사용자에게 이메일을 입력하도록 요청하되 username 속성에 작성하도록 요청하세요. 그러면 `%{ParseUser}%`가 정상적으로 작동합니다. 비밀번호 재설정 섹션에서 이를 처리하는 방법에 대해 검토하겠습니다.
 
 ## 로그인
 
@@ -68,13 +68,13 @@
 
 ## 이메일 인증
 
-앱의 설정에서 이메일 인증을 활성화하면 앱에서 이메일 주소가 확인된 사용자에 대해 앱 환경 중 일부를 예약할 수 있습니다. 이메일 인증에서는 `PFUser` 개체에 `emailVerified` 키를 추가합니다. `PFUser`의 `email`을 설정하거나 수정하면 `emailVerified`가 `false`로 설정됩니다. 그러면 Parse에서는 `emailVerified`를 `true`로 설정하는 링크를 사용자에게 이메일로 보냅니다.
+앱의 설정에서 이메일 인증을 활성화하면 앱에서 이메일 주소가 확인된 사용자에 대해 앱 환경 중 일부를 예약할 수 있습니다. 이메일 인증에서는 `%{ParseUser}%` 개체에 `emailVerified` 키를 추가합니다. `%{ParseUser}%`의 `email`을 설정하거나 수정하면 `emailVerified`가 `false`로 설정됩니다. 그러면 Parse에서는 `emailVerified`를 `true`로 설정하는 링크를 사용자에게 이메일로 보냅니다.
 
 고려할 `emailVerified` 상태는 세 가지입니다.
 
 1.  `true` - 사용자가 Parse에서 이메일로 받은 링크를 클릭하여 이메일 주소를 확인했습니다. 사용자 계정을 처음 만들 때 `PFUsers`는 값이 `true`일 수 없습니다.
-2.  `false` - `PFUser` 개체를 마지막으로 새로고침할 때 사용자가 자신의 이메일 주소를 확인하지 않았습니다. `emailVerified`가 `false`인 경우 `PFUser`에 대해 `refresh:`를 호출해보세요.
-3.  _missing_ - 이메일 인증이 꺼져 있을 때 `PFUser`를 만들었거나 `PFUser`에게 `email`이 없습니다.
+2.  `false` - `%{ParseUser}%` 개체를 마지막으로 새로고침할 때 사용자가 자신의 이메일 주소를 확인하지 않았습니다. `emailVerified`가 `false`인 경우 `%{ParseUser}%`에 대해 `refresh:`를 호출해보세요.
+3.  _missing_ - 이메일 인증이 꺼져 있을 때 `%{ParseUser}%`를 만들었거나 `%{ParseUser}%`에게 `email`이 없습니다.
 
 ## 현재 사용자
 
@@ -102,7 +102,7 @@ PFUser *currentUser = [PFUser currentUser]; // this will now be nil
 
 데이터와 개체를 개별 사용자와 연결할 수 있는 기능은 매우 유용하지만, 사용자로 하여금 사용자 이름과 비밀번호를 지정하게 하지 않고 이렇게 할 수 있었으면 하는 경우도 있습니다.
 
-익명 사용자는 사용자 이름과 비밀번호 없이 만들 수 있지만 다른 `PFUser`와 동일한 기능을 모두 갖는 사용자입니다. 익명 사용자는 로그아웃하면 폐기되며, 해당 데이터에 더 이상 액세스할 수 없습니다.
+익명 사용자는 사용자 이름과 비밀번호 없이 만들 수 있지만 다른 `%{ParseUser}%`와 동일한 기능을 모두 갖는 사용자입니다. 익명 사용자는 로그아웃하면 폐기되며, 해당 데이터에 더 이상 액세스할 수 없습니다.
 
 익명 사용자는 `PFAnonymousUtils`를 사용하여 만들 수 있습니다.
 
@@ -150,9 +150,9 @@ if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
 
 ## 사용자 개체에 대한 보안
 
-`PFUser` 클래스는 기본적으로 보호됩니다. `PFUser`에 저장된 데이터는 해당 사용자만 수정할 수 있습니다. 기본적으로 모든 클라이언트가 데이터를 읽을 수는 있습니다. 따라서 일부 `PFUser` 개체는 인증되고 수정할 수 있지만, 다른 개체는 읽기 전용입니다.
+`%{ParseUser}%` 클래스는 기본적으로 보호됩니다. `%{ParseUser}%`에 저장된 데이터는 해당 사용자만 수정할 수 있습니다. 기본적으로 모든 클라이언트가 데이터를 읽을 수는 있습니다. 따라서 일부 `%{ParseUser}%` 개체는 인증되고 수정할 수 있지만, 다른 개체는 읽기 전용입니다.
 
-특히, `logIn` 또는 `signUp`과 같은 인증된 메서드를 사용하여 `PFUser`를 가져오지 않는 경우 `save` 또는 `delete` 메서드를 호출할 수 없습니다. 따라서 사용자는 자신의 데이터만 수정할 수 있습니다.
+특히, `logIn` 또는 `signUp`과 같은 인증된 메서드를 사용하여 `%{ParseUser}%`를 가져오지 않는 경우 `save` 또는 `delete` 메서드를 호출할 수 없습니다. 따라서 사용자는 자신의 데이터만 수정할 수 있습니다.
 
 다음 코드는 이러한 보안 정책을 보여줍니다.
 
@@ -171,15 +171,15 @@ userAgain.username = "another_username";
 [userAgain save];
 ```
 
-`currentUser`에서 가져온 `PFUser`는 항상 인증됩니다.
+`currentUser`에서 가져온 `%{ParseUser}%`는 ���상 인증됩니다.
 
-`PFUser`가 인증되었는지 확인해야 하는 경우 `isAuthenticated` 메서드를 호출할 수 있습니다. 인증된 메서드를 통해 가져온 `PFUser` 개체에서는 `isAuthenticated`를 확인할 필요가 없습니다.
+`%{ParseUser}%`가 인증되었는지 확인해야 하는 경우 `isAuthenticated` 메서드를 호출할 수 있습니다. 인증된 메서드를 통해 가져온 `%{ParseUser}%` 개체에서는 `isAuthenticated`를 확인할 필요가 없습니다.
 
 ## 다른 개체에 대한 보안
 
-`PFUser`에 적용되는 보안 모델을 다른 개체에도 동일하게 적용할 수 있습니다. 어느 개체든 개체를 읽을 수 있는 사용자와 개체를 수정할 수 있는 사용자를 지정할 수 있습니다. 이러한 유형의 보안을 지원하려면 각 개체에 `PFACL` 클래스로 구현되는 [액세스 제어 목록](http://en.wikipedia.org/wiki/Access_control_list)이 있어야 합니다.
+`%{ParseUser}%`에 적용되는 보안 모델을 다른 개체에도 동일하게 적용할 수 있습니다. 어느 개체든 개체를 읽을 수 있는 사용자와 개체를 수정할 수 있는 사용자를 지정할 수 있습니다. 이러한 유형의 보안을 지원하려면 각 개체에 `PFACL` 클래스로 구현되는 [액세스 제어 목록](http://en.wikipedia.org/wiki/Access_control_list)이 있어야 합니다.
 
-`PFACL`을 가장 간단히 사용하는 방법은 싱글 사용자만 개체를 읽거나 쓸 수 있도록 지정합니다. 이러한 개체를 만들려면 로그인한 `PFUser`가 있어야 합니다. 그러면 `ACLWithUser` 메서드에서 해당 사용자에 대한 액세스를 제한하는 `PFACL`을 생성합니다. 개체의 ACL은 다른 속성처럼 개체를 저장할 때 업데이트됩니다. 따라서 현재 사용자만 액세스할 수 있는 비공개 노트를 만들려면 다음과 같이 하세요.
+`PFACL`을 가장 간단히 사용하는 방법은 싱글 사용자만 개체를 읽거나 쓸 수 있도록 지정합니다. 이러한 개체를 만들려면 로그인한 `%{ParseUser}%`가 있어야 합니다. 그러면 `ACLWithUser` 메서드에서 해당 사용자에 대한 액세스를 제한하는 `PFACL`을 생성합니다. 개체의 ACL은 다른 속성처럼 개체를 저장할 때 업데이트됩니다. 따라서 현재 사용자만 액세스할 수 있는 비공개 노트를 만들려면 다음과 같이 하세요.
 
 ```objc
 PFObject *privateNote = [PFObject objectWithClassName:@"Note"];
@@ -275,11 +275,11 @@ PFQuery *query = [PFUser query];
 NSArray *girls = [query findObjects];
 ```
 
-또한 `getUserObjectWithId:objectId`를 사용하여 `PFUser`를 ID별로 가져올 수 있습니다.
+또한 `getUserObjectWithId:objectId`를 사용하여 `%{ParseUser}%`를 ID별로 가져올 수 있습니다.
 
 ## 연결
 
-`PFUser`와 관련된 연결은 즉시 작동합니다. 예를 들어 블로깅 앱을 만든다고 가정해 보겠습니다. 사용자의 새 게시물을 저장하고 이 사용자의 게시물을 모두 검색하려면 다음과 같이 하세요.
+`%{ParseUser}%`와 관련된 연결은 즉시 작동합니다. 예를 들어 블로깅 앱을 만든다고 가정해 보겠습니다. 사용자의 새 게시물을 저장하고 이 사용자의 게시물을 모두 검색하려면 다음과 같이 하세요.
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -298,13 +298,13 @@ NSArray *usersPosts = [query findObjects];
 
 ## Facebook 사용자
 
-Parse에서는 Facebook을 앱과 통합하는 간단한 방법을 제공합니다. Facebook SDK는 Parse SDK와 함께 사용할 수 있고 `PFUser` 클래스와 통합되므로 사용자를 사용자의 Facebook ID에 쉽게 연결할 수 있습니다.
+Parse에서는 Facebook을 앱과 통합하는 간단한 방법을 제공합니다. Facebook SDK는 Parse SDK와 함께 사용할 수 있고 `%{ParseUser}%` 클래스와 통합되므로 사용자를 사용자의 Facebook ID에 쉽게 연결할 수 있습니다.
 
 <div class='tip info'><div>
   Parse를 Facebook API와 함께 사용하여 프로필 보기 앱을 만드는 방법을 알아보세요. [iOS에 Facebook 통합 튜토리얼](/tutorials/integrating-facebook-in-ios)에서는 Facebook을 통해 `PFUsers`를 만들어 로그인하고 Facebook 그래프 API에 대한 쿼리를 만드는 방법을 설명합니다.
 </div></div>
 
-Parse의 Facebook 통합 기능을 사용하면 인증된 Facebook 사용자를 `PFUser`와 연결할 수 있습니다. 코드 몇 줄만 사용하여 앱에 'Facebook으로 로그인' 옵션을 제공할 수 있고 사용자 데이터를 Parse에 저장할 수 있습니다.
+Parse의 Facebook 통합 기능을 사용하면 인증된 Facebook 사용자를 `%{ParseUser}%`와 연결할 수 있습니다. 코드 몇 줄만 사용하여 앱에 'Facebook으로 로그인' 옵션을 제공할 수 있고 사용자 데이터를 Parse에 저장할 수 있습니다.
 
 ### 설정
 
@@ -332,11 +332,11 @@ Facebook을 Parse와 함께 사용하려면 다음을 수행해야 합니다.
 }
 ```
 
-Parse 사용자에서 Facebook을 사용하는 방법은 기본적으로 (1) Facebook 사용자로 로그인하거나 가입하고 `PFUser` 만들기 또는 (2) Facebook을 기존 `PFUser`에 연결하는 두 가지입니다.
+Parse 사용자에서 Facebook을 사용하는 방법은 기본적으로 (1) Facebook 사용자로 로그인하거나 가입하고 `%{ParseUser}%` 만들기 또는 (2) Facebook을 기존 `%{ParseUser}%`에 연결하는 두 가지입니다.
 
 ### 로그인 및 가입
 
-`PFUser`에서는 사용자가 Facebook을 통해 로그인 또는 가입할 수 있는 방법을 제공합니다. 여기에는 다음과 같이 `logInWithPermissions` 메서드를 사용합니다.
+`%{ParseUser}%`에서는 사용자가 Facebook을 통해 로그인 또는 가입할 수 있는 방법을 제공합니다. 여기에는 다음과 같이 `logInWithPermissions` 메서드를 사용합니다.
 
 ```objc
 [PFFacebookUtils logInWithPermissions:permissions block:^(PFUser *user, NSError *error) {
@@ -356,10 +356,10 @@ Parse는 Facebook iOS SDK 버전 3.2와 호환됩니다.
 
 1.  사용자에게 Facebook 로그인 대화 상자가 표시됩니다.
 2.  사용자가 Facebook을 통해 인증하고 앱이 `handleOpenURL`을 사용하여 콜백을 받습니다.
-3.  Parse SDK가 Facebook 데이터를 받고 `PFUser`에 저장합니다. Facebook ID를 기반으로 하는 새 사용자인 경우 해당 사용자가 만들어집니다.
+3.  Parse SDK가 Facebook 데이터를 받고 `%{ParseUser}%`에 저장합니다. Facebook ID를 기반으로 하는 새 사용자인 경우 해당 사용자가 만들어집니다.
 4.  코드 블록이 해당 사용자에서 호출됩니다.
 
-권한 인수는 앱에서 Facebook 사용자에게 요구할 권한을 지정하는 문자열의 배열입니다. 이 권한에는 읽기 권한만 포함되어 있어야 합니다. `PFUser` 통합은 권한이 없어도 바로 사용할 수 있습니다. [권한에 대한 자세한 내용은 Facebook의 개발자 가이드를 참조하세요.](https://developers.facebook.com/docs/reference/api/permissions/)
+권한 인수는 앱에서 Facebook 사용자에게 요구할 권한을 지정하는 문자열의 배열입니다. 이 권한에는 읽기 권한만 포함되어 있어야 합니다. `%{ParseUser}%` 통합은 권한이 없어도 바로 사용할 수 있습니다. [권한에 대한 자세한 내용은 Facebook의 개발자 가이드를 참조하세요.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 앱에서 사용자 대신 상태 업데이트를 게시하는 등의 작업을 수행할 수 있도록 사용자로부터 게시 권한을 받으려면 `[PFFacebookUtils reauthorizeUser:withPublishPermissions:audience:block]`을 호출해야 합니다.
 
@@ -380,7 +380,7 @@ Parse는 Facebook iOS SDK 버전 3.2와 호환됩니다.
 
 ### 연결
 
-기존 `PFUser`를 Facebook 계정에 연결하려면 다음과 같이 연결할 수 있습니다.
+기존 `%{ParseUser}%`를 Facebook 계정에 연결하려면 다음과 같이 연결할 수 있습니다.
 
 ```objc
 if (![PFFacebookUtils isLinkedWithUser:user]) {
@@ -392,7 +392,7 @@ if (![PFFacebookUtils isLinkedWithUser:user]) {
 }
 ```
 
-연결할 때 수행되는 단계는 로그인과 매우 유사합니다. 로그인되면 기존 `PFUser`가 Facebook 정보로 업데이트되는 점만 다릅니다. 나중에 Facebook을 통해 로그인하면 사용자가 자신의 기존 계정으로 로그인됩니다.
+연결할 때 수행되는 단계는 로그인과 매우 유사합니다. 로그인되면 기존 `%{ParseUser}%`가 Facebook 정보로 업데이트되는 점만 다릅니다. 나중에 Facebook을 통해 로그인하면 사용자가 자신의 기존 계정으로 로그인됩니다.
 
 Facebook과 사용자의 연결을 취소하려면 다음과 같이 하면 됩니다.
 
@@ -412,7 +412,7 @@ Parse의 라이브러리에서는 사용자의 `FBSession` 개체를 관리합�
 
 ## Twitter 사용자
 
-Parse에서는 Facebook과 마찬가지로 Twitter 인증을 앱에 통합하는 쉬운 방법을 제공합니다. Parse SDK에서는 Twitter 계정을 인증하고 `PFUser`에 연결하는 간단한 방법을 제공합니다. 코드 몇 줄만 사용하여 앱에서 &quot;Twitter로 로그인&quot; 옵션을 제공할 수 있고 사용자 데이터를 Parse에 저장할 수 있습니다.
+Parse에서는 Facebook과 마찬가지로 Twitter 인증을 앱에 통합하는 쉬운 방법을 제공합니다. Parse SDK에서는 Twitter 계정을 인증하고 `%{ParseUser}%`에 연결하는 간단한 방법을 제공합니다. 코드 몇 줄만 사용하여 앱에서 &quot;Twitter로 로그인&quot; 옵션을 제공할 수 있고 사용자 데이터를 Parse에 저장할 수 있습니다.
 
 ### 설정
 
@@ -430,11 +430,11 @@ Twitter를 Parse와 함께 사용하려면 다음을 수행해야 합니다.
 
 Twitter와 관련된 문제가 발생하는 경우 [공식 Twitter 설명서](https://dev.twitter.com/docs)를 참조하면 유용합니다.
 
-Parse 사용자에서 Twitter를 사용하는 방법은 기본적으로 (1) Twitter 사용자로 로그인하고 `PFUser` 만들기 또는 (2) Twitter를 기존 `PFUser`에 연결하는 두 가지입니다.
+Parse 사용자에서 Twitter를 사용하는 방법은 기본적으로 (1) Twitter 사용자로 로그인하고 `%{ParseUser}%` 만들기 또는 (2) Twitter를 기존 `%{ParseUser}%`에 연결하는 두 가지입니다.
 
 ### 로그인 및 가입
 
-`PFTwitterUtils`에서는 `PFUser`가 Twitter를 통해 로그인 또는 가입할 수 있는 방법을 제공합니다. 이렇게 하려면 `logInWithBlock` 또는 `logInWithTarget` 메시지를 사용합니다.
+`PFTwitterUtils`에서는 `%{ParseUser}%`가 Twitter를 통해 로그인 또는 가입할 수 있는 방법을 제공합니다. 이렇게 하려면 `logInWithBlock` 또는 `logInWithTarget` 메시지를 사용합니다.
 
 ```objc
 [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
@@ -453,12 +453,12 @@ Parse 사용자에서 Twitter를 사용하는 방법은 기본적으로 (1) Twit
 
 1.  사용자에게 Twitter 로그인 대화 상자가 표시됩니다.
 2.  사용자가 Twitter를 통해 인증하고 앱이 콜백을 받습니다.
-3.  Parse SDK가 Twitter 데이터를 받고 `PFUser`에 저장합니다. Twitter 핸들을 기반으로 하는 새 사용자인 경우 해당 사용자가 만들어집니다.
+3.  Parse SDK가 Twitter 데이터를 받고 `%{ParseUser}%`에 저장합니다. Twitter 핸들을 기반으로 하는 새 사용자인 경우 해당 사용자가 만들어집니다.
 4.  `block`이 해당 사용자에서 호출됩니다.
 
 ### 연결
 
-기존 `PFUser`를 Twitter 계정에 연결하려면 다음과 같이 연결할 수 있습니다.
+기존 `%{ParseUser}%`를 Twitter 계정에 연결하려면 다음과 같이 연결할 수 있습니다.
 
 ```objc
 if (![PFTwitterUtils isLinkedWithUser:user]) {
@@ -470,7 +470,7 @@ if (![PFTwitterUtils isLinkedWithUser:user]) {
 }
 ```
 
-연결할 때 수행되는 단계는 로그인과 매우 유사합니다. 로그인되면 기존 `PFUser`가 Twitter 정보로 업데이트되는 점만 다릅니다. 나중에 Twitter를 통해 로그인하면 사용자가 자신의 기존 계정으로 로그인됩니다.
+연결할 때 수행되는 단계는 로그인과 매우 유사합니다. 로그인되면 기존 `%{ParseUser}%`가 Twitter 정보로 업데이트되는 점만 다릅니다. 나중에 Twitter를 통해 로그인하면 사용자가 자신의 기존 계정으로 로그인됩니다.
 
 Twitter와 사용자의 연결을 취소하려면 다음과 같이 하면 됩니다.
 
@@ -484,7 +484,7 @@ Twitter와 사용자의 연결을 취소하려면 다음과 같이 하면 됩니
 
 ### Twitter API 호출
 
-Parse SDK에서는 앱에 Twitter와 연결된 `PFUser`가 있는 경우 [Twitter REST API](https://dev.twitter.com/docs/api)에 대한 API HTTP 요청에 서명하는 간단한 방법을 제공합니다.  Parse API를 통해 요청하려면 `PFTwitterUtils`에서 제공하는 `PF_Twitter` singleton을 사용할 수 있습니다.
+Parse SDK에서는 앱에 Twitter와 연결된 `%{ParseUser}%`가 있는 경우 [Twitter REST API](https://dev.twitter.com/docs/api)에 대한 API HTTP 요청에 서명하는 간단한 방법을 제공합니다.  Parse API를 통해 요청하려면 `PFTwitterUtils`에서 제공하는 `PF_Twitter` singleton을 사용할 수 있습니다.
 
 ```objc
 NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1/account/verify_credentials.json"];

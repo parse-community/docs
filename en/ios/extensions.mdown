@@ -63,7 +63,7 @@ This process is required to be completed for both your main application and any 
 
 After all these steps are done, you are all set and all data will be shared between your app and any app extension that the app contains.
 
-If you have an existing app using the Parse SDK, when users upgrade to your latest app version (with data sharing enabled), the Parse SDK will automatically move the main app's local persistent data (Local Datastore, current `PFUser`, current `PFInstallation`, etc)
+If you have an existing app using the Parse SDK, when users upgrade to your latest app version (with data sharing enabled), the Parse SDK will automatically move the main app's local persistent data (Local Datastore, current `%{ParseUser}`, current `PFInstallation`, etc)
 from the app's sandbox container to the shared container.
 This migration is irreversible; if you later release another app version with data sharing disabled,
 we will not move the shared container's data back into the main app's sandbox container.
