@@ -4,7 +4,7 @@ If you haven't set up your project yet, please [head over to the QuickStart guid
 
 The Parse platform provides a complete backend solution for your mobile application. Generally, our goal is to eliminate the need for managing servers and writing server-side code. Our PHP SDK is for those applications and situations where server-side code is necessary, or simply prefered.
 
-The Parse PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary.  Check out the [https://github.com/ParsePlatform/parse-php-sdk](GitHub repository) for more information.
+The Parse PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary.  Check out the [GitHub repository](https://github.com/ParsePlatform/parse-php-sdk) for more information.
 
 The Parse PHP SDK requires version 5.4 or greater of the PHP runtime.
 
