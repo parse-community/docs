@@ -10,7 +10,7 @@
 
 安装于注册了推送通知的设备上的每个 Parse 应用程序均有一个相关的 `Installation` 对象。该 `Installation` 对象是您储存推送通知目标定位所需的全部信息的位置。例如，在某个棒球应用中，您可以保存用户感兴趣的球队，以便发送关于球队成绩的更新信息。
 
-在 iOS 中，可以通过 `ParseInstallation` 类（`PFObject` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](#objects) 来储存和检索数据。要想从您的 iOS 应用程序中访问当前的 `Installation` 对象，请采用 `[PFInstallation currentInstallation]` 方法。第一次保存 `PFInstallation` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知，只要其 `deviceToken` 字段置位。
+在 iOS 中，可以通过 `ParseInstallation` 类（`PFObject` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](#objects) 来储存和检索数据。要想从您的 iOS 应用程序中访问当前的 `Installation` 对象，请采用 `[PFInstallation currentInstallation]` 方法。第一次保存 `%{ParseInstallation}` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知，只要其 `deviceToken` 字段置位。
 
 ```objc
 - (void)application:(UIApplication *)application
@@ -22,9 +22,9 @@
 }
 ```
 
-可以像修改 `PFObject` 一样修改 `PFInstallation`，但有几个特殊字段有助于管理和定位设备。
+可以像修改 `PFObject` 一样修改 `%{ParseInstallation}`，但有几个特殊字段有助于管理和定位设备。
 
-*   **`badge`**：iOS 应用程序图标标记的当前值。在 `PFInstallation` 上修改该值会更新应用图标上的标记值。更改将保存到服务器上，使之能用于之后根据推送通知的数量计算图标标记增量。
+*   **`badge`**：iOS 应用程序图标标记的当前值。在 `%{ParseInstallation}` 上修改该值会更新应用图标上的标记值。更改将保存到服务器上，使之能用于之后根据推送通知的数量计算图标标记增量。
 *   **`channels`**：设备当前订阅内容的各种传送通道。
 *   **`timeZone`**：目标设备所在地的当前时区。设备每次保存 `Installation` 对象时，该值就会进行同步_（只读）_。
 *   **`deviceType`**：设备类型，值为&ldquo;ios&rdquo;、&ldquo;android&rdquo;、&ldquo;winrt&rdquo;、&ldquo;winphone&rdquo;或&ldquo;dotnet&rdquo;_（只读）_。
@@ -109,7 +109,7 @@ PFPush *push = [[PFPush alloc] init];
 
 对于很多应用程序来说，通道非常好用，但是有时您在定位推送通知接收者时需要更精确。Parse 允许您使用[查询 API](#queries) 编写关于 `Installation` 对象任何子集的查询，然后向它们发送推送通知。
 
-由于 `PFInstallation` 是 `PFObject` 的子类，因此您可以保存您想要的任何数据，甚至可以在 `Installation` 对象与其他对象之间创建关系。这样您可以将推送通知发送给您自定义并且动态变化的一部分用户群体。
+由于 `%{ParseInstallation}` 是 `PFObject` 的子类，因此您可以保存您想要的任何数据，甚至可以在 `Installation` 对象与其他对象之间创建关系。这样您可以将推送通知发送给您自定义并且动态变化的一部分用户群体。
 
 #### 保存安装数据
 
@@ -124,7 +124,7 @@ PFInstallation *installation = [PFInstallation currentInstallation];
 [installation saveInBackground];
 ```
 
-您甚至可以在 `Installation` 对象与 Parse 上保存的其他类之间创建关系。例如，要将 PFInstallation 与某个用户关联，您只需要将当前用户保存在 `PFInstallation` 上即可。
+您甚至可以在 `Installation` 对象与 Parse 上保存的其他类之间创建关系。例如，要将 PFInstallation 与某个用户关联，您只需要将当前用户保存在 `%{ParseInstallation}` 上即可。
 
 ```objc
 // Associate the device with a user
@@ -186,7 +186,7 @@ PFPush *push = [[PFPush alloc] init];
 
 ## 发送选项
 
-推送通知不仅仅只是发送消息。在 iOS 中，推送通知还可以包括待播放的声音、待显示的图标标记数字以及您希望发送的任何自定义数据。若是时效性通知，还可设置通知的到期日期。
+推送通知不仅仅只是发���消息。在 iOS 中，推送通知还可以包括待播放的声音、待显示的图标标记数字以及您希望发送的任何自定义数据。若是时效性通知，还可设置通知的到期日期。
 
 ### 自定义您的通知
 
