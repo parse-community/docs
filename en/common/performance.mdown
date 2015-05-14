@@ -361,6 +361,7 @@ There are some limits in place to ensure the API can provide the data you need i
 * We recommend against creating more than 64 fields on a single Parse Object to ensure that we can build effective indexes for your queries.
 * We recommend against using field names that are longer than 1024 characters, otherwise an index for the field will not be created.
 * An app may only create up to 100 Parse Config keys. Use Parse Objects if you need more.
+* An app may only create up to 1,000 classes.
 
 **Files**
 * Parse Files are limited to 10 MB each and the limit cannot be increased. There is no limit on how many Parse Files your app can create.
