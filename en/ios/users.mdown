@@ -1,14 +1,14 @@
 # Users
 
-At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `PFUser` that automatically handles much of the functionality required for user account management.
+At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `%{ParseUser}` that automatically handles much of the functionality required for user account management.
 
 With this class, you'll be able to add user account functionality in your app.
 
-`PFUser` is a subclass of `%{ParseObject}` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `%{ParseObject}` also exist in `PFUser`. The difference is that PFUser has some special additions specific to user accounts.
+`%{ParseUser}` is a subclass of `%{ParseObject}` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `%{ParseObject}` also exist in `%{ParseUser}`. The difference is that PFUser has some special additions specific to user accounts.
 
 ## Properties
 
-`PFUser` has several properties that set it apart from `%{ParseObject}`:
+`%{ParseUser}` has several properties that set it apart from `%{ParseObject}`:
 
 *   **username**: The username for the user (required).
 *   **password**: The password for the user (required on signup).
@@ -61,13 +61,13 @@ func myMethod() {
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
-Note that we used the `signUp` method, not the `save` method. New `PFUser`s should always be created using the `signUp` method. Subsequent updates to a user can be done by calling `save`.
+Note that we used the `signUp` method, not the `save` method. New `%{ParseUser}`s should always be created using the `signUp` method. Subsequent updates to a user can be done by calling `save`.
 
 The `signUp` method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our [API docs](/docs/ios/).
 
 If a signup isn't successful, you should read the error object that is returned. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.
 
-You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property &mdash; `PFUser` will work as normal. We'll go over how this is handled in the reset password section.
+You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property &mdash; `%{ParseUser}` will work as normal. We'll go over how this is handled in the reset password section.
 
 ## Logging In
 
@@ -96,13 +96,13 @@ PFUser.logInWithUsernameInBackground("myname", password:"mypass") {
 
 ## Verifying Emails
 
-Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `PFUser` object. When a `PFUser`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
+Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `%{ParseUser}` object. When a `%{ParseUser}`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
 
 There are three `emailVerified` states to consider:
 
 1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `PFUsers` can never have a `true` value when the user account is first created.
-2.  `false` - at the time the `PFUser` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `refresh:` on the `PFUser`.
-3.  **missing** - the `PFUser` was created when email verification was off or the `PFUser` does not have an `email`.
+2.  `false` - at the time the `%{ParseUser}` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `refresh:` on the `%{ParseUser}`.
+3.  **missing** - the `%{ParseUser}` was created when email verification was off or the `%{ParseUser}` does not have an `email`.
 
 
 ## Current User
@@ -143,7 +143,7 @@ var currentUser = PFUser.currentUser() // this will now be nil
 
 Being able to associate data and objects with individual users is highly valuable, but sometimes you want to be able to do this without forcing a user to specify a username and password.
 
-An anonymous user is a user that can be created without a username and password but still has all of the same capabilities as any other `PFUser`. After logging out, an anonymous user is abandoned, and its data is no longer accessible.
+An anonymous user is a user that can be created without a username and password but still has all of the same capabilities as any other `%{ParseUser}`. After logging out, an anonymous user is abandoned, and its data is no longer accessible.
 
 You can create an anonymous user using `PFAnonymousUtils`:
 
@@ -223,9 +223,9 @@ PFUser.becomeInBackground("session-token-here", {
 
 ## Security For User Objects
 
-The `PFUser` class is secured by default. Data stored in a `PFUser` can only be modified by that user. By default, the data can still be read by any client. Thus, some `PFUser` objects are authenticated and can be modified, whereas others are read-only.
+The `%{ParseUser}` class is secured by default. Data stored in a `%{ParseUser}` can only be modified by that user. By default, the data can still be read by any client. Thus, some `%{ParseUser}` objects are authenticated and can be modified, whereas others are read-only.
 
-Specifically, you are not able to invoke any of the `save` or `delete` methods unless the `PFUser` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
+Specifically, you are not able to invoke any of the `save` or `delete` methods unless the `%{ParseUser}` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
 
 The following illustrates this security policy:
 
@@ -258,15 +258,15 @@ userAgain.username = "another_username"
 userAgain.save()
 ```
 
-The `PFUser` obtained from `currentUser` will always be authenticated.
+The `%{ParseUser}` obtained from `currentUser` will always be authenticated.
 
-If you need to check if a `PFUser` is authenticated, you can invoke the `isAuthenticated` method. You do not need to check `isAuthenticated` with `PFUser` objects that are obtained via an authenticated method.
+If you need to check if a `%{ParseUser}` is authenticated, you can invoke the `isAuthenticated` method. You do not need to check `isAuthenticated` with `%{ParseUser}` objects that are obtained via an authenticated method.
 
 ## Security For Other Objects
 
-The same security model that applies to the `PFUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `PFACL` class.
+The same security model that applies to the `%{ParseUser}` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `PFACL` class.
 
-The simplest way to use a `PFACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `PFUser`. Then, the `ACLWithUser` method generates a `PFACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
+The simplest way to use a `PFACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `%{ParseUser}`. Then, the `ACLWithUser` method generates a `PFACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
 ```objc
 PFObject *privateNote = [PFObject objectWithClassName:@"Note"];
@@ -412,11 +412,11 @@ query.whereKey("gender", equalTo:"female")
 var girls = query.findObjects()
 ```
 
-In addition, you can use `getUserObjectWithId:objectId` to get a `PFUser` by id.
+In addition, you can use `getUserObjectWithId:objectId` to get a `%{ParseUser}` by id.
 
 ## Associations
 
-Associations involving a `PFUser` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
+Associations involving a `%{ParseUser}` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -446,13 +446,13 @@ post.save()
 
 ## Facebook Users
 
-Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the `PFUser` class to make linking your users to their Facebook identities easy.
+Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the `%{ParseUser}` class to make linking your users to their Facebook identities easy.
 
 <div class='tip info'><div>
   Learn how to use Parse with the Facebook API to create a profile viewer application. The [Integrating Facebook in iOS tutorial](/tutorials/integrating-facebook-in-ios) will teach you how to create and login `PFUsers` through Facebook and make queries to the Facebook Graph API.
 </div></div>
 
-Using our Facebook integration, you can associate an authenticated Facebook user with a `PFUser`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save the user's data to Parse.
+Using our Facebook integration, you can associate an authenticated Facebook user with a `%{ParseUser}`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save the user's data to Parse.
 
 **Note:** Parse SDK is compatible both with Facebook SDK 3.x and 4.x for iOS. These instructions are for Facebook SDK 4.x.
 
@@ -526,11 +526,11 @@ func applicationDidBecomeActive(application: UIApplication) {
 }
 ```
 
-There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a `PFUser`, or (2) linking Facebook to an existing `PFUser`.
+There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a `%{ParseUser}`, or (2) linking Facebook to an existing `%{ParseUser}`.
 
 ### Log In & Sign Up
 
-`PFUser` provides a way to allow your users to log in or sign up through Facebook. This is done by using the `logInWithPermissions` method like so:
+`%{ParseUser}` provides a way to allow your users to log in or sign up through Facebook. This is done by using the `logInWithPermissions` method like so:
 
 ```objc
 [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
@@ -562,10 +562,10 @@ When this code is run, the following happens:
 
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback using `handleOpenURL`.
-3.  Our SDK receives the Facebook data and saves it to a `PFUser`. If it's a new user     based on the Facebook ID, then that user is created.
+3.  Our SDK receives the Facebook data and saves it to a `%{ParseUser}`. If it's a new user     based on the Facebook ID, then that user is created.
 4.  Your code block is called with the user.
 
-The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The `PFUser` integration doesn't require any permissions to work out of the box. [Read more permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The `%{ParseUser}` integration doesn't require any permissions to work out of the box. [Read more permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 To acquire publishing permissions for a user so that your app can, for example, post status updates on their behalf, you must call `[PFFacebookUtils logInInBackgroundWithPublishPermissions:]`:
 
@@ -593,7 +593,7 @@ PFFacebookUtils.logInInBackgroundWithPublishPermissions(["publish_actions"], {
 
 ### Linking
 
-If you want to associate an existing `PFUser` to a Facebook account, you can link it like so:
+If you want to associate an existing `%{ParseUser}` to a Facebook account, you can link it like so:
 
 ```objc
 if (![PFFacebookUtils isLinkedWithUser:user]) {
@@ -615,7 +615,7 @@ if !PFFacebookUtils.isLinkedWithUser(user) {
 }
 ```
 
-The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `PFUser` is updated with the Facebook information. Future logins via Facebook will now log in the user to their existing account.
+The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `%{ParseUser}` is updated with the Facebook information. Future logins via Facebook will now log in the user to their existing account.
 
 If you want to unlink Facebook from a user, simply do this:
 
@@ -637,7 +637,7 @@ PFFacebookUtils.unlinkUserInBackground(user, {
 
 ### Log In / Link via Token
 
-In previous sections - you've seen how `PFFacebookUtils` could be used to log in with Facebook SDK and create `PFUser`s or link with existing ones. There is also an option available to directly log in / link if you already integrate with Facebook SDK and have a `FBSDKAccessToken`, like in this example:
+In previous sections - you've seen how `PFFacebookUtils` could be used to log in with Facebook SDK and create `%{ParseUser}`s or link with existing ones. There is also an option available to directly log in / link if you already integrate with Facebook SDK and have a `FBSDKAccessToken`, like in this example:
 
 ```objc
 FBSDKAccessToken *accessToken = ...; // Use existing access token.
@@ -748,7 +748,7 @@ To access the user's Facebook access token, you can simply call `[FBSDKAccessTok
 
 ## Twitter Users
 
-As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your `PFUser`s. With just a few lines of code, you'll be able to provide a "log in with Twitter" option in your app, and be able to save their data to Parse.
+As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your `%{ParseUser}`s. With just a few lines of code, you'll be able to provide a "log in with Twitter" option in your app, and be able to save their data to Parse.
 
 ### Setup
 
@@ -769,11 +769,11 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 
 If you encounter any issues that are Twitter-related, a good resource is the [official Twitter documentation](https://dev.twitter.com/docs).
 
-There are two main ways to use Twitter with your Parse users: (1) logging in as a Twitter user and creating a `PFUser`, or (2) linking Twitter to an existing `PFUser`.
+There are two main ways to use Twitter with your Parse users: (1) logging in as a Twitter user and creating a `%{ParseUser}`, or (2) linking Twitter to an existing `%{ParseUser}`.
 
 ### Login & Signup
 
-`PFTwitterUtils` provides a way to allow your `PFUser`s to log in or sign up through Twitter. This is accomplished using the `logInWithBlock` or `logInWithTarget` messages:
+`PFTwitterUtils` provides a way to allow your `%{ParseUser}`s to log in or sign up through Twitter. This is accomplished using the `logInWithBlock` or `logInWithTarget` messages:
 
 ```objc
 [PFTwitterUtils logInWithBlock:^(PFUser *user, NSError *error) {
@@ -806,12 +806,12 @@ When this code is run, the following happens:
 
 1.  The user is shown the Twitter login dialog.
 2.  The user authenticates via Twitter, and your app receives a callback.
-3.  Our SDK receives the Twitter data and saves it to a `PFUser`. If it's a new user based on the Twitter handle, then that user is created.
+3.  Our SDK receives the Twitter data and saves it to a `%{ParseUser}`. If it's a new user based on the Twitter handle, then that user is created.
 4.  Your `block` is called with the user.
 
 ### Twitter Linking
 
-If you want to associate an existing `PFUser` with a Twitter account, you can link it like so:
+If you want to associate an existing `%{ParseUser}` with a Twitter account, you can link it like so:
 
 ```objc
 if (![PFTwitterUtils isLinkedWithUser:user]) {
@@ -833,7 +833,7 @@ if !PFTwitterUtils.isLinkedWithUser(user) {
 }
 ```
 
-The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `PFUser` is updated with the Twitter information. Future logins via Twitter will now log the user into their existing account.
+The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `%{ParseUser}` is updated with the Twitter information. Future logins via Twitter will now log the user into their existing account.
 
 If you want to unlink Twitter from a user, simply do this:
 
@@ -855,7 +855,7 @@ PFTwitterUtils.unlinkUserInBackground(user, {
 
 ### Twitter API Calls
 
-Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/docs/api) when your app has a Twitter-linked `PFUser`.  To make a request through our API, you can use the `PF_Twitter` singleton provided by `PFTwitterUtils`:
+Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/docs/api) when your app has a Twitter-linked `%{ParseUser}`.  To make a request through our API, you can use the `PF_Twitter` singleton provided by `PFTwitterUtils`:
 
 ```objc
 NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1/account/verify_credentials.json"];

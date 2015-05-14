@@ -27,7 +27,7 @@ There are a couple of side effects of enabling the local datastore that you shou
 
 Another side effect is that the current user and current installation will be stored in the local datastore, so you can persist unsaved changes to these objects between runs of your app using the methods below.
 
-Calling the `saveEventually` method on a `%{ParseObject}` will cause the object to be pinned in the local datastore until the save completes. So now, if you change the current `PFUser` and call `[[PFUser currentUser] saveEventually]`, your app will always see the changes that you have made.
+Calling the `saveEventually` method on a `%{ParseObject}` will cause the object to be pinned in the local datastore until the save completes. So now, if you change the current `%{ParseUser}` and call `[[PFUser currentUser] saveEventually]`, your app will always see the changes that you have made.
 
 ## Pinning
 

@@ -91,7 +91,7 @@ Parse 提供了一个 API 集，用于实现应用内购买。Parse 不仅使 `S
 
 ## 查询产品信息
 
-您可以用 `PFProduct` 查询在数据浏览器中创建的产品对象。与 `PFUser` 或 `PFRole` 类似，`PFProduct` 是 `%{ParseObject}` 的一个子类，包含可以访问各项产品特定属性的便捷访问器。
+您可以用 `PFProduct` 查询在数据浏览器中创建的产品对象。与 `%{ParseUser}` 或 `PFRole` 类似，`PFProduct` 是 `%{ParseObject}` 的一个子类，包含可以访问各项产品特定属性的便捷访问器。
 
 例如，下面是获取产品的简单查询：
 

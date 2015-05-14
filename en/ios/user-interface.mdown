@@ -10,10 +10,10 @@ To learn more on how to install it - follow the instructions on the official [Gi
 
 ## PFLogInViewController
 
-If you are using Parse to manage users in your mobile app, you are already familiar with the `PFUser` class. At some point in your app, you might want to present a screen to log in your `PFUser`. `ParseUI` provides a view controller that does exactly this:
+If you are using Parse to manage users in your mobile app, you are already familiar with the `%{ParseUser}` class. At some point in your app, you might want to present a screen to log in your `%{ParseUser}`. `ParseUI` provides a view controller that does exactly this:
 
 <div class='tip info'><div>
-  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `PFUser`.
+  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `%{ParseUser}`.
 </div></div>
 
 You use the `PFLogInViewController` class by instantiating it and presenting it modally:
@@ -95,7 +95,7 @@ self.presentViewController(logInController, animated:true, completion:nil)
 
 ### Responding to Log In Success, Failure or Cancellation
 
-When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `PFUser`.
+When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `%{ParseUser}`.
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -270,7 +270,7 @@ Essentially, you use the bitwise or operator (`|`) to chain up all the options y
 
 ### Responding to Sign Up Success, Failure or Cancellation
 
-When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `PFUser`.
+When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `%{ParseUser}`.
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
