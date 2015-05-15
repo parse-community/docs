@@ -63,7 +63,7 @@ You can avoid querying for a role by specifying its name for the ACL:
 ```php
 $wallPost = new ParseObject("WallPost");
 $postACL = new ParseACL();
-$postACL->setRoleWriteAccess("Moderators", true);
+$postACL->setRoleWriteAccessWithName("Moderators", true);
 $wallPost->setACL($postACL);
 $wallPost->save();
 ```
