@@ -62,7 +62,7 @@ alert(monster.sound); // Displays Rawr.
 var GameScore = Parse.Object.extend("GameScore");
 var gameScore = new GameScore();
 
-gameScore.set("score", 1337); 
+gameScore.set("score", 1337);
 gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 gameScore.save(null, {
@@ -146,7 +146,7 @@ Parse Cloud에 이미 있고 최신 데이터를 사용하는 개체를 새로 �
 
 ```js
 myObject.fetch({
-  success: function(myObject) 
+  success: function(myObject)
     // The object was refreshed successfully
   },
   error: function(myObject, error) {
@@ -370,4 +370,4 @@ bigObject.save();
 
 `Parse.Object`의 크기는 128KB를 넘지 않아야 합니다.
 
-Parse에서 데이터를 처리하는 방식에 대한 자세한 내용은 [데이터 및 보안](/docs/data)에 대한 설명서를 참조하세요.
+Parse에서 데이터를 처리하는 방식에 대한 자세한 내용은 [데이터 및 보안](#data)에 대한 설명서를 참조하세요.

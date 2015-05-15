@@ -6,7 +6,7 @@ Parseでのデータ保存は`Parse.Object`に基づいて設計されていま�
 
 たとえば、ゲームの高得点をトラッキングするとします。`Parse.Object`には次のようなキーを入れることができます。
 
-```js 
+```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
 ```
 
@@ -62,7 +62,7 @@ alert(monster.sound); // Displays Rawr.
 var GameScore = Parse.Object.extend("GameScore");
 var gameScore = new GameScore();
 
-gameScore.set("score", 1337); 
+gameScore.set("score", 1337);
 gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 gameScore.save(null, {
@@ -146,7 +146,7 @@ var createdAt = gameScore.createdAt;
 
 ```js
 myObject.fetch({
-  success: function(myObject) 
+  success: function(myObject)
     // The object was refreshed successfully
   },
   error: function(myObject, error) {
@@ -374,4 +374,4 @@ bigObject.save();
 
 `Parse.Object`のサイズは128キロバイト以下にする必要があります。
 
-Parseによるデータの処理方法についての詳細は、[データとセキュリティ](/docs/data)にあるドキュメントをご覧ください。
+Parseによるデータの処理方法についての詳細は、[データとセキュリティ](#data)にあるドキュメントをご覧ください。

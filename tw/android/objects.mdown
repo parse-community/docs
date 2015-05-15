@@ -6,7 +6,7 @@ Parse 上的儲存資料是以 `ParseObject` 為建置基礎。每個 `ParseObje
 
 舉例而言，假設您正在追蹤某個遊戲的高分排行榜，單一 `ParseObject` 可能包含：
 
-```js 
+```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
 ```
 
@@ -253,7 +253,7 @@ myComment.saveInBackground();
 ```java
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
-``` 
+```
 
 依據預設，擷取物件時不會擷取相關的 `ParseObject`。在透過下列方式擷取物件之前，您無法擷取這些物件的值：
 
@@ -340,7 +340,7 @@ bigObject.saveInBackground();
 
 我們不建議在 `ParseObject` 上使用 `byte[]` 存放大型的二進位資料，如圖像或文件。`ParseObjects` 的大小不應該超過 128 KB。若要存放更多，我們建議您使用 `ParseFile`。如需更多詳細資料，請參閱[指南章節](#files)。
 
-關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](/docs/data)查看我們的說明文件。
+關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](#data)查看我們的說明文件。
 
 ## 子類別
 

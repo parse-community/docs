@@ -141,7 +141,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 クラウドからオブジェクトを削除するには:
 
-```objc 
+```objc
 [myObject deleteInBackground];
 ```
 
@@ -265,7 +265,7 @@ bigObject[@"myNull"] = null;
 
 `%{ParseObject}`で`NSData`フィールドを使用して画像やドキュメントなどサイズの大きいバイナリデータを保存することはお勧めできません。`%{ParseObject}`のサイズは128キロバイト以下にする必要があります。それ以上を保存するには`PFFile`の使用をお勧めいたします。詳細は[ガイドセクション](#files)をご覧ください。
 
-Parseにおけるデータ処理方法に関する詳細情報は、 [データとセキュリティ](/docs/data)ドキュメントをご覧ください。
+Parseにおけるデータ処理方法に関する詳細情報は、 [データとセキュリティ](#data)ドキュメントをご覧ください。
 
 ## サブクラス
 

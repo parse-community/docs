@@ -62,7 +62,7 @@ alert(monster.sound); // Displays Rawr.
 var GameScore = Parse.Object.extend("GameScore");
 var gameScore = new GameScore();
 
-gameScore.set("score", 1337); 
+gameScore.set("score", 1337);
 gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 gameScore.save(null, {
@@ -146,7 +146,7 @@ var createdAt = gameScore.createdAt;
 
 ```js
 myObject.fetch({
-  success: function(myObject) 
+  success: function(myObject)
     // The object was refreshed successfully
   },
   error: function(myObject, error) {
@@ -370,4 +370,4 @@ bigObject.save();
 
 Размер `Parse.Object` не должен превышать 128 килобайт.
 
-Для получения дополнительных сведений по обработке данных в Parse ознакомьтесь с нашей документацией в разделе [Данные и безопасность](/docs/data).
+Для получения дополнительных сведений по обработке данных в Parse ознакомьтесь с нашей документацией в разделе [Данные и безопасность](#data).
