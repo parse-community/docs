@@ -1,0 +1,62 @@
+# 用户
+
+许多应用拥有能让手机和其他平台上运行的登陆系统。我们通过使用REST API，可在 Parse 的基础上来创建这个功能。
+
+通常来说，用户与其他对象拥有完全相同的特性，如灵活架构. 所不同的是用户对象的用户名和密码是必填的，密码将会被自动加密并安全地储存，Parse 会强制实行用户和电子邮箱地址的唯一性。
+
+
+## 注册
+
+因为用户名和密码是必填的，注册新的用户不同于创建一个普通对象。密码的处理方式和其他数据域的不一样，我们将密码安全散列在云中并且也不会将密码传输回客户端。
+
+在应用程序的设置页，你可以请求 Parse 来验证用户的电子邮箱地址。通过启用这个设置，我们会给予那些使用电子邮箱地址注册的新用户发送确认电子邮件。你可以通过 `emailVerified` 来检查用户是否已经验证他们的 `email`。
+
+你可以发送一个 POST 请求来注册新用户。你也可以添加额外的数据域。 例如，创建一个新用户并填上电话号码：
+
+```bash
+curl -X POST \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-Revocable-Session: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
+  https://api.parse.com/1/users
+```
+```python
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('POST', '/1/users', json.dumps({
+       "username": "cooldude6",
+       "password": "p_n7!-e8",
+       "phone": "415-392-0202"
+     }), {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-Revocable-Session": "1",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header 填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
+
+当创建出成功，HTTP 返回的是 `201 Created` 和存放有新用户 URL 的 `Location` header：
+
+```js
+Status: 201 Created
+Location: https://api.parse.com/1/users/g7y9tkhB7O
+```
+
+返回的数据是一个 JSON 对象， 其中包括 `objectId`，该对象创建的时间戳 `createdAt` 和随后用于代表该用户发送请求的身份验证码 `sessionToken`：
+
+```json
+{
+  "createdAt": "2011-11-07T20:58:34.448Z",
+  "objectId": "g7y9tkhB7O",
+  "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
+}
+```
+
+## 登录
