@@ -1,6 +1,6 @@
 # 用户
 
-许多应用拥有能让手机和其他平台上运行的登陆系统。我们通过使用REST API，可在 Parse 的基础上来创建这个功能。
+许多应用程序拥有能让手机和其他平台上运行的登陆系统。我们通过使用REST API，可在 Parse 的基础上来创建这个功能。
 
 通常来说，用户与其他对象拥有完全相同的特性，如灵活架构. 所不同的是用户对象的用户名和密码是必填的，密码将会被自动加密并安全地储存，Parse 会强制实行用户和电子邮箱地址的唯一性。
 
@@ -40,7 +40,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header 填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
+通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
 
 当创建成功，HTTP 返回的是 `201 Created` 和存放有新用户 URL 的 `Location` header：
 
@@ -114,7 +114,7 @@ print result
 
 ## 重置密码
 
-你可以为有使用电子邮箱地址关联的用户初始重设密码这项功能。要如此，你可以发送一个带 `email` 的 POST 请求到 `/1/requestPasswordReset` 终端。
+你可以为有使用电子邮箱地址关联的用户初始重设密码这项功能。要如此，你可以发送一个携带 `email` 的 POST 请求到 `/1/requestPasswordReset` 终端。
 
 ```bash
 curl -X POST \
@@ -143,7 +143,7 @@ print result
 
 ## 用户检索
 
-你也可以通过发送一个 GET 请求到一个在先前创建时候 header 返回的 URL 来获取用户的信息。例如，我们想获取先前创建的用户：
+你也可以通过发送一个 GET 请求到一个在先前创建时候 `Location` header返回的 URL 来获取用户的信息。例如，我们想获取先前创建的用户：
 
 ```bash
 curl -X GET \
@@ -163,7 +163,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-返回的数据是一个 JSON 对象， 其中包括除了密码以外用户所提供的所有数据域。其中也包括 `createdAt`, `updatedAt`, `objectId`, and `sessionToken` 等数据域：
+返回的数据是一个 JSON 对象， 其中包括除了密码以外用户提供的所有数据域。其中也包括 `createdAt`, `updatedAt`, `objectId`, and `sessionToken` 等数据域：
 
 ```json
 {
@@ -298,7 +298,7 @@ print result
 
 ## 用户删除 
 
-要从云删除一个用户，发送 DELETE 请求到其 URL。你也必须提供 `X-Parse-Session-Token` header 来通过验证。 例如：
+要从云删除一个用户，发送 DELETE 请求到其 URL。你也必须提供 `X-Parse-Session-Token` header来通过验证。 例如：
 
 ```bash
 curl -X DELETE \
@@ -322,9 +322,9 @@ print result
 
 ## 用户关联
 
-Parse 允许你的用户链接像Twiiter 和 Facebook这样的第三方服务，让你的用户可以使用第三方服务现有的身份来注册或者登陆你的应用程序。这项功能可以通过提供你所选择的第三方服务的验证数据来注册或者更新一个用户的 `authData` 数据域。当你成功关联第三方服务，关于这个第三方服务的 `authData` 会被存储到用户并且可以被登陆操作所检索。
+Parse 允许你的用户链接像Twiiter 和 Facebook这样的第三方服务，让你的用户可以使用第三方服务现有的身份来注册或者登陆你的应用程序。这项功能可以通过提供你所选择的第三方服务的验证数据注册或者更新一个用户的 `authData`。当你成功关联第三方服务，关于这个第三方服务的 `authData` 会被存储到用户并且可以被登陆操作所检索。
 
-`authData` 是一个 JSON 对象，其中包括每个已经关联的第三方服务的数据。在不同的情况下，你要负责完成满足第三方服务的要求来获取关联信息的流程 (e.g. OAuth 1.0a)。
+`authData` 是一个 JSON 对象，其中包括每个已经关联的第三方服务的数据。在每种情况下，你要负责完成满足第三方服务的要求来获取关联信息的流程 (e.g. OAuth 1.0a)。
 
 ### Facebook `authData`
 
@@ -367,7 +367,7 @@ Parse 允许你的用户链接像Twiiter 和 Facebook这样的第三方服务，
 
 ### 注册和登录
 
-使用第三方服务来注册和登录使用的都是 POST 请求，只有 `authData` 是用户自己制订的：
+使用第三方服务来注册和登录使用同样的 POST 请求，只有 `authData` 是用户自己制订的：
 
 ```bash
 curl -X POST \
@@ -414,9 +414,9 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header 填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
+通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
 
-Parse 之后会验证所提供的 `authData` 是否有效并且会检查是否有用户已经与该数据关联。若是，它会返回一个状态码 `200 OK` 和 该用户的信息（包括用户 `sessionToken`）：
+Parse 之后会验证所提供的 `authData` 是否有效并且会检查是否有用户已经与该数据关联。若有，它会返回一个状态码 `200 OK` 和 该用户的信息（包括用户 `sessionToken`）：
 
 ```js
 Status: 200 OK
@@ -545,11 +545,11 @@ print result
 
 ## 安全
 
-当你使用 REST API 密钥来访问 Parse，访问可以通过 ACL 来限制就像在iOS和Android的SDK一样。你仍然可以通过 REST API 来读取和修改 acls，
+当你使用 REST API 密钥来访问 Parse，访问可以通过 ACL 来限制就像在iOS和Android的SDK一样。你仍然可以通过 REST API 来读取和修改 acls，只需访问对象的 `"ACL"` 键即可。
 
-ACL 是被格式化为一个 JSON 对象，当中的键是对象的识别码或者特别的键 `"*"` 来代表公共访问权限。ACL 的值是 "permission objects"， 其 JSON 对象的键权限的名字和其值总为 `true`。
+ACL 是被格式化为一个 JSON 对象，当中的键是对象的识别码或者一个特别的键 `"*"` 来代表公共访问权限。ACL 的值是 "permission objects"， 其 JSON 对象的键是权限的名字和其值总为 `true`。
 
-例如，如果你想识别码为 `"3KmCvT7Zsb"` 的用户拥有这个对象的读写权限，加上这个对象应该是公开可读的，其对应的 ACL 为：
+例如，如果你想让识别码为 `"3KmCvT7Zsb"` 的用户拥有这个对象的读写权限，加上这个对象应该是公开可读的，其对应的 ACL 为：
 
 ```json
 {
@@ -563,4 +563,4 @@ ACL 是被格式化为一个 JSON 对象，当中的键是对象的识别码或�
 }
 ```
 
-如果你想忽视ACLs来访问你的数据，你可以使用 Dashboard 上提供的主秘钥。 现在你要设置的是 `X-Parse-Master-Key` header， 而不是 `X-Parse-REST-API-Key` header。 为了向后兼容性，你也可以通过传递应用的识别码作为用户和主秘钥作为密码来使用 HTTP Basic Auth 进行主层面的验证。为了安全性，主秘钥不应该传递回给用户端，但是如果你的代码在一个可靠的环境下运行，你可以随意使用主秘钥来进行验证。
+如果你想忽视ACLs来访问你的数据，你可以使用 Dashboard 上提供的主秘钥。 现在你要设置的是 `X-Parse-Master-Key` header， 而不是 `X-Parse-REST-API-Key` header。 为了向后兼容性，你也可以通过传递应用的识别码作为用户名和主秘钥作为密码来使用 HTTP Basic Auth 进行主层面的验证。为了安全性，主秘钥不应该传递回给用户端，但是如果你的代码在一个可靠的环境下运行，你可以随意使用主秘钥来进行验证。
