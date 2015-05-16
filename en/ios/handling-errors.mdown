@@ -26,10 +26,7 @@ The second type of error is one that occurs when interacting with the Parse Clou
 }
 ```
 ```swift
-func getMyNote() -> Void {
-    let query = PFQuery(className: "Note")
-    query.getObjectInBackgroundWithId("thisObjectIdDoesntExist", target: self, selector: Selector("callbackForGet:error:"))
-}
+// no swift example
 ```
 
 In the above code, we try to fetch an object with a non-existent `objectId`. The Parse Cloud will return an error with an error code set in `code` and message in the error's `userInfo`. Here's how to handle it properly in your callback:
@@ -48,18 +45,7 @@ In the above code, we try to fetch an object with a non-existent `objectId`. The
 }
 ```
 ```swift
-func callbackForGet(result: PFObject?, error: NSError?) -> Void {
-    if result != nil {
-        println("Everything went fine!")
-    } else {
-        if error?.code == PFErrorCode.ErrorObjectNotFound.rawValue {
-            println("Everything went fine!")
-        } else {
-            let errorString = error!.userInfo?["error"] as? NSString
-            println("Error: \(errorString)")
-        }
-    }
-}
+// no swift example
 ```
 
 The query might also fail because the device couldn't connect to the Parse Cloud. Here's the same callback but with a bit of extra code to handle that scenario explicitly:
@@ -81,21 +67,7 @@ The query might also fail because the device couldn't connect to the Parse Cloud
 }
 ```
 ```swift
-func callbackForGet(result: PFObject?, error: NSError?) -> Void {
-    if result != nil {
-        println("Everything went fine!")
-    } else {
-        if error?.code == PFErrorCode.ErrorObjectNotFound.rawValue {
-            println("Uh oh, we couldn't find the object!")
-            // Now also check for connection errors:
-        } else if error?.code == PFErrorCode.ErrorConnectionFailed.rawValue {
-            println("Uh oh, we couldn't even connect to the Parse Cloud!")
-        } else {
-            let errorString = error!.userInfo?["error"] as? NSString
-            println("Error: \(errorString)")
-        }
-    }
-}
+// no swift example
 ```
 
 When the callback expects a `NSNumber`, its `boolValue` tells you whether the operation succeeded or not. For example, this is how you might implement the callback for `%{ParseObject}`'s `saveInBackgroundWithTarget:selector:` method:
@@ -114,18 +86,7 @@ When the callback expects a `NSNumber`, its `boolValue` tells you whether the op
 }
 ```
 ```swift
-func callbackForSave(result: NSNumber?, error: NSError?) -> Void {
-    if result?.boolValue == true {
-        println("Everything went fine!")
-    } else {
-        if error?.code == PFErrorCode.ErrorConnectionFailed.rawValue {
-            println("Uh oh, we couldn't even connect to the Parse Cloud!")
-        } else {
-            let errorString = error!.userInfo?["error"] as? NSString
-            println("Error: \(errorString)")
-        }
-    }
-}
+// no swift example
 ```
 
 For synchronous (non-background) methods, error handling is mostly the same except that instead of a `NSNumber` representing success or failure you'll get an actual `BOOL` directly.
