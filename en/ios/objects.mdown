@@ -600,7 +600,7 @@ class Armor : PFObject, PFSubclassing {
     }
   }
 
-  static func parseClassName() -> String! {
+  static func parseClassName() -> String {
     return "Armor"
   }
 }
