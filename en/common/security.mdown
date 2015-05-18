@@ -72,7 +72,9 @@ PFUser *user = [PFUser currentUser];
 user.ACL = [PFACL ACLWithUser:user];
 ```
 ```common-swift
-// no swift example
+if let user = PFUser.currentUser() {
+    user.ACL = PFACL(user: user)
+}
 ```
 ```common-java
 ParseUser user = ParseUser.getCurrentUser();
@@ -97,7 +99,7 @@ To make it super easy to create user-private ACLs for every object, we have a wa
 [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
 ```
 ```common-swift
-// no swift example
+PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
 ```
 ```common-java
 ParseACL.setDefaultACL(new ParseACL(), true);
@@ -122,7 +124,12 @@ privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 [[PFUser currentUser] setObject:privateData forKey:@"privateData"];
 ```
 ```common-swift
-// no swift example
+if let currentUser = PFUser.currentUser() {
+    let privateData = PFObject(className: "PrivateUserData")
+    privateData.ACL = PFACL(user: currentUser)
+    privateData.setObject("555-5309", forKey: "phoneNumber")
+    currentUser.setObject(privateData, forKey: "privateData")
+}
 ```
 ```common-java
 ParseObject privateData = new ParseObject("PrivateUserData");
@@ -153,7 +160,11 @@ PFACL *acl = [PFACL ACL];
 [acl setWriteAccess:true forUser:[PFUser currentUser]];
 ```
 ```common-swift
-// no swift example
+let acl = PFACL()
+acl.setPublicReadAccess(true)
+if let currentUser = PFUser.currentUser() {
+    acl.setWriteAccess(true, forUser: currentUser)
+}
 ```
 ```common-java
 ParseACL acl = new ParseACL();
@@ -181,7 +192,9 @@ PFACL *acl = [PFACL ACL];
 [acl setWriteAccess:true forRoleWithName:@"admins"];
 ```
 ```common-swift
-// no swift example
+let acl = PFACL()
+acl.setPublicReadAccess(true)
+acl.setWriteAccess(true, forRoleWithName: "admins")
 ```
 ```common-java
 // Assuming you've already created a role called "admins"...
