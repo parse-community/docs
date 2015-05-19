@@ -84,7 +84,7 @@ The query might also fail because the device couldn't connect to the Parse Cloud
 ```
 ```swift
 func callbackForGet(result: PFObject?, error: NSError?) -> Void {
-    if let reuslt = result {
+    if let result = result {
         println("Everything went fine!")
     } else {
         if let error = error {
@@ -119,10 +119,8 @@ When the callback expects a `NSNumber`, its `boolValue` tells you whether the op
 ```
 ```swift
 func callbackForSave(result: NSNumber?, error: NSError?) -> Void {
-    if let result = result {
-        if result.boolValue {
-            println("Everything went fine!")
-        }
+    if result?.boolValue == true {
+        println("Everything went fine!")
     } else {
         if let error = error {
             if error.code == PFErrorCode.ErrorConnectionFailed.rawValue {

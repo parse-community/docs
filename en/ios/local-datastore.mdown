@@ -77,7 +77,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```swift
 let query = PFQuery(className: "GameScore")
 query.fromLocalDatastore()
-query.getObjectInBackgroundWithId("xWMyZ4YE").continueWithBlock({(task: BFTask!) -> AnyObject in
+query.getObjectInBackgroundWithId("xWMyZ4YE").continueWithBlock {
+    (task: BFTask!) -> AnyObject in
     if let error = task.error {
         // Something went wrong.
         return task;
@@ -85,7 +86,7 @@ query.getObjectInBackgroundWithId("xWMyZ4YE").continueWithBlock({(task: BFTask!)
     
     // task.result will be your game score
     return task;
-})
+}
 ```
 
 ## Querying
@@ -110,7 +111,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 let query = PFQuery(className: "GameScore")
 query.fromLocalDatastore()
 query.whereKey("playerName", equalTo: "Joe Bob")
-query.findObjectsInBackground().continueWithBlock({(task: BFTask!) -> AnyObject in
+query.findObjectsInBackground().continueWithBlock {
+    (task: BFTask!) -> AnyObject in
     if let error = task.error {
         println("Error: \(error)")
         return task
@@ -118,7 +120,7 @@ query.findObjectsInBackground().continueWithBlock({(task: BFTask!) -> AnyObject 
     
     println("Retrieved \(task.result.count)")
     return task
-})
+}
 ```
 
 ## Security
