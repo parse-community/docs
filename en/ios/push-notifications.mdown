@@ -392,7 +392,20 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-// no swift example
+// Create date object for tomorrow
+let comps = NSDateComponents()
+comps.year = 2015
+comps.month = 8
+comps.day = 14
+let gregorian = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+let date = gregorian!.dateFromComponents(comps);
+
+// Send push notification with expiration
+let push = PFPush()
+push.expireAtDate(date)
+push.setQuery(everyoneQuery)
+push.setMessage("Season tickets on sale until August 8th!")
+push.sendPushInBackground()
 ```
 
 There is however a caveat with this method. Since device clocks are not guaranteed to be accurate, you may end up with inaccurate results. For this reason, the `PFPush` class also provides the `expireAfterTimeInterval:` method which accepts an `NSTimeInterval` object. The notification will expire after the specified interval has elapsed.
@@ -409,7 +422,16 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-// no swift example
+// Create time interval
+let interval = 60*60*24*7; // 1 week
+
+// Send push notification with expiration interval
+
+let push = PFPush()
+push.expireAfterTimeInterval(interval)
+push.setQuery(everyoneQuery)
+push.setMessage("Season tickets on sale until next week!")
+push.sendPushInBackground()
 ```
 
 ### Targeting by Platform
@@ -446,13 +468,45 @@ PFPush *winPush = [[PFPush alloc] init];
 
 // Notification for Windows Phone 8 users
 [query whereKey:@"deviceType" equalTo:@"winphone"];
-PFPush *winPush = [[PFPush alloc] init];
+PFPush *wpPush = [[PFPush alloc] init];
 [wpPush setMessage:@"Your suitcase is very hip; very metro."];
 [wpPush setQuery:query];
 [wpPush sendPushInBackground];
 ```
 ```swift
-// no swift example
+let query = PFInstallation.query()
+if let query = query {
+    query.whereKey("channels", equalTo: "suitcaseOwners")
+    
+    // Notification for Android users
+    query.whereKey("deviceType", equalTo: "android")
+    let androidPush = PFPush()
+    androidPush.setMessage("Your suitcase has been filled with tiny robots!")
+    androidPush.setQuery(query)
+    androidPush.sendPushInBackground()
+
+    // Notification for iOS users
+    query.whereKey("deviceType", equalTo: "ios")
+    let iOSPush = PFPush()
+    iOSPush.setMessage("Your suitcase has been filled with tiny apples!")
+    iOSPush.setChannel("suitcaseOwners")
+    iOSPush.setQuery(query)
+    iOSPush.sendPushInBackground()
+    
+    // Notification for Windows 8 users
+    query.whereKey("deviceType", equalTo: "winrt")
+    let winPush = PFPush()
+    winPush.setMessage("Your suitcase has been filled with tiny glass!")
+    winPush.setQuery(query)
+    winPush.sendPushInBackground()
+    
+    // Notification for Windows Phone 8 users
+    query.whereKey("deviceType", equalTo: "winphone")
+    let wpPush = PFPush()
+    wpPush.setMessage("Your suitcase is very hip; very metro.")
+    wpPush.setQuery(query)
+    wpPush.sendPushInBackground()
+}
 ```
 
 ## Scheduling Pushes
@@ -506,7 +560,24 @@ When an app is opened from a notification, the data is made available in the `ap
 }
 ```
 ```swift
-// no swift example
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+    // Extract the notification data
+    if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+        
+        // Create a pointer to the Photo object
+        let photoId: String? = notificationPayload["p"] as? String
+        if let photoId = photoId {
+            let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: photoId)
+            
+            // Fetch photo object
+            targetPhoto.fetchIfNeededInBackgroundWithBlock({(object: PFObject?, error: NSError?) -> Void in
+                // Show photo view controller if (!error && [PFUser currentUser]) {   PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];   [self.navController pushViewController:viewController animated:YES]; }
+            })
+        }
+    }
+    return true
+}
 ```
 
 If your app is already running when the notification is received, the data is made available in the `application:didReceiveRemoteNotification:fetchCompletionHandler:` method through the `userInfo` dictionary.
@@ -581,7 +652,13 @@ Second, if your application is running or backgrounded, the `application:didRece
 }
 ```
 ```swift
-// no swift example
+func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        if application.applicationState == .Inactive  {
+            // The application was just brought from the background to the foreground,
+            // so we consider the app as having been "opened by a push notification."
+            PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+        }
+    }
 ```
 
 Finally, if using iOS 7 any of its new push features (including the new "content-available" push functionality), be sure to also implement the iOS 7-only handler:
