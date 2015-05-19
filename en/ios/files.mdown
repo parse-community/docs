@@ -127,13 +127,13 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 let str = "Working at Parse is great!"
 let data = str.dataUsingEncoding(NSUTF8StringEncoding)
 let file = PFFile(name:"resume.txt", data:data)
-file.saveInBackgroundWithBlock {
-  (succeeded: Bool?, error: NSError?) -> Void in
+file.saveInBackgroundWithBlock({
+  (succeeded: Bool, error: NSError?) -> Void in
   // Handle success or failure here ...
 }, progressBlock: {
-  (percentDone: Int) -> Void in
+  (percentDone: Int32) -> Void in
   // Update your progress spinner here. percentDone will be between 0 and 100.
-}
+})
 ```
 
 You can delete files that are referenced by objects using the [REST API](/docs/rest/guide#files-deleting-files). You will need to provide the master key in order to be allowed to delete a file.
