@@ -528,17 +528,19 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
 // Using PFQuery
 let query = PFQuery(className: "Comment")
 query.whereKey("post", equalTo: myPost)
-query.findObjectsInBackgroundWithBlock({(comments: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
     // comments now contains the comments for myPost
-})
+}
 
 // Using NSPredicate
 let predicate = NSPredicate(format: "post = %@", myPost)
 let query = PFQuery(className: "Comment", predicate: predicate)
 
-query.findObjectsInBackgroundWithBlock({(comments: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
     // comments now contains the comments for myPost
-})
+}
 ```
 
 You can also do relational queries by `objectId`:
@@ -588,9 +590,10 @@ let innerQuery = PFQuery(className: "Post")
 innerQuery.whereKeyExists("image")
 let query = PFQuery(className: "Comment")
 query.whereKey("post", matchesQuery: innerQuery)
-query.findObjectsInBackgroundWithBlock({(comments: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
-})
+}
 
 // Using NSPredicate
 let innerPred = NSPredicate(format: "image IN SELF")
@@ -599,9 +602,10 @@ let innerQuery = PFQuery(className: "Post", predicate: innerPred)
 let pred = NSPredicate(format: "post IN %@", innerQuery)
 let query = PFQuery(className: "Comment", predicate: pred)
 
-query.findObjectsInBackgroundWithBlock({(comments: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
-})
+}
 ```
 
 If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
@@ -633,9 +637,10 @@ let innerQuery = PFQuery(className: "Post")
 innerQuery.whereKeyExists("image")
 let query = PFQuery(className: "Comment")
 query.whereKey("post", doesNotMatchQuery: innerQuery)
-query.findObjectsInBackgroundWithBlock({(comments: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
-})
+}
 
 // Using NSPredicate
 let innerPred = NSPredicate(format: "image IN SELF")
@@ -644,9 +649,10 @@ let innerQuery = PFQuery(className: "Post", predicate: innerPred)
 let pred = NSPredicate(format: "NOT (post IN %@)", innerQuery)
 let query = PFQuery(className: "Comment", predicate: pred)
 
-query.findObjectsInBackgroundWithBlock({(comments: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
-})
+}
 ```
 
 In some situations, you want to return multiple types of related objects in one query. You can do this with the `includeKey:` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:

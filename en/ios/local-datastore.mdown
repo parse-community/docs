@@ -78,7 +78,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 let query = PFQuery(className: "GameScore")
 query.fromLocalDatastore()
 query.getObjectInBackgroundWithId("xWMyZ4YE").continueWithBlock({(task: BFTask!) -> AnyObject in
-    if task?.error != nil {
+    if let error = task.error {
         // Something went wrong.
         return task;
     }
@@ -111,8 +111,8 @@ let query = PFQuery(className: "GameScore")
 query.fromLocalDatastore()
 query.whereKey("playerName", equalTo: "Joe Bob")
 query.findObjectsInBackground().continueWithBlock({(task: BFTask!) -> AnyObject in
-    if task.error != nil {
-        println("Error: \(task.error)")
+    if let error = task.error {
+        println("Error: \(error)")
         return task
     }
     

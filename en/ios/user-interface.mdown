@@ -613,7 +613,9 @@ func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexP
         cell = PFTableViewCell(style: .Default, reuseIdentifier: identifier)
     }
     
-    cell!.textLabel.text = object["title"]
+    if let title = object["title"] as? String {
+        cell!.textLabel.text = title
+    }
     if let thumbnail = object["thumbnail"] as? PFFile {
         cell!.imageView.image = UIImage(named: "placeholder.jpg")
         cell!.imageView.file = thumbnail
