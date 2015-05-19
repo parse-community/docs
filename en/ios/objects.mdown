@@ -248,7 +248,6 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     gameScore[@"cheatMode"] = @YES;
     gameScore[@"score"] = @1338;
     [gameScore saveInBackground];
-
 }];
 ```
 ```swift
@@ -275,11 +274,24 @@ To help with storing counter-type data, Parse provides methods that atomically i
 
 ```objc
 [gameScore incrementKey:@"score"];
-[gameScore saveInBackground];
+[gameScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+  if (succeeded) {
+    // The score key has been incremented
+  } else {
+    // There was a problem, check error.description
+  }
+}];
 ```
 ```swift
 gameScore.incrementKey("score")
-gameScore.saveInBackground()
+gameScore.saveInBackgroundWithBlock {
+  (success: Bool, error: NSError?) -> Void in
+  if (success) {
+    // The score key has been incremented
+  } else {
+    // There was a problem, check error.description
+  }
+}
 ```
 
 You can also increment by any amount using `incrementKey:byAmount:`.
@@ -414,13 +426,26 @@ You can also model a many-to-many relation using the `PFRelation` object.  This 
 PFUser *user = [PFUser currentUser];
 PFRelation *relation = [user relationForKey:@"likes"];
 [relation addObject:post];
-[user saveInBackground];
+[user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+  if (succeeded) {
+    // The post has been added to the user's likes relation.
+  } else {
+    // There was a problem, check error.description
+  }
+}];
 ```
 ```swift
 var user = PFUser.currentUser()
 var relation = user.relationForKey("likes")
 relation.addObject(post)
-user.saveInBackground()
+user.saveInBackgroundWithBlock {
+  (success: Bool, error: NSError?) -> Void in
+  if (success) {
+    // The post has been added to the user's likes relation.
+  } else {
+    // There was a problem, check error.description
+  }
+}
 ```
 
 You can remove a post from the `PFRelation` with something like:
