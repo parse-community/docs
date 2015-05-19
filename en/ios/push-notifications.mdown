@@ -34,18 +34,18 @@ We will then update our `%{ParseInstallation}` with the `deviceToken` once the d
 
 ```objc
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-	// Store the deviceToken in the current Installation and save it to Parse
-	PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-	[currentInstallation setDeviceTokenFromData:deviceToken];
-	[currentInstallation saveInBackground];
+  // Store the deviceToken in the current Installation and save it to Parse
+  PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+  [currentInstallation setDeviceTokenFromData:deviceToken];
+  [currentInstallation saveInBackground];
 }
 ```
 ```swift
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-	// Store the deviceToken in the current Installation and save it to Parse
-	let installation = PFInstallation.currentInstallation()
-	installation.setDeviceTokenFromData(deviceToken)
-	installation.saveInBackground()
+  // Store the deviceToken in the current Installation and save it to Parse
+  let installation = PFInstallation.currentInstallation()
+  installation.setDeviceTokenFromData(deviceToken)
+  installation.saveInBackground()
 }
 ```
 
@@ -501,12 +501,36 @@ When an app is opened from a notification, the data is made available in the `ap
   PFObject *targetPhoto = [PFObject objectWithoutDataWithClassName:@"Photo"   objectId:photoId];
 
   // Fetch photo object
-  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) { // Show photo view controller if (!error && [PFUser currentUser]) {   PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];   [self.navController pushViewController:viewController animated:YES]; }
+  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // Show photo view controller
+    if (!error) {
+      PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];
+      [self.navController pushViewController:viewController animated:YES];
+    }
   }];
 }
 ```
 ```swift
-// no swift example
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+  . . .
+  // Extract the notification data
+  if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+
+      // Create a pointer to the Photo object
+      let photoId = notificationPayload["p"] as? NSString
+      let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: "xWMyZ4YEGZ")
+
+      // Fetch photo object
+      targetPhoto.fetchIfNeededInBackgroundWithBlock {
+        (object: PFObject?, error:NSError?) -> Void in
+          if error == nil {
+              // Show photo view controller
+              let viewController = PhotoVC(photo: object);
+              self.navController.pushViewController(viewController, animated: true);
+          }
+      }
+  }
+}
 ```
 
 If your app is already running when the notification is received, the data is made available in the `application:didReceiveRemoteNotification:fetchCompletionHandler:` method through the `userInfo` dictionary.
@@ -519,13 +543,36 @@ If your app is already running when the notification is received, the data is ma
   PFObject *targetPhoto = [PFObject objectWithoutDataWithClassName:@"Photo"   objectId:photoId];
 
   // Fetch photo object
-  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) { // Show photo view controller if (error) {   handler(UIBackgroundFetchResultFailed); } else if ([PFUser currentUser]) {   PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];   [self.navController pushViewController:viewController animated:YES];   handler(UIBackgroundFetchResultNewData); } else {   handler(UIBackgroundModeNoData); }
+  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // Show photo view controller
+    if (error) {
+      handler(UIBackgroundFetchResultFailed);
+    } else if ([PFUser currentUser]) {
+      PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];
+      [self.navController pushViewController:viewController animated:YES];
+      handler(UIBackgroundFetchResultNewData);
+    } else {
+      handler(UIBackgroundModeNoData);
+    }
   }];
 }
 ```
 ```swift
 func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-  if let photoId: String = userInfo["p"] as? String { let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: photoId) targetPhoto.fetchIfNeededInBackgroundWithBlock({ (object: PFObject!, error: NSError!) -> Void in   // Show photo view controller   if error != nil { completionHandler(UIBackgroundFetchResult.Failed)   } else if PFUser.currentUser() != nil { let viewController = PhotoVC(withPhoto: object) self.navController.pushViewController(viewController, animated: true) completionHandler(UIBackgroundFetchResult.NewData)   } else { completionHandler(UIBackgroundFetchResult.NoData)   } })
+  if let photoId: String = userInfo["p"] as? String {
+    let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: photoId)
+    targetPhoto.fetchIfNeededInBackgroundWithBlock { (object: PFObject?, error: NSError?) -> Void in
+      // Show photo view controller
+      if error != nil {
+        completionHandler(UIBackgroundFetchResult.Failed)
+      } else if PFUser.currentUser() != nil {
+        let viewController = PhotoVC(withPhoto: object)
+        self.navController.pushViewController(viewController, animated: true)
+        completionHandler(UIBackgroundFetchResult.NewData)
+      } else {
+        completionHandler(UIBackgroundFetchResult.NoData)
+      }
+    }
   }
   handler(UIBackgroundFetchResult.NoData)
 }
@@ -551,7 +598,7 @@ if (application.applicationState != UIApplicationStateBackground) {
   BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
   BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
   if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
-  	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   }
 }
 ```
@@ -564,7 +611,7 @@ if application.applicationState != UIApplicationState.Background {
   let oldPushHandlerOnly = !self.respondsToSelector(Selector("application:didReceiveRemoteNotification:fetchCompletionHandler:"))
   let noPushPayload: AnyObject? = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]?
   if oldPushHandlerOnly || noPushPayload != nil {
-  	PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+    PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
   }
 }
 ```
@@ -573,11 +620,11 @@ Second, if your application is running or backgrounded, the `application:didRece
 
 ```objc
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	if (application.applicationState == UIApplicationStateInactive) {
-		// The application was just brought from the background to the foreground,
-		// so we consider the app as having been "opened by a push notification."
-		[PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
-	}
+  if (application.applicationState == UIApplicationStateInactive) {
+    // The application was just brought from the background to the foreground,
+    // so we consider the app as having been "opened by a push notification."
+    [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+  }
 }
 ```
 ```swift
@@ -588,13 +635,15 @@ Finally, if using iOS 7 any of its new push features (including the new "content
 
 ```objc
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  if (application.applicationState == UIApplicationStateInactive) { [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+  if (application.applicationState == UIApplicationStateInactive) {
+    [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
   }
 }
 ```
 ```swift
 func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-  if application.applicationState == UIApplicationState.Inactive { PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+  if application.applicationState == .Inactive {
+    PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
   }
 }
 ```
@@ -627,7 +676,9 @@ A good time to clear your app's badge is usually when your app is opened. Settin
 ```objc
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-  if (currentInstallation.badge != 0) { currentInstallation.badge = 0; [currentInstallation saveEventually];
+  if (currentInstallation.badge != 0) {
+    currentInstallation.badge = 0;
+    [currentInstallation saveEventually];
   }
   // ...
 }
@@ -635,7 +686,9 @@ A good time to clear your app's badge is usually when your app is opened. Settin
 ```swift
 func applicationDidBecomeActive(application: UIApplication) {
   let currentInstallation = PFInstallation.currentInstallation()
-  if currentInstallation.badge != 0 { currentInstallation.badge = 0 currentInstallation.saveEventually()
+  if currentInstallation.badge != 0 {
+    currentInstallation.badge = 0
+    currentInstallation.saveEventually()
   }
   // ...
 }
@@ -703,7 +756,7 @@ If the push notification campaign is not showing up on that list, the issue is q
 ```objc
 [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
   if (success) {
-		NSLog(@"The push campaign has been created.");
+    NSLog(@"The push campaign has been created.");
   } else if (error.code == kPFErrorPushMisconfigured) {
     NSLog(@"Could not send push. Push is misconfigured: %@", error.description);
   } else {
@@ -713,14 +766,14 @@ If the push notification campaign is not showing up on that list, the issue is q
 ```
 ```swift
 push.sendPushInBackgroundWithBlock {
-		(success: Bool , error: NSError?) -> Void in
-		if (success) {
-				println("The push campaign has been created.");
-		} else if (error!.code == 112) {
-				println("Could not send push. Push is misconfigured: \(error!.description).");
-		} else {
-				println("Error sending push: \(error!.description).");
-		}
+    (success: Bool , error: NSError?) -> Void in
+    if (success) {
+        println("The push campaign has been created.");
+    } else if (error!.code == 112) {
+        println("Could not send push. Push is misconfigured: \(error!.description).");
+    } else {
+        println("Error sending push: \(error!.description).");
+    }
 }
 ```
 

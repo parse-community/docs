@@ -189,7 +189,7 @@ PFObject *object = [PFObject objectWithoutDataWithClassName:@"GameScore" objectI
 }];
 ```
 ```swift
-let object = PFObject(withoutDataWithClassName:"GameScore" objectId:"xWMyZ4YEGZ")
+let object = PFObject(withoutDataWithClassName:"GameScore", objectId:"xWMyZ4YEGZ")
 object.fetchFromLocalDatastoreInBackground().continueWithBlock({
   (task: BFTask!) -> AnyObject! in
   if task.error != nil {
