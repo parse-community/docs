@@ -284,6 +284,10 @@ public App()
 
 There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `ParseUser`, or (2) linking Facebook to an existing `ParseUser`.
 
+<div class='tip info'><div>
+It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use [Microsoft's Facebook SDK](http://www.csharpsdk.org).
+</div></div>
+
 ### Login & Signup
 
 `ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is accomplished using the `LogInAsync()` method. To display Facebook's web browser OAuth flow to your users, you'll need to pass `LogInAsync` a web browser control (which you'll usually define in XAML) and dismiss it when you've completed login:
@@ -298,8 +302,9 @@ When this code is run, the following happens:
 
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback.
-3.  Our SDK receives the Facebook data and saves it to a `ParseUser`. If it's a new user based on the Facebook ID, then that user is created.
+3.  Our SDK receives the user's Facebook access data and saves it to a `%{ParseUser}`. If no `%{ParseUser}` exists with the same Facebook ID, then a new `%{ParseUser}` is created.
 4.  The awaited `Task` completes and your code continues executing.
+5.  The current user reference will be updated to this user.
 
 You may optionally provide a list of strings that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
 
@@ -319,10 +324,6 @@ catch
 ```
 
 `ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
-
-<div class='tip info'><div>
-It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use [Microsoft's Facebook SDK](http://www.csharpsdk.org).
-</div></div>
 
 ### Linking
 

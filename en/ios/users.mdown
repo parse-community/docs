@@ -528,6 +528,10 @@ func applicationDidBecomeActive(application: UIApplication) {
 
 There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a `%{ParseUser}`, or (2) linking Facebook to an existing `%{ParseUser}`.
 
+<div class='tip info'><div>
+  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
+</div></div>
+
 ### Log In & Sign Up
 
 `%{ParseUser}` provides a way to allow your users to log in or sign up through Facebook. This is done by using the `logInWithPermissions` method like so:
@@ -562,8 +566,9 @@ When this code is run, the following happens:
 
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback using `handleOpenURL`.
-3.  Our SDK receives the Facebook data and saves it to a `%{ParseUser}`. If it's a new user     based on the Facebook ID, then that user is created.
+3.  Our SDK receives the user's Facebook access data and saves it to a `%{ParseUser}`. If no `%{ParseUser}` exists with the same Facebook ID, then a new `%{ParseUser}` is created.
 4.  Your code block is called with the user.
+5.  The current user reference will be updated to this user.
 
 The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The `%{ParseUser}` integration doesn't require any permissions to work out of the box. [Read more permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
@@ -586,10 +591,6 @@ PFFacebookUtils.logInInBackgroundWithPublishPermissions(["publish_actions"], {
   }
 })
 ```
-
-<div class='tip info'><div>
-  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
-</div></div>
 
 ### Linking
 
