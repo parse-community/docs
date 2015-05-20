@@ -1,7 +1,7 @@
-# Comenzando
+# Getting Started
 
-Si no ha instalado el SDK todavía, [por favor diríjase a la guía de inicio rápido](/apps/quickstart)  para obtener el SDK para Xcode. Tenga en cuenta que soportamos iOS 6.0 y superior. También puede consultar nuestra [API de referencia para iOS](/docs/ios/api) y [para OSX](/docs/osx/api) para obtener información más detallada acerca de nuestro SDK.
+If you haven't installed the SDK yet, please [head over to the QuickStart guide](/apps/quickstart) to get our SDK up and running in Xcode. Note that we support iOS 6.0 and higher. You can also check out our [iOS API Reference](/docs/ios/api) and [OSX API Reference](/docs/osx/api) for more detailed information about our SDK.
 
-La plataforma de Parse proporciona una solución de back-end completa para su aplicación móvil . Nuestro objetivo es eliminar totalmente la necesidad de escribir código de servidor o el mantenimiento de servidores.
+The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.
 
-En Parse , se crea una aplicación para cada una de sus aplicaciones móviles. Cada aplicación tiene su propio ID de aplicación y la clave cliente (client key ) que se utiliza en su SDK al instalar. Su cuenta en Parse puede acomodar múltiples aplicaciones. Esto es útil cuando tiene una aplicación, ya que se puede implementar diferentes versiones de prueba y producción.
+On Parse, you create an App for each of your mobile applications. Each App has its own application id and client key that you apply to your SDK install. Your account on Parse can accommodate multiple Apps. This is useful even if you have one application, since you can deploy different versions for test and production.
