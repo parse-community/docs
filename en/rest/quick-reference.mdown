@@ -83,6 +83,18 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloud-code-cloud-functions)    | 
 | `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#cloud-code-background-jobs) |
 
+## Schemas
+
+| URL                     | HTTP Verb | Functionality                                             |
+|-------------------------|-----------|-----------------------------------------------------------|
+| `/1/schemas/<className>`| GET       | [Fetch Schema](#schema-fetch-the-schema)                     |
+| `/1/schemas/<className>`| POST      | [Create Schema](#schema-adding-a-schema)                  |
+| `/1/schemas/<className>`| PUT       | [Modify Schema](#schema-modifying-the-schema)            |
+| `/1/schemas/<className>`| DELETE    | [Delete Schema](#schema-removing-a-schema)                |
+
+
+
+
 ## Request Format
 
 For POST and PUT requests, the request body must be JSON, with the `Content-Type` header set to `application/json`.
