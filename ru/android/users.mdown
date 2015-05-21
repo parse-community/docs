@@ -337,7 +337,7 @@ Parse предоставляет простую интеграцию Facebook с
 3.  Выполните инструкции Facebook для [начала работы с SDK Facebook](https://developers.facebook.com/docs/getting-started/facebook-sdk-for-android/3.0/), чтобы создать приложение, связанное с SDK Facebook.  После перехода к шагу 6 остановитесь после связывания проекта SDK Facebook и настройки идентификатора приложения Facebook. Используйте наше руководство, чтобы связать пользователей Parse с их аккаунтами Facebook при входе.
 4.  При инициализации SDK Parse в методе `Application.onCreate()` добавьте следующий код
 ```java
-ParseFacebookUtils.initialize("YOUR FACEBOOK APP ID");
+ParseFacebookUtils.initialize(this);
 ```
 
 SDK Android от Facebook обеспечивает расширенный вход на устройствах с установленным [официальным приложением Facebook для Android](https://market.android.com/details?id=com.facebook.katana). Это предоставляет пользователям приложений с поддержкой входа Facebook входить непосредственно через приложение Facebook, используя данные для входа, которые уже хранятся на устройстве. Если приложение Facebook не установлено, будет использоваться диалоговая авторизация по умолчанию. В Facebook эта функция называется &laquo;системой единого входа&raquo; и требует обхода метода `onActivityResult()` при вызове `Activity`, чтобы вызвать метод `finishAuthentication()`.
