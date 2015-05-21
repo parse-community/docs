@@ -477,7 +477,7 @@ There's also two code changes you'll need to make. First, add the following to y
 
 - (void)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
-  [PFFacebookUtils initializeFacebookWithLaunchOptions:launchOptions];
+  [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
 }
 
 ```
@@ -489,7 +489,7 @@ There's also two code changes you'll need to make. First, add the following to y
 // AppDelegate.swift
 func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
   Parse.setApplicationId("parseAppId", clientKey:"parseClientKey")
-  PFFacebookUtils.initializeFacebookWithLaunchOptions(launchOptions)
+  PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
 }
 ```
 
