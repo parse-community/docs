@@ -5,29 +5,22 @@ Push Notifications are a great way to keep your users engaged and informed about
 If you haven't installed the SDK yet, please [head over to the Push QuickStart](/apps/quickstart_push) to get our SDK up and running.
 
 <div class='tip info'><div>
-The Windows SDK can send push notifications from all runtimes, but only WinRT and Windows Phone apps can receive pushes from Microsoft push servers.
+The Unity SDK can send push notifications from all runtimes, but only iOS and Android apps can receive pushes from APNS and GCM push servers.
 </div></div>
 
 ## Setting Up Push
 
-If you want to start using push on Windows 8, start by completing the [Windows 8 Push tutorial](/tutorials/windows-8-push-tutorial) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
+Currently, only two platforms are supported to receive push from Parse, Unity iOS and Unity Android.
+* If you want to start using push on Unity iOS, start by completing the [iOS Push tutorial](/tutorials/ios-push-notifications) to learn how to configure your push certificate.
+* If you want to start using push on Unity Android, start by completing [Android Push tutorial](/tutorials/android-push-notifications) to learn how to configure your app.
+Come back to this guide afterwards to learn more about the push features offered by Parse.
 
-Windows Phone 8 supports authenticated and unauthenticated push notifications. Authenticated push notifications are not supported at this time. In the meantime, enjoy toast push notifications without any required setup. Some things you need to keep in mind:
-
-*   The communication between Parse and Microsoft's cloud is unencrypted. The communication between your device and Parse will always be secure.
-*   You are limited to 500 pushes per day per subscription.
 
 ## Installations
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-On Windows, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API](/docs/windows_guide#objects) for storing and retrieving data. To access the current `Installation` object from your .NET app, use the `ParseInstallation.CurrentInstallation` property. The first time you save a `ParseInstallation`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceUris` field is set.
-
-```csharp
-protected override async void OnLaunched(LaunchActivatedEventArgs args) {
-  await ParseInstallation.CurrentInstallation.SaveAsync();
-}
-```
+On Unity, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API](/docs/windows/guide#objects) for storing and retrieving data. To access the current `Installation` object from your .NET app, use the `ParseInstallation.CurrentInstallation` property.
 
 While it is possible to modify a `ParseInstallation` just like you would a `ParseObject`, there are several special fields that help manage and target devices.
 
@@ -35,9 +28,9 @@ While it is possible to modify a `ParseInstallation` just like you would a `Pars
     An `IEnumerable<string>` of the channels to which a device is currently subscribed. In .NET, this field is accessible through the `Channels` property.
 *   **`timeZone`**: The current time zone where the target device is located. This field is readonly and can be accessed via the `TimeZone` property. This value is synchronized every time an `Installation` object is saved from the device.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet". This field is readonly and can be accessed via the `DeviceType` property.
-*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device      is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
+*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
 *   **`installationId`**: Unique Id for the device used by Parse. This field is readonly and can be accessed via the `InstallationId` property.
-*   **`deviceToken`**: The Apple generated token used for iOS devices _(readonly)_.
+*   **`installationId`**: Unique Id for the device used by Parse. This field is readonly and can be accessed via the `InstallationId` property.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices. This field is readonly and can be accessed via the `DeviceUris` property.
 *   **`appName`**: The display name of the client application to which this installation belongs. This field is readonly and can be accessed via the `AppName` property.
 *   **`appVersion`**: The version string of the client application to which this installation belongs. This field is readonly and can be accessed via the `AppVersion` property.
@@ -46,7 +39,7 @@ While it is possible to modify a `ParseInstallation` just like you would a `Pars
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#sending-channels/.NET) and [advanced targeting](#sending-queries/.NET). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
 Sending notifications is often done from the Parse.com push console, the [REST API](#sending/REST) or from [Cloud Code](#sending/JavaScript). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
@@ -54,7 +47,7 @@ However, be sure you understand that enabling Client Push can lead to a security
 
 ![](/images/docs/client_push_settings.png)
 
-You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.
+You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push. For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.
 
 ### Using Channels
 
@@ -70,7 +63,7 @@ An installation's channels can be set using the `Channels` property of `ParseIns
 // When users indicate they are Giants fans, we subscribe them to that channel.
 var installation = ParseInstallation.CurrentInstallation;
 installation.Channels = new List<string> { "Giants" };
-await installation.SaveAsync();
+installation.SaveAsync();
 ```
 
 Alternatively, you can insert a channel into `Channels` without affecting the existing channels using the `AddUniqueToList` method of `ParseObject` using the following:
@@ -78,13 +71,13 @@ Alternatively, you can insert a channel into `Channels` without affecting the ex
 ```csharp
 var installation = ParseInstallation.CurrentInstallation;
 installation.AddUniqueToList("channels", "Giants");
-await installation.SaveAsync();
+installation.SaveAsync();
 ```
 
 Finally, `ParsePush` provides a shorthand for inserting a channel into `Channels` and saving:
 
 ```csharp
-await ParsePush.SubscribeAsync("Giants");
+ParsePush.SubscribeAsync("Giants");
 ```
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
@@ -96,13 +89,13 @@ Unsubscribing from a channel is just as easy:
 ```csharp
 var installation = ParseInstallation.CurrentInstallation;
 installation.RemoveAllFromList("channels" new List<string> { "Giants" });
-await installation.SaveAsync();
+installation.SaveAsync();
 ```
 
 Or, using ParsePush:
 
 ```csharp
-    ParsePush.UnsubscribeAsync("Giants");
+ParsePush.UnsubscribeAsync("Giants");
 ```
 
 The set of subscribed channels is cached in the `CurrentInstallation` object:
@@ -123,20 +116,20 @@ In the .NET SDK, the following code can be used to alert all subscribers of the 
 var push = new ParsePush();
 push.Channels = new List<string> {"Giants"};
 push.Alert = "The Giants just scored!";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 If you want to target multiple channels with a single push notification, you can use any `IEnumerable<string>` of channels.
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](/docs/windows_guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](/docs/unity/guide#queries) and to send them a push.
 
 Since `ParseInstallation` is a subclass of `ParseObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-Storing data on an `Installation` object is just as easy as storing [any other data](/docs/windows_guide#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
+Storing data on an `Installation` object is just as easy as storing [any other data](/docs/unity/guide#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
 ```csharp
 // Store the category of push notifications the user would like to receive.
@@ -144,7 +137,7 @@ var installation = ParseInstallation.CurrentInstallation;
 installation["scores"] = true;
 installation["gameResults"] = true;
 installation["injuryReports"] = true;
-await installation.SaveAsync();
+installation.SaveAsync();
 ```
 
 You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate an Installation with a particular user, for example, you can simply store the current user on the `ParseInstallation`.
@@ -153,44 +146,41 @@ You can even create relationships between your `Installation` objects and other 
 // Associate the device with a user
 var installation = ParseInstallation.CurrentInstallation;
 installation["user"] = ParseUser.CurrentUser;
-await installation.SaveAsync();
+installation.SaveAsync();
 ```
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `ParseQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](/docs/windows_guide#queries), but we use the special static property `ParseInstallation.Query` to create it. We set this query on our `ParsePush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `ParseQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](/docs/unity/guide#queries), but we use the special static property `ParseInstallation.Query` to create it. We set this query on our `ParsePush` object, before sending the notification.
 
 ```csharp
 var push = new ParsePush();
-push.Query = from installation in ParseInstallation.Query
-             where installation.Get<bool>("injuryReports") == true
-             select installation;
+push.Query = ParseInstallation.Query
+             .WhereEqualTo("injuryReports", true);
 push.Alert = "Willie Hayes injured by own pop fly.";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 We can even use channels with our query. To send a push to all subscribers of the "Giants" channel but filtered by those who want score update, we can do the following:
 
 ```csharp
-var push = new Parse.Push();
-push.Query = from installation in ParseInstallation.Query
-             where installation.Get<bool>("scores") == true
-             select installation;
+var push = new ParsePush();
+push.Query = ParseInstallation.Query
+             .WhereEqualTo("scores", true);
 push.Channels = new List<string> { "Giants" };
 push.Alert = "Giants scored against the A's! It's now 2-2.";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 Alternatively, we can use a query that constrains "channels" directly:
 
 ```csharp
-var push = new Parse.Push();
-push.Query = from installation in ParseInstallation.Query
-             where installation.Get<bool>("scores") == true
-             where installation.Channels.Contains("Giants")
-             select installation;
+var push = new ParsePush();
+push.Query = ParseInstallation.Query
+             .WhereEqualTo("scores", true)
+             .WhereContainsAll("channels", new string[] { "Giants" });
 push.Alert = "Giants scored against the A's! It's now 2-2.";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
@@ -202,16 +192,15 @@ var userQuery = ParseUser.Query.WhereWithinDistance(
     marinersStadium,
     ParseGeoDistance.FromMiles(1));
 var push= new ParsePush();
-push.Query = from installation in ParseInstallation.Query
-             join user in userQuery on installation["user"] equals user
-             select installation;
+push.Query = ParseInstallation.Query
+             .WhereMatchesQuery("user", userQuery);
 push.Alert = "Mariners lost? Free conciliatory hotdogs at the Parse concession stand!";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 ## Sending Options
 
-Push notifications can do more than just send a message. On Windows and Windows Phone 8, pushes can also include a title, as well as any custom data you wish to send. An expiration date can also be set for the notification in case it is time sensitive.
+Push notifications can do more than just send a message. On Unity, pushes can also include a title, as well as any custom data you wish to send. An expiration date can also be set for the notification in case it is time sensitive.
 
 ### Customizing your Notifications
 
@@ -222,7 +211,7 @@ If you want to send more than just a message, you will need to use an `IDictiona
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
 *   **`content-available`**: _(iOS only)_ If you are a writing a [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) app, or an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
 *   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
-*   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated      with opening the URI is launched.
+*   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated with opening the URI is launched.
 *   **`title`**: _(Android, Windows 8, and Windows Phone 8 only)_ the value displayed in the Android system tray or Windows toast notification.
 
 For example, to send a notification that contains a title, you can do the following:
@@ -234,7 +223,7 @@ push.Data = new Dictionary<string, object> {
   {"title", "Score Alert"}
   {"alert", "The Mets scored! The game is now tied 1-1!"},
 };
-await push.SendAsync();
+push.SendAsync();
 ```
 
 ### Setting an Expiration Date
@@ -247,7 +236,7 @@ There are two properties provided by the `ParsePush` class to allow setting an e
 var push = new ParsePush();
 push.Expiration = new DateTime(2015, 8, 14);
 push.Alert = "Season tickets on sale until August 14th!";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 There is however a caveat with this method. Since device clocks are not guaranteed to be accurate, you may end up with inaccurate results. For this reason, the `ParsePush` class also provides the `ExpirationInterval` property which accepts a `TimeSpan`. The notification will expire after the specified interval has elapsed.
@@ -256,7 +245,7 @@ There is however a caveat with this method. Since device clocks are not guarante
 var push = new ParsePush();
 push.ExpirationInterval = TimeSpan.FromDays(7);
 push.Alert = "Season tickets on sale until next week!";
-await push.SendAsync();
+push.SendAsync();
 ```
 
 ### Targeting by Platform
@@ -268,39 +257,34 @@ The following example would send a different notification to Android, iOS, and W
 ```csharp
 // Notification for Android users
 var androidPush = new ParsePush();
-androidPush.Alert = "Your suitcase has been filled with tiny robots!";
-androidPush.Query = from installation in ParseInstallation.Query
-                    where installation.Channels.Contains("suitcaseOwners")
-                    where installation.DeviceType == "android"
-                    select installation;
-await androidPush.SendAsync();
+androidPush.Query = ParseInstallation.Query
+                    .WhereContainsAll("channels", new string[] { "suitcaseOwners" })
+                    .WhereEqualTo("deviceType", "android");
+androidPush.SendAsync();
 
 // Notification for iOS users
-var iOSPush = new ParsePush();
++var iosPush = new ParsePush();
 iosPush.Alert = "Your suitcase has been filled with tiny apples!";
-iosPush.Query = from installation in ParseInstallation.Query
-                where installation.Channels.Contains("suitcaseOwners")
-                where installation.DeviceType == "ios"
-                select installation;
-await iosPush.SendAsync();
+iosPush.Query = ParseInstallation.Query
+                .WhereContainsAll("channels", new string[] { "suitcaseOwners" })
+                .WhereEqualTo("deviceType", "ios");
+iosPush.SendAsync();
 
 // Notification for Windows 8 users
 var winPush = new ParsePush();
 winPush.Alert = "Your suitcase has been filled with tiny glass!";
-winPush.Query = from installation in ParseInstallation.Query
-                where installation.Channels.Contains("suitcaseOwners")
-                where installation.DeviceType == "winrt"
-                select installation;
-await winPush.SendAsync();
+winPush.Query = ParseInstallation.Query
+                .WhereContainsAll("channels", new string[] { "suitcaseOwners" })
+                .WhereEqualTo("deviceType", "winrt");
+winPush.SendAsync();
 
 // Notification for Windows Phone 8 users
 var wpPush = new ParsePush();
-wpPush.Alert = "Your suitcase is very hip; very metro."
-wpPush.Query = from installation in ParseInstallation.Query
-               where installation.Channels.Contains("suitcaseOwners")
-               where installation.DeviceType == "winphone"
-               select installation;
-await winPhonePush.SendAsync();
+wpPush.Alert = "Your suitcase is very hip; very metro.";
+wpPush.Query = ParseInstallation.Query
+               .WhereContainsAll("channels", new string[] { "suitcaseOwners" })
+               .WhereEqualTo("deviceType", "winphone");
+wpPush.SendAsync();
 ```
 
 ## Scheduling Pushes
@@ -309,84 +293,25 @@ Sending scheduled push notifications is not currently supported by the .NET SDK.
 
 ## Receiving Pushes
 
-### Responding to the Payload
-
-If your app is running while a push notification is received, the `ParsePush.PushNotificationReceived` event is fired. You can register for this event. This event provides the standard [`PushNotificationEventArgs`](http://msdn.microsoft.com/en-us/library/windows/apps/windows.networking.pushnotifications.pushnotificationreceivedeventargs). When Parse sends a toast notification, it embeds the JSON payload in the notification. You can extract this JSON payload with `ParsePush.PushJson`.
+If your app is running while a push notification is received, the `ParsePush.ParsePushNotificationReceived` event is fired. You can register for this event. This event provides `ParsePushNotificationEventArgs`.
 
 ```csharp
-ParsePush.ToastNotificationReceived += (sender, args) => {
-  var json = ParsePush.PushJson(args);
+ParsePush.ParsePushNotificationReceived += (sender, args) => {
+  var payload = args.Payload;
   object objectId;
-  if (json.TryGetValue("objectId", out objectId)) {
+  if (payload.TryGetValue("objectId", out objectId)) {
     DisplayRichMessageWithObjectId(objectId as string);
   }
 };
-```
-
-In Windows 8, you may also receive the JSON payload from the `LaunchActivatedEventArgs` passed to your application's `OnLaunched` event.
-
-```csharp
-protected override void OnLaunched(LaunchActivatedEventArgs args) {
-  var json = ParsePush.PushJson(args);
-  object objectId;
-  if (json.TryGetValue("objectId", out objectId)) {
-    DisplayRichMessageWithObjectId(objectId as string);
-  }
-};
-```
-
-In Windows Phone 8, this code would instead be in your page's OnNavigatedTo event:
-
-```csharp
-public override void OnNavigatedTo(NavigationEventArgs args) {
-  var json = ParsePush.PushJson(args);
-  object objectId;
-  if (json.TryGetValue("objectId", out objectId)) {
-    DisplayRichMessageWithObjectId(objectId as string);
-  }
-}
 ```
 
 ### Tracking Pushes and App Opens
 
-To track your users' engagement over time and the effect of push notifications, we provide some hooks in the `ParseAnalytics` class. In the example above, add the following to your Launching event handler to collect information about when your application was opened, and what triggered it.
+Tracking push opens is not supported on Unity now. You can track app opens with
 
 ```csharp
-ParseAnalytics.TrackAppOpenedAsync(launchArgs);
+ParseAnalytics.TrackAppOpenedAsync();
 ```
-
-To track push opens, you should always pass your event handler's input args to `TrackAppOpenedAsync`.  A null or empty parameter to `TrackAppOpenedAsync` will track _only_ a standard app-opened event, not the push-opened event. If you don't track the push-opened event, you will not be able to use advanced analytics features such as push-open graphs and A/B testing.
-
-Please be sure to set up your application to [save the Installation object](#installations/.NET) Push open tracking only works when your application's devices are associated with saved `Installation` objects.
-
-You can view the open rate for a specific push notification on your Parse.com push console. You can also view your application's overall app open and push open graphs on the Parse analytics console.  Our push open analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
-
-#### Tracking on WinRT Applications
-
-On Windows 8, a toast notification can pass a small payload to the launch handler. We take advantage of this to pass a small Parse payload to the app, in order to correlate an app launch with a particular push.
-
-```csharp
-// Override Application.OnLaunched
-virtual void OnLaunched(LaunchActivatedEventArgs args) {
-    // 'args' contains arguments that are passed to the app
-    // during its launch activation from a Toast.
-    // More on Toasts: http://msdn.microsoft.com/en-us/library/windows/apps/hh779727.aspx
-    ParseAnalytics.TrackAppOpenedAsync(args);
-}
-```
-
-#### Tracking on Windows Phone Applications
-
-You can also track application launches from toast notifications in Windows Phone 8.
-    To track application launches from toasts and tiles, add the following to your App constructor:
-
-```csharp
-this.Startup += (sender, args) => {
-  ParseAnalytics.TrackAppOpens(RootFrame);
-};
-```
-
-This method will set up event handlers necessary to track all app launches; you should not use `TrackAppOpenedAsync` if you register event handlers with `TrackAppOpens`.
 
 ## Push Experiments
 
@@ -428,7 +353,5 @@ Just after a push send, when only a small number of users have opened their push
 
 Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of these troubleshooting tips. 
 
-*   Make sure you are using the correct Package SID and client secret, as shown in Step 3 of the      [Windows 8 Push Quickstart](/tutorials/windows-8-push-tutorial).
-*   Clean and build your project.
-*   Check the number of recipients in your Parse Push Console. Does it match the expected number      of recipients? Your push might be targeted incorrectly.
-*   Open your project's `package.appxmanifest` file and make sure "Toast Capable" is set to "yes."*   If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table.  We do not automatically delete installation objects when the users uninstall your app.  When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.
+* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide](/docs/ios/guide#push-notifications-troubleshooting).
+* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide](/docs/android/guide#push-notifications-troubleshooting).
