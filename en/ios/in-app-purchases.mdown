@@ -25,7 +25,12 @@ On the main thread, register the handlers for the products:
 }];
 ```
 ```swift
-// no swift example
+// Use the product identifier from iTunes to register a handler.
+PFPurchase.addObserverForProduct("Pro") {
+    (transaction: SKPaymentTransaction?) -> Void in
+    // Write business logic that should run once this product is purchased.
+    isPro = YES;
+}
 ```
 Note that this does not make the purchase, but simply registers a block to be run if a purchase is made later. This registration must be done on the main thread, preferably as soon as the app is launched, i.e. in `application:didFinishLaunchingWithOptions:`. If there are multiple products, we recommend registering all product handlers in the same method, such as `application:didFinishLaunchingWithOptions`:
 
@@ -41,7 +46,14 @@ Note that this does not make the purchase, but simply registers a block to be ru
 }
 ```
 ```swift
-// no swift example
+PFPurchase.addObserverForProduct("Pro") {
+    (transaction: SKPaymentTransaction?) -> Void in
+    isPro = YES;
+}
+PFPurchase.addObserverForProduct("Pro") {
+    (transaction: SKPaymentTransaction?) -> Void in
+    isVip = YES;
+}
 ```
 
 To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
@@ -53,7 +65,12 @@ To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
 }];
 ```
 ```swift
-// no swift example
+PFPurchase.buyProduct("Pro") {
+    (error: NSError?) -> Void in
+    if error != nil {
+        // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    }
+}
 ```
 
 The call to `buyProduct:block:` brings up a dialogue that asks users to enter their Apple credentials. When the user's identity is verified, the product will be purchased. If the product is non-consumable and has been purchased by the user before, the user will not be charged.
@@ -81,7 +98,17 @@ Many IAP products such as books and movies have associated content files that sh
 }];
 ```
 ```swift
-// no swift example
+PFPurchase.addObserverForProduct("Pro") {
+    (transaction: SKPaymentTransaction?) -> Void in
+    if let transaction = transaction {
+        PFPurchase.downloadAssetForTransaction(transaction) {
+            (filePath: String?, error: NSError?) -> Void in
+            if error != nil {
+                // at this point, the content file is available at filePath.
+            }
+        }
+    }
+}
 ```
 Note that this does not make the purchase, but simply registers a block to be run if a purchase is made later. The call to `downloadAssetForTransaction:completion:` passes the receipt of the purchase to the Parse Cloud, which then verifies with Apple that the purchase was made. Once the receipt is verified, the purchased file is downloaded.
 
@@ -94,7 +121,11 @@ To make the purchase:
 }];
 ```
 ```swift
-// no swift example
+PFPurchase.buyProduct("Pro") {(error: NSError?) -> Void in
+    if error != nil {
+        // run UI logic that informs user the product has been purchased, such as displaying an alert view.
+    }
+}
 ```
 The call to `buyProduct:block:` brings up a dialogue that asks users to enter their Apple credentials. When the user's identity is verified, the product will be purchased.
 
