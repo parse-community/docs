@@ -528,6 +528,10 @@ func applicationDidBecomeActive(application: UIApplication) {
 
 There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a `%{ParseUser}`, or (2) linking Facebook to an existing `%{ParseUser}`.
 
+<div class='tip info'><div>
+  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
+</div></div>
+
 ### Log In & Sign Up
 
 `%{ParseUser}` provides a way to allow your users to log in or sign up through Facebook. This is done by using the `logInInBackgroundWithReadPermissions` method like so:
@@ -562,8 +566,9 @@ When this code is run, the following happens:
 
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback using `handleOpenURL`.
-3.  Our SDK receives the Facebook data and saves it to a `%{ParseUser}`. If it's a new user     based on the Facebook ID, then that user is created.
+3.  Our SDK receives the user's Facebook access data and saves it to a `%{ParseUser}`. If no `%{ParseUser}` exists with the same Facebook ID, then a new `%{ParseUser}` is created.
 4.  Your code block is called with the user.
+5.  The current user reference will be updated to this user.
 
 The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The `%{ParseUser}` integration doesn't require any permissions to work out of the box. [Read more permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
@@ -587,10 +592,6 @@ PFFacebookUtils.logInInBackgroundWithPublishPermissions(["publish_actions"], {
 })
 ```
 
-<div class='tip info'><div>
-  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
-</div></div>
-
 ### Linking
 
 If you want to associate an existing `%{ParseUser}` to a Facebook account, you can link it like so:
@@ -609,7 +610,7 @@ if !PFFacebookUtils.isLinkedWithUser(user) {
   PFFacebookUtils.linkUserInBackground(user, withReadPermissions: nil, {
     (succeeded: Bool?, error: NSError?) -> Void in
     if succeeded {
-      println("Woohoo, user is linked with Facebook!")
+      println("Woohoo, the user is linked with Facebook!")
     }
   })
 }
@@ -637,7 +638,7 @@ PFFacebookUtils.unlinkUserInBackground(user, {
 
 ### Log In / Link via Token
 
-In previous sections - you've seen how `PFFacebookUtils` could be used to log in with Facebook SDK and create `%{ParseUser}`s or link with existing ones. There is also an option available to directly log in / link if you already integrate with Facebook SDK and have a `FBSDKAccessToken`, like in this example:
+In the previous sections, you've seen how `PFFacebookUtils` can be used to log in with the Facebook SDK and create a `%{ParseUser}` or link with existing ones. If you have already integrated the Facebook SDK and have a `FBSDKAccessToken`, there is an option to directly log in or link the users like this:
 
 ```objc
 FBSDKAccessToken *accessToken = ...; // Use existing access token.
@@ -661,7 +662,7 @@ FBSDKAccessToken *accessToken = ...; // Use existing access token.
                       withAccessToken:accessToken
                                 block:^(BOOL succeeded, NSError *error) {
   if (succeeded) {
-    NSLog(@"Woohoo, user is linked with Facebook!");
+    NSLog(@"Woohoo, the user is linked with Facebook!");
   }
 }];
 ```
@@ -672,7 +673,7 @@ let accessToken: FBSDKAccessToken = ...; // Use existing access token.
 PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
   (user: PFUser?, error: NSError?) -> Void in
   if user != nil {
-    println("User logged in through Facebook!)
+    println("User logged in through Facebook!")
   } else {
     println("Uh oh. There was an error logging in.")
   }
@@ -686,7 +687,7 @@ PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
 PFFacebookUtils.linkUserInBackground(user, withAccessToken: accessToken, {
   (succeeded: Bool?, error: NSError?) -> Void in
   if succeeded {
-    println("Woohoo, user is linked with Facebook!")
+    println("Woohoo, the user is linked with Facebook!")
   }
 })
 ```

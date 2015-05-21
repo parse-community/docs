@@ -53,6 +53,9 @@ query.equalTo("score", 50);
 query.containedIn("playerName",
     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
 ```
+```swift
+// no swift example
+```
 
 Creating an index query based on the score field would yield a smaller search space in general than creating one on the playerName field.
 
@@ -60,6 +63,9 @@ When examining data types, booleans have a very low entropy and and do not make 
 
 ```objc
 query.equalTo("cheatMode", false);
+```
+```swift
+// no swift example
 ```
 
 The two possible values for cheatMode are true and false. If an index was added on this field it would be of little use because it's likely that 50% of the records will have to be looked at to return query results.
@@ -101,6 +107,9 @@ query.find().then(function(results) {
   // Retrieved scores successfully
 });
 ```
+```swift
+// no swift example
+```
 
 This query can't take advantage of indexes. The database has to look at all the objects in the GameScore class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.
 
@@ -112,11 +121,17 @@ For example if the User class has a column called state which has values “Sign
 var query = new Parse.Query(Parse.User);
 query.notEqualTo("state", "Invited");
 ```
+```swift
+// no swift example
+```
 
 It would be faster to use the “Contained In” condition when setting up the query:
 
 ```objc
 query.containedIn("state", ["SignedUp", "Verified"]);
+```
+```swift
+// no swift example
 ```
 
 Sometimes, you may have to completely rewrite your query. Going back to the GameScore example, let's say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player's high score and then using the following query:
@@ -130,6 +145,9 @@ query.find().then(function(results) {
   // Retrieved scores successfully
 });
 ```
+```swift
+// no swift example
+```
 
 The new query you use depends  on your use case. This may sometimes mean a redesign of your data model.
 
@@ -141,11 +159,17 @@ Similar to “Not Equal To”, the “Not Contained In” query constraint can't
 var query = new Parse.Query(Parse.User);
 query.notContainedIn("state", ["Invited", "Blocked"];
 ```
+```swift
+// no swift example
+```
 
 Using a complimentary “Contained In” query constraint will always be faster:
 
 ```objc
 query.containedIn("state", ["SignedUp", "Verified"]);
+```
+```swift
+// no swift example
 ```
 
 This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
@@ -159,17 +183,26 @@ You should avoid using regular expression constraints that don't use indexes. Fo
 ```objc
 query.matches("playerName", "Michael", “i”);
 ```
+```swift
+// no swift example
+```
 
 A similar query looks for any occurrence of the string in the field, however the search is case sensitive:
 
 ```objc
 query.contains("playerName", "Michael");
 ```
+```swift
+// no swift example
+```
 
 These queries are both slow. Depending on your use case, you should switch to using the following constraint that uses an index:
 
 ```objc
 query.startsWith("playerName", "Michael");
+```
+```swift
+// no swift example
 ```
 
 This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.
@@ -178,6 +211,9 @@ As a best practice, when you use regular expression constraints, you'll want to 
 
 ```objc
 query.matches("playerName", "^Michael");
+```
+```swift
+// no swift example
 ```
 
 Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.
@@ -191,6 +227,9 @@ You can limit the number of query results returned. The limit is 100 by default 
 ```objc
 query.limit(10); // limit to at most 10 results
 ```
+```swift
+// no swift example
+```
 
 If you're issuing queries on GeoPoints, make sure you specify a reasonable radius:
 
@@ -200,6 +239,9 @@ query.withinMiles("location", userGeoPoint, 10.0);
 query.find().then(function(placesObjects) {
   // Get a list of objects within 10 miles of a user's location
 });
+```
+```swift
+// no swift example
 ```
 
 You can further limit the fields returned by calling select:
@@ -212,10 +254,13 @@ query.find().then(function(results) {
   // each of results will only have the selected fields available.
 });
 ```
+```swift
+// no swift example
+```
 
 ## Client-side Caching
 
-For queries run from iOS and Android, you can turn on query caching. See the [iOS](https://www.parse.com/docs/ios/guide#queries-caching-queries) and [Android] (https://www.parse.com/docs/android/guide#queries-caching-queries) guides for more details. Caching queries will increase your mobile app's performance especially in cases where you want to display cached data while fetching the latest data from Parse.
+For queries run from iOS and Android, you can turn on query caching. See the [iOS](/ios/guide#queries-caching-queries) and [Android](/docs/android/guide#queries-caching-queries) guides for more details. Caching queries will increase your mobile app's performance especially in cases where you want to display cached data while fetching the latest data from Parse.
 
 ## Use Cloud Code
 
@@ -241,6 +286,9 @@ Parse.Cloud.define("averageStars", function(request, response) {
   });
 });
 ```
+```swift
+// no swift example
+```
 
 You could have ran a query on the Review class on the client, returned only the stars field data and computed the result on the client. As the number of reviews for a movie increases you can see that the data being returned to the device using this methodology also increases. Implementing the functionality through a Cloud Function returns the one result if successful.
 
@@ -254,6 +302,9 @@ As you look at optimizing your queries, you'll find that you may have to change 
     // ratings is 4.5
   }
 }];
+```
+```swift
+// no swift example
 ```
 
 If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.
@@ -275,6 +326,9 @@ query.count().then(function(count) {
   // Request failed
 });
 ```
+```swift
+// no swift example
+```
 
 If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the `count()` operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie's review count field. This can be done in an `afterSave` handler:
 
@@ -294,6 +348,9 @@ Parse.Cloud.afterSave("Review", function(request) {
   });
 });
 ```
+```swift
+// no swift example
+```
 
 Your new optimized query would not need to look at the Review class to get the review count:
 
@@ -305,6 +362,9 @@ query.find().then(function(results) {
 }, function(error) {
   // Request failed
 });
+```
+```swift
+// no swift example
 ```
 
 You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an `afterSave` or `afterDelete` Cloud Code handler. The approach you choose depends on your use case.
@@ -349,6 +409,9 @@ query.find().then(function(results) {
 }, function(error) {
   // Request failed
 });
+```
+```swift
+// no swift example
 ```
 
 ## Limits and Other Considerations
