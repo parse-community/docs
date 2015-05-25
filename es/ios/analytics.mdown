@@ -1,0 +1,74 @@
+# Analytics
+
+Parse provee un numero de herramientas para verificar los latidos desde de tu aplicación. Comprendemos que es importante el entender como se esta comportando tu aplicación, que tan frecuente, y cuando.
+
+Mientras esta sección cubrira diversas maneras de utilizar tu aplicación de la mejor forma para aprovechar los Analytics de Parse en el lado del servidor, los desarrolladores usando Parse para guardar y recibir información ya pueden recibir las ventajas de usar las metricas en Parse.
+
+Sin tener la nesecidad de implementar codigo del lado de cliente, puedes ver en tiempo real graficas y detalles (por  dispositivo, clase de Parse, o verbo REST) de tu peticiones API en la consola de tu aplicaciones, ademas guardar filtros de graficas, para accesar a la información de tu interés.
+
+## App-Open & Push Analytics
+
+Nuestra implementracion de analytics inicial mostrara cuando tu aplicación es lanzada. Agregando la siguietne linea a
+`applicationDidFinishLaunching:`, comenzaras a recibir datos cuando y que tan frecuente tu aplicación es accesada.
+
+```objc
+// en iOS
+[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+
+// en OS X
+[PFAnalytics trackAppOpenedWithLaunchOptions:nil];
+```
+```swift
+// en iOS
+PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+
+// en OS X
+PFAnalytics.trackAppOpenedWithLaunchOptions(nil)
+```
+
+Graficas y detalles de tus estadisticas son accesibles desde la consola de tu aplicación.
+
+Mas metricas estan disponibles desde la entrega de notificaciones push y aperturas. Asegurate de mirar [Monitoreo de Push y Lanzamientos de aplicación](/docs/push_guide#receiving-tracking/iOS)
+
+## Custom Analytics
+
+`PFAnalytics` tambien permire hacer monitoreo de forma livire, con la ayuda de `NSString` atravez de llaves y valores. Estas dimenciones extra, se permitiran hacer segmentacion de tus eventos propios atraves de la consola de aplicaciones
+
+Supongamos que tu aplicación ofrece una funcionlidad de busqueda para un listado de apartamentos, y buscas llevar un registro de cuantas vecesesta siendo usada, con algunos datos adicionales.
+
+```objc
+NSDictionary *dimensions = @{
+  // Defile los rangos para almacenar los datos en segmentos que tengan sentido.
+  @"priceRange": @"1000-1500",
+  // ¿El usuario filtro la busqueda?
+  @"fuente": @"craigslist",
+  // ¿Las busquedas son mas frecuentes entre semana o fines de semana?
+  @"dayType": @"weekday"
+};
+// Envia los segmentos a Parse junto con el evento 'search'
+[PFAnalytics trackEvent:@"search" dimensions:dimensions];
+```
+```swift
+let dimensions = [
+  // Defile los rangos para almacenar los datos en segmentos que tengan sentido.
+  "priceRange": "1000-1500",
+  // ¿El usuario filtro la busqueda?
+  "source": "craigslist",
+  // ¿Las busquedas son mas frecuentes entre semana o fines de semana?
+  "dayType": "weekday"
+]
+// Envia los segmentos a Parse junto con el evento 'search'
+PFAnalytics.trackEvent("search", dimensions:dimensions)
+```
+
+`PFAnalytics` pueden ser usado como un monitor de errores ligero — simplemente invocamos lo siquiente y tendras acceso a al especificar en la frecuencia y el numero de errores, divididos por codigo de error, en tu aplicación.
+
+```objc
+NSString *codeString = [NSString stringWithFormat:@"%d", [error code]];
+[PFAnalytics trackEvent:@"error" dimensions:@{ @"code": codeString }];
+```
+```swift
+let codeString = NSString(format:"%@", error.code)
+PFAnalytics.trackEvent("error", dimensions:["code": codeString])
+```
+Nota que Parse actualmente solo almacena las primeras ocho pares de dimenciones por llamada a `trackEvent:dimensions:`.
