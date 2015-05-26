@@ -274,6 +274,13 @@ Task<ParseUser> logInTask = ParseFacebookUtils.LogInAsync(userId, accessToken, t
 
 When this code is run, our SDK receives the Facebook data and saves it to a `ParseUser`. If it's a new user based on the Facebook ID, then that user is created.
 
+When this code is run, the following happens:
+
+1.  The user is shown the Facebook login dialog.
+2.  The user authenticates via Facebook, and your app receives a callback.
+3.  Our SDK receives the user's Facebook access data and saves it to a `%{ParseUser}`. If no `%{ParseUser}` exists with the same Facebook ID, then a new `%{ParseUser}` is created.
+4.  The current user reference will be updated to this user.
+
 ### Linking
 
 If you want to associate an existing `ParseUser` with a Facebook account, you can link it like so:
