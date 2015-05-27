@@ -34,7 +34,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/sessions/<objectId>`  | GET       | [Retrieving Sessions](#sessions-retrieving-sessions) |
 | `/1/sessions/me`          | GET       | [Retrieving Current Session](#sessions-retrieving-sessions) |
 | `/1/sessions/<objectId>`  | PUT       | [Updating Sessions](#sessions-updating-sessions) |
-| `/1/users`                | GET       | [Querying Sessions](#sessions-querying-sessions) |
+| `/1/sessions`                | GET       | [Querying Sessions](#sessions-querying-sessions) |
 | `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#sessions-deleting-sessions) |
 | `/1/sessions/me`          | PUT       | [Pairing with Installation](#sessions-pairing-session-with-installation) |
 
