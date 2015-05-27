@@ -392,7 +392,8 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 There is however a caveat with this method. Since device clocks are not guaranteed to be accurate, you may end up with inaccurate results. For this reason, the `PFPush` class also provides the `expireAfterTimeInterval:` method which accepts an `NSTimeInterval` object. The notification will expire after the specified interval has elapsed.
@@ -409,7 +410,8 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ### Targeting by Platform
@@ -452,7 +454,8 @@ PFPush *winPush = [[PFPush alloc] init];
 [wpPush sendPushInBackground];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ## Scheduling Pushes
@@ -628,7 +631,8 @@ Second, if your application is running or backgrounded, the `application:didRece
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 Finally, if using iOS 7 any of its new push features (including the new "content-available" push functionality), be sure to also implement the iOS 7-only handler:

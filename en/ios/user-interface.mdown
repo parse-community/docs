@@ -606,7 +606,8 @@ Many apps need to display table view cells which contain images stored in the Pa
 @end
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFile`.

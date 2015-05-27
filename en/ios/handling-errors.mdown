@@ -26,7 +26,8 @@ The second type of error is one that occurs when interacting with the Parse Clou
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 In the above code, we try to fetch an object with a non-existent `objectId`. The Parse Cloud will return an error with an error code set in `code` and message in the error's `userInfo`. Here's how to handle it properly in your callback:
@@ -45,7 +46,8 @@ In the above code, we try to fetch an object with a non-existent `objectId`. The
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 The query might also fail because the device couldn't connect to the Parse Cloud. Here's the same callback but with a bit of extra code to handle that scenario explicitly:
@@ -67,7 +69,8 @@ The query might also fail because the device couldn't connect to the Parse Cloud
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 When the callback expects a `NSNumber`, its `boolValue` tells you whether the operation succeeded or not. For example, this is how you might implement the callback for `%{ParseObject}`'s `saveInBackgroundWithTarget:selector:` method:
@@ -86,7 +89,8 @@ When the callback expects a `NSNumber`, its `boolValue` tells you whether the op
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 For synchronous (non-background) methods, error handling is mostly the same except that instead of a `NSNumber` representing success or failure you'll get an actual `BOOL` directly.
