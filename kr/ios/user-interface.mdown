@@ -221,7 +221,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 검증 로직 사용자 지정
 
-가입 정보를 Parse Cloud에 제출하기 전에 클라이언트 측 검증을 실행하��� 것��� 좋을 수도 있습니다. `PFSignUpViewControllerDelegate`의 `signUpViewController:shouldBeginSignUp:` 메서드에 검증 로직을 추가할 수 있습니다. 예를 들어 8자 미만인 비밀번호가 너무 짧다고 생각되는 경우에는 다음을 수행할 수 있습니다.
+가입 정보를 Parse Cloud에 제출하기 전에 클라이언트 측 검증을 실행하는 것이 좋을 수도 있습니다. `PFSignUpViewControllerDelegate`의 `signUpViewController:shouldBeginSignUp:` 메서드에 검증 로직을 추가할 수 있습니다. 예를 들어 8자 미만인 비밀번호가 너무 짧다고 생각되는 경우에는 다음을 수행할 수 있습니다.
 
 ```objc
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController
@@ -390,7 +390,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 셀 사용자 지정
 
-테이블의 모양을 사용자 지���하려면 사용자 지정된 셀��� 반환하도록 `tableView:cellForRowAtIndexPath:object:`를 재정의합니다. 이 메서드는 일반적인 테이블 데이터 소스 메서드와 비슷하지만 `%{ParseObject}`가 매개변수로 직접 포함되어 있습니다.
+테이블의 모양을 사용자가 변경하도록 하려면 사용자가 원하는 셀을 반환하도록 `tableView:cellForRowAtIndexPath:object:`를 재정의합니다. 이 메서드는 일반적인 테이블 데이터 소스 메서드와 비슷하지만 `%{ParseObject}`가 매개변수로 직접 포함되어 있습니다.
 
 더 이상 `tableView:cellForRowAtIndexPath:`는 재정의하지 않습니다.
 
