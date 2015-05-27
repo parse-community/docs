@@ -586,7 +586,7 @@ To create a `%{ParseObject}` subclass:
 
 An easy way to do this is with your class' [+load](https://developer.apple.com/library/ios/documentation/cocoa/reference/foundation/classes/nsobject_class/reference/reference.html#//apple_ref/occ/clm/NSObject/load) (Obj-C only) or with [initialize](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/#//apple_ref/occ/clm/NSObject/initialize) (both Obj-C and Swift) methods.
 
-Please note that `initialize` method is not called until the class receives it's first message - meaning that you need to call any instance or class method on your subclass before it will be registered with Parse SDK.
+Please note that the `initialize` method is not called until the class receives its first message, meaning that you need to call any instance or class method on your subclass before it will be registered with Parse SDK.
 
 The following code sucessfully declares, implements, and registers the `Armor` subclass of `%{ParseObject}`:
 
