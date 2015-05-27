@@ -549,7 +549,7 @@ print result
 
 ## Security
 
-When you access Parse via the REST API key, access can be restricted by ACL just like in the iOS and Android SDKs. You can still read and modify acls via the REST API, just be accessing the `"ACL"` key of an object.
+When you access Parse via the REST API key, access can be restricted by ACL just like in the iOS and Android SDKs. You can still read and modify acls via the REST API, just by accessing the `"ACL"` key of an object.
 
 The ACL is formatted as a JSON object where the keys are either object ids or the special key `"*"` to indicate public access permissions. The values of the ACL are "permission objects", JSON objects whose keys are the permission names and whose values are always `true`.
 
