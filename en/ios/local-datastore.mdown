@@ -75,7 +75,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ## Querying
@@ -97,7 +98,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ## Security

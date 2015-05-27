@@ -64,7 +64,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 NSArray* scoreArray = [query findObjects];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ## Specifying Constraints with NSPredicate
@@ -109,7 +110,8 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Mi
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
@@ -124,7 +126,8 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Mi
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 You can limit the number of results by setting `limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
@@ -235,7 +238,8 @@ predicate = [NSPredicate predicateWithFormat:@"wins >= 50"];
 query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 If you want to retrieve objects matching several different values, you can use `whereKey:containedIn:`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
@@ -252,7 +256,8 @@ NSPredicate *pred = [NSPredicate predicateWithFormat: @"playerName IN %@", names
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 If you want to retrieve objects that do not match any of several values you can use `whereKey:notContainedIn:`, providing an array of acceptable values. For example, if you want to retrieve scores from players besides those in a list:
@@ -269,7 +274,8 @@ NSPredicate *pred = [NSPredicate predicateWithFormat: @"NOT (playerName IN %@)",
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 If you want to retrieve objects that have a particular key set, you can use `whereKeyExists`. Conversely, if you want to retrieve objects without a particular key set, you can use `whereKeyDoesNotExist`.
@@ -288,7 +294,8 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (score IN SELF)"
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 You can use the `whereKey:matchesKey:inQuery:` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
@@ -383,7 +390,8 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"2 IN arrayKey"];
 PFQuery *query = [PFQuery queryWithClassName:@"MyClass" predicate:predicate];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 You can also find objects where the key's array value contains each of the values 2, 3, and 4 with the following:
@@ -414,7 +422,8 @@ NSPredicate *pred = [NSPredicate predicateWithFormat:@"name BEGINSWITH 'Big Dadd
 PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce" predicate:pred];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 <div class='tip info'><div>
@@ -444,7 +453,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 You can also do relational queries by `objectId`:
@@ -458,7 +468,8 @@ You can also do relational queries by `objectId`:
     [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 If you want to retrieve objects where a field contains a `%{ParseObject}` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
@@ -485,7 +496,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
@@ -512,7 +524,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 In some situations, you want to return multiple types of related objects in one query. You can do this with the `includeKey:` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
