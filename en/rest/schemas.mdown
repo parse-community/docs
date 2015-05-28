@@ -18,7 +18,7 @@ as strings in object representation. This is a special case for the Parse API.
 ```bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/schemas
 ```
@@ -28,7 +28,7 @@ connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
 connection.request('GET', '/1/schemas', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${PARSE_MASTER_KEY}",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -73,7 +73,7 @@ To fetch schema of a single class, run:
 ```bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/schemas/Game
 ```
@@ -83,7 +83,7 @@ connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
 connection.request('GET', '/1/schemas/Game', "", {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${PARSE_MASTER_KEY}",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -98,9 +98,17 @@ fields and some default fields applicable to the class. To add the schema, run:
 ```bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"className":"City","fields":{"name":{"type":"String"}}}' \
+  -d ' 
+    {
+      "className": "City",
+      "fields": {
+        "name": {
+          "type": "String"
+        }
+      }
+    }' \
   https://api.parse.com/1/schemas/City
 ```
 ```python
@@ -111,7 +119,7 @@ connection.request('POST', '/1/schemas/Game', json.dumps(
        "className":"City","fields":{"name":{"type":"String"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${PARSE_MASTER_KEY}",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -125,9 +133,17 @@ You can add or delete columns to a schema. To do so, run:
 ```bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"className":"City","fields":{"population":{"type":"Number"}}}' \
+  -d '
+    {
+      "className": "City",
+      "fields": {
+        "population": {
+          "type": "Number"
+        }
+      }
+    }' \
   https://api.parse.com/1/schemas/City
 ```
 ```python
@@ -138,7 +154,7 @@ connection.request('PUT', '/1/schemas/Game', json.dumps(
        "className":"City","fields":{"population":{"type":"Number"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${PARSE_MASTER_KEY}",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -150,9 +166,17 @@ To delete a particular field, you need to use `{"__op" : "Delete" }`
 ```bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"className":"City","fields":{"population":{"__op" : "Delete" } } }'
+  -d '
+    {
+      "className": "City",
+      "fields": {
+        "population": {
+          "__op": "Delete"
+        }
+      }
+    }' \
   https://api.parse.com/1/schemas/City
 ```
 ```python
@@ -163,7 +187,7 @@ connection.request('PUT', '/1/schemas/Game', json.dumps(
        "className":"City","fields":{"population":{"_op" : "Delete"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${PARSE_MASTER_KEY}",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -178,7 +202,7 @@ To do that, run:
 ```bash
 curl -X DELETE\
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/schemas/City
 ```
@@ -188,7 +212,7 @@ connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
 connection.request('PUT', '/1/schemas/City', "", {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${PARSE_MASTER_KEY}",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
