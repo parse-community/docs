@@ -100,7 +100,15 @@ curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"className":"City","fields":{"name":{"type":"String"}}}' \
+  -d ' 
+    {
+      "className": "City",
+      "fields": {
+        "name": {
+          "type": "String"
+        }
+      }
+    }' \
   https://api.parse.com/1/schemas/City
 ```
 ```python
@@ -127,7 +135,15 @@ curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"className":"City","fields":{"population":{"type":"Number"}}}' \
+  -d '
+    {
+      "className": "City",
+      "fields": {
+        "population": {
+          "type": "Number"
+        }
+      }
+    }' \
   https://api.parse.com/1/schemas/City
 ```
 ```python
@@ -152,7 +168,15 @@ curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${PARSE_MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  -d '{"className":"City","fields":{"population":{"__op" : "Delete" } } }'
+  -d '
+    {
+      "className": "City",
+      "fields": {
+        "population": {
+          "__op": "Delete"
+        }
+      }
+    }' \
   https://api.parse.com/1/schemas/City
 ```
 ```python
