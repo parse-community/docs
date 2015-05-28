@@ -606,8 +606,23 @@ Many apps need to display table view cells which contain images stored in the Pa
 @end
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    let identifier = "cell"
+    var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? PFTableViewCell
+    if cell == nil {
+        cell = PFTableViewCell(style: .Default, reuseIdentifier: identifier)
+    }
+
+    if let title = object["title"] as? String {
+        cell!.textLabel.text = title
+    }
+    if let thumbnail = object["thumbnail"] as? PFFile {
+        cell!.imageView.image = UIImage(named: "placeholder.jpg")
+        cell!.imageView.file = thumbnail
+    }
+
+    return cell!
+}
 ```
 
 Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFile`.

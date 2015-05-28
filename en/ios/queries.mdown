@@ -64,8 +64,15 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 NSArray* scoreArray = [query findObjects];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Using PFQuery
+let query = PFQuery(className: "GameScore")
+query.whereKey("playerName", equalTo: "Dan Stemkoski")
+let scoreArray = query.findObjects()
+
+// Using NSPredicate
+let predicate = NSPredicate(format:"playerName = 'Dan Stemkosk'")
+let query = PFQuery(className: "GameScore", predicate: predicate)
+let scoreArray = query.findObjects()
 ```
 
 ## Specifying Constraints with NSPredicate
@@ -110,8 +117,12 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Mi
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Using PFQuery
+query.whereKey("playerName", notEqualTo: "Michael Yabuti")
+
+// Using NSPredicate
+let predicate = NSPredicate(format:"playerName != 'Michael Yabuti'")
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
@@ -126,8 +137,13 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:   @"playerName != 'Mi
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Using PFQuery
+query.whereKey("playerName", notEqualTo: "Michael Yabuti")
+query.whereKey("playerAge", greaterThan: 18)
+
+// Using NSPredicate
+let predicate = NSPredicate(format:"playerName != 'Michael Yabuti' AND playerAge > 18")
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 You can limit the number of results by setting `limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
@@ -238,8 +254,29 @@ predicate = [NSPredicate predicateWithFormat:@"wins >= 50"];
 query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Restricts to wins < 50
+query.whereKey("wins", lessThan: 50)
+// Or with NSPredicate
+let predicate = NSPredicate(format: "wins < 50")
+let query = PFQuery(className: "GameScore", predicate: predicate)
+
+// Restricts to wins <= 50
+query.whereKey("wins", lessThanOrEqualTo: 50)
+// Or with NSPredicate
+let predicate = NSPredicate(format: "wins <= 50")
+let query = PFQuery(className: "GameScore", predicate: predicate)
+
+// Restricts to wins > 50
+query.whereKey("wins", greaterThan: 50)
+// Or with NSPredicate
+let predicate = NSPredicate(format: "wins > 50")
+let query = PFQuery(className: "GameScore", predicate: predicate)
+
+// Restricts to wins >= 50
+query.whereKey("wins", greaterThanOrEqualTo: 50)
+// Or with NSPredicate
+let predicate = NSPredicate(format: "wins >= 50")
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 If you want to retrieve objects matching several different values, you can use `whereKey:containedIn:`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
@@ -256,8 +293,15 @@ NSPredicate *pred = [NSPredicate predicateWithFormat: @"playerName IN %@", names
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Finds scores from any of Jonathan, Dario, or Shawn
+// Using PFQuery
+let names = ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]
+query.whereKey("playerName", containedIn: names)
+
+// Using NSPredicate
+let names = ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]
+let pred = NSPredicate(format: "playerName IN %@", names)
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 If you want to retrieve objects that do not match any of several values you can use `whereKey:notContainedIn:`, providing an array of acceptable values. For example, if you want to retrieve scores from players besides those in a list:
@@ -274,8 +318,15 @@ NSPredicate *pred = [NSPredicate predicateWithFormat: @"NOT (playerName IN %@)",
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:pred];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
+// Using PFQuery
+let names = ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]
+query.whereKey("playerName", notContainedIn: names)
+
+// Using NSPredicate
+let names = ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]
+let pred = NSPredicate(format: "NOT (playerName IN %@)", names)
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 If you want to retrieve objects that have a particular key set, you can use `whereKeyExists`. Conversely, if you want to retrieve objects without a particular key set, you can use `whereKeyDoesNotExist`.
@@ -294,8 +345,17 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (score IN SELF)"
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Finds objects that have the score set
+query.whereKeyExists("score")
+// Or using NSPredicate
+let predicate = NSPredicate(format: "score IN SELF")
+let query = PFQuery(className: "GameScore", predicate: predicate)
+
+// Finds objects that don't have the score set
+query.whereKeyDoesNotExist("score")
+// Or using NSPredicate
+let predicate = NSPredicate(format: "NOT (score IN SELF)")
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 You can use the `whereKey:matchesKey:inQuery:` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
@@ -390,8 +450,13 @@ NSPredicate *predicate = [NSPredicate predicateWithFormat:@"2 IN arrayKey"];
 PFQuery *query = [PFQuery queryWithClassName:@"MyClass" predicate:predicate];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Find objects where the array in arrayKey contains 2.
+// Using PFQuery
+query.whereKey("arrayKey", equalTo: 2)
+
+// Or using NSPredicate
+let predicate = NSPredicate(format: "2 IN arrayKey")
+let query = PFQuery(className: "MyClass", predicate: predicate)
 ```
 
 You can also find objects where the key's array value contains each of the values 2, 3, and 4 with the following:
@@ -422,8 +487,14 @@ NSPredicate *pred = [NSPredicate predicateWithFormat:@"name BEGINSWITH 'Big Dadd
 PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce" predicate:pred];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Finds barbecue sauces that start with "Big Daddy".
+// Using PFQuery
+let query = PFQuery("BarbecueSauce")
+query.whereKey("name", hasPrefix: "Big Daddy's")
+
+// Using NSPredicate
+let pred = NSPredicate(format: "name BEGINSWITH 'Big Daddy")
+let query = PFQuery(className: "BarbecueSauce", predicate: predicate)
 ```
 
 <div class='tip info'><div>
@@ -453,8 +524,23 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
 }];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Assume PFObject *myPost was previously created.
+// Using PFQuery
+let query = PFQuery(className: "Comment")
+query.whereKey("post", equalTo: myPost)
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
+    // comments now contains the comments for myPost
+}
+
+// Using NSPredicate
+let predicate = NSPredicate(format: "post = %@", myPost)
+let query = PFQuery(className: "Comment", predicate: predicate)
+
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
+    // comments now contains the comments for myPost
+}
 ```
 
 You can also do relational queries by `objectId`:
@@ -468,8 +554,11 @@ You can also do relational queries by `objectId`:
     [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"]];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Using PFQuery
+query.whereKey("post", equalTo: PFObject(withoutDataWithClassName: "Post", objectId: "1zEcyElZ80"))
+
+// Using NSPredicate
+NSPredicate(format: "post = %@", PFObject(withoutDataWithClassName: "Post", objectId: "1zEcyElZ80"))
 ```
 
 If you want to retrieve objects where a field contains a `%{ParseObject}` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
@@ -496,8 +585,27 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
 }];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Using PFQuery
+let innerQuery = PFQuery(className: "Post")
+innerQuery.whereKeyExists("image")
+let query = PFQuery(className: "Comment")
+query.whereKey("post", matchesQuery: innerQuery)
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
+    // comments now contains the comments for posts with images
+}
+
+// Using NSPredicate
+let innerPred = NSPredicate(format: "image IN SELF")
+let innerQuery = PFQuery(className: "Post", predicate: innerPred)
+
+let pred = NSPredicate(format: "post IN %@", innerQuery)
+let query = PFQuery(className: "Comment", predicate: pred)
+
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
+    // comments now contains the comments for posts with images
+}
 ```
 
 If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
@@ -524,8 +632,27 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:pred];
 }];
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+// Using PFQuery
+let innerQuery = PFQuery(className: "Post")
+innerQuery.whereKeyExists("image")
+let query = PFQuery(className: "Comment")
+query.whereKey("post", doesNotMatchQuery: innerQuery)
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
+    // comments now contains the comments for posts with images
+}
+
+// Using NSPredicate
+let innerPred = NSPredicate(format: "image IN SELF")
+let innerQuery = PFQuery(className: "Post", predicate: innerPred)
+
+let pred = NSPredicate(format: "NOT (post IN %@)", innerQuery)
+let query = PFQuery(className: "Comment", predicate: pred)
+
+query.findObjectsInBackgroundWithBlock {
+    (comments: [AnyObject]?, error: NSError?) -> Void in
+    // comments now contains the comments for posts with images
+}
 ```
 
 In some situations, you want to return multiple types of related objects in one query. You can do this with the `includeKey:` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
