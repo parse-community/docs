@@ -1,0 +1,84 @@
+# Error Codes
+
+The following is a comprehensive list of all the error codes that can be returned by the Parse API.
+
+| Name                             | Code | Description                                                   |
+|----------------------------------|------|---------------------------------------------------------------|
+| `OtherCause`	                   |   -1 | An unknown error or an error unrelated to Parse occurred.     |
+| `InternalServerError`	           |    1 | Internal server error. No information available.              |
+| `ConnectionFailed`	             |  100 | The connection to the Parse servers failed.                   |
+| `ObjectNotFound`	               |  101 | The specified object doesn't exist.                           |
+| `InvalidQuery`	                 |  102 | You tried to find values matching a datatype that doesn't support exact database matching, like an array or a dictionary. |
+| `InvalidClassName`               |  103 | Missing or invalid classname. Classnames are case-sensitive. They must start with a letter, and a-zA-Z0-9_ are the only valid characters. |
+| `MissingObjectId`	               |  104 | An unspecified object id. |
+| `InvalidKeyName`	               |  105 | An invalid key name. Keys are case-sensitive. They must start with a letter, and a-zA-Z0-9_ are the only valid characters. |
+| `InvalidPointer`	               |  106 | A malformed pointer. You should not see this unless you have been mucking about changing internal Parse code. |
+| `InvalidJSON`                    |  107 | Badly formed JSON was received upstream. This either indicates you have done something unusual with modifying how things encode to JSON, or the network is failing badly. |
+| `CommandUnavailable`	           |  108 | The feature you tried to access is only available internally for testing purposes. |
+| `NotInitialized`	               |  109 | You must call Parse.initialize before using the Parse library. Check the Quick Start guide for your platform. |
+| `IncorrectType`	                 |  111 | A field was set to an inconsistent type. |
+| `InvalidChannelName`	           |  112 | Invalid channel name. A channel name is either an empty string (the broadcast channel) or contains only a-zA-Z0-9_ characters and starts with a letter. |
+| `InvalidSubscriptionType`	       |  113 | Bad subscription type. |
+| `InvalidDeviceToken`	           |  114 | The provided device token is invalid. |
+| `PushMisconfigured`	             |  115 | Push is misconfigured in your app. See error details to find out how. |
+| `ObjectTooLarge`	               |  116 | The object is too large. %{ParseObject}s have a max size of 128 kilobytes. |
+| `InvalidLimitError`	             |  117 | An invalid value was set for the limit. A limit must be a non-negative integer. |
+| `InvalidSkipError`	             |  118 | An invalid value was set for skip. |
+| `OperationForbidden`	           |  119 | The operation isn't allowed for clients. |
+| `CacheMiss`	                     |  120 | The result was not found in the cache. |
+| `InvalidNestedKey`	             |  121 | An invalid key was used in a nested JSONObject. |
+| `InvalidFileName`	               |  122 | An invalid filename was used for %{ParseFile}. A valid file name contains only a-zA-Z0-9_. characters and is between 1 and 128 characters. |
+| `InvalidACL`	                   |  123 | An invalid ACL was provided. |
+| `Timeout`	                       |  124 | The request timed out on the server. Typically this indicates that the request is too expensive to run. |
+| `InvalidEmailAddress`	           |  125 | The email address was invalid. |
+| `MissingContentType`	           |  126 | Missing content type. |
+| `MissingContentLength`	         |  127 | Missing content length. |
+| `InvalidContentLength`	         |  128 | Invalid content length. |
+| `FileTooLarge`	                 |  129 | File that was too large. Files are limited to 10 MB. |
+| `FileSaveError`	                 |  130 | Error saving a file. |
+| `FileDeleteError`	               |  131 | File could not be deleted. |
+| `InvalidInstallationIdError`	   |  132 | Invalid installation id. |
+| `InvalidDeviceTypeError`         |  133 | Invalid device type. |
+| `InvalidChannelsArrayError`	     |  134 | Invalid channels array value. |
+| `MissingRequiredFieldError`	     |  135 | Required field is missing. |
+| `ChangedImmutableFieldError`	   |  136 | An immutable field was changed. |
+| `DuplicateValue`	               |  137 | Unique field was given a value that is already taken. |
+| `InvalidExpirationError`	       |  138 | Invalid expiration value. |
+| `InvalidRoleName`	               |  139 | Role's name is invalid. |
+| `ExceededQuota`	                 |  140 | An application quota was exceeded. Upgrade to resolve. |
+| `ScriptFailed`	                 |  141 | Cloud Code script failed. Usually points to a JavaScript error in your script. |
+| `ValidationFailed`	             |  142 | Cloud Code validation failed. |
+| `ReceiptMissing`	               |  143 | Product purchase receipt is missing. |
+| `InvalidPurchaseReceipt`	       |  144 | Product purchase receipt is invalid. |
+| `PaymentDisabled`                |  145 | Payment is disabled on this device. |
+| `InvalidProductIdentifier`       |  146 | The product identifier is invalid. |
+| `ProductNotFoundInAppStore`	     |  147 | The product is not found in the App Store. |
+| `InvalidServerResponse`	         |  148 | The Apple server response is not valid. |
+| `ProductDownloadFilesystemError` |  149 | The product fails to download due to file system error. |
+| `InvalidImageData`	             |  150 | Invalid image data. |
+| `UnsavedFileError`	             |  151 | An unsaved file. |
+| `InvalidPushTimeError`	         |  152 | An invalid push time. |
+| `FileDeleteFailed`	             |  153 | A file deletion failed. |
+| `InefficientQueryError`	         |  154 | An inefficient query was rejected by the server. |
+| `RequestLimitExceeded`	         |  155 | An application has exceeded its request limit. Upgrade to resolve. |
+| `MissingPushIdError`	           |  156 | A push id is missing. |
+| `MissingDeviceTypeError`         |  157 | The device type field is missing. |
+| `TemporaryRejectionError`	       |  159 | An application's requests are temporary rejected by the server. [File a bug report](/help#report) for further instructions. |
+| `InvalidEventName`	             |  160 | The provided event name is invalid. |
+| `UsernameMissing`	               |  200 | The username is missing or empty. |
+| `PasswordMissing`           	   |  201 | The password is missing or empty. |
+| `UsernameTaken`             	   |  202 | The username has already been taken. |
+| `UserEmailTaken`	               |  203 | Email has already been taken. |
+| `UserEmailMissing`           	   |  204 | The email is missing, and must be specified. |
+| `UserWithEmailNotFound`          |  205 | A user with the specified email was not found. |
+| `SessionMissing`	               |  206 | A user object without a valid session could not be altered. |
+| `MustCreateUserThroughSignup`    |  207 | A user can only be created through signup. |
+| `AccountAlreadyLinked`	         |  208 | An account being linked is already linked to another user. |
+| `InvalidSessionToken`	           |  209 | The device's session token is no longer valid.  The developer should ask the user to log in again. |
+| `LinkedIdMissing`	               |  250 | A user cannot be linked to an account because that account's id could not be found. |
+| `InvalidLinkedSession`	         |  251 | A user with a linked (e.g. Facebook or Twitter) account has an invalid session. |
+| `UnsupportedService`	           |  252 | A service being linked (e.g. Facebook or Twitter) is unsupported. |
+| `InvalidAuthDataError`	         |  253 | An invalid authData value was passed. It must be a Hash, not String. |
+| `AggregateError`                 |  600 | There were multiple errors. Aggregate errors have an "errors" property, which is an array of error objects with more detail about each error that occurred. |
+| `XDomainRequest`                 |      | A real error code is unavailable because we had to use an XDomainRequest object to allow CORS requests in Internet Explorer, which strips the body from HTTP responses that have a non-2XX status code. |
+| `Unauthorized`	                 |      | Unauthorized request. Are you missing an authentication header? |

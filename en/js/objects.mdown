@@ -148,7 +148,7 @@ var updatedAt = gameScore.updatedAt;
 var createdAt = gameScore.createdAt;
 ```
 
-If you need to refresh an object you already have with the latest data that 
+If you need to refresh an object you already have with the latest data that
     is in the Parse Cloud, you can call the `fetch` method like so:
 
 ```js
@@ -383,4 +383,4 @@ bigObject.save();
 
 `Parse.Object`s should not exceed 128 kilobytes in size.
 
-For more information about how Parse handles data, check out our documentation on [Data & Security](/docs/data).
+For more information about how Parse handles data, check out our documentation on [Data](#data).

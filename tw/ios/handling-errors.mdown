@@ -57,7 +57,7 @@ PFUser *user = [PFUser user];
 }
 ```
 
-回呼預期 `NSNumber` 時，它的 `boolValue` 會告訴您運算是否成功。例如，這是您可能會在 `PFObject` 的 `saveInBackgroundWithTarget:selector:` 方法上實作回呼的方式：
+回呼預期 `NSNumber` 時，它的 `boolValue` 會告訴您運算是否成功。例如，這是您可能會在 `%{ParseObject}` 的 `saveInBackgroundWithTarget:selector:` 方法上實作回呼的方式：
 
 ```objc
 - (void)callbackForSave:(NSNumber *)result error:(NSError *)error {

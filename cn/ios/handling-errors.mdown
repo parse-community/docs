@@ -57,7 +57,7 @@ PFUser *user = [PFUser user];
 }
 ```
 
-如果回调在等待 `NSNumber`，其 `boolValue` 将告诉您操作成功与否。例如，您可以通过这种方式回调 `PFObject` 的 `saveInBackgroundWithTarget:selector:` 方法：
+如果回调在等待 `NSNumber`，其 `boolValue` 将告诉您操作成功与否。例如，您可以通过这种方式回调 `%{ParseObject}` 的 `saveInBackgroundWithTarget:selector:` 方法：
 
 ```objc
 - (void)callbackForSave:(NSNumber *)result error:(NSError *)error {

@@ -2,9 +2,9 @@
 
 ## PFObject
 
-Parse 上的数据储存建立在 `PFObject` 的基础上。每个 `PFObject` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `PFObject` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
+Parse 上的数据储存建立在 `%{ParseObject}` 的基础上。每个 `%{ParseObject}` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `%{ParseObject}` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
 
-例如，假设您要跟踪游戏的高分。单个 `PFObject` 可能包括：
+例如，假设您要跟踪游戏的高分。单个 `%{ParseObject}` 可能包括：
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 键值必须是字母数字字符串。键值可以是字符串、数字、布尔值或设置是数组和字典 － 只要是能用 JSON 编码的任何内容。
 
-每个 `PFObject` 均有可供您用以区分不同数据种类的类名。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
+每个 `%{ParseObject}` 均有可供您用以区分不同数据种类的类名。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
 
 ## 保存对象
 
@@ -35,13 +35,13 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 这里要注意两点。在运行这个代码前，您不需要配置或创建名称为 `GameScore` 的新类别。您的 Parse 应用在第一次遇到这个类别时会为您创建该类别。
 
-还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在 Parse 云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`PFObject` 上才会存在这些字段。
+还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在 Parse 云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`%{ParseObject}` 上才会存在这些字段。
 
 注意：您可以用 `saveInBackgroundWithBlock` 或 `saveInBackgroundWithTarget:selector:` 方法指定保存完成后运行的额外任务。
 
 ## 对象检索
 
-将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `PFQuery` 检索整个 `PFObject`。这是一种异步方法，它还有可以使用代码块或回调方法的变体：
+将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `PFQuery` 检索整个 `%{ParseObject}`。这是一种异步方法，它还有可以使用代码块或回调方法的变体：
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -54,7 +54,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // inside the completion block above.
 ```
 
-若要从 `PFObject` 获取值，您可以使用 `objectForKey:` 方法或通过 `[]` 访问下标：
+若要从 `%{ParseObject}` 获取值，您可以使用 `objectForKey:` 方法或通过 `[]` 访问下标：
 
 ```objc
 int score = [[gameScore objectForKey:@"score"] intValue];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## 对象更新
 
-进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `PFQuery` 检索 `PFObject` 和更新其数据：
+进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `PFQuery` 检索 `%{ParseObject}` 和更新其数据：
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -158,7 +158,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 ## 关系数据
 
-一些对象可能与另外一些对象有一定的关系。要为此建模，可将任意 `PFObject` 用作其他 `PFObject` 中的值。在内部，Parse 框架只将提及的对象仅存储于一个位置，以便保持一致性。
+一些对象可能与另外一些对象有一定的关系。要为此建模，可将任意 `%{ParseObject}` 用作其他 `%{ParseObject}` 中的值。在内部，Parse 框架只将提及的对象仅存储于一个位置，以便保持一致性。
 
 <div class='tip info'><div>
 观看[一对多关系](/tutorials/one-to-many-relationships)教程，了解如何在简单的博客应用程序中的两个 `PFObjects` 之间创建一对多关系。
@@ -190,7 +190,7 @@ myComment[@"parent"] = myPost;
 myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"];
 ```
 
-默认在提取对象时不提取相关的 `PFObject`。这些对象的值在按如下方式提取之前无法检索：
+默认在提取对象时不提取相关的 `%{ParseObject}`。这些对象的值在按如下方式提取之前无法检索：
 
 ```objc
 PFObject *post = fetchedComment[@"parent"];
@@ -198,7 +198,7 @@ PFObject *post = fetchedComment[@"parent"];
     NSString *title = post[@"title"]; }];
 ```
 
-您还可以使用 `PFRelation` 对象建立多对多关系模型。其机理与 `PFObjects` 的 `NSArray` 类似，但您不必一次性下载关系中的所有对象。因此 `PFRelation` 可以扩展到比 `PFObject` 方法的 `NSArray` 多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `relationForKey:` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
+您还可以使用 `PFRelation` 对象建立多对多关系模型。其机理与 `PFObjects` 的 `NSArray` 类似，但您不必一次性下载关系中的所有对象。因此 `PFRelation` 可以扩展到比 `%{ParseObject}` 方法的 `NSArray` 多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `relationForKey:` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -232,13 +232,13 @@ PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-若要了解有关 `PFQuery` 的更多详细信息，请查看本指南的查询部分。`PFRelation` 的工作方式类似于 `PFObject` 的 `NSArray`，因此您能对对象组进行的任何查询（不含 `includeKey:`）均可对 `PFRelation` 执行。
+若要了解有关 `PFQuery` 的更多详细信息，请查看本指南的查询部分。`PFRelation` 的工作方式类似于 `%{ParseObject}` 的 `NSArray`，因此您能对对象组进行的任何查询（不含 `includeKey:`）均可对 `PFRelation` 执行。
 
 ## 数据类型
 
-目前，我们使用的数值类型有 `NSString`、`NSNumber` 和 `PFObject`。Parse 还支持 `NSDate`、`NSData` 和 `NSNull`。
+目前，我们使用的数值类型有 `NSString`、`NSNumber` 和 `%{ParseObject}`。Parse 还支持 `NSDate`、`NSData` 和 `NSNull`。
 
-您可以嵌套 `NSDictionary` 和 `NSArray` 对象，以在单一 `PFObject` 中存储更多结构数据。
+您可以嵌套 `NSDictionary` 和 `NSArray` 对象，以在单一 `%{ParseObject}` 中存储更多结构数据。
 
 一些示例：
 
@@ -263,13 +263,13 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-我们不建议通过在 `PFObject` 中使用 `NSData` 字段来存储图像或文档等大型二进制数据。`PFObject` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `PFFile`。更多详细信息请参考[指南部分](#files)。
+我们不建议通过在 `%{ParseObject}` 中使用 `NSData` 字段来存储图像或文档等大型二进制数据。`%{ParseObject}` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `PFFile`。更多详细信息请参考[指南部分](#files)。
 
-若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](/docs/data)部分的文档。
+若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](#data)部分的文档。
 
 ## 子类
 
-Parse 的设计能让您尽快上手并开始使用。您可以使用 `PFObject` 类访问所有数据，以及通过 `objectForKey:` 或 `[]` 下标索引访问任何字段。在成熟的代码库中，子类具有许多优势，包括简洁性、可扩展性和支持自动完成。子类化纯属可选操作，但它会将以下代码：
+Parse 的设计能让您尽快上手并开始使用。您可以使用 `%{ParseObject}` 类访问所有数据，以及通过 `objectForKey:` 或 `[]` 下标索引访问任何字段。在成熟的代码库中，子类具有许多优势，包括简洁性、可扩展性和支持自动完成。子类化纯属可选操作，但它会将以下代码：
 
 ```objc
 PFObject *shield = [PFObject objectWithClassName:@"Armor"];
@@ -289,13 +289,13 @@ shield.rupees = 50;
 
 ### PFObject 子类化
 
-要创建 `PFObject` 子类：
+要创建 `%{ParseObject}` 子类：
 
 1.  声明符合 `PFSubclassing` 协议的子类。
 2.  执行子类方法 `parseClassName`。您可以将该字符串传送至 `initWithClassName:`，这样后续就不必进行类名引用。
 3.  将 `PFObject+Subclass` 导入您的 .m 文件。该操作可以实施 `parseClassName` 以外的 `PFSubclassing` 中的所有方法。
 4.  在您的 ApplicationDelegate 中调用 `[YourClass registerSubclass]`，然后调用 Parse `setApplicationId:clientKey:`。
-下面的代码成功地声明、实现和注册了 `PFObject` 的 `Armor` 子类：
+下面的代码成功地声明、实现和注册了 `%{ParseObject}` 的 `Armor` 子类：
 
 ```objc
 // Armor.h
@@ -321,9 +321,9 @@ shield.rupees = 50;
 
 ### 属性和方法
 
-向 `PFObject` 子类添加自定义属性和方法有助于封装关于类的逻辑。借助 `PFSubclassing`，您可以将主题的所有相关逻辑保存在一个位置，而不必分别针对事务逻辑和存储/传输逻辑使用单独的类。
+向 `%{ParseObject}` 子类添加自定义属性和方法有助于封装关于类的逻辑。借助 `PFSubclassing`，您可以将主题的所有相关逻辑保存在一个位置，而不必分别针对事务逻辑和存储/传输逻辑使用单独的类。
 
-`PFObject` 支持动态合成器，这一点与 `NSManagedObject` 类似。像平常一样声明一个属性，但是在您的 .m 文件中使用 `@dynamic` 而不用 `@synthesize`。下面的示例在 `Armor` 类中创建了 `displayName` 属性：
+`%{ParseObject}` 支持动态合成器，这一点与 `NSManagedObject` 类似。像平常一样声明一个属性，但是在您的 .m 文件中使用 `@dynamic` 而不用 `@synthesize`。下面的示例在 `Armor` 类中创建了 `displayName` 属性：
 
 ```objc
 // Armor.h

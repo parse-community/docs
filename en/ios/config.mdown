@@ -98,7 +98,7 @@ if date == nil ||
 
 ## Parameters
 
-`PFConfig`  supports most of the data types supported by `PFObject`:
+`PFConfig`  supports most of the data types supported by `%{ParseObject}`:
 
 *   NSString
 *   NSNumber

@@ -12,7 +12,7 @@ If you want to start using push, start by completing the [iOS Push tutorial](/tu
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-In iOS, `Installation` objects are available through the `PFInstallation` class, a subclass of `PFObject`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `PFInstallation`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
+In iOS, `Installation` objects are available through the `%{ParseInstallation}` class, a subclass of `%{ParseObject}`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `%{ParseInstallation}`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
 
 First, make your app register for remote notifications by adding the following in your `application:didFinishLaunchingWithOptions:` method (if you haven't already):
 
@@ -30,28 +30,28 @@ application.registerUserNotificationSettings(settings)
 application.registerForRemoteNotifications()
 ```
 
-We will then update our `PFInstallation` with the `deviceToken` once the device is registered for push notifications:
+We will then update our `%{ParseInstallation}` with the `deviceToken` once the device is registered for push notifications:
 
 ```objc
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-	// Store the deviceToken in the current Installation and save it to Parse
-	PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-	[currentInstallation setDeviceTokenFromData:deviceToken];
-	[currentInstallation saveInBackground];
+  // Store the deviceToken in the current Installation and save it to Parse
+  PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+  [currentInstallation setDeviceTokenFromData:deviceToken];
+  [currentInstallation saveInBackground];
 }
 ```
 ```swift
 func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-	// Store the deviceToken in the current Installation and save it to Parse
-	let installation = PFInstallation.currentInstallation()
-	installation.setDeviceTokenFromData(deviceToken)
-	installation.saveInBackground()
+  // Store the deviceToken in the current Installation and save it to Parse
+  let installation = PFInstallation.currentInstallation()
+  installation.setDeviceTokenFromData(deviceToken)
+  installation.saveInBackground()
 }
 ```
 
-While it is possible to modify a `PFInstallation` just like you would a `PFObject`, there are several special fields that help manage and target devices.
+While it is possible to modify a `%{ParseInstallation}` just like you would a `%{ParseObject}`, there are several special fields that help manage and target devices.
 
-*   **`badge`**: The current value of the icon badge for iOS apps. Changing this value on the `PFInstallation` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
+*   **`badge`**: The current value of the icon badge for iOS apps. Changing this value on the `%{ParseInstallation}` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
 *   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time an `Installation` object is saved from the device _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet"_(readonly)_.
@@ -84,7 +84,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 A channel is identified by a string that starts with a letter and consists of alphanumeric characters, underscores, and dashes. It doesn't need to be explicitly created before it can be used and each `Installation` can subscribe to any number of channels at a time.
 
-Adding a channel subscription can be done using the `addUniqueObject:` method in `PFObject`. For example, in a baseball score app, we could do:
+Adding a channel subscription can be done using the `addUniqueObject:` method in `%{ParseObject}`. For example, in a baseball score app, we could do:
 
 ```objc
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -173,7 +173,7 @@ push.sendPushInBackground()
 
 While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
-Since `PFInstallation` is a subclass of `PFObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
+Since `%{ParseInstallation}` is a subclass of `%{ParseObject}`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
@@ -196,7 +196,7 @@ installation["injuryReports"] = true
 installation.saveInBackground()
 ```
 
-You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the `PFInstallation`.
+You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the `%{ParseInstallation}`.
 
 ```objc
 // Associate the device with a user
@@ -392,7 +392,8 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 There is however a caveat with this method. Since device clocks are not guaranteed to be accurate, you may end up with inaccurate results. For this reason, the `PFPush` class also provides the `expireAfterTimeInterval:` method which accepts an `NSTimeInterval` object. The notification will expire after the specified interval has elapsed.
@@ -409,7 +410,8 @@ PFPush *push = [[PFPush alloc] init];
 [push sendPushInBackground];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ### Targeting by Platform
@@ -452,7 +454,8 @@ PFPush *winPush = [[PFPush alloc] init];
 [wpPush sendPushInBackground];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 ## Scheduling Pushes
@@ -501,12 +504,36 @@ When an app is opened from a notification, the data is made available in the `ap
   PFObject *targetPhoto = [PFObject objectWithoutDataWithClassName:@"Photo"   objectId:photoId];
 
   // Fetch photo object
-  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) { // Show photo view controller if (!error && [PFUser currentUser]) {   PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];   [self.navController pushViewController:viewController animated:YES]; }
+  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // Show photo view controller
+    if (!error) {
+      PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];
+      [self.navController pushViewController:viewController animated:YES];
+    }
   }];
 }
 ```
 ```swift
-// no swift example
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+  . . .
+  // Extract the notification data
+  if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary {
+
+      // Create a pointer to the Photo object
+      let photoId = notificationPayload["p"] as? NSString
+      let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: "xWMyZ4YEGZ")
+
+      // Fetch photo object
+      targetPhoto.fetchIfNeededInBackgroundWithBlock {
+        (object: PFObject?, error:NSError?) -> Void in
+          if error == nil {
+              // Show photo view controller
+              let viewController = PhotoVC(photo: object);
+              self.navController.pushViewController(viewController, animated: true);
+          }
+      }
+  }
+}
 ```
 
 If your app is already running when the notification is received, the data is made available in the `application:didReceiveRemoteNotification:fetchCompletionHandler:` method through the `userInfo` dictionary.
@@ -519,13 +546,36 @@ If your app is already running when the notification is received, the data is ma
   PFObject *targetPhoto = [PFObject objectWithoutDataWithClassName:@"Photo"   objectId:photoId];
 
   // Fetch photo object
-  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) { // Show photo view controller if (error) {   handler(UIBackgroundFetchResultFailed); } else if ([PFUser currentUser]) {   PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];   [self.navController pushViewController:viewController animated:YES];   handler(UIBackgroundFetchResultNewData); } else {   handler(UIBackgroundModeNoData); }
+  [targetPhoto fetchIfNeededInBackgroundWithBlock:^(PFObject *object, NSError *error) {
+    // Show photo view controller
+    if (error) {
+      handler(UIBackgroundFetchResultFailed);
+    } else if ([PFUser currentUser]) {
+      PhotoVC *viewController = [[PhotoVC alloc] initWithPhoto:object];
+      [self.navController pushViewController:viewController animated:YES];
+      handler(UIBackgroundFetchResultNewData);
+    } else {
+      handler(UIBackgroundModeNoData);
+    }
   }];
 }
 ```
 ```swift
 func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-  if let photoId: String = userInfo["p"] as? String { let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: photoId) targetPhoto.fetchIfNeededInBackgroundWithBlock({ (object: PFObject!, error: NSError!) -> Void in   // Show photo view controller   if error != nil { completionHandler(UIBackgroundFetchResult.Failed)   } else if PFUser.currentUser() != nil { let viewController = PhotoVC(withPhoto: object) self.navController.pushViewController(viewController, animated: true) completionHandler(UIBackgroundFetchResult.NewData)   } else { completionHandler(UIBackgroundFetchResult.NoData)   } })
+  if let photoId: String = userInfo["p"] as? String {
+    let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: photoId)
+    targetPhoto.fetchIfNeededInBackgroundWithBlock { (object: PFObject?, error: NSError?) -> Void in
+      // Show photo view controller
+      if error != nil {
+        completionHandler(UIBackgroundFetchResult.Failed)
+      } else if PFUser.currentUser() != nil {
+        let viewController = PhotoVC(withPhoto: object)
+        self.navController.pushViewController(viewController, animated: true)
+        completionHandler(UIBackgroundFetchResult.NewData)
+      } else {
+        completionHandler(UIBackgroundFetchResult.NoData)
+      }
+    }
   }
   handler(UIBackgroundFetchResult.NoData)
 }
@@ -551,7 +601,7 @@ if (application.applicationState != UIApplicationStateBackground) {
   BOOL oldPushHandlerOnly = ![self respondsToSelector:@selector(application:didReceiveRemoteNotification:fetchCompletionHandler:)];
   BOOL noPushPayload = ![launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
   if (preBackgroundPush || oldPushHandlerOnly || noPushPayload) {
-  	[PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
   }
 }
 ```
@@ -564,7 +614,7 @@ if application.applicationState != UIApplicationState.Background {
   let oldPushHandlerOnly = !self.respondsToSelector(Selector("application:didReceiveRemoteNotification:fetchCompletionHandler:"))
   let noPushPayload: AnyObject? = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey]?
   if oldPushHandlerOnly || noPushPayload != nil {
-  	PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
+    PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
   }
 }
 ```
@@ -573,28 +623,31 @@ Second, if your application is running or backgrounded, the `application:didRece
 
 ```objc
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	if (application.applicationState == UIApplicationStateInactive) {
-		// The application was just brought from the background to the foreground,
-		// so we consider the app as having been "opened by a push notification."
-		[PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
-	}
+  if (application.applicationState == UIApplicationStateInactive) {
+    // The application was just brought from the background to the foreground,
+    // so we consider the app as having been "opened by a push notification."
+    [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+  }
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 Finally, if using iOS 7 any of its new push features (including the new "content-available" push functionality), be sure to also implement the iOS 7-only handler:
 
 ```objc
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-  if (application.applicationState == UIApplicationStateInactive) { [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
+  if (application.applicationState == UIApplicationStateInactive) {
+    [PFAnalytics trackAppOpenedWithRemoteNotificationPayload:userInfo];
   }
 }
 ```
 ```swift
 func application(application: UIApplication,  didReceiveRemoteNotification userInfo: [NSObject : AnyObject],  fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
-  if application.applicationState == UIApplicationState.Inactive { PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+  if application.applicationState == .Inactive {
+    PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
   }
 }
 ```
@@ -627,7 +680,9 @@ A good time to clear your app's badge is usually when your app is opened. Settin
 ```objc
 - (void)applicationDidBecomeActive:(UIApplication *)application {
   PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-  if (currentInstallation.badge != 0) { currentInstallation.badge = 0; [currentInstallation saveEventually];
+  if (currentInstallation.badge != 0) {
+    currentInstallation.badge = 0;
+    [currentInstallation saveEventually];
   }
   // ...
 }
@@ -635,7 +690,9 @@ A good time to clear your app's badge is usually when your app is opened. Settin
 ```swift
 func applicationDidBecomeActive(application: UIApplication) {
   let currentInstallation = PFInstallation.currentInstallation()
-  if currentInstallation.badge != 0 { currentInstallation.badge = 0 currentInstallation.saveEventually()
+  if currentInstallation.badge != 0 {
+    currentInstallation.badge = 0
+    currentInstallation.saveEventually()
   }
   // ...
 }
@@ -703,7 +760,7 @@ If the push notification campaign is not showing up on that list, the issue is q
 ```objc
 [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
   if (success) {
-		NSLog(@"The push campaign has been created.");
+    NSLog(@"The push campaign has been created.");
   } else if (error.code == kPFErrorPushMisconfigured) {
     NSLog(@"Could not send push. Push is misconfigured: %@", error.description);
   } else {
@@ -713,14 +770,14 @@ If the push notification campaign is not showing up on that list, the issue is q
 ```
 ```swift
 push.sendPushInBackgroundWithBlock {
-		(success: Bool , error: NSError?) -> Void in
-		if (success) {
-				println("The push campaign has been created.");
-		} else if (error!.code == 112) {
-				println("Could not send push. Push is misconfigured: \(error!.description).");
-		} else {
-				println("Error sending push: \(error!.description).");
-		}
+    (success: Bool , error: NSError?) -> Void in
+    if (success) {
+        println("The push campaign has been created.");
+    } else if (error!.code == 112) {
+        println("Could not send push. Push is misconfigured: \(error!.description).");
+    } else {
+        println("Error sending push: \(error!.description).");
+    }
 }
 ```
 

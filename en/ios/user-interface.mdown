@@ -10,10 +10,10 @@ To learn more on how to install it - follow the instructions on the official [Gi
 
 ## PFLogInViewController
 
-If you are using Parse to manage users in your mobile app, you are already familiar with the `PFUser` class. At some point in your app, you might want to present a screen to log in your `PFUser`. `ParseUI` provides a view controller that does exactly this:
+If you are using Parse to manage users in your mobile app, you are already familiar with the `%{ParseUser}` class. At some point in your app, you might want to present a screen to log in your `%{ParseUser}`. `ParseUI` provides a view controller that does exactly this:
 
 <div class='tip info'><div>
-  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `PFUser`.
+  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `%{ParseUser}`.
 </div></div>
 
 You use the `PFLogInViewController` class by instantiating it and presenting it modally:
@@ -95,7 +95,7 @@ self.presentViewController(logInController, animated:true, completion:nil)
 
 ### Responding to Log In Success, Failure or Cancellation
 
-When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `PFUser`.
+When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `%{ParseUser}`.
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -270,7 +270,7 @@ Essentially, you use the bitwise or operator (`|`) to chain up all the options y
 
 ### Responding to Sign Up Success, Failure or Cancellation
 
-When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `PFUser`.
+When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `%{ParseUser}`.
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
@@ -404,7 +404,7 @@ The `PFSignUpViewController` is written to be resolution-independent, meaning it
 
 ## PFQueryTableViewController
 
-Data oriented iOS applications are mostly a collection of `UITableViewController`s and corresponding `UITableView`s. When using Parse, each cell of a `UITableView` typically represents data from a `PFObject`. `PFQueryTableViewController` is a sub-class of `UITableViewController` that provides a layer of abstraction that lets you easily display data from one of your Parse classes.
+Data oriented iOS applications are mostly a collection of `UITableViewController`s and corresponding `UITableView`s. When using Parse, each cell of a `UITableView` typically represents data from a `%{ParseObject}`. `PFQueryTableViewController` is a sub-class of `UITableViewController` that provides a layer of abstraction that lets you easily display data from one of your Parse classes.
 
 <div class='tip info'><div>
   Watch a [tutorial on using PFQueryTableViewController](/tutorials/parse-query-table) to display objects from a `Todo` class in your Parse application.
@@ -416,11 +416,11 @@ You use `PFQueryTableViewController` much like how you would use `UITableViewCon
 2.  It automatically sets itself as the delegate and datasource.
 3.  Set the `parseClassName` instance variable to specify which Parse class should be queried for data.
 4.  Override the `queryForTable` method to construct a custom `PFQuery` that should be used to get objects for the table.
-5.  Override the `tableView:cellForRowAtIndexPath:object:` method to return a custom cell tailored for each `PFObject`.
+5.  Override the `tableView:cellForRowAtIndexPath:object:` method to return a custom cell tailored for each `%{ParseObject}`.
 6.  Implement your custom cell class; makes sure it inherits from `PFTableViewCell` class.
-7.  When the view loads, the class automatically grabs the `PFObject`s via the constructed query and loads it into the table. It even includes pagination and pull-to-refresh out of the box.
+7.  When the view loads, the class automatically grabs the `%{ParseObject}`s via the constructed query and loads it into the table. It even includes pagination and pull-to-refresh out of the box.
 
-The class allows you to think about a one-to-one mapping between a `PFObject` and a `UITableViewCell`, rather than having to juggle index paths. You also get the following features out of the box:
+The class allows you to think about a one-to-one mapping between a `%{ParseObject}` and a `UITableViewCell`, rather than having to juggle index paths. You also get the following features out of the box:
 
 *   Pagination with a cell that can be tapped to load the next page.
 *   Pull-to-refresh table view header.
@@ -526,7 +526,7 @@ The default query is set to get objects from your class ordered by descending `c
 
 ### Customizing the Cells
 
-To customize the look of your table, override `tableView:cellForRowAtIndexPath:object:` to return a customized cell. Notice that this method is similar to the typical table data source method, but it includes the `PFObject` directly as a parameter.
+To customize the look of your table, override `tableView:cellForRowAtIndexPath:object:` to return a customized cell. Notice that this method is similar to the typical table data source method, but it includes the `%{ParseObject}` directly as a parameter.
 
 You should no longer override `tableView:cellForRowAtIndexPath:`.
 
@@ -606,7 +606,8 @@ Many apps need to display table view cells which contain images stored in the Pa
 @end
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFile`.

@@ -1,0 +1,155 @@
+# Promises
+
+In addition to callbacks, every asynchronous method in the Parse JavaScript SDK returns a `Promise`. With promises, your code can be much cleaner than the nested code you get with callbacks.
+
+## The `then` Method
+
+Every `Promise` has a method named `then` which takes a pair of callbacks. The first callback is called if the promise is _resolved_, while the second is called if the promise is _rejected_.
+
+```js
+obj.save().then(function(obj) {
+  // the object was saved successfully.
+}, function(error) {
+  // the save failed.
+});
+```
+
+## Chaining Promises Together
+Promises are a little bit magical, in that they let you chain them without nesting. If a callback for a promise returns a new promise, then the first one will not be resolved until the second one is. This lets you perform multiple actions without incurring the pyramid code you would get with callbacks.
+
+```js
+var query = new Parse.Query("Student");
+query.descending("gpa");
+query.find().then(function(students) {
+  students[0].set("valedictorian", true);
+  return students[0].save();
+
+}).then(function(valedictorian) {
+  return query.find();
+
+}).then(function(students) {
+  students[1].set("salutatorian", true);
+  return students[1].save();
+
+}).then(function(salutatorian) {
+  // Everything is done!
+
+});
+```
+
+## Error Handling
+
+If any Promise in a chain returns an error, all of the success callbacks after it will be skipped until an error callback is encountered. The error callback can transform the error, or it can handle it by returning a new Promise that isn't rejected. You can think of rejected promises kind of like throwing an exception. An error callback is like a catch block that can handle the error or rethrow it.
+
+```js
+var query = new Parse.Query("Student");
+query.descending("gpa");
+query.find().then(function(students) {
+  students[0].set("valedictorian", true);
+  // Force this callback to fail.
+  return Parse.Promise.error("There was an error.");
+
+}).then(function(valedictorian) {
+  // Now this will be skipped.
+  return query.find();
+
+}).then(function(students) {
+  // This will also be skipped.
+  students[1].set("salutatorian", true);
+  return students[1].save();
+}, function(error) {
+  // This error handler WILL be called. error will be "There was an error.".
+  // Let's handle the error by returning a new promise.
+  return Parse.Promise.as("Hello!");
+
+}).then(function(hello) {
+  // Everything is done!
+}, function(error) {
+  // This isn't called because the error was already handled.
+});
+```
+
+It's often convenient to have a long chain of success callbacks with only one error handler at the end.
+
+## Creating Promises
+When you're getting started, you can just use the promises returned from methods like `find` or `save`. However, for more advanced scenarios, you may want to make your own promises. After you create a `Promise`, you'll need to call `resolve` or `reject` to trigger its callbacks.
+
+```js
+var successful = new Parse.Promise();
+successful.resolve("The good result.");
+
+var failed = new Parse.Promise();
+failed.reject("An error message.");
+```
+
+If you know the result of a promise at the time it is created, there are some convenience methods you can use.
+
+```js
+var successful = Parse.Promise.as("The good result.");
+
+var failed = Parse.Promise.error("An error message.");
+```
+
+## Promises in Series
+
+Promises are convenient when you want to do a series of tasks in a row, each one waiting for the previous to finish. For example, imagine you want to delete all of the comments on your blog.
+
+```js
+var query = new Parse.Query("Comments");
+query.equalTo("post", 123);
+
+query.find().then(function(results) {
+  // Create a trivial resolved promise as a base case.
+  var promise = Parse.Promise.as();
+  _.each(results, function(result) {
+    // For each item, extend the promise with a function to delete it.
+    promise = promise.then(function() {
+      // Return a promise that will be resolved when the delete is finished.
+      return result.destroy();
+    });
+  });
+  return promise;
+
+}).then(function() {
+  // Every comment was deleted.
+});
+```
+
+## Promises in Parallel
+You can also use promises to perform several tasks in parallel, using the `when` method. You can start multiple operations at once, and use `Parse.Promise.when` to create a new promise that will be resolved when all of its input promises is resolved. The new promise will be successful if none of the passed-in promises fail; otherwise, it will fail with the last error. Performing operations in parallel will be faster than doing them serially, but may consume more system resources and bandwidth.
+
+```js
+var query = new Parse.Query("Comments");
+query.equalTo("post", 123);
+
+query.find().then(function(results) {
+  // Collect one promise for each delete into an array.
+  var promises = [];
+  _.each(results, function(result) {
+    // Start this delete immediately and add its promise to the list.
+    promises.push(result.destroy());
+  });
+  // Return a new promise that is resolved when all of the deletes are finished.
+  return Parse.Promise.when(promises);
+
+}).then(function() {
+  // Every comment was deleted.
+});
+```
+
+## Creating Async Methods
+With these tools, it's easy to make your own asynchronous functions that return promises. For example, you can make a promisified version of `setTimeout`.
+
+```js
+var delay = function(millis) {
+  var promise = new Parse.Promise();
+  setTimeout(function() {
+    promise.resolve();
+  }, millis);
+  return promise;
+};
+
+delay(100).then(function() {
+  // This ran after 100ms!
+});
+```

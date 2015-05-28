@@ -1,9 +1,9 @@
 # GeoPoint
 
-Parseでは、現実世界の緯度と経度座標をオブジェクトに関連付けることができます。`PFGeoPoint`を`PFObject`に追加すると、オブジェクトから参照点までの距離を考慮したクエリを実行できます。こうすることで、別の利用者に最も近い場所にいる利用者や、利用者に最も近い場所を簡単に探すことができます。
+Parseでは、現実世界の緯度と経度座標をオブジェクトに関連付けることができます。`PFGeoPoint`を`%{ParseObject}`に追加すると、オブジェクトから参照点までの距離を考慮したクエリを実行できます。こうすることで、別の利用者に最も近い場所にいる利用者や、利用者に最も近い場所を簡単に探すことができます。
 
 div class="callout_green">
-[Anywalチュートリアル](/tutorials/anywall)で実際のアプリの`PFGeoPoints`と`PFUser`を使用してみてください。基本的な利用者管理のワークフローの実装からCore LocationでのGPS位置の追跡まで、あらゆる事項を説明しています。
+[Anywalチュートリアル](/tutorials/anywall)で実際のアプリの`PFGeoPoints`と`%{ParseUser}`を使用してみてください。基本的な利用者管理のワークフローの実装からCore LocationでのGPS位置の追跡まで、あらゆる事項を説明しています。
 </div>
 
 ## PFGeoPoint

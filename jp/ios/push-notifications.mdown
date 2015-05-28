@@ -10,7 +10,7 @@
 
 プッシュ通知を登録したデバイスにインストールされている各Parseアプリケーションには、関連する`Installation`オブジェクトがあります。`Installation`オブジェクトには、プッシュ通知のターゲットを設定するのに必要なすべてのデータが格納されます。たとえば、野球のアプリの場合、利用者が興味を持っているチームを格納しておけば、チーム成績に関する更新情報をを送信できます。
 
-iOSでは、`Installation`オブジェクトは`PFObject`のサブクラスである`PFInstallation`を通じて利用することができます。データの保存と取得には[同じAPI](#objects)を使用します。iOSアプリから現在の`Installation`オブジェクトにアクセスするには、`[PFInstallation currentInstallation]`メソッドを使用します。`PFInstallation`を初めて保存する場合、それはParseでは`Installation`クラスに追加されます。`deviceToken`フィールドが設定されている限り、プッシュ通知の対象として利用できます。
+iOSでは、`Installation`オブジェクトは`%{ParseObject}`のサブクラスである`%{ParseInstallation}`を通じて利用することができます。データの保存と取得には[同じAPI](#objects)を使用します。iOSアプリから現在の`Installation`オブジェクトにアクセスするには、`[PFInstallation currentInstallation]`メソッドを使用します。`%{ParseInstallation}`を初めて保存する場合、それはParseでは`Installation`クラスに追加されます。`deviceToken`フィールドが設定されている限り、プッシュ通知の対象として利用できます。
 
 ```objc
 - (void)application:(UIApplication *)application
@@ -22,9 +22,9 @@ iOSでは、`Installation`オブジェクトは`PFObject`のサブクラスで�
 }
 ```
 
-`PFObject`を変更するように、`PFInstallation`を変更できますが、デバイスを管理したり対象にする際に役立つ特別なフィールドがいくつかあります。
+`%{ParseObject}`を変更するように、`%{ParseInstallation}`を変更できますが、デバイスを管理したり対象にする際に役立つ特別なフィールドがいくつかあります。
 
-*   **`badge`**: iOSアプリのアイコンバッジの現在の値。`PFInstallation`でこの値を変更すると、アプリアイコンのバッジ値が更新します。変更内容はサーバーに保存し、今後のバッジ増分のプッシュ通知に使用します。
+*   **`badge`**: iOSアプリのアイコンバッジの現在の値。`%{ParseInstallation}`でこの値を変更すると、アプリアイコンのバッジ値が更新します。変更内容はサーバーに保存し、今後のバッジ増分のプッシュ通知に使用します。
 *   **`channels`**: 現在、端末を登録してあるチャンネルの配列。
 *   **`timeZone`**: ターゲット端末がある現在のタイムゾーン。この値は`Installation`オブジェクトが端末から保存されるたびに同期されます（読み取り専用）。
 *   **`deviceType`**: 端末のタイプ「ios」、「android」、「winrt」、「winphone」、「dotnet」（読み取り専用）。
@@ -52,7 +52,7 @@ Parseを使用してプッシュ通知を送信する方法は[チャンネル](
 
 チャンネルは文字で始まり、英数字とアンダースコア、ダッシュで構成される文字列で識別されます。使用できるようになってから作成すればよく、各`Installation`では一度にいくつものチャンネルを登録することができます。
 
-チャンネル登録は`PFObject`で`addUniqueObject:`メソッドを使用することで追加できます。たとえば、野球スコアのアプリでは、次のようにすることができます。
+チャンネル登録は`%{ParseObject}`で`addUniqueObject:`メソッドを使用することで追加できます。たとえば、野球スコアのアプリでは、次のようにすることができます。
 
 ```objc
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -109,7 +109,7 @@ PFPush *push = [[PFPush alloc] init];
 
 多くのアプリケーションでチャンネルは大変便利ですが、プッシュの受信者のターゲットを設定する場合は、より詳細な設定が必要になることがあります。Parseでは、[APIのクエリ](#queries)を使用して`Installation`オブジェクトのサブセット用のクエリを記述し、プッシュを送信できます。
 
-`PFInstallation`は`PFObject`のサブクラスであるので、希望するファイルを保存したり、`Installation`オブジェクトとその他のオブジェクト間の関係を作成したりできます。そのため、詳細にカスタマイズした利用者ベースのセグメントや動的なセグメントにプッシュを送信できます。
+`%{ParseInstallation}`は`%{ParseObject}`のサブクラスであるので、希望するファイルを保存したり、`Installation`オブジェクトとその他のオブジェクト間の関係を作成したりできます。そのため、詳細にカスタマイズした利用者ベースのセグメントや動的なセグメントにプッシュを送信できます。
 
 #### インストールデータの保存
 
@@ -124,7 +124,7 @@ PFInstallation *installation = [PFInstallation currentInstallation];
 [installation saveInBackground];
 ```
 
-また、`Installation`オブジェクトとParseで保存されているその他のクラス間の関係を作成することもできます。たとえば、PFInstallationを特定の利用者に関連付けるには、現在の利用者を`PFInstallation`で保存するだけです。
+また、`Installation`オブジェクトとParseで保存されているその他のクラス間の関係を作成することもできます。たとえば、PFInstallationを特定の利用者に関連付けるには、現在の利用者を`%{ParseInstallation}`で保存するだけです。
 
 ```objc
 // Associate the device with a user
@@ -312,7 +312,7 @@ PFPush *winPush = [[PFPush alloc] init];
 
 ## プッシュの受信
 
-[通知のカスタマイズ](#options-data)セクションで確認したように、通知メッセージと一緒に任意のデータを送信できます。このデータを使用して、利用者が通知を開いたときのアプリの動作を変更できます。たとえば、利用者の写真にお友達がコメントした旨の通知を開く際、その写真が表示されようになります。
+[通知のカスタマイズ](#options-data)セクションで確認したように、通知メッセージと一緒に任意のデータを送信���きます。このデータを使���して、利用者が通知を開いたときのアプリの動作を変更できます。たとえば、利用者の写真にお友達がコメントした旨の通知を開く際、その写真が表示されようになります。
 
 Appleではパッケージサイズに制限を課しているため、送信するデータ量を注意して管理する必要があります。メッセージの最大サイズが縮小してしまう恐れがあるからです。このため、追加するキーや値はできる限り小さく抑えることをお勧めします。
 

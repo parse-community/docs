@@ -25,7 +25,8 @@ On the main thread, register the handlers for the products:
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 Note that this does not make the purchase, but simply registers a block to be run if a purchase is made later. This registration must be done on the main thread, preferably as soon as the app is launched, i.e. in `application:didFinishLaunchingWithOptions:`. If there are multiple products, we recommend registering all product handlers in the same method, such as `application:didFinishLaunchingWithOptions`:
 
@@ -41,7 +42,8 @@ Note that this does not make the purchase, but simply registers a block to be ru
 }
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
@@ -53,7 +55,8 @@ To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 
 The call to `buyProduct:block:` brings up a dialogue that asks users to enter their Apple credentials. When the user's identity is verified, the product will be purchased. If the product is non-consumable and has been purchased by the user before, the user will not be charged.
@@ -81,7 +84,8 @@ Many IAP products such as books and movies have associated content files that sh
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 Note that this does not make the purchase, but simply registers a block to be run if a purchase is made later. The call to `downloadAssetForTransaction:completion:` passes the receipt of the purchase to the Parse Cloud, which then verifies with Apple that the purchase was made. Once the receipt is verified, the purchased file is downloaded.
 
@@ -94,13 +98,15 @@ To make the purchase:
 }];
 ```
 ```swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
+
 The call to `buyProduct:block:` brings up a dialogue that asks users to enter their Apple credentials. When the user's identity is verified, the product will be purchased.
 
 ## Querying Product Information
 
-You can query the product objects created in the data browser using `PFProduct`. Like `PFUser` or `PFRole`, `PFProduct` is a subclass of `PFObject` that contains convenience accessors to various product-specific properties.
+You can query the product objects created in the data browser using `PFProduct`. Like `%{ParseUser}` or `PFRole`, `PFProduct` is a subclass of `%{ParseObject}` that contains convenience accessors to various product-specific properties.
 
 For example, here's a simple query to get a product:
 

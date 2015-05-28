@@ -2,9 +2,9 @@
 
 ## PFObject
 
-Parse에 데이터를 저장하면 `PFObject`를 중심으로 빌드됩니다. 각 `PFObject`에는 JSON 호환 데이터의 키-값 쌍이 포함됩니다. 이 데이터에는 스키마가 없습니다. 즉, 각 `PFObject`에 어떤 키가 있는지 미리 지정할 필요가 없습니다. 어떤 키-값 쌍이든 원하는 대로 설정하면 백엔드에서 저장합니다.
+Parse에 데이터를 저장하면 `%{ParseObject}`를 중심으로 빌드됩니다. 각 `%{ParseObject}`에는 JSON 호환 데이터의 키-값 쌍이 포함됩니다. 이 데이터에는 스키마가 없습니다. 즉, 각 `%{ParseObject}`에 어떤 키가 있는지 미리 지정할 필요가 없습니다. 어떤 키-값 쌍이든 원하는 대로 설정하면 백엔드에서 저장합니다.
 
-예를 들어 어떤 게임의 고득점을 추적하는 경우 싱글 `PFObject` 개체에 다음 항목이 포함될 수 있습니다.
+예를 들어 어떤 게임의 고득점을 추적하는 경우 싱글 `%{ParseObject}` 개체에 다음 항목이 포함될 수 있습니다.
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 키는 영숫자 문자열이어야 합니다. 값은 문자열이나 숫자, 부울, 배열이나 딕셔너리 등 JSON 인코딩될 수 있는 항목이면 모두 값이 될 수 있습니다.
 
-각 `PFObject`에는 다른 종류의 데이터를 구분하는 데 사용할 수 있는 클래스 이름이 있습니다. 예를 들어 고득점 개체를 `GameScore`라고 부를 수 있습니다. 클래스 이름과 키 이름을 각각 NameYourClassesLikeThis와 nameYourKeysLikeThis 같이 지정하여 코드를 보기 좋게 만드는 것이 좋습니다.
+각 `%{ParseObject}`에는 다른 종류의 데이터를 구분하는 데 사용할 수 있는 클래스 이름이 있습니다. 예를 들어 고득점 개체를 `GameScore`라고 부를 수 있습니다. 클래스 이름과 키 이름을 각각 NameYourClassesLikeThis와 nameYourKeysLikeThis 같이 지정하여 코드를 보기 좋게 만드는 것이 좋습니다.
 
 ## 개체 저장
 
@@ -35,13 +35,13 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 여기에 주목해야 할 두 가지 사항이 있습니다. 이 코드를 실행하기 전에 `GameScore`라는 새 클래스를 설정할 필요가 없었습니다. Parse 앱이 처음 이 클래스를 만나면 클래스를 천천히 만듭니다.
 
-또한 편의를 위해 제공되는 몇 가지 필드도 지정할 필요가 없습니다. `objectId`는 저장된 각 개체의 고유 ID입니다. `createdAt`과 `updatedAt`은 각 개체가 Parse Cloud에 생성되고 마지막으로 수정된 시간을 나타냅니다. 이러한 각 필드는 Parse에서 채우므로 저장 작업이 완료될 때까지 `PFObject`에 존재하지 않습니다.
+또한 편의를 위해 제공되는 몇 가지 필드도 지정할 필요가 없습니다. `objectId`는 저장된 각 개체의 고유 ID입니다. `createdAt`과 `updatedAt`은 각 개체가 Parse Cloud에 생성되고 마지막으로 수정된 시간을 나타냅니다. 이러한 각 필드는 Parse에서 채우므로 저장 작업이 완료될 때까지 `%{ParseObject}`에 존재하지 않습니다.
 
 참고: `saveInBackgroundWithBlock` 또는 `saveInBackgroundWithTarget:selector:` 메서드를 사용하여 저장이 완료된 뒤 실행할 추가 로직을 제공할 수 있습니다.
 
 ## 개체 검색
 
-클라우드에 손쉽게 데이터를 저장할 수 있으며 데이터 검색은 더욱 간편합니다. `objectId`가 있으면 `PFQuery`를 사용하여 전체 `PFObject`를 검색할 수 있습니다.  검색은 비동기 방식이며 블록 또는 콜백 메서드를 사용하여 변화를 줄 수 있습니다.
+클라우드에 손쉽게 데이터를 저장할 수 있으며 데이터 검색은 더욱 간편합니다. `objectId`가 있으면 `PFQuery`를 사용하여 전체 `%{ParseObject}`를 검색할 수 있습니다.  검색은 비동기 방식이며 블록 또는 콜백 메서드를 사용하여 변화를 줄 수 있습니다.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -54,7 +54,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // inside the completion block above.
 ```
 
-`PFObject`에서 값을 가져오려면 다음과 같이 `objectForKey:` 메서드 또는 `[]` 서브스크립팅(subscripting) 연산자를 사용할 수 있습니다.
+`%{ParseObject}`에서 값을 가져오려면 다음과 같이 `objectForKey:` 메서드 또는 `[]` 서브스크립팅(subscripting) 연산자를 사용할 수 있습니다.
 
 ```objc
 int score = [[gameScore objectForKey:@"score"] intValue];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## 개체 업데이트
 
-개체를 간단히 업데이트할 수 있습니다. 개체에 몇 가지 새로운 데이터를 설정하고 저장 메서드 중 하나를 호출하면 됩니다. 개체를 저장하고 `objectId`가 있는 경우 `PFQuery`를 사용하여 `PFObject`를 검색하고 데이터를 업데이트할 수 있습니다.
+개체를 간단히 업데이트할 수 있습니다. 개체에 몇 가지 새로운 데이터를 설정하고 저장 메서드 중 하나를 호출하면 됩니다. 개체를 저장하고 `objectId`가 있는 경우 `PFQuery`를 사용하여 `%{ParseObject}`를 검색하고 데이터를 업데이트할 수 있습니다.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -158,7 +158,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 ## 관계형 데이터
 
-개체는 다른 개체와 관련될 수 있습니다. 이러한 동작을 모델링하려면 어느 `PFObject`든 다른 `PFObject`의 값으로 사용할 수 있습니다. 내부적으로 Parse 프레임워크는 참조된 개체를 한 곳에만 저장하여 일관성을 유지합니다.
+개체는 다른 개체와 관련될 수 있습니다. 이러한 동작을 모델링하려면 어느 `%{ParseObject}`든 다른 `%{ParseObject}`의 값으로 사용할 수 있습니다. 내부적으로 Parse 프레임워크는 참조된 개체를 한 곳에만 저장하여 일관성을 유지합니다.
 
 <div class='tip info'><div>
   [일대다 관계](/tutorials/one-to-many-relationships) 튜토리얼에서 간단한 블로깅 앱에서 두 `PFObjects` 사이에 일대다 관계를 만드는 방법에 대해 알아볼 수 있습니다.
@@ -190,7 +190,7 @@ myComment[@"parent"] = myPost;
 myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"];
 ```
 
-기본적으로 개체를 가져올 때 관련된 `PFObject`는 가져오지 않습니다.  개체의 값은 다음과 같이 가져올 때까지 검색할 수 없습니다.
+기본적으로 개체를 가져올 때 관련된 `%{ParseObject}`는 가져오지 않습니다.  개체의 값은 다음과 같이 가져올 때까지 검색할 수 없습니다.
 
 ```objc
 PFObject *post = fetchedComment[@"parent"];
@@ -198,7 +198,7 @@ PFObject *post = fetchedComment[@"parent"];
     NSString *title = post[@"title"]; }];
 ```
 
-`PFRelation` 개체를 사용하여 일대다 관계를 모델링할 수도 있습니다.  이 개체는 `PFObjects`의 `NSArray`와 유사하게 작동하지만 관계의 모든 개체를 즉시 다운로드할 필요가 없다는 점이 다릅니다.  따라서 `PFRelation`이 `PFObject`의 `NSArray` 방식보다 훨씬 더 많은 개체로 확장할 수 있습니다.  예를 들어 `User`에게 좋아하는 `Post`가 많을 수 있습니다.  이 경우 `relationForKey:`를 사용하여 `User`가 좋아하는 `Post` 세트를 저장할 수 있습니다.  게시물을 목록에 추가하려는 경우 코드는 다음과 같습니다.
+`PFRelation` 개체를 사용하여 일대다 관계를 모델링할 수도 있습니다.  이 개체는 `PFObjects`의 `NSArray`와 유사하게 작동하지만 관계의 모든 개체를 즉시 다운로드할 필요가 없다는 점이 다릅니다.  따라서 `PFRelation`이 `%{ParseObject}`의 `NSArray` 방식보다 훨씬 더 많은 개체로 확장할 수 있습니다.  예를 들어 `User`에게 좋아하는 `Post`가 많을 수 있습니다.  이 경우 `relationForKey:`를 사용하여 `User`가 좋아하는 `Post` 세트를 저장할 수 있습니다.  게시물을 목록에 추가하려는 경우 코드는 다음과 같습니다.
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -232,13 +232,13 @@ PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-`PFQuery`에 대한 자세한 내용은 이 가이드의 쿼리 부분을 참조하세요.  `PFRelation`은 `PFObject`의 `NSArray`와 유사하게 작동하므로 개체의 배열에서 수행할 수 있는 모든 쿼리(`includeKey:` 제외)를 `PFRelation`에서 수행할 수 있습니다.
+`PFQuery`에 대한 자세한 내용은 이 가이드의 쿼리 부분을 참조하세요.  `PFRelation`은 `%{ParseObject}`의 `NSArray`와 유사하게 작동하므로 개체의 배열에서 수행할 수 있는 모든 쿼리(`includeKey:` 제외)를 `PFRelation`에서 수행할 수 있습니다.
 
 ## 데이터 유형
 
-지금까지 `NSString`, `NSNumber` 및 `PFObject` 유형의 값을 사용했습니다. Parse에서도 `NSDate`, `NSData` 및 `NSNull`을 지원합니다.
+지금까지 `NSString`, `NSNumber` 및 `%{ParseObject}` 유형의 값을 사용했습니다. Parse에서도 `NSDate`, `NSData` 및 `NSNull`을 지원합니다.
 
-`NSDictionary` 및 `NSArray` 개체를 중첩하여 싱글 `PFObject` 내에 더욱 구조화된 데이터를 저장할 수 있습니다.
+`NSDictionary` 및 `NSArray` 개체를 중첩하여 싱글 `%{ParseObject}` 내에 더욱 구조화된 데이터를 저장할 수 있습니다.
 
 예:
 
@@ -263,13 +263,13 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-`PFObject`에서 `NSData` 필드를 사용하여 이미지나 문서 등 대용량의 바이너리 데이터를 저장하지 않는 것이 좋습니다. `PFObject` 크기는 128KB를 넘지 않아야 합니다. 더 많이 저장하려면 `PFFile`을 사용하는 것이 좋습니다. 자세한 내용은 [가이드 섹션](#files)을 참조하세요.
+`%{ParseObject}`에서 `NSData` 필드를 사용하여 이미지나 문서 등 대용량의 바이너리 데이터를 저장하지 않는 것이 좋습니다. `%{ParseObject}` 크기는 128KB를 넘지 않아야 합니다. 더 많이 저장하려면 `PFFile`을 사용하는 것이 좋습니다. 자세한 내용은 [가이드 섹션](#files)을 참조하세요.
 
-Parse에서 데이터를 처리하는 방식에 대한 자세한 내용은 [데이터 및 보안](/docs/data)에 대한 설명서를 참조하세요.
+Parse에서 데이터를 처리하는 방식에 대한 자세한 내용은 [데이터 및 보안](#data)에 대한 설명서를 참조하세요.
 
 ## 하위 클래스
 
-Parse는 가능한 한 빨리 설정하여 실행하도록 설계되었습니다. `PFObject` 클래스를 사용하여 모든 데이터에 액세스하고 `objectForKey:` 또는 `[]` 서브스크립팅(subscripting) 연산자로 모든 필드에 액세스할 수 있습니다. 완성된 코드베이스에서는 하위 클래스에 간결성과 확장성, 자동 완성 지원 등 많은 이점이 있습니다. 하위 클래스 지정은 완전히 선택사항이며, 다음 코드를
+Parse는 가능한 한 빨리 설정하여 실행하도록 설계되었습니다. `%{ParseObject}` 클래스를 사용하여 모든 데이터에 액세스하고 `objectForKey:` 또는 `[]` 서브스크립팅(subscripting) 연산자로 모든 필드에 액세스할 수 있습니다. 완성된 코드베이스에서는 하위 클래스에 간결성과 확장성, 자동 완성 지원 등 많은 이점이 있습니다. 하위 클래스 지정은 완전히 선택사항이며, 다음 코드를
 
 ```objc
 PFObject *shield = [PFObject objectWithClassName:@"Armor"];
@@ -289,14 +289,14 @@ shield.rupees = 50;
 
 ### PFObject 하위 클래스 지정
 
-`PFObject` 하위 클래스를 만들려면 다음 단계를 따르세요.
+`%{ParseObject}` 하위 클래스를 만들려면 다음 단계를 따르세요.
 
 1.  `PFSubclassing` 프로토콜을 따르는 하위 클래스를 선언합니다.
 2.  클래스 메서드 `parseClassName`을 구현합니다. 이 메서드는 `initWithClassName:`에 전달하는 문자열이며 이후 모든 클래스 이름 참조가 필요 없습니다.
 3.  .m 파일에 `PFObject+Subclass`를 가져옵니다. 이렇게 하면 `parseClassName`을 넘어 `PFSubclassing`에 모든 메서드를 구현합니다.
 4.  Parse `setApplicationId:clientKey:` 전에 ApplicationDelegate에서 `[YourClass registerSubclass]`를 호출합니다.
 
-다음 코드는 `PFObject`의 `Armor` 하위 클래스를 선언하고 구현하며 등록합니다.
+다음 코드는 `%{ParseObject}`의 `Armor` 하위 클래스를 선언하고 구현하며 등록합니다.
 
 ```objc
 // Armor.h
@@ -322,9 +322,9 @@ shield.rupees = 50;
 
 ### 속성 및 메서드
 
-사용자 지정 속성과 메서드를 `PFObject` 하위 클래스에 추가하면 클래스에 대한 로직을 캡슐화할 수 있습니다. `PFSubclassing`을 사용하면 비즈니스 로직과 저장소/전송 로직에 대한 별도 클래스를 사용하지 않고 주제에 대한 모든 로직을 한곳에 보관할 수 있습니다.
+사용자 지정 속성과 메서드를 `%{ParseObject}` 하위 클래스에 추가하면 클래스에 대한 로직을 캡슐화할 수 있습니다. `PFSubclassing`을 사용하면 비즈니스 로직과 저장소/전송 로직에 대한 별도 클래스를 사용하지 않고 주제에 대한 모든 로직을 한곳에 보관할 수 있습니다.
 
-`PFObject`는 `NSManagedObject`와 마찬가지로 동적 합성기를 지원합니다. 평소대로 속성을 선언하지만 .m 파일에서 `@synthesize`가 아니라 `@dynamic`을 사용합니다. 다음 예에서는 `Armor` 클래스에 `displayName` 속성을 만듭니다.
+`%{ParseObject}`는 `NSManagedObject`와 마찬가지로 동적 합성기를 지원합니다. 평소대로 속성을 선언하지만 .m 파일에서 `@synthesize`가 아니라 `@dynamic`을 사용합니다. 다음 예에서는 `Armor` 클래스에 `displayName` 속성을 만듭니다.
 
 ```objc
 // Armor.h

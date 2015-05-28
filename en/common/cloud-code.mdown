@@ -164,7 +164,7 @@ Parse.Cloud.define("averageStars", function(request, response) {
 
 The only difference between using `averageStars` and `hello` is that we have to provide the parameter that will be accessed in `request.params.movie` when we call the Cloud function. Read on to learn more about how Cloud functions can be called.
 
-Cloud functions can be called from any of the client SDKs, as well as through the REST API (use the drop-down in the example below to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
+Cloud functions can be called from any of the client SDKs, as well as through the REST API (go back to our list of [Platforms](/docs) to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
 
 ```common-java
 HashMap<String, Object> params = new HashMap<String, Object>();

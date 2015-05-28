@@ -335,9 +335,10 @@ Parse предоставляет простую интеграцию Facebook с
 1.  [Установите приложение Facebook](https://developers.facebook.com/apps), если не установлено.
 2.  Добавьте идентификатор приложения Facebook вашего приложения на странице параметров вашего приложения Parse.
 3.  Выполните инструкции Facebook для [начала работы с SDK Facebook](https://developers.facebook.com/docs/getting-started/facebook-sdk-for-android/3.0/), чтобы создать приложение, связанное с SDK Facebook.  После перехода к шагу 6 остановитесь после связывания проекта SDK Facebook и настройки идентификатора приложения Facebook. Используйте наше руководство, чтобы связать пользователей Parse с их аккаунтами Facebook при входе.
-4.  При инициализации SDK Parse в методе `Application.onCreate()` добавьте следующий код
+4.  Добавьте ParseFacebookUtilsV4.jar в ваш Android проект.
+5.  При инициализации SDK Parse в методе `Application.onCreate()` добавьте следующий код
 ```java
-ParseFacebookUtils.initialize("YOUR FACEBOOK APP ID");
+ParseFacebookUtils.initialize(this);
 ```
 
 SDK Android от Facebook обеспечивает расширенный вход на устройствах с установленным [официальным приложением Facebook для Android](https://market.android.com/details?id=com.facebook.katana). Это предоставляет пользователям приложений с поддержкой входа Facebook входить непосредственно через приложение Facebook, используя данные для входа, которые уже хранятся на устройстве. Если приложение Facebook не установлено, будет использоваться диалоговая авторизация по умолчанию. В Facebook эта функция называется &laquo;системой единого входа&raquo; и требует обхода метода `onActivityResult()` при вызове `Activity`, чтобы вызвать метод `finishAuthentication()`.
@@ -360,20 +361,20 @@ Parse совместим с SDK Facebook для Android версии 3.0.
 
 ### Вход и регистрация
 
-Класс `ParseFacebookUtils` предоставляет разрешение для пользователей `ParseUser` входить или регистрироваться через Facebook. Это осуществляется при помощи метода `logIn()`:
+Класс `ParseFacebookUtils` предоставляет разрешение для пользователей `ParseUser` входить или регистрироваться через Facebook. Это осуществляется при помощи метода `logInWithReadPermissionsInBackground(String, Collection<String>)`:
 
 ```java
-ParseFacebookUtils.logIn(this, new LogInCallback() {
-    @Override
-    public void done(ParseUser user, ParseException err) {
-        if (user == null) {
-            Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
-        } else if (user.isNew()) {
-            Log.d("MyApp", "User signed up and logged in through Facebook!");
-        } else {
-            Log.d("MyApp", "User logged in through Facebook!");
-        }
+ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
+  @Override
+  public void done(ParseUser user, ParseException err) {
+    if (user == null) {
+      Log.d("MyApp", "Uh oh. The user cancelled the Facebook login.");
+    } else if (user.isNew()) {
+      Log.d("MyApp", "User signed up and logged in through Facebook!");
+    } else {
+      Log.d("MyApp", "User logged in through Facebook!");
     }
+  }
 });
 ```
 
@@ -384,19 +385,7 @@ ParseFacebookUtils.logIn(this, new LogInCallback() {
 3.  Наш SDK получает данные Facebook и сохраняет их в класс `ParseUser`. Если это новый пользователь на основе идентификатора Facebook, то создается этот пользователь.
 4.  Класс `LogInCallback` вызывается пользователем.
 
-Для отображения диалоговых окон входа Facebook и действий необходимо указать текущее действие `Activity` (часто текущее действие имеет значение `this` при вызове метода `logIn()` из действия `Activity`), как это было сделано выше.
-
-Можно дополнительно указать набор строк, который содержит разрешения для чтения, необходимые для вашего приложения от пользователя Facebook.  Эти строки можно указать самостоятельно или использовать постоянные, которые предоставляются в классе `ParseFacebookUtils.Permissions`.  Например:
-
-```java
-ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
-                         this, new LogInCallback() {
-    @Override
-    public void done(ParseUser user, ParseException err) {
-        // Code to handle login.
-    }
-});
-```
+Для отображения диалоговых окон входа Facebook и действий необходимо указать текущее действие `Activity` (часто текущее действие имеет значение `this` при вызове метода `logInWithReadPermissionsInBackground()` из действия `Activity`), как это было сделано выше.
 
 Интеграция пользователей `ParseUser` не требует разрешений для стандартной работы (например, метод `null` или отсутствие указанных разрешений полностью допустимы). При входе можно использовать только разрешения на чтение. См. нашу документацию, приведенную ниже, для получения сведений о [запросе дополнительных разрешений](#fbusers-permissions) (чтение или публикация). [Подробнее о разрешениях см. Руководство для разработчиков Facebook.](https://developers.facebook.com/docs/reference/api/permissions/)
 
@@ -410,14 +399,14 @@ ParseFacebookUtils.logIn(Arrays.asList("email", Permissions.Friends.ABOUT_ME),
 
 ```java
 if (!ParseFacebookUtils.isLinked(user)) {
-    ParseFacebookUtils.link(user, this, new SaveCallback() {
-        @Override
-        public void done(ParseException ex) {
-            if (ParseFacebookUtils.isLinked(user)) {
-                Log.d("MyApp", "Woohoo, user logged in with Facebook!");
-            }
-        }
-    });
+  ParseFacebookUtils.linkWithReadPermissionsInBackground(user, this, permissions, new SaveCallback() {
+    @Override
+    public void done(ParseException ex) {
+      if (ParseFacebookUtils.isLinked(user)) {
+        Log.d("MyApp", "Woohoo, user logged in with Facebook!");
+      }
+    }
+  });
 }
 ```
 
@@ -447,15 +436,15 @@ try
 
 ### Запрос разрешений
 
-В SDK Facebook версии 3.0 разрешения на чтение и публикацию должны запрашиваться раздельно. Классы `ParseFacebookUtils.logIn()` и `ParseFacebookUtils.link()` разрешают вам запрашивать только разрешение на чтение. Чтобы запросить дополнительные разрешения, можно вызвать `ParseFacebookUtils.getSession().requestNewReadPermissions()` или `ParseFacebookUtils.getSession().requestNewPublishPermissions()`. Для получения дополнительной информации о запросе новых разрешений ознакомьтесь с [документацией по API Facebook для этих функций](https://developers.facebook.com/docs/reference/android/3.0/Session#requestNewReadPermissions(NewPermissionsRequest)).
+В SDK Facebook версии 3.0 разрешения на чтение и публикацию должны запрашиваться раздельно. Что бы запросить дополнительные разрешения, вы можете вызывать `ParseFacebookUtils.linkWithReadPermissionsInBackground()` или `ParseFacebookUtils.linkWithPublishPermissionsInBackground()`. Для получения дополнительной информации о запросе новых разрешений ознакомьтесь с [документацией по API Facebook для этих функций](https://developers.facebook.com/docs/facebook-login/android/permissions).
 
-После успешного извлечения новых разрешений вызовите метод `ParseFacebookUtilities.saveLatestSessionData()`, который сохранит любые изменения сеансового идентификатора обратно для пользователя `ParseUser` и обеспечит, что данные этой сессии будут следовать за пользователем при входе из любого места.
+После успешного извлечения новых разрешений вызовите метод `ParseFacebookUtilities.linkInBackground(ParseUser, AccessToken)`, который сохранит любые изменения сеансового идентификатора обратно для пользователя `ParseUser` и обеспечит, что данные этой сессии будут следовать за пользователем при входе из любого места.
 
 ### SDK Facebook и Parse
 
-SDK Facebook для Android предоставляет ряд классов вспомогательных средств для взаимодействия с API Facebook. Как правило, класс Request будет использоваться для взаимодействия с Facebook от имени пользователя, осуществившего вход. [Дополнительную информацию о SDK Facebook можно получить здесь](https://developers.facebook.com/docs/reference/android/3.0).
+SDK Facebook для Android предоставляет ряд классов вспомогательных средств для взаимодействия с API Facebook. Как правило, класс GraphRequest будет использоваться для взаимодействия с Facebook от имени пользователя, осуществившего вход. [Дополнительную информацию о SDK Facebook можно получить здесь](https://developers.facebook.com/docs/reference/android/current).
 
-Наша библиотека управляет для вас объектом `Session` пользователя. Можно просто вызвать метод `ParseFacebookUtils.getSession()` для получения доступа к экземпляру сеанса, который затем передается в класс Requests.
+Что бы получить доступ к `AccessToken` пользователя, просто вызовите метод `AccessToken.getCurrentAccessToken()` для получения  экземпляра класса `AccessToken`, который может быть передан в GraphRequest.
 
 ## Пользователи Twitter
 

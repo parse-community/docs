@@ -40,4 +40,4 @@ catch (ParseException e)
 
 By default, all connections have a timeout of 10 seconds, so tasks will not hang indefinitely.
 
-For a list of all possible `ErrorCode` types, see the `ParseException.ErrorCode` section of the [Windows API](/docs/windows).
+For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API](/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm).

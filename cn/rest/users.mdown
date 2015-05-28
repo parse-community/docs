@@ -1,17 +1,17 @@
-# Users
+# 用户
 
-Many apps have a unified login that works across the mobile app and other systems. Accessing user accounts through the REST API lets you build this functionality on top of Parse.
+许多应用程序拥有能让手机和其他平台上运行的登陆系统。我们通过使用REST API，可在 Parse 的基础上来创建这个功能。
 
-In general, users have the same features as other objects, such as the flexible schema. The differences are that user objects must have a username and password, the password is automatically encrypted and stored securely, and Parse enforces the uniqueness of the `username` and `email` fields.
+通常来说，用户与其他对象拥有完全相同的特性，如灵活架构. 所不同的是用户对象的用户名和密码是必填的，密码将会被自动加密并安全地储存，Parse 会强制实行用户和电子邮箱地址的唯一性。
 
 
-## Signing Up
+## 注册
 
-Signing up a new user differs from creating a generic object in that the `username` and `password` fields are required. The password field is handled differently than the others; it is encrypted with bcrypt when stored in the Parse Cloud and never returned to any client request.
+因为用户名和密码是必填的，注册新的用户不同于创建一个普通对象。密码的处理方式和其他数据域的不一样，我们将密码安全散列在云中并且也不会将密码传输回客户端。
 
-You can ask Parse to verify user email addresses in your application settings page. With this setting enabled, all new user registrations with an `email` field will generate an email confirmation at that address. You can check whether the user has verified their `email` with the `emailVerified` field.
+在应用程序的设置页，你可以请求 Parse 来验证用户的电子邮箱地址。通过启用这个设置，我们会给予使用电子邮箱地址注册的新用户发送确认电子邮件。你可以通过 `emailVerified` 来检查用户是否已经验证他们的 `email`。
 
-To sign up a new user, send a POST request to the users root. You may add any additional fields. For example, to create a user with a specific phone number:
+你可以发送一个 POST 请求来注册新用户。你也可以添加额外的数据域。 例如，创建一个新用户并填上电话号码：
 
 ```bash
 curl -X POST \
@@ -40,16 +40,16 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during signup, the Parse Cloud will automatically create a `%{ParseSession}` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
+通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
 
-When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new user:
+当创建成功，HTTP 返回的是 `201 Created` 和存放有新用户 URL 的 `Location` header：
 
 ```js
 Status: 201 Created
 Location: https://api.parse.com/1/users/g7y9tkhB7O
 ```
 
-The response body is a JSON object containing the `objectId`, the `createdAt` timestamp of the newly-created object, and the `sessionToken` which can be used to authenticate subsequent requests as this user:
+返回的数据是一个 JSON 对象， 其中包括 `objectId`，该对象创建的时间戳 `createdAt` 和随后用于代表该用户发送请求的身份验证码 `sessionToken`：
 
 ```json
 {
@@ -59,9 +59,9 @@ The response body is a JSON object containing the `objectId`, the `createdAt` ti
 }
 ```
 
-## Logging In
+## 登录
 
-After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the `/1/login` endpoint with `username` and `password` as URL-encoded parameters:
+您让用户注册后，需要让他们以后登录到他们的帐户。要如此，您可以发送一个 GET 请求到 `/1/login` 终端，此请求包括使用 URL-encoded 编码的 `username` 和 `password` 参数。
 
 ```bash
 curl -X GET \
@@ -87,9 +87,9 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login, the Parse Cloud will automatically create a `%{ParseSession}` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
+通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header 填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
 
-The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, `objectId`, and `sessionToken` fields:
+返回的数据是一个 JSON 对象， 其中包括除了密码以外用户所提供的所有数据域。其中也包括 `createdAt`, `updatedAt`, `objectId`, and `sessionToken` 等数据域：
 
 ```json
 {
@@ -102,20 +102,19 @@ The response body is a JSON object containing all the user-provided fields excep
 }
 ```
 
-## Verifying Emails
+## 验证电子邮箱
 
-Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` field to the `User` object. When a `User`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
+在应用程序的设置中启用电子邮箱验证，可以让应用程序将某些使用体验提供给验证过电子邮箱地址的用户。电子邮箱验证会将 `emailVerified` 键添加到 `%{ParseUser}` 目标中。设置或修改 `%{ParseUser}` 的 `email` 后，`emailVerified` 被设置为 `false`。随后，Parse 会向用户发送一个邮件，其中包含一个链接，可将 `emailVerified` 设置为 `true`。
 
-There are three `emailVerified` states to consider:
+有三种 `emailVerified` 状态需要考虑：
 
-1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `Users` can never have a `true` value when the user account is first created.
-2.  `false` - at the time the `User` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider refreshing the `User` object.
-3.  _missing_ - the `User` was created when email verification was off or the `User` does not have an `email`.
+1.  `true` － 用户通过点击 Parse 发送给他们的链接确认电子邮箱地址。最初创建用户帐户时，`PFUsers` 没有 `true` 值。
+2.  `false` － `%{ParseUser}` 对象最后一次刷新时，用户未确认其电子邮箱地址。若 `emailVerified` 为 `false`，可以考虑调用 `%{ParseUser}` 中的 `refresh:`。
+3.  _缺失_ － 电子邮箱验证关闭或 `%{ParseUser}` 没有 `email` 时创建了 `%{ParseUser}`。
 
+## 重置密码
 
-## Requesting A Password Reset
-
-You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to `/1/requestPasswordReset` endpoint with `email` in the body of the request:
+你可以为有使用电子邮箱地址关联的用户初始重设密码这项功能。要如此，你可以发送一个携带 `email` 的 POST 请求到 `/1/requestPasswordReset` 终端。
 
 ```bash
 curl -X POST \
@@ -140,12 +139,11 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-If successful, the response body is an empty JSON object.
+当创建成功， 返回的是一个空的 JSON 对象。
 
+## 用户检索
 
-## Retrieving Users
-
-You can also retrieve the contents of a user object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the user created above:
+你也可以通过发送一个 GET 请求到一个在先前创建时候 `Location` header返回的 URL 来获取用户的信息。例如，我们想获取先前创建的用户：
 
 ```bash
 curl -X GET \
@@ -165,7 +163,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, and `objectId` fields:
+返回的数据是一个 JSON 对象， 其中包括除了密码以外用户提供的所有数据域。其中也包括 `createdAt`, `updatedAt`, `objectId`, and `sessionToken` 等数据域：
 
 ```json
 {
@@ -177,9 +175,9 @@ The response body is a JSON object containing all the user-provided fields excep
 }
 ```
 
-## Validating Session Tokens / Retrieving Current User
+## 验证会话令牌 ／ 获取当前用户
 
-With a valid session token, you can send a GET request to the `/1/users/me` endpoint to retrieve the user associated with that session token:
+拥有了会话令牌，你也可以通过发送一个 GET 请求到 `/1/users/me` 终端来获取与该会话令牌关联的用户：
 
 ```bash
 curl -X GET \
@@ -201,7 +199,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The response matches the JSON object above for retrieving users.  If the session token is not valid, an error object is returned:
+返回的数据和先前获取的 JSON 对象是一样的。如果会话令牌无效，一个异常对象会被返回：
 
 ```json
 {
@@ -210,13 +208,13 @@ The response matches the JSON object above for retrieving users.  If the session
 }
 ```
 
-## Updating Users
+## 用户更新
 
-In normal usage, nobody except the user is allowed to modify their own data. To authenticate themselves, the user must add a `X-Parse-Session-Token` header to the request with the session token provided by the signup or login method.
+通常来说，除了用户自己以外没有人允许更改他们自己的信息。要让用户验证自己，用户需要将先前通过注册或者登陆所获取的会话令牌添加到请求的 `X-Parse-Session-Token` header里。
 
-To change the data on a user that already exists, send a PUT request to the user URL. Any keys you don't specify will remain unchanged, so you can update just a subset of the user's data. `username` and `password` may be changed, but the new username must not already be in use.
+要更改现有的用户信息，发送一个 PUT 请求到用户 URL 上。你所没有指定的键值会保持不变，因此你可以只更新部分用户信息。`username` 和 `password` 也可能被改变，但新的用户名必须没有在用。
 
-For example, if we wanted to change the phone number for `cooldude6`:
+例如，我们想改变 `cooldude6` 的电话号码：
 
 ```bash
 curl -X PUT \
@@ -243,7 +241,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The response body is a JSON object containing just an `updatedAt` field with the timestamp of the update.
+返回的数据是一个 JSON 对象，其中包括只包括一个 `updatedAt` 数据域和其相对应的时间戳。
 
 ```json
 {
@@ -251,9 +249,9 @@ The response body is a JSON object containing just an `updatedAt` field with the
 }
 ```
 
-## Querying
+## 检索
 
-You can retrieve multiple users at once by sending a GET request to the root users URL. Without any URL parameters, this simply lists users:
+你可以通过发送一个 GET 请求到用户 URL 来获取多个用户的信息。不传递任何 URL 参数，这将会列出所有的用户：
 
 ```bash
 curl -X GET \
@@ -273,7 +271,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
+返回的值是一个 JSON 对象，其中包括一个 `results` 数据域并且该数据域包含一个存放用户信息的 JSON 数组：
 
 ```json
 {
@@ -296,12 +294,11 @@ The return value is a JSON object that contains a `results` field with a JSON ar
 }
 ```
 
-All of the options for queries that work for regular objects also work for user objects, so check the section on [Querying Objects](#queries-basic) for more details.
+所有作用在普通对象的检索选项同样会作用在用户对象，更多信息可以查询 [Querying Objects](#queries-basic)。
 
+## 用户删除 
 
-## Deleting Users
-
-To delete a user from the Parse Cloud, send a DELETE request to its URL. You must provide the `X-Parse-Session-Token` header to authenticate. For example:
+要从云删除一个用户，发送 DELETE 请求到其 URL。你也必须提供 `X-Parse-Session-Token` header来通过验证。 例如：
 
 ```bash
 curl -X DELETE \
@@ -323,11 +320,11 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-## Linking Users
+## 用户关联
 
-Parse allows you to link your users with services like Twitter and Facebook, enabling your users to sign up or log into your application using their existing identities. This is accomplished through the sign-up and update REST endpoints by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
+Parse 允许你的用户链接像Twiiter 和 Facebook这样的第三方服务，让你的用户可以使用第三方服务现有的身份来注册或者登陆你的应用程序。这项功能可以通过提供你所选择的第三方服务的验证数据注册或者更新一个用户的 `authData`。当你成功关联第三方服务，关于这个第三方服务的 `authData` 会被存储到用户并且可以被登陆操作所检索。
 
-`authData` is a JSON object with keys for each linked service containing the data below.  In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a) to obtain the information the the service requires for linking.
+`authData` 是一个 JSON 对象，其中包括每个已经关联的第三方服务的数据。在每种情况下，你要负责完成满足第三方服务的要求来获取关联信息的流程 (e.g. OAuth 1.0a)。
 
 ### Facebook `authData`
 
@@ -340,7 +337,7 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
   }
 }
 ```
-Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
+更多信息可以查询 [Facebook login](https://developers.facebook.com/docs/authentication/)。
 
 ### Twitter `authData`
 
@@ -356,10 +353,9 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
   }
 }
 ```
+更多信息可以查询 [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter)。
 
-Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
-
-### Anonymous user `authData`
+### 匿名者用户 `authData`
 
 ```json
 {
@@ -369,9 +365,9 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
 }
 ```
 
-### Signing Up and Logging In
+### 注册和登录
 
-Signing a user up with a linked service and logging them in with that service uses the same POST request, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
+使用第三方服务来注册和登录使用同样的 POST 请求，只有 `authData` 是用户自己制订的：
 
 ```bash
 curl -X POST \
@@ -418,16 +414,16 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login or signup, the Parse Cloud will automatically create a `%{ParseSession}` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
+通过指定 `The X-Parse-Revocable-Session` header，Parse 会返回一个 [revocable session](#sessions) 无论应用是否启用 "Require Revocable Sessions" 设置(在您的 Parse 应用程序设置页面)。当手机应用访问同样的数据，这对于 [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) 可撤销对话这项功能非常有用。如果不启用 "Require Revocable Sessions" (这项设置对于新的应用来说是默认的)， `X-Parse-Revocable-Session` header是不必要的。当你在注册的过程中请求可撤销对话，云会自动创建一个 `%{ParseSession}` 对象。在这个请求，你也可以通过指定选择是否在 `X-Parse-Installation-Id` header填充 installtion 的 `installationId` 来让 Parse 自动连接这个对话与这个 installtion。
 
-Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
+Parse 之后会验证所提供的 `authData` 是否有效并且会检查是否有用户已经与该数据关联。若有，它会返回一个状态码 `200 OK` 和 该用户的信息（包括用户 `sessionToken`）：
 
 ```js
 Status: 200 OK
 Location: https://api.parse.com/1/users/uMz0YZeAqc
 ```
 
-With a response body like:
+像该返回数据域：
 
 ```json
 {
@@ -449,14 +445,14 @@ With a response body like:
 }
 ```
 
-If the user has never been linked with this account, you will instead receive a status code of `201 Created`, indicating that a new user was created:
+如果用户从来没有关联这个账户，你会收到一个状态码 `201 Created`，说明有一个新用户被创建：
 
 ```js
 Status: 201 Created
 Location: https://api.parse.com/1/users/uMz0YZeAqc
 ```
-
-The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
+ 
+返回的数据包括 `objectId`, `createdAt`, `sessionToken` 和 自动创建的唯一的 `username`。例如：
 
 ```json
 {
@@ -467,9 +463,9 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 }
 ```
 
-### Linking
+### 关联
 
-Linking an existing user with a service like Facebook or Twitter uses a PUT request to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
+关联现有的用户和第三方服务像 Facebook 和 Twitter 使用一个 PUT 请求来关联该用户和 `authData`。 例如，连接用户与Facebook帐户会使用这样的请求：
 
 ```bash
 curl -X PUT \
@@ -510,11 +506,11 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-After linking your user to a service, you can authenticate them using matching `authData`.
+关联成功之后，你可以使用匹配的 `authData` 来进行验证。
 
-### Unlinking
+### 取消关联
 
-Unlinking an existing user with a service also uses a PUT request to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
+取消关联现有的用户和第三方服务也是用 PUT 请求来设置 `authData` 为 `null` 从而删除该用户的 `authData`。 例如，取消连接用户与Facebook帐户会使用这样的请求：
 
 ```bash
 curl -X PUT \
@@ -547,13 +543,13 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-## Security
+## 安全
 
-When you access Parse via the REST API key, access can be restricted by ACL just like in the iOS and Android SDKs. You can still read and modify acls via the REST API, just by accessing the `"ACL"` key of an object.
+当你使用 REST API 密钥来访问 Parse，访问可以通过 ACL 来限制就像在iOS和Android的SDK一样。你仍然可以通过 REST API 来读取和修改 acls，只需访问对象的 `"ACL"` 键即可。
 
-The ACL is formatted as a JSON object where the keys are either object ids or the special key `"*"` to indicate public access permissions. The values of the ACL are "permission objects", JSON objects whose keys are the permission names and whose values are always `true`.
+ACL 是被格式化为一个 JSON 对象，当中的键是对象的识别码或者一个特别的键 `"*"` 来代表公共访问权限。ACL 的值是 "permission objects"， 其 JSON 对象的键是权限的名字和其值总为 `true`。
 
-For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
+例如，如果你想让识别码为 `"3KmCvT7Zsb"` 的用户拥有这个对象的读写权限，加上这个对象应该是公开可读的，其对应的 ACL 为：
 
 ```json
 {
@@ -567,4 +563,4 @@ For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write 
 }
 ```
 
-If you want to access your data ignoring all ACLs, you can use the master key provided on the Dashboard. Instead of the `X-Parse-REST-API-Key` header, set the `X-Parse-Master-Key` header. For backward compatibility, you can also do master-level authentication using HTTP Basic Auth, passing the application id as the username and the master key as the password. For security, the master key should not be distributed to end users, but if you are running code in a trusted environment, feel free to use the master key for authentication.
+如果你想忽视ACLs来访问你的数据，你可以使用 Dashboard 上提供的主秘钥。 现在你要设置的是 `X-Parse-Master-Key` header， 而不是 `X-Parse-REST-API-Key` header。 为了向后兼容性，你也可以通过传递应用的识别码作为用户名和主秘钥作为密码来使用 HTTP Basic Auth 进行主层面的验证。为了安全性，主秘钥不应该传递回给用户端，但是如果你的代码在一个可靠的环境下运行，你可以随意使用主秘钥来进行验证。

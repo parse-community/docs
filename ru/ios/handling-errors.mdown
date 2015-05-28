@@ -57,7 +57,7 @@ PFUser *user = [PFUser user];
 }
 ```
 
-Когда обратный вызов ожидает `NSNumber`, его поле `boolValue` сообщает, завершилась ли успешно операция или нет. Например, обратный вызов метода `saveInBackgroundWithTarget:selector:` для объекта `PFObject` можно реализовать следующим образом:
+Когда обратный вызов ожидает `NSNumber`, его поле `boolValue` сообщает, завершилась ли успешно операция или нет. Например, обратный вызов метода `saveInBackgroundWithTarget:selector:` для объекта `%{ParseObject}` можно реализовать следующим образом:
 
 ```objc
 - (void)callbackForSave:(NSNumber *)result error:(NSError *)error {

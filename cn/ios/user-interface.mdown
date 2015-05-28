@@ -1,13 +1,13 @@
 # 用户界面
 
-最终，您应用程序的用户将与 UIKit 组件进行互动。Parse 提供一些 `UIViewController` 子类，可以显著降低登录/注册 `PFUser` 以及显示 `PFObject` 的难度。
+最终，您应用程序的用户将与 UIKit 组件进行互动。Parse 提供一些 `UIViewController` 子类，可以显著降低登录/注册 `%{ParseUser}` 以及显示 `%{ParseObject}` 的难度。
 
 ## PFLogInViewController
 
-如果您正在使用 Parse 管理手机应用程序的用户，说明您已经熟悉 `PFUser` 类。有时在应用程序中，您可能想只显示让 `PFUser` 登录的屏幕。Parse 提供可以实现此功能的视图控制器。
+如果您正在使用 Parse 管理手机应用程序的用户，说明您已经熟悉 `%{ParseUser}` 类。有时在应用程序中，您可能想只显示让 `%{ParseUser}` 登录的屏幕。Parse 提供可以实现此功能的视图控制器。
 
 <div class='tip info'><div>
-查看[登录和注册视图教程](/tutorials/login-and-signup-views)，其提供了一系列的内置视图，可立即进行自定义并放入使用 `PFUser` 的应用程序中。
+查看[登录和注册视图教程](/tutorials/login-and-signup-views)，其提供了一系列的内置视图，可立即进行自定义并放入使用 `%{ParseUser}` 的应用程序中。
 </div></div>
 
 您可以通过实例化和模态显示的方式使用 `PFLogInViewController` 类。
@@ -68,7 +68,7 @@ logInController.facebookPermissions = @[@"friends_about_me"];
 
 ### 响应登录成功、失败或取消
 
-用户注册或取消时，`PFLogInViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFLogInViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `PFUser` 的其他组件。
+用户注册或取消时，`PFLogInViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFLogInViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `%{ParseUser}` 的其他组件。
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -186,7 +186,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 响应注册成功、失败或取消
 
-用户注册或取消时，`PFSignUpViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFSignUpViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `PFUser` 的其他组件。
+用户注册或取消时，`PFSignUpViewController` 将此事件通知委托。收到此回调后，委托至少应撤销 `PFSignUpViewController`。此外，委托可能会更新自己的视图或将消息转发至需要了解 `%{ParseUser}` 的其他组件。
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
@@ -273,7 +273,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ## PFQueryTableViewController
 
-面向数据的 iOS 应用程序主要是 `UITableViewController` 和相应`UITableView` 的集合。使用 Parse 时，`UITableView` 的每个单元格通常代表来自 `PFObject` 的数据。`PFQueryTableViewController` 是 `UITableViewController` 的子类，后者提供了一个抽象层，使您能够轻松显示来自您其中一个 Parse 类的数据。
+面向数据的 iOS 应用程序主要是 `UITableViewController` 和相应`UITableView` 的集合。使用 Parse 时，`UITableView` 的每个单元格通常代表来自 `%{ParseObject}` 的数据。`PFQueryTableViewController` 是 `UITableViewController` 的子类，后者提供了一个抽象层，使您能够轻松显示来自您其中一个 Parse 类的数据。
 
 <div class='tip info'><div>
 查看 [PFQueryTableViewController 使用教程](/tutorials/parse-query-table)，了解如何在您的 Parse 应用程序内显示来自 `Todo` 类的对象。
@@ -285,11 +285,11 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 2.  它自动将自己设置为委托和数据源。
 3.  设置 `parseClassName` 实例变量，用于指定应查询哪个 Parse 类来获取数据。
 4.  覆盖 `queryForTable` 方法，以创建应用于从表格获取对象的自定义 `PFQuery`。
-5.  覆盖 `tableView:cellForRowAtIndexPath:object:` 方法，以返回为每个 `PFObject` 定制的自定义单元格。
+5.  覆盖 `tableView:cellForRowAtIndexPath:object:` 方法，以返回为每个 `%{ParseObject}` 定制的自定义单元格。
 6.  执行您的自定义单元格类；确保其继承了 `PFTableViewCell` 类。
-<li>视图加载时，此类通过创建的查询自动抓取 `PFObject` 并且将其加载至表格中。其甚至包括立即可用的分页和下拉刷新功能。
+<li>视图加载时，此类通过创建的查询自动抓取 `%{ParseObject}` 并且将其加载至表格中。其甚至包括立即可用的分页和下拉刷新功能。
 
-这个类允许您考虑 `PFObject` 和 `UITableViewCell` 之间的一对一映射，而无需窜改索引路径。您也可以获得以下即用功能：
+这个类允许您考虑 `%{ParseObject}` 和 `UITableViewCell` 之间的一对一映射，而无需窜改索引路径。您也可以获得以下即用功能：
 
 *   分页，其中有一个单元格用于通过点击加载下一页。
 *   下拉刷新列表视图标题。
@@ -388,7 +388,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 自定义设置单元格
 
-要自定义表格外观，覆盖 `tableView:cellForRowAtIndexPath:object:` 以返回自定义单元格。请注意，该方法类似于典型的表格数据源方法，但是它直接将 `PFObject` 作为一个参数。
+要自定义表格外观，覆盖 `tableView:cellForRowAtIndexPath:object:` 以返回自定义单元格。请注意，该方法类似于典型的表格数据源方法，但是它直接将 `%{ParseObject}` 作为一个参数。
 
 您无须再覆盖 `tableView:cellForRowAtIndexPath:`。
 
@@ -435,7 +435,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 [imageView loadInBackground];
 ```
 
-若指定，`image` 属性用于在远程图像下载前显示占位符。注意，下载不会在指定 `file` 属性后立即开始，而是在调用 `loadInBackground:` 时开始加载。远程图像会缓存在内存和磁盘中。若图像在缓存中，对 `loadInBackground:` 的调用会立即返回。
+若指定，`image` 属性用于在远程图像下载前显示占位符。注意，下载不会在指定 `file` ���性后立即开始，而是在调��� `loadInBackground:` 时开始加载。远程图像会缓存在内存和磁盘中。若图像在缓存中，对 `loadInBackground:` 的调用会立即返回。
 
 ## PFTableViewCell
 
