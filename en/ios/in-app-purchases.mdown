@@ -67,7 +67,7 @@ To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
 ```swift
 PFPurchase.buyProduct("Pro") {
     (error: NSError?) -> Void in
-    if error != nil {
+    if error == nil {
         // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }
@@ -103,7 +103,7 @@ PFPurchase.addObserverForProduct("Pro") {
     if let transaction = transaction {
         PFPurchase.downloadAssetForTransaction(transaction) {
             (filePath: String?, error: NSError?) -> Void in
-            if error != nil {
+            if error == nil {
                 // at this point, the content file is available at filePath.
             }
         }
@@ -122,7 +122,7 @@ To make the purchase:
 ```
 ```swift
 PFPurchase.buyProduct("Pro") {(error: NSError?) -> Void in
-    if error != nil {
+    if error == nil {
         // run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }

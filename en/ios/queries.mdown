@@ -70,8 +70,8 @@ query.whereKey("playerName", equalTo: "Dan Stemkoski")
 let scoreArray = query.findObjects()
 
 // Using NSPredicate
-let preidcate = NSPredicate(format:"playerName = 'Dan Stemkosk'")
-let query = PFQuery(className: "GameScore", predicate: preidcate)
+let predicate = NSPredicate(format:"playerName = 'Dan Stemkosk'")
+let query = PFQuery(className: "GameScore", predicate: predicate)
 let scoreArray = query.findObjects()
 ```
 
@@ -122,7 +122,7 @@ query.whereKey("playerName", notEqualTo: "Michael Yabuti")
 
 // Using NSPredicate
 let predicate = NSPredicate(format:"playerName != 'Michael Yabuti'")
-let query = PFQuery(className: "GameScore", predicate: preidcate)
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
@@ -143,7 +143,7 @@ query.whereKey("playerAge", greaterThan: 18)
 
 // Using NSPredicate
 let predicate = NSPredicate(format:"playerName != 'Michael Yabuti' AND playerAge > 18")
-let query = PFQuery(className: "GameScore", predicate: preidcate)
+let query = PFQuery(className: "GameScore", predicate: predicate)
 ```
 
 You can limit the number of results by setting `limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
