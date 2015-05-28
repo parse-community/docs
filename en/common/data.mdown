@@ -103,7 +103,7 @@ Each collection will be exported in the same JSON format used by our REST API an
 
 For offline analysis of your data, we highly recommend using alternate ways to access your data that do not require extracting the entire collection at once. For example, you can try exporting only the data that has changed since your last export. Here are some ways of achieving this:
 
-* Use the JavaScript SDK in a node app. `Parse.Query.each()`` will allow you to extract every single object that matches a query. You can use date constraints to make sure the query only matches data that has been updated since you last ran this app. Your node app can write this data to disk for offline analysis.
+* Use the JavaScript SDK in a node app. `Parse.Query.each()` will allow you to extract every single object that matches a query. You can use date constraints to make sure the query only matches data that has been updated since you last ran this app. Your node app can write this data to disk for offline analysis.
 
 * Use the REST API in a script. You can run queries against your class and use skip/limit to page through results, which can then be written to disk for offline analysis. You can again use date constraints to make sure only newly updated data is extracted.
 
