@@ -610,7 +610,7 @@ if !PFFacebookUtils.isLinkedWithUser(user) {
   PFFacebookUtils.linkUserInBackground(user, withReadPermissions: nil, {
     (succeeded: Bool?, error: NSError?) -> Void in
     if succeeded {
-      println("Woohoo, user is linked with Facebook!")
+      println("Woohoo, the user is linked with Facebook!")
     }
   })
 }
@@ -638,7 +638,7 @@ PFFacebookUtils.unlinkUserInBackground(user, {
 
 ### Log In / Link via Token
 
-In previous sections - you've seen how `PFFacebookUtils` could be used to log in with Facebook SDK and create `%{ParseUser}`s or link with existing ones. There is also an option available to directly log in / link if you already integrate with Facebook SDK and have a `FBSDKAccessToken`, like in this example:
+In the previous sections, you've seen how `PFFacebookUtils` can be used to log in with the Facebook SDK and create a `%{ParseUser}` or link with existing ones. If you have already integrated the Facebook SDK and have a `FBSDKAccessToken`, there is an option to directly log in or link the users like this:
 
 ```objc
 FBSDKAccessToken *accessToken = ...; // Use existing access token.
@@ -662,7 +662,7 @@ FBSDKAccessToken *accessToken = ...; // Use existing access token.
                       withAccessToken:accessToken
                                 block:^(BOOL succeeded, NSError *error) {
   if (succeeded) {
-    NSLog(@"Woohoo, user is linked with Facebook!");
+    NSLog(@"Woohoo, the user is linked with Facebook!");
   }
 }];
 ```
@@ -673,7 +673,7 @@ let accessToken: FBSDKAccessToken = ...; // Use existing access token.
 PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
   (user: PFUser?, error: NSError?) -> Void in
   if user != nil {
-    println("User logged in through Facebook!)
+    println("User logged in through Facebook!")
   } else {
     println("Uh oh. There was an error logging in.")
   }
@@ -687,7 +687,7 @@ PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
 PFFacebookUtils.linkUserInBackground(user, withAccessToken: accessToken, {
   (succeeded: Bool?, error: NSError?) -> Void in
   if succeeded {
-    println("Woohoo, user is linked with Facebook!")
+    println("Woohoo, the user is linked with Facebook!")
   }
 })
 ```
