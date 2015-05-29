@@ -198,16 +198,20 @@ ArrayList<ParseObject> weapons = ParseUser.getCurrentUser().get("weaponsList");
 NSArray *weapons = [[PFUser currentUser] objectForKey:@"weaponsList"];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 Sometimes, we will want to fetch the "many" objects in our one-to-many relationship at the same time as we fetch the "one" object. One trick we could employ is to use the `includeKey` (or `include` in Android) parameter whenever we use a Parse Query to also fetch the array of `Weapon` objects (stored in the `weaponsList` column) along with the Parse User object:
@@ -246,16 +250,20 @@ PFQuery *userQuery = [PFUser query];
 }];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 You can also get the "one" side of the one-to-many relationship from the "many" side. For example, if we want to find all Parse User objects who also have a given `Weapon`, we can write a constraint for our query like this:
@@ -275,16 +283,20 @@ userQuery.whereEqualTo("weaponsList", arrayOfWeapons);
 [userQuery whereKey:@"weaponsList" containedIn:arrayOfWeapons];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 ## Many-to-Many
@@ -340,16 +352,20 @@ PFRelation *relation = [book relationForKey:@"authors"];
 [book saveInBackground];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 To get the list of authors who wrote a book, create a query:
@@ -379,16 +395,20 @@ PFQuery *query = [relation query];
 // now execute the query
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 Perhaps you even want to get a list of all the books to which an author contributed. You can create a slightly different kind of query to get the inverse of the relationship:
@@ -416,16 +436,20 @@ PFQuery *query = [PFQuery queryWithClassName:@"Book"];
 [query whereKey:@"authors" equalTo:author];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 ### Using Join Tables
@@ -457,16 +481,20 @@ PFObject *follow = [PFObject objectWithClassName:@"Follow"];
 [follow saveInBackground];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 If we want to find all of the people we are following, we can execute a query on the `Follow` table:
@@ -501,16 +529,20 @@ PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
 }];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
@@ -544,16 +576,20 @@ PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
 }];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 ### Using an Array
@@ -585,16 +621,20 @@ PFObject *book = ...
 [book addObject:author forKey:@"authors"];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 Because the author list is an Array, you should use the `includeKey` (or `include` on Android) parameter when fetching a `Book` so that Parse returns all the authors when it also returns the book:
@@ -628,16 +668,20 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
 }];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 At that point, getting all the `Author` objects in a given `Book` is a pretty straightforward call:
@@ -649,16 +693,20 @@ ArrayList<ParseObject> authorList = book.getList("authors");
 NSArray *authorList = [book objectForKey@"authors"];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 Finally, suppose you have an `Author` and you want to find all the `Book` objects in which she appears. This is also a pretty straightforward query with an associated constraint:
@@ -699,16 +747,20 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
 }];
 ```
 ```common-swift
-// no swift example
+// No Swift example.
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
 ```
 ```common-php
 // no php example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-csharp
 // no c# example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
 // no js example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 ## One-to-One
