@@ -710,7 +710,7 @@ Since Facebook SDK v4.0 - it is required to request **read** and **publish** per
 
 // Request new Publish Permissions
 [PFFacebookUtils linkUserInBackground:[PFUser currentUser]
-                withPublicPermissions:@[ @"publish_actions"]
+                withPublishPermissions:@[ @"publish_actions"]
                                 block:^(BOOL succeeded, NSError *error) {
   if (succeeded) {
     NSLog(@"User now has read and publish permissions!");
