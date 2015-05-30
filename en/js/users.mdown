@@ -151,7 +151,7 @@ If you need to check if a `Parse.User` is authenticated, you can invoke the `aut
 
 The same security model that applies to the `Parse.User` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `Parse.ACL` class.
 
-The simplest way to use a `Parse.ACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `Parse.User`. Then, `new Parse.ACL(user)` generates a `Parse.ACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
+The simplest way to use a `Parse.ACL` is to specify that an object may only be read or written by a single user. To create such an object, a Parse.ACL must be initialized with a `Parse.User`. Then, `new Parse.ACL(user)` generates a `Parse.ACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
 ```js
 var Note = Parse.Object.extend("Note");
