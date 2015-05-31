@@ -305,6 +305,20 @@ ParsePush.ParsePushNotificationReceived += (sender, args) => {
 };
 ```
 
+In Unity Android, we provide a helper method that you can utilize as a handler to display a notification. If the app is in background it will display a notification by default.
+```csharp
+ParsePush.ParsePushNotificationReceived += (sender, args) => {
+#if UNITY_ANDROID
+	AndroidJavaClass parseUnityHelper = new AndroidJavaClass("com.parse.ParseUnityHelper");
+	AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+	AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+
+	// Call default behavior.
+	parseUnityHelper.CallStatic("handleParsePushNotificationReceived", currentActivity, args.StringPayload);
+#endif
+}
+```
+
 ### Tracking Pushes and App Opens
 
 Tracking push opens is not supported on Unity now. You can track app opens with
