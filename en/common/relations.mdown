@@ -394,8 +394,23 @@ book.saveInBackground()
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// let’s say we have a few objects representing Author objects
+var authorOne = ...
+var authorTwo = ...
+var authorThree = ...
+    
+// now we create a book object
+var book = new Parse.Object('Book');
+
+// now let’s associate the authors with the book
+// remember, we created a "authors" relation on Book
+var relation = new Parse.Relation(book, 'authors');
+relation.add(authorOne)
+relation.add(authorTwo)
+relation.add(authorThree)
+
+// now save the book object
+book.save()
 ```
 
 To get the list of authors who wrote a book, create a query:
@@ -445,8 +460,16 @@ let query = relation.query()
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// suppose we have a book object
+var book = new Parse.Object('Book');
+
+// create a relation based on the authors key
+var relation = new Parse.Relation(book, 'authors');
+
+// generate a query based on that relation
+var query = new Parse.Query(relation);
+
+// now execute the query
 ```
 
 Perhaps you even want to get a list of all the books to which an author contributed. You can create a slightly different kind of query to get the inverse of the relationship:
@@ -493,8 +516,16 @@ query?.whereKey("authors", equalTo: author)
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// suppose we have a author object, for which we want to get all books
+var author = Parse.Object('Author');
+
+// first we will create a query on the Book object
+var query = Parse.Query('Book');
+
+// now we will query the authors relation to see if the author object
+// we have is contained therein
+[query whereKey:@"authors" equalTo:author];
+query.equalTo('authors', author);
 ```
 
 ### Using Join Tables
