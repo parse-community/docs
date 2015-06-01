@@ -682,8 +682,13 @@ Second, if your application is running or backgrounded, the `application:didRece
 }
 ```
 ```swift
-// No Swift example.
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs/issues/21
+func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+    if application.applicationState == .Inactive  {
+        // The application was just brought from the background to the foreground,
+        // so we consider the app as having been "opened by a push notification."
+        PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+    }
+}
 ```
 
 Finally, if using iOS 7 any of its new push features (including the new "content-available" push functionality), be sure to also implement the iOS 7-only handler:
