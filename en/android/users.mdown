@@ -529,7 +529,7 @@ Our SDK provides a straightforward way to sign your API HTTP requests to the [Tw
 ```java
 HttpClient client = new DefaultHttpClient();
 HttpGet verifyGet = new HttpGet(
-        "https://api.twitter.com/1/account/verify_credentials.json");
+        "https://api.twitter.com/1.1/account/verify_credentials.json");
 ParseTwitterUtils.getTwitter().signRequest(verifyGet);
 HttpResponse response = client.execute(verifyGet);
 ```
