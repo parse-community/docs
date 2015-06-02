@@ -13,7 +13,7 @@ of the REST API. Instead of authenticating with one of your app's keys, instead
 you must use your account's login info. The `X-Parse-Email` header identifies which
 account you are using, and the `X-Parse-Password` header authenticates the endpoint. 
 
-## Fetch your apps
+## Fetching apps
 To fetch the keys and settings for all of the apps that you are a collaborator
 on, run:
 
@@ -83,7 +83,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-## Creating an app 
+## Creating apps 
 
 By sending a POST request to the `/1/apps` endpoint you can create a new app,
 that is owned by your account. The new app is initialized with a set of keys,
@@ -123,7 +123,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-## Updating your app
+## Updating apps
 
 You can change your app's name, as well as change your app's settings, by sending a PUT request to `/1/apps`:
 
