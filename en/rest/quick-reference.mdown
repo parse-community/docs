@@ -96,10 +96,10 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 
 | URL                      | HTTP Verb | Functionality                                             |
 |--------------------------|-----------|-----------------------------------------------------------|
-| `/1/apps/`               | GET       | [Fetch Apps](#apps-fetch-apps)                            |
-| `/1/apps/<applicationID>`| GET       | [Fetch App](#apps-fetch-apps)                             |
-| `/1/apps/<applicationID>`| POST      | [Create App](#apps-create-app)                            |
-| `/1/apps/<applicationID>`| PUT       | [Modify App](#apps-update-app)                            |
+| `/1/apps/`               | GET       | [Fetch Apps](#apps-fetching-apps)                         |
+| `/1/apps/<applicationId>`| GET       | [Fetch App](#apps-fetching-apps)                          |
+| `/1/apps/<applicationId>`| POST      | [Create App](#apps-creating-apps)                         |
+| `/1/apps/<applicationId>`| PUT       | [Modify App](#apps-updating-apps)                         |
 
 
 ## Request Format
