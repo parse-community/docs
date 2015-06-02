@@ -87,12 +87,19 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 
 | URL                     | HTTP Verb | Functionality                                             |
 |-------------------------|-----------|-----------------------------------------------------------|
-| `/1/schemas/<className>`| GET       | [Fetch Schema](#schema-fetch-the-schema)                     |
+| `/1/schemas/<className>`| GET       | [Fetch Schema](#schema-fetch-the-schema)                  |
 | `/1/schemas/<className>`| POST      | [Create Schema](#schema-adding-a-schema)                  |
-| `/1/schemas/<className>`| PUT       | [Modify Schema](#schema-modifying-the-schema)            |
+| `/1/schemas/<className>`| PUT       | [Modify Schema](#schema-modifying-the-schema)             |
 | `/1/schemas/<className>`| DELETE    | [Delete Schema](#schema-removing-a-schema)                |
 
+## Apps
 
+| URL                      | HTTP Verb | Functionality                                             |
+|--------------------------|-----------|-----------------------------------------------------------|
+| `/1/apps/`               | GET       | [Fetch Apps](#apps-fetch-apps)                            |
+| `/1/apps/<applicationID>`| GET       | [Fetch App](#apps-fetch-apps)                             |
+| `/1/apps/<applicationID>`| POST      | [Create App](#apps-create-app)                            |
+| `/1/apps/<applicationID>`| PUT       | [Modify App](#apps-update-app)                            |
 
 
 ## Request Format
