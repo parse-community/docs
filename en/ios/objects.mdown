@@ -494,7 +494,7 @@ For more details on `PFQuery` please look at the query portion of this guide.  A
 
 ## Data Types
 
-So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`.
+So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`. 
 
 You can nest `NSDictionary` and `NSArray` objects to store more structured data within a single `%{ParseObject}`.
 
@@ -508,15 +508,17 @@ NSData *data = [@"foo" dataUsingEncoding:NSUTF8StringEncoding];
 NSArray *array = @[string, number];
 NSDictionary *dictionary = @{@"number": number,      @"string": string};
 NSNull *null = [NSNull null];
+PFObject *pointer = [PFObject objectWithoutDataWithClassName:@"MyClassName" objectId:@"xyz"];
 
 PFObject *bigObject = [PFObject objectWithClassName:@"BigObject"];
-bigObject[@"myNumber"] = number;
-bigObject[@"myString"] = string;
-bigObject[@"myDate"] = date;
-bigObject[@"myData"] = data;
-bigObject[@"myArray"] = array;
-bigObject[@"myDictionary"] = dictionary;
-bigObject[@"myNull"] = null;
+bigObject[@"myNumberKey"] = number;
+bigObject[@"myStringKey"] = string;
+bigObject[@"myDateKey"] = date;
+bigObject[@"myBytesKey"] = data; // shows up as 'bytes' in the Data Browser
+bigObject[@"myArrayKey"] = array;
+bigObject[@"myObjectKey"] = dictionary; // shows up as 'object' in the Data Browser
+bigObject[@"myNullKey"] = null;
+bigObject[@"myPointerKey"] = pointer; // shows up as Pointer <MyClassName> in the Data Browser
 [bigObject saveInBackground];
 ```
 ```swift
@@ -527,21 +529,23 @@ let data = "foo".dataUsingEncoding(NSUTF8StringEncoding)
 let array = [string, number]
 let dictionary = ["number": number, "string": string]
 let null = NSNull()
+let pointer = PFObject(objectWithoutDataWithClassName:"MyClassName", objectId: "xyz")
 
 var bigObject = PFObject(className:"BigObject")
-bigObject["myNumber"] = number
-bigObject["myString"] = string
-bigObject["myDate"] = date
-bigObject["myData"] = data
-bigObject["myArray"] = array
-bigObject["myDictionary"] = dictionary
-bigObject["myNull"] = null
+bigObject["myNumberKey"] = number
+bigObject["myStringKey"] = string
+bigObject["myDateKey"] = date
+bigObject["myBytesKey"] = data // shows up as 'bytes' in the Data Browser
+bigObject["myArrayKey"] = array
+bigObject["myObjectKey"] = dictionary // shows up as 'object' in the Data Browser
+bigObject["myNullKey"] = null
+bigObject["myPointerKey"] = pointer // shows up as Pointer <MyClassName> in the Data Browser
 bigObject.saveInBackground()
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `NSData` fields on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. To store more, we recommend you use `PFFile`. See the [guide section](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents using `NSData` fields on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. To store more, we recommend you use `%{ParseFile}`. See [Files](#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data &amp; Security](#data).
+For more information about how Parse handles data, check out our [Data](#data) documentation.
 
 ## Subclasses
 
