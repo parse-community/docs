@@ -74,7 +74,7 @@ bigObject["myDictionary"] = dictionary;
 await bigObject.SaveAsync();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size.
+We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. To store more, we recommend you use `%{ParseFile}`. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
