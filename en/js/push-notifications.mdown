@@ -247,7 +247,7 @@ Parse.Push.send({
 });
 ```
 
-Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications](#scheduled/JavaScript). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
+Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications](#push-notifications-scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
 
 ```js
 var oneDayAway = new Date(...);
