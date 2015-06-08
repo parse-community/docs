@@ -1,6 +1,6 @@
 # Command Line Tool
 
-The Parse command line tool allows you to interact with your Cloud Code from your terminal. Some of the topics here is also covered in the [Cloud Code guide](#cloud-code), but they are repeated here for clarity.
+The Parse command line tool allows you to interact with your Cloud Code from your terminal. Some of the topics here are also covered in the [Cloud Code guide](#cloud-code), but they are repeated here for clarity.
 
 ## Installation
 
@@ -18,6 +18,9 @@ This installs a tool named "parse" to `/usr/local/bin/parse`. There's no other j
 ### Windows
 
 The Parse command line tool for Windows is available [here](/downloads/cloud_code/cli/parse-windows/latest).
+Note that this is not an installer, it is just a plain windows executable.
+The downloaded executable is named like: `parse-windows-x.xx.xx.exe`. 
+You can rename it to `parse.exe` and move it to an accessible location, so that you can run it by typing `parse` at your command prompt.
 
 ### Updating
 
@@ -46,12 +49,13 @@ $ cd MyCloudCode
 Use the email address and password for your Parse account to log in. If you signed up via OAuth and never set a password, you should now set one by editing your account settings. This will create a directory called `MyCloudCode` in the current directory. Several files are automatically created for you:
 
 ```bash
--config/
-  global.json
--cloud/
-  main.js
--public/
-  index.html
+.
+├── cloud
+│   └── main.js
+├── config
+│   └── global.json
+└── public
+    └── index.html
 ```
 
 The `config` directory contains a JSON configuration file that you shouldn't normally need to deal with, the `cloud` directory stores your Cloud Code, and the `public` directory stores any static content that you want to host on Parse. In the `cloud` directory, you'll typically just be editing `main.js`, which stores all of your Cloud Code functions. For now, just check that these files were created successfully. If you're using source control, you can check all of these files in.
@@ -69,16 +73,43 @@ The first application that is added (by the `new` command) will be the default a
 To deploy a new release, run `parse deploy` from the command line:
 ```bash
 $ parse deploy
-New release is named v1
+Uploading source files
+Uploading recent changes to scripts...
+The following files will be uploaded:
+.....
+Uploading recent changes to hosting...
+The following files will be uploaded:
+.....
+Finished uploading files
+New release is named v1 (using Parse JavaScript SDK vx.x.x)
 ```
 This pushes the new code (in `cloud/main.js`) to the Parse Cloud and deploys this code for the default target which is the first app that was added or the one you set using `parse default`. You can choose to deploy to a different target by adding the target as an argument to `deploy` like so:
 
 ```bash
 $ parse deploy "My Other App"
-New release is named v2
+Uploading source files
+Uploading recent changes to scripts...
+The following files will be uploaded:
+.....
+Uploading recent changes to hosting...
+The following files will be uploaded:
+.....
+Finished uploading files
+New release is named v2 (using Parse JavaScript SDK vx.x.x)
 ```
 
 You can add release notes to the deploy with the `-d` or `--description=` option
+
+If the contents of your parse project remain unchanged then we skip deploy. You will see an output like
+
+```bash
+$ parse deploy
+Uploading source files
+Finished uploading files
+Not creating a release because no files have changed
+```
+
+You can override this behavior with the `-f` or `--force` flag. Providing this flag forces a deploy despite no changes to your project.
 
 When embedding `parse deploy` within other scripts (such as in an automated testing/deploy environment) you can rely on the exit code from the Parse command line tool to indicate whether the command succeded.  It will have an exit code of 0 on success and a non-zero exit code when the deploy failed.
 
@@ -106,7 +137,7 @@ You can add a new parse application as a target by running the `add` command. Th
 ```bash
 $ parse add
 Email: pirate@gmail.com
-Password:
+Password(will be hidden):
 1:PiecesOfEightCounter
 2:BootyDivider
 Select an App: 1
@@ -169,6 +200,17 @@ v14                             Add background job              2015-03-11T18:17
 v15                             No release notes given          2015-03-11T18:45:32Z
 v16                             Moved to webhooks               2015-03-16T21:32:02Z
 ...
+```
+
+To view all files uploaded in a given release you can use the `-v` or `--version` option.
+
+```bash
+$ parse releases -v v14
+Deployed cloud code files:
+main.js
+
+Deployed public hosting files:
+index.html
 ```
 
 ## Setting the SDK version
