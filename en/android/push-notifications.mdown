@@ -326,7 +326,8 @@ When a push notification is received, the “title” is displayed in the status
 
 Make sure you've gone through the [Android Push QuickStart](/apps/quickstart_push) to set up your app to receive pushes. The quickstart shows you how to set up push for all Android devices, including ones that do not support GCM. If you are only pushing to GCM-enabled devices, you can remove these elements from your `AndroidManifest.xml`:
 
-The `receiver` element for `com.parse.ParseBroadcastReceiver` (including the intent filter for `BOOT_COMPLETED` and `USER_PRESENT`)*   The `permission` element for `android.permission.RECEIVE_BOOT_COMPLETED`
+* The `receiver` element for `com.parse.ParseBroadcastReceiver` (including the intent filter for `BOOT_COMPLETED` and `USER_PRESENT`)
+* The `permission` element for `android.permission.RECEIVE_BOOT_COMPLETED`
 
 You will still need all the other elements (including the one for `com.parse.PushService`) as described in the quickstart. If you choose to subclass `com.parse.ParsePushBroadcastReceiver`, be sure to replace that name with your class' name in the registration.
 
