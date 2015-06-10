@@ -55,9 +55,24 @@ For each of the above actions, you can grant permission to all users (which is t
 
 ### Pointer Permissions
 
-Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class behave as if it had an ACL that only allowed reads for the user in that object's `owner` field. Given that objects often already have pointers to the user that should have permissions on the object, pointer permissions provides a simple solution for utilizing that data which is already there.
+Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class behave as if it had an ACL that only allowed reads for the user in that object's `owner` field. Given that objects often already have pointers to the user that should have permissions on the object, pointer permissions provide a simple solution for utilizing data which is already there.
 
-Like other CLPs, pointer permissions provide a separate layer of security than ACLs, and so can be dangerous to combine. Pointer permissions are recommended for apps and classes that don't already have many ACLs set. Read more about how CLPs and ACLs interact [here](https://parse.com/docs/data#security-interaction).
+For example you have a Message class, and each message has a `sender` and a `receiver`, which are each pointers to a `User`. You want to make sure only the sender and receiver of the message can see the message, so you can set read pointer permissions on both of those pointers. You also want only the sender to be able to edit the message, so you can set a write pointer permission on the `sender` pointer. This set of pointer permissions will cause the each object in the `Message` class to act as if it had an ACL of:
+
+```
+{
+    "<SENDER_USER_ID>": {
+        "read": true,
+        "write": true
+    },
+    "<RECEIVER_USER_ID>": {
+        "read": true
+    }
+}
+```
+
+Note that this ACL is not actually created on each object, it only acts like this ACL is on the object, assuming that the actual ACL on the object is public read and public write. If any of the objects in the `Message` class have a non-public ACL set then the virtual ACL for the object would be a combination of the two, and may make the object unreadable or unwritable. Like other CLPs, pointer permissions provide a separate layer of security than ACLs, and so can be dangerous to combine. Pointer permissions are recommended for apps and classes that don't already have many ACLs set. Read more about how CLPs and ACLs interact [here](https://parse.com/docs/data#security-interaction).
+
 
 ## Object-Level Access Control
 
