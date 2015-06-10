@@ -53,6 +53,12 @@ You can configure the client's ability to perform each of the following operatio
 
 For each of the above actions, you can grant permission to all users (which is the default), or lock permissions down to a list of roles and users. For example, a class that should be available to all users would be set to read-only by only enabling get and find. A logging class could be set to write-only by only allowing creates. You could enable moderation of user-generated content by providing update and delete access to a particular set of users or roles.
 
+### Pointer Permissions
+
+Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class behave as if it had an ACL that only allowed reads for the user in that object's `owner` field. Given that objects often already have pointers to the user that should have permissions on the object, pointer permissions provides a simple solution for utilizing that data which is already there.
+
+Like other CLPs, pointer permissions provide a separate layer of security than ACLs, and so can be dangerous to combine. Pointer permissions are recommended for apps and classes that don't already have many ACLs set. Read more about how CLPs and ACLs interact [here](https://parse.com/docs/data#security-interaction).
+
 ## Object-Level Access Control
 
 Once you've locked down your schema and class-level permissions, it's time to think about how data is accessed by your users. Object-level access control enables one user's data to be kept separate from another's, because sometimes different objects in a class need to be accessible by different people. For example, a user’s private personal data should be accessible only to them.
