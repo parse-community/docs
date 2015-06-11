@@ -105,8 +105,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 
 | URL                                 | HTTP Verb | Functionality                                           |
 |-------------------------------------|-----------|---------------------------------------------------------|
-| `/1/hooks/functions`                | GET       | [Fetch Cloud Functions](#hooks-fetch-list-of-functions) |
-| `/1/hooks/functions/<functionName>` | GET       | [Fetch Cloud Function](#hooks-fetch-single-function)    |
+| `/1/hooks/functions/<functionName>` | GET       | [Fetch Cloud Functions](#hooks-fetch-functions) |
 | `/1/hooks/functions/`               | POST      | [Create Cloud Function](#hooks-create-function-webhook) |
 | `/1/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#hooks-edit-function-webhook)     |
 | `/1/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#hooks-delete-function-webhook) |
@@ -115,8 +114,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 
 | URL                                           | HTTP Verb | Functionality                                           |
 |-----------------------------------------------|-----------|---------------------------------------------------------|
-| `/1/hooks/triggers`                           | GET       | [Fetch Cloud Triggers](#hooks-fetch-list-of-triggers)   |
-| `/1/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#hooks-fetch-single-trigger)      |
+| `/1/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#hooks-fetch-triggers)      |
 | `/1/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#hooks-create-trigger-webhook)   |
 | `/1/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#hooks-edit-trigger-webhook)       |
 | `/1/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#hooks-delete-trigger-webhook)   |
