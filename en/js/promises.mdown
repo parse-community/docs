@@ -29,7 +29,7 @@ object.save({ key: value }).then(
   });
 ```
 
-Not much different, right? So what’s the big deal? Well, the real power of promises comes from chaining multiple of them together. Calling `promise.then(func)`` returns a new promise, which is not fulfilled until `func` has completed. But there’s one really special thing about the way `func` is used. If a **callback supplied to `then` returns a new promise, then the promise returned by `then` will not be fulfilled until the promise returned by the callback is fulfilled**. The details of the behavior are explained in the [Promises/A+](https://github.com/promises-aplus/promises-spec) proposal. This is a complex topic, but maybe an example would make it clearer.
+Not much different, right? So what’s the big deal? Well, the real power of promises comes from chaining multiple of them together. Calling `promise.then(func)` returns a new promise, which is not fulfilled until `func` has completed. But there’s one really special thing about the way `func` is used. If a **callback supplied to `then` returns a new promise, then the promise returned by `then` will not be fulfilled until the promise returned by the callback is fulfilled**. The details of the behavior are explained in the [Promises/A+](https://github.com/promises-aplus/promises-spec) proposal. This is a complex topic, but maybe an example would make it clearer.
 
 Imagine you’re writing code to log in, find an object, and then update it. In the old callback paradigm, you’d end up with what we call pyramid code:
 
