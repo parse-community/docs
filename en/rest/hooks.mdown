@@ -16,7 +16,7 @@ Triggers are commonly used to validate your objects before saving them.
 For more details please read [cloud code triggers](https://parse.com/docs/js/guide#cloud-code-beforesave-triggers).
 
 ## Fetch functions
-To fetch the list of all cloud functions and cloud function webhooks you deployed or created, use
+To fetch the list of all cloud functions and cloud function webhooks you deployed or created, use:
 
 ```bash
 curl -X GET \
@@ -38,7 +38,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "results": [
@@ -50,9 +50,9 @@ Sample output
 }
 ```
 The output is a json object with one key: "results" whose value is a list of cloud code functions
-or cloud code function webhooks
+or cloud code function webhooks.
 
-To fetch a single cloud function with a given name, use
+To fetch a single cloud function with a given name, use:
 
 ```bash
 curl -X GET \
@@ -75,8 +75,8 @@ print result
 ```
 
 The output is a json object with one key: "results" whose value is a list of cloud code function
-or cloud code function webhooks
-with the given name
+or cloud code function webhooks with the given name.
+
 ```json
 {
   "results": [
@@ -86,9 +86,8 @@ with the given name
 }
 ```
 
-
 If only one of cloud code function or cloud code trigger function with the given name exists,
-then only that one value is present in the list.
+then only that one value will be present in the list.
 
 ```bash
 curl -X GET \
@@ -110,7 +109,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 
 ```json
 {
@@ -122,7 +121,7 @@ Sample output
 
 ## Fetch triggers
 To fetch the list of all cloud code triggers and cloud code webhook triggers
-you deployed or created, use
+you deployed or created, use:
 ```bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -143,7 +142,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "results": [
@@ -164,9 +163,9 @@ Sample output
 ```
 
 The output is a json object with one key: "results" whose value is a list of cloud code triggers
-or cloud code trigger webhooks
+or cloud code trigger webhooks.
 
-To fetch a single trigger use,
+To fetch a single trigger, use:
 
 ```bash
 curl -X GET \
@@ -191,7 +190,7 @@ print result
 The path looks like `/hooks/triggers/className/triggerName` where `triggerName`
 can be one of `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`.
 
-Sample output
+The output may look like this:
 ```json
 {
   "results": [
@@ -232,7 +231,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "results": [
@@ -280,7 +279,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {"functionName": "baz", "url": "https://api.example.com/baz"}'
 ```
@@ -289,7 +288,7 @@ It returns the function name and url of the created webhook.
 
 If a cloud code function with the same name already exists then the result also contains a warning.
 
-Example
+For example,
 ```bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -313,7 +312,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "functionName": "bar",
@@ -355,7 +354,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "className": "Game",
@@ -368,7 +367,7 @@ It returns the class name, trigger name and url of the created trigger webhook.
 
 If a cloud code trigger with the same name already exists then the result also contains a warning.
 
-Example
+For example,
 ```bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -392,7 +391,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "className": "Tournament",
@@ -429,7 +428,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {"functionName": "baz", "url": "https://api.example.com/baz"}'
 ```
@@ -438,7 +437,7 @@ It returns the function name and url of the modified webhook.
 
 If a cloud code function with the same name already exists then the result also contains a warning.
 
-Example
+For example,
 ```bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -462,7 +461,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "functionName": "bar",
@@ -497,7 +496,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "className": "Game",
@@ -510,7 +509,7 @@ It returns the class name, trigger name and url of the modified trigger webhook.
 
 If a cloud code trigger with the same name already exists then the result also contains a warning.
 
-Example
+For example,
 ```bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -534,7 +533,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "className": "Tournament",
@@ -570,7 +569,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {}
 ```
@@ -600,7 +599,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 { "functionName": "sendMessage" }
 ```
@@ -631,14 +630,14 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {}
 ```
 
 If a cloud code trigger with the same name already exists then the it is returned as the result.
 
-Example
+For example,
 ```bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -662,7 +661,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Sample output
+The output may look like this:
 ```json
 {
   "className": "Tournament",
