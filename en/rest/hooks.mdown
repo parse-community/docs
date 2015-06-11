@@ -1,21 +1,21 @@
 # Hooks
 
-You can create, update, list or delete all your cloud code webhooks via the Hooks API, in addition to being able to do so through the parse website.
+You can create, update, list or delete all your cloud code webhooks via the Hooks API, 
+in addition to being able to do so through the parse website.
 
-Hooks API requires that the user provides Application-Id and Master-Key in the request headers.
+Hooks API requires that the user provides `Application-Id` and `Master-Key` in the request headers.
 
 There are two kinds of cloud code webhooks: cloud function hooks and object trigger hooks.
 
-Cloud functions are functions that run in the cloud and can be invoked
-by passing some parameters. They are very valuable in extending the functionality of your app and also provide you with the ability to change desired functionality on the fly
-without requiring all the clients to update your app. For more details please read [cloud code functions](https://parse.com/docs/js/guide#cloud-code-cloud-functions).
+Cloud functions are functions that run in the cloud and allow you to build functions 
+common to all platforms. They can be changed without redeploying your app. 
+For more details please read [cloud code functions](https://parse.com/docs/js/guide#cloud-code-cloud-functions).
 
-Object triggers are invoked whenever you save or delete a parse object. A common usecase for triggers is to perform sanity checks on objects
-before saving to the database. For more details please read [cloud code triggers](https://parse.com/docs/js/guide#cloud-code-beforesave-triggers).
+Object triggers are invoked whenever you save or delete a parse object.
+Triggers are commonly used to validate your objects before saving them.
+For more details please read [cloud code triggers](https://parse.com/docs/js/guide#cloud-code-beforesave-triggers).
 
-In hooks api we clearly differentiate between both these kinds of webhooks because of the difference in the parameters involved.
-
-## Fetch list of functions
+## Fetch functions
 To fetch the list of all cloud functions and cloud function webhooks you deployed or created, use
 
 ```bash
@@ -39,7 +39,7 @@ print result
 ```
 
 Sample output
-```bash
+```json
 {
   "results": [
     { "functionName": "function1", "url": "https://api.example.com/function1" },
@@ -49,20 +49,9 @@ Sample output
   ]
 }
 ```
-```python
-{
-  "results": [
-    { "functionName": "function1", "url": "https://api.example.com/function1" },
-    { "functionName": "function1" },
-    { "functionName": "function2", "url": "https://api.example.com/function2" }
-    { "functionName": "function3" },
-  ]
-}
-```
+The output is a json object with one key: "results" whose value is a list of cloud code functions 
+or cloud code function webhooks
 
-Output is a json object with one key: "results" whose value is a list of cloud code functions or cloud code function webhooks
-
-## Fetch single function
 To fetch a single cloud function with a given name, use
 
 ```bash
@@ -85,17 +74,10 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-Output is a json object with one key: "results" whose value is a list of cloud code functions or cloud code function webhooks
+The output is a json object with one key: "results" whose value is a list of cloud code functions 
+or cloud code function webhooks
 with the given name
-```bash
-{
-  "results": [
-    { "functionName": "function1", "url": "https://api.example.com/function1" },
-    { "functionName": "function1" },
-  ]
-}
-```
-```python
+```json
 {
   "results": [
     { "functionName": "function1", "url": "https://api.example.com/function1" },
@@ -104,7 +86,9 @@ with the given name
 }
 ```
 
-If only one of cloud code function or cloud code trigger function with the given name exists, then only that one value is present in the list.
+
+If only one of cloud code function or cloud code trigger function with the given name exists, 
+then only that one value is present in the list.
 
 ```bash
 curl -X GET \
@@ -128,14 +112,7 @@ print result
 
 Sample output 
 
-```bash
-{
-  "results": [
-    { "functionName": "function2", "url": "https://api.example.com/function2" }
-  ]
-}
-```
-```python
+```json
 {
   "results": [
     { "functionName": "function2", "url": "https://api.example.com/function2" }
@@ -143,8 +120,9 @@ Sample output
 }
 ```
 
-## Fetch list of triggers
-To fetch the list of all cloud code triggers and cloud code webhook triggers you deployed or created, use
+## Fetch triggers
+To fetch the list of all cloud code triggers and cloud code webhook triggers 
+you deployed or created, use
 ```bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -166,25 +144,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "results": [
-    { "className": "sample", "triggerName": "beforeSave" },
-    {
-      "className": "sample",
-      "triggerName": "beforeSave",
-      "url": "https://api.example.com/sample/beforeSave"
-    },
-    {
-      "className": "sample2",
-      "triggerName": "afterSave",
-      "url": "https://api.example.com/sample2/afterSave"
-    },
-    { "className": "sample3", "triggerName": "beforeDelete" },
-  ]
-}
-```
-```python
+```json
 {
   "results": [
     { "className": "sample", "triggerName": "beforeSave" },
@@ -203,9 +163,9 @@ Sample output
 }
 ```
 
-Output is a json object with one key: "results" whose value is a list of cloud code triggers or cloud code trigger webhooks
+The output is a json object with one key: "results" whose value is a list of cloud code triggers 
+or cloud code trigger webhooks
 
-## Fetch single trigger
 To fetch a single trigger use,
 
 ```bash
@@ -228,22 +188,11 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The path looks like `/hooks/triggers/className/triggerName` where `triggerName` can be one of `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`.
+The path looks like `/hooks/triggers/className/triggerName` where `triggerName` 
+can be one of `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`.
 
 Sample output
-```bash
-{
-  "results": [
-    { "className": "sample", "triggerName": "beforeSave" },
-    {
-      "className": "sample",
-      "triggerName": "beforeSave",
-      "url": "https://api.example.com/sample/beforeSave"
-    }
-  ]
-}
-```
-```python
+```json
 {
   "results": [
     { "className": "sample", "triggerName": "beforeSave" },
@@ -256,9 +205,11 @@ Sample output
 }
 ```
 
-Output is a json object with one key: "results" whose value is a list of all cloud code triggers with given name for a given class. 
+The output is a json object with one key: "results" whose value is a list of all 
+cloud code triggers with given name for a given class. 
 
-If only one of cloud code trigger or cloud code trigger webhook with the given name exists, then only that one value is present in the list.
+If only one of cloud code trigger or cloud code trigger webhook with the given name exists, 
+then only that one value is present in the list.
 
 For example, 
 ```bash
@@ -282,18 +233,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "results": [
-    {
-      "className": "sample2",
-      "triggerName": "afterSave",
-      "url": "https://api.example.com/sample2/afterSave"
-    }
-  ]
-}
-```
-```python
+```json
 {
   "results": [
     {
@@ -305,7 +245,9 @@ Sample output
 }
 ```
 
-Note that POST, PUT and DELETE only work on function or trigger webhooks. To create regular cloud code functions or triggers you can modify your cloude code js files and perform a `parse deploy` the usual way.
+Note that POST, PUT and DELETE only work on function or trigger webhooks. 
+To create regular cloud code functions or triggers you can modify your cloude code js files 
+and perform a `parse deploy` the usual way.
 
 ## Create function webhook
 To create a new cloud code function webhook post to `/1/hooks/functions` with payload in the format
@@ -339,10 +281,7 @@ print result
 ```
 
 Sample output
-```bash
-{"functionName": "function4", "url": "https://api.example.com/function4"}'
-```
-```python
+```json
 {"functionName": "function4", "url": "https://api.example.com/function4"}'
 ```
 
@@ -375,14 +314,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "functionName": "function3",
-  "url": "https://api.example.com/function3",
-  "warning": "a cloudcode function with name: function3 already exists"
-}
-```
-```python
+```json
 {
   "functionName": "function3",
   "url": "https://api.example.com/function3",
@@ -424,14 +356,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "className": "sample2",
-  "triggerName": "beforeSave",
-  "url": "https://api.example.com/sample2/beforeSave"
-}
-```
-```python
+```json
 {
   "className": "sample2",
   "triggerName": "beforeSave",
@@ -468,7 +393,7 @@ print result
 ```
 
 Sample output
-```bash
+```json
 {
   "className": "sample3",
   "triggerName": "beforeDelete",
@@ -476,15 +401,6 @@ Sample output
   "warning": "beforeDelete trigger already defined for class sample3 in cloud code"
 }
 ```
-```python
-{
-  "className": "sample3",
-  "triggerName": "beforeDelete",
-  "url": "https://api.example.com/sample3/beforeDelete",
-  "warning": "beforeDelete trigger already defined for class sample3 in cloud code"
-}
-```
-
 
 ## Edit function webhook
 To edit the url of a function webhook that was already created use the put method.
@@ -514,10 +430,7 @@ print result
 ```
 
 Sample output
-```bash
-{"functionName": "function4", "url": "https://api.example.com/function4"}'
-```
-```python
+```json
 {"functionName": "function4", "url": "https://api.example.com/function4"}'
 ```
 
@@ -550,14 +463,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "functionName": "function3",
-  "url": "https://api.example.com/_function3",
-  "warning": "a cloudcode function with name: function3 already exists"
-}
-```
-```python
+```json
 {
   "functionName": "function3",
   "url": "https://api.example.com/_function3",
@@ -592,14 +498,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "className": "sample2",
-  "triggerName": "beforeSave",
-  "url": "https://api.example.com/sample2/_beforeSave"
-}
-```
-```python
+```json
 {
   "className": "sample2",
   "triggerName": "beforeSave",
@@ -636,15 +535,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "className": "sample3",
-  "triggerName": "beforeDelete",
-  "url": "https://api.example.com/sample3/beforeDelete",
-  "warning": "beforeDelete trigger already defined for class sample3 in cloud code"
-}
-```
-```python
+```json
 {
   "className": "sample3",
   "triggerName": "beforeDelete",
@@ -680,10 +571,7 @@ print result
 ```
 
 Sample output
-```bash
-{}
-```
-```python
+```json
 {}
 ```
 
@@ -713,10 +601,7 @@ print result
 ```
 
 Sample output
-```bash
-{ "functionName": "function1" }
-```
-```python
+```json
 { "functionName": "function1" }
 ```
 
@@ -747,10 +632,7 @@ print result
 ```
 
 Sample output
-```bash
-{}
-```
-```python
+```json
 {}
 ```
 
@@ -781,13 +663,7 @@ print result
 ```
 
 Sample output
-```bash
-{
-  "className": "sample3",
-  "triggerName": "beforeDelete"
-}
-```
-```python
+```json
 {
   "className": "sample3",
   "triggerName": "beforeDelete"
