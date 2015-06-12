@@ -81,7 +81,7 @@ or cloud code function webhooks with the given name.
 {
   "results": [
     { "functionName": "sendMessage", "url": "https://api.example.com/sendMessage" },
-    { "functionName": "sendMessage" },
+    { "functionName": "sendMessage" }
   ]
 }
 ```
