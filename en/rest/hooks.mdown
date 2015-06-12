@@ -3,20 +3,32 @@
 You can create, update, list or delete all your cloud code webhooks via the Hooks API,
 in addition to being able to do so through the parse website.
 
-Hooks API requires that the user provides `Application-Id` and `Master-Key` in the request headers.
+Hooks API requires the users to provide `Application-Id` and `Master-Key` in the request headers.
 
-There are two kinds of cloud code webhooks: cloud function hooks and object trigger hooks.
+There are two kinds of cloud code webhooks: function webhooks and trigger webhooks.
 
 Cloud functions are functions that run in the cloud and allow you to build functions
 common to all platforms.
 For more details please read [cloud code functions](https://parse.com/docs/js/guide#cloud-code-cloud-functions).
 
-Object triggers are invoked whenever you save or delete a parse object.
+Cloud triggers are invoked whenever you save or delete a parse object.
 Triggers are commonly used to validate your objects before saving them.
 For more details please read [cloud code triggers](https://parse.com/docs/js/guide#cloud-code-beforesave-triggers).
 
+Lets establish some basic terminology used throughout the rest of this section.
+
+`Cloud Code Webhooks` consist of `function webhooks` and `trigger webhooks`. This is code that runs on your servers.
+
+`Cloud Code` has `cloud code functions` and `cloud code triggers`. This is code that runs on the Parse servers.
+
+These are the generic concepts encapsulating both use cases:
+
+`Cloud Function` is either a `cloud code function` or a `function webhook`
+`Cloud Trigger` is either a `cloud code trigger` or a `trigger webhook`
+
+
 ## Fetch functions
-To fetch the list of all cloud functions and cloud function webhooks you deployed or created, use:
+To fetch the list of all cloud functions you deployed or created, use:
 
 ```bash
 curl -X GET \
@@ -49,8 +61,7 @@ The output may look like this:
   ]
 }
 ```
-The output is a json object with one key: "results" whose value is a list of cloud code functions
-or cloud code function webhooks.
+The output is a json object with one key: "results" whose value is a list of cloud functions.
 
 To fetch a single cloud function with a given name, use:
 
@@ -74,8 +85,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The output is a json object with one key: "results" whose value is a list of cloud code function
-or cloud code function webhooks with the given name.
+The output is a json object with one key: "results" whose value is a list of cloud functions with the given name.
 
 ```json
 {
@@ -86,42 +96,8 @@ or cloud code function webhooks with the given name.
 }
 ```
 
-If only one of cloud code function or cloud code trigger function with the given name exists,
-then only that one value will be present in the list.
-
-```bash
-curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  -H "Content-Type: application/json" \
-  https://api.parse.com/1/hooks/functions/foo
-```
-```python
-import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
-connection.connect()
-connection.request('GET', '/1/hooks/functions/foo', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
-       "Content-Type": "application/json"
-     })
-result = json.loads(connection.getresponse().read())
-print result
-```
-
-The output may look like this:
-
-```json
-{
-  "results": [
-    { "functionName": "foo", "url": "https://api.example.com/foo" }
-  ]
-}
-```
-
 ## Fetch triggers
-To fetch the list of all cloud code triggers and cloud code webhook triggers
-you deployed or created, use:
+To fetch the list of all cloud triggers you deployed or created, use:
 ```bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -157,16 +133,14 @@ The output may look like this:
       "triggerName": "afterSave",
       "url": "https://api.example.com/Game/afterSave"
     },
-    { "className": "Tournament", "triggerName": "beforeDelete" },
+    { "className": "Tournament", "triggerName": "beforeDelete" }
   ]
 }
 ```
 
-The output is a json object with one key: "results" whose value is a list of cloud code triggers
-or cloud code trigger webhooks.
+The output is a json object with one key: "results" whose value is a list of cloud triggers. 
 
-To fetch a single trigger, use:
-
+To fetch a single cloud trigger, use:
 ```bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -205,51 +179,14 @@ The output may look like this:
 ```
 
 The output is a json object with one key: "results" whose value is a list of all
-cloud code triggers with given name for a given class.
-
-If only one of cloud code trigger or cloud code trigger webhook with the given name exists,
-then only that one value is present in the list.
-
-For example,
-```bash
-curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  -H "Content-Type: application/json" \
-  https://api.parse.com/1/hooks/triggers/Game/afterSave
-```
-```python
-import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
-connection.connect()
-connection.request('GET', '/1/hooks/triggers/Game/afterSave', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
-       "Content-Type": "application/json"
-     })
-result = json.loads(connection.getresponse().read())
-print result
-```
-
-The output may look like this:
-```json
-{
-  "results": [
-    {
-      "className": "Game",
-      "triggerName": "afterSave",
-      "url": "https://api.example.com/Game/afterSave"
-    }
-  ]
-}
-```
+cloud triggers with given name for a given class.
 
 Note that POST, PUT and DELETE only work on function or trigger webhooks.
-To create regular cloud code functions or triggers you can modify your cloude code js files
+To create cloud code functions or cloud code triggers you can modify your cloud code javascript files
 and perform a `parse deploy` the usual way.
 
 ## Create function webhook
-To create a new cloud code function webhook post to `/1/hooks/functions` with payload in the format
+To create a new function webhook post to `/1/hooks/functions` with payload in the format
 ```bash
 {"functionName" : x, "url" : y}
 ```
@@ -286,7 +223,7 @@ The output may look like this:
 
 It returns the function name and url of the created webhook.
 
-If a cloud code function with the same name already exists then the result also contains a warning.
+If you try to create a function webhook and a cloud code function with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
 For example,
 ```bash
@@ -322,7 +259,7 @@ The output may look like this:
 ```
 
 ## Create trigger webhook
-To create a new cloud code function webhook post to `/1/hooks/triggers` with payload in the format
+To create a new function webhook post to `/1/hooks/triggers` with payload in the format
 ```bash
 {"className": x, "triggerName": y, "url": z}
 ```
@@ -365,7 +302,7 @@ The output may look like this:
 
 It returns the class name, trigger name and url of the created trigger webhook.
 
-If a cloud code trigger with the same name already exists then the result also contains a warning.
+If you try to create a trigger webhook and a cloud code trigger with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
 For example,
 ```bash
@@ -435,7 +372,7 @@ The output may look like this:
 
 It returns the function name and url of the modified webhook.
 
-If a cloud code function with the same name already exists then the result also contains a warning.
+If you try to update a function webhook and a cloud code function with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
 For example,
 ```bash
@@ -507,7 +444,7 @@ The output may look like this:
 
 It returns the class name, trigger name and url of the modified trigger webhook.
 
-If a cloud code trigger with the same name already exists then the result also contains a warning.
+If you try to update a trigger webhook and a cloud code trigger with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
 For example,
 ```bash
