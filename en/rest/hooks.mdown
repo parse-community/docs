@@ -8,7 +8,7 @@ Hooks API requires that the user provides `Application-Id` and `Master-Key` in t
 There are two kinds of cloud code webhooks: cloud function hooks and object trigger hooks.
 
 Cloud functions are functions that run in the cloud and allow you to build functions
-common to all platforms. They can be changed without redeploying your app.
+common to all platforms.
 For more details please read [cloud code functions](https://parse.com/docs/js/guide#cloud-code-cloud-functions).
 
 Object triggers are invoked whenever you save or delete a parse object.
@@ -44,8 +44,8 @@ The output may look like this:
   "results": [
     { "functionName": "sendMessage", "url": "https://api.example.com/sendMessage" },
     { "functionName": "sendMessage" },
-    { "functionName": "foo", "url": "https://api.example.com/foo" }
-    { "functionName": "bar" },
+    { "functionName": "foo", "url": "https://api.example.com/foo" },
+    { "functionName": "bar" }
   ]
 }
 ```
