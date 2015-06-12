@@ -23,8 +23,8 @@ Lets establish some basic terminology used throughout the rest of this section.
 
 These are the generic concepts encapsulating both use cases:
 
-`Cloud Function` is either a `cloud code function` or a `function webhook`
-`Cloud Trigger` is either a `cloud code trigger` or a `trigger webhook`
+`Cloud Function` is either a `cloud code function` or a `function webhook`.
+`Cloud Trigger` is either a `cloud code trigger` or a `trigger webhook`.
 
 
 ## Fetch functions
@@ -50,7 +50,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The output may look like this:
+The output is a json object with one key: "results" whose value is a list of cloud functions.
 ```json
 {
   "results": [
@@ -61,7 +61,6 @@ The output may look like this:
   ]
 }
 ```
-The output is a json object with one key: "results" whose value is a list of cloud functions.
 
 To fetch a single cloud function with a given name, use:
 
@@ -118,7 +117,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The output may look like this:
+The output is a json object with one key: "results" whose value is a list of cloud triggers.
 ```json
 {
   "results": [
@@ -137,8 +136,6 @@ The output may look like this:
   ]
 }
 ```
-
-The output is a json object with one key: "results" whose value is a list of cloud triggers. 
 
 To fetch a single cloud trigger, use:
 ```bash
@@ -511,7 +508,9 @@ The output may look like this:
 {}
 ```
 
-If a cloud code trigger with the same name already exists then the it is returned as the result.
+If a cloud code function with the same name already exists then it is returned as the result.
+Since the overriding webhook was just deleted, this cloud code function will be run the next time foo is called.
+
 
 ```bash
 curl -X PUT \
@@ -573,6 +572,7 @@ The output may look like this:
 ```
 
 If a cloud code trigger with the same name already exists then the it is returned as the result.
+Since the overriding webhook was just deleted, this cloud code trigger will be run the next time a Game object is saved.
 
 For example,
 ```bash
