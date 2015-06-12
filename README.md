@@ -4,7 +4,7 @@ These are the markdown sources for all of the [platform guides](https://parse.co
 
 ## How Do I Contribute?
 
-If you have any fixes or suggestions, simply send us a pull request! The guides are organized first by language, then by platform. So for example, `/en/ios/` contains all of sections for the iOS guide in English. You'll notice a `common` folder in each language. This folder contains content that is shared amongst all of the platforms. That helps us avoid duplicating content unnecessarily.
+If you have any fixes or suggestions, simply send us a pull request! The guides are organized first by language, then by platform. Take a look at our [contribution guidelines](https://github.com/ParsePlatform/Docs/wiki/Contributing-to-Docs) to learn more.
 
 ## Can I Access The Docs Offline?
 
