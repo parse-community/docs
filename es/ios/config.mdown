@@ -96,7 +96,7 @@ if date == nil ||
 ```
 
 
-## Parameters
+## Parametros
 
 `PFConfig`  soporta casi todos los tipos de datos al igual que `%{ParseObject}`:
 
