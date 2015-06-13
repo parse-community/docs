@@ -32,7 +32,7 @@ Mas metricas estan disponibles desde la entrega de notificaciones push y accesos
 
 ## Custom Analytics
 
-`PFAnalytics` tambien permire hacer monitoreo de forma livire, con la ayuda de `NSString` atravez de llaves y valores. Estas dimenciones extra, se permitiran hacer segmentacion de tus eventos propios atraves de la consola de aplicaciones
+`PFAnalytics` tambien permire hacer monitoreo de forma libre, con la ayuda de `NSString` atravez de llaves y valores. Estas dimenciones extra, se permitiran hacer segmentacion de tus eventos propios atraves de la consola de aplicaciones
 
 Supongamos que tu aplicación ofrece una funcionlidad de busqueda para un listado de apartamentos, y buscas llevar un registro de cuantas vecesesta siendo usada, con algunos datos adicionales.
 
