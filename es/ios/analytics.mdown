@@ -1,6 +1,6 @@
 # Analytics
 
-Parse provee un numero de herramientas para verificar los latidos desde de tu aplicación. Comprendemos que es importante el entender como se esta comportando tu aplicación, que tan frecuente, y cuando.
+Parse provee un numero de herramientas para verificar los latidos desde tuaplicación. Comprendemos que es importante el entender como se esta comportando tu aplicación, que tan frecuente, y cuando.
 
 Mientras esta sección cubrira diversas maneras de utilizar tu aplicación de la mejor forma para aprovechar los Analytics de Parse en el lado del servidor, los desarrolladores usando Parse para guardar y recibir información ya pueden recibir las ventajas de usar las metricas en Parse.
 
