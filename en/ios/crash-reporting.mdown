@@ -44,13 +44,13 @@ parse new
 export PATH=/usr/local/bin:$PATH
 cd <path_to_cloudcode_folder>
 
-parse symbols "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}"
+parse symbols <app_name_from_cloud_code_config_globals> --path="${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}"
 ```
 
 Alternatively, you can manually upload symbol files using the command line tool:
 
 ```bash
-parse symbols <dSYM/xcarchive/DWARF path>
+parse symbols <app_name_from_cloud_code_config_globals> --path="<dSYM/xcarchive/DWARF path>"
 ```
 
 The symbol files for your apps can be found in one of these locations, depending on your deployment workflow:
