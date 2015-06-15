@@ -26,6 +26,27 @@ These are the generic concepts encapsulating both use cases:
 `Cloud Function` is either a `cloud code function` or a `function webhook`.
 `Cloud Trigger` is either a `cloud code trigger` or a `trigger webhook`.
 
+A function webhook has a name and a url. Hence, its JSON response looks like:
+```json
+{"functionName": "foo", "url": "https://api.example.com/foo"}
+```
+
+JSON reponse for a cloud code function just contains the function name.
+```json
+{"functionName": "foo"}
+```
+
+A trigger webhook belongs to a class, has a trigger name and a url. Hence, its JSON response looks like:
+```json
+{"className": "score", "triggerName": "beforeSave", "url": "https://api.example.com/score/beforeSave"}
+```
+
+JSON response for a cloude code trigger contains the class name and the trigger name.
+```json
+{"className": "score", "triggerName": "beforeSave"}
+```
+Note that trigger name can only be one of `beforeSave`, `afterSave`, `beforeDelete` and `afterDelete`.
+
 
 ## Fetch functions
 To fetch the list of all cloud functions you deployed or created, use:
