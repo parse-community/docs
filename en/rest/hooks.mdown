@@ -530,8 +530,7 @@ The output may look like this:
 ```
 
 If a cloud code function with the same name already exists then it is returned as the result.
-Since the overriding webhook was just deleted, this cloud code function will be run the next time foo is called.
-
+Since the overriding webhook was just deleted, this cloud code function will be run the next time sendMessage is called.
 
 ```bash
 curl -X PUT \
@@ -593,9 +592,8 @@ The output may look like this:
 ```
 
 If a cloud code trigger with the same name already exists then the it is returned as the result.
-Since the overriding webhook was just deleted, this cloud code trigger will be run the next time a Game object is saved.
+Since the overriding webhook was just deleted, this cloud code trigger will be run the next time a Tournament object is saved.
 
-For example,
 ```bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
