@@ -205,7 +205,8 @@ IDictionary<string, object> params = new Dictionary<string, object>
     { "movie", "The Matrix" }
 };
 ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params).ContinueWith(t => {
-  var result = t.Result;
+  var ratings = t.Result;
+  // ratings is 4.5
 });
 ```
 ```common-js
