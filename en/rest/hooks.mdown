@@ -41,7 +41,7 @@ A trigger webhook belongs to a class, has a trigger name and a url. Hence, its J
 {"className": "score", "triggerName": "beforeSave", "url": "https://api.example.com/score/beforeSave"}
 ```
 
-JSON response for a cloude code trigger contains the class name and the trigger name.
+JSON response for a cloud code trigger contains the class name and the trigger name.
 ```json
 {"className": "score", "triggerName": "beforeSave"}
 ```
