@@ -104,8 +104,10 @@ PFCloud.callFunctionInBackground("hello", withParameters: nil) {
 $result = ParseCloud::run("hello", []);
 ```
 ```common-csharp
-var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>());
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
+  var result = t.Result;
 // result is "Hello world!"
+});
 ```
 ```common-js
 Parse.Cloud.run('hello', {}, {
@@ -202,7 +204,9 @@ IDictionary<string, object> params = new Dictionary<string, object>
 {
     { "movie", "The Matrix" }
 };
-var result = await ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params);
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params).ContinueWith(t => {
+  var result = t.Result;
+});
 ```
 ```common-js
 Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
