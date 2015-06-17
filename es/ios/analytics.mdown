@@ -4,7 +4,7 @@ Parse provee un numero de herramientas para verificar la actividad de tu aplicac
 
 Mientras esta sección cubrira diversas maneras de utilizar tu aplicación de la mejor forma para aprovechar los analytics de Parse en el Backend, los desarrolladores usando Parse para guardar y recibir información pueden tomar ventaja de usar metricas en Parse al momento.
 
-Sin tener la nesecidad de implementar codigo del lado de cliente, puedes ver en tiempo real graficas y detalles (por  dispositivo, clase de Parse, o verbo REST) de tu peticiones API en la consola de aplicaciones, ademas guardar filtros de graficas, para accesar a la información de tu interés.
+Sin tener la necesidad de implementar codigo del lado de cliente, puedes ver en tiempo real gráficas y detalles (por  dispositivo, clase de Parse, o verbo REST) de tus peticiones API en la consola de aplicaciones, ademas guardar filtros de gráficas, para accesar a la información de tu interés.
 
 ## App-Open & Push Analytics
 
@@ -26,13 +26,13 @@ PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
 PFAnalytics.trackAppOpenedWithLaunchOptions(nil)
 ```
 
-Graficas y detalles de tus estadisticas son accesibles desde la consola de tu aplicación.
-
-Mas metricas estan disponibles desde la entrega de notificaciones push y accesos. Asegurate de mirar [Monitoreo de Push y Lanzamientos de aplicación](/docs/push_guide#receiving-tracking/iOS)
+Gráficas y detalles de tus estadisticas son accesibles desde la consola de tu aplicación.
+m
+Más metricas estan disponibles desde la entrega de notificaciones push y accesos. Asegurate de mirar [Monitoreo de Push y Lanzamientos de aplicación](/docs/push_guide#receiving-tracking/iOS)
 
 ## Custom Analytics
 
-`PFAnalytics` tambien permire hacer monitoreo de forma libre, con la ayuda de `NSString` atravez de llaves y valores. Estas dimenciones extra, se permite hacer segmentacion de tus eventos propios atraves de la consola de aplicaciones
+`PFAnalytics` tambien permite hacer monitoreo de forma libre, con la ayuda de `NSString` atravez de llaves y valores. Estas dimenciones extra, se permite hacer segmentación de tus eventos propios atraves de la consola de aplicaciones
 
 Supongamos que tu aplicación ofrece una funcionlidad de busqueda para un listado de apartamentos, y buscas llevar un registro de cuantas veces esta siendo usada, con algunos datos adicionales.
 
