@@ -1,8 +1,8 @@
-# Config
+# Configuración
 
-## Parse Config
+## Configuración de Parse
 
-`PFConfig` is una manera de configurar tus aplicaciones de manera remota permitiendote almacenar un archivo de configuracion en Parse. Permite agregar cosas como acceso a feateures para pruebas o simplemente un mensaje del dia. Para comenzar a usar `PFConfig` nesecitas agregar algunos pares de valores/llave (parametros) a la consola de Parse Config.
+`PFConfig` is una manera de configurar tus aplicaciones de manera remota permitiendote almacenar un archivo de configuracion en Parse. Permite agregar cosas como acceso a características para pruebas o simplemente un mensaje del dia. Para comenzar a usar `PFConfig` nesecitas agregar algunos pares de valores/llave (parámetros) a la consola de Parse Config.
 
 ![](/images/docs/config_editor.png)
 
@@ -22,7 +22,7 @@ PFConfig.getConfigInBackgroundWithBlock {
 }
 ```
 
-## Obteniendo el Config
+## Obteniendo la Configuración
 
 `PFConfig` esta desarrollado para ser lo mas robusto posible, incluso en el caso de baja conectividad de internet. Caching es usado por defecto para asegurar que la ultima configuración obtenida siempre estara disponible. En el ejemplo debajo usamos `getConfigInBackgroundWithBlock` para obtener la ultima versión del config desde el servidor,  y si falla simplemente podemos regresar a la version que fue obtenida con anterioridad a travez de `currentConfig`.
 
@@ -65,7 +65,7 @@ PFConfig.getConfigInBackgroundWithBlock {
 };
 ```
 
-## Actual Config
+## Configuración Existente
 
 Cada instancia de `PFConfig` que se obtiene siempre es inmutable. Cuando se obtiene una `PFConfig` futura desde la red, no modificara ninguna instancia `PFConfig` existente, en su lugar creata una nueva y la volvera disponible a travez de `[PFConfig currentConfig]`. Ademas, tambien puedes de manera segura pasar cualquier objeto `PFConfig` y ten por seguro que no cambiara automaticamente.
 
@@ -108,4 +108,4 @@ if date == nil ||
 *   NSArray
 *   NSDictionary
 
-Actualmente se permiten hasta **100** parametro en tu config con un total de **128KB** contanto todos los parametros.
+Actualmente se permiten hasta **100** parametros en tu configuración con un total de **128KB** contando todos los parametros.
