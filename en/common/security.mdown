@@ -227,20 +227,42 @@ All this is just the beginning. Applications can enforce all sorts of complex ac
 For the curious, here's the format for an ACL that restricts read and write permissions to the owner (whose `objectId` is identified by `"aSaMpLeUsErId"`) and enables other users to read the object:
 
 ```json
-{ 
-    "*": { "read":true }, 
-    "aSaMpLeUsErId": { "read" :true, "write": true } 
+{
+    "*": { "read":true },
+    "aSaMpLeUsErId": { "read" :true, "write": true }
 }
 ```
 
 And here's another example of the format of an ACL that uses a Role:
 
 ```json
-{ 
-    "role:RoleName": { "read": true }, 
-    "aSaMpLeUsErId": { "read": true, "write": true } 
+{
+    "role:RoleName": { "read": true },
+    "aSaMpLeUsErId": { "read": true, "write": true }
 }
 ```
+
+## Pointer Permissions
+
+Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `sender` field and a read and write pointer permission on the `receiver` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
+
+Given that objects often already have pointers to the user(s) that should have permissions on the object, pointer permissions provide a simple and fast solution for securing your app using data which is already there, that doesn't require writing any client code or cloud code.
+
+Pointer permissions are like virtual ACLs. They don't appear in the ACL column, buf if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
+
+```
+{
+    "<SENDER_USER_ID>": {
+        "read": true,
+        "write": true
+    },
+    "<RECEIVER_USER_ID>": {
+        "read": true
+    }
+}
+```
+
+Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don't have many ACLs set. Fortunately, it's easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.
 
 ## Data Integrity in Cloud Code
 
@@ -255,9 +277,9 @@ To create validation functions, Cloud Code allows you to implement a `beforeSave
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
   var user = request.object;
-  if (!user.get("email")) { 
+  if (!user.get("email")) {
     response.error("Every user must have an email address.");
-  } else { 
+  } else {
     response.success();
   }
 });
@@ -301,11 +323,11 @@ Parse.Cloud.define("like", function(request, response) {
   var post = new Parse.Object("Post");
   post.id = request.params.postId;
   post.increment("likes");
-  post.save(null, { useMasterKey: true }).then(function() { 
-    // If I choose to do something else here, it won't be using 
-    // the master key and I'll be subject to ordinary security measures. 
+  post.save(null, { useMasterKey: true }).then(function() {
+    // If I choose to do something else here, it won't be using
+    // the master key and I'll be subject to ordinary security measures.
     response.success();
-  }, function(error) { 
+  }, function(error) {
     response.error(error);
   });
 });
