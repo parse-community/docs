@@ -36,20 +36,27 @@ As a start, you can configure your application so that clients cannot create new
 
 ![](/images/docs/security/client_class_creation.png)
 
-### Configuring CLPs
+### Configuring Class-Level Permissions
 
-Parse lets you specify what operations are allowed per class. This lets you restrict the ways in which clients can access or modify your classes. To change these settings, go to the Data Browser, select a class, open the "More" dropdown, and click the "Set permissions" item.
-
-![](/images/docs/security/class_level_permissions.png)
+Parse lets you specify what operations are allowed per class. This lets you restrict the ways in which clients can access or modify your classes. To change these settings, go to the Data Browser, select a class, and click the "Security" button.
 
 You can configure the client's ability to perform each of the following operations for the selected class:
 
-*   **Get**: With Get permission, users can fetch objects in this table if they know their objectIds.
-*   **Find**: Anyone with Find permission can query all of the objects in the table, even if they don’t know their objectIds. Any table with public Find permission will be completely readable by the public, unless you put an ACL on each object.
-*   **Update**: Anyone with Update permission can modify the fields of any object in the table that doesn't have an ACL. For publicly readable data, such as game levels or assets, you should disable this permission.
-*   **Create**: Like Update, anyone with Create permission can create new objects of a class. As with the Update permission, you'll probably want to turn this off for publicly readable data.
-*   **Delete**: With this permission, people can delete any object in the table that doesn't have an ACL. All they need is its objectId.
-*   **Add fields**: This is probably the strangest permission. Parse classes have schemas that are inferred when objects are created. While you're developing your app, this is great, because you can add a new field to your object without having to make any changes on the backend. But once you ship your app, it's very rare to need to add new fields to your classes automatically. So you should pretty much always turn off this permission for all of your classes when you submit your app to the public.
+* **Read**:
+
+  * **Get**: With Get permission, users can fetch objects in this table if they know their objectIds.
+
+  * **Find**: Anyone with Find permission can query all of the objects in the table, even if they don’t know their objectIds. Any table with public Find permission will be completely readable by the public, unless you put an ACL on each object.
+
+* **Write**:
+
+  * **Update**: Anyone with Update permission can modify the fields of any object in the table that doesn't have an ACL. For publicly readable data, such as game levels or assets, you should disable this permission.
+
+  * **Create**: Like Update, anyone with Create permission can create new objects of a class. As with the Update permission, you'll probably want to turn this off for publicly readable data.
+
+  * **Delete**: With this permission, people can delete any object in the table that doesn't have an ACL. All they need is its objectId.
+
+* **Add fields**: Parse classes have schemas that are inferred when objects are created. While you're developing your app, this is great, because you can add a new field to your object without having to make any changes on the backend. But once you ship your app, it's very rare to need to add new fields to your classes automatically. You should pretty much always turn off this permission for all of your classes when you submit your app to the public.
 
 For each of the above actions, you can grant permission to all users (which is the default), or lock permissions down to a list of roles and users. For example, a class that should be available to all users would be set to read-only by only enabling get and find. A logging class could be set to write-only by only allowing creates. You could enable moderation of user-generated content by providing update and delete access to a particular set of users or roles.
 
@@ -242,7 +249,7 @@ And here's another example of the format of an ACL that uses a Role:
 }
 ```
 
-## Pointer Permissions
+### Pointer Permissions
 
 Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `sender` field and a read and write pointer permission on the `receiver` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
 
@@ -263,6 +270,47 @@ Pointer permissions are like virtual ACLs. They don't appear in the ACL column, 
 ```
 
 Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don't have many ACLs set. Fortunately, it's easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.
+
+### CLP and ACL interaction
+
+Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don't always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, [Pointer Permissions](#security-pointer-permissions) are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.
+
+![](/images/docs/security/clp_vs_acl_diagram.png)
+
+As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let's look at an example to get a better sense of how CLPs and ACLs can interact. Say we have a `Photo` class, with an object, `photoObject`. There are 2 users in our app, `user1` and `user2`. Now lets say we set a Get CLP on the `Photo` class, disabling public Get, but allowing `user1` to perform Get. Now let's also set an ACL on `photoObject` to allow Read - which includes GET - for only `user2`.
+
+You may expect this will allow both `user1` and `user2` to Get `photoObject`, but because the CLP layer of authentication and the ACL layer are both in effect at all times, it actually makes it so *neither* `user1` nor `user2` can Get `photoObject`. If `user1` tries to Get `photoObject`, it will get through the CLP layer of authentication, but then will be rejected because it does not pass the ACL layer. If `user2 `tries to Get `photoObject`, it will be rejected at the CLP layer of authentication.
+
+Now lets look at example that uses Pointer Permissions. Say we have a `Post` class, with an object, `myPost`. There are 2 users in our app, `poster`, and `viewer`. Lets say we add a pointer permission that gives anyone in the `Creator` field of the `Post` class read and write access to the object, and for the `myPost` object, `poster` is the user in that field. There is also an ACL on the object that gives read access to `viewer`. You may expect that this will allow `poster` to read and edit `myPost`, and `viewer` to read it, but `viewer` will be rejected by the Pointer Permission, and `poster` will be rejected by the ACL, so again, neither user will be able to access the object.
+
+Because of the complex interaction between CLPs, Pointer Permissions, and ACLs, we recommend being careful when using them together. Often it can be useful to use CLPs only to disable all permissions for a certain request type, and then using Pointer Permissions or ACLs for other request types. For example, you may want to disable Delete for a `Photo` class, but then put a Pointer Permission on `Photo` so the user who created it can edit it, just not delete it. Because of the especially complex way that Pointer Permissions and ACLs interact, we usually recommend only using one of those two types of security mechanisms.
+
+### Security Edge Cases
+
+There are some special classes in Parse that don't follow all of the same security rules as every other class. Not all classes follow [Class-Level Permissions (CLPs)](#security-classes) or [Access Control Lists (ACLs)](#security-objects) exactly how they are defined, and here those exceptions are documented. Here "normal behavior" refers to CLPs and ACLs working normally, while any other special behaviors are described in the footnotes.
+
+||`_User`|`_Installation`|
+| --- | --- |
+|Get|normal behaviour [1, 2, 3]|ignores CLP, but not ACL|
+|Find|normal behavior [3]|master key only [6]|
+|Create|normal behavior [4]|ignores CLP|
+|Update|normal behavior [5]|ignores CLP, but not ACL [7]|
+|Delete|normal behavior [5]|master key only [7]|
+|Add Field|normal behavior|normal behavior|
+
+1. Logging in, or `/1/login` in the REST API, does not respect the Get CLP on the user class. Login works just based on username and password, and cannot be disabled using CLPs.
+
+2. Retrieving the current user, or becoming a User based on a session token, which are both `/1/users/me` in the REST API, do not respect the Get CLP on the user class.
+
+3. Read ACLs do not apply to the logged in user. For example, if all users have ACLs with Read disabled, then doing a find query over users will still return the logged in user. However, if the Find CLP is disabled, then trying to perform a find on users will still return an error.
+
+4. Create CLPs also apply to signing up. So disabling Create CLPs on the user class also disables people from signing up without the master key.
+
+5. Users can only Update and Delete themselves. Public CLPs for Update and Delete may still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. But no matter what the write ACL on a user is, that user can still Update or Delete itself, and no other user can Update or Delete that user. As always, however, using the master key allows users to update other users, independent of CLPs or ACLs.
+
+6. Get requests on installations follow ACLs normally. Find requests, however, return the installation making the request, and only that installation, no matter what ACL is defined on that installation.
+
+7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide](/docs/rest#installations).
 
 ## Data Integrity in Cloud Code
 
