@@ -279,3 +279,50 @@ $bigObject->save();
 `ParseObject`s should not exceed 128 kilobytes in size.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
+
+## Subclassing ParseObject
+
+Each `ParseObject` is an instance of a specific subclass with a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
+
+To create a new subclass, create a new class which extends the `ParseObject` class, add the `$parseClassName` static property, and call the `registerSubclass` method before use.  Any `ParseQuery` will return instances of the new class for any `ParseObject` with the same class name.
+
+```php
+class GameScore extends ParseObject
+{
+  public static $parseClassName = "GameScore";
+}
+```
+
+```php
+// Do this once, at the start of your app, before ParseClient::initialize(...);
+GameScore::registerSubclass();
+
+// Create a new instance of that class.
+$gameScore = new GameScore();
+```
+
+You can add additional methods and properties to your subclasses of `ParseObject`.
+
+```php
+// A complex subclass of ParseObject
+class Monster extends ParseObject
+{
+  public static $parseClassName = "Monster";
+
+  public function hasSuperHumanStrength() {
+    return this->get("strength") > 18;
+  }
+
+  public static function spawn($strength) {
+    $monster = new Monster();
+    $monster->set("strength", $strength);
+    return $monster;
+  }
+}
+```
+
+```php
+$monster = Monster::spawn(200);
+echo monster->strength();  // Displays 200.
+echo monster->hasSuperHumanStrength();  // Displays true.
+```   
