@@ -179,12 +179,8 @@ curl -X GET \
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 params = urllib.urlencode({"where":json.dumps({
-       "playerName": {
-         "$nin": [
-           "Jonathan Walsh",
-           "Dario Wunsch",
-           "Shawn Simon"
-         ]
+       "score": {
+         "$exists": True
        }
      })})
 connection.connect()
