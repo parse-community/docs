@@ -436,6 +436,45 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
+## Queries on String Values
+
+Use the `$regex` operator to restrict to string values that match a regular expression. Most regular expression queries in Parse are heavily throttled due to performance considerations. Use case sensitive, anchored queries where possible. Similar to a MySQL LIKE operator, anchored queries are indexed so they are efficient for large datasets. For example:
+
+```bash
+# Finds barbecue sauces that start with "Big Daddy"
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"name":{"$regex":"^Big Daddy"}}' \
+  https://api.parse.com/1/classes/BarbecueSauce
+```
+```python
+# Finds barbecue sauces that start with "Big Daddy"
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "name": {
+         "$regex": "^Big Daddy"
+       }
+     })})
+connection.connect()
+connection.request('GET', '/1/classes/BarbecueSauce?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy". For example, both "Big Daddy" and "Big Daddy's" will match, but "big daddy" or "BBQ Sauce: Big Daddy's" will not.
+
+Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
+
+<div class='tip info'><div>
+ If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/).
+</div></div>
+
 ## Relational Queries
 
 There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular object, you can use a `where` clause with a `Pointer` encoded with `__type` just like you would use other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:

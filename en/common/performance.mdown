@@ -238,7 +238,7 @@ This means rewriting your queries accordingly. Your query rewrites will depend o
 
 ### Regular Expressions
 
-Most regular expression queries in Parse have been deprecated due to performance considerations. MongoDB is not efficient for doing partial string matching except for the special case where you only want a prefix match. Queries that have regular expression constraints are therefore very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
+Most regular expression queries in Parse are heavily throttled due to performance considerations. MongoDB is not efficient for doing partial string matching except for the special case where you only want a prefix match. Queries that have regular expression constraints are therefore very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
 
 You should avoid using regular expression constraints that don't use indexes. For example, the following query looks for data with a given string in the playerName field. The string search is case insensitive:
 
@@ -613,4 +613,3 @@ There are some limits in place to ensure the API can provide the data you need i
 * The `params` payload that is passed to a Cloud Function is limited to 50 MB.
 * When using `console` to log information and errors, the message string will be limited to 1 KB.
 * Only the first 100 messages logged by a Cloud function will be persisted in the Cloud Code logs.
-

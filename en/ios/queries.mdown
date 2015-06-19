@@ -1,6 +1,6 @@
 # Queries
 
-We've already seen how a `PFQuery` with `getObjectWithId:` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `PFQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
+We've already seen how a `PFQuery` with `getObjectInBackgroundWithId:block:` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `PFQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
 
 ## Basic Queries
 
@@ -497,8 +497,12 @@ let pred = NSPredicate(format: "name BEGINSWITH 'Big Daddy")
 let query = PFQuery(className: "BarbecueSauce", predicate: predicate)
 ```
 
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
+
+Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#performance-regular-expressions) for more details.
+
 <div class='tip info'><div>
-If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/2013/03/19/implementing-scalable-search-on-a-nosql-backend/).
+If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/).
 </div></div>
 
 ## Relational Queries
