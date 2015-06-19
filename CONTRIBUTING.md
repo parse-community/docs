@@ -37,15 +37,15 @@ If you only want to modify your last commit message, it's very simple:
 
     $ git commit --amend
 
+### See also:
+[Git Book Chapter 7.6: Git Tools - Rewriting History](http://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
+
 ## Git Commit Messages
 
 - Use the present tense ("Add feature" not "Added feature")
 - Limit the first line to 72 characters or less
 - Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
 - Reference issues and pull requests liberally
-
-### See also:
-[Git Book Chapter 7.6: Git Tools - Rewriting History](http://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
 
 ## Documentation Styleguide
 
