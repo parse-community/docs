@@ -20,7 +20,7 @@ For example, `/en/ios/` contains all of sections for the iOS guide in English. Y
 
 ## How Do I Contribute?
 
-If you have any fixes or suggestions, simply send us a pull request! Take a look at our [contribution guidelines](https://github.com/ParsePlatform/Docs/CONTRIBUTING.md) to learn more. The [documentation](https://parse.com/docs) will be regenerated from master every Friday and as needed.
+If you have any fixes or suggestions, simply send us a pull request! Take a look at our [contribution guidelines](https://github.com/ParsePlatform/Docs/blob/master/CONTRIBUTING.md) to learn more. The [documentation](https://parse.com/docs) will be regenerated from master every Friday and as needed.
 
 ## Can I Access The Docs Offline?
 
