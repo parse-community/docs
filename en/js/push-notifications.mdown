@@ -12,7 +12,7 @@ The JavaScript SDK does not currently support receiving pushes. It can only be u
 
 ## Setting Up Push
 
-There is no setup required to use the JavaScript SDK for sending push notifications. If you haven't configured your [iOS](#setup/iOS) or [Android](#setup/Android) clients to use Push, take a look at their respective setup instruction using the platform toggle at the top.
+There is no setup required to use the JavaScript SDK for sending push notifications. If you haven't configured your [iOS](/docs/ios/guide#push-notifications-setting-up-push) or [Android](/docs/android/guide#push-notifications-setting-up-push) clients to use Push, take a look at their respective setup instruction using the platform toggle at the top.
 
 ## Installations
 
@@ -37,9 +37,9 @@ This class has several special fields that help you manage and target devices.
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#sending-channels/JavaScript) and [advanced targeting](#sending-queries/JavaScript). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](#sending/REST) or from [Cloud Code](#sending/JavaScript). Since the JavaScript SDK is used in Cloud Code, this is the place to start if you want to send pushes from your Cloud Functions. However, if you decide to send notifications from the JavaScript SDK outside of Cloud Code or any of the other client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API](#push-notifications-sending-pushes) or from [Cloud Code](#push-notifications-sending-pushes). Since the JavaScript SDK is used in Cloud Code, this is the place to start if you want to send pushes from your Cloud Functions. However, if you decide to send notifications from the JavaScript SDK outside of Cloud Code or any of the other client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/). We recommend that you enable Client Push for testing purposes only, and move your push notification logic into Cloud Code when your app is ready to go into production.
 
@@ -55,7 +55,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 #### Subscribing to Channels
 
-The JavaScript SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS](#sending-channels/iOS), [Android](#sending-channels/Android) or [REST](#sending-channels/REST) Push guide using the platform toggle at the top.
+The JavaScript SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS](/docs/ios/guide#push-notifications-using-channels), [Android](/docs/android/guide#push-notifications-using-channels) or [REST](/docs/rest/guide#push-notifications-using-channels) Push guide using the platform toggle at the top.
 
 #### Sending Pushes to Channels
 
@@ -80,17 +80,17 @@ Parse.Push.send({
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](/docs/js_guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
 Since `Installation` objects are just like any other object stored in Parse, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS](#sending-queries/iOS), [Android](#sending-queries/Android) or [REST](#sending-queries/REST) Push guide using the platform toggle at the top.
+The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS](/docs/ios/guide#push-notifications-installations), [Android](/docs/android/guide#push-notifications-installations) or [REST](/docs/rest/guide#push-notifications-installations) Push guide for more on this topic.
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query](/docs/js_guide#queries).
+Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query](#queries).
 
 ```js
 var query = new Parse.Query(Parse.Installation);
@@ -197,7 +197,7 @@ Parse.Push.send({
 });
 ```
 
-It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS](#receiving/iOS) and [Android](#receiving/Android), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
+It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS](/docs/ios/guide#push-notifications-scheduling-pushes) and [Android](/docs/android/guide#push-notifications-scheduling-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
 ```js
 var query = new Parse.Query(Parse.Installation);
@@ -353,8 +353,8 @@ The scheduled time cannot be in the past, and can be up to two weeks in the futu
 
 ## Receiving Pushes
 
-The JavaScript SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS](#receiving/iOS) or [Android](#receiving/Android), use the platform toggle at the top.
+The JavaScript SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS](/docs/ios/guide#push-notifications-scheduling-pushes) or [Android](/docs/android/guide#push-notifications-scheduling-pushes), use the platform toggle at the top.
 
 ## Troubleshooting
 
-For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS](#troubleshooting/iOS), [Android](#troubleshooting/Android), and [.NET](#troubleshooting/.NET) using the platform toggle at the top.
+For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS](/docs/ios/guide#push-notifications-troubleshooting), [Android](/docs/android/guide#push-notifications-troubleshooting), and [.NET](/docs/dotnet/guide#push-notifications-troubleshooting) using the platform toggle at the top.
