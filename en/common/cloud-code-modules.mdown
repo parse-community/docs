@@ -2,7 +2,7 @@
 
 Cloud Modules are the easiest way to integrate your Parse app with third-party services and libraries. Read on to learn how to add amazing features to your Parse app, from text messaging to email.
 
-Cloud Modules work just like the [JavaScript modules](/docs/cloud_code_guide#modules) you can create yourself but they are readily available to everyone. You just add `require('cloudModuleName')` to your Cloud Code and you are ready to go! This guide will help you get started with the current set of available Cloud Modules. If you don't see the service you're interested in, you can take a look at [our tutorial on how to create your own modules](/tutorials/integrating-with-third-party-services) to integrate with your favorite APIs.
+Cloud Modules work just like the [JavaScript modules](#cloud-code-advanced-modules) you can create yourself but they are readily available to everyone. You just add `require('cloudModuleName')` to your Cloud Code and you are ready to go! This guide will help you get started with the current set of available Cloud Modules. If you don't see the service you're interested in, you can take a look at [our tutorial on how to create your own modules](/tutorials/integrating-with-third-party-services) to integrate with your favorite APIs.
 
 ## App Links
 
