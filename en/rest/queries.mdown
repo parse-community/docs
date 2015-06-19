@@ -131,17 +131,6 @@ curl -X GET \
   --data-urlencode 'where={"score":{"$in":[1,3,5,7,9]}}' \
   https://api.parse.com/1/classes/GameScore
 ```
-
-To retrieve scores not by a given list of players we could issue:
-
-```bash
-curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  -G \
-  --data-urlencode 'where={"playerName":{"$nin":["Jonathan Walsh","Dario Wunsch","Shawn Simon"]}}' \
-  https://api.parse.com/1/classes/GameScore
-```
 ```python
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
@@ -153,6 +142,45 @@ params = urllib.urlencode({"where":json.dumps({
            5,
            7,
            9
+         ]
+       }
+     })})
+connection.connect()
+connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
+
+To retrieve scores not by a given list of players we could issue:
+
+```bash
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={
+   "playerName": {
+     "$nin": [
+       "Jonathan Walsh",
+       "Dario Wunsch",
+       "Shawn Simon"
+     ]
+   }
+  }' \
+  https://api.parse.com/1/classes/GameScore
+```
+```python
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "playerName": {
+         "$nin": [
+           "Jonathan Walsh",
+           "Dario Wunsch",
+           "Shawn Simon"
          ]
        }
      })})
@@ -382,7 +410,53 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-All of these parameters can be used in combination with each other.
+All of these parameters can be used in combination with each other. For example:
+
+```bash
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={
+   "playerName": {
+     "$nin": [
+       "Jonathan Walsh",
+       "Dario Wunsch",
+       "Shawn Simon"
+     ]
+   }
+  }' \
+  --data-urlencode 'order=score,-name' \
+  --data-urlencode 'limit=200' \
+  --data-urlencode 'skip=400' \
+  --data-urlencode 'keys=score,playerName' \
+  https://api.parse.com/1/classes/GameScore
+```
+```python
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({
+    "where":json.dumps({
+      "playerName": {
+        "$nin": [
+          "Jonathan Walsh",
+          "Dario Wunsch",
+          "Shawn Simon"
+        ]
+      }
+    }),
+    "order":"score,-name",
+    "limit":200,
+    "skip":400,
+    "keys":"score,playerName"})
+connection.connect()
+connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+```
 
 
 ##  Queries on Array Values
