@@ -91,7 +91,7 @@ The values of the `where` parameter also support comparisons besides exact match
 | $select     | This matches a value for a key in the result of a different query |
 | $dontSelect | Requires that a key's value not match a value for a key in the result of a different query |
 | $all        | Contains all of the given values |
-| $regex      | Requires that a key's value match a regular expression. |
+| $regex      | Requires that a key's value match a regular expression |
 
 For example, to retrieve scores between 1000 and 3000, including the endpoints, we could issue:
 
@@ -259,6 +259,16 @@ connection.request('GET', '/1/classes/_User?%s' % params, '', {
 result = json.loads(connection.getresponse().read())
 print result
 ```
+
+In addition to `where`, there are several parameters you can use to configure what types of results are returned by the query.
+
+| Parameter   | Use                                               |
+|-----------------------------------------------------------------|
+| order       | Specify a field to sort by                        |
+| limit       | Limit the number of objects returned by the query |
+| skip        | Use with limit to paginate through results        |
+| keys        | Restrict the fields returned by the query         |
+| include     | Use on Pointer columns to return the full object  |
 
 You can use the `order` parameter to specify a field to sort by. Prefixing with a negative sign reverses the order. Thus, to retrieve scores in ascending order:
 
