@@ -14,7 +14,7 @@ $query->equalTo("playerName", "Dan Stemkoski");
 $results = $query->find();
 echo "Successfully retrieved " . count($results) . " scores.";
 // Do something with the returned ParseObject values
-for ($i = 0; $i < count($results); $i++) { 
+for ($i = 0; $i < count($results); $i++) {
   $object = $results[$i];
   echo $object->getObjectId() . ' - ' . $object->get('playerName');
 }
@@ -171,8 +171,12 @@ $query = new ParseQuery("BarbecueSauce");
 $query->startsWith("name", "Big Daddy's");
 ```
 
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
+
+Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
+
 <div class='tip info'><div>
-  If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/2013/03/19/implementing-scalable-search-on-a-nosql-backend/).
+  If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/).
 </div></div>
 
 ## Relational Queries
@@ -324,4 +328,4 @@ class Monster extends ParseObject
 $monster = Monster::spawn(200);
 echo monster->strength();  // Displays 200.
 echo monster->hasSuperHumanStrength();  // Displays true.
-```   
+```
