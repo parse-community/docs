@@ -10,7 +10,7 @@ If you want to start using push, start by completing the [iOS Push tutorial](/tu
 
 ## Installations
 
-Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
+Every Parse application installed on a device registered for push notifications has an associated %{ParseInstallation} object. The %{ParseInstallation} object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the %{ParseInstallation} object is also required for tracking push-related app open events.
 
 In iOS, `Installation` objects are available through the `%{ParseInstallation}` class, a subclass of `%{ParseObject}`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your iOS app, use the `[PFInstallation currentInstallation]` method. The first time you save a `%{ParseInstallation}`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
 
@@ -811,7 +811,7 @@ If you're unsure about the answer to any of the above questions, read on!
 
 Having everything set up correctly in your Parse app won't help if your request to send a push notification does not reach Parse. The first step in debugging a push issue is to confirm that the push campaign is listed in your push logs. You can find these logs by visiting your app's [Dashboard](/apps) and clicking on Push.
 
-If the push notification campaign is not showing up on that list, the issue is quite simple to resolve. Go back to your push notification sending code and make sure to check for any error responses. If you're using any of the client SDKs, make sure to listen for and catch any errors that may be returned. For example, in iOS you could log errors like so:
+If the push notification campaign is not showing up on that list, the issue is quite simple to resolve. Go back to your push notification sending code and make sure to check for any error responses. If you're using any of the client SDKs, make sure to listen for and catch any errors that may be returned. For example, you could log errors like so:
 
 ```objc
 [push sendPushInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -837,7 +837,7 @@ push.sendPushInBackgroundWithBlock {
 }
 ```
 
-Please note that client SDKs such as the iOS SDK can only send push notifications if Client Push is enabled in your Parse app's Push Notification settings. Otherwise, you'll only be able to send pushes from the web console, the REST API, or by using the JavaScript SDK from Cloud Code. We strongly encourage developers to turn off Client Push before releasing their app publicly unless your use case allows for any amount of arbitrary pushes to be sent by any of your users. You can read our security guide for more information.
+Please note that SDKs that use a Client Key, such as the iOS SDK, can only send push notifications if Client Push is enabled in your Parse app's Push Notification settings. Otherwise, you'll only be able to send pushes from the web console, the REST API, or by using the JavaScript SDK from Cloud Code. We strongly encourage developers to turn off Client Push before releasing their app publicly unless your use case allows for any amount of arbitrary pushes to be sent by any of your users. You can read our security guide for more information.
 
 ### Verify your Targeting
 
