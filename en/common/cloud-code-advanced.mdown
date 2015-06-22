@@ -2,7 +2,7 @@
 
 ## Networking
 
-Cloud Code allows sending HTTP requests to any HTTP Server using `Parse.Cloud.httpRequest`.  This function takes an options object to configure the call.  There is a limit of 8 concurrent `httpRequest`s per Cloud Code request, and additional requests will be queued up.
+Cloud Code allows sending HTTP requests to any HTTP Server using [`Parse.Cloud.httpRequest`](/docs/js/api/symbols/Parse.Cloud.html#.httpRequest).  This function takes an options object to configure the call.  There is a limit of 8 concurrent `httpRequest`s per Cloud Code request, and additional requests will be queued up.
 
 A simple GET request would look like:
 
