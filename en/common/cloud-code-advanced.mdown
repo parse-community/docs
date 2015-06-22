@@ -143,12 +143,12 @@ Parse.Cloud.httpRequest({
 
 The response object passed into the `success` and `error` will contain:
 
-1.  **`status`** - The HTTP Response status.
-     <li>`headers`** - The response headers
-2.  **`buffer`** - The raw byte representation of the response body.
-3.  **`text`** - The raw response body.
-4.  **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
-5.  **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/symbols/Parse.Cloud.HTTPResponse.html) objects.
+* **`status`** - The HTTP Response status.
+* **`headers`** - The response headers
+* **`buffer`** - The raw byte representation of the response body.
+* **`text`** - The raw response body.
+* **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
+* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/symbols/Parse.Cloud.HTTPResponse.html) objects.
 
 ## Modules
 
