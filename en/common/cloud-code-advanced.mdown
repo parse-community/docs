@@ -424,6 +424,7 @@ def comments
 
   render :nothing => true
 end
+```
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
