@@ -69,7 +69,7 @@ Once you've enabled Crash Reporting, you'll want to test to make sure your crash
 - (void)crash {
     [NSException raise:NSGenericException format:@"Everything is ok. This is just a test crash."];
 }
-      ```
+```
 ```swift
 NSException(name: NSGenericException, reason: "Everything is ok. This is just a test crash.", userInfo: nil).raise()
 ```
