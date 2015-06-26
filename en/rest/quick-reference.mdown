@@ -156,3 +156,6 @@ You should not use the REST API Key in client apps (i.e. code you distribute to 
 If there is no Parse SDK for your client platform, please use your app's Client Key to call the REST API. Requests made with the Client Key, JavaScript Key, or Windows Key are restricted by client-side app settings that you configure in your Parse.com app dashboard. These settings make your app more secure. For example, we recommend that all production apps turn off the "Client Push Enabled" setting to prevent push notifications from being sent from any device using the Client Key, JavaScript Key, or .NET Key, but not the REST API Key. Therefore, if you plan on registering installations to enable Push Notifications for your app, you should not distribute any app code with the REST API key embedded in it.
 
 The JavaScript Key cannot be used to make requests directly against the REST API from JavaScript. The JavaScript Key is meant to be used with the Parse JavaScript SDK, which makes its posts through a Cross Origin-friendly format without HTTP headers.
+
+So, to use the .NET key, change header key from "X-Parse-REST-API-Key" to "X-Parse-Windows-Key" and the value to the .NET key for you application.
+Similarly to use the client key, use "X-Parse-Client-Key" and the client key as the value.
