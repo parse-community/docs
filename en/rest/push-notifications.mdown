@@ -326,7 +326,7 @@ print result
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
 
-![](docs/installation_channel.png)
+![](/images/docs/installation_channel.png)
 
 To unsubscribe from a channel you would need to update the `channels` array and remove the unsubscribed channel.
 
