@@ -11,7 +11,7 @@ Without having to implement any client-side logic, you can view real-time graphs
 Our initial analytics hook allows you to track your application being launched. By adding the following line to the `onCreate` method of your main `Activity`, you'll begin to collect data on when and how often your application is opened.
 
 ```java
-ParseAnalytics.trackAppOpened(getIntent());
+ParseAnalytics.trackAppOpenedInBackground(getIntent());
 ```
 
 Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
