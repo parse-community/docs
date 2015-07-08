@@ -113,6 +113,77 @@ You can override this behavior with the `-f` or `--force` flag. Providing this f
 
 When embedding `parse deploy` within other scripts (such as in an automated testing/deploy environment) you can rely on the exit code from the Parse command line tool to indicate whether the command succeded.  It will have an exit code of 0 on success and a non-zero exit code when the deploy failed.
 
+### A Simple Function
+
+Following ancient tradition, let's see how to run the simplest possible function in the cloud. If you take a look at `cloud/main.js`, you'll see an example function that just returns a string:
+
+```js
+Parse.Cloud.define("hello", function(request, response) {
+  response.success("Hello world!");
+});
+```
+
+To deploy the code from your machine to the Parse Cloud, run:
+
+```bash
+$ parse deploy
+```
+
+To run this function once it's deployed, run:
+
+```common-java
+ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new FunctionCallback<String>() {
+  void done(String result, ParseException e) {
+    if (e == null) {
+      // result is "Hello world!"
+    }
+  }
+});
+```
+```common-objc
+[PFCloud callFunctionInBackground:@"hello"
+                   withParameters:@{}
+                            block:^(NSString *result, NSError *error) {
+   if (!error) {
+     // result is @"Hello world!"
+   }
+}];
+```
+```common-swift
+PFCloud.callFunctionInBackground("hello", withParameters: nil) {
+  (response: AnyObject?, error: NSError?) -> Void in
+  let responseString = response as? String
+}
+```
+```common-php
+$result = ParseCloud::run("hello", []);
+```
+```common-csharp
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
+  var result = t.Result;
+// result is "Hello world!"
+});
+```
+```common-js
+Parse.Cloud.run('hello', {}, {
+  success: function(result) {
+    // result is 'Hello world!'
+  },
+  error: function(error) {
+  }
+});
+```
+
+You should see this response:
+
+```json
+{ "result": "Hello world!" }
+```
+
+Congratulations! You have successfully deployed and run Cloud Code.
+
+This is a good time to play around with the deployment cycle. Try changing `"Hello world!"` to a different string, then deploy and run the function again to get a different result. The whole JavaScript SDK is available in Cloud Code, so there's a lot you can do. The [Cloud Code guide](#cloud-code) goes over various examples in more detail.
+
 ## Developing Cloud Code
 
 You can also run the Parse command line tool in development mode using the `develop` command.  This will make the tool watch the source directory for any updates and deploy them to Parse, as well as providing a live stream of the logs.
