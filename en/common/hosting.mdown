@@ -46,6 +46,8 @@ Users can also host content at a custom domain name. If you have chosen the Pars
 
 After completing these steps, `www.example.com` will serve the same content as `at-the-movies.parseapp.com`.
 
+### Apex Domains
+
 If you want to serve content at an apex domain like `example.com` then you might have trouble with the steps above, because root domains generally don't support CNAME records. To support this situation, Parse offers a service which will redirect traffic from root domains like `example.com` to the `www.example.com` subdomain. To use this service, complete the steps above using a www-prefixed domain like `www.example.com`, and then create `A` records from `example.com` to one or both of the following IP addresses:
 
 *   `54.85.233.145`
@@ -53,7 +55,9 @@ If you want to serve content at an apex domain like `example.com` then you might
 
 `A` records can be created in the settings page of your domain name service provider. After creating these `A` records, requests to `example.com` will result in a 301 (permanent) redirect to `www.example.com` while preserving the request path.
 
-If you visit your hosted site over HTTPS using your custom domain, you might see a warning that the website is serving content using an SSL certificate belonging to `*.parseapp.com`. If you have a SSL certificate belonging to your custom domain, you can fix these warnings by uploading the public certificate file  and the private key file on the "Web Hosting" section in your app's settings.   If your domain's public certificate requires intermediate certificates, then you should append your public certificate, intermediate certificates, and the root certificate into a single file (in that order), and upload it as the "SSL Public Certificate" in your app settings.  In 10-30 minutes,  your certificate will be propagated to the Parse hosting servers and served  to users who visit your hosted site over HTTPS.
+### HTTPS 
+
+If you visit your hosted site over HTTPS using your custom domain, you might see a warning that the website is serving content using an SSL certificate belonging to `*.parseapp.com`. If you have a SSL certificate belonging to your custom domain, you can fix these warnings by uploading the public certificate file and the private key file on the "Web Hosting" section in your app's settings. If your domain's public certificate requires intermediate certificates, then you should append your public certificate, intermediate certificates, and the root certificate into a single file (in that order), and upload it as the "SSL Public Certificate" in your app settings.In 10-30 minutes, your certificate will be propagated to the Parse hosting servers and served  to users who visit your hosted site over HTTPS.
 
 ## Dynamic Websites
 
