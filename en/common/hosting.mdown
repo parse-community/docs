@@ -48,7 +48,9 @@ After completing these steps, `www.example.com` will serve the same content as `
 
 ### Apex Domains
 
-If you want to serve content at an apex domain like `example.com` then you might have trouble with the steps above, because root domains generally don't support CNAME records. To support this situation, Parse offers a service which will redirect traffic from root domains like `example.com` to the `www.example.com` subdomain. To use this service, complete the steps above using a www-prefixed domain like `www.example.com`, and then create `A` records from `example.com` to one or both of the following IP addresses:
+If you want to serve content at an apex domain like `example.com` then you might have trouble with the steps above, because root domains generally don't support CNAME records. To support this situation, Parse offers a service which will redirect traffic from root domains like `example.com` to the `www.example.com` subdomain. Note that redirecting traffic from `www.example.com` to `example.com` is not supported.
+
+To use this service, complete the steps above using a www-prefixed domain like `www.example.com`, and then create `A` records from `example.com` to one or both of the following IP addresses:
 
 *   `54.85.233.145`
 *   `54.85.226.190`
