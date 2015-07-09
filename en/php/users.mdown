@@ -218,7 +218,7 @@ To query for users, you can get a new `ParseQuery` for `ParseUser`s:
 $query = ParseUser::query();
 $query->equalTo("gender", "female"); 
 $results = $query->find();
-```s
+```
 
 ## Associations
 
