@@ -186,7 +186,18 @@ $user->set("weaponsList", weapons);
 // no c# example
 ```
 ```common-js
-// no js example
+// let's say we have four weapons
+var scimitar = ...
+var plasmaRifle = ...
+var grenade = ...
+var bunnyRabbit = ...
+
+// stick the objects in an array
+var weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit];
+
+// store the weapons for the user
+var user = Parse.User.current();
+user.set("weaponsList", weapons);
 ```
 
 Later, if we want to retrieve the `Weapon` objects, it's just one line of code:
@@ -209,8 +220,7 @@ let weapons = PFUser.currentUser()?.objectForKey("weaponsList")
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+var weapons = Parse.User.current().get("weaponsList")
 ```
 
 Sometimes, we will want to fetch the "many" objects in our one-to-many relationship at the same time as we fetch the "one" object. One trick we could employ is to use the `includeKey` (or `include` in Android) parameter whenever we use a Parse Query to also fetch the array of `Weapon` objects (stored in the `weaponsList` column) along with the Parse User object:
@@ -274,8 +284,22 @@ userQuery?.findObjectsInBackgroundWithBlock {
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// set up our query for a User object
+var userQuery = new Parse.Query(Parse.User);
+
+// configure any constraints on your query...
+// for example, you may want users who are also playing with or against you
+
+// tell the query to fetch all of the Weapon objects along with the user
+// get the "many" at the same time that you're getting the "one"
+userQuery.include("weaponsList");
+
+// execute the query
+userQuery.find({
+  success: function(results){
+    // results contains all of the User objects, and their associated Weapon objects, too
+  }
+});
 ```
 
 You can also get the "one" side of the one-to-many relationship from the "many" side. For example, if we want to find all Parse User objects who also have a given `Weapon`, we can write a constraint for our query like this:
@@ -310,8 +334,11 @@ userQuery?.whereKey("weaponsList", containedIn: arrayOfWeapons)
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// add a constraint to query for whenever a specific Weapon is in an array
+userQuery.equalTo("weaponsList", scimitar);
+
+// or query using an array of Weapon objects...
+userQuery.containedIn("weaponsList", arrayOfWeapons);
 ```
 
 ## Many-to-Many
