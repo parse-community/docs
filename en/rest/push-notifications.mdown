@@ -201,6 +201,8 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
+Note that there is a restriction on updating the `deviceToken` field of Installation objects. You can only update the `deviceToken` field of an Installation object if contains a non-nil `installationId` field.
+
 ### Querying Installations
 
 You can retrieve multiple installations at once by sending a GET request to the root installations URL. This functionality is not available in the SDKs, so you must authenticate this method using the `X-Parse-Master-Key` header in your request instead of the `X-Parse-REST-API-Key` header. Your master key allows you to bypass ACLs and should only be used from within a trusted environment.
