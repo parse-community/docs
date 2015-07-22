@@ -309,7 +309,7 @@ In Unity Android, we provide a helper method that you can utilize as a handler t
 ```csharp
 ParsePush.ParsePushNotificationReceived += (sender, args) => {
 #if UNITY_ANDROID
-	AndroidJavaClass parseUnityHelper = new AndroidJavaClass("com.parse.ParseUnityHelper");
+	AndroidJavaClass parseUnityHelper = new AndroidJavaClass("com.parse.ParsePushUnityHelper");
 	AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
 	AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
 
