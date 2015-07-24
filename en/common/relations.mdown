@@ -636,8 +636,15 @@ query.findObjectsInBackgroundWithBlock{
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// suppose we have a user we want to follow
+var otherUser = ...
+
+// create an entry in the Follow table
+var follow = new Parse.Object("Follow");
+follow.set("from", Parse.User.current());
+follow.set("to", otherUser);
+follow.set("date", Date());
+follow.save();
 ```
 
 It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
@@ -699,8 +706,14 @@ query.findObjectsInBackgroundWithBlock{
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// create an entry in the Follow table
+var query = new Parse.Query("Follow");
+query.equalTo("to", Parse.User.current());
+query.find({
+  success: function(users){
+    ...
+  }
+});
 ```
 
 ### Using an Array
@@ -750,8 +763,14 @@ book.addObject(author, forKey: "authors")
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// let's say we have an author
+var author = ...
+
+// and let's also say we have an book
+var book = ...
+
+// add the author to the authors list for the book
+book.add("authors", author);
 ```
 
 Because the author list is an Array, you should use the `includeKey` (or `include` on Android) parameter when fetching a `Book` so that Parse returns all the authors when it also returns the book:
@@ -808,8 +827,19 @@ bookQuery.findObjectsInBackgroundWithBlock{
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// set up our query for the Book object
+var bookQuery = new Parse.Query("Book");
+
+// configure any constraints on your query...
+// tell the query to fetch all of the Author objects along with the Book
+bookQuery.include("authors");
+
+// execute the query
+bookQuery.find({
+  success: function(books){
+    ...
+  }
+});
 ```
 
 At that point, getting all the `Author` objects in a given `Book` is a pretty straightforward call:
@@ -832,8 +862,7 @@ let authorList = book.objectForKey("authors") as? NSArray
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+var authorList = book.get("authors")
 ```
 
 Finally, suppose you have an `Author` and you want to find all the `Book` objects in which she appears. This is also a pretty straightforward query with an associated constraint:
@@ -901,8 +930,21 @@ bookQuery.findObjectsInBackgroundWithBlock{
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// set up our query for the Book object
+var bookQuery = new Parse.Query("Book");
+
+// configure any constraints on your query...
+bookQuery.equalTo("authors", author);
+
+// tell the query to fetch all of the Author objects along with the Book
+bookQuery.include("authors");
+
+// execute the query
+bookQuery.find({
+  success: function(books){
+    ...
+  }
+});
 ```
 
 ## One-to-One
