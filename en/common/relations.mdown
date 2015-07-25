@@ -395,9 +395,9 @@ book.saveInBackground()
 ```
 ```common-js
 // let’s say we have a few objects representing Author objects
-var authorOne =
-var authorTwo =
-var authorThree =
+var authorOne = ...
+var authorTwo = ...
+var authorThree = ...
 
 // now we create a book object
 var book = new Parse.Object("Book");
