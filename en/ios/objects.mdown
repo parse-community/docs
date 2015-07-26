@@ -112,14 +112,16 @@ let createdAt = gameScore.createdAt
 ```
 
 If you need to refresh an object you already have with the latest data that
-    is in the Parse Cloud, you can call the `refresh` method like so:
+    is in the Parse Cloud, you can call the `fetch` method like so:
 
 ```objc
-[myObject refresh];
+[myObject fetch];
 ```
 ```swift
-myObject.refresh()
+myObject.fetch()
 ```
+
+Note: In a similar way to the `save` methods, you can use the `fetchInBackgroundWithBlock` or `fetchInBackgroundWithTarget:selector:` methods to provide additional logic which will run after fetching the object.
 
 ## The Local Datastore
 
