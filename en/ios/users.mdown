@@ -863,6 +863,7 @@ NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1/account/verify_
 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:verify];
 [[PFTwitterUtils twitter] signRequest:request];
 NSURLResponse *response = nil;
+NSError *error = nil;
 NSData *data = [NSURLConnection sendSynchronousRequest:request
                                      returningResponse:&response  
                                                  error:&error];
