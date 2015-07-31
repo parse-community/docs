@@ -1,6 +1,7 @@
 # Command Line Tool
 
-The Parse command line tool allows you to interact with your Cloud Code from your terminal. Some of the topics here are also covered in the [Cloud Code guide](#cloud-code), but they are repeated here for clarity.
+The Parse command line tool allows you to interact with your Cloud Code from the terminal. 
+Some of the topics here are also covered in the [Cloud Code guide](#cloud-code), but they are repeated here for clarity.
 
 ## Installation
 
@@ -12,7 +13,9 @@ In Mac OS and Linux/Unix environments, you can get the parse tool by running thi
 curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
 ```
 
-This installs a tool named "parse" to `/usr/local/bin/parse`. There's no other junk, so to uninstall, just delete that file. This will also update your command line tool if you already have it installed.
+This installs a tool named "parse" to `/usr/local/bin/parse`. 
+There's no other junk, so to uninstall, just delete that file. 
+This will also update your command line tool if you already have it installed.
 
 
 ### Windows
@@ -26,27 +29,57 @@ You can rename it to `parse.exe` and move it to an accessible location, so that 
 
 You can update the command line tool using `parse update`. It will automatically update your Parse command line tool to the latest version.
 
+For instance, if you run this command on Mac OS:
+
 ```bash
 $ parse update
-Fetching latest version ...
-####################################################################### 100%
-Installing ...
+Downloading binary from https://parse.com/downloads/cloud_code/cli/parse-osx/latest.
+Successfully updated binary at: /usr/local/bin/parse
 ```
+
+Note that Parse command line tool is configured to update automatically to the latest stable version.
+So, manually running `parse update` is not needed anymore. Your Parse command line tool is always up-to-date.
 
 ### Setting Up Your App
 
-The next step is to create a directory to store the code that you will run in the cloud. The command `parse new` sets up this directory, and will prompt you to pick which app you are creating Cloud Code for:
+The next step is to create a directory to store the code that you will run in the cloud. 
+The command `parse new` sets up this directory, and will prompt you to pick which app you are creating Cloud Code for:
 
 ```bash
-$ parse new MyCloudCode
-Email: ninja@gmail.com
-Password:
-1:MyApp
-Select an App: 1
-$ cd MyCloudCode
+$ parse new
+Please log in to Parse using your email and password.
+Email: ninja@email.com
+Password (will be hidden):
+Would you like to create a new app, or add Cloud Code to an existing app?
+Type "new" or "existing": existing
+1:	MyApp
+2:	MyOtherApp
+Select an App to add to config: 1
+Awesome! Now it's time to setup some Cloud Code for the app: "MyApp",
+Next we will create a directory to hold your Cloud Code.
+Please enter the name to use for this directory,
+or hit ENTER to use "MyApp" as the directory name.
+
+Directory Name: myapp
+Your Cloud Code has been created at ${PWD}/myapp.
+Next, you might want to deploy this code with "parse deploy".
+This includes a "Hello world" cloud function, so once you deploy
+you can test that it works, with:
+
+curl -X POST \
+ -H "X-Parse-Application-Id: ${APP_ID}" \
+ -H "X-Parse-REST-API-Key: ${REST_KEY}" \
+ -H "Content-Type: application/json" \
+ -d '{}' \
+ https://api.parse.com/1/functions/hello
+
+$ cd myapp
 ```
 
-Use the email address and password for your Parse account to log in. If you signed up via OAuth and never set a password, you should now set one by editing your account settings. This will create a directory called `MyCloudCode` in the current directory. Several files are automatically created for you:
+Use the email address and password for your Parse account to log in.
+If you signed up via OAuth and never set a password, you should now set one by editing your account settings.
+This will create a directory called `myapp` in the current directory. 
+Several files are automatically created for you:
 
 ```bash
 .
@@ -58,15 +91,25 @@ Use the email address and password for your Parse account to log in. If you sign
     └── index.html
 ```
 
-The `config` directory contains a JSON configuration file that you shouldn't normally need to deal with, the `cloud` directory stores your Cloud Code, and the `public` directory stores any static content that you want to host on Parse. In the `cloud` directory, you'll typically just be editing `main.js`, which stores all of your Cloud Code functions. For now, just check that these files were created successfully. If you're using source control, you can check all of these files in.
+The `config` directory contains a JSON configuration file that you shouldn't normally need to deal with, 
+the `cloud` directory stores your Cloud Code, 
+and the `public` directory stores any static content that you want to host on Parse.
+In the `cloud` directory, you'll typically just be editing `main.js`, which stores all of your Cloud Code functions.
+For now, just check that these files were created successfully.
+If you're using source control, you can check all of these files in.
 
 <div class='tip warning'><div>
-  We recommend using source control to check in all of these files. If you're not already set up with source control, try this [tutorial from GitHub](https://guides.github.com/introduction/getting-your-project-on-github/). Keep in mind that these files will contain keys you want to keep private.
+  We recommend using source control to check in all of these files.
+  If you're not already set up with source control, try this [tutorial from GitHub](https://guides.github.com/introduction/getting-your-project-on-github/).
+  Keep in mind that these files will contain keys you want to keep private.
 </div></div>
 
-The same code can be deployed to multiple different applications. This is useful so that you can have separate "development" and "production" applications. Then you test the code on a development application before launching it in production.
+The same code can be deployed to multiple different applications.
+This is useful so that you can have separate "development" and "production" applications.
+Then you test the code on a development application before launching it in production.
 
-The first application that is added (by the `new` command) will be the default application for all command line operations. All commands except for `new` take an optional application that the command will be performed on.
+The first application that is added (by the `new` command) will be the default application for all command line operations.
+All commands except `new` take an optional application that the command will be performed on.
 
 ## Deploying
 
@@ -76,14 +119,16 @@ $ parse deploy
 Uploading source files
 Uploading recent changes to scripts...
 The following files will be uploaded:
-.....
+...
 Uploading recent changes to hosting...
 The following files will be uploaded:
-.....
+...
 Finished uploading files
-New release is named v1 (using Parse JavaScript SDK vx.x.x)
+New release is named vx (using Parse JavaScript SDK vx.x.x)
 ```
-This pushes the new code (in `cloud/main.js`) to the Parse Cloud and deploys this code for the default target which is the first app that was added or the one you set using `parse default`. You can choose to deploy to a different target by adding the target as an argument to `deploy` like so:
+
+This pushes the new code (in `cloud`) to the Parse Cloud and deploys this code for the default target which is the first app that was added or the one you set using `parse default`.
+You can choose to deploy to a different target by adding the target as an argument to `deploy` like so:
 
 ```bash
 $ parse deploy "My Other App"
@@ -95,7 +140,7 @@ Uploading recent changes to hosting...
 The following files will be uploaded:
 .....
 Finished uploading files
-New release is named v2 (using Parse JavaScript SDK vx.x.x)
+New release is named vx (using Parse JavaScript SDK vx.x.x)
 ```
 
 You can add release notes to the deploy with the `-d` or `--description=` option
@@ -111,7 +156,8 @@ Not creating a release because no files have changed
 
 You can override this behavior with the `-f` or `--force` flag. Providing this flag forces a deploy despite no changes to your project.
 
-When embedding `parse deploy` within other scripts (such as in an automated testing/deploy environment) you can rely on the exit code from the Parse command line tool to indicate whether the command succeded.  It will have an exit code of 0 on success and a non-zero exit code when the deploy failed.
+When embedding `parse deploy` within other scripts (such as in an automated testing/deploy environment) you can rely on the exit code from the Parse command line tool to indicate whether the command succeded.
+It will have an exit code of 0 on success and a non-zero exit code when the deploy failed.
 
 ### A Simple Function
 
@@ -173,6 +219,14 @@ Parse.Cloud.run('hello', {}, {
   }
 });
 ```
+```bash
+curl -X POST \
+ -H "X-Parse-Application-Id: ${APP_ID}" \
+ -H "X-Parse-REST-API-Key: ${REST_KEY}" \
+ -H "Content-Type: application/json" \
+ -d '{}' \
+ https://api.parse.com/1/functions/hello
+```
 
 You should see this response:
 
@@ -182,11 +236,16 @@ You should see this response:
 
 Congratulations! You have successfully deployed and run Cloud Code.
 
-This is a good time to play around with the deployment cycle. Try changing `"Hello world!"` to a different string, then deploy and run the function again to get a different result. The whole JavaScript SDK is available in Cloud Code, so there's a lot you can do. The [Cloud Code guide](#cloud-code) goes over various examples in more detail.
+This is a good time to play around with the deployment cycle.
+Try changing `"Hello world!"` to a different string, then deploy and run the function again to get a different result.
+The whole JavaScript SDK is available in Cloud Code, so there's a lot you can do.
+The [Cloud Code guide](#cloud-code) goes over various examples in more detail.
 
 ## Developing Cloud Code
 
-You can also run the Parse command line tool in development mode using the `develop` command.  This will make the tool watch the source directory for any updates and deploy them to Parse, as well as providing a live stream of the logs.
+You can also run the Parse command line tool in development mode using the `develop` command.
+This will make the tool watch the source directory for any updates and deploy them to Parse.
+It also provides a live stream of Cloud Code logs.
 
 ```bash
 $ parse develop development
@@ -199,59 +258,64 @@ I2013-03-19T20:17:10.343Z] Deployed v58 with triggers:
     before_save
 ```
 
-Unlike the other commands, for `develop` you must specify the Parse App to push updates to.  This is to avoid accidentally running develop on your production app causing you to run untested code in your production app.
+Unlike the other commands, for `develop` you must specify the Parse App to push updates to.
+This is to avoid accidentally running develop on your production app causing you to run untested code in your production app.
 
 ## Adding a New Target
 
-You can add a new parse application as a target by running the `add` command. This prompts you for your Parse.com email and password and provides you a list of applications to choose from:
+You can add a new Parse app as a target by running the `add` command.
+This prompts you for your Parse.com email and password and provides you a list of applications to choose from:
 
 ```bash
 $ parse add
-Email: pirate@gmail.com
-Password(will be hidden):
-1:PiecesOfEightCounter
-2:BootyDivider
-Select an App: 1
+Please log in to Parse using your email and password.
+Email: ninja@email.com
+Password (will be hidden):
+1: MyApp
+2: MyOtherApp
+Select an App to add to config:
 ```
 
 The `add` command takes an optional argument which is an alias to assign to the application that can be used instead of the app name.
 
-Typically, all of this configuration data gets stored in the `global.json`. However, you might have an app that you use for development that you do not want to share with the rest of your team. You can use the `--local` flag to add this configuration instead to a separate `local.json` file. This way, you can check `global.json` into source control, while keeping `local.json` just on your own machine.
-
 ## Setting the Default App
 
-`parse deploy`, `parse log`, `parse rollback`, and `parse releases` use the default app to be run against the commands. `parse default` allows you to change this default app.
+`parse deploy`, `parse logs`, `parse rollback`, and `parse releases` use the default app to be run against the commands.
+`parse default` allows you to change this default app.
 
 ```bash
 $ parse default MyApp
 Default app set to MyApp.
 $ parse default
-Current default app is MyApp
+Current default app is MyApp.
 ```
 
 ## Rolling Back
 
-You can roll back a release using `parse rollback`. Just like with `parse deploy`, you can specify an optional target argument.
+You can roll back a release using `parse rollback`.
+Just like with `parse deploy`, you can specify an optional target argument.
 
 ```bash
 $ parse rollback
 Rolled back to v1
 ```
 
-This rolls back to the previous version of the code. You can also specify the release name to roll back to by using the `-r` or `--release=` option.
+This rolls back to the previous version of the code.
+You can also specify the release name to roll back to by using the `-r` or `--release=` option.
 
 ## Reading the Logs
 
-Every deploy, rollback, and activation of Cloud Code is logged. You can retrieve the end of logs using the `parse log` command. There are two types of logs:
+Every deploy, rollback, and activation of Cloud Code is logged.
+You can retrieve the end of logs using the `parse log` command. There are two types of logs:
 
 *   `INFO` - contains everything.
 *   `ERROR` - contains only the errors.
 
-The log command takes an optional target as well as two options:
+The logs command takes an optional target as well as two options:
 
-*   `-n` - The number of log lines to display (defaults to 10)
-*   `--level/-l` - The log level to use (defaults to INFO)
-*   `-f` - Emulates tail -f
+*   -f, --follow=false: Emulates tail -f and streams new messages from the server
+*   -l, --level="INFO": The log level to restrict to. Can be 'INFO' or 'ERROR'.
+*   -n, --num=10: The number of the messages to display
 
 ```bash
 $ parse log -n 1
@@ -262,7 +326,8 @@ I2012-07-10:13:37:00] beforeSave handler in release 'v1' ran for GameScore with 
 
 ## Listing Releases
 
-You can list the known set of releases on the Parse Cloud with the `releases` command. Parse only tracks the last 10 releases.
+You can list the known set of releases on the Parse Cloud with the `releases` command. 
+Parse only tracks the last 10 releases.
 
 ```bash
 $ parse releases
@@ -286,7 +351,10 @@ index.html
 
 ## Setting the SDK version
 
-The default Parse JavaScript SDK version that is used for the Cloud Code in this directory is the latest version at the time the `new` command was run for this directory. If you want to change this use `parse jssdk`. You can see all available Parse JavaScript SDKs using `parse jssdk -a`. You can also use `parse jssdk` to check which Parse JavaScript SDK version is currently being used.
+The default Parse JavaScript SDK version that is used for the Cloud Code in this directory is the latest version at the time the `new` command was run for this directory. 
+If you want to change this use `parse jssdk`.
+You can see all available Parse JavaScript SDKs using `parse jssdk -a`.
+You can also use `parse jssdk` to check which Parse JavaScript SDK version is currently being used.
 
 ```bash
 $ parse jssdk
