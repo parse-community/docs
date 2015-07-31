@@ -602,8 +602,15 @@ follow.saveInBackground()
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// suppose we have a user we want to follow
+var otherUser = ...
+
+// create an entry in the Follow table
+var follow = new Parse.Object("Follow");
+follow.set("from", Parse.User.current());
+follow.set("to", otherUser);
+follow.set("date", Date());
+follow.save();
 ```
 
 If we want to find all of the people we are following, we can execute a query on the `Follow` table:
@@ -666,15 +673,16 @@ query.findObjectsInBackgroundWithBlock{
 // Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 ```common-js
-// suppose we have a user we want to follow
-var otherUser = ...
+// set up the query on the Follow table
+var query = new Parse.Query("Follow");
 
-// create an entry in the Follow table
-var follow = new Parse.Object("Follow");
-follow.set("from", Parse.User.current());
-follow.set("to", otherUser);
-follow.set("date", Date());
-follow.save();
+query.equalTo("from", Parse.User.current());
+
+// execute the query
+query.find({
+    success: function(results){
+    }
+});
 ```
 
 It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
