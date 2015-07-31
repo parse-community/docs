@@ -92,7 +92,8 @@ var user = Parse.User.current();
 user.setACL(new Parse.ACL(user));
 ```
 ```common-csharp
-// no c# example
+var user = ParseUser.CurrentUser;
+user.ACL = new ParseACL(user);
 ```
 ```common-php
 // no php example
@@ -153,7 +154,11 @@ privateData.set("phoneNumber", "555-5309");
 Parse.User.current().set("privateData", privateData);
 ```
 ```common-csharp
-// no c# example
+var privateData = new ParseObject("PrivateUserData");
+privateData.ACL = new ParseACL(ParseUser.CurrentUser);
+privateData["phoneNumber"] = "555-5309";
+
+ParseUser.CurrentUser["privateData"] =  privateData;
 ```
 ```common-php
 // no php example
@@ -184,7 +189,9 @@ acl.setPublicReadAccess(true);
 acl.setWriteAccess(Parse.User.current().id, true);
 ```
 ```common-csharp
-// no c# example
+var acl = new ParseACL();
+acl.PublicReadAccess = true;
+acl.SetRoleWriteAccess(ParseUser.CurrentUser.ObjectId, true);
 ```
 ```common-php
 // no php example
@@ -215,7 +222,9 @@ acl.setPublicReadAccess(true);
 acl.setRoleWriteAccess("admins", true);
 ```
 ```common-csharp
-// no c# example
+var acl = new ParseACL();
+acl.PublicReadAccess = true;
+acl.SetRoleWriteAccess("admins", true);
 ```
 ```common-php
 // no php example
