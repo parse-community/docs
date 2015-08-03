@@ -50,7 +50,7 @@ PFPurchase.addObserverForProduct("Pro") {
     (transaction: SKPaymentTransaction?) -> Void in
     isPro = YES;
 }
-PFPurchase.addObserverForProduct("Pro") {
+PFPurchase.addObserverForProduct("VIP") {
     (transaction: SKPaymentTransaction?) -> Void in
     isVip = YES;
 }
