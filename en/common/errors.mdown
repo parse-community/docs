@@ -45,7 +45,7 @@ The following is a comprehensive list of all the error codes that can be returne
 | `DuplicateValue`	               |  137 | Unique field was given a value that is already taken. |
 | `InvalidExpirationError`	       |  138 | Invalid expiration value. |
 | `InvalidRoleName`	               |  139 | Role's name is invalid. |
-| `ExceededQuota`	                 |  140 | An application quota was exceeded. Upgrade to resolve. |
+| `ExceededQuota`	                 |  140 | You have reached the quota on the number of classes in your app. Please delete some classes if you need to add a new class. |
 | `ScriptFailed`	                 |  141 | Cloud Code script failed. Usually points to a JavaScript error in your script. |
 | `ValidationFailed`	             |  142 | Cloud Code validation failed. |
 | `ReceiptMissing`	               |  143 | Product purchase receipt is missing. |
