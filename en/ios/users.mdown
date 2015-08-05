@@ -859,7 +859,7 @@ PFTwitterUtils.unlinkUserInBackground(user, {
 Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/docs/api) when your app has a Twitter-linked `%{ParseUser}`.  To make a request through our API, you can use the `PF_Twitter` singleton provided by `PFTwitterUtils`:
 
 ```objc
-NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1/account/verify_credentials.json"];
+NSURL *verify = [NSURL URLWithString:@"https://api.twitter.com/1.1/account/verify_credentials.json"];
 NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:verify];
 [[PFTwitterUtils twitter] signRequest:request];
 NSURLResponse *response = nil;
