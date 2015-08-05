@@ -868,3 +868,11 @@ NSData *data = [NSURLConnection sendSynchronousRequest:request
                                      returningResponse:&response  
                                                  error:&error];
 ```
+```swift
+let verify = NSURL(string: "https://api.twitter.com/1.1/account/verify_credentials.json")
+var request = NSMutableURLRequest(URL: verify!)
+PFTwitterUtils.twitter()!.signRequest(request)
+var response: NSURLResponse?
+var error: NSError?
+var data = NSURLConnection.sendSynchronousRequest(request, returningResponse: &response, error: &error)
+```
