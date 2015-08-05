@@ -667,8 +667,14 @@ follow["date"] = DateTime.UtcNow;
 await follow.SaveAsync();
 ```
 ```common-js
-// no js example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+var otherUser = ...
+
+// create an entry in the Follow table
+var follow = new Parse.Object("Follow");
+follow.set("from", Parse.User.current());
+follow.set("to", otherUser);
+follow.set("date", Date());
+follow.save();
 ```
 
 If we want to find all of the people we are following, we can execute a query on the `Follow` table:
@@ -735,15 +741,13 @@ query = query.WhereEqualTo("from", ParseUser.CurrentUser);
 IEnumerable<ParseObject> results = await query.FindAsync();
 ```
 ```common-js
-// suppose we have a user we want to follow
-var otherUser = ...
-
-// create an entry in the Follow table
-var follow = new Parse.Object("Follow");
-follow.set("from", Parse.User.current());
-follow.set("to", otherUser);
-follow.set("date", Date());
-follow.save();
+var query = new Parse.Query("Follow");
+query.equalTo("from", Parse.User.current());
+query.find({
+  success: function(users){
+    ...
+  }
+});
 ```
 
 It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
