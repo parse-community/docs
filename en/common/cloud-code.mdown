@@ -234,7 +234,11 @@ In some cases, you may want to perform some action, such as a push, after an obj
 ```js
 Parse.Cloud.afterDelete("Post", function(request) {
   query = new Parse.Query("Comment");
-  query.equalTo("post", request.object.id);
+  var Post = Parse.Object.extend("Post");
+  var post = new Post();
+  post.id = request.object.id;
+  
+  query.equalTo("post", post);
   query.find({
     success: function(comments) {
       Parse.Object.destroyAll(comments, {
