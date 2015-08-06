@@ -115,7 +115,7 @@ curl -X POST \
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
-connection.request('POST', '/1/schemas/Game', json.dumps(
+connection.request('POST', '/1/schemas/Game', json.dumps({
        "className":"City","fields":{"name":{"type":"String"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
