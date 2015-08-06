@@ -178,6 +178,8 @@ Webhooks allow you to write your server-side logic in your own environment with 
 
 We've written an example Cloud Code Webhooks server, in Express.js, which you can find on Github: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
 
+Note: At the current time, custom webhooks cannot be set for the special classes _User and _Installation.
+
 ### Cloud Function Webhooks
 
 A webhook request for a Cloud function will contain the following parameters:
