@@ -521,6 +521,8 @@ func application(application: UIApplication,
                                                              annotation: annotation)
 }
 
+
+//Make sure it isn't already declared in the app delegate (possible redefinition of func error)
 func applicationDidBecomeActive(application: UIApplication) {
   FBSDKAppEvents.activateApp()
 }
