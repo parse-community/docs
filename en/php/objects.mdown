@@ -327,8 +327,7 @@ echo monster->strength();  // Displays 200.
 echo monster->hasSuperHumanStrength();  // Displays true.
 ``` 
 
-If you want to override the __construct method, make sure the first three params is exactly as same as ParseObject.
-
+If you want to override the __construct method, make sure the first three params are exactly as same as the parent ParseObject constructor:
 
 ```php
 class GameScore extends ParseObject
@@ -336,9 +335,8 @@ class GameScore extends ParseObject
   public static $parseClassName = "GameScore";
   
   public function __construct($className = null, $objectId = null, $isPointer = false, $another_param) {
-    // do what you want
     parent::__construct("GameScore", $objectId, $isPointer);
-    // do what you want
+    // ...
   }
 }
 ```
