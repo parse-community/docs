@@ -46,15 +46,15 @@ The response body is JSON containing the keys and settings for your apps.
 {
   "results": [
     {
-      "appName": "Posse",
+      "appName": "<APPLICATION_NAME>",
       "applicationId": "<APPLICATION_ID>",
       "clientClassCreationEnabled": true,
       "clientPushEnabled": false,
-      "dashboardURL": "https://www.parse.com/apps/posse",
+      "dashboardURL": "https://www.parse.com/apps/yourapp",
       "javascriptKey": "<JAVASCRIPT_KEY>",
       "masterKey": "<MASTER_KEY>",
       "requireRevocableSessions": true,
-      "restKey": "<REST_KEY>",
+      "restKey": "<REST_API_KEY>",
       "revokeSessionOnPasswordChange": true,
       "webhookKey": "<WEBHOOK_KEY>",
       "windowsKey": "<WINDOWS_KEY>"
@@ -71,13 +71,13 @@ curl -X GET \
   -H "X-Parse-Email: <PARSE_ACCOUNT_EMAIL>" \
   -H "X-Parse-Password: <PARSE_ACCOUNT_PASSWORD>" \
   -H "Content-Type: application/json" \
-  https://api.parse.com/1/apps/<APPLICATION_ID>
+  https://api.parse.com/1/apps/${APPLICATION_ID}
 ```
 ```python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
-connection.request('GET', '/1/apps/<APPLICATION_ID>', '', {
+connection.request('GET', '/1/apps/${APPLICATION_ID}', '', {
        "X-Parse-Email": "<PARSE_ACCOUNT_EMAIL>",
        "X-Parse-Password": "<PARSE_ACCOUNT_PASSWORD>",
        "Content-Type": "application/json"
@@ -86,13 +86,13 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-## Creating apps 
+## Creating apps
 
 By sending a POST request to the `/1/apps` endpoint you can create a new app,
 that is owned by your account. The new app is initialized with a set of keys,
 as well as some optional settings, which are all returned to you along with
 the app's URL in your parse.com dashboard. The only required field for creating
-an app is the app name. 
+an app is the app name.
 
 The default values for the allowable settings are:
 
@@ -132,17 +132,17 @@ You can change your app's name, as well as change your app's settings, by sendin
 
 ```bash
 curl -X PUT \
-  -H "X-Parse-Email: <PARSE_ACCOUNT_EMAIL>" \
+  -H "X-Parse-Email: ${PARSE_ACCOUNT_EMAIL}" \
   -H "X-Parse-Password: <PARSE_ACCOUNT_PASSWORD>" \
   -H "Content-Type: application/json" \
   -d '{"appName":"updated app name","clientClassCreationEnabled":true}' \
-  https://api.parse.com/1/apps/<APPLICATION_ID>
+  https://api.parse.com/1/apps/${APPLICATION_ID}
 ```
 ```python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
-connection.request('PUT', '/1/apps/<APPLICATION_ID>', json.dumps(
+connection.request('PUT', '/1/apps/${APPLICATION_ID}', json.dumps(
        "appName":"updated app name","clientClassCreationEnabled":true
      }), {
        "X-Parse-Email": "<PARSE_ACCOUNT_EMAIL>",
