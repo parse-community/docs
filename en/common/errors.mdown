@@ -77,7 +77,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `InvalidPushTimeError`	         |  152 | An invalid push time was specified. |
 | `FileDeleteFailed`	             |  153 | A file deletion failed. |
 | `InefficientQueryError`	         |  154 | An inefficient query was rejected by the server. Refer to the Performance Guide and slow query log. |
-| `RequestLimitExceeded`	         |  155 | This application has exceeded its request limit. [Upgrade](/account) to resolve. |
+| `RequestLimitExceeded`	         |  155 | This application has exceeded its request limit. Please retry in one minute or raise your request limit at https://parse.com/account. Check error message for more details. |
 | `MissingPushIdError`	           |  156 | A push id is missing. |
 | `MissingDeviceTypeError`         |  157 | The device type field is missing. |
 | `HostingError`                   |  158 | Hosting error. |
