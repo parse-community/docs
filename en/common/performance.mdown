@@ -581,17 +581,6 @@ There are some limits in place to ensure the API can provide the data you need i
 * An app may only create up to 200 classes.
 * Only the first 100 classes will be displayed in the Data Browser.
 
-**Files**
-
-* Parse Files are limited to 10 MB each and the limit cannot be increased. There is no limit on how many Parse Files your app can create.
-* Parse Hosting, on the other hand, supports files up to 500 MB, ideal for Unity projects.
-* Parse Files cannot be accessed via HTTPS.
-
-**Push Notifications**
-
-* An app can upload up to 6 APNs certificates.
-* [Delivery of notifications is a “best effort”, not guaranteed](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1). It is not intended to deliver data to your app, only to notify the user that there is new data available.
-
 **Queries**
 
 * Queries return 100 objects by default. Use the `limit` parameter to change this, up to a value of 1,000.
@@ -609,6 +598,17 @@ There are some limits in place to ensure the API can provide the data you need i
 * A maximum of 500,000 objects will be scanned per query. If your constraints do not successfully limit the scope of the search, this can result in queries with incomplete results.  
 * A `containsAll` query constraint can only take up to 9 items in the comparison array.
 
+**Files**
+
+* Parse Files are limited to 10 MB each and the limit cannot be increased. There is no limit on how many Parse Files your app can create.
+* Parse Hosting, on the other hand, supports files up to 500 MB, ideal for Unity projects.
+* Parse Files cannot be accessed via HTTPS.
+
+**Push Notifications**
+
+* An app can upload up to 6 APNs certificates.
+* [Delivery of notifications is a “best effort”, not guaranteed](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1). It is not intended to deliver data to your app, only to notify the user that there is new data available.
+
 **Cloud Code**
 
 * JavaScript scripts in Cloud Code are limited to 128 KB.
@@ -621,3 +621,4 @@ There are some limits in place to ensure the API can provide the data you need i
 * The `params` payload that is passed to a Cloud Function is limited to 50 MB.
 * When using `console` to log information and errors, the message string will be limited to 1 KB.
 * Only the first 100 messages logged by a Cloud function will be persisted in the Cloud Code logs.
+* `Parse.Cloud.httpRequest` has a 2 second connection timeout. If the connection cannot be established within 2 seconds, you may see a 124 request timed out error.
