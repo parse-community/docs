@@ -54,7 +54,7 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 ```java
 // When users indicate they are Giants fans, we subscribe them to that channel.
-// Note that : PushService.subscribe(this, "Giants", MainActivity.class); is deserted in the new parse version，新版本parse使用下面的方法订阅通道
+// Note that : PushService.subscribe(this, "Giants", YourActivity.class); is deserted in the new parse version，新版本parse使用下面的方法订阅通道
 ParsePush.subscribeInBackground("Giants");
 ```
 
