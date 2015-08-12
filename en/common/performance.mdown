@@ -616,9 +616,10 @@ There are some limits in place to ensure the API can provide the data you need i
 * Cloud save/delete hooks must return within 3 seconds. Use webhooks if you need more time.
 * Webhooks must return within 30 seconds.
 * Background jobs will be terminated after 15 minutes.
-* Apps can run one job concurrently by default, but this can be increased by increasing your requests/second in your Account Overview page.
+* Apps can run one job concurrently by default, but this can be increased by increasing your requests/second in your [Account Overview](/account) page.
 * Additional background jobs over quota will fail to run. They will not be queued.
 * The `params` payload that is passed to a Cloud Function is limited to 50 MB.
 * When using `console` to log information and errors, the message string will be limited to 1 KB.
 * Only the first 100 messages logged by a Cloud function will be persisted in the Cloud Code logs.
 * `Parse.Cloud.httpRequest` has a 2 second connection timeout. If the connection cannot be established within 2 seconds, you may see a 124 request timed out error.
+* There is a limit of 8 concurrent outbound `Parse.Cloud.httpRequest` requests per Cloud Code request.
