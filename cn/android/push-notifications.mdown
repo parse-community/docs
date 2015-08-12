@@ -6,7 +6,7 @@
 
 如果您想开始使用推送，请先完成 [Android 推送教程](/tutorials/android-push-notifications)，学习如何配置应用程序。完成之后再返回本指南，了解关于 Parse 所提供的推送功能的更多信息。
 
-Parse 库提供通过谷歌云端推送 (GCM) 服务发送的推送通知（如果可能）。在不支持 GCM 的设备上（如 Amazon Kindle Fire），Parse 将使用与 Parse 云保持长期稳定连接的后台服务来发送推送通知。如此，Parse 推送便可以应用于运行 Android 2.2 或更高版本的所有设备上。 
+Parse 库提供通过谷歌云端推送 (GCM) 服务发送的推送通知（如果可能）。在不支持 GCM 的设备上（如 Amazon Kindle Fire），Parse 将使用与 Parse 云保持长期稳定连接的后台服务来发送推送通知。如此，Parse 推送便可以应用于运行 Android 2.2 或更高版本的所有设备上。
 
 ## 安装
 
@@ -54,7 +54,8 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 ```java
 // When users indicate they are Giants fans, we subscribe them to that channel.
-PushService.subscribe(context, "Giants", YourActivity.class);
+// Note that : PushService.subscribe(this, "Giants", MainActivity.class); is deserted in the new parse version，新版本parse使用下面的方法订阅通道
+ParsePush.subscribeInBackground("Giants");
 ```
 
 所提供的活动类规定了用户回应该通道上的通知时将运行哪些活动。这样您便可以采用不同方式在不同通道上处理推送通知。
@@ -67,7 +68,8 @@ PushService.subscribe(context, "Giants", YourActivity.class);
 
 ```java
 // When users indicate they are no longer Giants fans, we unsubscribe them.
-PushService.unsubscribe(context, "Giants");
+//Note that: PushService.unsubscribe(context, "Giants"); is deserted in the new parse version，新版本parse使用下面的方法退订通道
+ParsePush.unsubscribeInBackground("Giants");
 ```
 
 您也可以利用以下代码获得当前设备所订阅的通道列表：
@@ -399,7 +401,7 @@ ParseAnalytics.trackAppOpened(getIntent());
 
 ## 疑难解答
 
-设置推送通知经常会困扰开发人员。这个过程复杂而且经常会出现各种问题。碰到问题时，请尝试以下这些疑难解答提示。 
+设置推送通知经常会困扰开发人员。这个过程复杂而且经常会出现各种问题。碰到问题时，请尝试以下这些疑难解答提示。
 
 *   [升级至最新版 SDK](/docs/downloads)。Android 中关于推送通知的几个常见问题已在最新发布的 Parse 中得到解决。
 *   请确保您拥有 `AndroidManifest.xml` 文件中所列的正确权限，如 [Android 推送快速指南](/apps/quickstart_push#android/native/existing)的第 4 步和第 6 步所述。如果您在使用自定义接收者，请确保已在 Manifest 文件中对其进行了注册，从而使其拥有正确的 `android:name` 属性和合适意图过滤器。
