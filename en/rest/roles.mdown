@@ -58,7 +58,7 @@ You can create a role with child roles or users by adding existing objects to th
 ```bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
         "name": "Moderators",
