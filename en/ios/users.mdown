@@ -482,9 +482,8 @@ There's also two code changes you'll need to make. First, add the following to y
 
 ```
 ```swift
-// Import this header into your Swift bridge header file
-#import <FBSDKCoreKit/FBSDKCoreKit.h>
-#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+import FBSDKCoreKit
+import ParseFacebookUtilsV4
 
 // AppDelegate.swift
 func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
