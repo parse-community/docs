@@ -42,6 +42,7 @@ While it is possible to modify a `ParseInstallation` just like you would a `Pars
 *   **`channels`**:
     An `IEnumerable<string>` of the channels to which a device is currently subscribed. In .NET, this field is accessible through the `Channels` property.
 *   **`timeZone`**: The current time zone where the target device is located. This field is readonly and can be accessed via the `TimeZone` property. This value is synchronized every time an `Installation` object is saved from the device.
+*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet". This field is readonly and can be accessed via the `DeviceType` property.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device      is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
 *   **`installationId`**: Unique Id for the device used by Parse. This field is readonly and can be accessed via the `InstallationId` property.
@@ -446,6 +447,20 @@ When you setup a push message experiment, we'll recommend the minimum size of yo
 After you send your pushes to experiment groups, we'll also provide a statistical confidence interval when your experiment has collected enough data to have statistically significant results. This confidence interval is in absolute percentage points of push open rate (e.g. if the open rates for groups A and B are 3% and 5%, then the difference is reported as 2 percentage points). This confidence interval is a measure of how much difference you would expect to see between the two groups if you repeat the same experiment many times.
 
 Just after a push send, when only a small number of users have opened their push notifications, the open rate difference you see between groups A and B could be due to random chance, so it might not be reproducible if you run the same experiment again. After your experiment collects more data over time, we become increasingly confident that the observed difference is a true difference. As this happens, the confidence interval will become narrower, allowing us to more accurately estimate the true difference between groups A and B. Therefore, we recommend that you wait until there is enough data to generate a statistical confidence interval before deciding which group's push is better.
+
+## Push Localization
+
+Localizing your app's content is a proven way to drive greater engagement. We've made it easy to localize your push messages with Push Localization. The latest version of the Parse .NET SDK will detect and store the user's language in the installation object, and via the web push console you’ll be able to send localized push messages to your users in a single broadcast.
+
+### Setup
+
+To take advantage of  Push Localization you will need to make sure you've published your app with the Parse .NET SDK version 1.5.5 or greater. Any users of your application running the Parse .NET SDK version 1.5.5 or greater will then be targetable by Push Localization via the web push console. 
+
+It's important to note that for developers who have users running apps with versions of the Parse .NET SDK earlier than 1.5.5 that targeting information for Localized Push will not be available and these users will receive the default message from the push console.
+
+### Sending a localized push
+
+Our web push console guides you through every step of setting up a Localized Push.
 
 ## Troubleshooting
 
