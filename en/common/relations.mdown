@@ -227,8 +227,7 @@ NSArray *weapons = [[PFUser currentUser] objectForKey:@"weaponsList"];
 let weapons = PFUser.currentUser()?.objectForKey("weaponsList")
 ```
 ```common-php
-// no php example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+$weapons = ParseUser::getCurrentUser()->get("weaponsList");
 ```
 ```common-csharp
 var weapons = ParseUser.CurrentUser.Get<IList<Object>>("weaponsList");
@@ -290,8 +289,19 @@ userQuery?.findObjectsInBackgroundWithBlock {
 }
 ```
 ```common-php
-// no php example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// set up our query for a User object
+$userQuery = ParseUser::query();
+
+// configure any constraints on your query...
+// for example, you may want users who are also playing with or against you
+
+// tell the query to fetch all of the Weapon objects along with the user
+// get the "many" at the same time that you're getting the "one"
+$userQuery->includeKey("weaponsList");
+
+// execute the query
+$results = $userQuery->find();
+// results contains all of the User objects, and their associated Weapon objects, too
 ```
 ```common-csharp
 // set up our query for a User object
@@ -351,8 +361,11 @@ userQuery?.whereKey("weaponsList", equalTo: scimitar);
 userQuery?.whereKey("weaponsList", containedIn: arrayOfWeapons)
 ```
 ```common-php
-// no php example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+// add a constraint to query for whenever a specific Weapon is in an array
+$userQuery->equalTo("weaponsList", $scimitar);
+
+// or query using an array of Weapon objects...
+$userQuery->containedIn("weaponsList", $arrayOfWeapons);
 ```
 ```common-csharp
 // add a constraint to query for whenever a specific Weapon is in an array
