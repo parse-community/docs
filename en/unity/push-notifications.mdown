@@ -363,6 +363,20 @@ After you send your pushes to experiment groups, we'll also provide a statistica
 
 Just after a push send, when only a small number of users have opened their push notifications, the open rate difference you see between groups A and B could be due to random chance, so it might not be reproducible if you run the same experiment again. After your experiment collects more data over time, we become increasingly confident that the observed difference is a true difference. As this happens, the confidence interval will become narrower, allowing us to more accurately estimate the true difference between groups A and B. Therefore, we recommend that you wait until there is enough data to generate a statistical confidence interval before deciding which group's push is better.
 
+## Push Localization
+
+Localizing your app's content is a proven way to drive greater engagement. We've made it easy to localize your push messages with Push Localization. The latest version of the Parse .NET SDK will detect and store the user's language in the installation object, and via the web push console you’ll be able to send localized push messages to your users in a single broadcast.
+
+### Setup
+
+To take advantage of  Push Localization you will need to make sure you've published your app with the Parse .NET SDK version 1.5.5 or greater. Any users of your application running the Parse .NET SDK version 1.5.5 or greater will then be targetable by Push Localization via the web push console. 
+
+It's important to note that for developers who have users running apps with versions of the Parse .NET SDK earlier than 1.5.5 that targeting information for Localized Push will not be available and these users will receive the default message from the push console.
+
+### Sending a localized push
+
+Our web push console guides you through every step of setting up a Localized Push.
+
 ## Troubleshooting
 
 Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of these troubleshooting tips. 
