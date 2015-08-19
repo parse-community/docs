@@ -110,7 +110,7 @@ Express 能帮您快速创建应用并运行，但如果您更喜欢较底层的
 [设置](#started-project)好 Parse 托管后，可在 parse 项目文件夹中输入如下代码，即可生成一个初始 Web 应用。
 
 ```bash
-$ parse generate express
+$ parse generate
 ```
 
 此命令会在您的云文件夹内创建如下目录结构。它不会修改您现有的 main.js 文件。
@@ -347,7 +347,7 @@ Select an App: 1
 
 ### 开发您的网站
 
-在开发新代码时，您可使用 `develop` 命令让 Parse 命令行工具持续检查您项目的更新，并上传您的更改。命令类似于： 
+在开发新代码时，您可使用 `develop` 命令让 Parse 命令行工具持续检查您项目的更新，并上传您的更改。命令类似于：
 
 ```bash
 $ parse develop development
