@@ -47,20 +47,22 @@ ParseInstallation.getCurrentInstallation().saveInBackground();
 
 While it is possible to modify a `%{ParseInstallation}` just like you would a `%{ParseObject}`, there are several special fields that help manage and target devices.
 
-*   **`badge`**: The current value of the icon badge for iOS apps. Changes to this value on the server will be used for future badge-increment push notifications.
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
+*   **`installationId`**: Unique Id for the device used by Parse _(readonly)_.
+*   **`deviceType`**: The type of device, "ios", "osx", "android", "winrt", "winphone", "dotnet", or "embedded". On Android devices, this field will be set to "android" _(readonly)_.
+*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
+*   **`GCMSenderId`**: This field only has meaning for Android `%{ParseInstallation}`s that use the GCM push type. It is reserved for directing Parse to send pushes to this installation with an alternate GCM sender ID. This field should generally not be set unless you are uploading installation data from another push provider. If you set this field, then you must set the GCM API key corresponding to this GCM sender ID in your Parse application's push settings.
+*   **`deviceToken`**: The token used by GCM to keep track of registration ID. On iOS devices, this is the Apple generated token _(readonly)_.
+*   **`appName`**: The display name of the client application to which this installation belongs. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device  _(readonly)_.
+*   **`appVersion`**: The version string of the client application to which this installation belongs. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device  _(readonly)_.
+*   **`parseVersion`**: The version of the Parse SDK which this installation uses. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device  _(readonly)_.
 *   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
 *   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`deviceType`**: The type of device, "ios" or "android" _(readonly)_.
-*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
-*   **`GCMSenderId`**: This field only has meaning for Android installations that use the GCM push type. It is reserved for directing Parse to send pushes to this installation with an alternate GCM sender ID. This field should generally not be set unless you are uploading installation data from another push provider. If you set this field, then you must set the GCM API key corresponding to this GCM sender ID in your Parse application's push settings.
-*   **`installationId`**: Unique Id for the device used by Parse _(readonly)_.
-*   **`deviceToken`**: The Apple generated token used for iOS devices, or the token used by GCM to keep track of registration ID  _(readonly)_.
+*   **`badge`**: The current value of the icon badge for iOS apps. Changes to this value on the server will be used for future badge-increment push notifications.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices _(readonly)_.
-*   **`appName`**: The display name of the client application to which this installation belongs _(readonly)_.
-*   **`appVersion`**: The version string of the client application to which this installation belongs _(readonly)_.
-*   **`parseVersion`**: The version of the Parse SDK which this installation uses _(readonly)_.
-*   **`appIdentifier`**: A unique identifier for this installation's client application. This parameter is not supported in Android._(readonly)_.
+*   **`appIdentifier`**: A unique identifier for this installation's client application. This parameter is not supported in Android _(readonly)_.
+
+The Parse Android SDK will avoid making unnecessary requests. If a `%{ParseInstallation}` is saved on the device, a request to the Parse servers will only be made if one of the `%{ParseInstallation}`'s fields has been explicitly updated.
 
 ## Sending Pushes
 
@@ -422,7 +424,7 @@ Localizing your app's content is a proven way to drive greater engagement. We've
 
 ### Setup
 
-To take advantage of  Push Localization you will need to make sure you've published your app with the Parse Android SDK version 1.10.1 or greater. Any users of your application running the Parse Android SDK version 1.10.1 or greater will then be targetable by Push Localization via the web push console. 
+To take advantage of  Push Localization you will need to make sure you've published your app with the Parse Android SDK version 1.10.1 or greater. Any users of your application running the Parse Android SDK version 1.10.1 or greater will then be targetable by Push Localization via the web push console.
 
 It's important to note that for developers who have users running apps with versions of the Parse Android SDK earlier than 1.10.1 that targeting information for Localized Push will not be available and these users will receive the default message from the push console.
 
