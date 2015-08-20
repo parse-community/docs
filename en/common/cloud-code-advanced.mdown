@@ -174,7 +174,7 @@ name.coolNames; // undefined.
 
 ## Cloud Code Webhooks
 
-Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`, and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
+Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete`, as well as 'validateAuthData' and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
 
 We've written an example Cloud Code Webhooks server, in Express.js, which you can find on Github: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
 
@@ -593,6 +593,126 @@ Here's an example of the JSON data that would be sent in the request to this web
 ```
 
 After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
+
+
+### validateAuthData Webhooks
+
+A webhook request for authentication data validation will contain the following parameters:
+
+*   **master**: True if the master key was used and false otherwise.
+*   **installationId**: If available, the installationId which made the request.
+*   **params**: A JSON object containing the parameters passed to the auth validator. It always contains an id. For example: `{ "id": "12345", "additionalData": "text" }`
+*   **authProvider**: The name of the authentication service (e.g. github, instagram, etc)
+
+To respond to this request, send a JSON object with the key `error` or `success` set. In the case of `success`, you can send the updated authentication data (conforming to the same rules as cloud code validateAuthData); or simply `true` if you do not wish to update the authentication data. In the case of `error`, the value provided should be the error message you want to return.
+
+To create a webhook for validateAuthData, start by writing the corresponding code on your own server. Here's the simple function that always confirms github requests written in a Rails environment.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity. protect_from_forgery :except => :index
+
+def index
+  # Ensure the request is authorized. You can find this key on your app's settings page
+  # and you should ALWAYS validate it in your request.
+  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key
+    return render :json => { :error => "Request Unauthorized"}
+  end
+
+  # Check the auth provider name and return a message if it's correct
+  if params[:authProvider] == "github"
+    return render :json => { :success => true }
+  end
+
+  # Return an error if it's not the auth provider we expected 
+  return render :json => { :error => "unknown auth provider"}
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{
+  "master": false,
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "params": { "id": "12345", "email": "bob.smith@parse.com" }, 
+  "authProvider": "github" 
+}
+```
+
+This response would indicate a success in the webhook:
+
+```json
+// Returned from the webhook on success
+{ "success": true } 
+```
+
+This response would indicate an error in the webhook (if you sent, for example, an auth provider other than github):
+
+```json
+// Returned from the webhook on error 
+{ "error": "unknown auth provider" } 
+```
+
+You can activate this webhook from the Dashboard UI.
+
+![](/images/docs/new_webhook.png)
+
+Once the webhook is set, you can call it from any of our SDKs or from the REST API, the same way you would a normal Cloud function.
+
+Here's a more complex example where we use a webhook to perform some task for our billing pipeline. We'll use the popular `resque` gem to enqueue a job that handles billing the given user. For this example, the function is named `chargeCustomer` and it should always be called with the master key.
+
+```ruby
+# We need to disable CSRF protection for webhooks to work. Instead we 
+# use the webhook key to prove authenticity. 
+protect_from_forgery :except => :index
+
+def index 
+  # Ensure the request is validated 
+  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key 
+    return render :json => { :error => "Request Unauthorized"} 
+  end
+
+  # Check the function name 
+  if params[:functionName] == "chargeCustomer" && params[:master] == true 
+    # extract the custom parameters sent with the function 
+    custom_params = params[:params] 
+    user_id = custom_params["userObjectId"]
+
+    # enqueue a resque job to bill the user 
+    Resque.enqueue(BillingJob, user_id)
+
+    # return a json object of this billing info 
+    return render :json => { :success => "User billed!" } 
+  end
+
+  return render :json => { :error => "Unknown function"} 
+end
+```
+
+Here's an example of the JSON data that would be sent in the request to this webhook:
+
+```json
+// Sent to webhook 
+{ 
+  "master": true, 
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
+  "params": { "userObjectId": "6eaI2sTgH6" }, 
+  "functionName": "chargeCustomer" 
+}
+```
+
+This response would indicate a success in the webhook:
+
+```json
+// Returned from the webhook on success 
+{ "success": "User billed!" }
+```
+
+The auth data must have a field called `id` of type `string`. Therefore, request.params.id field will always be populated with a string, and if you return a modified auth data object, it must also have a field called id of type `string`.
+
+Set your webhook from the Dashboard UI. After that, it's available from all SDKs and the REST API the same way you would a normal Cloud function
 
 ### Resource Limits
 

@@ -226,7 +226,6 @@ If `response.error` is called, the `Album` object will not be deleted, and the c
 
 If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
-
 ## afterDelete Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been deleted. You can do this by registering a handler with the `afterDelete` method. For example, suppose that after deleting a blog post, you also want to delete all associated comments. You can do that by writing a function like this:
@@ -257,11 +256,29 @@ The client will receive a successful response to the delete request after the ha
 
 If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
+## validateAuthData
+
+In order to use third party authentication, you must write an authentication validator that confirms if stored authenticiation is still valid. A validateAuthData callback is invoked when logging in a user with non-Facebook, non-Twitter data via either the /1/users REST endpoint or via a library (e.g. javascript, iOS, Android, etc).
+
+Register the auth validator with the name of the service and a callback that takes a [request](Parse.Cloud.ValidateAuthDataRequest) and [response](Parse.Cloud.ValidateAuthDataResponse). The request.params contains the stored authentication data, and your cloud code should either approve that data with `response.success` or deny it with `response.error`.
+
+In this simple example, we simply assume all logins are always valid and always approve them:
+
+```js
+Parse.Cloud.validateAuthData("someOAuth", function(request, response) {
+  console.log("login success: " + JSON.stringify(request.body));
+
+  response.success();
+});
+```
+
+The auth data must have a field called `id` of type `string`. Therefore, request.params.id field will always be populated with a string, and if you return a modified auth data object through `response.success`, it must also have a field called id of type `string`.
+
 ## Resource Limits
 
 ### Timeouts
 
-Cloud functions will be killed after 15 seconds of wall clock time. `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete` functions will be killed after 3 seconds of run time. If a Cloud function or a `beforeSave`/`afterSave`/`beforeDelete`/`afterDelete` function is called from another Cloud Code call, it will be further limited by the time left in the calling function. For example, if a `beforeSave` function is triggered by a cloud function after it has run for 13 seconds, the `beforeSave` function will only have 2 seconds to run, rather than the normal 3 seconds. If you need additional time to perform operations in Cloud Code, consider using a [background job](#cloud-code-advanced-background-jobs).
+Cloud functions and auth validators will be killed after 15 seconds of wall clock time. `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete` functions will be killed after 3 seconds of run time. If a Cloud function, auth validator, or a `beforeSave`/`afterSave`/`beforeDelete`/`afterDelete` function is called from another Cloud Code call, it will be further limited by the time left in the calling function. For example, if a `beforeSave` function is triggered by a cloud function after it has run for 13 seconds, the `beforeSave` function will only have 2 seconds to run, rather than the normal 3 seconds. If you need additional time to perform operations in Cloud Code, consider using a [background job](#cloud-code-advanced-background-jobs).
 
 ### Network requests
 
