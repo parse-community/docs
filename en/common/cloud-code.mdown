@@ -265,7 +265,7 @@ Register the auth validator with the name of the service and a callback that tak
 In this simple example, we simply assume all logins are always valid and always approve them:
 
 ```js
-Parse.Cloud.validateAuthData("some-oauth", function(request, response) {
+Parse.Cloud.validateAuthData("someOAuth", function(request, response) {
   console.log("login success: " + JSON.stringify(request.body));
 
   response.success();

@@ -247,7 +247,7 @@ The output is a json object with one key: "results" whose value is a list of clo
 ```json
 {
   "results": [
-    { "authProvider": "some-oauth", "url": "https://api.example.com/some-oauth" },
+    { "authProvider": "someOAuth", "url": "https://api.example.com/someOAuth" },
     { "authProvider": "cloud-code-validator" },
     { "authProvider": "foo", "url": "https://api.example.com/foo" },
     { "authProvider": "bar" }
@@ -262,13 +262,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://api.parse.com/1/hooks/authProvider/some-oauth
+  https://api.parse.com/1/hooks/authProvider/someOAuth
 ```
 ```python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
-connection.request('GET', '/1/hooks/authProvider/some-oauth', '', {
+connection.request('GET', '/1/hooks/authProvider/someOAuth', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -282,7 +282,7 @@ The output is a json object with one key: "results" whose value is a list of clo
 ```json
 {
   "results": [
-    { "authProvider": "some-oauth", "url": "https://api.example.com/some-oauth" }
+    { "authProvider": "someOAuth", "url": "https://api.example.com/someOAuth" }
   ]
 }
 ```

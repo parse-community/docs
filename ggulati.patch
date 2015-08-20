@@ -1,0 +1,548 @@
+From 952e21472435761ff0ac21cae1a2a70e970e3b0b Mon Sep 17 00:00:00 2001
+From: Gurwinder Gulati <ggulati@fb.com>
+Date: Thu, 20 Aug 2015 11:56:23 -0700
+Subject: [PATCH] Added partial docs for open auth
+
+---
+ en/common/cloud-code-advanced.mdown | 122 ++++++++++++++-
+ en/common/cloud-code.mdown          |  21 ++-
+ en/rest/hooks.mdown                 | 293 +++++++++++++++++++++++++++++++++++-
+ 3 files changed, 430 insertions(+), 6 deletions(-)
+
+diff --git a/en/common/cloud-code-advanced.mdown b/en/common/cloud-code-advanced.mdown
+index dbc62bc..4afddd5 100644
+--- a/en/common/cloud-code-advanced.mdown
++++ b/en/common/cloud-code-advanced.mdown
+@@ -174,7 +174,7 @@ name.coolNames; // undefined.
+ 
+ ## Cloud Code Webhooks
+ 
+-Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`, and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
++Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete`, as well as 'validateAuthData' and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
+ 
+ We've written an example Cloud Code Webhooks server, in Express.js, which you can find on Github: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
+ 
+@@ -594,6 +594,126 @@ Here's an example of the JSON data that would be sent in the request to this web
+ 
+ After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
+ 
++
++### validateAuthData Webhooks
++
++A webhook request for authentication data validation will contain the following parameters:
++
++*   **master**: True if the master key was used and false otherwise.
++*   **installationId**: If available, the installationId which made the request.
++*   **params**: A JSON object containing the parameters passed to the auth validator. It always contains an id. For example: `{ "id": "12345", "additionalData": "text" }`
++*   **authProvider**: The name of the authentication service (e.g. github, instagram, etc)
++
++To respond to this request, send a JSON object with the key `error` or `success` set. In the case of `success`, you can send the updated authentication data (conforming to the same rules as cloud code validateAuthData); or simply `true` if you do not wish to update the authentication data. In the case of `error`, the value provided should be the error message you want to return.
++
++To create a webhook for validateAuthData, start by writing the corresponding code on your own server. Here's the simple function that always confirms github requests written in a Rails environment.
++
++```ruby
++# We need to disable CSRF protection for webhooks to work. Instead we
++# use the webhook key to prove authenticity. protect_from_forgery :except => :index
++
++def index
++  # Ensure the request is authorized. You can find this key on your app's settings page
++  # and you should ALWAYS validate it in your request.
++  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key
++    return render :json => { :error => "Request Unauthorized"}
++  end
++
++  # Check the auth provider name and return a message if it's correct
++  if params[:authProvider] == "github"
++    return render :json => { :success => true }
++  end
++
++  # Return an error if it's not the auth provider we expected 
++  return render :json => { :error => "unknown auth provider"}
++end
++```
++
++Here's an example of the JSON data that would be sent in the request to this webhook:
++
++```json
++// Sent to webhook 
++{
++  "master": false,
++  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
++  "params": { "id": "12345", "email": "bob.smith@parse.com" }, 
++  "authProvider": "github" 
++}
++```
++
++This response would indicate a success in the webhook:
++
++```json
++// Returned from the webhook on success
++{ "success": true } 
++```
++
++This response would indicate an error in the webhook (if you sent, for example, an auth provider other than github):
++
++```json
++// Returned from the webhook on error 
++{ "error": "unknown auth provider" } 
++```
++
++You can activate this webhook from the Dashboard UI.
++
++![](/images/docs/new_webhook.png)
++
++Once the webhook is set, you can call it from any of our SDKs or from the REST API, the same way you would a normal Cloud function.
++
++Here's a more complex example where we use a webhook to perform some task for our billing pipeline. We'll use the popular `resque` gem to enqueue a job that handles billing the given user. For this example, the function is named `chargeCustomer` and it should always be called with the master key.
++
++```ruby
++# We need to disable CSRF protection for webhooks to work. Instead we 
++# use the webhook key to prove authenticity. 
++protect_from_forgery :except => :index
++
++def index 
++  # Ensure the request is validated 
++  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key 
++    return render :json => { :error => "Request Unauthorized"} 
++  end
++
++  # Check the function name 
++  if params[:functionName] == "chargeCustomer" && params[:master] == true 
++    # extract the custom parameters sent with the function 
++    custom_params = params[:params] 
++    user_id = custom_params["userObjectId"]
++
++    # enqueue a resque job to bill the user 
++    Resque.enqueue(BillingJob, user_id)
++
++    # return a json object of this billing info 
++    return render :json => { :success => "User billed!" } 
++  end
++
++  return render :json => { :error => "Unknown function"} 
++end
++```
++
++Here's an example of the JSON data that would be sent in the request to this webhook:
++
++```json
++// Sent to webhook 
++{ 
++  "master": true, 
++  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
++  "params": { "userObjectId": "6eaI2sTgH6" }, 
++  "functionName": "chargeCustomer" 
++}
++```
++
++This response would indicate a success in the webhook:
++
++```json
++// Returned from the webhook on success 
++{ "success": "User billed!" }
++```
++
++The auth data must have a field called `id` of type `string`. Therefore, request.params.id field will always be populated with a string, and if you return a modified auth data object, it must also have a field called id of type `string`.
++
++Set your webhook from the Dashboard UI. After that, it's available from all SDKs and the REST API the same way you would a normal Cloud function
++
+ ### Resource Limits
+ 
+ 1.  All webhooks are limited to 30 seconds. Parse will time out the request after this time limit.
+diff --git a/en/common/cloud-code.mdown b/en/common/cloud-code.mdown
+index 37c04c7..8f33b5b 100644
+--- a/en/common/cloud-code.mdown
++++ b/en/common/cloud-code.mdown
+@@ -226,7 +226,6 @@ If `response.error` is called, the `Album` object will not be deleted, and the c
+ 
+ If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+ 
+-
+ ## afterDelete Triggers
+ 
+ In some cases, you may want to perform some action, such as a push, after an object has been deleted. You can do this by registering a handler with the `afterDelete` method. For example, suppose that after deleting a blog post, you also want to delete all associated comments. You can do that by writing a function like this:
+@@ -257,11 +256,29 @@ The client will receive a successful response to the delete request after the ha
+ 
+ If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+ 
++## validateAuthData
++
++In order to use third party authentication, you must write an authentication validator that confirms if stored authenticiation is still valid. A validateAuthData callback is invoked when logging in a user with non-Facebook, non-Twitter data via either the /1/users REST endpoint or via a library (e.g. javascript, iOS, Android, etc).
++
++Register the auth validator with the name of the service and a callback that takes a [request](Parse.Cloud.ValidateAuthDataRequest) and [response](Parse.Cloud.ValidateAuthDataResponse). The request.params contains the stored authentication data, and your cloud code should either approve that data with `response.success` or deny it with `response.error`.
++
++In this simple example, we simply assume all logins are always valid and always approve them:
++
++```js
++Parse.Cloud.validateAuthData("some-oauth", function(request, response) {
++  console.log("login success: " + JSON.stringify(request.body));
++
++  response.success();
++});
++```
++
++The auth data must have a field called `id` of type `string`. Therefore, request.params.id field will always be populated with a string, and if you return a modified auth data object through `response.success`, it must also have a field called id of type `string`.
++
+ ## Resource Limits
+ 
+ ### Timeouts
+ 
+-Cloud functions will be killed after 15 seconds of wall clock time. `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete` functions will be killed after 3 seconds of run time. If a Cloud function or a `beforeSave`/`afterSave`/`beforeDelete`/`afterDelete` function is called from another Cloud Code call, it will be further limited by the time left in the calling function. For example, if a `beforeSave` function is triggered by a cloud function after it has run for 13 seconds, the `beforeSave` function will only have 2 seconds to run, rather than the normal 3 seconds. If you need additional time to perform operations in Cloud Code, consider using a [background job](#cloud-code-advanced-background-jobs).
++Cloud functions and auth validators will be killed after 15 seconds of wall clock time. `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete` functions will be killed after 3 seconds of run time. If a Cloud function, auth validator, or a `beforeSave`/`afterSave`/`beforeDelete`/`afterDelete` function is called from another Cloud Code call, it will be further limited by the time left in the calling function. For example, if a `beforeSave` function is triggered by a cloud function after it has run for 13 seconds, the `beforeSave` function will only have 2 seconds to run, rather than the normal 3 seconds. If you need additional time to perform operations in Cloud Code, consider using a [background job](#cloud-code-advanced-background-jobs).
+ 
+ ### Network requests
+ 
+diff --git a/en/rest/hooks.mdown b/en/rest/hooks.mdown
+index 7e11e88..cd0de91 100644
+--- a/en/rest/hooks.mdown
++++ b/en/rest/hooks.mdown
+@@ -5,7 +5,7 @@ in addition to being able to do so through the parse website.
+ 
+ Hooks API requires the users to provide `Application-Id` and `Master-Key` in the request headers.
+ 
+-There are two kinds of cloud code webhooks: function webhooks and trigger webhooks.
++There are three kinds of cloud code webhooks: function webhooks, trigger webhooks, and auth validator webhooks.
+ 
+ Cloud functions are functions that run in the cloud and allow you to build functions
+ common to all platforms.
+@@ -15,16 +15,21 @@ Cloud triggers are invoked whenever you save or delete a parse object.
+ Triggers are commonly used to validate your objects before saving them.
+ For more details please read [cloud code triggers](https://parse.com/docs/js/guide#cloud-code-beforesave-triggers).
+ 
++Auth validators are invoked whenever you signup or login a user through a non-Parse-login, non-Facebook, non-Twitter, non-anonymous service.
++They are used to validate custom third party authentication data.
++For more details please read [cloud code auth validators](https://parse.com/docs/js/guide#cloud-code-validateauthdata).
++
+ Lets establish some basic terminology used throughout the rest of this section.
+ 
+-`Cloud Code Webhooks` consist of `function webhooks` and `trigger webhooks`. This is code that runs on your servers.
++`Cloud Code Webhooks` consist of `function webhooks`, `trigger webhooks`, and `auth validator webhooks`. This is code that runs on your servers.
+ 
+-`Cloud Code` has `cloud code functions` and `cloud code triggers`. This is code that runs on the Parse servers.
++`Cloud Code` has `cloud code functions`, `cloud code triggers`, and `cloud code auth validators`. This is code that runs on the Parse servers.
+ 
+ These are the generic concepts encapsulating both use cases:
+ 
+ `Cloud Function` is either a `cloud code function` or a `function webhook`.
+ `Cloud Trigger` is either a `cloud code trigger` or a `trigger webhook`.
++`Cloud Auth Validator` is either a `cloud code auth validator` or a `auth validator webhook`.
+ 
+ A function webhook has a name and a url. Hence, its JSON response looks like:
+ ```json
+@@ -48,6 +53,17 @@ JSON response for a cloud code trigger contains the class name and the trigger n
+ Note that trigger name can only be one of `beforeSave`, `afterSave`, `beforeDelete` and `afterDelete`.
+ 
+ 
++An auth validator webhook has an auth provider name and a url. Hence, its JSON response looks like:
++```json
++{"authProvider": "bar", "url": "https://api.example.com/bar"}
++```
++
++JSON reponse for a cloud code auth validator just contains the auth provider name.
++```json
++{"authProvider": "bar"}
++```
++
++
+ ## Fetch functions
+ To fetch the list of all cloud functions you deployed or created, use:
+ 
+@@ -203,6 +219,74 @@ Note that POST, PUT and DELETE only work on function or trigger webhooks.
+ To create cloud code functions or cloud code triggers you can modify your cloud code javascript files
+ and perform a `parse deploy` the usual way.
+ 
++
++## Fetch auth validators
++To fetch the list of all cloud auth validators you deployed or created, use:
++
++```bash
++curl -X GET \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  https://api.parse.com/1/hooks/authvalidators
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('GET', '/1/hooks/authvalidators', '', {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output is a json object with one key: "results" whose value is a list of cloud auth validators.
++```json
++{
++  "results": [
++    { "authProvider": "some-oauth", "url": "https://api.example.com/some-oauth" },
++    { "authProvider": "cloud-code-validator" },
++    { "authProvider": "foo", "url": "https://api.example.com/foo" },
++    { "authProvider": "bar" }
++  ]
++}
++```
++
++To fetch a single cloud auth validator with a given name, use:
++
++```bash
++curl -X GET \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  https://api.parse.com/1/hooks/authProvider/some-oauth
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('GET', '/1/hooks/authProvider/some-oauth', '', {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output is a json object with one key: "results" whose value is a list of cloud auth validators with the given name.
++
++```json
++{
++  "results": [
++    { "authProvider": "some-oauth", "url": "https://api.example.com/some-oauth" }
++  ]
++}
++```
++
+ ## Create function webhook
+ To create a new function webhook post to `/1/hooks/functions` with payload in the format
+ ```bash
+@@ -356,6 +440,79 @@ The output may look like this:
+ }
+ ```
+ 
++## Create an auth validator webhook
++To create a new auth validator webhook post to `/1/hooks/authvalidators` with payload in the format
++```bash
++{"authProvider" : x, "url" : y}
++```
++
++Post example,
++
++```bash
++curl -X POST \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  -d '{"authProvider":"baz","url":"https://api.example.com/baz"}' \
++  https://api.parse.com/1/hooks/authvalidators
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('POST', '/1/hooks/authvalidators', json.dumps(
++       {"authProvider":"baz","url":"https://api.example.com/baz"}
++     ), {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output may look like this:
++```json
++{"authProvider": "baz", "url": "https://api.example.com/baz"}'
++```
++
++It returns the auth provider name and url of the created webhook.
++
++If you try to create an auth validator webhook and a cloud code auth validator with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, auth validator webhooks takes precedence over cloud code auth validator.
++
++For example,
++```bash
++curl -X POST \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  -d '{"authProvider":"bar","url":"https://api.example.com/bar"}' \
++  https://api.parse.com/1/hooks/authvalidators
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('POST', '/1/hooks/authvalidators', json.dumps(
++       {"authProvider":"bar","url":"https://api.example.com/bar"}
++     ), {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output may look like this:
++```json
++{
++  "authProvider": "bar",
++  "url": "https://api.example.com/bar",
++  "warning": "a cloudcode auth validator with name \"bar\" already exists"
++}
++```
++
+ ## Edit function webhook
+ To edit the url of a function webhook that was already created use the put method.
+ 
+@@ -497,6 +654,74 @@ The output may look like this:
+   "warning": "beforeDelete trigger already defined for class Tournament in cloud code"
+ }
+ ```
++## Edit auth validator webhook
++To edit the url of an auth validator webhook that was already created use the put method.
++
++Put example,
++```bash
++curl -X PUT \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  -d '{"url":"https://api.example.com/_baz"}' \
++  https://api.parse.com/1/hooks/authvalidators/baz
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('PUT', '/1/hooks/authvalidators/baz', json.dumps(
++    {"url":"https://api.example.com/_baz"}
++      ), {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output may look like this:
++```json
++{"authProvider": "baz", "url": "https://api.example.com/baz"}'
++```
++
++It returns the auth validator name and url of the modified webhook.
++
++If you try to update an auth validator webhook and a cloud code auth validator with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, auth validator webhooks takes precedence over cloud code auth validators.
++
++For example,
++```bash
++curl -X PUT \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  -d '{"url":"https://api.example.com/_bar"}' \
++  https://api.parse.com/1/hooks/authvalidators/bar
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('PUT', '/1/hooks/authvalidators/bar', json.dumps(
++      {"url":"https://api.example.com/_bar"}
++      ), {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output may look like this:
++```json
++{
++  "authProvider": "bar",
++  "url": "https://api.example.com/_bar",
++  "warning": "a cloudcode auth validator with name \"bar\" already exists"
++}
++```
+ 
+ ## Delete function webhook
+ To delete a function webhook use the put method.
+@@ -624,3 +849,65 @@ The output may look like this:
+   "triggerName": "beforeDelete"
+ }
+ ```
++
++## Delete auth validator webhook
++To delete an auth validator webhook use the put method.
++
++```bash
++curl -X PUT \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  -d '{"__op": "Delete"}' \
++https://api.parse.com/1/hooks/authvalidators/foo
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('PUT', '/1/hooks/authvalidators/foo', json.dumps(
++      {"__op": "Delete"}
++      ), {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output may look like this:
++```json
++{}
++```
++
++If a cloud code auth validator with the same name already exists then it is returned as the result.
++Since the overriding webhook was just deleted, this cloud code auth validator will be run the next time sendMessage is called.
++
++```bash
++curl -X PUT \
++  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
++  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
++  -H "Content-Type: application/json" \
++  -d '{ "__op": "Delete" }' \
++https://api.parse.com/1/hooks/authvalidators/sendMessage
++```
++```python
++import json,httplib
++connection = httplib.HTTPSConnection('api.parse.com', 443)
++connection.connect()
++connection.request('PUT', '/1/hooks/authvalidators/sendMessage', json.dumps(
++      {"__op": "Delete"}
++      ), {
++       "X-Parse-Application-Id": "${APPLICATION_ID}",
++       "X-Parse-Master-Key": "${MASTER_KEY}",
++       "Content-Type": "application/json"
++     })
++result = json.loads(connection.getresponse().read())
++print result
++```
++
++The output may look like this:
++```json
++{ "functionName": "sendMessage" }
++```
+-- 
+1.9.5
+

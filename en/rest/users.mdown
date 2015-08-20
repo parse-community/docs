@@ -327,6 +327,8 @@ print result
 
 Parse allows you to link your users with services like Twitter and Facebook, enabling your users to sign up or log into your application using their existing identities. This is accomplished through the sign-up and update REST endpoints by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
+You can also authenticate with custom authentication providers that you have registered as [cloud code auth validators](https://parse.com/docs/js/guide#cloud-code-validateauthdata) or webhooks.
+
 `authData` is a JSON object with keys for each linked service containing the data below.  In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a) to obtain the information the the service requires for linking.
 
 ### Facebook `authData`
@@ -368,6 +370,21 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
   }
 }
 ```
+
+### Custom auth providers `authData`
+
+```json
+{
+  "myCustomOauthName": {
+    "id": "any string"
+  }
+}
+```
+
+A custom auth provider is any linked service that is not Facebook, nor Twitter, nor Anonymous. Additionally, the auth provider name "custom" is also disallowed. Auth provider names must fit the regex `[a-zA-Z][a-zA-Z0-9_]*`.
+
+The data passed must include an "id" field with a string as a value. This value is used to link Parse User accounts. The other fields must fit the same regex as auth provider names (start with an alphabetic chracter and the remaining are alphanumeric or underscore). The values can be of type string, number, or null - most notably, no arrays or nesting. This constraint is also enforced on cloud code and webhooks auth validators' changed data, so all stored custom auth data always matches that specification.
+
 
 ### Signing Up and Logging In
 
@@ -469,7 +486,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 
 ### Linking
 
-Linking an existing user with a service like Facebook or Twitter uses a PUT request to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
+Linking an existing user with a service like Facebook, Twitter, or a custom auth provider uses a PUT request to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
 
 ```bash
 curl -X PUT \
