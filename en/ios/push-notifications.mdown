@@ -37,7 +37,7 @@ We will then update our `%{ParseInstallation}` with the `deviceToken` once the d
   // Store the deviceToken in the current Installation and save it to Parse
   PFInstallation *currentInstallation = [PFInstallation currentInstallation];
   [currentInstallation setDeviceTokenFromData:deviceToken];
-  [currentInstallation saveInBackground];
+  [currentInstallation saveInBackgroundWithBlock:nil];
 }
 ```
 ```swift
@@ -45,7 +45,7 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
   // Store the deviceToken in the current Installation and save it to Parse
   let installation = PFInstallation.currentInstallation()
   installation.setDeviceTokenFromData(deviceToken)
-  installation.saveInBackground()
+  installation.saveInBackgroundWithBlock(nil)
 }
 ```
 
@@ -94,13 +94,13 @@ Adding a channel subscription can be done using the `addUniqueObject:` method in
 // When users indicate they are Giants fans, we subscribe them to that channel.
 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
 [currentInstallation addUniqueObject:@"Giants" forKey:@"channels"];
-[currentInstallation saveInBackground];
+[currentInstallation saveInBackgroundWithBlock:nil];
 ```
 ```swift
 // When users indicate they are Giants fans, we subscribe them to that channel.
 let currentInstallation = PFInstallation.currentInstallation()
 currentInstallation.addUniqueObject("Giants" forKey: "channels")
-currentInstallation.saveInBackground()
+currentInstallation.saveInBackgroundWithBlock(nil)
 ```
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
@@ -113,13 +113,13 @@ Unsubscribing from a channel is just as easy:
 // When users indicate they are no longer Giants fans, we unsubscribe them.
 PFInstallation *currentInstallation = [PFInstallation currentInstallation];
 [currentInstallation removeObject:@"Giants" forKey:@"channels"];
-[currentInstallation saveInBackground];
+[currentInstallation saveInBackgroundWithBlock:nil];
 ```
 ```swift
 // When users indicate they are Giants fans, we subscribe them to that channel.
 let currentInstallation = PFInstallation.currentInstallation()
 currentInstallation.removeObject("Giants" forKey: "channels")
-currentInstallation.saveInBackground()
+currentInstallation.saveInBackgroundWithBlock(nil)
 ```
 
 The set of subscribed channels is cached in the `currentInstallation` object:
@@ -189,7 +189,7 @@ PFInstallation *installation = [PFInstallation currentInstallation];
 [installation setObject:@YES forKey:@"scores"];
 [installation setObject:@YES forKey:@"gameResults"];
 [installation setObject:@YES forKey:@"injuryReports"];
-[installation saveInBackground];
+[installation saveInBackgroundWithBlock:nil];
 ```
 ```swift
 // Store app language and version
@@ -197,7 +197,7 @@ let installation = PFInstallation.currentInstallation()
 installation["scores"] = true
 installation["gameResults"] = true
 installation["injuryReports"] = true
-installation.saveInBackground()
+installation.saveInBackgroundWithBlock(nil)
 ```
 
 You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the `%{ParseInstallation}`.
@@ -206,13 +206,13 @@ You can even create relationships between your `Installation` objects and other 
 // Associate the device with a user
 PFInstallation *installation = [PFInstallation currentInstallation];
 installation[@"user"] = [PFUser currentUser];
-[installation saveInBackground];
+[installation saveInBackgroundWithBlock:nil];
 ```
 ```swift
 // Associate the device with a user
 let installation = PFInstallation.currentInstallation()
 installation["user"] = PFUser.currentUser()
-installation.saveInBackground()
+installation.saveInBackgroundWithBlock(nil)
 ```
 
 #### Sending Pushes to Queries
