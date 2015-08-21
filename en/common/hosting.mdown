@@ -74,7 +74,7 @@ In this guide, we'll focus on building web apps with the Express API.
 ### Creating a Web App
 
 <div class='tip info'><div>
-  You can specify a template engine by using the `-type` flag. For example, you can use `parse generate --type="express-jade"` to use jade instead of ejs.
+  You can specify a template engine by using the `--type` flag. For example, you can use `parse generate --type="express-jade"` to use jade instead of ejs.
 </div></div>
 
 After you get Parse Hosting [set up](#hosting-a-simple-website), you can generate a starter web app by typing the following inside your parse project folder.
