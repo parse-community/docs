@@ -110,7 +110,7 @@ Express를 사용하여 앱을 빠르게 구축하고 실행할 수 있지만 �
 Parse Hosting을 [설정](#started-project)한 후 Parse 프로젝트 폴더 내에 다음을 입력하여 스타터 웹 앱을 생성할 수 있습니다.
 
 ```bash
-$ parse generate express
+$ parse generate
 ```
 
 이 커맨드는 클라우드 폴더 내에 다음 디렉터리 구조를 만듭니다.  기존 main.js 파일은 영향을 받지 않습니다.
@@ -298,7 +298,7 @@ app.post('/hello', function(req, res) {
 
 ### 정적 콘텐츠
 
-Express 앱을 `public` 폴더에서 배포한 정적 콘텐츠와 나란히 배치할 수 있습니다.  서브도메인의 URL로 요청이 전달되면 Parse는 먼저 `public` 디렉터리에서 일치하는 파일을 찾습니다.  일치하는 파일이 없으면 Parse에서 Cloud Code에 등록된 Express 요청 핸들러를 호출합니다.  그래도 일치하는 파일이 없으면 Parse에서 &quot;404 찾을 수 없음&quot; 페이지를 표시합니다. 
+Express 앱을 `public` 폴더에서 배포한 정적 콘텐츠와 나란히 배치할 수 있습니다.  서브도메인의 URL로 요청이 전달되면 Parse는 먼저 `public` 디렉터리에서 일치하는 파일을 찾습니다.  일치하는 파일이 없으면 Parse에서 Cloud Code에 등록된 Express 요청 핸들러를 호출합니다.  그래도 일치하는 파일이 없으면 Parse에서 &quot;404 찾을 수 없음&quot; 페이지를 표시합니다.
 
  Express를 정적 콘텐츠와 함께 사용 중인 경우 프로젝트에 다음 디렉터리 구조를 사용하는 것이 좋습니다.
 
@@ -347,7 +347,7 @@ Select an App: 1
 
 ### 웹사이트 개발
 
-새 코드를 개발하는 동안 `develop` 커맨드를 사용하여 Parse 커맨드 라인 툴에서 지속적으로 프로젝트에 대한 업데이트가 있는지 확인하고 변경 사항을 업로드하도록 할 수 있습니다.  커맨드는 다음과 같습니다. 
+새 코드를 개발하는 동안 `develop` 커맨드를 사용하여 Parse 커맨드 라인 툴에서 지속적으로 프로젝트에 대한 업데이트가 있는지 확인하고 변경 사항을 업로드하도록 할 수 있습니다.  커맨드는 다음과 같습니다.
 
 ```bash
 $ parse develop development

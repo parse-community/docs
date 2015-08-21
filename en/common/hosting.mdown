@@ -57,7 +57,7 @@ To use this service, complete the steps above using a www-prefixed domain like `
 
 `A` records can be created in the settings page of your domain name service provider. After creating these `A` records, requests to `example.com` will result in a 301 (permanent) redirect to `www.example.com` while preserving the request path.
 
-### HTTPS 
+### HTTPS
 
 If you visit your hosted site over HTTPS using your custom domain, you might see a warning that the website is serving content using an SSL certificate belonging to `*.parseapp.com`. If you have a SSL certificate belonging to your custom domain, you can fix these warnings by uploading the public certificate file and the private key file on the "Web Hosting" section in your app's settings. If your domain's public certificate requires intermediate certificates, then you should append your public certificate, intermediate certificates, and the root certificate into a single file (in that order), and upload it as the "SSL Public Certificate" in your app settings.In 10-30 minutes, your certificate will be propagated to the Parse hosting servers and served  to users who visit your hosted site over HTTPS.
 
@@ -73,10 +73,14 @@ In this guide, we'll focus on building web apps with the Express API.
 
 ### Creating a Web App
 
+<div class='tip info'><div>
+  You can specify a template engine by using the `--type` flag. For example, you can use `parse generate --type="express-jade"` to use jade instead of ejs.
+</div></div>
+
 After you get Parse Hosting [set up](#hosting-a-simple-website), you can generate a starter web app by typing the following inside your parse project folder.
 
 ```bash
-$ parse generate express
+$ parse generate
 ```
 
 This command creates the following directory structure inside your cloud folder. It will not touch your existing main.js file.
@@ -313,7 +317,7 @@ The example above links the `PiecesOfEightCounterProd` app to your project. It a
 
 ### Developing your Website
 
-While developing new code, you can use the `develop` command to have the Parse command line tool continuously check for updates to your project and upload your changes.  The command looks like: 
+While developing new code, you can use the `develop` command to have the Parse command line tool continuously check for updates to your project and upload your changes.  The command looks like:
 
 ```bash
 $ parse develop development
