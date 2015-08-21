@@ -483,6 +483,10 @@ The easiest way to understand this class is with an example. This subclass of `P
 
 @end
 ```
+```swift
+// no Swift example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+```
 
 <img src="https://parse.com/images/docs/todo_view.gif" style="max-width:200px"/>
 
@@ -512,6 +516,10 @@ A good starting point to learn more is to look at the [API for the class](/image
     return cell;
 }
 @end
+```
+```swift
+// no Swift example
+// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
 ```
 
 <img src="https://parse.com/images/docs/images_table.png" style="max-width:200px"/>
@@ -645,7 +653,7 @@ Say, you would like to customize the error message in `PFSignUpViewController` t
 
 Included in  the Parse SDK is a file named `Localizable.string` which includes all the localizable keys in the Parse framework. Browsing this file, developers can find the key for the string they would like to customize. You notice that the string `"The email address \"%@\" is invalid. Please enter a valid email."` is a key in the file. In your own `Localizable.strings`, you can then enter:
 
-```objc
+```js
 "The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";
 ```
 
