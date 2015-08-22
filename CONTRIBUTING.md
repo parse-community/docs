@@ -1,53 +1,50 @@
 # Contributing to Parse Docs
+We want to make contributing to this project as easy and transparent as possible.
 
-Thanks for taking the time to contribute!
+## Code of Conduct
+Facebook has adopted a Code of Conduct that we expect project participants to adhere to. Please read [the full text](https://code.facebook.com/codeofconduct) so that you can understand what actions will and will not be tolerated.
 
-The following is a set of guidelines for contributing to Parse's Documentation. These are just guidelines, not rules, use your best judgment and feel free to propose changes to this document in a pull request.
+## Our Documentation Process
+Most of our work will be done in public directly on GitHub. There may be changes done through our internal source control, but it will be rare and only as needed.
 
-## Submitting Issues
-
-- You can create an issue [here](https://github.com/ParsePlatform/Docs/issues/new), but before doing that please read the notes below on submitting issues, and include as many details as possible with your report.
-- Include the name of the platform where the issue is located. For example, the iOS Guide and the .NET Guide would be under 'ios' and 'dotnet', respectively.
-- If you are reporting a discrepancy in what the documentation states against the actual behavior of the SDK, please make sure to explain the steps you've taken to reproduce the issue. A link to a bug report marked as valid or list of repro steps can help.
-- Perform a [cursory search](https://github.com/issues?q=+is%3Aissue+user%3AParsePlatform) to see if a similar issue has already been submitted.
-- Please setup a [profile picture](https://help.github.com/articles/how-do-i-set-up-my-profile-picture) to make yourself recognizable and so we can all get to know each other.
-
-## Pull Requests
+### Pull Requests
+We actively welcome your pull requests. We'll need to get a core member to sign off on the changes and then merge the pull request. We'll do our best to provide updates and feedback throughout the process.
 
 - Use a [single commit per pull request](#creating-a-single-commit-per-pull-request).
 - If your pull request adds a new code sample, it must include snippets in each of the supported languages. For example, always submit Swift and iOS samples when updating the iOS Guide.
-- Follow the [Documentation Styleguide](#documentation-styleguide).
+- Follow the [Documentation Style Guide](#style-guide).
 - End files with a newline.
+- If you haven't already, complete the Contributor License Agreement ("CLA").
 
-### Creating a single commit per pull request
+### Contributor License Agreement ("CLA")
+In order to accept your pull request, we need you to submit a CLA. You only need to do this once to work on any of Facebook's open source projects.
 
-In order to keep the git commit history readable, we ask that you squash your commits down to a single commit before submitting a pull request.
+Complete your CLA here: <https://developers.facebook.com/opensource/cla>
 
-You can use `git rebase`. To squash three commits into one, do the following:
+### Known Issues
+We use GitHub issues to track public documentation issues. Before filing a new issue, try to make sure your issue doesn't already exist.
 
-    $ git rebase -i HEAD~3
+### Reporting New Issues
 
-Running this command gives you a list of commits in your text editor. Replace "pick" with "squash" next to the commits you want to squash into the commit before it. You will then be able to edit the message for the resulting commit.
+Details are key. The more information you provide us the easier it'll be for us to debug and the faster you'll receive a fix. Some examples of useful tidbits:
 
-If you've already pushed commits to GitHub, and then squashed them locally, you will have to force the push to your branch.
+- You can create an issue [here][new-github-issue]. Please include as many details as possible with your report.
+- Include the name of the platform where the issue is located. For example, the iOS Guide and the .NET Guide would be under 'ios' and 'dotnet', respectively.
+- If you are reporting a discrepancy in what the documentation states against the actual behavior of the SDK, please make sure to explain the steps you've taken to reproduce the issue. A link to a bug report marked as valid or list of repro steps can help.
+- Perform a [cursory search][issue-search] to see if a similar issue has already been submitted.
+- Please setup a [profile picture][profile-picture] to make yourself recognizable and so we can all get to know each other.
 
-    $ git push origin branch-name --force
+## Style Guide
 
-If you only want to modify your last commit message, it's very simple:
+- Use [Markdown][markdown]. The parser uses [marked][marked]'s lexer.
+- Use [tokens][tokens] when referring to the core Parse classes. For example, use %{ParseObject} when referring to `PFObject` or `ParseObject`. The renderer will substitute these tokens for the appropriate class name for the current platform.
 
-    $ git commit --amend
-
-### See also:
-[Git Book Chapter 7.6: Git Tools - Rewriting History](http://git-scm.com/book/en/v2/Git-Tools-Rewriting-History)
-
-## Git Commit Messages
-
-- Use the present tense ("Add feature" not "Added feature")
-- Limit the first line to 72 characters or less
-- Use the imperative mood ("Move cursor to..." not "Moves cursor to...")
-- Reference issues and pull requests liberally
-
-## Documentation Styleguide
-
-- Use [Markdown](https://daringfireball.net/projects/markdown). The parser uses [marked](https://github.com/chjj/marked)'s lexer.
-- Use [tokens](https://github.com/ParsePlatform/Docs/blob/master/tokens.json) when referring to the core Parse classes. For example, use %{ParseObject} when referring to `PFObject` or `ParseObject`. The renderer will substitute these tokens for the appropriate class name for the current platform.
+ [google-group]: https://groups.google.com/forum/#!forum/parse-developers
+ [stack-overflow]: http://stackoverflow.com/tags/parse.com
+ [bug-reports]: https://www.parse.com/help#report
+ [markdown]: https://daringfireball.net/projects/markdown
+ [marked]: https://github.com/chjj/marked
+ [tokens]: https://github.com/ParsePlatform/Docs/blob/master/tokens.json
+ [new-github-issue]: https://github.com/ParsePlatform/Docs/issues/new
+ [issue-search]: https://github.com/issues?q=+is%3Aissue+user%3AParsePlatform
+ [profile-picture]: https://help.github.com/articles/how-do-i-set-up-my-profile-picture
