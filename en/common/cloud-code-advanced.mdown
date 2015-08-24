@@ -152,11 +152,11 @@ The response object passed into the `success` and `error` will contain:
 
 ## Modules
 
-Cloud Code supports breaking up JavaScript code into modules. You can check out [this tutorial](https://parse.com/tutorials/integrating-with-third-party-services) for an in depth look at creating your own. In order to avoid unwanted side effects from loading modules, Cloud Code's modules work similarly to CommonJS modules. When a module is loaded, the JavaScript file is loaded, the source executed and the global `exports` object is returned. For example, if `cloud/name.js` has the following source:
+Cloud Code supports breaking up JavaScript code into modules. You can check out [this tutorial](https://parse.com/tutorials/integrating-with-third-party-services) for an in depth look at creating your own. In order to avoid unwanted side effects from loading modules, Cloud Code's modules work similarly to CommonJS modules. When a module is loaded, the JavaScript file is loaded, the source executed and the global `module.exports` object is returned. For example, if `cloud/name.js` has the following source:
 
 ```js
 var coolNames = ['Ralph', 'Skippy', 'Chip', 'Ned', 'Scooter'];
-exports.isACoolName = function(name) {
+module.exports.isACoolName = function(name) {
   return coolNames.indexOf(name) !== -1;
 }
 ```
