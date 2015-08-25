@@ -492,6 +492,8 @@ If the above query returns no results, it is likely that your installation does 
 
 Your push campaign is created and the device is included in the targeting, but you're still not receiving push notifications. What gives?
 
+You can check the Push Delivery Report for the cause of failed deliveries: Mismatch Sender ID happens when the registered sender is not the same as the one currently sending the notifications, Not Registered is returned when the registration key is deemed invalid, either by misconfiguration or if the user have uninstalled the app.
+
 If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check.
 
 *   [Upgrade to the latest SDK](/docs/downloads). This documentation covers the push API introduced in the 1.7.0 version of the Android Parse SDK. Please upgrade if you are getting compiler errors following these instructions.
