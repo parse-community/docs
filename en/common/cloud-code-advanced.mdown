@@ -329,7 +329,7 @@ To respond to a `beforeSave` request, send a JSON object with the key `error` or
 }
 ```
 
-Let's [recreate our trigger](#cloud-code-beforesave-triggers) to truncate moview review comments that are longer than 140 characters.
+Let's [recreate our trigger](#cloud-code-beforesave-triggers) to truncate movie review comments that are longer than 140 characters.
 
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we 
