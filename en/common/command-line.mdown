@@ -468,8 +468,8 @@ As noted in this [section](#secure-config-format), we'll not store master keys i
 
 ### What does this mean for a regular deploy flow?
 
-If you want to perform a deploy, you'll need the master key. Master key for the current app can be fetched by using the apps api.
-But apps api requires user authentication in the form of (`email`, `password`) with which your registerd for the Parse account, or a valid
+If you want to perform a deploy, you'll need the master key. Master key for the selected app can be fetched by using the [apps api](https://parse.com/docs/rest/guide#apps).
+But apps api requires user authentication in the form of (`email`, `password`) with which you registered for the Parse account, or a valid
 account key (created for that account).
 
 If you do not configure account keys, you'll be prompted to enter an email & password. This disruption in the flow (for all commands
@@ -502,22 +502,22 @@ You are working on `app-ME` (owned by `ME`) and `app-WORK` (owned by `WORK`).
 Now if you want to deploy code to `app-ME`, you need to use the account key for `ME`.
 To deploy to `app-WORK`, you'll need to use the account key for `WORK`.
 
-####How would the command line tool know which access key to use?
+####How would the command line tool know which account key to use?
 
 You tell it what to use by configuring an email for the project using `parse configure email ${ACCOUNT_EMAIL}`.
 This gets stored in the project config: `.parse.project` and any time you need to fetch the master key, this config setting is used
-to identify which access key to use. If it does not find any account key for the configured email, it will try to use the default
+to identify which account key to use. If it does not find any account key for the configured email, it will try to use the default
 account key instead.
 
 So, it is always a good idea to configure your default account key.
 
-It is slightly different when you want to create an app or list properties for an app beloning to a specific account.
+It is slightly different when you want to create an app or list properties for an app belonging to a specific account.
 You can select the Parse account to use by providing the environment variable: `PARSER_EMAIL`
 
 For instance, in Mac or Linux
 ```bash
-PARSER_EMAIL=${ACCOUNT_EMAIL} parse new"
-PARSER_EMAIL=${ACCOUNT_EMAIL} parse list"
+PARSER_EMAIL=${ACCOUNT_EMAIL} parse new
+PARSER_EMAIL=${ACCOUNT_EMAIL} parse list
 ```
 
 In windows,
