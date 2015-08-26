@@ -46,7 +46,7 @@ It might be troublesome to retrieve the config from the server every time you wa
 // Fetches the config at most once every 12 hours per app runtime
 var refreshConfig = function() {
   var lastFetchedDate;
-  const configRefreshInterval = 12 * 60 * 60 * 1000;
+  var configRefreshInterval = 12 * 60 * 60 * 1000;
   return function() {
     var currentDate = new Date();
     if (lastFetchedDate === undefined ||
