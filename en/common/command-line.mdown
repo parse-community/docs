@@ -22,7 +22,7 @@ This will also update your command line tool if you already have it installed.
 The Parse command line tool for Windows is available [here](https://github.com/ParsePlatform/parse-cli/releases/latest).
 Download the windows executable named: `parse.exe` at this link. Note that this is not an installer, it is just a plain windows executable.
 
-### Creating a Parse app
+## Creating a Parse app
 
 You can create a new Parse app using `parse new`.
 It asks you a series of questions and at the end of it, you will have create a new Parse app (with a given name).
@@ -57,7 +57,7 @@ curl -X POST \
  https://api.parse.com/1/functions/hello
  ```
 
-### Setting up Cloud Code
+## Setting up Cloud Code
 
 If you already create a Parse app (for example, through the website or apps api) and want to set up cloud code for the app
 `parse new` can still help you.
@@ -388,7 +388,7 @@ $ parse jssdk -a
    1.3.2
 ```
 
-### Updating
+## Updating
 
 You can update the command line tool using `parse update`. 
 It will update your Parse command line tool to the latest version.
@@ -400,7 +400,7 @@ Downloading binary from https://github.com/ParsePlatform/parse-cli/releases/down
 Successfully updated binary at: /usr/local/bin/parse
 ```
 
-### Secure Config Format
+## Secure Config Format
 
 If you are using a version of command line tool older than 2.2.2 the cloud code project you created looked like this:
 
@@ -457,7 +457,7 @@ $ parse migrate -r
 Successfully migrated to the preferred config format.
 ```
 
-### Account Keys
+## Account Keys
 
 Account Keys are personal access tokens used by the command line tool to create a new Parse app, list properties and keys for
 a selected Parse app, fetch master key when required: for instance, to perform deploy, fetch logs, etc.
@@ -493,7 +493,7 @@ Account Key: ${ACCOUNT_KEY}
 Successfully stored default account key.
 ```
 
-Multiple Account Keys:
+### Multiple Account Keys:
 Let's say you have two Parse accounts: `ME` (your Parse account) and `WORK` (account you are a collaborator on).
 You are working on `app-ME` (owned by `ME`) and `app-WORK` (owned by `WORK`).
 Now if you want to deploy code to `app-ME`, you need to use the account key for `ME`.
@@ -509,9 +509,18 @@ account key instead.
 So, it is always a good idea to configure your default account key.
 
 Suppose in the same scenario you want to create an app or list properties for an app beloning to a specific account.
-You can simply use
+You can provide the Parse account to use by providing the environment variable: `PARSER_EMAIL`
 
+For instance, in Mac or Linux
 ```bash
-parse new --email="${ACCOUNT_EMAIL}"
-parse list --email="${ACCOUNT_EMAIL}"
+PARSER_EMAIL=${ACCOUNT_EMAIL} parse new"
+PARSER_EMAIL=${ACCOUNT_EMAIL} parse list"
 ```
+
+In windows,
+```bash
+cmd /C "set PARSER_EMAIL=${ACCOUNT_EMAIL} && parse new"
+cmd /C "set PARSER_EMAIL=${ACCOUNT_EMAIL} && parse list"
+```
+
+Alternatively, you can just set it as a system wide environment variable, so any subsequent parse commands including: deploy, logs, etc. also use the same Parse account.
