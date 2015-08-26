@@ -1,0 +1,111 @@
+# Configuración
+
+## Configuración de Parse
+
+`PFConfig` is una manera de configurar tus aplicaciones de manera remota permitiendote almacenar un archivo de configuracion en Parse. Permite agregar cosas como acceso a características para pruebas o simplemente un mensaje del dia. Para comenzar a usar `PFConfig` nesecitas agregar algunos pares de valores/llave (parámetros) a la consola de Parse Config.
+
+![](/images/docs/config_editor.png)
+
+Despues de eso te sera posible obtener el `PFConfig` en el cliente, como en este ejemplo:
+
+```objc
+[PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
+  NSNumber *number = config[@"winningNumber"];
+  NSLog(@"Yay! The number is %@!", [number stringValue]);
+}];
+```
+```swift
+PFConfig.getConfigInBackgroundWithBlock {
+  (config: PFConfig?, error: NSError?) -> Void in
+  let number = config?["winningNumber"] as? Int
+  println("Yay! The number is \(number)!")
+}
+```
+
+## Obteniendo la Configuración
+
+`PFConfig` esta desarrollado para ser lo mas robusto posible, incluso en el caso de baja conectividad de internet. Caching es usado por defecto para asegurar que la ultima configuración obtenida siempre estara disponible. En el ejemplo debajo usamos `getConfigInBackgroundWithBlock` para obtener la ultima versión del config desde el servidor,  y si falla simplemente podemos regresar a la version que fue obtenida con anterioridad a travez de `currentConfig`.
+
+```objc
+NSLog(@"Getting the latest config...");
+[PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
+  if (!error) {
+    NSLog(@"Yay! Config was fetched from the server.");
+  } else {
+    NSLog(@"Failed to fetch. Using Cached Config.");
+    config = [PFConfig currentConfig];
+  }
+
+  NSString *welcomeMessage = config[@"welcomeMessage"];
+  if (!welcomeMessage) {
+    NSLog(@"Falling back to default message.");
+    welcomeMessage = @"Welcome!";
+  }
+  NSLog(@"Welcome Messsage = %@", welcomeMessage);
+}];
+```
+```swift
+println("Getting the latest config...");
+PFConfig.getConfigInBackgroundWithBlock {
+  (var config: PFConfig?, error: NSError?) -> Void in
+  if error == nil {
+    println("Yay! Config was fetched from the server.")
+  } else {
+    println("Failed to fetch. Using Cached Config.")
+    config = PFConfig.currentConfig()
+  }
+
+  var welcomeMessage: NSString? = config?["welcomeMessage"] as? NSString
+  if let welcomeMessage = welcomeMessage {
+    println("Welcome Message = \(welcomeMessage)!")
+  } else {
+    println("Falling back to default message.")
+    welcomeMessage = "Welcome!";
+  }
+};
+```
+
+## Configuración Existente
+
+Cada instancia de `PFConfig` que se obtiene siempre es inmutable. Cuando se obtiene una `PFConfig` futura desde la red, no modificara ninguna instancia `PFConfig` existente, en su lugar creata una nueva y la volvera disponible a travez de `[PFConfig currentConfig]`. Ademas, tambien puedes de manera segura pasar cualquier objeto `PFConfig` y ten por seguro que no cambiara automaticamente.
+
+Puede ser problematico obtener la config del servidor cada vez que la quieras usar. Para evitar esto siemplemente utiliza el objeto `currentConfig` almacenado en cache y obten la configuración solo cuando sea nesesario.
+
+```objc
+// Fetches the config at most once every 12 hours per app runtime
+const NSTimeInterval configRefreshInterval = 12.0 * 60.0 * 60.0;
+static NSDate *lastFetchedDate;
+if (lastFetchedDate == nil ||
+    [lastFetchedDate timeIntervalSinceNow] * -1.0 > configRefreshInterval) {
+  [PFConfig getConfigInBackgroundWithBlock:nil];
+  lastFetchedDate = [NSDate date];
+}
+```
+```swift
+// Fetches the config at most once every 12 hours per app runtime
+let configRefreshInterval: NSTimeInterval  = 12.0 * 60.0 * 60.0
+struct DateSingleton {
+    static var lastFetchedDate: NSDate? = nil
+}
+let date: NSDate? = DateSingleton.lastFetchedDate;
+if date == nil ||
+   date!.timeIntervalSinceNow * -1.0 > configRefreshInterval {
+  PFConfig.getConfigInBackgroundWithBlock(nil);
+  DateSingleton.lastFetchedDate = NSDate();
+}
+```
+
+
+## Parametros
+
+`PFConfig`  soporta casi todos los tipos de datos al igual que `%{ParseObject}`:
+
+*   NSString
+*   NSNumber
+*   NSDate
+*   PFFile
+*   PFGeoPoint
+*   NSArray
+*   NSDictionary
+
+Actualmente se permiten hasta **100** parametros en tu configuración con un total de **128KB** contando todos los parametros.

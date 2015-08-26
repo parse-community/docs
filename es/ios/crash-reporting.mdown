@@ -1,0 +1,133 @@
+# Reporte de Errores
+
+El Reporte de Errores te permite saber como tu aplicación esta haciendo presentando errores alla afuera. Serás capaz de ver los que causan mas impacto, con sus stack traces, información del dispositivo y mas. Para comenzar, dirijase a [Quick Start](/apps/quickstart#analytics/crashreporting/ios/existing) para instrumentar tu aplicación.
+
+
+## Habilitandolo
+
+Para habilidar el reporte de errores, agrega esta línea a tu AppDelegate antes de inicializar tus llaves de Parse.
+
+```objc
+// Enable Crash Reporting
+[ParseCrashReporting enable];
+
+// Setup Parse
+[Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
+```
+```swift
+// Enable Crash Reporting
+ParseCrashReporting.enable();
+
+// Setup Parse
+Parse.setApplicationId("parseAppId", clientKey: "parseClientKey")
+```
+Una vez actualizado, todos los errores de tu app seran enviandos a Parse y se mostraran en el panel de analytics.
+
+## Simbolización
+
+Es importante enviar a Parse los archivos symbol para cada build de tu app. Esto permitira a Parse propiamente delegar y agregar los incidentes de errores para unirlos y mostrarlos en el dashboard con simbolos propios en el stack trace.  
+
+Existen dos maneras para subir tus  archivos symbol: automaticamente despues de cada build en Xcode (ver instrucciones en el [Quick Start](/apps/quickstart#analytics/crashreporting/ios/existing)) y manualmente. Recomendamos hacerlo automaticamente, para asi no tengas que recordar hacerlo cada vez al terminar un release.
+
+Para subir los archivos symbol automaticamente para tu aplicación cuando hacer un build de tu app:
+
+*   Descarga la ultima version de [Parse CLI](/docs/ios/guide#command-line)
+*   Inicializa un nuevo Parse Cloud Code directory ejecutando lo siguiente (for example, in the same directory as your Xcode project):
+
+```bash
+parse new
+```
+
+*   Add a new **Run Script** phase to the **Build Phases** of your App's target:
+
+```bash
+export PATH=/usr/local/bin:$PATH
+cd <path_to_cloudcode_folder>
+
+parse symbols "${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}"
+```
+
+Alternativamente, puedes subir los archivos symbol manualmente utilizando la herramienta de linea de comandos:
+
+```bash
+parse symbols <dSYM/xcarchive/DWARF path>
+```
+Los archivos symbol para tus apps pueden los puedes encontrar en estas ubicaciones, dependiento en el proceso de distribución:
+
+*   Un archivo **xcarchive** es generado cuando haces "Archive"de tu aplicación para distribucion. Puedes ubicar los archivos a traves de el tab Archives dentro de el Xcode Organizer.
+*   El **dSYM** es el archivo symbol para tu aplicación. Usualmente es generado unicamente cuando se compila tu aplicacion para 'Release' o 'Archiving' y puede ser encontrado junto al bundle .app dentro de la carpeta de Xcode Derived Data.
+*   **DWARF** - es el paquete de mas bajo nivel y unico que soportamos y puede ser generado dividiendo el binario de tu aplicacion manualmente. 
+
+Las subidas manuales pueden ser de ayuda cuando haz olvidado subir los archivos symbol para una app liberada.  Veras un mensaje para simbolizar los stack traces cuando estas revisando un error que no ha sido simbolizado.
+
+
+## Pruebas
+
+Una vez habilitado el Reporte de Errores, querras probar y estar seguro que los errores estan siendo propieamente enviados a Parse. Primero, agrega el siguiente metodo en alguno de tus controladores, o en el App Delegate.
+
+```objc
+- (void)crash {
+    [NSException raise:NSGenericException format:@"Everything is ok. This is just a test crash."];
+}
+      ```
+```swift
+NSException(name: NSGenericException, reason: "Everything is ok. This is just a test crash.", userInfo: nil).raise()
+```
+
+Then, put this invocation in your main view controllers' `viewDidLoad`, or in `application:didFinishLaunchingWithOptions:` if you're using the App Delegate:
+
+```objc
+[self performSelector:@selector(crash) withObject:nil afterDelay:5.0];
+```
+```swift
+dispatch_after(
+    dispatch_time(DISPATCH_TIME_NOW, Int64(5.0 * Double(NSEC_PER_SEC))),
+    dispatch_get_main_queue(),
+    { () -> Void in
+        self.crash()
+});
+```
+
+A continuación, sigue estos pasos:
+
+1.  Compila, corre, y para la ejecucion del app.
+2.  Corre el app sin el debuger, el cual capturara los errores y prevendra que sean enviados a Parse. La manera mas facil de hacer esto es hacerlo directamenete en el lanzamiendo del app desde la pantalla de home.
+3.  Espera que la app tenga error.
+4.  Corre el app de nuevo. El app automaticamente enviara el repoder de error a Parse en el lanzamiento.
+
+En este punto, ve hacia el dashboard del Reporte de Errores debajo de Analytics para tu app y asegurate de ver el error en el listado. Puede tomar unos minutos para mostrarse.
+
+## Flujo de trabajo
+
+Usando los Reportes de Crash, puedes incrementar dramaticamente la calidad de tu app, reduciendo el numero de errores que tus usuarios experiementan. Recomendamos el siguiente flujo de trabajo para eficientemente reparar tus errores.
+
+1.  _Idenfifica los errores a reparar._ La vista principal en el Dashboard del Reporde de Errores muestra todos los errores ordenados por numero de frecuencia. Buscaras reparar aquellos errores que esten afectando el mayor numero de usuarios. Puedes hacer click a cada error y obtener los detalles como el stack trace , versiones del OS, tipos de dispositivo, y versiones del app afectadas.
+
+2.  _Repara un error._ Haz debugging y repara el error en el codigo cliente.
+
+3.  _Incremente la version de tu build (CFBundleVersion) y compila un nuevo release._
+
+4.  _Marca el error como resuelto y lanza un nuevo build al App Store._ Una vez resuelto, el error no aparecera en la pagina del listado de errores con los filtros por default. si el error ocurre de nuevo en una version posterior, sera automaticamente marcado como no resuelto, y se mostrara en el listado de nuevo. 
+
+5.  Regresa al punto numero 1 y continua mejorando tu app!
+
+## Troubleshooting
+
+### ¿Porque mis crashes no se muestran en el dashboard?
+
+Tu app probablemente no esta encuando los reportes de errores a Parse. Aquí algunos cosas a verificar:
+
+*   Asegurate de haber habilitado el Reporte de Errores en el App Delegate antes de inicializar Parse.
+*   Si estas haciendo pruebas, asegurate que Xcode no esta haciendo Cache del error con el debugger.
+*   Los errores son enviando  cuando se corra el app por en consiguiente. Asegurate de que el app no es tiene errores que impidan el enviar el informe del reporte de errores. Si estas aun probando, puedes asegurarte agregando un retraso.
+*   Los errores pueden tomar hasta un minuto para mostrarse en el dashboard.
+*   Asegurate de no tener ninguna otra solución para reporte de errores vinculada a tu aplicación, que probablemente puedan intervenir una con otra.
+
+### ¿Por qué mis errores no estan simbolizados?
+
+Probablemente no has subido los archivos symbol para el build de al app asociada con el error. Aquí algunas cosas a verificar:
+
+*   Si configuras la subida automatica, verifica que han funcionado observando los logs en el navegador de reportes.
+*   Asegurate que los logs estan limpios y que no hubo errores en la subida.
+*   Si subiste archivos symbol para un error que estaba previamente no simbolizados, un nuevo error se mostrara con los symbols. El error anterior no estara actualizado con los symbols, para que puedas resolverlo.
+*   Si estas usando frameworks dinamicos unicos y partes de tu stack no se simbolizan, asegurate que hayas subido los symbols para todos los frameworks asi tambien para toda la aplicación. 

@@ -1,0 +1,7 @@
+# Comenzando
+ 
+Si no ha instalado el SDK todavía, [por favor diríjase a la guía de inicio rápido](/apps/quickstart)  para obtener el SDK para Xcode. Tenga en cuenta que soportamos iOS 6.0 y superior. También puede consultar nuestra [API de referencia para iOS](/docs/ios/api) y [para OSX](/docs/osx/api) para obtener información más detallada acerca de nuestro SDK.
+ 
+La plataforma de Parse proporciona una solución de back-end completa para su aplicación móvil . Nuestro objetivo es eliminar totalmente la necesidad de escribir código de servidor o el mantenimiento de servidores.
+ 
+En Parse, se crea una aplicación para cada una de sus aplicaciones móviles. Cada aplicación tiene su propio ID de aplicación y la clave cliente (client key ) que se utiliza en su SDK al instalar. Su cuenta en Parse puede acomodar múltiples aplicaciones. Esto es útil cuando tiene una aplicación, ya que se puede implementar diferentes versiones de prueba y producción.
