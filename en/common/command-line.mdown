@@ -25,7 +25,7 @@ Download the windows executable named: `parse.exe` at this link. Note that this 
 ## Creating a Parse app
 
 You can create a new Parse app using `parse new`.
-It asks you a series of questions and at the end of it, you will have create a new Parse app (with a given name).
+It asks you a series of questions and at the end of it, you will have a new Parse app (with a given name).
 Additionally, you will also set up a cloud code project for the app.
 You can test that everything works by doing a `parse deploy` and executing the curl command printed at the end of output.
 
@@ -59,8 +59,9 @@ curl -X POST \
 
 ## Setting up Cloud Code
 
-If you already create a Parse app (for example, through the website or apps api) and want to set up cloud code for the app
+If you already created a Parse app (for example, through the website or apps api) and want to set up cloud code for the app
 `parse new` can still help you.
+
 ```bash
 [me@parsebox testing]$ parse new
 Would you like to create a new app, or add Cloud Code to an existing app?
@@ -81,17 +82,18 @@ This includes a "Hello world" cloud function, so once you deploy
 you can test that it works, with:
 
 curl -X POST \
- -H "X-Parse-Application-Id: ${APP_ID}" \
- -H "X-Parse-REST-API-Key: ${REST_KEY}" \
+ -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+ -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
  -H "Content-Type: application/json" \
  -d '{}' \
  https://api.parse.com/1/functions/hello
  ```
+<div class='tip warning'><div>
+This flow assumes that you already set up [account keys](#account-keys).
+See also [multiple account keys](#multiple-account-keys), if you are developing on apps belonging to different Parse accounts.
+</div></div>
 
-NOTE: This flow assumes that you already set up account keys. See also multiple account keys sections, if you are developing on multiple apps
-belonging to different Parse accounts.
-
-The `myapp` directory looks like underneath:
+The `myapp` directory looks like so:
 
 ```bash
 myapp
@@ -402,7 +404,7 @@ Successfully updated binary at: /usr/local/bin/parse
 
 ## Secure Config Format
 
-If you are using a version of command line tool older than 2.2.2 the cloud code project you created looked like this:
+If you are using a version of command line tool older than 2.2.2 the cloud code project you create looks like so:
 
 ```bash
 .
@@ -417,16 +419,16 @@ If you are using a version of command line tool older than 2.2.2 the cloud code 
 All project configuration like: 
 applications to deploy to and their master keys, 
 default application associated with the project and 
-javascript sdk version to use were stored in the config file at `config/global.json`.
+javascript sdk version to use are stored in the config file at `config/global.json`.
 
 If you did not want to expose your master keys but still wanted to share your code with someone, and want them to use the
 same project level configurations (for instance, javascript sdk verison) that was not possible.
 
 We have now broken up the config into two parts:
-project level config (`.parse.project`)
-user level config (`.parse.local`)
+* `.parse.project`: project level config
+* `.parse.local`: user level config
 
-This is how the new project structure looks like:
+The new project structure looks so:
 ```bash
 ├── cloud
 │   └── main.js
@@ -439,7 +441,7 @@ This is how the new project structure looks like:
 Storing master keys along with application code is in general not a good idea. Master keys can be used to perform various irreversible operations
 on your application, and it is impossible to trackdown the offender.
 
-Whether you are using an older verison of config or a the latest preferred version, going forward the command line tool (version > 2.2.2)
+Whether you are using an older verison of config or the latest preferred version, going forward the command line tool (version > 2.2.2)
 will not store master key when you perform `parse add`. Further, `parse new` will always create a project with the latest preferred
 config format.
 
@@ -460,16 +462,17 @@ Successfully migrated to the preferred config format.
 ## Account Keys
 
 Account Keys are personal access tokens used by the command line tool to create a new Parse app, list properties and keys for
-a selected Parse app, fetch master key when required: for instance, to perform deploy, fetch logs, etc.
+the selected Parse app, fetch master key when required: for instance, to perform deploy, fetch logs, etc.
 
-As noted in the section `Migrate`, we'll not store master keys in config files anymore. Instead we fetch them as needed.
+As noted in this [section](#secure-config-format), we'll not store master keys in config files anymore. Instead we'll fetch them as needed.
 
-What does this mean for a regular deploy flow:
+### What does this mean for a regular deploy flow?
+
 If you want to perform a deploy, you'll need the master key. Master key for the current app can be fetched by using the apps api.
-But apps api requires user authentication in the form of (email, password) with which your registerd for the Parse account, or a valid
-account key (created for that account)
+But apps api requires user authentication in the form of (`email`, `password`) with which your registerd for the Parse account, or a valid
+account key (created for that account).
 
-If you do not configure account keys, you'll now be prompted to enter an email & password. This disruption in the flow (for all commands
+If you do not configure account keys, you'll be prompted to enter an email & password. This disruption in the flow (for all commands
 requiring master key), can easily be averted by configuring an account key using the `parse configure accountkey` command.
 
 ```bash
@@ -493,23 +496,23 @@ Account Key: ${ACCOUNT_KEY}
 Successfully stored default account key.
 ```
 
-### Multiple Account Keys:
+### Multiple Account Keys
 Let's say you have two Parse accounts: `ME` (your Parse account) and `WORK` (account you are a collaborator on).
 You are working on `app-ME` (owned by `ME`) and `app-WORK` (owned by `WORK`).
 Now if you want to deploy code to `app-ME`, you need to use the account key for `ME`.
 To deploy to `app-WORK`, you'll need to use the account key for `WORK`.
 
-How would the command line tool know which access key to use in each each?
+####How would the command line tool know which access key to use?
 
-Answer: You tell it what to use by configuring an email for the project using `parse configure email ${ACCOUNT_EMAIL}`.
+You tell it what to use by configuring an email for the project using `parse configure email ${ACCOUNT_EMAIL}`.
 This gets stored in the project config: `.parse.project` and any time you need to fetch the master key, this config setting is used
 to identify which access key to use. If it does not find any account key for the configured email, it will try to use the default
 account key instead.
 
 So, it is always a good idea to configure your default account key.
 
-Suppose in the same scenario you want to create an app or list properties for an app beloning to a specific account.
-You can provide the Parse account to use by providing the environment variable: `PARSER_EMAIL`
+It is slightly different when you want to create an app or list properties for an app beloning to a specific account.
+You can select the Parse account to use by providing the environment variable: `PARSER_EMAIL`
 
 For instance, in Mac or Linux
 ```bash
