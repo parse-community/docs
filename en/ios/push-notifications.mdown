@@ -899,6 +899,8 @@ If the above query returns no results, it is likely that your installation does 
 
 Your push campaign is created and the device is included in the targeting, but you're still not receiving push notifications. What gives?
 
+You can check the Push Delivery Report for the cause of failed deliveries: Invalid Tokens happens when the user have uninstalled the app or if it is misconfigured, No Certificates is returned when all available certificates were rejected by Apple.
+
 This is a good time to go through your project settings and make sure everything is in order.
 
 * Make sure you are using the correct Bundle Identifier in the `Info.plist` file in your Xcode project. This should match your push certificate bundle identifier as well as your Installation object's bundle identifier.
