@@ -62,7 +62,7 @@ curl -X POST \
 If you already created a Parse app (for example, through the website or apps API) and want to set up Cloud Code for the app, `parse new` can still help you.
 
 ```bash
-[me@parsebox testing]$ parse new
+$ parse new
 Would you like to create a new app, or add Cloud Code to an existing app?
 Type "(n)ew" or "(e)xisting": e
 1:	MyApp
