@@ -20,7 +20,7 @@ This will also update your command line tool if you already have it installed.
 ### Windows
 
 The Parse command line tool for Windows is available [here](https://github.com/ParsePlatform/parse-cli/releases/latest).
-Download the windows executable named: `parse.exe` at this link. Note that this is not an installer, it is just a plain windows executable.
+Download the Windows executable named: `parse.exe` at this link. Note that this is not an installer, it is just a plain Windows executable.
 
 ## Creating a Parse app
 
@@ -59,8 +59,7 @@ curl -X POST \
 
 ## Setting up Cloud Code
 
-If you already created a Parse app (for example, through the website or apps api) and want to set up cloud code for the app
-`parse new` can still help you.
+If you already created a Parse app (for example, through the website or apps API) and want to set up Cloud Code for the app, `parse new` can still help you.
 
 ```bash
 [me@parsebox testing]$ parse new
@@ -105,7 +104,7 @@ myapp
     └── index.html
 ```
 
-`.parse.local` and `.parse.project` are config files that store application info, and project level info (for instance, javascript sdk version), respectively.
+`.parse.local` and `.parse.project` are config files that store application info, and project level info (for instance, Javascript SDK version), respectively.
 The `cloud` directory stores your Cloud Code, 
 and the `public` directory stores any static content that you want to host on Parse.
 In the `cloud` directory, you'll typically just be editing `main.js`, which stores all of your Cloud Code functions.
@@ -395,7 +394,7 @@ $ parse jssdk -a
 You can update the command line tool using `parse update`. 
 It will update your Parse command line tool to the latest version.
 
-For instance, if you run this command on Mac OS:
+For instance, if you run this command on Mac OS X:
 
 ```bash
 Downloading binary from https://github.com/ParsePlatform/parse-cli/releases/download/release_${LATEST_VERSION}/parse.
@@ -404,7 +403,7 @@ Successfully updated binary at: /usr/local/bin/parse
 
 ## Secure Config Format
 
-If you are using a version of command line tool older than 2.2.2 the cloud code project you create looks like so:
+If you are using a version of command line tool older than 2.2.2 the Cloud Code project you create has the following structure:
 
 ```bash
 .
@@ -419,10 +418,10 @@ If you are using a version of command line tool older than 2.2.2 the cloud code 
 All project configuration like: 
 applications to deploy to and their master keys, 
 default application associated with the project and 
-javascript sdk version to use are stored in the config file at `config/global.json`.
+Javascript SDK version to use are stored in the config file at `config/global.json`.
 
 If you did not want to expose your master keys but still wanted to share your code with someone, and want them to use the
-same project level configurations (for instance, javascript sdk verison) that was not possible.
+same project level configurations (for instance, Javascript SDK version) that was not possible.
 
 We have now broken up the config into two parts:
 * `.parse.project`: project level config
@@ -439,9 +438,9 @@ The new project structure looks so:
 ```
 
 Storing master keys along with application code is in general not a good idea. Master keys can be used to perform various irreversible operations
-on your application, and it is impossible to trackdown the offender.
+on your application, and it is impossible to track down the offender.
 
-Whether you are using an older verison of config or the latest preferred version, going forward the command line tool (version > 2.2.2)
+Whether you are using an older version of config or the latest preferred version, going forward the command line tool (version > 2.2.2)
 will not store master key when you perform `parse add`. Further, `parse new` will always create a project with the latest preferred
 config format.
 
