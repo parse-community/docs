@@ -614,8 +614,9 @@ There are some limits in place to ensure the API can provide the data you need i
 * JavaScript scripts in Cloud Code are limited to 128 KB.
 * Cloud functions must return within 15 seconds. Use webhooks if you need more time.
 * Cloud save/delete hooks must return within 3 seconds. Use webhooks if you need more time.
-* Webhooks must return within 30 seconds.
 * Background jobs will be terminated after 15 minutes.
+* Cloud Code invocations (such as functions, save/delete hooks, background jobs, and custom endpoint handlers) must use a finite amount of memory (currently 384 MB, but subject to change in the future). This memory is garbage collected by the JavaScript engine, so it is generally not an issue. To allow the garbage collector to do its work, make sure that you aren't saving references to large objects, HTTP response buffers, and other objects to global variables in your script.
+* Webhooks must return within 30 seconds.
 * Apps can run one job concurrently by default, but this can be increased by increasing your requests/second in your [Account Overview](/account) page.
 * Additional background jobs over quota will fail to run. They will not be queued.
 * The `params` payload that is passed to a Cloud Function is limited to 50 MB.
