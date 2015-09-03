@@ -1,5 +1,9 @@
 # Users
 
+<div class='tip info'><div>
+  Some `ParseUser` feature like `ParseUser.CurrentUser` and `ParseUser.LogIn` are not working properly in ASP.NET due to its server-side nature.
+</div></div>
+
 Many apps have a unified login that works across the mobile app and other systems. Accessing user accounts through the REST API lets you build this functionality on top of Parse.
 
 In general, users have the same features as other objects, such as the flexible schema. The differences are that user objects must have a username and password, the password is automatically encrypted and stored securely, and Parse enforces the uniqueness of the `username` and `email` fields.
