@@ -57,6 +57,38 @@ alert(monster.get('strength'));  // Displays 200.
 alert(monster.sound); // Displays Rawr.
 ```
 
+To create a single instance of any Parse Object class, you can also use the `Parse.Object` constructor directly. `new Parse.Object(className)` will create a single Parse Object with that class name.
+
+If you’re already using ES6 in your codebase, good news! From version 1.6.0 onwards, the JavaScript SDK is compatible with ES6 classes. You can subclass `Parse.Object` with the `extends` keyword:
+
+```js
+class Monster extends Parse.Object {
+  constructor() {
+    // Pass the ClassName to the Parse.Object constructor
+    super('Monster');
+    // All other initialization
+    this.sound = 'Rawr';
+  }
+  
+  hasSuperHumanStrength() {
+    return this.get('strength') > 18;
+  }
+  
+  static spawn(strength) {
+    var monster = new Monster();
+    monster.set('strength', strength);
+    return monster;
+  }
+}
+```
+
+However, when using `extends`, the SDK is not automatically aware of your subclass. If you want objects returned from queries to use your subclass of `Parse.Object`, you will need to register the subclass, similar to what we do on other platforms.
+
+```js
+// After specifying the Monster subclass...
+Parse.Object.registerSubclass('Monster', Monster);
+```
+
 ## Saving Objects
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `Backbone.Model`, including the `save` method:
