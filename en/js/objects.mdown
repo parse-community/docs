@@ -278,6 +278,7 @@ myObject.unset("playerName");
 // Saves the field deletion to the Parse Cloud
 myObject.save();
 ```
+Please note that use set(null) to delete an object is not recommended
 
 ## Relational Data
 
