@@ -472,7 +472,7 @@ By default, the list of objects in this relation are not downloaded.  You can ge
 ```
 ```swift
 relation.query().findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]?, error: NSError?) -> Void in
+  (objects: [PFObject]?, error: NSError?) -> Void in
   if let error = error {
     // There was an error
   } else {
