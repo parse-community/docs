@@ -527,7 +527,7 @@ Alternatively, you can just set it as a system wide environment variable, so any
 
 ### How to continuously deploy to your Parse app from github.com
 It is very easy to deploy to your Parse app on every push to github.com.
-For this we use Trais CI, a popular continuous integration framework.
+For this we use [Travis CI]((http://docs.travis-ci.com/user/getting-started/)), a popular continuous integration framework.
 
 Steps to follow:
 - Set up your github repository with [travis](http://docs.travis-ci.com/user/getting-started/): you can use the `.travis.yml` in this repo as a starting point.
