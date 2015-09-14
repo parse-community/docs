@@ -172,7 +172,7 @@ var playerName = gameScore.get("playerName");
 var cheatMode = gameScore.get("cheatMode");
 ```
 
-The three special values are provided as properties:
+The three special reserved values are provided as properties and cannot be retrieved using the 'get' method nor modified with the 'set' method:
 
 ```js
 var objectId = gameScore.id;
