@@ -81,7 +81,7 @@ There are three ways to customize the login library:
 
 ### Configure by Activity Metadata
 
-We provide the following options for easily customizing the ParseLoginActivity in your app's AndroidManifest.xml:
+We provide the following options for easily customizing the ParseLoginActivity in your app's `AndroidManifest.xml`:
 
 *   `APP_LOGO`: Drawable` resource for app logo.
 *   `PARSE_LOGIN_ENABLED`: `Boolean` for whether to enable the Parse username/password login (default = false)
