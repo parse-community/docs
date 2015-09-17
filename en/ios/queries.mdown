@@ -846,7 +846,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.whereKey("playerName", equalTo:"Sean Plott")
 query.countObjectsInBackgroundWithBlock {
-  (count: Int, error: NSError?) -> Void in
+  (count: Int32, error: NSError?) -> Void in
   if error == nil {
     println("Sean has played \(count) games")
   }
