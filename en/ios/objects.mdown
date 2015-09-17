@@ -472,7 +472,7 @@ By default, the list of objects in this relation are not downloaded.  You can ge
 ```
 ```swift
 relation.query().findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]?, error: NSError?) -> Void in
+  (objects: [PFObject]?, error: NSError?) -> Void in
   if let error = error {
     // There was an error
   } else {
@@ -496,7 +496,7 @@ For more details on `PFQuery` please look at the query portion of this guide.  A
 
 ## Data Types
 
-So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`. 
+So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`.
 
 You can nest `NSDictionary` and `NSArray` objects to store more structured data within a single `%{ParseObject}`.
 
@@ -588,7 +588,7 @@ To create a `%{ParseObject}` subclass:
 1.  Declare a subclass which conforms to the `PFSubclassing` protocol.
 2.  Implement the class method `parseClassName`. This is the string you would pass to `initWithClassName:` and makes all future class name references unnecessary.
 3.  Import `PFObject+Subclass` in your .m file. This implements all methods in `PFSubclassing` beyond `parseClassName`.
-4.  Call `[YourClass registerSubclass]` before Parse `setApplicationId:clientKey:`. 
+4.  Call `[YourClass registerSubclass]` before Parse `setApplicationId:clientKey:`.
 
 An easy way to do this is with your class' [+load](https://developer.apple.com/library/ios/documentation/cocoa/reference/foundation/classes/nsobject_class/reference/reference.html#//apple_ref/occ/clm/NSObject/load) (Obj-C only) or with [initialize](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/#//apple_ref/occ/clm/NSObject/initialize) (both Obj-C and Swift) methods.
 
