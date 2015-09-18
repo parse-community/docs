@@ -29,7 +29,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.whereKey("playerName", equalTo:"Sean Plott")
 query.findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]?, error: NSError?) -> Void in
+  (objects: [PFObject]?, error: NSError?) -> Void in
 
   if error == nil {
     // The find succeeded.
@@ -375,7 +375,7 @@ teamQuery.whereKey("winPct", greaterThan:0.5)
 var userQuery = PFUser.query()
 userQuery!.whereKey("hometown", matchesKey:"city", inQuery:teamQuery)
 userQuery!.findObjectsInBackgroundWithBlock {
-  (results: [AnyObject]?, error: NSError?) -> Void in
+  (results: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
     // results will contain users with a hometown team with a winning record
   }
@@ -395,7 +395,7 @@ PFQuery *losingUserQuery = [PFQuery queryForUser];
 var losingUserQuery = PFUser.query()
 losingUserQuery!.whereKey("hometown", doesNotMatchKey:"city", inQuery:teamQuery)
 losingUserQuery!.findObjectsInBackgroundWithBlock {
-  (results: [AnyObject]?, error: NSError?) -> Void in
+  (results: [PFObject]?, error: NSError?) -> Void in
   // results will contain users with a hometown team with a losing records
 }
 ```
@@ -413,7 +413,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 var query = PFQuery(className:"GameScore")
 query.selectKeys(["playerName", "score"])
 query.findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]?, error: NSError?) -> Void in
+  (objects: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
     // objects in results will only contain the playerName and score fields
   }
@@ -534,7 +534,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Comment" predicate:predicate];
 let query = PFQuery(className: "Comment")
 query.whereKey("post", equalTo: myPost)
 query.findObjectsInBackgroundWithBlock {
-    (comments: [AnyObject]?, error: NSError?) -> Void in
+    (comments: [PFObject]?, error: NSError?) -> Void in
     // comments now contains the comments for myPost
 }
 
@@ -543,7 +543,7 @@ let predicate = NSPredicate(format: "post = %@", myPost)
 let query = PFQuery(className: "Comment", predicate: predicate)
 
 query.findObjectsInBackgroundWithBlock {
-    (comments: [AnyObject]?, error: NSError?) -> Void in
+    (comments: [PFObject]?, error: NSError?) -> Void in
     // comments now contains the comments for myPost
 }
 ```
@@ -596,7 +596,7 @@ innerQuery.whereKeyExists("image")
 let query = PFQuery(className: "Comment")
 query.whereKey("post", matchesQuery: innerQuery)
 query.findObjectsInBackgroundWithBlock {
-    (comments: [AnyObject]?, error: NSError?) -> Void in
+    (comments: [PFObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
 }
 
@@ -608,7 +608,7 @@ let pred = NSPredicate(format: "post IN %@", innerQuery)
 let query = PFQuery(className: "Comment", predicate: pred)
 
 query.findObjectsInBackgroundWithBlock {
-    (comments: [AnyObject]?, error: NSError?) -> Void in
+    (comments: [PFObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
 }
 ```
@@ -643,7 +643,7 @@ innerQuery.whereKeyExists("image")
 let query = PFQuery(className: "Comment")
 query.whereKey("post", doesNotMatchQuery: innerQuery)
 query.findObjectsInBackgroundWithBlock {
-    (comments: [AnyObject]?, error: NSError?) -> Void in
+    (comments: [PFObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
 }
 
@@ -655,7 +655,7 @@ let pred = NSPredicate(format: "NOT (post IN %@)", innerQuery)
 let query = PFQuery(className: "Comment", predicate: pred)
 
 query.findObjectsInBackgroundWithBlock {
-    (comments: [AnyObject]?, error: NSError?) -> Void in
+    (comments: [PFObject]?, error: NSError?) -> Void in
     // comments now contains the comments for posts with images
 }
 ```
@@ -697,7 +697,7 @@ query.limit = 10
 query.includeKey("post")
 
 query.findObjectsInBackgroundWithBlock {
-  (comments: [AnyObject]?, error: NSError?) -> Void in
+  (comments: [PFObject]?, error: NSError?) -> Void in
 
   // Comments now contains the last ten comments, and the "post" field
   // has been populated. For example:
@@ -778,7 +778,7 @@ query.cachePolicy = kPFCachePolicyNetworkElseCache;
 var query = PFQuery(className:"GameScore")
 query.cachePolicy = .CacheElseNetwork
 query.findObjectsInBackgroundWithBlock {
-  (objects: [AnyObject]?, error: NSError?) -> Void in
+  (objects: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
     // Results were successfully found, looking first on the
     // network and then on disk.
@@ -879,7 +879,7 @@ fewWins.whereKey("wins", lessThan:5)
 
 var query = PFQuery.orQueryWithSubqueries([lotsOfWins, fewWins])
 query.findObjectsInBackgroundWithBlock {
-  (results: [AnyObject]?, error: NSError?) -> Void in
+  (results: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
     // results contains players with lots of wins or only a few wins.
   }
@@ -907,7 +907,7 @@ PFQuery *query = [Armor query];
 ```swift
 let query = Armor.query()
 query.whereKey("rupees", lessThanOrEqualTo: PFUser.currentUser()["rupees"])
-query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
+query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
     if let objects = objects as? [PFObject], firstArmor = objects.first {
       //...
