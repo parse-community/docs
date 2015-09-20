@@ -473,7 +473,7 @@ If you do not configure account keys, you'll be prompted to enter an email & pas
 requiring master key), can easily be averted by configuring an account key using the `parse configure accountkey` command.
 
 ```bash
-$ parse configure key
+$ parse configure accountkey
 Input your account key or press enter to generate a new one.
 Account Key: ${ACCOUNT_KEY}
 Successfully stored account key for: "${ACCOUNT_EMAIL}".
@@ -487,7 +487,7 @@ This is helpful if you have multiple Parse accounts.
 However, if you have just one Parse account, then it's very useful to configure a default account key.
 
 ```bash
-$ parse configure key -d
+$ parse configure accountkey -d
 Input your account key or press enter to generate a new one.
 Account Key: ${ACCOUNT_KEY}
 Successfully stored default account key.
