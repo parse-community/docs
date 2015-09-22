@@ -88,8 +88,8 @@ curl -X POST \
  https://api.parse.com/1/functions/hello
  ```
 
-Note: This flow assumes that you already set up [account keys](#account-keys).
-See also [multiple account keys](#multiple-account-keys), if you are developing on apps belonging to different Parse accounts.
+Note: This flow assumes that you already set up [account keys](#command-line-account-keys).
+See also [multiple account keys](#command-line-multiple-account-keys), if you are developing on apps belonging to different Parse accounts.
 
 The `myapp` directory looks like:
 
