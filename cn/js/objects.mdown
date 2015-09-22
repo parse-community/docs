@@ -237,6 +237,8 @@ myObject.unset("playerName");
 myObject.save();
 ```
 
+不使用 object.set("null")。
+
 ## 关系数据
 
 一些对象可能与另外一些对象有一定的关系。例如，在某个博客应用程序中，一个 `Post` 对象可能有多个 `Comment` 对象。Parse 支持各种关系，包括一对一、一对多和多对多。

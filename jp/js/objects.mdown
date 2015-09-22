@@ -239,6 +239,8 @@ myObject.unset("playerName");
 myObject.save();
 ```
 
+object.set("null") を使用しません。
+
 
 ## リレーショナルデータ
 
