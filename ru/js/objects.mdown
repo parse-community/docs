@@ -237,7 +237,7 @@ myObject.unset("playerName");
 myObject.save();
 ```
 
-не используйте object.set("null").
+Мы рекомендуем не использовать object.set("null") для удаления поля из объекта.
 
 ## Реляционные данные
 
