@@ -236,6 +236,7 @@ myObject.unset("playerName");
 // Saves the field deletion to the Parse Cloud
 myObject.save();
 ```
+不使用 object.set("null")。
 
 ## 關聯式資料
 

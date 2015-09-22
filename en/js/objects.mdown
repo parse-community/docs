@@ -279,6 +279,8 @@ myObject.unset("playerName");
 myObject.save();
 ```
 
+Please note that use of object.set(null) to remove a field from an object is not recommended and will result in unexpected functionality.
+
 ## Relational Data
 
 Objects may have relationships with other objects. For example, in a blogging application, a `Post` object may have many `Comment` objects. Parse supports all kind of relationships, including one-to-one, one-to-many, and many-to-many.
