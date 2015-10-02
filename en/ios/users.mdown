@@ -160,9 +160,9 @@ You can create an anonymous user using `PFAnonymousUtils`:
 PFAnonymousUtils.logInWithBlock {
   (user: PFUser?, error: NSError?) -> Void in
   if error != nil || user == nil {
-    println("Anonymous login failed.")
+    print("Anonymous login failed.")
   } else {
-    println("Anonymous user logged in.")
+    print("Anonymous user logged in.")
   }
 }
 ```
