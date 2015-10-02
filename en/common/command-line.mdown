@@ -535,3 +535,38 @@ Steps to follow:
 
 That is all there is to it!
 If you like to learn more, please take a look at this [github repository](https://github.com/pavanka/travis-hello).
+
+## Webhooks
+
+You can use the `parse configure hooks` command to configure webhooks for your Parse app very easily.
+
+All you have to do is write a csv file with the following rules:
+
+```bash
+post,${functionName},${url}
+post,${className}:${triggerName},${url}
+put,${functionName},${url}
+put,${className}:${triggerName},${url}
+delete,${functionName}
+delete ${className}:${triggerName}
+```
+
+Note that the first word is an operation you would like to perform using the hooks api.
+The second word is either a function name or the class name and trigger name concatenated using a `:`.
+The third word is the webhook url string. For `delete` only the operation (`delete`) and `functionName`/ `className:triggerName` should be provided.
+
+Example usage:
+
+```bash
+# you can provide a config file name to use
+parse configure hooks webhooks.csv
+
+# you can also uses piping to provide configuration through stdin
+cat webhooks.csv| parse configure hooks
+```
+
+NOTE: The `configure hooks` command handles common error cases like, creating an already existing webhook and modifying or deleting a non-existant webhook.
+So for instance, if you try to modify a non-existant webhooks, it will create it for you. If you are trying to create an existant webhook, it will modify the current
+webhook with the url provided in configuration. It will skip deletion of non-existant webhooks.
+
+This comes in pretty handy if you want to automate webhook creation or want to dynamically modify them.
