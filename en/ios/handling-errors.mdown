@@ -50,14 +50,14 @@ In the above code, we try to fetch an object with a non-existent `objectId`. The
 ```swift
 func callbackForGet(result: PFObject?, error: NSError?) -> Void {
     if let result = result {
-        println("Everything went fine!")
+        print("Everything went fine!")
     } else {
         if let error = error {
             if error.code == PFErrorCode.ErrorObjectNotFound.rawValue {
-                println("Uh oh, we couldn't find the object!")
+                print("Uh oh, we couldn't find the object!")
             } else {
                 let errorString = error.userInfo!["error"] as? NSString
-                println("Error: \(errorString)")
+                print("Error: \(errorString)")
             }
         }
     }
@@ -85,17 +85,17 @@ The query might also fail because the device couldn't connect to the Parse Cloud
 ```swift
 func callbackForGet(result: PFObject?, error: NSError?) -> Void {
     if let result = result {
-        println("Everything went fine!")
+        print("Everything went fine!")
     } else {
         if let error = error {
             if error.code == PFErrorCode.ErrorObjectNotFound.rawValue {
-                println("Uh oh, we couldn't find the object!")
+                print("Uh oh, we couldn't find the object!")
                 // Now also check for connection errors:
             } else if error.code == PFErrorCode.ErrorConnectionFailed.rawValue {
-                println("Uh oh, we couldn't even connect to the Parse Cloud!")
+                print("Uh oh, we couldn't even connect to the Parse Cloud!")
             } else {
                 let errorString = error.userInfo!["error"] as? NSString
-                println("Error: \(errorString)")
+                print("Error: \(errorString)")
             }
         }
     }
@@ -120,14 +120,14 @@ When the callback expects a `NSNumber`, its `boolValue` tells you whether the op
 ```swift
 func callbackForSave(result: NSNumber?, error: NSError?) -> Void {
     if result?.boolValue == true {
-        println("Everything went fine!")
+        print("Everything went fine!")
     } else {
         if let error = error {
             if error.code == PFErrorCode.ErrorConnectionFailed.rawValue {
-                println("Uh oh, we couldn't even connect to the Parse Cloud!")
+                print("Uh oh, we couldn't even connect to the Parse Cloud!")
             } else {
                 let errorString = error.userInfo!["error"] as? NSString
-                println("Error: \(errorString)")
+                print("Error: \(errorString)")
             }
         }
     }
