@@ -846,11 +846,11 @@ If the push notification campaign is not showing up on that list, the issue is q
 push.sendPushInBackgroundWithBlock {
     (success: Bool , error: NSError?) -> Void in
     if (success) {
-        println("The push campaign has been created.");
+        print("The push campaign has been created.");
     } else if (error!.code == 112) {
-        println("Could not send push. Push is misconfigured: \(error!.description).");
+        print("Could not send push. Push is misconfigured: \(error!.description).");
     } else {
-        println("Error sending push: \(error!.description).");
+        print("Error sending push: \(error!.description).");
     }
 }
 ```
