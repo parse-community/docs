@@ -177,7 +177,7 @@ if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
 }
 ```
 ```swift
-if PFAnonymousUtils.isLinkedWithUser(PFUser.current()) {
+if PFAnonymousUtils.isLinkedWithUser(PFUser.currentUser()) {
   self.enableSignUpButton()
 } else {
   self.enableLogOutButton()
