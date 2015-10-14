@@ -548,7 +548,7 @@ post,${className}:${triggerName},${url}
 put,${functionName},${url}
 put,${className}:${triggerName},${url}
 delete,${functionName}
-delete ${className}:${triggerName}
+delete,${className}:${triggerName}
 ```
 
 Note that the first word is an operation you would like to perform using the hooks api.
