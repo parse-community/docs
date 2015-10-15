@@ -540,29 +540,34 @@ If you like to learn more, please take a look at this [github repository](https:
 
 You can use the `parse configure hooks` command to configure webhooks for your Parse app very easily.
 
-All you have to do is write a csv file with the following rules:
+All you have to do is write a json file with the following rules:
 
 ```bash
-post,${functionName},${url}
-post,${className}:${triggerName},${url}
-put,${functionName},${url}
-put,${className}:${triggerName},${url}
-delete,${functionName}
-delete,${className}:${triggerName}
+# content of the file is an array of operations
+{"hooks": [OPERATION]}
+
+# where OPERATION is any of
+OPERATION ->
+{"op": "put", "function": {"functionName": "name", "url": "https_url"}}
+{"op": "post", "function": {"functionName": "name", "url": "https_url"}}
+{"op": "delete", "function": {"functionName": "name"}}
+
+{"op": "put", "trigger": {"className": "cname", "triggerName": "tname", "url":"https_url"}}
+{"op": "post", "trigger": {"className": "cname", "triggerName": "tname", "url":"https_url"}}
+{"op": "delete", "trigger": {"className": "cname", "triggerName": "tname"}}
 ```
 
-Note that the first word is an operation you would like to perform using the hooks api.
-The second word is either a function name or the class name and trigger name concatenated using a `:`.
-The third word is the webhook url string. For `delete` only the operation (`delete`) and `functionName`/ `className:triggerName` should be provided.
+Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an operation `op` like: put, post, delete; on 
+a function or trigger webhook.
 
 Example usage:
 
 ```bash
 # you can provide a config file name to use
-parse configure hooks webhooks.csv
+parse configure hooks webhooks.json
 
 # you can also uses piping to provide configuration through stdin
-cat webhooks.csv| parse configure hooks
+cat webhooks.json| parse configure hooks
 ```
 
 NOTE: The `configure hooks` command handles common error cases like, creating an already existing webhook and modifying or deleting a non-existant webhook.
