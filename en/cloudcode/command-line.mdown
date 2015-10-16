@@ -530,7 +530,7 @@ It is very easy to deploy to your Parse app on every push to github.com.
 For this we use [Travis CI]((http://docs.travis-ci.com/user/getting-started/)), a popular continuous integration framework.
 
 Steps to follow:
-- Set up your github repository with [travis](http://docs.travis-ci.com/user/getting-started/): you can use the `.travis.yml` in this repo as a starting point.
+- Set up your github repository with [travis](http://docs.travis-ci.com/user/getting-started/): you can use the `.travis.yml` in this [repo](https://github.com/pavanka/travis-hello) as a starting point.
 - Add your [Parse account key](https://parse.com/docs/js/guide#command-line-account-keys) as a [secret](http://docs.travis-ci.com/user/encryption-keys/) environment variable.
 
 That is all there is to it!
@@ -557,7 +557,7 @@ OPERATION ->
 {"op": "delete", "trigger": {"className": "cname", "triggerName": "tname"}}
 ```
 
-Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an operation `op` like: put, post, delete; on 
+Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an `op` like: `put`, `post`, `delete`; on 
 a function or trigger webhook.
 
 Example usage:
