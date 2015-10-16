@@ -26,7 +26,7 @@ Download the Windows executable named: `parse.exe` at this link. Note that this 
 
 You can create a new Parse app using `parse new`.
 It asks you a series of questions and at the end of it, you will have a new Parse app (with the given name).
-Additionally, you will also set up a cloud code project for the app.
+Additionally, you will also set up a Cloud Code project for the app.
 You can test that everything works by performing `parse deploy` and executing the curl command printed at the end of output.
 
 ```bash
@@ -37,18 +37,31 @@ Please choose a name for your Parse app.
 Note that this name will appear on the Parse website,
 but it does not have to be the same as your mobile app's public name.
 Name: MyParseApp
-Awesome! Now it's time to setup some Cloud Code for the app: "MyParseApp",
+Which of these providers would you like use for running your server code:
+1) Heroku (https://www.heroku.com)
+2) Parse  (https://parse.com/docs/cloudcode/guide)
+Type 1 or 2 to make a selection: 2
+
+Awesome! Now it's time to set up some Cloud Code for the app: "MyParseApp",
 Next we will create a directory to hold your Cloud Code.
 Please enter the name to use for this directory,
 or hit ENTER to use "MyParseApp" as the directory name.
 
 Directory Name: my_parse_app
+
+You can either set up a blank project or create a sample Cloud Code project.
+Please type "(b)lank" if you wish to setup a blank project, otherwise press ENTER:
 Successfully configured email for current project to: "${ACCOUNT_EMAIL}"
 Your Cloud Code has been created at ${CUR_DIR}/my_parse_app.
-Next, you might want to deploy this code with "parse deploy".
-This includes a "Hello world" cloud function, so once you deploy
-you can test that it works, with:
 
+This includes a "Hello world" cloud function, so once you deploy,
+you can test that it works, with the printed curl command.
+
+Next, you might want to deploy this code with:
+
+	parse deploy
+
+Once deployed you can test that it works by running:
 curl -X POST \
  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -68,18 +81,29 @@ Type "(n)ew" or "(e)xisting": e
 1:	MyApp
 2:	MyOtherApp
 Select an App to add to config: 1
-Awesome! Now it's time to setup some Cloud Code for the app: "MyApp",
-Next we will create a directory to hold your Cloud Code.
-Please enter the name to use for this directory,
-or hit ENTER to use "MyApp" as the directory name.
+Which of these providers would you like use for running your server code:
+1) Heroku (https://www.heroku.com)
+2) Parse  (https://parse.com/docs/cloudcode/guide)
+Type 1 or 2 to make a selection: 2
+
+Please enter the name of the folder where we can download the latest deployed
+Cloud Code for your app "MyApp"
 
 Directory Name: myapp
+
+You can either set up a blank project or download the current deployed Cloud Code.
+Please type "(b)lank" if you wish to setup a blank project, otherwise press ENTER:
 Successfully configured email for current project to: "${ACCOUNT_EMAIL}"
 Your Cloud Code has been created at ${CUR_DIR}/myapp.
-Next, you might want to deploy this code with "parse deploy".
-This includes a "Hello world" cloud function, so once you deploy
-you can test that it works, with:
 
+This includes a "Hello world" cloud function, so once you deploy,
+you can test that it works, with the printed curl command.
+
+Next, you might want to deploy this code with:
+
+	parse deploy
+
+Once deployed you can test that it works by running:
 curl -X POST \
  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -116,7 +140,7 @@ If you're not already set up with source control, try this
 [tutorial from GitHub](https://guides.github.com/introduction/getting-your-project-on-github/).
 
 The same code can be deployed to multiple different applications.
-This is useful so that you can have separate "development" and "production" applications.
+This is useful so that you can have separate `development` and `production` applications.
 Then you test the code on a development application before launching it in production.
 
 The first application that is added (by the `new` command) will be the default application for all command line operations.
@@ -525,9 +549,9 @@ cmd /C set "PARSER_EMAIL=%ACCOUNT_EMAIL%" && parse list
 
 Alternatively, you can just set it as a system wide environment variable, so any subsequent parse commands including: deploy, logs, etc. also use the same Parse account.
 
-### How to continuously deploy to your Parse app from github.com
-It is very easy to deploy to your Parse app on every push to github.com.
-For this we use [Travis CI]((http://docs.travis-ci.com/user/getting-started/)), a popular continuous integration framework.
+### How to continuously deploy to your Parse app from Github
+It is very easy to deploy to your Parse app on every push to Github.
+For this we use [Travis CI](http://docs.travis-ci.com/user/getting-started/), a popular continuous integration framework.
 
 Steps to follow:
 - Set up your github repository with [travis](http://docs.travis-ci.com/user/getting-started/): you can use the `.travis.yml` in this [repo](https://github.com/pavanka/travis-hello) as a starting point.
@@ -575,3 +599,65 @@ So for instance, if you try to modify a non-existant webhooks, it will create it
 webhook with the url provided in configuration. It will skip deletion of non-existant webhooks.
 
 This comes in pretty handy if you want to automate webhook creation or want to dynamically modify them.
+
+A sample webhooks config file looks like follows:
+
+```json
+{
+  "hooks": [
+    {
+      "op": "post",
+      "function": {
+        "functionName": "hello",
+        "url": "/webhooks/function_hello"
+      }
+    },
+    {
+      "op": "post",
+      "trigger": {
+        "className": "TestObject",
+        "triggerName": "beforeSave",
+        "url": "/webhooks/beforeSave_TestObject"
+      }
+    },
+    {
+      "op": "post",
+      "trigger": {
+        "className": "TestObject",
+        "triggerName": "afterSave",
+        "url": "/webhooks/afterSave_TestObject"
+      }
+    },
+    {
+      "op": "post",
+      "trigger": {
+        "className": "TestObject",
+        "triggerName": "beforeDelete",
+        "url": "/webhooks/beforeDelete_TestObject"
+      }
+    },
+    {
+      "op": "post",
+      "trigger": {
+        "className": "TestObject",
+        "triggerName": "afterDelete",
+        "url": "/webhooks/afterDelete_TestObject"
+      }
+    }
+  ]
+}
+```
+
+Note that we did not provide the full `https` url, instead just provided the relative path.
+You can register these webhooks using the `configure hooks -b` command.
+
+```bash
+parse configure hooks -b https://example.ngrok.io
+```
+
+Here we used the `-b` or `--base` option to pass the base webhook url to use.
+The registered `hello` function would look like:
+
+```bash
+Function name: "hello", URL: "https://example.ngrok.io/webhooks/function_hello"
+```
