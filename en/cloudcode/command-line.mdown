@@ -517,10 +517,10 @@ PARSER_EMAIL=${ACCOUNT_EMAIL} parse new
 PARSER_EMAIL=${ACCOUNT_EMAIL} parse list
 ```
 
-In windows,
+In windows, (on powershell)
 ```bash
-cmd /C 'set "PARSER_EMAIL=%ACCOUNT_EMAIL%" && parse new'
-cmd /C 'set "PARSER_EMAIL=%ACCOUNT_EMAIL%" && parse list'
+cmd /C set "PARSER_EMAIL=%ACCOUNT_EMAIL%" && parse new
+cmd /C set "PARSER_EMAIL=%ACCOUNT_EMAIL%" && parse list
 ```
 
 Alternatively, you can just set it as a system wide environment variable, so any subsequent parse commands including: deploy, logs, etc. also use the same Parse account.
