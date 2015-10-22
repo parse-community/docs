@@ -333,7 +333,7 @@ Congratulations! You've successfully deployed and run your server code, hosted o
 
 This is a good time to play around with the deployment cycle.
 Try changing `"Hello world!"` to a different string, then deploy and run the function again to get a different result.
-You can use the [Parse node](https://www.npmjs.com/package/parse) npm module and the (middleware)[http://blog.parse.com/learn/using-node-js-with-parse/]
+You can use the [Parse node](https://www.npmjs.com/package/parse) npm module and the [middleware](http://blog.parse.com/learn/using-node-js-with-parse/)
 to write the server side logic for your Parse app.
 
 ## Local Development
