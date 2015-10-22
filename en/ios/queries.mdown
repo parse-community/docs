@@ -909,7 +909,7 @@ let query = Armor.query()
 query.whereKey("rupees", lessThanOrEqualTo: PFUser.currentUser()["rupees"])
 query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
-    if let objects = objects as? [PFObject], firstArmor = objects.first {
+    if let objects = objects as? [Armor], firstArmor = objects.first {
       //...
     }
   }
