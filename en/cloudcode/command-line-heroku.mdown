@@ -3,7 +3,7 @@
 We've partnered with [Heroku](https://www.heroku.com/) to create a smooth experience for you to run your server code on either Heroku or the Parse Cloud.
 Before adding native support for Heroku to the Parse Tools, you could accomplish the same thing, but needed to follow many steps like, creating the Heroku app, deploying to it, book keeping between a Parse app and its corresponding Heroku app, registering the webhooks, etc.
 With this integration all these steps are managed by the Parse Tool, for most simple use cases you can run your server code on Heroku being totally agnostic about Heroku tools.
-Please refer to the announcement [here](http://blog.parse.com) for more details.
+Please refer to the announcement [here](http://blog.parse.com/announcements/introducing-heroku-parse/) for more details.
 
 ## How does it work?
 When you want to add server code to your Parse app, you can choose either Heroku or Parse.
