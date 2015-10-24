@@ -109,11 +109,11 @@ When the user signs in or cancels, the `PFLogInViewController` notifies the dele
 ```
 ```swift
 func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser!) -> Void {
-  self.dismissViewController(true, completion: nil)
+  self.dismissViewControllerAnimated(true, completion: nil)
 }
 
 func logInViewControllerDidCancelLogIn(controller: PFLogInViewController) -> Void {
-  self.dismisViewControllerAnimated(true, completion: nil)
+  self.dismissViewControllerAnimated(true, completion: nil)
 }
 ```
 
