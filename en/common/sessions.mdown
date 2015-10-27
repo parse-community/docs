@@ -171,7 +171,7 @@ public class ParseErrorHandler {
     //
     // startActivityForResult(new ParseLoginBuilder(getActivity()).build(), 0);
   }
-});
+}
  
 // In all API requests, call the global error handler, e.g.
 query.findInBackground(new FindCallback<ParseObject>() {
