@@ -187,6 +187,13 @@ You can also find objects where the key's array value contains each of the eleme
 query.containsAll("arrayKey", [2, 3, 4]);
 ```
 
+Additionally, can find objects where the key's array value contains one or more of the elements 2, 3, and 4 with the following:
+
+```js
+// Find objects where the array in arrayKey contains one or more of the elements 2, 3, and 4.
+query.containedIn("arrayKey", [2, 3, 4]);
+```
+
 ## Queries on String Values
 
 <div class='tip info'><div>
