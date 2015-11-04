@@ -14,7 +14,7 @@ Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or 
 
 Each `Parse.Object` is an instance of a specific subclass with a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
-To create a new subclass, use the `Parse.Object.extend` method.  Any `Parse.Query` will return instances of the new class for any `Parse.Object` with the same classname.  If you're familiar with `Backbone.Model`, then you already know how to use `Parse.Object`.  It's designed to be a drop-in replacement.
+To create a new subclass, use the `Parse.Object.extend` method.  Any `Parse.Query` will return instances of the new class for any `Parse.Object` with the same classname.  If you're familiar with `Backbone.Model`, then you already know how to use `Parse.Object`.  It's designed to be created and modified in the same ways.
 
 ```js
 // Simple syntax to create a new subclass of Parse.Object.
