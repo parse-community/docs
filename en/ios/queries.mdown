@@ -35,7 +35,7 @@ query.findObjectsInBackgroundWithBlock {
     // The find succeeded.
     print("Successfully retrieved \(objects!.count) scores.")
     // Do something with the found objects
-    if let objects = objects as? [PFObject] {
+    if let objects = objects {
       for object in objects {
         print(object.objectId)
       }
