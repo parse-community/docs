@@ -332,13 +332,13 @@ There are some special classes in Parse that don't follow all of the same securi
 
 ## Data Integrity in Cloud Code
 
-For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users' data safe. Sometimes, though, you'll run into an edge case where they aren't quite enough. For everything else, there's [Cloud Code](#cloud-code).
+For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users' data safe. Sometimes, though, you'll run into an edge case where they aren't quite enough. For everything else, there's [Cloud Code](https://parse.com/docs/cloudcode/guide#cloud-code).
 
 Cloud Code allows you to upload JavaScript to Parse's servers, where we will run it for you. Unlike client code running on users' devices that may have been tampered with, Cloud Code is guaranteed to be the code that you've written, so it can be trusted with more responsibility.
 
 One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it's particularly important that a malicious client not be able to bypass the validation logic.
 
-To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger](#cloud-code-beforesave-triggers) to make sure every user has an email address set:
+To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger](https://parse.com/docs/cloudcode/guide#cloud-code-beforesave-triggers) to make sure every user has an email address set:
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -351,7 +351,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 });
 ```
 
-Our [Cloud Code guide](#cloud-code) provides instructions on how to upload this trigger to our servers.
+Our [Cloud Code guide](https://parse.com/docs/cloudcode/guide#cloud-code) provides instructions on how to upload this trigger to our servers.
 
 Validations can lock down your app so that only certain values are acceptable. You can also use `afterSave` validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.
 
