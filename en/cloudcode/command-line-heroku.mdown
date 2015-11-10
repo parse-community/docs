@@ -369,7 +369,7 @@ OPERATION ->
 Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an `op` like: `put`, `post`, `delete`; on 
 a function or trigger webhook.
 
-NOTE: For node.js, when using [Parse middleware](https://github.com/ParsePlatform/CloudCode-Express), you can just run `node scripts/record_webhooks.js`
+NOTE: For node.js, when using [Parse middleware](https://github.com/ParsePlatform/CloudCode-Express), you can just run `node scripts/record-webhooks.js`
 to generate the webhooks json configuration file.
 
 Example usage:
