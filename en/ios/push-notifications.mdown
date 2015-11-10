@@ -576,7 +576,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 
       // Create a pointer to the Photo object
       let photoId = notificationPayload["p"] as? NSString
-      let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: "xWMyZ4YEGZ")
+      let targetPhoto = PFObject(withoutDataWithClassName: "Photo", objectId: photoId)
 
       // Fetch photo object
       targetPhoto.fetchIfNeededInBackgroundWithBlock {
