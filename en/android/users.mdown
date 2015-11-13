@@ -338,7 +338,7 @@ To start using Facebook with Parse, you need to:
 1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already.
 2.  Add your application's Facebook Application ID on your Parse application's settings page.
 3.  Follow Facebook's instructions for [getting started with the Facebook SDK](https://developers.facebook.com/docs/android/getting-started) to create an app linked to the Facebook SDK.  Once you get to Step 6, stop after linking the Facebook SDK project and configuring the Facebook app ID. You can use our guide to attach your Parse users to Facebook accounts when logging in.
-4.  Add `ParseFacebookUtilsV4.jar` to your Android project.
+4.  Add `com.parse:parsefacebookutils-v4-android:1.10.3@aar` to your Gradle dependencies. This includes the contents of the `Parse-*.jar` and the `com.parse:parse-android:1.10.+` repository, so be sure to remove as needed to prevent duplicate dependencies, otherwise a `com.android.dex.DexException` will be thrown.
 5.  Add the following where you initialize the Parse SDK in your `Application.onCreate()`:
 
   ```java
