@@ -326,7 +326,7 @@ There are some special classes in Parse that don't follow all of the same securi
 
 5. Users can only Update and Delete themselves. Public CLPs for Update and Delete may still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. But no matter what the write ACL on a user is, that user can still Update or Delete itself, and no other user can Update or Delete that user. As always, however, using the master key allows users to update other users, independent of CLPs or ACLs.
 
-6. Get requests on installations follow ACLs normally. Find requests, however, return the installation making the request, and only that installation, no matter what ACL is defined on that installation.
+6. Get requests on installations follow ACLs normally. Find requests without master key is not allowed unless you supply the `installationId` as a constraint.
 
 7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide](/docs/rest#installations).
 
