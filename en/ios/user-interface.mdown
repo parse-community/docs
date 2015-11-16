@@ -575,9 +575,9 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
     }
 
     if let object = object {
-        cell?.textLabel.text = object["title"] as? String
-        cell?.imageView.image = UIImage(named: "placeholder.jpg")
-        cell?.imageView.file = object["thumbnail"] as? PFFile
+        cell?.textLabel?.text = object["title"] as? String
+        cell?.imageView?.image = UIImage(named: "placeholder.jpg")
+        cell?.imageView?.file = object["thumbnail"] as? PFFile
     }
 
     return cell
