@@ -43,7 +43,7 @@ To handle this error, we recommend writing a global utility function that is cal
  
 @implementation ParseErrorHandlingController
  
-+ (void)handleError:(NSError *)error {
++ (void)handleParseError:(NSError *)error {
   if (![error.domain isEqualToString:PFParseErrorDomain]) {
     return;
   }
@@ -75,7 +75,7 @@ To handle this error, we recommend writing a global utility function that is cal
   //--------------------------------------
   // You may want this if the logout button is inaccessible in the UI.
   //
-  // UIViewController *presentingViewController = [[UIApplication sharedApplication].keyWindow.rootViewController;
+  // UIViewController *presentingViewController = [UIApplication sharedApplication].keyWindow.rootViewController;
   // PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
   // [presentingViewController presentViewController:logInViewController animated:YES completion:nil];
 }
