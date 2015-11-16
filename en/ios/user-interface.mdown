@@ -566,8 +566,22 @@ A good starting point to learn more is to look at the [API for the class](/image
 @end
 ```
 ```swift
-// no Swift example
-// Want to contribute to this doc? https://github.com/ParsePlatform/Docs
+override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
+    let identifier = "cell"
+
+    var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? PFTableViewCell
+    if cell == nil {
+        cell = PFTableViewCell(style: .Default, reuseIdentifier: identifier)
+    }
+
+    if let object = object {
+        cell?.textLabel.text = object["title"] as? String
+        cell?.imageView.image = UIImage(named: "placeholder.jpg")
+        cell?.imageView.file = object["thumbnail"] as? PFFile
+    }
+
+    return cell
+}
 ```
 
 <img src="https://parse.com/images/docs/images_table.png" style="max-width:200px"/>
