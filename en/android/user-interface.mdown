@@ -4,9 +4,9 @@ At the end of the day, users of your application will be interacting with Androi
 
 ## ParseLoginUI
 
-If you are using Parse to manage users in your mobile app, you are already familiar with the `ParseUser`  class. At some point in your app, you might want to present a screen to log in your `ParseUser`.  Parse provides an open-source [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) library project that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library project from our Git repository into your Android Studio project.  Here is an [example](https://developers.facebook.com/docs/android/getting-started#import) for how to import a library project.
+If you are using Parse to manage users in your mobile app, you are already familiar with the `ParseUser`  class. At some point in your app, you might want to present a screen to log in your `ParseUser`.  Parse provides an open-source [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) for detail steps.
 
-This library project contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.
+This library contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.
 
 ![](/images/docs/android_login/all_screens.png)
 
