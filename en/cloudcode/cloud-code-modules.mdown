@@ -104,7 +104,7 @@ var Mailgun = require('mailgun');
 Mailgun.initialize('myDomainName', 'myAPIKey');
 ```
 
-You can then use the `sendEmail` function to fire off some emails. This function takes two parameters. The first is a hash with the Mailgun parameters you want to include in the request. The typical ones are `from`, `to`, `subject` and `text`, but you can find the full list on their [documentation page](http://documentation.mailgun.net/api-sending.html). The second parameter to this function is an object with a `success` and an `error` field containing two callback functions.
+You can then use the `sendEmail` function to fire off some emails. This function takes two parameters. The first is a hash with the Mailgun parameters you want to include in the request. The typical ones are `from`, `to`, `subject` and `text`, but you can find the full list on their [documentation page](http://documentation.mailgun.com/api-sending.html). The second parameter to this function is an object with a `success` and an `error` field containing two callback functions.
 
 ```js
 Mailgun.sendEmail({
