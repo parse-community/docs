@@ -71,7 +71,9 @@ Once you've enabled Crash Reporting, you'll want to test to make sure your crash
 }
 ```
 ```swift
-NSException(name: NSGenericException, reason: "Everything is ok. This is just a test crash.", userInfo: nil).raise()
+func crash () {
+    NSException(name: NSGenericException, reason: "Everything is ok. This is just a test crash.", userInfo: nil).raise()
+}
 ```
 
 Then, put this invocation in your main view controllers' `viewDidLoad`, or in `application:didFinishLaunchingWithOptions:` if you're using the App Delegate:
