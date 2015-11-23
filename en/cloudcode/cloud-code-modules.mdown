@@ -166,9 +166,6 @@ Mandrill.sendEmail({
 });
 ```
 
-For additional information about the Mandrill Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mandrill.html).
-
-
 ## Moment
 
 Moment.js is a small JavaScript date library for parsing, validating, manipulating, and formatting dates. You can learn more about Moment on [their website](http://momentjs.com/). To use it, you simply need to require it.
