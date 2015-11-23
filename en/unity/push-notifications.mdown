@@ -58,7 +58,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 A channel is identified by a string that starts with a letter and consists of alphanumeric characters, underscores, and dashes. It doesn't need to be explicitly created before it can be used and each `Installation` can subscribe to any number of channels at a time.
 
-An installation's channels can be set using the `Channels` property of `ParseInstallation`. For example, in a baseball socre app, we could do:
+An installation's channels can be set using the `Channels` property of `ParseInstallation`. For example, in a baseball score app, we could do:
 
 ```csharp
 // When users indicate they are Giants fans, we subscribe them to that channel.
