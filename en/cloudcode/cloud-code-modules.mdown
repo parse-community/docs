@@ -384,7 +384,7 @@ The SendGrid module allows you to send attachments to multiple recipients and al
 var sendgrid = require("sendgrid");
 
 sendgrid.initialize("sendgrid_username", "sendgrid_password");
-SendGrid.sendEmail({
+sendgrid.sendEmail({
   to: ["email@example.com (mailto:email@example.com)", "email+1@example.com"],
   from: "SendGrid@CloudCode.com (mailto:SendGrid@CloudCode.com)",
   subject: "Hello from Cloud Code!",
