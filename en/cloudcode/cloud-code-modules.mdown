@@ -2,7 +2,9 @@
 
 Cloud Modules are the easiest way to integrate your Parse app with third-party services and libraries. Read on to learn how to add amazing features to your Parse app, from text messaging to email.
 
-Cloud Modules work just like the [JavaScript modules](#cloud-code-advanced-modules) you can create yourself but they are readily available to everyone. You just add `require('cloudModuleName')` to your Cloud Code and you are ready to go! This guide will help you get started with the current set of available Cloud Modules. If you don't see the service you're interested in, you can take a look at [our tutorial on how to create your own modules](/tutorials/integrating-with-third-party-services) to integrate with your favorite APIs.
+Cloud Modules work just like the [JavaScript modules](#cloud-code-advanced-modules) you can create yourself but they are readily available to everyone. You just add `require('cloudModuleName')` to your Cloud Code and you are ready to go! This guide will help you get started with the current set of available Cloud Modules.
+
+If you don't see the service you're interested in, you can take a look at [our tutorial on how to create your own modules](/tutorials/integrating-with-third-party-services) to integrate with your favorite APIs. This approach is also suggested if the feature you are interested in is not supported by the built-in module provided by Parse.
 
 ## App Links
 
@@ -93,9 +95,36 @@ This will inject the following code when rendering `/image/parsaritas`:
 <meta property="al:ipad:app_name" content="AnyPic for iPad">
 ```
 
+## Buffer
+
+Buffers serve as containers for byte manipulation, Base64 encoding, and string encoding. This API
+is a subset of the [Node.js](http://nodejs.org/) Buffer API.
+
+To use this Cloud Module in Cloud Code, you must require ``'buffer'`` in your JavaScript file.
+
+```js
+var Buffer = require('buffer').Buffer;
+```
+
+You can then start using `Buffer` in your Cloud Code functions.
+
+Example of using buffer for Base64 decoding and UTF-8:
+
+```js
+var buf = new Buffer('aGVsbG8=', 'base64');
+console.log(buf); // prints [104,101,108,108,111]
+console.log(buf.toString('utf8')); // prints hello</pre>
+```
+
+You can learn about other uses for the `Buffer` Cloud Module in our [Bytes in the Cloud](http://blog.parse.com/learn/engineering/bytes-in-the-cloud/) blog post.
+
 ## Mailgun
 
 Mailgun is a set of powerful APIs that allow you to send, receive, track and store email effortlessly. You can check out their service at [www.mailgun.com](http://www.mailgun.com). To use this Cloud Module, you will need to head over to the Mailgun website and create an account.
+
+<div class='tip info'><div>
+  The built-in Mailgun Cloud Module provides a subset of the functionality available to Mailgun customers. If the feature you are interested in is not supported by this Cloud Module, you may want to consider writing your own Mailgun JavaScript wrapper as a [custom Cloud Module](/docs/cloudcode/guide#cloud-code-advanced-modules). We suggest looking at the [node modules](https://www.npmjs.com/search?q=mailgun) from the developer community for inspiration.
+</div></div>
 
 The current version of the Mailgun Cloud Module supports sending emails. To use it in your Cloud Code functions, start by requiring the module and initializing it with your credentials.
 
@@ -124,13 +153,15 @@ Mailgun.sendEmail({
 });
 ```
 
-For additional information about the Mailgun Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mailgun.html).
-
 ## Mandrill
 
 Mandrill provides a great platform for sending transactional email. It runs on the delivery infrastructure that powers MailChimp. You can check out their service on [their website](http://www.mandrill.com). To use this Cloud Module, you will need to head over to the Mandrill website and create an account.
 
-The current version of the Mandrill Cloud Module supports sending emails. To use it in your Cloud Code functions, start by requiring the module and initializing it with your credentials.
+<div class='tip info'><div>
+  The built-in Mandrill Cloud Module provides a subset of the functionality available to Mandrill customers. If the feature you are interested in is not supported by this Cloud Module, you may want to consider writing your own Mandrill JavaScript wrapper as a [custom Cloud Module](/docs/cloudcode/guide#cloud-code-advanced-modules). We suggest looking at the [official API clients](https://mandrillapp.com/docs/integrations.html) for inspiration.
+</div></div>
+
+The Mandrill Cloud Module supports sending emails. To use it in your Cloud Code functions, start by requiring the module and initializing it with your credentials.
 
 ```js
 var Mandrill = require('mandrill');
@@ -374,6 +405,10 @@ Parse.Cloud.beforeSave("_User", function(request, response) {
 
 SendGrid is a cloud-based email service that delivers email on behalf of companies to increase deliverability and improve customer communications.  If you do not already have a SendGrid account, you can do so (here)[http://www.sendgrid.com].
 
+<div class='tip info'><div>
+  The built-in SendGrid Cloud Module provides a subset of the functionality available to SendGrid customers. If the feature you are interested in is not supported by this Cloud Module, you may want to consider writing your own SendGrid JavaScript wrapper as a [custom Cloud Module](/docs/cloudcode/guide#cloud-code-advanced-modules). We suggest looking at [SendGrid's API Libraries index](https://sendgrid.com/docs/Integrate/libraries.html) for inspiration.
+</div></div>
+
 SendGrid provides reliable delivery, scalability and real-time analytics along with flexible APIs that make custom integration simple. Access advanced metrics and reporting with our powerful APIs to customize, measure and automate your email program.
 
 ### Sending Email
@@ -417,7 +452,11 @@ You can enable the SendGrid Parse Webhook by adding the following settings to yo
 
 ## Stripe
 
-Stripe provides a very easy-to-use API for processing credit cards on the web or in your mobile app. You can take a look at their service at [www.stripe.com](https://www.stripe.com). To use this Cloud Module, you will need to head over to the Stripe website and create an account. The current version of the Stripe Cloud Module supports the majority of their [REST API.](https://stripe.com/docs/api?lang=curl)
+Stripe provides a very easy-to-use API for processing credit cards on the web or in your mobile app. You can take a look at their service at [www.stripe.com](https://www.stripe.com). To use this Cloud Module, you will need to head over to the Stripe website and create an account. The Stripe Cloud Module supports the majority of their [REST API](https://stripe.com/docs/api?lang=curl).
+
+<div class='tip info'><div>
+  The built-in Stripe Cloud Module provides a subset of the functionality available to Stripe customers. If the feature you are interested in is not supported by this Cloud Module, you may want to consider writing your own Stripe JavaScript wrapper as a [custom Cloud Module](/docs/cloudcode/guide#cloud-code-advanced-modules). We suggest looking at [Stripe's API Libraries index](https://stripe.com/docs/libraries) for inspiration.
+</div></div>
 
 To use this module in your Cloud Code functions, start by requiring and initializing it with your credentials.
 
@@ -463,7 +502,7 @@ There are many more functions available from the Stripe Cloud Module. Please con
 ## Twilio
 
 <div class='tip info'><div>
-  Parse provides the full functionality of the Twilio-node module including SMS, Voice, and Twiml features.  Please refer to the documentation here: [Twilio-node module documentation](http://twilio.github.io/twilio-node/).  You do not need to install the module, as it is already installed and hosted on Parse.
+  The built-in Twilio Cloud Module provides a subset of the functionality available to Twilio customers. If the feature you are interested in is not supported by this Cloud Module, you may want to consider writing your own Twilio JavaScript wrapper as a [custom Cloud Module](/docs/cloudcode/guide#cloud-code-advanced-modules). We suggest looking at [Twilio's node nodule](http://twilio.github.io/twilio-node/) for inspiration.
 </div></div>
 
 ### Usage Example
@@ -474,14 +513,14 @@ var client = require('twilio')('ACCOUNT_SID', 'AUTH_TOKEN');
 
 // Send an SMS message
 client.sendSms({
-    to:'+16515556677', 
-    from: '+14506667788', 
-    body: 'Hello world!' 
-  }, function(err, responseData) { 
+    to:'+16515556677',
+    from: '+14506667788',
+    body: 'Hello world!'
+  }, function(err, responseData) {
     if (err) {
       console.log(err);
-    } else { 
-      console.log(responseData.from); 
+    } else {
+      console.log(responseData.from);
       console.log(responseData.body);
     }
   }
@@ -522,3 +561,9 @@ var _ = require('underscore');
 ```
 
 For additional information about the Underscore.js Cloud Module, take a look at their [API reference](http://underscorejs.org/)
+
+Note that the version of Underscore.js that Parse offers is 1.4.2.  If you require a newer version, download Underscore.js to your `cloud/` folder and require it like this:
+
+```js
+var _ = require('cloud/underscore');
+```
