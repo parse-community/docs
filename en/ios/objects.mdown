@@ -78,9 +78,9 @@ var query = PFQuery(className:"GameScore")
 query.getObjectInBackgroundWithId("xWMyZEGZ") {
   (gameScore: PFObject?, error: NSError?) -> Void in
   if error == nil && gameScore != nil {
-    println(gameScore)
+    print(gameScore)
   } else {
-    println(error)
+    print(error)
   }
 }
 ```
@@ -257,7 +257,7 @@ var query = PFQuery(className:"GameScore")
 query.getObjectInBackgroundWithId("xWMyZEGZ") {
   (gameScore: PFObject?, error: NSError?) -> Void in
   if error != nil {
-    println(error)
+    print(error)
   } else if let gameScore = gameScore {
     gameScore["cheatMode"] = true
     gameScore["score"] = 1338

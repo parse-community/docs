@@ -326,19 +326,19 @@ There are some special classes in Parse that don't follow all of the same securi
 
 5. Users can only Update and Delete themselves. Public CLPs for Update and Delete may still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. But no matter what the write ACL on a user is, that user can still Update or Delete itself, and no other user can Update or Delete that user. As always, however, using the master key allows users to update other users, independent of CLPs or ACLs.
 
-6. Get requests on installations follow ACLs normally. Find requests, however, return the installation making the request, and only that installation, no matter what ACL is defined on that installation.
+6. Get requests on installations follow ACLs normally. Find requests without master key is not allowed unless you supply the `installationId` as a constraint.
 
 7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide](/docs/rest#installations).
 
 ## Data Integrity in Cloud Code
 
-For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users' data safe. Sometimes, though, you'll run into an edge case where they aren't quite enough. For everything else, there's [Cloud Code](#cloud-code).
+For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users' data safe. Sometimes, though, you'll run into an edge case where they aren't quite enough. For everything else, there's [Cloud Code](https://parse.com/docs/cloudcode/guide#cloud-code).
 
 Cloud Code allows you to upload JavaScript to Parse's servers, where we will run it for you. Unlike client code running on users' devices that may have been tampered with, Cloud Code is guaranteed to be the code that you've written, so it can be trusted with more responsibility.
 
 One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it's particularly important that a malicious client not be able to bypass the validation logic.
 
-To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger](#cloud-code-beforesave-triggers) to make sure every user has an email address set:
+To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger](https://parse.com/docs/cloudcode/guide#cloud-code-beforesave-triggers) to make sure every user has an email address set:
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -351,7 +351,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 });
 ```
 
-Our [Cloud Code guide](#cloud-code) provides instructions on how to upload this trigger to our servers.
+Our [Cloud Code guide](https://parse.com/docs/cloudcode/guide#cloud-code) provides instructions on how to upload this trigger to our servers.
 
 Validations can lock down your app so that only certain values are acceptable. You can also use `afterSave` validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.
 
@@ -399,7 +399,7 @@ Parse.Cloud.define("like", function(request, response) {
 });
 ```
 
-One very common use case for Cloud Code is sending push notifications to particular users. In general, clients can't be trusted to send push notifications directly, because they could modify the alert text, or push to people they shouldn't be able to. Your app's settings will allow you to set whether "client push" is enabled or not; we recommend that you make sure it's disabled. Instead, you should write Cloud Code functions that validate the data to be pushed and sender before sending a push.
+One very common use case for Cloud Code is sending push notifications to particular users. In general, clients can't be trusted to send push notifications directly, because they could modify the alert text, or push to people they shouldn't be able to. Your app's settings will allow you to set whether "client push" is enabled or not; we recommend that you make sure it's disabled. Instead, you should write Cloud Code functions that validate the data to be pushed and sent before sending a push.
 
 ## Parse Security Summary
 

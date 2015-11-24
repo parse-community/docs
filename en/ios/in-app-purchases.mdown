@@ -144,7 +144,7 @@ NSLog(@"%@, %@", product.productIdentifier, product.title);
 ```swift
 let productQuery = PFProduct.query()
 if let product = productQuery.findObjects.lastObject as? PFProduct {}
-  prinln(product.productIdentifier, product.title)
+  print(product.productIdentifier, product.title)
 }
 ```
 

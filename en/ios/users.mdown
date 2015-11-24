@@ -160,9 +160,9 @@ You can create an anonymous user using `PFAnonymousUtils`:
 PFAnonymousUtils.logInWithBlock {
   (user: PFUser?, error: NSError?) -> Void in
   if error != nil || user == nil {
-    println("Anonymous login failed.")
+    print("Anonymous login failed.")
   } else {
-    println("Anonymous user logged in.")
+    print("Anonymous user logged in.")
   }
 }
 ```
@@ -177,7 +177,7 @@ if ([PFAnonymousUtils isLinkedWithUser:[PFUser currentUser]]) {
 }
 ```
 ```swift
-if PFAnonymousUtils.isLinkedWithUser(PFUser.current()) {
+if PFAnonymousUtils.isLinkedWithUser(PFUser.currentUser()) {
   self.enableSignUpButton()
 } else {
   self.enableLogOutButton()
@@ -553,12 +553,12 @@ PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions) {
   (user: PFUser?, error: NSError?) -> Void in
   if let user = user {
     if user.isNew {
-      println("User signed up and logged in through Facebook!")
+      print("User signed up and logged in through Facebook!")
     } else {
-      println("User logged in through Facebook!")
+      print("User logged in through Facebook!")
     }
   } else {
-    println("Uh oh. The user cancelled the Facebook login.")
+    print("Uh oh. The user cancelled the Facebook login.")
   }
 }
 ```
@@ -611,7 +611,7 @@ if !PFFacebookUtils.isLinkedWithUser(user) {
   PFFacebookUtils.linkUserInBackground(user, withReadPermissions: nil, {
     (succeeded: Bool?, error: NSError?) -> Void in
     if succeeded {
-      println("Woohoo, the user is linked with Facebook!")
+      print("Woohoo, the user is linked with Facebook!")
     }
   })
 }
@@ -632,7 +632,7 @@ If you want to unlink Facebook from a user, simply do this:
 PFFacebookUtils.unlinkUserInBackground(user, {
   (succeeded: Bool?, error: NSError?) -> Void in
   if succeeded {
-    println("The user is no longer associated with their Facebook account.")
+    print("The user is no longer associated with their Facebook account.")
   }
 })
 ```
@@ -674,9 +674,9 @@ let accessToken: FBSDKAccessToken = ...; // Use existing access token.
 PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
   (user: PFUser?, error: NSError?) -> Void in
   if user != nil {
-    println("User logged in through Facebook!")
+    print("User logged in through Facebook!")
   } else {
-    println("Uh oh. There was an error logging in.")
+    print("Uh oh. There was an error logging in.")
   }
 })
 
@@ -688,7 +688,7 @@ PFFacebookUtils.logInInBackgroundWithAccessToken(accessToken, {
 PFFacebookUtils.linkUserInBackground(user, withAccessToken: accessToken, {
   (succeeded: Bool?, error: NSError?) -> Void in
   if succeeded {
-    println("Woohoo, the user is linked with Facebook!")
+    print("Woohoo, the user is linked with Facebook!")
   }
 })
 ```
@@ -724,12 +724,12 @@ PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, {
   (user: PFUser?, error: NSError?) -> Void in
   if let user = user {
     if user.isNew {
-      println("User signed up and logged in through Facebook!")
+      print("User signed up and logged in through Facebook!")
     } else {
-      println("User logged in through Facebook!")
+      print("User logged in through Facebook!")
     }
   } else {
-    println("Uh oh. The user cancelled the Facebook login.")
+    print("Uh oh. The user cancelled the Facebook login.")
   }
 })
 
@@ -737,7 +737,7 @@ PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions, {
 PFFacebookUtils.linkUserInBackground(user, withPublishPermissions: ["publish_actions"], {
   (succeeded: Bool?, error: NSError?) -> Void in
   if succeeded {
-    println("User now has read and publish permissions!")
+    print("User now has read and publish permissions!")
   }
 })
 ```
@@ -794,12 +794,12 @@ PFTwitterUtils.logInWithBlock {
   (user: PFUser?, error: NSError?) -> Void in
   if let user = user {
     if user.isNew {
-      println("User signed up and logged in with Twitter!")
+      print("User signed up and logged in with Twitter!")
     } else {
-      println("User logged in with Twitter!")
+      print("User logged in with Twitter!")
     }
   } else {
-    println("Uh oh. The user cancelled the Twitter login.")
+    print("Uh oh. The user cancelled the Twitter login.")
   }
 }
 ```
@@ -829,7 +829,7 @@ if !PFTwitterUtils.isLinkedWithUser(user) {
   PFTwitterUtils.linkUser(user, {
     (succeeded: Bool?, error: NSError?) -> Void in
     if PFTwitterUtils.isLinkedWithUser(user) {
-      println("Woohoo, user logged in with Twitter!")
+      print("Woohoo, user logged in with Twitter!")
     }
   })
 }
@@ -850,7 +850,7 @@ If you want to unlink Twitter from a user, simply do this:
 PFTwitterUtils.unlinkUserInBackground(user, {
   (succeeded: Bool?, error: NSError?) -> Void in
   if error == nil && succeeded {
-    println("The user is no longer associated with their Twitter account.")
+    print("The user is no longer associated with their Twitter account.")
   }
 })
 ```

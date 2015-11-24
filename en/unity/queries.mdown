@@ -266,7 +266,7 @@ query.CountAsync().ContinueWith(t =>
 
 ## Compound Queries
 
-If you want to find objects that match one of several queries, you can use the `Or` method.  For instance, if you want to find players with either have a lot of wins or a few wins, you can do:
+If you want to find objects that match one of several queries, you can use the `Or` method.  For instance, if you want to find players that either have a lot of wins or a few wins, you can do:
 
 ```csharp
 var lotsOfWins = ParseObject.GetQuery("Player")

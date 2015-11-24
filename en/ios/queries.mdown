@@ -33,16 +33,16 @@ query.findObjectsInBackgroundWithBlock {
 
   if error == nil {
     // The find succeeded.
-    println("Successfully retrieved \(objects!.count) scores.")
+    print("Successfully retrieved \(objects!.count) scores.")
     // Do something with the found objects
-    if let objects = objects as? [PFObject] {
+    if let objects = objects {
       for object in objects {
-        println(object.objectId)
+        print(object.objectId)
       }
     }
   } else {
     // Log details of the failure
-    println("Error: \(error!) \(error!.userInfo!)")
+    print("Error: \(error!) \(error!.userInfo)")
   }
 }
 ```
@@ -175,10 +175,10 @@ query.whereKey("playerEmail", equalTo: "dstemkoski@example.com")
 query.getFirstObjectInBackgroundWithBlock {
   (object: PFObject?, error: NSError?) -> Void in
   if error != nil || object == nil {
-    println("The getFirstObject request failed.")
+    print("The getFirstObject request failed.")
   } else {
     // The find succeeded.
-    println("Successfully retrieved the object.")
+    print("Successfully retrieved the object.")
   }
 }
 ```
@@ -705,7 +705,7 @@ query.findObjectsInBackgroundWithBlock {
       for comment in comments {
           // This does not require a network access.
           var post = comment["post"] as? PFObject
-          println("retrieved related post: \(post)")
+          print("retrieved related post: \(post)")
       }
   }
 }
@@ -848,7 +848,7 @@ query.whereKey("playerName", equalTo:"Sean Plott")
 query.countObjectsInBackgroundWithBlock {
   (count: Int32, error: NSError?) -> Void in
   if error == nil {
-    println("Sean has played \(count) games")
+    print("Sean has played \(count) games")
   }
 }
 ```
@@ -909,7 +909,7 @@ let query = Armor.query()
 query.whereKey("rupees", lessThanOrEqualTo: PFUser.currentUser()["rupees"])
 query.findObjectsInBackgroundWithBlock { (objects: [PFObject]?, error: NSError?) -> Void in
   if error == nil {
-    if let objects = objects as? [PFObject], firstArmor = objects.first {
+    if let objects = objects as? [Armor], firstArmor = objects.first {
       //...
     }
   }

@@ -110,7 +110,7 @@ String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};
 query.whereContainedIn("playerName", Arrays.asList(names));
 ```
 
-If you want to retrieve objects that do not match any of several values you can use `whereKey:notContainedIn:`, providing an array of acceptable values.  For example, if you want to retrieve scores from players besides those in a list:
+If you want to retrieve objects that do not match any of several values you can use `whereNotContainedIn`, providing an array of acceptable values.  For example, if you want to retrieve scores from players besides those in a list:
 
 ```java
 String[] names = {"Jonathan Walsh", "Dario Wunsch", "Shawn Simon"};

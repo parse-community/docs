@@ -104,7 +104,7 @@ var Mailgun = require('mailgun');
 Mailgun.initialize('myDomainName', 'myAPIKey');
 ```
 
-You can then use the `sendEmail` function to fire off some emails. This function takes two parameters. The first is a hash with the Mailgun parameters you want to include in the request. The typical ones are `from`, `to`, `subject` and `text`, but you can find the full list on their [documentation page](http://documentation.mailgun.net/api-sending.html). The second parameter to this function is an object with a `success` and an `error` field containing two callback functions.
+You can then use the `sendEmail` function to fire off some emails. This function takes two parameters. The first is a hash with the Mailgun parameters you want to include in the request. The typical ones are `from`, `to`, `subject` and `text`, but you can find the full list on their [documentation page](http://documentation.mailgun.com/api-sending.html). The second parameter to this function is an object with a `success` and an `error` field containing two callback functions.
 
 ```js
 Mailgun.sendEmail({
@@ -165,9 +165,6 @@ Mandrill.sendEmail({
   }
 });
 ```
-
-For additional information about the Mandrill Cloud Module, take a look at the [API Reference](/docs/js/api/symbols/Mandrill.html).
-
 
 ## Moment
 
@@ -387,7 +384,7 @@ The SendGrid module allows you to send attachments to multiple recipients and al
 var sendgrid = require("sendgrid");
 
 sendgrid.initialize("sendgrid_username", "sendgrid_password");
-SendGrid.sendEmail({
+sendgrid.sendEmail({
   to: ["email@example.com (mailto:email@example.com)", "email+1@example.com"],
   from: "SendGrid@CloudCode.com (mailto:SendGrid@CloudCode.com)",
   subject: "Hello from Cloud Code!",
@@ -435,16 +432,13 @@ Charging a credit card using Stripe and Parse will usually follow this flow.
 
 ![](/images/docs/parse_stripe_diagram.png)
 
-1. Getting a Credit Card Token
-
+1. #####Getting a Credit Card Token
 The first step to charging a credit card is to generate a token using the Stripe API. You should do this from your mobile or web client using your "publishable key". This will ensure that only Stripe manipulates the sensitive credit card information. If you are using iOS, you can use the [Stripe iOS SDK](https://github.com/briancollins/stripe-ios), otherwise take a look at the Creating a Token section of their [REST API documentation]().
 
-2. Calling your Cloud Code Function
-
+2. #####Calling your Cloud Code Function
 After successfully creating a token, you can send the card token to a Cloud Code function. For more on creating and calling Parse Cloud Functions from the client SDKs or REST API, take a look at the [Cloud Code Guide](/docs/cloud_code_guide).
 
-3. Charging the Credit Card
-
+3. #####Charging the Credit Card
 From a Cloud Code function, you can then use the Stripe Cloud Module to charge the credit card token. Using the [`Stripe.Charges.create`](/docs/js/api/symbols/Stripe.Charges.html) function you can specify the amount, currency, and card token to use for the purchase. The full list of available parameters can be found in [Stripe's API documentation](https://stripe.com/docs/api?lang=curl#create_charge), but the following example demonstrates the basic use case.
 
 ```js
