@@ -566,7 +566,6 @@ A good starting point to learn more is to look at the [API for the class](/image
 @end
 ```
 ```swift
-<<<<<<< HEAD
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
         
         let cellIdentifier = "cell"
@@ -584,7 +583,7 @@ A good starting point to learn more is to look at the [API for the class](/image
         
         return cell
     }
-=======
+
 override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
     let identifier = "cell"
 
@@ -601,7 +600,6 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
 
     return cell
 }
->>>>>>> ParsePlatform/master
 ```
 
 <img src="https://parse.com/images/docs/images_table.png" style="max-width:200px"/>
