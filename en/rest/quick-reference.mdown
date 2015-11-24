@@ -21,7 +21,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/logout`               | POST      | [Logging Out](#sessions-deleting-sessions)                         |
 | `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving-users)                        |
 | `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating-session-tokens-retrieving-current-user) <br/>[Retrieving Current User](#users-retrieving-users)                                        |
-| `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating-users) <br/>[Linking Users](#users-linking-users) <br/>[Verifying Emails](#users-emailverification) |
+| `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating-users) <br/>[Linking Users](#users-linking-users) <br/>[Verifying Emails](#users-verifying-emails) |
 | `/1/users`                | GET       | [Querying Users](#users-querying)                                  |
 | `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting-users)                            |
 | `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-requesting-a-password-reset)  |
