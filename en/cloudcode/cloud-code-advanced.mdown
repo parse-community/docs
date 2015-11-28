@@ -650,7 +650,7 @@ Once you've deployed your code, you can test the job by running the following co
 curl -X POST \
   -H "X-Parse-Application-Id: $PARSE_APPLICATION_ID" \
   -H "X-Parse-Master-Key: $PARSE_MASTER_KEY" \
-  -H "Content-Type: application/json" \
+  -H "Content-Type: application/json;charset=utf-8" \
   -d '{"plan":"paid"}' \
   https://api.parse.com/1/jobs/userMigration
 ```
