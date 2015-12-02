@@ -313,6 +313,8 @@ Parse.Cloud.define("ThisFunctionWillReturnAllData", function(request, response) 
 });
 ```
 
+HTTP requests have a maximum timeout of 1 minute. This timeout can be further restricted by the maximum timeout for the type of Cloud Code being executed as decribed in [Timeouts](#cloud-code-timeouts): for instance, HTTP requests in Cloud Functions are limited to 15 seconds, HTTP requests in before/after save triggers are limited to 3 seconds, etc.
+
 ## Logging from Cloud Code
 
 If you want to log a message to the log files displayed by `parse log`, you can use `console.log`, `console.error`, or `console.warn`. Both `console.error` and `console.warn` will write to the error log.

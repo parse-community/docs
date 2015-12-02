@@ -623,4 +623,5 @@ There are some limits in place to ensure the API can provide the data you need i
 * When using `console` to log information and errors, the message string will be limited to 1 KB.
 * Only the first 100 messages logged by a Cloud function will be persisted in the Cloud Code logs.
 * `Parse.Cloud.httpRequest` has a 2 second connection timeout. If the connection cannot be established within 2 seconds, you may see a 124 request timed out error.
+* `Parse.Cloud.httpRequest` has a maximum total timeout of 1 minute. This timeout can be further restricted by the maximum timeout of the particular Cloud Code invocation. For instance, before/after save triggers have a maximum timeout of 3 seconds, so the maximum timeout for an HTTP request made within a before/after save trigger is 3 seconds.
 * There is a limit of 8 concurrent outbound `Parse.Cloud.httpRequest` requests per Cloud Code request.
