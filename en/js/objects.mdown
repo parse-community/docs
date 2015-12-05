@@ -275,7 +275,8 @@ You can delete a single field from an object with the `unset` method:
 // After this, the playerName field will be empty
 myObject.unset("playerName");
 
-// Saves the field deletion to the Parse Cloud
+// Saves the field deletion to the Parse Cloud.
+// If the object's field is an array, call save() after every unset() operation.
 myObject.save();
 ```
 
