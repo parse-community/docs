@@ -64,6 +64,11 @@ let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
 ```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("score", 50);
+query.whereContainedIn("playerName", Arrays.asList("Jonathan Walsh", "Dario Wunsch", "Shawn Simon"));
+```
 
 Creating an index query based on the score field would yield a smaller search space in general than creating one on the playerName field.
 
@@ -77,6 +82,9 @@ query.equalTo("cheatMode", false);
 ```
 ```common-swift
 query.whereKey("cheatMode", equalTo: false)
+```
+```common-java
+query.whereEqualTo("cheatMode", false);
 ```
 
 The two possible values for cheatMode are true and false. If an index was added on this field it would be of little use because it's likely that 50% of the records will have to be looked at to return query results.
@@ -137,6 +145,18 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereNotEqualTo("playerName", "Michael Yabuti");
+query.findInBackground(new FindCallback<ParseObject>() {
+  @Override
+  public void done(List<ParseObject> list, ParseException e) {
+    if ( e == null) {
+      // Retrieved scores successfully
+    }
+  }
+});
+```
 
 This query can't take advantage of indexes. The database has to look at all the objects in the GameScore class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.
 
@@ -156,6 +176,10 @@ PFQuery *query = [PFUser query];
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
 ```
+```common-java
+ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+query.whereNotEqualTo("state", "Invited");
+```
 
 It would be faster to use the “Contained In” condition when setting up the query:
 
@@ -168,6 +192,9 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 ```common-swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
+```
+```common-java
+query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```
 
 Sometimes, you may have to completely rewrite your query. Going back to the GameScore example, let's say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player's high score and then using the following query:
@@ -202,6 +229,19 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+// Previously retrieved highScore for Michael Yabuti
+query.whereGreaterThan("score", highScore);
+query.findInBackground(new FindCallback<ParseObject>() {
+  @Override
+  public void done(List<ParseObject> list, ParseException e) {
+    if (e == null) {
+      // Retrieved scores successfully
+    }
+  }
+});
+```
 
 The new query you use depends on your use case. This may sometimes mean a redesign of your data model.
 
@@ -219,7 +259,11 @@ PFQuery *query = [PFUser query];
 ```
 ```common-swift
 var query = PFUser.query()
-query.whereKey("state", containedIn: ["Invited", "Blocked"])
+query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
+```
+```common-java
+ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
+query.whereNotContainedIn("state", Arrays.asList("Invited", "Blocked"));
 ```
 
 Using a complimentary “Contained In” query constraint will always be faster:
@@ -233,7 +277,9 @@ query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
 ```common-swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 ```
-
+```common-java
+query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));;
+```
 This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
 
 ### Regular Expressions
@@ -251,6 +297,9 @@ query.matches("playerName", "Michael", “i”);
 ```common-swift
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
 ```
+```common-java
+query.whereMatches("playerName", "Michael", "i");
+```
 
 A similar query looks for any occurrence of the string in the field, however the search is case sensitive:
 
@@ -263,6 +312,9 @@ query.contains("playerName", "Michael");
 ```common-swift
 query.whereKey("playerName", containsString: "Michael")
 ```
+```common-java
+query.whereContains("playerName", "Michael");
+```
 
 These queries are both slow. Depending on your use case, you should switch to using the following constraint that uses an index:
 
@@ -274,6 +326,9 @@ query.startsWith("playerName", "Michael");
 ```
 ```common-swift
 query.whereKey("playerName", hasPrefix: "Michael")
+```
+```common-java
+query.whereStartsWith("playerName", "Michael");
 ```
 
 This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.
@@ -288,6 +343,9 @@ query.matches("playerName", "^Michael");
 ```
 ```common-swift
 query.whereKey("playerName", matchesRegex: "^Michael")
+```
+```common-java
+query.whereMatches("playerName", "^Michael");
 ```
 
 Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.
@@ -306,6 +364,9 @@ query.limit = 10; // limit to at most 10 results
 ```
 ```common-swift
 query.limit = 10 // limit to at most 10 results
+```
+```common-java
+query.setLimit(10); // limit to at most 10 results
 ```
 
 If you're issuing queries on GeoPoints, make sure you specify a reasonable radius:
@@ -336,6 +397,18 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Place");
+query.whereWithinMiles("location", userGeoPoint, 10.0);
+query.findInBackground(new FindCallback<ParseObject>() {
+  @Override
+  public void done(List<ParseObject> list, ParseException e) {
+    if (e == null) {
+      // List of places within 10 miles of a user's location
+    }
+  }
+});
+```
 
 You can further limit the fields returned by calling select:
 
@@ -365,6 +438,18 @@ query.findObjectsInBackgroundWithBlock {
     // each of results will only have the selected fields available.
   }
 }
+```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.selectKeys(Arrays.asList("score", "playerName"));
+query.findInBackground(new FindCallback<ParseObject>() {
+  @Override
+  public void done(List<ParseObject> list, ParseException e) {
+    if (e == null) {
+      // each of results will only have the selected fields available.
+    }
+  }
+});
 ```
 
 ## Client-side Caching
@@ -417,6 +502,18 @@ PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The 
   }
 }
 ```
+```common-java
+HashMap<String, String> params = new HashMap();
+params.put("movie", "The Matrix");
+ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback<Float>() {
+  @Override
+  public void done(Float aFloat, ParseException e) {
+    if (e == null) {
+      // ratings is 4.5
+    }
+  }
+});
+```
 
 If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.
 
@@ -455,6 +552,19 @@ query.countObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
+```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
+// movieId corresponds to a given movie's id
+query.whereEqualTo("movie", movieId);
+query.countInBackground(new CountCallback() {
+  @Override
+  public void done(int i, ParseException e) {
+    if ( e == null) {
+      // Request succeeded
+    }
+  }
+});
 ```
 
 If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the `count()` operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie's review count field. This can be done in an `afterSave` handler:
@@ -503,6 +613,17 @@ query.findObjectsInBackgroundWithBlock {
     // Results include the reviews count field
   }
 }
+```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Movie");
+query.findInBackground(new FindCallback<ParseObject>() {
+  @Override
+  public void done(List<ParseObject> list, ParseException e) {
+    if (e == null) {
+      // Results include the reviews count field
+    }
+  }
+});
 ```
 
 You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an `afterSave` or `afterDelete` Cloud Code handler. The approach you choose depends on your use case.
@@ -566,6 +687,18 @@ query.findObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
+```
+```common-java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
+query.whereContainsAll("hashtags", Arrays.asList("#parse", "#ftw"));
+query.findInBackground(new FindCallback<ParseObject>() {
+  @Override
+  public void done(List<ParseObject> list, ParseException e) {
+    if (e == null) {
+      // Request succeeded
+    }
+  }
+});
 ```
 
 ## Limits and Other Considerations
