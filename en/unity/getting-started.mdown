@@ -15,9 +15,7 @@ Create a file and name it `link.xml` under your Assets folder and put the follow
 <linker>
   <assembly fullname="UnityEngine">
     <type fullname="UnityEngine.iOS.NotificationServices" preserve="all"/>
-    <type fullname="UnityEngine.NotificationServices" preserve="all"/>
     <type fullname="UnityEngine.iOS.RemoteNotification" preserve="all"/>
-    <type fullname="UnityEngine.RemoteNotification" preserve="all"/>
     <type fullname="UnityEngine.AndroidJavaClass" preserve="all"/>
     <type fullname="UnityEngine.AndroidJavaObject" preserve="all"/>
   </assembly>
