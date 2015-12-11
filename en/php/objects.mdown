@@ -276,7 +276,7 @@ $bigObject->set("myNull", null);
 $bigObject->save();
 ```
 
-`ParseObject`s should not exceed 128 kilobytes in size.
+`ParseObject`s should not exceed 128 kilobytes in size. To store more, we recommend you use `Parse.File`. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
@@ -325,7 +325,7 @@ class Monster extends ParseObject
 $monster = Monster::spawn(200);
 echo monster->strength();  // Displays 200.
 echo monster->hasSuperHumanStrength();  // Displays true.
-``` 
+```
 
 If you want to override the __construct method, make sure the first three params are exactly as same as the parent ParseObject constructor:
 
@@ -333,7 +333,7 @@ If you want to override the __construct method, make sure the first three params
 class GameScore extends ParseObject
 {
   public static $parseClassName = "GameScore";
-  
+
   public function __construct($className = null, $objectId = null, $isPointer = false, $another_param) {
     parent::__construct("GameScore", $objectId, $isPointer);
     // ...
