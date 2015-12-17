@@ -49,9 +49,9 @@ Parse.Cloud.define("averageStars", function(request, response) {
 
 The only difference between using `averageStars` and `hello` is that we have to provide the parameter that will be accessed in `request.params.movie` when we call the Cloud function. Read on to learn more about how Cloud functions can be called.
 
-Cloud functions can be called from any of the client SDKs, as well as through the REST API (go back to our list of [Platforms](/docs) to switch SDKs). For example, to call the Cloud function named `averageStars` with a parameter named `movie`:
+Cloud functions can be called from any of the client SDKs, as well as through the REST API. For example, to call the Cloud function named `averageStars` with a parameter named `movie` from an Android app:
 
-```common-java
+```java
 HashMap<String, Object> params = new HashMap<String, Object>();
 params.put("movie", "The Matrix");
 ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback<Float>() {
@@ -62,7 +62,11 @@ ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback
    }
 });
 ```
-```common-objc
+
+To call the same Cloud function from an iOS app:
+
+```objc
+// Objective-C
 [PFCloud callFunctionInBackground:@"averageStars"
                    withParameters:@{@"movie": @"The Matrix"}
                             block:^(NSNumber *ratings, NSError *error) {
@@ -71,18 +75,25 @@ ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback
   }
 }];
 ```
-```common-swift
+```swift
+// Swift
 PFCloud.callFunctionInBackground("averageRatings", withParameters: ["movie":"The Matrix"]) {
   (response: AnyObject?, error: NSError?) -> Void in
   let ratings = response as? Float
   // ratings is 4.5
 }
 ```
-```common-php
+
+This is how you would call the same Cloud function using PHP:
+
+```php
 $ratings = ParseCloud::run("averageRatings", ["movie" => "The Matrix"]);
 // $ratings is 4.5
 ```
-```common-csharp
+
+The following example shows how you can call the "averageRatings" Cloud function from a .NET C# app such as in the case of Windows 10, Unity, and Xamarin applications:
+
+```csharp
 IDictionary<string, object> params = new Dictionary<string, object>
 {
     { "movie", "The Matrix" }
@@ -92,13 +103,23 @@ ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params
   // ratings is 4.5
 });
 ```
-```common-js
-Parse.Cloud.run('averageStars', { movie: 'The Matrix' }, {
-  success: function(ratings) {
-    // ratings should be 4.5
-  },
-  error: function(error) {
-  }
+
+You can also call Cloud functions using the REST API:
+
+```bash
+curl -X POST \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{ "movie": "The Matrix" }' \
+  https://api.parse.com/1/functions/averageStars
+```
+
+And finally, to call the same function from a JavaScript app:
+
+```js
+Parse.Cloud.run('averageStars', { movie: 'The Matrix' }).then(function(ratings) {
+  // ratings should be 4.5
 });
 ```
 
