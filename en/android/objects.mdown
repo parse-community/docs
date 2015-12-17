@@ -311,7 +311,7 @@ ParseQuery<ParseObject> query = relation.getQuery();
 
 ## Data Types
 
-So far we've used values with type `String`, `int`, `bool`, and `ParseObject`. Parse also supports `java.util.Date`, `byte[]`, and `JSONObject.NULL`.
+So far we've used values with type `String`, `int`, `bool`, and `ParseObject`. Parse also supports `java.util.Date`, and `JSONObject.NULL`.
 
 You can nest `JSONObject` and `JSONArray` objects to store more structured data within a single `ParseObject`.
 
@@ -330,13 +330,10 @@ JSONObject myObject = new JSONObject();
 myObject.put("number", myNumber);
 myObject.put("string", myString);
 
-byte[] myData = { 4, 8, 16, 32 };
-
 ParseObject bigObject = new ParseObject("BigObject");
 bigObject.put("myNumber", myNumber);
 bigObject.put("myString", myString);
 bigObject.put("myDate", myDate);
-bigObject.put("myData", myData);
 bigObject.put("myArray", myArray);
 bigObject.put("myObject", myObject);
 bigObject.put("myNull", JSONObject.NULL);

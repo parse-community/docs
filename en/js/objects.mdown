@@ -69,11 +69,11 @@ class Monster extends Parse.Object {
     // All other initialization
     this.sound = 'Rawr';
   }
-  
+
   hasSuperHumanStrength() {
     return this.get('strength') > 18;
   }
-  
+
   static spawn(strength) {
     var monster = new Monster();
     monster.set('strength', strength);
@@ -416,6 +416,6 @@ bigObject.set("myNull", null);
 bigObject.save();
 ```
 
-`Parse.Object`s should not exceed 128 kilobytes in size.
+`Parse.Object`s should not exceed 128 kilobytes in size. To store more, we recommend you use `Parse.File`. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).

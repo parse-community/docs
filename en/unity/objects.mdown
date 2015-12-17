@@ -42,7 +42,6 @@ So far we've used values with type `string` and `int` assigned to fields of a `P
 
 *   other primitive numeric values such as `double`s, `long`s, or `float`s
 *   `DateTime` objects
-*   `byte[]` objects
 *   objects that implement `IDictionary<string, T>`
 *   objects that implement `IList<T>`
 *   other `ParseObject`
@@ -55,7 +54,6 @@ Some examples:
 int number = 42;
 string str = "the number is " + number;
 DateTime date = DateTime.Now;
-byte[] data = System.Text.Encoding.UTF8.GetBytes("foo");
 IList<object> list = new List<object> { str, number };
 IDictionary<string, object> dictionary = new Dictionary<string, object>
 {
@@ -67,13 +65,13 @@ var bigObject = new ParseObject("BigObject");
 bigObject["myNumber"] = number;
 bigObject["myString"] = str;
 bigObject["myDate"] = date;
-bigObject["myData"] = data;
 bigObject["myList"] = list;
 bigObject["myDictionary"] = dictionary;
 Task saveTask = bigObject.SaveAsync();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size.
+We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. To store more, we recommend you use `ParseFile`. See [Files](#files) for more details.
+
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 

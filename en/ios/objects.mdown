@@ -496,7 +496,7 @@ For more details on `PFQuery` please look at the query portion of this guide.  A
 
 ## Data Types
 
-So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSData`, and `NSNull`.
+So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, and `NSNull`.
 
 You can nest `NSDictionary` and `NSArray` objects to store more structured data within a single `%{ParseObject}`.
 
@@ -506,7 +506,6 @@ Some examples:
 NSNumber *number = @42;
 NSString *string = [NSString stringWithFormat:@"the number is %@", number];
 NSDate *date = [NSDate date];
-NSData *data = [@"foo" dataUsingEncoding:NSUTF8StringEncoding];
 NSArray *array = @[string, number];
 NSDictionary *dictionary = @{@"number": number,      @"string": string};
 NSNull *null = [NSNull null];
@@ -516,7 +515,6 @@ PFObject *bigObject = [PFObject objectWithClassName:@"BigObject"];
 bigObject[@"myNumberKey"] = number;
 bigObject[@"myStringKey"] = string;
 bigObject[@"myDateKey"] = date;
-bigObject[@"myBytesKey"] = data; // shows up as 'bytes' in the Data Browser
 bigObject[@"myArrayKey"] = array;
 bigObject[@"myObjectKey"] = dictionary; // shows up as 'object' in the Data Browser
 bigObject[@"myNullKey"] = null;
@@ -527,7 +525,6 @@ bigObject[@"myPointerKey"] = pointer; // shows up as Pointer <MyClassName> in th
 let number = 42
 let string = "the number is \(number)"
 let date = NSDate()
-let data = "foo".dataUsingEncoding(NSUTF8StringEncoding)
 let array = [string, number]
 let dictionary = ["number": number, "string": string]
 let null = NSNull()
@@ -537,7 +534,6 @@ var bigObject = PFObject(className:"BigObject")
 bigObject["myNumberKey"] = number
 bigObject["myStringKey"] = string
 bigObject["myDateKey"] = date
-bigObject["myBytesKey"] = data // shows up as 'bytes' in the Data Browser
 bigObject["myArrayKey"] = array
 bigObject["myObjectKey"] = dictionary // shows up as 'object' in the Data Browser
 bigObject["myNullKey"] = null
