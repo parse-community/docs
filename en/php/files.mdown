@@ -46,7 +46,7 @@ How to best retrieve the file contents back depends on the context of your appli
 
 ```php
 $profilePhoto = $profile->get("photoFile");
-echo '<img src="'.$profilePhoto->getURL() . '">';
+echo '<img src="' . $profilePhoto->getURL() . '">';
 ```
 
 If you want to fetch the contents of the file, you can retrieve it like this:
