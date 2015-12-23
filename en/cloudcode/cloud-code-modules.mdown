@@ -213,6 +213,172 @@ Note that the version of Moment.js that Parse offers is 1.7.2.  If you require a
 var moment = require('cloud/moment');
 ```
 
+## parseExpressCookieSession
+
+`parseExpressCookieSession` is an Express middleware for `Parse.User` session management through a signed browser cookie. This API is Parse-specific, and not included in the original Express API.
+
+To use this middleware in Cloud Code, you need to:
+
+1. Call `require('parse-express-cookie-session')` from your JavaScript file, and configure your app to use this middleware after [express.cookieParser](http://expressjs.com/en/3x/api.html#middleware). You must also specify a cookie signing secret for `express.cookieParser`.
+2. Write an Express endpoint for logging in. In this endpoint, you should call `Parse.User.logIn()` with the user-specified username and
+ password. This sets a cookie in the user's browser.
+3. On subsequent requests from the same user's browser, Parse will automatically set the current user in Cloud Code based on this cookie. You can access this user object through `Parse.User.current()`.
+4. Finally, you should also make an Express endpoint for logging out. In this endpoint, you should call `Parse.User.logOut()` to remove the browser cookie.
+
+This middleware only works when your app is accessed through an HTTPS connection. You can use the [parseExpressHttpsRedirect](#cloud-code-modules-parseExpressHttpsRedirect) middleware to force all requests to your website to be HTTPS.
+
+By default, we do not fetch the current user object. This means although `Parse.User.current()` will be defined, you will not be able to
+retrieve user object fields until you call `Parse.User.current().fetch()`. Fetching the user is not always necessary. When you query for other objects, [Parse.ACL](/docs/js/api/classes/Parse.ACL.html) will work correctly even without fetching the user object. You can override this
+option and always fetch the user, but please be aware that always fetching the user will result in one extra Parse API request during each Express
+request. Therefore we recommend that you leave this option as false, and only fetch the current user when you need to.
+
+Here is some example code from an app that has Note objects with ACLs:
+
+```js
+  var express = require('express');
+  var parseExpressHttpsRedirect = require('parse-express-https-redirect');
+  var parseExpressCookieSession = require('parse-express-cookie-session');
+  var app = express();
+
+  app.set('views', 'cloud/views');
+  app.set('view engine', 'ejs');
+  app.use(parseExpressHttpsRedirect());  // Require user to be on HTTPS.
+  app.use(express.bodyParser());
+  app.use(express.cookieParser('YOUR_SIGNING_SECRET'));
+  app.use(parseExpressCookieSession({ cookie: { maxAge: 3600000 } }));
+
+  // You could have a "Log In" link on your website pointing to this.
+  app.get('/login', function(req, res) {
+    // Renders the login form asking for username and password.
+    res.render('login.ejs');
+  });
+
+  // Clicking submit on the login form triggers this.
+  app.post('/login', function(req, res) {
+    Parse.User.logIn(req.body.username, req.body.password).then(function() {
+      // Login succeeded, redirect to homepage.
+      // parseExpressCookieSession will automatically set cookie.
+      res.redirect('/');
+    },
+    function(error) {
+      // Login failed, redirect back to login form.
+      res.redirect('/login');
+    });
+  });
+
+  // You could have a "Log Out" link on your website pointing to this.
+  app.get('/logout', function(req, res) {
+    Parse.User.logOut();
+    res.redirect('/');
+  });
+
+  // The homepage renders differently depending on whether user is logged in.
+  app.get('/', function(req, res) {
+    if (Parse.User.current()) {
+      // No need to fetch the current user for querying Note objects.
+      var Note = Parse.Object.extend("Note");
+      var query = new Parse.Query(Note);
+      query.find().then(function(results) {
+        // Render the notes that the current user is allowed to see.
+      },
+      function(error) {
+        // Render error page.
+      });
+    } else {
+      // Render a public welcome page, with a link to the '/login' endpoint.
+    }
+  });
+
+  // You could have a "Profile" link on your website pointing to this.
+  app.get('/profile', function(req, res) {
+    // Display the user profile if user is logged in.
+    if (Parse.User.current()) {
+      // We need to fetch because we need to show fields on the user object.
+      Parse.User.current().fetch().then(function(user) {
+        // Render the user profile information (e.g. email, phone, etc).
+      },
+      function(error) {
+        // Render error page.
+      });
+    } else {
+      // User not logged in, redirect to login form.
+      res.redirect('/login');
+    }
+  });
+
+  app.listen();
+```
+
+The corresponding `login.ejs` could look like:
+
+```js
+  <html>
+    <head></head>
+    <body>
+      <form method="post" action="/login">
+        <label>Username</label>
+        <input name="username"></input>
+        <label>Password</label>
+        <input name="password" type="password"></input>
+        <input class="button" type="submit" value="Log In">
+      </form>
+    </body>
+  </html>
+```
+
+#### parseExpressHttpsRedirect
+
+`parseExpressHttpsRedirect` is an Express middleware for redirecting the user to the HTTPS endpoint with the same URL. This API is Parse-specific, and not included in the original Express API.
+
+To use this middleware, you must require it from your JavaScript file:
+
+```js
+var parseExpressHttpsRedirect = require('parse-express-https-redirect');
+```
+
+Then you can use the middleware to redirect all requests to HTTPS.
+
+```js
+app.use(parseExpressHttpsRedirect());
+```
+
+You should place this middleware as early as possible in the global app configuration section, so that HTTP requests will do less work (and run faster) before they are redirected to the HTTPS URL.
+
+#### parseExpressRawBody
+
+`parseExpressRawBody` is an Express middleware for parsing the request body into a byte [Buffer](#cloud-code-modules-buffer). This API is Parse-specific, and not included in the original Express API.
+
+To use this middleware, you must require it from your JavaScript file:
+
+```js
+var parseExpressRawBody = require('parse-express-raw-body');
+```
+
+This can be used in your Express app to parse the request body into a `Buffer` object at `req.body`.
+
+You can use this as a fallback if <a href="http://expressjs.com/en/3x/api.html#bodyParser">express.bodyParser</a> middleware cannot parse the incoming request body. If your app needs to use both `express.BodyParser` and this, then you must place this middleware after `express.bodyParser` in the app configuration section.
+
+If you need the string representation of the request body, you can access it at `req.body.toString()`.
+
+```js
+  var express = require('express');
+  var parseExpressRawBody = require('parse-express-raw-body');
+  var app = express();
+
+  app.use(express.bodyParser());
+  app.use(parseExpressRawBody());
+
+  app.post('/receive_data', function(req, res) {
+    // If the request body is JSON or form-urlencoded, then the express.bodyParser
+    // middleware will populate req.body with the parsed contents.  Otherwise,
+    // parseExpressRawBody middleware will fill req.body with a Buffer object
+    // containing bytes in the request body.
+    res.send('OK');
+  });
+
+  app.listen();
+```
+
 ## Parse Image
 
 Images are the most common kind of `Parse.File`. The `parse-image` module provides an `Image` class that makes working with images in Cloud Code easier.

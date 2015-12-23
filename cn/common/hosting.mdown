@@ -99,9 +99,7 @@ $ parse deploy
 
 您可使用 Cloud Code 和 Express 来构建多页动态 Web 应用。在 [Express](http://expressjs.com/) 框架下，多种强大工具任您选用，例如请求路由、cookie 处理和模板渲染工具。通过[ Cloud Code ](/docs/cn/cloud_code_guide)可实现多种功能，例如与 Parse 数据互动，以及[发送 HTTP 请求](/docs/cn/cloud_code_guide#networking)。
 
-使用 Parse 时，您可选择通过 Express 建立多页 Web 应用，或通过客户端的 Parse JavaScript SDK 建立单页 Backbone 应用。Express 方法有一个优势在于，您的网站可被搜索引擎抓取，而客户端的 Backbone 方法可能生成更具响应性的应用。关于 Express 和 Cloud Code 的详情请查看 [Express API 文档](/docs/js/api/symbols/express.html)。
-
-Express 能帮您快速创建应用并运行，但如果您更喜欢较底层的类似 [Node.js](http://nodejs.org/) 的 HTTP 接口，我们也能提供。更多详情请查看我们的 [HTTP 接口 API 文档](/docs/js/api/symbols/http.html)。如果您选择使用 Express 或 Node.js，首先需要删除 `public/index.html`，请求才能传到您的自定义处理函数。
+Express 能帮您快速创建应用并运行，但如果您更喜欢较底层的类似 [Node.js](http://nodejs.org/) 的 HTTP 接口，我们也能提供。更多详情请查看我们的 [HTTP 接口 API 文档](https://parse.com/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest)。如果您选择使用 Express 或 Node.js，首先需要删除 `public/index.html`，请求才能传到您的自定义处理函数。
 
 在本指南中，我们将着重讲述使用 Express API 建立 Web 应用。
 
@@ -182,18 +180,18 @@ app.post('/echo', function(req, res) {
 
 中间件是在请求到达您的请求处理代码前先对其进行处理的模块。这些组件将原始 HTTP 请求转变为请求对象，方便通过您的请求处理代码进行处理。Cloud Code 支持如下的 Express 中间件：
 
-*   [`express.basicAuth()`](/docs/js/api/symbols/express.html#.basicAuth) － 用来为您的网站设置 HTTP 基本身份验证。
-*   [`express.bodyParser()`](/docs/js/api/symbols/express.html#.bodyParser) － 将 HTTP 请求正文（JSON 或 www 表单编码的）转变为 `request.body` 对象。
-*   [`express.methodOverride()`](/docs/js/api/symbols/express.html#.methodOverride) － 只支持 HTTP post 的标准 web 表单。此中间件允许 web 表单将 put/delete HTTP 请求发到 Express。当您想严格遵守 REST-ful 原则时，这会特别有用。
-*   [`express.cookieParser()`](/docs/js/api/symbols/express.html#.cookieParser) － 读取浏览器发送的请求 cookie，并将它放入 `request.cookies` 和 `express.request.signedCookies` 对象。
-*   [`express.cookieSession()`](/docs/js/api/symbols/express.html#.cookieSession) － 允许您通过设置 `request.session` 对象，将会话数据存储到签名的 cookie。
-*   [`express.csrf()`](/docs/js/api/symbols/express.html#.csrf) － 防止跨站请求伪造。
+*   [`express.basicAuth()`](http://expressjs.com/en/3x/api.html#basicAuth) － 用来为您的网站设置 HTTP 基本身份验证。
+*   [`express.bodyParser()`](http://expressjs.com/en/3x/api.html#bodyParser) － 将 HTTP 请求正文（JSON 或 www 表单编码的）转变为 `request.body` 对象。
+*   [`express.methodOverride()`](http://expressjs.com/en/3x/api.html#methodOverride) － 只支持 HTTP post 的标准 web 表单。此中间件允许 web 表单将 put/delete HTTP 请求发到 Express。当您想严格遵守 REST-ful 原则时，这会特别有用。
+*   [`express.cookieParser()`](http://expressjs.com/en/3x/api.html#cookieParser) － 读取浏览器发送的请求 cookie，并将它放入 `request.cookies` 和 `express.request.signedCookies` 对象。
+*   [`express.cookieSession()`](http://expressjs.com/en/3x/api.html#cookieSession) － 允许您通过设置 `request.session` 对象，将会话数据存储到签名的 cookie。
+*   [`express.csrf()`](http://expressjs.com/en/3x/api.html#csrf) － 防止跨站请求伪造。
 
 另外，我们还提供下面的自定义中间件：
 
-*   [`parseExpressRawBody()`](/docs/js/api/symbols/parseExpressRawBody.html) － 允许您在 `req.body` 下将原始请求正文作为 [`Buffer`](/docs/js/api/symbols/Buffer.html) 对象来访问。如果您想直接访问请求中的字节，或想在请求处理代码中通过自己的解析程序读取其他数据格式（例如，XML）的请求正文，这会很有用。
+*   [`parseExpressRawBody()`](#cloud-code-modules-parseExpressRawBody) － 允许您在 `req.body` 下将原始请求正文作为 [`Buffer`](#cloud-code-modules-Buffer) 对象来访问。如果您想直接访问请求中的字节，或想在请求处理代码中通过自己的解析程序读取其他数据格式（例如，XML）的请求正文，这会很有用。
 
-通过 [`app.use()`](/docs/js/api/symbols/express.Application.html#use) 函数，可以将中间件添加到您的应用。标准的 Express 中间件是函数，所以一定要正确地调用它们（例如，`app.use(express.csrf()`）。您可以在通过 `app.VERB()` 登记任何请求处理代码前，添加应用的中间件。
+通过 [`app.use()`](http://expressjs.com/en/3x/api.html#app.use) 函数，可以将中间件添加到您的应用。标准的 Express 中间件是函数，所以一定要正确地调用它们（例如，`app.use(express.csrf()`）。您可以在通过 `app.VERB()` 登记任何请求处理代码前，添加应用的中间件。
 
 在全局应用配置部分配置 Express 中间件时，请遵照上面的顺序。您可以略去不需要的任何中间件。顺序很重要，因为靠后的中间件可能依赖靠前的中间件生成的数据。
 
@@ -294,7 +292,7 @@ app.post('/hello', function(req, res) {
 
 您可利用 web 表单要求用户提供登录凭据，并在收到此窗体发来的数据时使用户登入 Cloud Code。在调用 `Parse.User.logIn()` 后，此中间件将在用户的浏览器中自动设置一个 cookie。此后从同一个浏览器发送 HTTP 请求时，此中间件将使用此 cookie 在 Cloud Code 中自动设置[当前用户](/docs/cn/js_guide#users-current)。这使得 [ACL](/docs/cn/js_guide#users-acls) 能在 Cloud Code 中起正常作用，允许您在需要时检索整个当前用户对象。最后，当您通过调用 `Parse.User.logOut()` 将某个用户登出 Cloud Code 时，此中间件将自动移除浏览器 cookie。示例应用代码请查看此中间件的[相应文档](/docs/js/api/symbols/parseExpressCookieSession.html)。
 
-处理用户数据时，您应尽量使用 HTTPS。为了保护您的应用和您的用户，`parseExpressCookieSession` 中间件要求您使用 HTTPS。为了给您提供方便，我们还提供一个 `parseExpressHttpsRedirect` 中间件，可将所有 HTTP 请求重定向到 HTTPS。如需详情，请查看[相应文档](/docs/js/api/symbols/parseExpressHttpsRedirect.html)。
+处理用户数据时，您应尽量使用 HTTPS。为了保护您的应用和您的用户，`parseExpressCookieSession` 中间件要求您使用 HTTPS。为了给您提供方便，我们还提供一个 `parseExpressHttpsRedirect` 中间件，可将所有 HTTP 请求重定向到 HTTPS。如需详情，请查看[相应文档](#cloud-code-modules-parseExpressHttpsRedirect)。
 
 ### 静态内容
 
