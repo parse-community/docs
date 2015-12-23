@@ -2,7 +2,7 @@
 
 ## Networking
 
-Cloud Code allows sending HTTP requests to any HTTP Server using [`Parse.Cloud.httpRequest`](/docs/js/api/symbols/Parse.Cloud.html#.httpRequest).  This function takes an options object to configure the call.  There is a limit of 8 concurrent `httpRequest`s per Cloud Code request, and additional requests will be queued up.
+Cloud Code allows sending HTTP requests to any HTTP Server using [`Parse.Cloud.httpRequest`](/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest).  This function takes an options object to configure the call.  There is a limit of 8 concurrent `httpRequest`s per Cloud Code request, and additional requests will be queued up.
 
 A simple GET request would look like:
 
@@ -148,11 +148,11 @@ The response object passed into the `success` and `error` will contain:
 * **`buffer`** - The raw byte representation of the response body.
 * **`text`** - The raw response body.
 * **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
-* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/symbols/Parse.Cloud.HTTPResponse.html) objects.
+* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/classes/Parse.Cloud.HTTPResponse.html) objects.
 
 ## Modules
 
-Cloud Code supports breaking up JavaScript code into modules. You can check out [this tutorial](https://parse.com/tutorials/integrating-with-third-party-services) for an in depth look at creating your own. In order to avoid unwanted side effects from loading modules, Cloud Code's modules work similarly to CommonJS modules. When a module is loaded, the JavaScript file is loaded, the source executed and the global `module.exports` object is returned. For example, if `cloud/name.js` has the following source:
+Cloud Code supports breaking up JavaScript code into modules. You can check out [this tutorial](/tutorials/integrating-with-third-party-services) for an in depth look at creating your own. In order to avoid unwanted side effects from loading modules, Cloud Code's modules work similarly to CommonJS modules. When a module is loaded, the JavaScript file is loaded, the source executed and the global `module.exports` object is returned. For example, if `cloud/name.js` has the following source:
 
 ```js
 var coolNames = ['Ralph', 'Skippy', 'Chip', 'Ned', 'Scooter'];
@@ -210,7 +210,7 @@ def index
     return render :json => { :success => "Hello World!" }
   end
 
-  # Return an error if it's not the function we expected 
+  # Return an error if it's not the function we expected
   return render :json => { :error => "Unknown function"}
 end
 ```
@@ -218,19 +218,19 @@ end
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
 ```json
-// Sent to webhook 
+// Sent to webhook
 {
-  "master": false, 
-  "user": { 
-    "createdAt": "2015-03-24T20:19:00.542Z", 
-    "objectId": "lValKpphWN", 
-    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
-    "updatedAt": "2015-03-24T20:19:00.542Z", 
-    "username": "Matt" 
-  }, 
-  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
-  "params": {}, 
-  "functionName": "helloWorld" 
+  "master": false,
+  "user": {
+    "createdAt": "2015-03-24T20:19:00.542Z",
+    "objectId": "lValKpphWN",
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM",
+    "updatedAt": "2015-03-24T20:19:00.542Z",
+    "username": "Matt"
+  },
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2",
+  "params": {},
+  "functionName": "helloWorld"
 }
 ```
 
@@ -238,14 +238,14 @@ This response would indicate a success in the webhook:
 
 ```json
 // Returned from the webhook on success
-{ "success": "Hello World!" } 
+{ "success": "Hello World!" }
 ```
 
 This response would indicate an error in the webhook:
 
 ```json
-// Returned from the webhook on error 
-{ "error": "Error message >:(" } 
+// Returned from the webhook on error
+{ "error": "Error message >:(" }
 ```
 
 You can activate this webhook from the Dashboard UI.
@@ -257,49 +257,49 @@ Once the webhook is set, you can call it from any of our SDKs or from the REST A
 Here's a more complex example where we use a webhook to perform some task for our billing pipeline. We'll use the popular `resque` gem to enqueue a job that handles billing the given user. For this example, the function is named `chargeCustomer` and it should always be called with the master key.
 
 ```ruby
-# We need to disable CSRF protection for webhooks to work. Instead we 
-# use the webhook key to prove authenticity. 
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity.
 protect_from_forgery :except => :index
 
-def index 
-  # Ensure the request is validated 
-  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key 
-    return render :json => { :error => "Request Unauthorized"} 
+def index
+  # Ensure the request is validated
+  if request.headers['X-Parse-Webhook-Key'] !== @webhook_key
+    return render :json => { :error => "Request Unauthorized"}
   end
 
-  # Check the function name 
-  if params[:functionName] == "chargeCustomer" && params[:master] == true 
-    # extract the custom parameters sent with the function 
-    custom_params = params[:params] 
+  # Check the function name
+  if params[:functionName] == "chargeCustomer" && params[:master] == true
+    # extract the custom parameters sent with the function
+    custom_params = params[:params]
     user_id = custom_params["userObjectId"]
 
-    # enqueue a resque job to bill the user 
+    # enqueue a resque job to bill the user
     Resque.enqueue(BillingJob, user_id)
 
-    # return a json object of this billing info 
-    return render :json => { :success => "User billed!" } 
+    # return a json object of this billing info
+    return render :json => { :success => "User billed!" }
   end
 
-  return render :json => { :error => "Unknown function"} 
+  return render :json => { :error => "Unknown function"}
 end
 ```
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
 ```json
-// Sent to webhook 
-{ 
-  "master": true, 
-  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
-  "params": { "userObjectId": "6eaI2sTgH6" }, 
-  "functionName": "chargeCustomer" 
+// Sent to webhook
+{
+  "master": true,
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2",
+  "params": { "userObjectId": "6eaI2sTgH6" },
+  "functionName": "chargeCustomer"
 }
 ```
 
 This response would indicate a success in the webhook:
 
 ```json
-// Returned from the webhook on success 
+// Returned from the webhook on success
 { "success": "User billed!" }
 ```
 
@@ -322,35 +322,35 @@ For triggers, the following parameters are sent to your webhook.
 To respond to a `beforeSave` request, send a JSON object with the key `error` or `success` set. This is the same as for Cloud functions, but there's an extra capability with `beforeSave` triggers. By returning an error, you will cancel the save request and the object will not be stored on Parse. You can also return a JSON object in this following format to override the values that will be saved for the object:
 
 ```json
-{ 
-  "className": "AwesomeClass", 
-  "existingColumn": "sneakyChange", 
-  "newColumn": "sneakyAddition" 
+{
+  "className": "AwesomeClass",
+  "existingColumn": "sneakyChange",
+  "newColumn": "sneakyAddition"
 }
 ```
 
 Let's [recreate our trigger](#cloud-code-beforesave-triggers) to truncate movie review comments that are longer than 140 characters.
 
 ```ruby
-# We need to disable CSRF protection for webhooks to work. Instead we 
-# use the webhook key to prove authenticity. 
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity.
 protect_from_forgery :except => :reviews
 
-def reviews 
-  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
-    return render :json => { :error => "Request Unauthorized"} 
+def reviews
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key
+    return render :json => { :error => "Request Unauthorized"}
   end
 
-  review = params[:object] 
-  if params[:triggerName] == "beforeSave" && review["className"] == "Review" 
-    # truncate the object and return the new data 
-    if review["comment"].length > 140 
-      review["comment"] = review["comment"].truncate(140) 
-      return render :json => { :success => review } 
+  review = params[:object]
+  if params[:triggerName] == "beforeSave" && review["className"] == "Review"
+    # truncate the object and return the new data
+    if review["comment"].length > 140
+      review["comment"] = review["comment"].truncate(140)
+      return render :json => { :success => review }
     end
 
-    # if the comment is ok we just return a success 
-    return render :json => { :success => true } 
+    # if the comment is ok we just return a success
+    return render :json => { :success => true }
   end
 
   return render :json => { :error => "Unknown trigger"}
@@ -360,22 +360,22 @@ end
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
 ```json
-// Sent to webhook 
-{ 
-  "master": false, 
-  "user": { 
-    "createdAt": "2015-03-24T20:19:00.542Z", 
-    "objectId": "lValKpphWN", 
-    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
-    "updatedAt": "2015-03-24T20:19:00.542Z", 
-    "username": "Matt" 
-  }, 
-  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
-  "triggerName": "beforeSave", 
-  "object": { 
-    "className": "Comment", 
-    "comment": "A very long comment that will be truncated to be just 140 characters. I sure love using Parse, it's just so easy to get started :)! Hopefully that part doesn't get truncated :/" 
-  } 
+// Sent to webhook
+{
+  "master": false,
+  "user": {
+    "createdAt": "2015-03-24T20:19:00.542Z",
+    "objectId": "lValKpphWN",
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM",
+    "updatedAt": "2015-03-24T20:19:00.542Z",
+    "username": "Matt"
+  },
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2",
+  "triggerName": "beforeSave",
+  "object": {
+    "className": "Comment",
+    "comment": "A very long comment that will be truncated to be just 140 characters. I sure love using Parse, it's just so easy to get started :)! Hopefully that part doesn't get truncated :/"
+  }
 }
 ```
 
@@ -383,11 +383,11 @@ This response would indicate a success in the webhook:
 
 ```
 // Returned from the webhook on success
-{ 
-  "success": { 
-    "className": "Comment", 
+{
+  "success": {
+    "className": "Comment",
     "comment": "A very long comment that will be truncated to be just 140 characters. I sure love using Parse, it's just so easy to get started :)! Hopef..."
-  } 
+  }
 }
 ```
 
@@ -406,23 +406,23 @@ No response is required for `afterSave` triggers.
 Let's take the same example we created in Cloud Code [in the last chapter](#cloud-code-aftersave-triggers); keeping track of the number of comments on a blog post. But instead of storing the number in our Parse database, we'll store the count in a separate data source accessible by our Rails app. This could be useful if you're storing data that will be used to run custom analysics instead of being served to your users through a client.
 
 ```ruby
-# We need to disable CSRF protection for webhooks to work. Instead we 
-# use the webhook key to prove authenticity. 
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity.
 protect_from_forgery :except => :comments
 
-def comments 
-  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
-    return render :nothing => true 
+def comments
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key
+    return render :nothing => true
   end
 
-  comment = params[:object] 
-  if params[:triggerName] == "afterSave" && comment["className"] == "Comment" 
-    post = comment["post"] 
-    @post_model = Post.where("id = #{post["objectId"]}") 
-    @post_model.increment(:comments_count, 1) 
-    @post_model.save! 
-    return render :nothing => true 
-  end 
+  comment = params[:object]
+  if params[:triggerName] == "afterSave" && comment["className"] == "Comment"
+    post = comment["post"]
+    @post_model = Post.where("id = #{post["objectId"]}")
+    @post_model.increment(:comments_count, 1)
+    @post_model.save!
+    return render :nothing => true
+  end
 
   render :nothing => true
 end
@@ -431,29 +431,29 @@ end
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
 ```json
-// Sent to webhook 
-{ 
-  "master": false, 
-  "user": { 
-    "createdAt": "2015-03-24T20:19:00.542Z", 
-    "objectId": "lValKpphWN", 
-    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
-    "updatedAt": "2015-03-24T20:19:00.542Z", 
-    "username": "Matt" 
-  }, 
-  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
-  "triggerName": "afterSave", 
-  "object": { 
-    "objectId": "zPnDyvj0vd", 
-    "className": "Comment", 
-    "createdAt": "2015-03-25T00:00:57.055Z", 
-    "updatedAt": "2015-03-25T00:00:57.055Z", 
-    "post": { 
-      "__type": "Pointer", 
-      "className": "Post", 
-      "objectId": "jsUd72Sd2l" 
-    } 
-  } 
+// Sent to webhook
+{
+  "master": false,
+  "user": {
+    "createdAt": "2015-03-24T20:19:00.542Z",
+    "objectId": "lValKpphWN",
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM",
+    "updatedAt": "2015-03-24T20:19:00.542Z",
+    "username": "Matt"
+  },
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2",
+  "triggerName": "afterSave",
+  "object": {
+    "objectId": "zPnDyvj0vd",
+    "className": "Comment",
+    "createdAt": "2015-03-25T00:00:57.055Z",
+    "updatedAt": "2015-03-25T00:00:57.055Z",
+    "post": {
+      "__type": "Pointer",
+      "className": "Post",
+      "objectId": "jsUd72Sd2l"
+    }
+  }
 }
 ```
 
@@ -472,23 +472,23 @@ Just like for Cloud functions, to respond to a `beforeDelete` request, send a JS
 As an example, let's use this trigger to prohibit a user from deleting or creating a new blog posts if they haven't paid their bill. We'll assume the billing information is currently stored in a SQL database only accessible from our Rails server. We'll use both the `beforeDelete` and the `beforeSave` triggers to disable all modifications to this class.
 
 ```ruby
-# We need to disable CSRF protection for webhooks to work. Instead we 
-# use the webhook key to prove authenticity. 
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity.
 protect_from_forgery :except => :posts
 
-def posts 
-  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
-    return render :json => { :error => "Request Unauthorized"} 
+def posts
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key
+    return render :json => { :error => "Request Unauthorized"}
   end
 
-  post = params[:object] 
-  if (params[:triggerName] == "beforeDelete" || params[:triggerName] == "beforeSave") && post["className"] == "Post" 
-    @user = User.find(post['user']) 
-    if !@user.paid_up 
-      return render :json => { :error => "You have outstanding charges on your account. Please update your credit card information before proceeding." } 
-    end 
+  post = params[:object]
+  if (params[:triggerName] == "beforeDelete" || params[:triggerName] == "beforeSave") && post["className"] == "Post"
+    @user = User.find(post['user'])
+    if !@user.paid_up
+      return render :json => { :error => "You have outstanding charges on your account. Please update your credit card information before proceeding." }
+    end
 
-    return render :json => { :success => true } 
+    return render :json => { :success => true }
   end
   return render :json => { :error => "Unknown trigger"}
 end
@@ -497,31 +497,31 @@ end
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
 ```json
-// Sent to webhook 
-{ 
-  "master": false, 
-  "user": { 
-    "createdAt": "2015-03-24T20:19:00.542Z", 
-    "objectId": "lValKpphWN", 
-    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
-    "updatedAt": "2015-03-24T20:19:00.542Z", 
-    "username": "Matt" 
-  }, 
-  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
-  "triggerName": "beforeDelete", 
-  "object": { 
-    "objectId": "jsUd72Sd2l", 
-    "className": "Post", 
-    "createdAt": "2015-03-25T00:00:57.055Z", 
+// Sent to webhook
+{
+  "master": false,
+  "user": {
+    "createdAt": "2015-03-24T20:19:00.542Z",
+    "objectId": "lValKpphWN",
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM",
+    "updatedAt": "2015-03-24T20:19:00.542Z",
+    "username": "Matt"
+  },
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2",
+  "triggerName": "beforeDelete",
+  "object": {
+    "objectId": "jsUd72Sd2l",
+    "className": "Post",
+    "createdAt": "2015-03-25T00:00:57.055Z",
     "updatedAt": "2015-03-25T00:00:57.055Z"
-  } 
+  }
 }
 ```
 
 This response would indicate a success in the webhook:
 
 ```json
-// Returned from the webhook on success 
+// Returned from the webhook on success
 { "success": true }
 ```
 
@@ -542,21 +542,21 @@ No response is required for `afterDelete` triggers.
 In our [webhooks example for the afterSave](#cloud-code-aftersave-triggers) trigger, we updated a count in our external SQL database to track the number of comments on a post. In this example, let's decrement this count when a comment is deleted.
 
 ```ruby
-# We need to disable CSRF protection for webhooks to work. Instead we 
-# use the webhook key to prove authenticity. 
+# We need to disable CSRF protection for webhooks to work. Instead we
+# use the webhook key to prove authenticity.
 protect_from_forgery :except => :comments
 
-def comments 
-  if request.headers['X-Parse-Webhook-Key'] != @webhook_key 
-    return render :nothing => true 
+def comments
+  if request.headers['X-Parse-Webhook-Key'] != @webhook_key
+    return render :nothing => true
   end
 
-  comment = params[:object] 
-  if params[:triggerName] == "afterDelete" && comment["className"] == "Comment" 
-    @post_model = Post.where("id = #{comment['post']}") 
-    @post_model.decrement(:comments_count, 1) 
-    @post_model.save! 
-    return render :nothing => true 
+  comment = params[:object]
+  if params[:triggerName] == "afterDelete" && comment["className"] == "Comment"
+    @post_model = Post.where("id = #{comment['post']}")
+    @post_model.decrement(:comments_count, 1)
+    @post_model.save!
+    return render :nothing => true
   end
 
   render :nothing => true
@@ -566,29 +566,29 @@ end
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
 ```json
-// Sent to webhook 
-{ 
-  "master": false, 
-  "user": { 
-    "createdAt": "2015-03-24T20:19:00.542Z", 
-    "objectId": "lValKpphWN", 
-    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM", 
-    "updatedAt": "2015-03-24T20:19:00.542Z", 
-    "username": "Matt" 
-  }, 
-  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2", 
-  "triggerName": "afterDelete", 
-  "object": { 
-    "objectId": "zPnDyvj0vd", 
-    "className": "Comment", 
-    "createdAt": "2015-03-25T00:00:57.055Z", 
-    "updatedAt": "2015-03-25T00:00:57.055Z", 
+// Sent to webhook
+{
+  "master": false,
+  "user": {
+    "createdAt": "2015-03-24T20:19:00.542Z",
+    "objectId": "lValKpphWN",
+    "sessionToken": "orU3ClA7sqMIN8g4KtmLe7eDM",
+    "updatedAt": "2015-03-24T20:19:00.542Z",
+    "username": "Matt"
+  },
+  "installationId": "b3ab24c6-2282-69fa-eeea-c1b36ea497c2",
+  "triggerName": "afterDelete",
+  "object": {
+    "objectId": "zPnDyvj0vd",
+    "className": "Comment",
+    "createdAt": "2015-03-25T00:00:57.055Z",
+    "updatedAt": "2015-03-25T00:00:57.055Z",
     "post": {
-      "__type": "Pointer", 
-      "className": "Post", 
-      "objectId": "jsUd72Sd2l" 
-    } 
-  } 
+      "__type": "Pointer",
+      "className": "Post",
+      "objectId": "jsUd72Sd2l"
+    }
+  }
 }
 ```
 
