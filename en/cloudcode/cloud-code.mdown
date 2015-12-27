@@ -193,7 +193,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
     // Truncate and add a ...
     request.object.set("comment", comment.substring(0, 137) + "...");
   }
-  response.success();
+  response.success(request.object);
 });
 ```
 
