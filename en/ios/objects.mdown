@@ -573,7 +573,7 @@ shield.fireProof = false
 shield.rupees = 50
 ```
 
-## Subclassing PFObject
+### Subclassing PFObject
 
 To create a `%{ParseObject}` subclass:
 
@@ -633,7 +633,7 @@ class Armor : PFObject, PFSubclassing {
 }
 ```
 
-## Properties & Methods
+### Properties & Methods
 
 Adding custom properties and methods to your `%{ParseObject}` subclass helps encapsulate logic about the class. With `PFSubclassing`, you can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
 
@@ -703,6 +703,8 @@ func iconView() -> UIImageView {
 }
 ```
 
-## Initializing Subclasses
+### Initializing Subclasses
 
 You should create new objects with the `object` class method. This constructs an autoreleased instance of your type and correctly handles further subclassing. To create a reference to an existing object, use `objectWithoutDataWithObjectId:`.
+
+
