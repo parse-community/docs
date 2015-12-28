@@ -99,9 +99,7 @@ $ parse deploy
 
 Cloud Code와 Express를 사용하여 여러 페이지의 동적 웹 앱을 빌드할 수 있습니다. [Express](http://expressjs.com/) 프레임워크로 요청 라우팅과 쿠키 처리, 템플릿 렌더링 등 많은 강력한 툴을 언제든지 사용할 수 있습니다. 또한 [Cloud Code](/docs/cloud_code_guide)를 통해 Parse 데이터와 상호 작용하고 [HTTP 요청을 전송](/docs/cloud_code_guide#networking)하는 등의 기능을 사용할 수 있습니다.
 
-Parse를 사용하면 Express로 여러 페이지로 구성된 웹 앱을 빌드하거나 클라이언트에서 Parse JavaScript SDK로 싱글 페이지의 Backbone 앱을 빌드할 수 있습니다.  Express 방식에는 검색 엔진이 웹사이트를 크롤링할 수 있다는 이점이 있는 반면 클라이언트 측 Backbone 방식은 더욱 빠르게 반응하는 앱을 만들 수 있습니다.  Express와 Cloud Code에 대한 자세한 내용은 [Express API 문서](/docs/js/api/symbols/express.html)를 참조하세요.
-
-Express를 사용하여 앱을 빠르게 구축하고 실행할 수 있지만 낮은 수준의 [Node.js](http://nodejs.org/)와 같은 HTTP 인터페이스를 사용하려는 경우에도 지원됩니다.  자세한 내용은 [HTTP 인터페이스 API 문서](/docs/js/api/symbols/http.html)를 참조하세요. Express를 선택하든 Node.js를 선택하든 관계없이 먼저 `public/index.html`을 삭제해야 사용자 지정 핸들러 함수에 요청이 전달될 수 있습니다.
+Express를 사용하여 앱을 빠르게 구축하고 실행할 수 있지만 낮은 수준의 [Node.js](http://nodejs.org/)와 같은 HTTP 인터페이스를 사용하려는 경우에도 지원됩니다.  자세한 내용은 [HTTP 인터페이스 API 문서](https://parse.com/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest)를 참조하세요. Express를 선택하든 Node.js를 선택하든 관계없이 먼저 `public/index.html`을 삭제해야 사용자 지정 핸들러 함수에 요청이 전달될 수 있습니다.
 
 이 가이드에서는 Express API를 사용한 웹 앱 빌드에 초점을 맞춥니다.
 
@@ -182,18 +180,18 @@ app.post('/echo', function(req, res) {
 
 미들웨어는 요청이 요청 핸들러에 도달하기 전에 처리하는 모듈입니다.  이 요소는 원본 HTTP 요청을 요청 핸들러에서 손쉽게 처리할 수 있는 요청 개체로 변환합니다. Cloud Code는 Express에서 제공하는 다음 미들웨어를 지원합니다.
 
-*   [`express.basicAuth()`](/docs/js/api/symbols/express.html#.basicAuth) - 웹사이트의 HTTP 기본 인증을 설정합니다.
-*   [`express.bodyParser()`](/docs/js/api/symbols/express.html#.bodyParser) - HTTP 요청 본문(JSON 또는 www 형식 인코딩)을 `request.body` 개체로 변환합니다.
-*   [`express.methodOverride()`](/docs/js/api/symbols/express.html#.methodOverride) - 표준 웹 양식은 HTTP POST만 지원합니다.  이 미들웨어를 통해 웹 양식에서 put/delete HTTP 요청을 Express로 보낼 수 있습니다.  REST-ful 원칙을 엄격하게 따르려는 경우 특히 유용합니다.
-*   [`express.cookieParser()`](/docs/js/api/symbols/express.html#.cookieParser) - 브라우저에서 보낸 요청 쿠키를 읽고 이를 `request.cookies` 및 `express.request.signedCookies` 개체에 넣습니다.
-*   [`express.cookieSession()`](/docs/js/api/symbols/express.html#.cookieSession) - `request.session` 개체를 설정하여 서명된 쿠키에 세션 데이터를 저장할 수 있습니다.
-*   [`express.csrf()`](/docs/js/api/symbols/express.html#.csrf) - 사이트 간 요청 위조를 방지합니다.
+*   [`express.basicAuth()`](http://expressjs.com/en/3x/api.html#basicAuth) - 웹사이트의 HTTP 기본 인증을 설정합니다.
+*   [`express.bodyParser()`](http://expressjs.com/en/3x/api.html#bodyParser) - HTTP 요청 본문(JSON 또는 www 형식 인코딩)을 `request.body` 개체로 변환합니다.
+*   [`express.methodOverride()`](http://expressjs.com/en/3x/api.html#methodOverride) - 표준 웹 양식은 HTTP POST만 지원합니다.  이 미들웨어를 통해 웹 양식에서 put/delete HTTP 요청을 Express로 보낼 수 있습니다.  REST-ful 원칙을 엄격하게 따르려는 경우 특히 유용합니다.
+*   [`express.cookieParser()`](http://expressjs.com/en/3x/api.html#cookieParser) - 브라우저에서 보낸 요청 쿠키를 읽고 이를 `request.cookies` 및 `express.request.signedCookies` 개체에 넣습니다.
+*   [`express.cookieSession()`](http://expressjs.com/en/3x/api.html#cookieSession) - `request.session` 개체를 설정하여 서명된 쿠키에 세션 데이터를 저장할 수 있습니다.
+*   [`express.csrf()`](http://expressjs.com/en/3x/api.html#csrf) - 사이트 간 요청 위조를 방지합니다.
 
 또한 다음과 같은 사용자 지정 미들웨어가 제공됩니다.
 
-*   [`parseExpressRawBody()`](/docs/js/api/symbols/parseExpressRawBody.html) - `req.body`에서 [`Buffer`](/docs/js/api/symbols/Buffer.html) 개체로 원본 요청 본문에 액세스할 수 있습니다.  요청에 있는 바이트에 직접 액세스하려는 경우나 요청 핸들러에서 자체 파서를 사용하여 요청 본문을 다른 데이터 형식(예: XML)으로 읽으려는 경우에 유용합니다.
+*   [`parseExpressRawBody()`](#cloud-code-modules-parseExpressRawBody) - `req.body`에서 [`Buffer`](#cloud-code-modules-buffer) 개체로 원본 요청 본문에 액세스할 수 있습니다.  요청에 있는 바이트에 직접 액세스하려는 경우나 요청 핸들러에서 자체 파서를 사용하여 요청 본문을 다른 데이터 형식(예: XML)으로 읽으려는 경우에 유용합니다.
 
-[`app.use()`](/docs/js/api/symbols/express.Application.html#use) 함수로 앱에 미들웨어를 추가할 수 있습니다.  표준 Express 미들웨어는 함수이므로 그에 따라 호출해야 합니다(예: `app.use(express.csrf()`). `app.VERB()` 함수로 요청 핸들러를 등록하기 전에 앱의 미들웨어를 추가해야 합니다.
+[`app.use()`](http://expressjs.com/en/3x/api.html#app.use) 함수로 앱에 미들웨어를 추가할 수 있습니다.  표준 Express 미들웨어는 함수이므로 그에 따라 호출해야 합니다(예: `app.use(express.csrf()`). `app.VERB()` 함수로 요청 핸들러를 등록하기 전에 앱의 미들웨어를 추가해야 합니다.
 
 global app configuration section에 Express 미들웨어를 설정할 때는 위의 순서를 따르세요.  필요하지 않은 미들웨어는 빼도 됩니다.  이후에 설정되는 미들웨어가 이전 미들웨어에서 생성한 데이터에 의존할 수 있으므로 순서가 중요합니다.
 
@@ -294,7 +292,7 @@ app.post('/hello', function(req, res) {
 
 웹 양식을 사용하여 사용자의 로그인 정보를 요청하고 이 양식으로부터 데이터를 받으면 Cloud Code에서 사용자에 로그인할 수 있습니다.  `Parse.User.logIn()`을 호출하면 미들웨어가 자동으로 사용자 브라우저에 쿠키를 설정합니다.  같은 브라우저에서 후속 HTTP 요청이 이루어지는 동안 이 미들웨어가 이 쿠키를 사용하여 Cloud Code에 자동으로 [현재 사용자](/docs/js_guide#users-current)를 설정합니다. 이를 통해 Cloud Code에서 [ACL](/docs/js_guide#users-acls)이 올바로 작동하고 필요한 경우 전체 현재 사용자 개체를 검색할 수 있도록 합니다.  마지막으로 `Parse.User.logOut()`을 호출하여 Cloud Code에서 사용자를 로그아웃하면 미들웨어가 자동으로 브라우저 쿠키를 삭제합니다.  샘플 앱 코드에 대한 자세한 내용은 이 미들웨어의 [설명서](/docs/js/api/symbols/parseExpressCookieSession.html)를 참조하세요.
 
-사용자 데이터로 작업할 때는 가능한 경우 HTTPS를 사용해야 합니다.  앱과 사용자를 보호하기 위해 `parseExpressCookieSession` 미들웨어를 사용하려면 HTTPS를 사용해야 합니다.  편의를 위해 모든 HTTP 요청을 HTTPS로 리디렉션하기 위한 `parseExpressHttpsRedirect` 미들웨어를 제공합니다.  자세한 내용은 [설명서](/docs/js/api/symbols/parseExpressHttpsRedirect.html)를 참조하세요.
+사용자 데이터로 작업할 때는 가능한 경우 HTTPS를 사용해야 합니다.  앱과 사용자를 보호하기 위해 `parseExpressCookieSession` 미들웨어를 사용하려면 HTTPS를 사용해야 합니다.  편의를 위해 모든 HTTP 요청을 HTTPS로 리디렉션하기 위한 `parseExpressHttpsRedirect` 미들웨어를 제공합니다.  자세한 내용은 [설명서](#cloud-code-modules-parseExpressHttpsRedirect)를 참조하세요.
 
 ### 정적 콘텐츠
 
