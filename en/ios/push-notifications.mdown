@@ -23,7 +23,7 @@ UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTy
 [application registerForRemoteNotifications];
 ```
 ```swift
-let userNotificationTypes = (UIUserNotificationType.Alert |  UIUserNotificationType.Badge |  UIUserNotificationType.Sound);
+let userNotificationTypes: UIUserNotificationType = [.Alert, .Badge, .Sound]
 
 let settings = UIUserNotificationSettings(forTypes: userNotificationTypes, categories: nil)
 application.registerUserNotificationSettings(settings)
