@@ -99,7 +99,7 @@ PFInstallation *currentInstallation = [PFInstallation currentInstallation];
 ```swift
 // When users indicate they are Giants fans, we subscribe them to that channel.
 let currentInstallation = PFInstallation.currentInstallation()
-currentInstallation.addUniqueObject("Giants" forKey: "channels")
+currentInstallation.addUniqueObject("Giants", forKey: "channels")
 currentInstallation.saveInBackground()
 ```
 
@@ -118,7 +118,7 @@ PFInstallation *currentInstallation = [PFInstallation currentInstallation];
 ```swift
 // When users indicate they are Giants fans, we subscribe them to that channel.
 let currentInstallation = PFInstallation.currentInstallation()
-currentInstallation.removeObject("Giants" forKey: "channels")
+currentInstallation.removeObject("Giants", forKey: "channels")
 currentInstallation.saveInBackground()
 ```
 
