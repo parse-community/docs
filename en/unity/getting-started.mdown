@@ -6,7 +6,8 @@ If you're familiar with web frameworks like ASP.NET MVC we've taken many of the 
 
 If you haven't installed the SDK yet, please [head over to the QuickStart guide](/apps/quickstart#parse_data/unity/new) to get our SDK up and running in Unity3D. Note that our SDK requires Unity version 5.2.x or higher and targets Android apps and iOS apps. You can also check out our [API Reference](/docs/dotnet/api) for more detailed information about our SDK.
 
-Parse's Unity SDK makes heavy use of a subset of the [Task-based Asynchronous Pattern](http://msdn.microsoft.com/en-us/library/hh873175.aspx) so that your apps remain responsive. For more information, please see the section on Tasks [below.](#tasks)
+Parse's Unity SDK makes heavy use of a subset of the [Task-based Asynchronous Pattern](http://msdn.microsoft.com/en-us/library/hh873175.aspx) so that your apps remain responsive.
+
 
 ## Adding `link.xml`
 
