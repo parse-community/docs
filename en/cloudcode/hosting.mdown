@@ -59,7 +59,7 @@ To use this service, complete the steps above using a www-prefixed domain like `
 
 ### HTTPS
 
-If you visit your hosted site over HTTPS using your custom domain, you might see a warning that the website is serving content using an SSL certificate belonging to `*.parseapp.com`. If you have a SSL certificate belonging to your custom domain, you can fix these warnings by uploading the public certificate file and the private key file on the "Web Hosting" section in your app's settings. If your domain's public certificate requires intermediate certificates, then you should append your public certificate, intermediate certificates, and the root certificate into a single file (in that order), and upload it as the "SSL Public Certificate" in your app settings.In 10-30 minutes, your certificate will be propagated to the Parse hosting servers and served  to users who visit your hosted site over HTTPS.
+If you visit your hosted site over HTTPS using your custom domain, you might see a warning that the website is serving content using an SSL certificate belonging to `*.parseapp.com`. If you have a SSL certificate belonging to your custom domain, you can fix these warnings by uploading the public certificate file and the private key file on the "Web Hosting" section in your app's settings. If your domain's public certificate requires intermediate certificates, then you should append your public certificate, intermediate certificates, and the root certificate into a single file (in that order), and upload it as the "SSL Public Certificate" in your app settings. In 10-30 minutes, your certificate will be propagated to the Parse hosting servers and served to users who visit your hosted site over HTTPS.
 
 ## Dynamic Websites
 
