@@ -64,7 +64,7 @@ If you visit your hosted site over HTTPS using your custom domain, you might see
 ## Dynamic Websites
 
 <div class='tip info'><div>
-  The version of Express used by Parse Cloud Code, [Express 3](http://expressjs.com/en/3x/api.html), is no longer maintained. If you're building a new dynamic website on Parse, we recommend [using Webhooks to connect your Parse app to a Node.js server hosted on Heroku running Express 4.x or newer](http://blog.parse.com/announcements/introducing-heroku-parse/).
+  The version of Express used by Parse Cloud Code, [Express 3](http://expressjs.com/en/3x/api.html), is no longer maintained. If you're building a new dynamic website on Parse, we recommend using Webhooks to connect your Parse app to a [Node server hosted on Heroku](http://blog.parse.com/announcements/introducing-heroku-parse/).
 </div></div>
 
 You can use Cloud Code and Express to build multi-page dynamic web apps. With the [Express](http://expressjs.com/) framework, you have many powerful tools at your fingertips, such as request routing, cookie handling, and template rendering. With [Cloud Code](#cloud-code), you have access to functionality such as interacting with Parse data and [sending HTTP requests](#cloud-code-advanced-networking).
