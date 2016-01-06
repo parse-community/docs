@@ -610,7 +610,7 @@ If your app is already running when the notification is received, the data is ma
       [self.navController pushViewController:viewController animated:YES];
       handler(UIBackgroundFetchResultNewData);
     } else {
-      handler(UIBackgroundModeNoData);
+      handler(UIBackgroundFetchResultNoData);
     }
   }];
 }
