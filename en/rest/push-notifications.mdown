@@ -938,4 +938,4 @@ The scheduled time cannot be in the past, and can be up to two weeks in the futu
 
 The `push_time` parameter can schedule a push to be delivered to each device according to its time zone. This technique delivers a push to all `Installation` objects with a `timeZone` member when that time zone would match the push time. For example, if an app had a device in timezone `America/New_York` and another in `America/Los_Angeles`, the first would receive the push three hours before the latter.
 
-To schedule a push according to each device's local time, the `timeZone` parameter should be an ISO 8601 date without a time zone, i.e. `2015-03-19T12:00:00`. Note that Installations without a `timeZone` will be excluded from this localized push.
+To schedule a push according to each device's local time, the `push_time` parameter should be an ISO 8601 date without a time zone, i.e. `2015-03-19T12:00:00`. Note that Installations without a `timeZone` will be excluded from this localized push.
