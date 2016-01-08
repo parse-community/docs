@@ -82,7 +82,7 @@ del.send();
 
 ## Data Types
 
-So far we've used values with type`String,` double, and`bool`. The Parse Arduino SDK also supports Geopoints (latitude and longitude). In addition, you can set values on objects via JSON and be able to represent Arrays, Objects, Dates, Binary Data and more. Read more about representing these types as JSON in the [REST API](/docs/rest#objects-types).
+So far we've used values with type`String,` double, and`bool`. The Parse Arduino SDK also supports Geopoints (latitude and longitude). In addition, you can set values on objects via JSON and be able to represent Arrays, Objects, Dates, Binary Data and more. Read more about representing these types as JSON in the [REST API guide](/docs/rest#objects-types).
 
 Some examples:
 
@@ -99,4 +99,20 @@ create.send();
 
 We do not recommend storing large pieces of binary data like images or documents in a Parse Object. Parse Objects should not exceed 128 kilobytes in size. To store more, we recommend you use Parse Files. See the [Files section in the REST documentation](/docs/rest#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data](#data).
+
+The framework can also handle `Date` and `File` types. Overall, the following types are allowed for each field in your object:
+
+* String
+* Number
+* Boolean
+* Array
+* Object
+* Date
+* `%{ParseFile}`
+* `%{ParseObject}`
+* `%{ParseRelation}`
+* Null
+
+The type `Object` simply denotes that each value can be composed of nested objects that are JSON-encodable. Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself.
+
+We do not recommend storing large pieces of binary data like images or documents in a `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `File`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field.

@@ -394,28 +394,43 @@ For more details on `Parse.Query`, please look at the query portion of this guid
 
 So far we've used values with type `String`, `Number`, and `Parse.Object`. Parse also supports JavaScript `Date`s and `null`.
 
-You can nest JavaScript `Object`s and JavaScript `Array`s to store more structured data within a single `Parse.Object`.
+You can nest JavaScript `Object`s and JavaScript `Array`s to store more structured data within a single `Parse.Object`. Overall, the following types are allowed for each field in your object:
+
+* String
+* Number
+* Boolean
+* JavaScript Array
+* JavaScript Object
+* Date
+* `%{ParseFile}`
+* `%{ParseObject}`
+* `%{ParseRelation}`
+* Null
 
 Some examples:
 
 ```js
 var number = 42;
+var bool = false;
 var string = "the number is " + number;
 var date = new Date();
 var array = [string, number];
 var object = { number: number, string: string };
+var pointer = MyClassName.createWithoutData(objectId);
 
 var BigObject = Parse.Object.extend("BigObject");
 var bigObject = new BigObject();
 bigObject.set("myNumber", number);
+bigObject.set("myBool", bool);
 bigObject.set("myString", string);
 bigObject.set("myDate", date);
 bigObject.set("myArray", array);
 bigObject.set("myObject", object);
-bigObject.set("myNull", null);
+bigObject.set("anyKey", null); // this value can only be saved to an existing key
+bigObject.set("myPointerKey", pointer); // shows up as Pointer <MyClassName> in the Data Browser
 bigObject.save();
 ```
 
-`Parse.Object`s should not exceed 128 kilobytes in size. To store more, we recommend you use `Parse.File`. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `Parse.Object`. `Parse.Object`s should not exceed 128 kilobytes in size. To store more, we recommend you use `Parse.File`. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).

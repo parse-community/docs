@@ -255,7 +255,18 @@ For more details on `ParseQuery`, please look at the query portion of this guide
 
 So far we've used values with type `String`, `Number`, and `ParseObject`. Parse also supports PHP `DateTime`s and `null`.
 
-You can nest PHP arrays and associative arrays (JSON Objects) to store more structured data within a single `ParseObject`.
+You can nest PHP arrays and associative arrays (JSON Objects) to store more structured data within a single `ParseObject`. Overall, the following types are allowed for each field in your object:
+
+* String
+* Number
+* Boolean
+* PHP arrays
+* Associative arrays
+* DateTime
+* Parse.File
+* ParseObject
+* ParseRelation
+* Null
 
 Some examples:
 
@@ -272,11 +283,11 @@ $bigObject->set("myString", $string);
 $bigObject->set("myDate", $date);
 $bigObject->setArray("myArray", $array);
 $bigObject->setAssociativeArray("myObject", $object);
-$bigObject->set("myNull", null);
+$bigObject->set("anyKey", null); // this value can only be saved to an existing key
 $bigObject->save();
 ```
 
-`ParseObject`s should not exceed 128 kilobytes in size. To store more, we recommend you use `Parse.File`. See [Files](#files) for more details.
+`ParseObject`s should not exceed 128 kilobytes in size. To store binary data, we recommend you use `Parse.File`. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
