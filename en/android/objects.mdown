@@ -313,7 +313,18 @@ ParseQuery<ParseObject> query = relation.getQuery();
 
 So far we've used values with type `String`, `int`, `bool`, and `ParseObject`. Parse also supports `java.util.Date`, and `JSONObject.NULL`.
 
-You can nest `JSONObject` and `JSONArray` objects to store more structured data within a single `ParseObject`.
+You can nest `JSONObject` and `JSONArray` objects to store more structured data within a single `ParseObject`. Overall, the following types are allowed for each field in your object:
+
+* String
+* Number
+* Bool
+* JSON Array
+* JSON Object
+* Date
+* ParseFile
+* ParseObject
+* ParseRelation
+* Null
 
 Some examples:
 
@@ -340,7 +351,7 @@ bigObject.put("myNull", JSONObject.NULL);
 bigObject.saveInBackground();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObjects`s should not exceed 128 kilobytes in size. To store more, we recommend you use `ParseFile`. See the [guide section](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. `ParseObjects`s should not exceed 128 kilobytes in size. To store more, we recommend you use `ParseFile`. See the [guide section](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 

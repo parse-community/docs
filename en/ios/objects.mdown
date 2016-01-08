@@ -492,14 +492,26 @@ For more details on `PFQuery` please look at the query portion of this guide.  A
 
 ## Data Types
 
-So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, and `NSNull`.
+So far we've used values with type `NSString`, `NSNumber`, and `%{ParseObject}`. Parse also supports `NSDate`, `NSDictionary`, `NSArray`, and `NSNull`.
 
-You can nest `NSDictionary` and `NSArray` objects to store more structured data within a single `%{ParseObject}`.
+You can nest `NSDictionary` and `NSArray` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
+
+* String
+* Number
+* Boolean
+* Array
+* Object
+* Date
+* `%{ParseFile}`
+* `%{ParseObject}`
+* `%{ParseRelation}`
+* Null
 
 Some examples:
 
 ```objc
 NSNumber *number = @42;
+NSNumber *bool = @NO;
 NSString *string = [NSString stringWithFormat:@"the number is %@", number];
 NSDate *date = [NSDate date];
 NSArray *array = @[string, number];
@@ -509,16 +521,18 @@ PFObject *pointer = [PFObject objectWithoutDataWithClassName:@"MyClassName" obje
 
 PFObject *bigObject = [PFObject objectWithClassName:@"BigObject"];
 bigObject[@"myNumberKey"] = number;
+bigObject[@"myBoolKey"] = bool;
 bigObject[@"myStringKey"] = string;
 bigObject[@"myDateKey"] = date;
 bigObject[@"myArrayKey"] = array;
 bigObject[@"myObjectKey"] = dictionary; // shows up as 'object' in the Data Browser
-bigObject[@"myNullKey"] = null;
+bigObject[@"anyKey"] = null; // this value can only be saved to an existing key
 bigObject[@"myPointerKey"] = pointer; // shows up as Pointer <MyClassName> in the Data Browser
 [bigObject saveInBackground];
 ```
 ```swift
 let number = 42
+let bool = false
 let string = "the number is \(number)"
 let date = NSDate()
 let array = [string, number]
@@ -528,16 +542,17 @@ let pointer = PFObject(objectWithoutDataWithClassName:"MyClassName", objectId: "
 
 var bigObject = PFObject(className:"BigObject")
 bigObject["myNumberKey"] = number
+bigObject["myBooleanKey"] = bool
 bigObject["myStringKey"] = string
 bigObject["myDateKey"] = date
 bigObject["myArrayKey"] = array
 bigObject["myObjectKey"] = dictionary // shows up as 'object' in the Data Browser
-bigObject["myNullKey"] = null
+bigObject["anyKey"] = null // this value can only be saved to an existing key
 bigObject["myPointerKey"] = pointer // shows up as Pointer <MyClassName> in the Data Browser
 bigObject.saveInBackground()
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `NSData` fields on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. To store more, we recommend you use `%{ParseFile}`. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. To store more, we recommend you use `%{ParseFile}`. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our [Data](#data) documentation.
 
@@ -706,5 +721,3 @@ func iconView() -> UIImageView {
 ### Initializing Subclasses
 
 You should create new objects with the `object` class method. This constructs an autoreleased instance of your type and correctly handles further subclassing. To create a reference to an existing object, use `objectWithoutDataWithObjectId:`.
-
-

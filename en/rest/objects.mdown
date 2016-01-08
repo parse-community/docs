@@ -89,7 +89,7 @@ Location: https://api.parse.com/1/classes/GameScore/Ed1nuqPvcm
 ```
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created object:
-  
+
 ```json
 {
   "createdAt": "2011-08-20T02:06:57.931Z",
@@ -552,7 +552,18 @@ Note that N requests sent in a batch will still count toward your request limit 
 
 ## Data Types
 
-So far we have only used values that can be encoded with standard JSON. The Parse mobile client libraries also support dates, binary data, and relational data. In the REST API, these values are encoded as JSON hashes with the `__type` field set to indicate their type, so you can read or write these fields if you use the correct encoding.
+So far we have only used values that can be encoded with standard JSON. The Parse mobile client libraries also support dates, geolocations, and relational data. In the REST API, these values are encoded as JSON hashes with the `__type` field set to indicate their type, so you can read or write these fields if you use the correct encoding. Overall, the following types are allowed for each field in your object:
+
+* String
+* Number
+* Boolean
+* Arrays
+* JSON Objects
+* DateTime
+* File
+* Pointer to another Parse Object
+* Relation to another Parse Class
+* Null
 
 The `Date` type contains a field `iso` which contains a UTC timestamp stored in ISO 8601 format with millisecond precision: `YYYY-MM-DDTHH:MM:SS.MMMZ`.
 
@@ -593,16 +604,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The `Bytes` type contains a field `base64` which contains a base64 encoding of binary data. The specific base64 encoding is the one used by MIME, and does not contain whitespace.
-
-```json
-{
-  "__type": "Bytes",
-  "base64": "VGhpcyBpcyBhbiBlbmNvZGVkIHN0cmluZw=="
-}
-```
-
-The `Pointer` type is used when mobile code sets a `%{ParseObject}` or `ParseObject` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
+The `Pointer` type is used when mobile code sets a `ParseObject` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
 
 ```json
 {
@@ -612,7 +614,7 @@ The `Pointer` type is used when mobile code sets a `%{ParseObject}` or `ParseObj
 }
 ```
 
-Pointers to user objects have a `className` of `_User`. Prefixing with an underscore is forbidden for developer-defined classes and signifies the class is a special built-in.
+Note that the bult-in User, Role, and Installation classes are prefixed by an underscore. For example, pointers to user objects have a `className` of `_User`. Prefixing with an underscore is forbidden for developer-defined classes and signifies the class is a special built-in.
 
 The `Relation` type is used for many-to-many relations when the mobile uses `PFRelation` or `ParseRelation` as a value.  It has a `className` that is the class name of the target objects.
 
@@ -625,4 +627,13 @@ The `Relation` type is used for many-to-many relations when the mobile uses `PFR
 
 When querying, `Relation` objects behave like arrays of Pointers. Any operation that is valid for arrays of pointers (other than `include`) works for `Relation` objects.
 
-When more data types are added, they will also be represented as hashes with a `__type` field set, so you may not use this field yourself on JSON objects.
+We do not recommend storing large pieces of binary data like images or documents on a Parse object. Parse objects should not exceed 128 kilobytes in size. To store more, we recommend you use `File`. You may associate a [previously uploaded file](#files) using the `File` type.
+
+```json
+{
+  "__type": "File",
+  "name": "...profile.png"
+}
+```
+
+When more data types are added, they will also be represented as hashes with a `__type` field set, so you may not use this field yourself on JSON objects. For more information about how Parse handles data, check out our documentation on [Data](#data).

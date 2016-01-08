@@ -1,0 +1,7 @@
+# Objects
+
+## Data Types
+
+Storing data through the Parse REST API is built around a JSON encoding of the object's data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each object. You simply set whatever key-value pairs you want, and the backend will store it.
+
+Visit the [REST API Guide](/docs/rest#objects-data-types) to learn more.
