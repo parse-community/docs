@@ -35,8 +35,8 @@ In Mac OS X and Linux/Unix environments, you can get the parse command line tool
 curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
 ```
 
-This installs a tool named "parse" to `/usr/local/bin/parse`. 
-There's no other junk, so to uninstall, just delete that file. 
+This installs a tool named "parse" to `/usr/local/bin/parse`.
+There's no other junk, so to uninstall, just delete that file.
 This will also update your command line tool if you already have it installed.
 
 ### Windows
@@ -47,7 +47,7 @@ Download the Windows executable named: `parse.exe` at this link. Note that this 
 ## Creating a Parse app backed by Heroku
 
 You can create a new Parse app using `parse new`.
-It asks you a series of questions and at the end of it, you will have a new Parse app (with the given name), linked to a Heroku app 
+It asks you a series of questions and at the end of it, you will have a new Parse app (with the given name), linked to a Heroku app
 where your server code will be run.
 You can test that everything works by performing `parse deploy` and executing the curl command printed at the end of output.
 
@@ -169,7 +169,7 @@ myapp
 ```
 
 `.parse.local` and `.parse.project` are config files that store application info, and project level info, respectively.
-The `cloud` directory stores your server code, 
+The `cloud` directory stores your server code,
 and the `public` directory stores any static content that you want to host on Heroku.
 In the `cloud` directory, you'll typically just be editing `main.js`, which stores all the server side logic for your app.
 
@@ -177,7 +177,7 @@ For now, just check that these files were created successfully.
 If you're using source control, you can check all of these files in.
 
 We recommend using source control to check in all of these files.
-If you're not already set up with source control, try this 
+If you're not already set up with source control, try this
 [tutorial from GitHub](https://guides.github.com/introduction/getting-your-project-on-github/).
 
 The same code can be deployed to multiple different applications.
@@ -264,15 +264,16 @@ Parse.Cloud.define("hello", function(request, response) {
 });
 ```
 
-To deploy the code from your machine to the Parse Cloud, run:
+To deploy the code from your machine to the Parse Cloud, run this from the command line:
 
 ```bash
 $ parse deploy
 ```
 
-To run this function once it's deployed, run:
+Once deployed, this function can be called from any of the SDKs or the command line like so:
 
-```common-java
+```java
+// Android SDK
 ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new FunctionCallback<String>() {
   void done(String result, ParseException e) {
     if (e == null) {
@@ -281,7 +282,8 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
   }
 });
 ```
-```common-objc
+```objc
+// iOS, OS X, tvOS, watchOS SDK: Objective-C
 [PFCloud callFunctionInBackground:@"hello"
                    withParameters:@{}
                             block:^(NSString *result, NSError *error) {
@@ -290,22 +292,26 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
    }
 }];
 ```
-```common-swift
+```swift
+// iOS, OS X, tvOS, watchOS SDK: Swift
 PFCloud.callFunctionInBackground("hello", withParameters: nil) {
   (response: AnyObject?, error: NSError?) -> Void in
   let responseString = response as? String
 }
 ```
-```common-php
+```php
+// PHP SDK
 $result = ParseCloud::run("hello", []);
 ```
-```common-csharp
+```csharp
+// .NET SDK
 ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
   var result = t.Result;
 // result is "Hello world!"
 });
 ```
-```common-js
+```js
+// JavaScript SDK
 Parse.Cloud.run('hello', {}, {
   success: function(result) {
     // result is 'Hello world!'
@@ -315,6 +321,7 @@ Parse.Cloud.run('hello', {}, {
 });
 ```
 ```bash
+// REST API, command line
 curl -X POST \
  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -346,7 +353,7 @@ If you run an HTTP server on your local machine listening on port 5000, you can 
 It is also possible to debug your server code while it runs.
 
 Once you’ve got ngrok running, you can now configure your webhooks with Parse.
-This can be done from the dashboard, or through the Hooks API. 
+This can be done from the dashboard, or through the Hooks API.
 
 Further, you can use the `parse configure hooks` command to configure webhooks for your Parse app very easily.
 All you have to do is write a json file with the following rules:
@@ -366,7 +373,7 @@ OPERATION ->
 {"op": "delete", "trigger": {"className": "cname", "triggerName": "tname"}}
 ```
 
-Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an `op` like: `put`, `post`, `delete`; on 
+Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an `op` like: `put`, `post`, `delete`; on
 a function or trigger webhook.
 
 NOTE: For node.js, when using [Parse middleware](https://github.com/ParsePlatform/CloudCode-Express), you can just run `node scripts/record-webhooks.js`
@@ -428,7 +435,7 @@ Default app set to MyApp.
 $ parse default
 Current default app is MyApp.
 ```
-	
+
 ## Rolling Back
 
 You can roll back a release using `parse rollback`.
@@ -446,7 +453,7 @@ You can also specify the release name to roll back to by using the `-r` or `--re
 ## Reading the Logs
 
 Every deploy, rollback, and activation of server code is logged.
-You can retrieve the end of logs using the `parse logs` command. 
+You can retrieve the end of logs using the `parse logs` command.
 
 *   -t, --tail=false: Emulates tail -f and streams new messages from the server
 *   -n, --num=50: The number of the messages to display
@@ -471,7 +478,7 @@ $ parse logs
 
 ## Listing Releases
 
-You can list the known set of releases on the linked Heroku app with the `releases` command. 
+You can list the known set of releases on the linked Heroku app with the `releases` command.
 
 ```bash
 $ parse releases

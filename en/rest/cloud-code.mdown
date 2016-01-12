@@ -26,13 +26,12 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-##  Background Jobs 
+##  Background Jobs
 
 Similarly, you can trigger a background job from the REST API. For example, to trigger the job named `userMigration`:
 
 <div class='tip info'><div>
-  Take a look at the [Cloud Code Guide](/docs/cloud_code_guide?language=curl#functions-calling) 
-  to learn more about Cloud Functions and Background Jobs.
+  Take a look at the [Cloud Code Guide](/docs/cloudcode/guide#cloud-code-cloud-functions) to learn more about Cloud Functions and Background Jobs.
 </div></div>
 
 ```bash
