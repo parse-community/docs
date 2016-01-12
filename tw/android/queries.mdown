@@ -2,9 +2,9 @@
 
 ## 基本查詢
 
-在許多情況下，會發生 `getInBackground` 的功能不夠強大，而無法指定欲擷取的物件。 `ParseQuery` 提供擷取一系列物件的不同方式，而不只是單一物件。
+在許多情況下，會發生 `getInBackground` 的功能不夠強大，而無法指定欲擷取的物件。 `%{ParseQuery}` 提供擷取一系列物件的不同方式，而不只是單一物件。
 
-一般模式是建立一個 `ParseQuery`，並在上頭設定條件，然後使用 `findInBackground` 方法和 `FindCallback` 擷取相符 `ParseObject` 的 `List`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `whereEqualTo` 方法限制索引鍵的值：
+一般模式是建立一個 `%{ParseQuery}`，並在上頭設定條件，然後使用 `findInBackground` 方法和 `FindCallback` 擷取相符 `%{ParseObject}` 的 `List`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `whereEqualTo` 方法限制索引鍵的值：
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -24,7 +24,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 ## 查詢限制
 
-有幾種方式可以在 `ParseQuery` 找到的物件加上限制。您可以利用 `whereNotEqualTo` 篩選出具有特定鍵值組的物件：
+有幾種方式可以在 `%{ParseQuery}` 找到的物件加上限制。您可以利用 `whereNotEqualTo` 篩選出具有特定鍵值組的物件：
 
 ```java
 query.whereNotEqualTo("playerName", "Michael Yabuti");
@@ -201,7 +201,7 @@ query.whereStartsWith("name", "Big Daddy's");
 
 ## 關聯性查詢
 
-有幾種方式可以查詢關聯性資料。如果您希望擷取欄位符合特定 `ParseObject` 的物件，可以使用 `whereEqualTo`，就如其他資料類型一樣。舉例而言，如果每個 `Comment` 在其 `post` 欄位中都有一個 `Post` 物件，您可以針對特定 `Post` 擷取留言：
+有幾種方式可以查詢關聯性資料。如果您希望擷取欄位符合特定 `%{ParseObject}` 的物件，可以使用 `whereEqualTo`，就如其他資料類型一樣。舉例而言，如果每個 `Comment` 在其 `post` 欄位中都有一個 `Post` 物件，您可以針對特定 `Post` 擷取留言：
 
 ```java
 // Assume ParseObject myPost was previously created.
@@ -215,7 +215,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-如果您希望擷取欄位包含 `ParseObject` 符合不同查詢的物件，可以使用 `whereMatchesQuery`。請注意，預設限制 100 與最高限制 1000 同樣適用於內部查詢，因此在處理大型資料集時，您可能需要小心地建構您的查詢，以取得您想要的行為。若要尋找圖文貼文的留言，您可以這樣做：
+如果您希望擷取欄位包含 `%{ParseObject}` 符合不同查詢的物件，可以使用 `whereMatchesQuery`。請注意，預設限制 100 與最高限制 1000 同樣適用於內部查詢，因此在處理大型資料集時，您可能需要小心地建構您的查詢，以取得您想要的行為。若要尋找圖文貼文的留言，您可以這樣做：
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -229,7 +229,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-如果您希望擷取欄位包含 `ParseObject` 符合不同查詢的物件，可以使用 `whereDoesNotMatchQuery`。若要尋找非圖文貼文的留言，您可以這樣做：
+如果您希望擷取欄位包含 `%{ParseObject}` 符合不同查詢的物件，可以使用 `whereDoesNotMatchQuery`。若要尋找非圖文貼文的留言，您可以這樣做：
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -327,7 +327,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 現在，當您利用 `fromLocalDatastore` 進行任何查詢時，如果這些物件仍然符合該查詢，則將會加入結果中。
 
-如果您未使用本機資料存放區，則可以使用 `ParseQuery` 的每個查詢快取。預設查詢的行為不會使用快取，但是您可以利用 `setCachePolicy` 啟用快取。舉例來說，若要嘗試連上網路，並在無法使用網路時切換回快取資料：
+如果您未使用本機資料存放區，則可以使用 `%{ParseQuery}` 的每個查詢快取。預設查詢的行為不會使用快取，但是您可以利用 `setCachePolicy` 啟用快取。舉例來說，若要嘗試連上網路，並在無法使用網路時切換回快取資料：
 
 ```java
 query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
@@ -406,6 +406,6 @@ mainQuery.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-您可將其他限制新增至作為「and」運轉子的新建 `ParseQuery`。
+您可將其他限制新增至作為「and」運轉子的新建 `%{ParseQuery}`。
 
 請注意，我們並不支援複合查詢子查詢中的非篩選條件限制（例如，`setLimit`、`skip`、`orderBy...`、`include`）。

@@ -604,7 +604,7 @@ result = json.loads(connection.getresponse().read())
 print result
 ```
 
-The `Pointer` type is used when mobile code sets a `ParseObject` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
+The `Pointer` type is used when mobile code sets a `%{ParseObject}` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
 
 ```json
 {
@@ -616,7 +616,7 @@ The `Pointer` type is used when mobile code sets a `ParseObject` as the value of
 
 Note that the bult-in User, Role, and Installation classes are prefixed by an underscore. For example, pointers to user objects have a `className` of `_User`. Prefixing with an underscore is forbidden for developer-defined classes and signifies the class is a special built-in.
 
-The `Relation` type is used for many-to-many relations when the mobile uses `PFRelation` or `ParseRelation` as a value.  It has a `className` that is the class name of the target objects.
+The `Relation` type is used for many-to-many relations when the mobile uses `PFRelation` or `%{ParseRelation}` as a value.  It has a `className` that is the class name of the target objects.
 
 ```json
 {

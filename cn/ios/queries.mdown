@@ -1,12 +1,12 @@
 # 查询
 
-我们已经知道带 `getObjectWithId:` 的 `PFQuery` 如何从 Parse 中检索单个 `%{ParseObject}`。使用 `PFQuery`，还有多种其他方法可以检索数据 － 您可以一次检索多个对象，设置您检索对象的条件，自动缓存查询避免您自己写代码等。
+我们已经知道带 `getObjectWithId:` 的 `%{ParseQuery}` 如何从 Parse 中检索单个 `%{ParseObject}`。使用 `%{ParseQuery}`，还有多种其他方法可以检索数据 － 您可以一次检索多个对象，设置您检索对象的条件，自动缓存查询避免您自己写代码等。
 
 ## 基本查询
 
-在许多情况下，`getObjectInBackgroundWithId:block:` 不够强大，不能指定您想要检索的对象。`PFQuery` 提供了不同的方法用于检索一系列对象而非仅仅检索单一对象。
+在许多情况下，`getObjectInBackgroundWithId:block:` 不够强大，不能指定您想要检索的对象。`%{ParseQuery}` 提供了不同的方法用于检索一系列对象而非仅仅检索单一对象。
 
-常规模式是创建一个 `PFQuery`，对其设置条件，然后用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 检索一个 `NSArray` 的匹配 `%{ParseObject}`。例如，若要检索 `playerName` 的得分，可以使用 `whereKey:equalTo:` 方法限定键值。
+常规模式是创建一个 `%{ParseQuery}`，对其设置条件，然后用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 检索一个 `NSArray` 的匹配 `%{ParseObject}`。例如，若要检索 `playerName` 的得分，可以使用 `whereKey:equalTo:` 方法限定键值。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -38,7 +38,7 @@ NSArray* scoreArray = [query findObjects];
 
 ## 用 NSPredicate 规定限制条件
 
-为了充分利用 `PFQuery`，我们建议使用下列方法添加限制条件。但是，若您更喜欢用 `NSPredicate`，创建 `PFQuery` 时提供 `NSPredicate` 即可指定限制条件的子集。
+为了充分利用 `%{ParseQuery}`，我们建议使用下列方法添加限制条件。但是，若您更喜欢用 `NSPredicate`，创建 `%{ParseQuery}` 时提供 `NSPredicate` 即可指定限制条件的子集。
 
 ```objc
 NSPredicate *predicate = [NSPredicate predicateWithFormat:
@@ -64,7 +64,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 ## 查询限制条件
 
-有几种方法可以对 `PFQuery` 找到的对象设置限制条件。您可以用 `whereKey:notEqualTo` 将具有特定键值对的对象过滤出来：
+有几种方法可以对 `%{ParseQuery}` 找到的对象设置限制条件。您可以用 `whereKey:notEqualTo` 将具有特定键值对的对象过滤出来：
 
 ```objc
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
@@ -383,7 +383,7 @@ PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
 }];
 ```
 
-您可以对新创建的 `PFQuery` 添加额外限制条件，作为&ldquo;and&rdquo;运算符。
+您可以对新创建的 `%{ParseQuery}` 添加额外限制条件，作为&ldquo;and&rdquo;运算符。
 
 但是，请注意：在混合查询结果中查询时，我们不支持非过滤型限制条件（如 `limit`、`skip`、`orderBy...:`、`includeKey:`）。
 

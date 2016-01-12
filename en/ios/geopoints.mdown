@@ -58,7 +58,7 @@ For those who choose to use `CLLocationManager` directly, we also provide a `+ge
 
 ## Geo Queries
 
-Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to `PFQuery` using `whereKey:nearGeoPoint:`. Getting a list of ten places that are closest to a user may look something like:
+Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to `%{ParseQuery}` using `whereKey:nearGeoPoint:`. Getting a list of ten places that are closest to a user may look something like:
 
 ```objc
 // User's location
@@ -89,7 +89,7 @@ placesObjects = query.findObjects()
 
  To limit the results using distance check out `whereKey:nearGeoPoint:withinMiles`, `whereKey:nearGeoPoint:withinKilometers`, and `whereKey:nearGeoPoint:withinRadians`.
 
-It's also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the `whereKey:withinGeoBoxFromSouthwest:toNortheast:` restriction to your `PFQuery`.
+It's also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the `whereKey:withinGeoBoxFromSouthwest:toNortheast:` restriction to your `%{ParseQuery}`.
 
 ```objc
 PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];

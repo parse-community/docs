@@ -135,7 +135,7 @@ installation[@"user"] = [PFUser currentUser];
 
 #### 쿼리에 푸시 전송
 
-`Installation` 개체에 데이터를 저장하고 나면 `PFQuery`를 사용하여 일부 기기를 타게팅할 수 있습니다. `Installation` 쿼리는 다른 [Parse 쿼리](#queries)와 같은 방식으로 작동하지만 이를 생성하기 위해 특별한 정적 메서드 `[PFInstallation query]`를 사용합니다. 또한 알림을 보내기 전에 이 쿼리를 `PFPush` 개체에 설정합니다.
+`Installation` 개체에 데이터를 저장하고 나면 `%{ParseQuery}`를 사용하여 일부 기기를 타게팅할 수 있습니다. `Installation` 쿼리는 다른 [Parse 쿼리](#queries)와 같은 방식으로 작동하지만 이를 생성하기 위해 특별한 정적 메서드 `[PFInstallation query]`를 사용합니다. 또한 알림을 보내기 전에 이 쿼리를 `PFPush` 개체에 설정합니다.
 
 ```objc
 // Create our Installation query

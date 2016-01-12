@@ -4,11 +4,11 @@
 
 例如，在含有分类内容的应用程序中，有些用户被设定为“版主”，他们可以修改和删除其他用户创建的内容。还有一些用户是“管理员”，他们与版主拥有相同的权利，但是还可以修改应用程序的全局设置。通过将用户添加到这些角色中，您可以让新用户成为版主或管理员，而不必手动向各用户授予每个资源的权限。
 
-我们提供一个类名为 `ParseRole` 的专业类，代表客户端代码中的角色对象。`ParseRole` 是 `ParseObject` 的一个子类，两者具有完全相同的特性，例如灵活架构、自动留存和键值接口。`ParseObject` 上的所有方法也存在于 `ParseRole` 中。区别是 `ParseRole` 有一些专门用于角色管理的附加特性。
+我们提供一个类名为 `%{ParseRole}` 的专业类，代表客户端代码中的角色对象。`%{ParseRole}` 是 `%{ParseObject}` 的一个子类，两者具有完全相同的特性，例如灵活架构、自动留存和键值接口。`%{ParseObject}` 上的所有方法也存在于 `%{ParseRole}` 中。区别是 `%{ParseRole}` 有一些专门用于角色管理的附加特性。
 
 ## 属性
 
-`ParseRole` 有几种可以将其与 `ParseObject` 区分开的属性：
+`%{ParseRole}` 有几种可以将其与 `%{ParseObject}` 区分开的属性：
 
 *   名称：角色名称。该值为必填，只能在创建角色时设置一次。名称只能包含字母数字字符、空格、- 或 _。该名称用于识别角色，不需要其对象 Id 即可达到这个目的。
 *   用户：与用户集的一种[关系](#objects-pointers)，该用户集将继承其母级角色所拥有的权限。
@@ -16,9 +16,9 @@
 
 ## 角色对象的安全性
 
-`ParseRole` 使用与 Parse 上的所有其他对象相同的安全方案 (ACL)，除非它要求特别设置一个 ACL。一般情况下，只有拥有高级权限的用户（如，主用户或管理员）才能创建或修改角色，因此您应该相应地定义其 ACL。请注意，如果您授予用户对 `ParseRole` 的写入权，那么该用户可以将其他用户添加到角色中，甚至可以完全删除该角色。
+`%{ParseRole}` 使用与 Parse 上的所有其他对象相同的安全方案 (ACL)，除非它要求特别设置一个 ACL。一般情况下，只有拥有高级权限的用户（如，主用户或管理员）才能创建或修改角色，因此您应该相应地定义其 ACL。请注意，如果您授予用户对 `%{ParseRole}` 的写入权，那么该用户可以将其他用户添加到角色中，甚至可以完全删除该角色。
 
-若要创建新的 `ParseRole`，您可以编写：
+若要创建新的 `%{ParseRole}`，您可以编写：
 
 ```java
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
@@ -28,7 +28,7 @@ ParseRole role = new ParseRole("Administrator", roleACL);
 role.saveInBackground();
 ```
 
-您可以通过 `ParseRole` 上的“用户”和“角色”关系，添加应该继承新角色权限的用户和角色：
+您可以通过 `%{ParseRole}` 上的“用户”和“角色”关系，添加应该继承新角色权限的用户和角色：
 
 ```java
 ParseRole role = new ParseRole(roleName, roleACL);
@@ -45,9 +45,9 @@ role.saveInBackground();
 
 ## 其他对象的安全性
 
-现在您已经创建了在应用程序中使用的角色集，您可以用带 ACL 的角色确定角色所含用户将拥有的特权。每个 `ParseObject` 可以指定一个 `ParseACL`，从而提供一个访问控制列表，指定应该向哪些用户和角色授予对象读写访问权限。
+现在您已经创建了在应用程序中使用的角色集，您可以用带 ACL 的角色确定角色所含用户将拥有的特权。每个 `%{ParseObject}` 可以指定一个 `ParseACL`，从而提供一个访问控制列表，指定应该向哪些用户和角色授予对象读写访问权限。
 
-向对象授予角色读写权限非常简单。您可以使用 `ParseRole`：
+向对象授予角色读写权限非常简单。您可以使用 `%{ParseRole}`：
 
 ```java
 ParseRole moderators = /* Query for some ParseRole */;

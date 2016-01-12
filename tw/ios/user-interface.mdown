@@ -282,7 +282,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 1.  建立 `PFQueryTableViewController` 的子集再加以自訂。使用[範本檔案](https://gist.github.com/ba03c1a550f14f88f95d)作為起點。
 2.  範本檔案會將本身設定為委派和資料來源。
 3.  設定 `parseClassName` 執行個體變數，以指定應查詢哪個 Parse 類別以取得資料。
-4.  覆寫 `queryForTable` 方法以建構自訂的 `PFQuery`。此 PF Query 應能用來自表格中取得物件。
+4.  覆寫 `queryForTable` 方法以建構自訂的 `%{ParseQuery}`。此 PF Query 應能用來自表格中取得物件。
 5.  覆寫 `tableView:cellForRowAtIndexPath:object:` 方法，傳回為每個 `%{ParseObject}` 量身訂做的自訂資料格。
 6.  實作自訂資料格類別；確認它繼承自 `PFTableViewCell` 類別。檢視載入時，此類別會透過已建構的查詢自動取得 `%{ParseObject}`，並將它載入表格中。此類別甚至包含可立即使用的分頁和下拉更新功能。
 
@@ -360,7 +360,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 將遠端圖像載入資料格
 
-`PFQueryTableViewController` 讓顯示儲存於 Parse Cloud 中的遠端圖像就像 `PFFile` 一樣簡單。您只需覆寫 `tableView:cellForRowAtIndexPath:object:` 再於指定其 `imageView` 的 `file` 屬性之情況下傳回 `PFTableViewCell`。如果您想在載入遠端圖像之前顯示預留位置圖像，請將預留位置圖像指派至 `imageView` 的 `image` 屬性。
+`PFQueryTableViewController` 讓顯示儲存於 Parse Cloud 中的遠端圖像就像 `%{ParseFile}` 一樣簡單。您只需覆寫 `tableView:cellForRowAtIndexPath:object:` 再於指定其 `imageView` 的 `file` 屬性之情況下傳回 `PFTableViewCell`。如果您想在載入遠端圖像之前顯示預留位置圖像，請將預留位置圖像指派至 `imageView` 的 `image` 屬性。
 
 ```objc
 @implementation SimpleTableViewController
@@ -382,13 +382,13 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ![](/images/docs/images_table.png)
 
-此表格會顯示可愛動物相片的清單，這些相片是當作 `PFFile` 儲存在 Parse Cloud 中。「placeholder.jpg」是包括在應用程式套件中的圖像，在下載動物相片之前會先顯示此圖像。
+此表格會顯示可愛動物相片的清單，這些相片是當作 `%{ParseFile}` 儲存在 Parse Cloud 中。「placeholder.jpg」是包括在應用程式套件中的圖像，在下載動物相片之前會先顯示此圖像。
 
 將依需求指定下載這些圖像。當您捲動表格時，會下載目前可見資料格中的圖像。這種及時行為很令人滿意，因為不單能節省頻寬，還能確保適時顯示可見的圖像。如果您想要更積極的載入行為，可以用 `imageView` 上的 `loadInBackground` 方法下載圖像。
 
 ### 自訂查詢
 
-預設查詢設為從遞減 `createdAt` 所排序的類別中取得物件。若要進行自訂，只需覆寫 `queryForTable` 方法，以傳回您自己的 `PFQuery`。取得要顯示的物件時，此表格會使用這個查詢。
+預設查詢設為從遞減 `createdAt` 所排序的類別中取得物件。若要進行自訂，只需覆寫 `queryForTable` 方法，以傳回您自己的 `%{ParseQuery}`。取得要顯示的物件時，此表格會使用這個查詢。
 
 ### 自訂資料格
 
@@ -430,7 +430,7 @@ _重要：_您的表格檢視資料格應繼承自 `PFTableViewCell`，而不是
 
 ## PFImageView
 
-許多應用程式必須將儲存在 Parse Cloud 上的圖像顯示為 `PFFile`。不過若要用內建的 `UIImageView` 載入遠端圖像，牽涉到要編寫許多行的未定案程式碼。`PFImageView` 簡化此工作：
+許多應用程式必須將儲存在 Parse Cloud 上的圖像顯示為 `%{ParseFile}`。不過若要用內建的 `UIImageView` 載入遠端圖像，牽涉到要編寫許多行的未定案程式碼。`PFImageView` 簡化此工作：
 
 ```objc
 PFImageView *imageView = [[PFImageView alloc] init];
@@ -443,7 +443,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 
 ## PFTableViewCell
 
-許多應用程式必須顯示表格檢視資料格，這些資料格中含有在 Parse Cloud 上儲存為 `PFFile` 的圖像。不過若要用內建的 `UITableViewCell` 載入遠端圖像，牽涉到要編寫許多行的未定案程式碼。`PFTableViewCell` 公開 `PFImageView` 類型（支援遠端圖像載入）的 `imageView` 屬性即可簡化此工作：
+許多應用程式必須顯示表格檢視資料格，這些資料格中含有在 Parse Cloud 上儲存為 `%{ParseFile}` 的圖像。不過若要用內建的 `UITableViewCell` 載入遠端圖像，牽涉到要編寫許多行的未定案程式碼。`PFTableViewCell` 公開 `PFImageView` 類型（支援遠端圖像載入）的 `imageView` 屬性即可簡化此工作：
 
 ```objc
 @implementation SimpleTableViewController
@@ -464,7 +464,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 @end
 ```
 
-就像 `UITableViewCell` 一樣，`PFTableViewCell` 支援預設的版面配置風格。與 `UITableViewCell` 不同的是，`PFTableViewCell` 的 `imageView` 屬性屬於 `PFImageView` 類型，可支援在 `PFFile` 中下載遠端圖像。
+就像 `UITableViewCell` 一樣，`PFTableViewCell` 支援預設的版面配置風格。與 `UITableViewCell` 不同的是，`PFTableViewCell` 的 `imageView` 屬性屬於 `PFImageView` 類型，可支援在 `%{ParseFile}` 中下載遠端圖像。
 
 雖然可以獨立使用，只有在 `PFQueryTableViewController` 中使用時，才能真正展現出 `PFTableViewCell` 的價值。`PFQueryTableViewController` 了解 `PFTableViewCell` 並且會自動載入圖像。此行為會在 `PFQueryTableViewController` 的文件中詳細討論。
 

@@ -41,7 +41,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 ## 对象检索
 
-将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `PFQuery` 检索整个 `%{ParseObject}`。这是一种异步方法，它还有可以使用代码块或回调方法的变体：
+将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `%{ParseQuery}` 检索整个 `%{ParseObject}`。这是一种异步方法，它还有可以使用代码块或回调方法的变体：
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## 对象更新
 
-进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `PFQuery` 检索 `%{ParseObject}` 和更新其数据：
+进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `%{ParseQuery}` 检索 `%{ParseObject}` 和更新其数据：
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -213,7 +213,7 @@ PFRelation *relation = [user relationForKey:@"likes"];
 [relation removeObject:post];
 ```
 
-默认情况下，不下载这种关系中的对象列表。您可以通过对 `query` 返回的 `PFQuery` 调用 `findObjectsInBackgroundWithBlock:` 获取 `Post` 列表。代码应如下所示：
+默认情况下，不下载这种关系中的对象列表。您可以通过对 `query` 返回的 `%{ParseQuery}` 调用 `findObjectsInBackgroundWithBlock:` 获取 `Post` 列表。代码应如下所示：
 
 ```objc
 [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -225,14 +225,14 @@ PFRelation *relation = [user relationForKey:@"likes"];
 }];
 ```
 
-若您只想要 `Post` 的一个子集，可以像这样对 `query` 返回的 `PFQuery` 添加额外限制条件：
+若您只想要 `Post` 的一个子集，可以像这样对 `query` 返回的 `%{ParseQuery}` 添加额外限制条件：
 
 ```objc
 PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-若要了解有关 `PFQuery` 的更多详细信息，请查看本指南的查询部分。`PFRelation` 的工作方式类似于 `%{ParseObject}` 的 `NSArray`，因此您能对对象组进行的任何查询（不含 `includeKey:`）均可对 `PFRelation` 执行。
+若要了解有关 `%{ParseQuery}` 的更多详细信息，请查看本指南的查询部分。`PFRelation` 的工作方式类似于 `%{ParseObject}` 的 `NSArray`，因此您能对对象组进行的任何查询（不含 `includeKey:`）均可对 `PFRelation` 执行。
 
 ## 数据类型
 
@@ -263,7 +263,7 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-我们不建议通过在 `%{ParseObject}` 中使用 `NSData` 字段来存储图像或文档等大型二进制数据。`%{ParseObject}` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `PFFile`。更多详细信息请参考[指南部分](#files)。
+我们不建议通过在 `%{ParseObject}` 中使用 `NSData` 字段来存储图像或文档等大型二进制数据。`%{ParseObject}` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `%{ParseFile}`。更多详细信息请参考[指南部分](#files)。
 
 若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](#data)部分的文档。
 

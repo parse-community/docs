@@ -41,7 +41,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 ## 擷取物件
 
-將資料儲存於雲端很有趣，但是更有趣的是將資料再次取出。如果您有 `objectId`，可以使用 `PFQuery` 擷取整個 `%{ParseObject}`。這是一種非同步方法，具有使用區塊或回呼方法的變化：
+將資料儲存於雲端很有趣，但是更有趣的是將資料再次取出。如果您有 `objectId`，可以使用 `%{ParseQuery}` 擷取整個 `%{ParseObject}`。這是一種非同步方法，具有使用區塊或回呼方法的變化：
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## 更新物件
 
-更新物件相當簡單。只需要在物件上設定一些新資料，並且呼叫其中一種儲存方法。假設您已經將物件儲存，並且擁有 `objectId`，可以使用 `PFQuery` 擷取 `%{ParseObject}`，同時更新物件資料：
+更新物件相當簡單。只需要在物件上設定一些新資料，並且呼叫其中一種儲存方法。假設您已經將物件儲存，並且擁有 `objectId`，可以使用 `%{ParseQuery}` 擷取 `%{ParseObject}`，同時更新物件資料：
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -213,7 +213,7 @@ PFRelation *relation = [user relationForKey:@"likes"];
 [relation removeObject:post];
 ```
 
-依據預設，此關聯中的物件清單並未被下載。您可以在 `query` 傳回的 `PFQuery` 上呼叫 `findObjectsInBackgroundWithBlock:`，取得 `Post` 清單。程式碼看起來可能像：
+依據預設，此關聯中的物件清單並未被下載。您可以在 `query` 傳回的 `%{ParseQuery}` 上呼叫 `findObjectsInBackgroundWithBlock:`，取得 `Post` 清單。程式碼看起來可能像：
 
 ```objc
 [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -225,14 +225,14 @@ PFRelation *relation = [user relationForKey:@"likes"];
 }];
 ```
 
-如果您只希望取得 `Post` 的子集，您可以在 `query` 傳回的 `PFQuery` 上新增額外限制，像這樣：
+如果您只希望取得 `Post` 的子集，您可以在 `query` 傳回的 `%{ParseQuery}` 上新增額外限制，像這樣：
 
 ```objc
 PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-更多關於 `PFQuery` 的細節，請參閱本指南的查詢部分。`PFRelation` 的作用與 `%{ParseObject}` 的 `NSArray` 類似，因此任何可以於物件陣列上執行的查詢（`includeKey:` 除外），皆能於 `PFRelation` 上執行。
+更多關於 `%{ParseQuery}` 的細節，請參閱本指南的查詢部分。`PFRelation` 的作用與 `%{ParseObject}` 的 `NSArray` 類似，因此任何可以於物件陣列上執行的查詢（`includeKey:` 除外），皆能於 `PFRelation` 上執行。
 
 ## 資料類型
 
@@ -263,7 +263,7 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-我們不建議在 `%{ParseObject}` 上使用 `NSData` 存放大型的二進位資料，如圖像或文件。`%{ParseObject}` 的大小不應該超過 128 KB。若要存放更多，我們建議您使用 `PFFile`。如需更多詳細資料，請參閱[指南章節](#files)。
+我們不建議在 `%{ParseObject}` 上使用 `NSData` 存放大型的二進位資料，如圖像或文件。`%{ParseObject}` 的大小不應該超過 128 KB。若要存放更多，我們建議您使用 `%{ParseFile}`。如需更多詳細資料，請參閱[指南章節](#files)。
 
 關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](#data)查看我們的說明文件。
 

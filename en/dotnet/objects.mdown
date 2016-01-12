@@ -2,9 +2,9 @@
 
 ## The ParseObject
 
-Storing data on Parse is built around the `ParseObject`. Each `ParseObject` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `ParseObject`. You simply set whatever key-value pairs you want, and our backend will store it.
+Storing data on Parse is built around the `%{ParseObject}`. Each `%{ParseObject}` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `%{ParseObject}`. You simply set whatever key-value pairs you want, and our backend will store it.
 
-For example, let's say you're tracking high scores for a game. A single `ParseObject` could contain:
+For example, let's say you're tracking high scores for a game. A single `%{ParseObject}` could contain:
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 Keys must start with a letter, and can contain alphanumeric characters and underscores. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
 
-Each `ParseObject` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
+Each `%{ParseObject}` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
 
 ## Saving Objects
@@ -35,19 +35,22 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `ObjectId` is a unique identifier for each saved object. `CreatedAt` and `UpdatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a `ParseObject` until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `ObjectId` is a unique identifier for each saved object. `CreatedAt` and `UpdatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a `%{ParseObject}` until a save operation has completed.
 
 ## Data Types
 
-So far we've used values with type `string` and `int` assigned to fields of a `ParseObject`. Parse also supports fields containing:
+So far we've used values with type `%{string}` and `%{integer}` assigned to fields of a `%{ParseObject}`. Parse also supports `%{double}`, `%{date}`, and `%{null}`. You can also nest `%{map}` and `${array}` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
 
-*   other primitive numeric values such as `double`s, `long`s, or `float`s
-*   `DateTime` objects
-*   objects that implement `IDictionary<string, T>`
-*   objects that implement `IList<T>`
-*   other `ParseObject`
-
-You can nest `IDictionary<string, T>` and `IList<T>` objects to store more structured data within a single `ParseObject`.
+* String → `%{string}`
+* Number → primitive numeric values such as `%{double}`s, `%{long}`s, or `%{float}`s
+* Bool → `%{bool}`
+* Array → objects that implement `%{array}`
+* Object → objects that implement `%{map}`
+* Date → `%{date}`
+* File → `%{ParseFile}`
+* Pointer → other `%{ParseObject}`
+* Relation → `%{ParseRelation}`
+* Null → `%{null}`
 
 Some examples:
 
@@ -71,20 +74,20 @@ bigObject["myDictionary"] = dictionary;
 await bigObject.SaveAsync();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. To store more, we recommend you use `%{ParseFile}`. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `%{ParseFile}`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `ObjectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `ObjectId`, you can retrieve the whole `%{ParseObject}` using a `%{ParseQuery}`:
 
 ```csharp
 ParseQuery<ParseObject> query = ParseObject.GetQuery("GameScore");
 ParseObject gameScore = await query.GetAsync("xWMyZ4YEGZ");
 ```
 
-To get the values out of the `ParseObject`, use the `Get<T>` method.
+To get the values out of the `%{ParseObject}`, use the `Get<T>` method.
 
 ```csharp
 int score = gameScore.Get<int>("score");
@@ -180,7 +183,7 @@ await myObject.SaveAsync();
 
 ## Relational Data
 
-Objects can have relationships with other objects. To model one-to-many relationships, any `ParseObject` can be used as a value in other `ParseObject`s. Internally, the Parse framework will store the referred-to object in just one place to maintain consistency.
+Objects can have relationships with other objects. To model one-to-many relationships, any `%{ParseObject}` can be used as a value in other `%{ParseObject}`s. Internally, the Parse framework will store the referred-to object in just one place to maintain consistency.
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 
@@ -211,14 +214,14 @@ You can also link objects using just their `ObjectId`s like so:
 myComment["parent"] = ParseObject.CreateWithoutData("Post", "1zEcyElZ80");
 ```
 
-By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
+By default, when fetching an object, related `%{ParseObject}`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
 ```csharp
 ParseObject post = fetchedComment.Get<ParseObject>("parent");
 await post.FetchIfNeededAsync();
 ```
 
-For a many-to-many relationship, use the `ParseRelation` object.  This works similar to a `List<ParseObject>`, except that you don't need to download all the objects in a relation at once.  This allows `ParseRelation` to scale to many more objects than the `List<ParseObject>` approach.  For example, a `ParseUser` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `ParseUser` likes using `GetRelation`.  In order to add a post to the list, the code would look something like:
+For a many-to-many relationship, use the `%{ParseRelation}` object.  This works similar to a `List<ParseObject>`, except that you don't need to download all the objects in a relation at once.  This allows `%{ParseRelation}` to scale to many more objects than the `List<ParseObject>` approach.  For example, a `%{ParseUser}` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `%{ParseUser}` likes using `GetRelation`.  In order to add a post to the list, the code would look something like:
 
 ```csharp
 var user = ParseUser.CurrentUser;
@@ -227,19 +230,19 @@ relation.Add(post);
 await user.SaveAsync();
 ```
 
-You can remove a post from the `ParseRelation` with something like:
+You can remove a post from the `%{ParseRelation}` with something like:
 
 ```csharp
 relation.Remove(post);
 ```
 
-By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by using calling `FindAsync` on the `ParseQuery` returned by `Query`.  The code would look like:
+By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by using calling `FindAsync` on the `%{ParseQuery}` returned by `Query`.  The code would look like:
 
 ```csharp
 IEnumerable<ParseObject> relatedObjects = await relation.Query.FindAsync();
 ```
 
-If you want only a subset of the `Post`s you can add extra constraints to the `ParseQuery` returned by `Query` like this:
+If you want only a subset of the `Post`s you can add extra constraints to the `%{ParseQuery}` returned by `Query` like this:
 
 ```csharp
 var query = from post in relation.Query
@@ -255,11 +258,11 @@ var query = relation.Query
 var relatedObjects = await query.FindAsync();
 ```
 
-For more details on `ParseQuery` please look at the [query](#queries) portion of this guide.  A `ParseRelation` behaves similar to a `List<ParseObject>`, so any queries you can do on lists of objects you can do on `ParseRelation`s.
+For more details on `%{ParseQuery}` please look at the [query](#queries) portion of this guide.  A `%{ParseRelation}` behaves similar to a `List<ParseObject>`, so any queries you can do on lists of objects you can do on `%{ParseRelation}`s.
 
 ## Subclasses
 
-Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `ParseObject` class and access any field with `Get<T>()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, type-safety, and support for IntelliSense. Subclassing is completely optional, but can transform this code:
+Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `%{ParseObject}` class and access any field with `Get<T>()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, type-safety, and support for IntelliSense. Subclassing is completely optional, but can transform this code:
 
 ```csharp
 // Using dictionary-initialization syntax:
@@ -295,12 +298,12 @@ shield.Rupees = 500;
 
 ### Subclassing ParseObject
 
-To create a `ParseObject` subclass:
+To create a `%{ParseObject}` subclass:
 
-1.  Declare a subclass which extends `ParseObject`.
-2.  Add a `ParseClassName` attribute. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
-3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
-4.  Call `ParseObject.RegisterSubclass<YourClass>()` in your code before calling `ParseClient.Initialize()`. The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
+1.  Declare a subclass which extends `%{ParseObject}`.
+2.  Add a `ParseClassName` attribute. Its value should be the string you would pass into the `%{ParseObject}` constructor, and makes all future class name references unnecessary.
+3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `%{ParseObject}` fields in this constructor.
+4.  Call `ParseObject.RegisterSubclass<YourClass>()` in your code before calling `ParseClient.Initialize()`. The following code sucessfully implements and registers the `Armor` subclass of `%{ParseObject}`:
 
 ```csharp
 // Armor.cs
@@ -326,9 +329,9 @@ public class App : Application
 
 ### Properties and Methods
 
-Adding methods and properties to your `ParseObject` subclass helps encapsulate logic about the class. You can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
+Adding methods and properties to your `%{ParseObject}` subclass helps encapsulate logic about the class. You can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
 
-You can add properties for the fields of your `ParseObject` easily. Declare the getter and setter for the field as you normally would, but implement them in terms of `GetProperty<T>()` and `SetProperty<T>()`. Finally, add a `ParseFieldName` attribute to the property to fully integrate the property with Parse, enabling functionality like LINQ support and automatically raising `INotifyPropertyChanged` notifications. The following example creates a `displayName` field in the `Armor` class:
+You can add properties for the fields of your `%{ParseObject}` easily. Declare the getter and setter for the field as you normally would, but implement them in terms of `GetProperty<T>()` and `SetProperty<T>()`. Finally, add a `ParseFieldName` attribute to the property to fully integrate the property with Parse, enabling functionality like LINQ support and automatically raising `INotifyPropertyChanged` notifications. The following example creates a `displayName` field in the `Armor` class:
 
 ```csharp
 // Armor.cs
@@ -346,7 +349,7 @@ public class Armor : ParseObject
 
 You can now access the displayName field using `armor.DisplayName` and assign to it using `armor.DisplayName = "Wooden Sword"`. This allows your IDE to provide autocompletion as you develop your app and allows typos to be caught at compile-time.
 
-`ParseRelation`-typed properties can also be easily defined using `GetRelationProperty<T>`.  For example:
+`%{ParseRelation}`-typed properties can also be easily defined using `GetRelationProperty<T>`.  For example:
 
 ```csharp
 // Armor.cs
@@ -375,7 +378,7 @@ public void TakeDamage(int amount) {
 
 ### Initializing Subclasses
 
-You should create new instances of your subclasses using the constructors you have defined. Your subclass must define a public default constructor that does not modify fields of the `ParseObject`, which will be used throughout the Parse SDK to create strongly-typed instances of your subclass.
+You should create new instances of your subclasses using the constructors you have defined. Your subclass must define a public default constructor that does not modify fields of the `%{ParseObject}`, which will be used throughout the Parse SDK to create strongly-typed instances of your subclass.
 
 To create a reference to an existing object, use `ParseObject.CreateWithoutData<T>()`:
 
@@ -399,4 +402,4 @@ var query = new ParseQuery<Armor>()
 IEnumerable<Armor> result = await query.FindAsync();
 ```
 
-Note that the `ParseQuery` LINQ provider understands properties with the `ParseFieldName` attribute, allowing you to use these strongly-typed properties fluently within your LINQ queries.
+Note that the `%{ParseQuery}` LINQ provider understands properties with the `ParseFieldName` attribute, allowing you to use these strongly-typed properties fluently within your LINQ queries.

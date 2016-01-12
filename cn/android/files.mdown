@@ -2,9 +2,9 @@
 
 ## ParseFile
 
-`ParseFile` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `ParseObject` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
+`%{ParseFile}` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `%{ParseObject}` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
 
-`ParseFile` 非常容易上手。首先，您需要拥有 `byte[]` 格式的数据，然后使用此数据创建 `ParseFile`。在该示例中，我们只使用一个字符串：
+`%{ParseFile}` 非常容易上手。首先，您需要拥有 `byte[]` 格式的数据，然后使用此数据创建 `%{ParseFile}`。在该示例中，我们只使用一个字符串：
 
 ```java
 byte[] data = "Working at Parse is great!".getBytes();
@@ -16,13 +16,13 @@ ParseFile file = new ParseFile("resume.txt", data);
 *   您不需要担心文件名冲突。每次上传都会获得一个唯一标识符，所以上传多个文件名为 `resume.txt` 的文件不同出现任何问题。
 *   重要的是，您要给文件命名（带文件扩展名）。这样 Parse 就能够判断文件类型，并对文件进行相应的处理。所以，若您要储存 PNG 图片，务必使文件名以 `.png` 结尾。
 
-然后，您可以把文件保存到云中。与 `ParseObject` 相同，您可以根据回调类型和适合您的错误处理方式使用 `save` 方法的多种派生方法。
+然后，您可以把文件保存到云中。与 `%{ParseObject}` 相同，您可以根据回调类型和适合您的错误处理方式使用 `save` 方法的多种派生方法。
 
 ```java
 file.saveInBackground();
 ```
 
-最后，保存完成后，您可以像其他数据一样把 `ParseFile` 与 `ParseObject` 关联起来：
+最后，保存完成后，您可以像其他数据一样把 `%{ParseFile}` 与 `%{ParseObject}` 关联起来：
 
 ```java
 ParseObject jobApplication = new ParseObject("JobApplication");
@@ -31,7 +31,7 @@ jobApplication.put("applicantResumeFile", file);
 jobApplication.saveInBackground();
 ```
 
-重新获取此数据涉及对 `ParseObject` 调用任一 `getData` 变体。这里我们从另一 JobApplication 对象获取恢复文件：
+重新获取此数据涉及对 `%{ParseObject}` 调用任一 `getData` 变体。这里我们从另一 JobApplication 对象获取恢复文件：
 
 ```java
 ParseFile applicantResume = (ParseFile)anotherApplication.get("applicantResumeFile");
@@ -46,7 +46,7 @@ applicantResume.getDataInBackground(new GetDataCallback() {
 });
 ```
 
-与 `ParseObject` 类似，您极有可能想要使用 `getData` 的后台版本。
+与 `%{ParseObject}` 类似，您极有可能想要使用 `getData` 的后台版本。
 
 ## 进度
 

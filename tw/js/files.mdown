@@ -2,7 +2,7 @@
 
 ## 建立 Parse 檔案
 
-`Parse.File` 讓您可以將應用程式檔案存放於雲端，這些檔案對於一般 `Parse.Object` 而言可能太大或是不好處理。最常見的使用案例就是圖像的存放，但是您也可以用來存放文件、影片、音樂和任何其他的二進位資料（上限 10 MB）。
+`Parse.File` 讓您可以將應用程式檔案存放於雲端，這些檔案對於一般 `%{ParseObject}` 而言可能太大或是不好處理。最常見的使用案例就是圖像的存放，但是您也可以用來存放文件、影片、音樂和任何其他的二進位資料（上限 10 MB）。
 
 `Parse.File` 很容易就能上手。有一些方法可以建立檔案。首先是用 base64 編碼的字串。
 
@@ -46,7 +46,7 @@ if (fileUploadControl.files.length > 0) {
 *   您無須擔心檔名衝突。每次上傳都會取得唯一識別碼，所以就算上傳多個名為 `photo.jpg` 的檔案也不會有問題。
 *   命名時記得加上副檔名，這很重要。這能讓 Parse 辨識出檔案類型，並且以相應的方式處理。因此，如果您正在存放 PNG 圖像，請確認檔案名稱的結尾為 `.png`。
 
-接下來，您會希望將檔案儲存至雲端。如同 `Parse.Object`，有許多不同的 `save` 方法可供您使用，端看何種回呼和錯誤處理方式適合您。
+接下來，您會希望將檔案儲存至雲端。如同 `%{ParseObject}`，有許多不同的 `save` 方法可供您使用，端看何種回呼和錯誤處理方式適合您。
 
 ```js
 parseFile.save().then(function() {
@@ -56,7 +56,7 @@ parseFile.save().then(function() {
 });
 ```
 
-最後，儲存完成後，您可以將 `Parse.File` 關聯至 `Parse.Object`，就像是關聯其他資料一樣：
+最後，儲存完成後，您可以將 `Parse.File` 關聯至 `%{ParseObject}`，就像是關聯其他資料一樣：
 
 ```js
 var jobApplication = new Parse.Object("JobApplication");

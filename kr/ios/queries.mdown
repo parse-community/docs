@@ -1,12 +1,12 @@
 # 쿼리
 
-`getObjectWithId:`로 `PFQuery`를 수행하여 Parse에서 싱글 `%{ParseObject}`를 검색하는 방법을 살펴보았습니다. `PFQuery`를 사용하여 데이터를 검색할 수 있는 방법은 많습니다. 한 번에 여러 개체를 즉시 검색할 수도 있고 검색할 개체에 조건을 넣거나 쿼리를 자동으로 캐시하여 해당 코드를 직접 작성하지 않게 할 수도 있습니다.
+`getObjectWithId:`로 `%{ParseQuery}`를 수행하여 Parse에서 싱글 `%{ParseObject}`를 검색하는 방법을 살펴보았습니다. `%{ParseQuery}`를 사용하여 데이터를 검색할 수 있는 방법은 많습니다. 한 번에 여러 개체를 즉시 검색할 수도 있고 검색할 개체에 조건을 넣거나 쿼리를 자동으로 캐시하여 해당 코드를 직접 작성하지 않게 할 수도 있습니다.
 
 ## 기본 쿼리
 
-검색할 개체를 지정하기에는 `getObjectInBackgroundWithId:block:`만으로는 충분하지 않은 경우가 많습니다. `PFQuery`에서는 다양한 방법으로 싱글 개체가 아닌 개체 목록을 검색할 수 있습니다.
+검색할 개체를 지정하기에는 `getObjectInBackgroundWithId:block:`만으로는 충분하지 않은 경우가 많습니다. `%{ParseQuery}`에서는 다양한 방법으로 싱글 개체가 아닌 개체 목록을 검색할 수 있습니다.
 
-일반적인 패턴은 `PFQuery`를 만들고 조건을 지정한 다음 `findObjectsInBackgroundWithBlock:` 또는 `findObjectsInBackgroundWithTarget:selector:`를 사용하여 일치하는 `%{ParseObject}`의 `NSArray`를 가져오는 것입니다. 예를 들어 특정 `playerName`의 점수를 검색하려면 `whereKey:equalTo:` 메서드를 사용하여 키의 값을 제한합니다.
+일반적인 패턴은 `%{ParseQuery}`를 만들고 조건을 지정한 다음 `findObjectsInBackgroundWithBlock:` 또는 `findObjectsInBackgroundWithTarget:selector:`를 사용하여 일치하는 `%{ParseObject}`의 `NSArray`를 가져오는 것입니다. 예를 들어 특정 `playerName`의 점수를 검색하려면 `whereKey:equalTo:` 메서드를 사용하여 키의 값을 제한합니다.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -38,7 +38,7 @@ NSArray* scoreArray = [query findObjects];
 
 ## NSPredicate로 조건 지정
 
-`PFQuery`를 최대한 활용하려면 아래에 표시된 메서드를 사용하여 조건을 추가하는 것이 좋습니다. 그렇지만 `NSPredicate`를 사용하고 싶은 경우 `PFQuery`를 만들 때 `NSPredicate`를 제공하여 일부 조건을 지정할 수 있습니다.
+`%{ParseQuery}`를 최대한 활용하려면 아래에 표시된 메서드를 사용하여 조건을 추가하는 것이 좋습니다. 그렇지만 `NSPredicate`를 사용하고 싶은 경우 `%{ParseQuery}`를 만들 때 `NSPredicate`를 제공하여 일부 조건을 지정할 수 있습니다.
 
 ```objc
 NSPredicate *predicate = [NSPredicate predicateWithFormat:
@@ -64,7 +64,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 ## 쿼리 조건
 
-`PFQuery`에서 찾은 개체에 조건을 지정하는 방법에는 여러 가지가 있습니다. 다음과 같이 `whereKey:notEqualTo`로 특정 키-값 쌍을 사용하여 개체를 필터링할 수 있습니다.:
+`%{ParseQuery}`에서 찾은 개체에 조건을 지정하는 방법에는 여러 가지가 있습니다. 다음과 같이 `whereKey:notEqualTo`로 특정 키-값 쌍을 사용하여 개체를 필터링할 수 있습니다.:
 
 ```objc
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
@@ -383,7 +383,7 @@ PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
 }];
 ```
 
-새로 생성된 `PFQuery`에 'and' 연산자처럼 작동하는 조건을 추가할 수 있습니다.
+새로 생성된 `%{ParseQuery}`에 'and' 연산자처럼 작동하는 조건을 추가할 수 있습니다.
 
 하지만 복합 쿼리의 하위 쿼리에서 필터링되지 않은 조건(예: `limit`, `skip`, `orderBy...:`, `includeKey:`)은 지원되지 않습니다.
 

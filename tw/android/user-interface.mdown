@@ -40,9 +40,9 @@ public void onCreate(Bundle savedInstanceState) {
 
 ### 自訂查詢
 
-依據預設，最簡易的 `ParseQueryAdapter` 建構函式需要一個 `Context` 和 Parse 類別名稱。然後，該類別中的所有 `ParseObject` 會被擷取並按 `createdAt` 時間戳記的順序顯示。
+依據預設，最簡易的 `ParseQueryAdapter` 建構函式需要一個 `Context` 和 Parse 類別名稱。然後，該類別中的所有 `%{ParseObject}` 會被擷取並按 `createdAt` 時間戳記的順序顯示。
 
-為了變更這個顯示方式，我們從 `ArrayAdapter` 的功能中取得：但是除了藉由轉接器顯示物件的 Vanilla 陣列，`ParseQueryAdapter` 也可以使用 `QueryFactory` 傳回您定義的 `ParseQuery`。傳送至建構函式後，轉接器就會使用該查詢決定要擷取和顯示哪個物件。
+為了變更這個顯示方式，我們從 `ArrayAdapter` 的功能中取得：但是除了藉由轉接器顯示物件的 Vanilla 陣列，`ParseQueryAdapter` 也可以使用 `QueryFactory` 傳回您定義的 `%{ParseQuery}`。傳送至建構函式後，轉接器就會使用該查詢決定要擷取和顯示哪個物件。
 
 以下這個範例中，建立了 `ParseQueryAdapter` 以顯示只有四位以上成員的龐克或金屬樂團，依據售出的唱片數量排序：
 
@@ -62,7 +62,7 @@ ParseQueryAdapter<ParseObject> adapter =
 
 ### 自訂資料列
 
-在 `AdapterView` 中，個別 `View` 的預設版面配置是含有 `ParseImageView` 和 `TextView` 的簡單 `LinearLayout`。如果將 `setTextKey(String)` 和 `ParseQueryAdapter` 一起使用，前者的參數會用來選擇要在 `TextView` 中顯示 `ParseObject` 的哪一個索引鍵。同理，如果使用 `setImageKey(String)`，參數則是用來決定 ImageView 要顯示的圖像。
+在 `AdapterView` 中，個別 `View` 的預設版面配置是含有 `ParseImageView` 和 `TextView` 的簡單 `LinearLayout`。如果將 `setTextKey(String)` 和 `ParseQueryAdapter` 一起使用，前者的參數會用來選擇要在 `TextView` 中顯示 `%{ParseObject}` 的哪一個索引鍵。同理，如果使用 `setImageKey(String)`，參數則是用來決定 ImageView 要顯示的圖像。
 
 自訂資料列的其中一個方法是覆寫 `getItemView(ParseObject, View, ViewGroup)` 和 `getNextPageView(View, ViewGroup)`，並呼叫適合方法的超級類別實作以執行繁重的工作。如果您為超級類別的實作提供自己的版面配置，請注意 `getItemView(ParseObject, View, ViewGroup)` 和 `getNextPageView(View, ViewGroup)` 需要 `TextView` (ID:`android.R.id.text1`)（已設定 `textKey` 時），以及需要 `ParseImageView` (ID:`android.R.id.icon`)（已設定 `imageKey` 時）。
 
@@ -86,7 +86,7 @@ public View getItemView(ParseObject object, View v, ViewGroup parent)
 }
 ```
 
-另一個自訂資料列的方法是透過覆寫 `ParseQueryAdapter` 的方法，和完全略過超級類別的實作，然後完全掌控資料列的樣式。本範例利用 `ParseObject` 定義項目檢視的資料列顏色：
+另一個自訂資料列的方法是透過覆寫 `ParseQueryAdapter` 的方法，和完全略過超級類別的實作，然後完全掌控資料列的樣式。本範例利用 `%{ParseObject}` 定義項目檢視的資料列顏色：
 
 ```java
 @Override
@@ -113,9 +113,9 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 ### 將遠端圖像載入資料列
 
-`ParseQueryAdapter` 讓遠端圖像的顯示更容易。透過呼叫 `setImageKey(String)`，您可以在 `ParseObject` 傳送索引鍵名稱，這應該包含一個 `ParseFile`，而其中又含有從 Parse 擷取並載入相應資料列 `ParseImageView` 的圖像。
+`ParseQueryAdapter` 讓遠端圖像的顯示更容易。透過呼叫 `setImageKey(String)`，您可以在 `%{ParseObject}` 傳送索引鍵名稱，這應該包含一個 `%{ParseFile}`，而其中又含有從 Parse 擷取並載入相應資料列 `ParseImageView` 的圖像。
 
-圖像會以非同步的方式下載，而且會在背景中更新適合的 `ParseImageView`。隨著使用者捲動資料列，且資料列被接合器回收，圖像會在資料列顯示和指派 `ParseObject` 時被擷取。
+圖像會以非同步的方式下載，而且會在背景中更新適合的 `ParseImageView`。隨著使用者捲動資料列，且資料列被接合器回收，圖像會在資料列顯示和指派 `%{ParseObject}` 時被擷取。
 
 當圖像擷取尚未完成時，可以定義要使用的預留位置圖像。若要使用特定的 `Drawable` 為後援圖像，可以呼叫 `ParseQueryAdapter` 的 `setPlaceholder(Drawable)`。
 
@@ -131,7 +131,7 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 查詢將自動變更以套用分頁，而且 `AdapterView` 的底部會出現分頁資料列，讓使用者能夠載入下一頁。
 
-分頁預設為開啟。若要關閉，請呼叫 `setPaginationEnabled(false)` 即可。在分頁關閉的情況下，`ParseQueryAdapter` 會使用預設的 `ParseQuery` 限制，其數量為 100 個項目。
+分頁預設為開啟。若要關閉，請呼叫 `setPaginationEnabled(false)` 即可。在分頁關閉的情況下，`ParseQueryAdapter` 會使用預設的 `%{ParseQuery}` 限制，其數量為 100 個項目。
 
 ### 自動載入資料
 

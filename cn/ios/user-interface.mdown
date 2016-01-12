@@ -284,7 +284,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 1.  创建一个 `PFQueryTableViewController` 的子类，并进行自定义。使用[模板文件](https://gist.github.com/ba03c1a550f14f88f95d)作为初始文件。
 2.  它自动将自己设置为委托和数据源。
 3.  设置 `parseClassName` 实例变量，用于指定应查询哪个 Parse 类来获取数据。
-4.  覆盖 `queryForTable` 方法，以创建应用于从表格获取对象的自定义 `PFQuery`。
+4.  覆盖 `queryForTable` 方法，以创建应用于从表格获取对象的自定义 `%{ParseQuery}`。
 5.  覆盖 `tableView:cellForRowAtIndexPath:object:` 方法，以返回为每个 `%{ParseObject}` 定制的自定义单元格。
 6.  执行您的自定义单元格类；确保其继承了 `PFTableViewCell` 类。
 <li>视图加载时，此类通过创建的查询自动抓取 `%{ParseObject}` 并且将其加载至表格中。其甚至包括立即可用的分页和下拉刷新功能。
@@ -356,7 +356,7 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ### 在单元格中加载远程图像
 
-`PFQueryTableViewController` 可以轻松实现显示以 `PFFile` 格式储存在 Parse 云中的远程图像。您要做的就是覆盖 `tableView:cellForRowAtIndexPath:object:`，并返回 `PFTableViewCell`（其 `imageView` 的 `file` 属性已指定）。若您想在加载远程图像前显示占位符图像，则需向 `imageView` 的 `image` 属性分配占位符图像。
+`PFQueryTableViewController` 可以轻松实现显示以 `%{ParseFile}` 格式储存在 Parse 云中的远程图像。您要做的就是覆盖 `tableView:cellForRowAtIndexPath:object:`，并返回 `PFTableViewCell`（其 `imageView` 的 `file` 属性已指定）。若您想在加载远程图像前显示占位符图像，则需向 `imageView` 的 `image` 属性分配占位符图像。
 
 ```objc
 @implementation SimpleTableViewController
@@ -378,13 +378,13 @@ signUpController.fields = PFSignUpFieldsUsernameAndPassword
 
 ![](/images/docs/images_table.png)
 
-该表显示以 `PFFile` 格式储存在 Parse 云中的一组可爱动物图片。&ldquo;placeholder.jpg&rdquo;是包含在应用程序包中的图像，在动物图片下载之前显示。
+该表显示以 `%{ParseFile}` 格式储存在 Parse 云中的一组可爱动物图片。&ldquo;placeholder.jpg&rdquo;是包含在应用程序包中的图像，在动物图片下载之前显示。
 
 您可以根据需要下载图像。当您浏览表格时，会下载当前可见单元格中的图像。这种即时做法广受喜爱，因为它不但节省了宽带还确保及时显示可视图像。若您需要更加强大的加载方式，您可以对 `imageView` 使用 `loadInBackground` 方法来下载图像。
 
 ### 自定义设置查询
 
-默认查询设置为通过按 `createdAt` 降序排序从类中获取对象。要进行自定义设置，只用覆盖 `queryForTable` 方法，以返回您自己的 `PFQuery`。获取显示对象时，表格将使用该查询。
+默认查询设置为通过按 `createdAt` 降序排序从类中获取对象。要进行自定义设置，只用覆盖 `queryForTable` 方法，以返回您自己的 `%{ParseQuery}`。获取显示对象时，表格将使用该查询。
 
 ### 自定义设置单元格
 
@@ -426,7 +426,7 @@ _重要信息：_ 您的表格视图单元格应该继承 `PFTableViewCell` 而�
 
 ## PFImageView
 
-很多应用需要显示以 `PFFile` 格式储存在 Parse 云中的图像。但是，要用内置的 `UIImageView` 加载远程图像需要编写多行样本代码。`PFImageView` 可以简化这项工作：
+很多应用需要显示以 `%{ParseFile}` 格式储存在 Parse 云中的图像。但是，要用内置的 `UIImageView` 加载远程图像需要编写多行样本代码。`PFImageView` 可以简化这项工作：
 
 ```objc
 PFImageView *imageView = [[PFImageView alloc] init];
@@ -439,7 +439,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 
 ## PFTableViewCell
 
-很多应用需要显示表格视图单元格，这些单元格中含有以 `PFFile` 格式储存在 Parse 云中的图像。但是，要用内置的`UITableViewCell` 加载远程图像需要编写多行样本代码。`PFTableViewCell` 通过暴露`PFImageView` 中支持远程图像加载的 `imageView` 属性简化这项工作：
+很多应用需要显示表格视图单元格，这些单元格中含有以 `%{ParseFile}` 格式储存在 Parse 云中的图像。但是，要用内置的`UITableViewCell` 加载远程图像需要编写多行样本代码。`PFTableViewCell` 通过暴露`PFImageView` 中支持远程图像加载的 `imageView` 属性简化这项工作：
 
 ```objc
 @implementation SimpleTableViewController
@@ -460,7 +460,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 @end
 ```
 
-与 `UITableViewCell` 类似，`PFTableViewCell` 支持默认的布局样式。与 `UITableViewCell` 不同，`PFTableViewCell` 的 `imageView` 属性属于 `PFImageView` 类型，支持以 `PFFile` 的格式下载远程图像。
+与 `UITableViewCell` 类似，`PFTableViewCell` 支持默认的布局样式。与 `UITableViewCell` 不同，`PFTableViewCell` 的 `imageView` 属性属于 `PFImageView` 类型，支持以 `%{ParseFile}` 的格式下载远程图像。
 
 虽然它可以单独使用，但是在 `PFQueryTableViewController` 中使用时 `PFTableViewCell` 确实有很多亮点。`PFQueryTableViewController` 可以识别 `PFTableViewCell` 并可以自动加载图像。这一功能在 `PFQueryTableViewController` 文件中有详细介绍。
 

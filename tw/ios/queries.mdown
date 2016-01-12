@@ -1,12 +1,12 @@
 # 查詢
 
-我們已經見過具有 `getObjectWithId:` 的 `PFQuery`，如何自 Parse 取回單一 `%{ParseObject}`。還有許多其他方式可以用 `PFQuery` 擷取資料：您可以一次擷取許多物件、在您想擷取的物件上設立條件、自動對查詢進行快取而不必自己編寫程式碼等等。
+我們已經見過具有 `getObjectWithId:` 的 `%{ParseQuery}`，如何自 Parse 取回單一 `%{ParseObject}`。還有許多其他方式可以用 `%{ParseQuery}` 擷取資料：您可以一次擷取許多物件、在您想擷取的物件上設立條件、自動對查詢進行快取而不必自己編寫程式碼等等。
 
 ## 基本查詢
 
-在許多情況下，會發生 `getObjectInBackgroundWithId:block:` 的功能不夠強大，而無法指定欲擷取的物件。`PFQuery` 提供擷取一系列物件的不同方式，而不只是單一物件。
+在許多情況下，會發生 `getObjectInBackgroundWithId:block:` 的功能不夠強大，而無法指定欲擷取的物件。`%{ParseQuery}` 提供擷取一系列物件的不同方式，而不只是單一物件。
 
-一般模式是建立一個 `PFQuery`，並在上頭設立條件，然後使用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 擷取相符 `%{ParseObject}` 的 `NSArray`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `whereKey:equalTo:` 方法限制索引鍵的值。
+一般模式是建立一個 `%{ParseQuery}`，並在上頭設立條件，然後使用 `findObjectsInBackgroundWithBlock:` 或 `findObjectsInBackgroundWithTarget:selector:` 擷取相符 `%{ParseObject}` 的 `NSArray`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `whereKey:equalTo:` 方法限制索引鍵的值。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -38,7 +38,7 @@ NSArray* scoreArray = [query findObjects];
 
 ## 使用 NSPredicate 指定限制
 
-若要充分利用 `PFQuery`，我們建議使用下列方法新增限制。不過如果您較喜歡使用 `NSPredicate`，建立 `PFQuery` 時可提供 `NSPredicate` 以指定限制的子集。
+若要充分利用 `%{ParseQuery}`，我們建議使用下列方法新增限制。不過如果您較喜歡使用 `NSPredicate`，建立 `%{ParseQuery}` 時可提供 `NSPredicate` 以指定限制的子集。
 
 ```objc
 NSPredicate *predicate = [NSPredicate predicateWithFormat:
@@ -64,7 +64,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 ## 查詢限制
 
-有幾種方式可以在 `PFQuery` 找到的物件加上限制。您可以利用 `whereKey:notEqualTo` 篩選出具有特定鍵值組的物件：
+有幾種方式可以在 `%{ParseQuery}` 找到的物件加上限制。您可以利用 `whereKey:notEqualTo` 篩選出具有特定鍵值組的物件：
 
 ```objc
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
@@ -383,6 +383,6 @@ PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
 }];
 ```
 
-您可將其他限制新增至作為「and」運轉子的新建 `PFQuery`。
+您可將其他限制新增至作為「and」運轉子的新建 `%{ParseQuery}`。
 
 請注意，我們並不支援複合查詢子查詢中的非篩選條件限制（例如，`limit`、`skip`、`orderBy...:`、`includeKey:`）。

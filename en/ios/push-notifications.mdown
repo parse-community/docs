@@ -217,7 +217,7 @@ installation.saveInBackground()
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `PFQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries), but we use the special static method `[PFInstallation query]` to create it. We set this query on our `PFPush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `%{ParseQuery}` to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries), but we use the special static method `[PFInstallation query]` to create it. We set this query on our `PFPush` object, before sending the notification.
 
 ```objc
 // Create our Installation query

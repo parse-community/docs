@@ -41,9 +41,9 @@ public void onCreate(Bundle savedInstanceState) {
 
 ### 自定义设置查询
 
-默认情况下，最简单的 `ParseQueryAdapter` 构造函数采用 `Context` 和 Parse 类名称。然后此类中的所有 `ParseObject` 将按照其 `createdAt` 时间戳的顺序被提取和显示。
+默认情况下，最简单的 `ParseQueryAdapter` 构造函数采用 `Context` 和 Parse 类名称。然后此类中的所有 `%{ParseObject}` 将按照其 `createdAt` 时间戳的顺序被提取和显示。
 
-若想改变这种方式，我们将通过 `ArrayAdapter` 的功能实现：`ParseQueryAdapter` 也能获取可返回您定义的 `ParseQuery` 的 `QueryFactory` 类，而不是获取将由该适配器显示的对象 vanilla 数组。将其写入此构造函数，然后此适配器将会使用该查询来确定提取和显示哪些对象。
+若想改变这种方式，我们将通过 `ArrayAdapter` 的功能实现：`ParseQueryAdapter` 也能获取可返回您定义的 `%{ParseQuery}` 的 `QueryFactory` 类，而不是获取将由该适配器显示的对象 vanilla 数组。将其写入此构造函数，然后此适配器将会使用该查询来确定提取和显示哪些对象。
 
 查看以下示例，了解如何设置 `ParseQueryAdapter`，以便只显示有四个或以上成员的朋克和金属乐队（按照唱片销售量排列）：
 
@@ -62,7 +62,7 @@ ParseQueryAdapter<ParseObject> adapter =   new ParseQueryAdapter<ParseObject>(th
 
 ### 自定义行
 
-您的 `AdapterView` 中各 `View` 的默认布局为含 `ParseImageView` 和 `TextView` 的简单 `LinearLayout`。如果 `setTextKey(String)` 与 `ParseQueryAdapter` 一同使用，则其参数将用于选择在 `TextView` 中显示您 `ParseObject` 上的哪个键。同样，如果使用 `setImageKey(String)`，则其参数将用于确定在 ImageView 中显示的图像。
+您的 `AdapterView` 中各 `View` 的默认布局为含 `ParseImageView` 和 `TextView` 的简单 `LinearLayout`。如果 `setTextKey(String)` 与 `ParseQueryAdapter` 一同使用，则其参数将用于选择在 `TextView` 中显示您 `%{ParseObject}` 上的哪个键。同样，如果使用 `setImageKey(String)`，则其参数将用于确定在 ImageView 中显示的图像。
 
 对行进行自定义的一种方法是覆盖 `getItemView(ParseObject, View, ViewGroup)` 或 `getNextPageView(View, ViewGroup)`，并且调用适当方法的超类实施来执行繁重任务。如果您为此超类实施提供自己的布局，请注意，`getItemView(ParseObject, View, ViewGroup)` 和 `getNextPageView(View, ViewGroup)` 需要 `TextView` (id:`android.R.id.text1`)，这是设置了 `textKey` 的情况；也会需要 `ParseImageView` (id:`android.R.id.icon`)，这是设置了 `imageKey` 的情况。
 
@@ -88,7 +88,7 @@ public View getItemView(ParseObject object, View v, ViewGroup parent) {
 }
 ```
 
-对行进行自定义的另一种方法是通过覆盖 `ParseQueryAdapter` 的方法和完全忽略超类实施来完全控制行的外观。在这个示例中，我们的项目视图只是通过 `ParseObject` 定义颜色的行。
+对行进行自定义的另一种方法是通过覆盖 `ParseQueryAdapter` 的方法和完全忽略超类实施来完全控制行的外观。在这个示例中，我们的项目视图只是通过 `%{ParseObject}` 定义颜色的行。
 
 ```java
 @Override
@@ -116,9 +116,9 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 ### 在行内加载远程图像
 
-`ParseQueryAdapter` 使得显示远程图像很简单。通过调用 `setImageKey(String)`，您可以将键名传递到您的 `ParseObject` 上，后者应包含一个 `ParseFile`，其中带有将从 Parse 提取并载入对应行 `ParseImageView` 的图像。
+`ParseQueryAdapter` 使得显示远程图像很简单。通过调用 `setImageKey(String)`，您可以将键名传递到您的 `%{ParseObject}` 上，后者应包含一个 `%{ParseFile}`，其中带有将从 Parse 提取并载入对应行 `ParseImageView` 的图像。
 
-该图像将异步下载，并且相关的 `ParseImageView` 将在后台更新。随着用户向下滚动以及适配器进行行循环，在行变为可见和分配到 `ParseObject` 时，将提取图像。
+该图像将异步下载，并且相关的 `ParseImageView` 将在后台更新。随着用户向下滚动以及适配器进行行循环，在行变为可见和分配到 `%{ParseObject}` 时，将提取图像。
 
 您可以定义在图像提取仍未完成时使用的占位符图像。对 `ParseQueryAdapter` 调用 `setPlaceholder(Drawable)`，以将指定的 `Drawable` 用作备用图像。
 
@@ -134,7 +134,7 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 为了应用分页，查询会自动更改，并且在 `AdapterView` 底部出现一个分页行，以便用户加载下一页。
 
-默认情况下，“分页”功能处于打开状态。要关闭此功能，调用 `setPaginationEnabled(false)`。关闭分页功能之后，`ParseQueryAdapter` 将采用默认 100 项的 `ParseQuery` 限制。
+默认情况下，“分页”功能处于打开状态。要关闭此功能，调用 `setPaginationEnabled(false)`。关闭分页功能之后，`ParseQueryAdapter` 将采用默认 100 项的 `%{ParseQuery}` 限制。
 
 ### 数据自动加载
 

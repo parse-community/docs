@@ -231,7 +231,7 @@ public class ParseErrorHandler {
 });
 
 // In all API requests, call the global error handler, e.g.
-query.FindAsync().ContinueWith(t => {
+query.FindAsync().ContinueWith(t → {
   if (t.IsFaulted) {
     // Query Failed - handle an error.
     ParseErrorHandler.HandleParseError(t.Exception.InnerException as ParseException);

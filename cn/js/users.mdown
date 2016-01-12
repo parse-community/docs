@@ -4,11 +4,11 @@
 
 您可以使用这个用户类在您的应用程序中添加用户帐户功能。
 
-`Parse.User` 是 `Parse.Object` 的一个子类，拥有完全相同的特性，如灵活架构、自动留存和键值接口。`Parse.Object` 上的所有方法也存在于 `Parse.User` 中。所不同的是 Parse.User 具有针对用户帐户的一些特殊的附加功能。
+`Parse.User` 是 `%{ParseObject}` 的一个子类，拥有完全相同的特性，如灵活架构、自动留存和键值接口。`%{ParseObject}` 上的所有方法也存在于 `Parse.User` 中。所不同的是 Parse.User 具有针对用户帐户的一些特殊的附加功能。
 
 ## 属性
 
-`Parse.User` 有几个值可以将其与 `Parse.Object` 区分开：
+`Parse.User` 有几个值可以将其与 `%{ParseObject}` 区分开：
 
 *   用户名：用户的用户名（必填）。
 *   密码：用户的密码（注册时必填）。
@@ -219,7 +219,7 @@ Parse.User.requestPasswordReset("email@example.com", {
 
 ## 查询
 
-若要查询用户，您只需针对 `Parse.User` 创建一个新的 `Parse.Query`：
+若要查询用户，您只需针对 `Parse.User` 创建一个新的 `%{ParseQuery}`：
 
 ```js
 var query = new Parse.Query(Parse.User);

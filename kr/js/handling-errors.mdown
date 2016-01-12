@@ -1,6 +1,6 @@
 # 오류 처리
 
-대부분의 Parse JavaScript 함수에서는 Backbone 'options' 개체와 비슷하게 콜백이 있는 개체를 사용하여 성공이나 실패를 보고합니다.  주로 사용되는 두 개의 콜백은 `success`와 `error`입니다. `success`는 작업을 오류 없이 완료할 때마다 호출됩니다.  일반적으로 매개변수는 `save` 또는 `get`의 경우 `Parse.Object`이고 `find`의 경우 `Parse.Object`의 배열입니다.
+대부분의 Parse JavaScript 함수에서는 Backbone 'options' 개체와 비슷하게 콜백이 있는 개체를 사용하여 성공이나 실패를 보고합니다.  주로 사용되는 두 개의 콜백은 `success`와 `error`입니다. `success`는 작업을 오류 없이 완료할 때마다 호출됩니다.  일반적으로 매개변수는 `save` 또는 `get`의 경우 `%{ParseObject}`이고 `find`의 경우 `%{ParseObject}`의 배열입니다.
 
 `error`는 네트워크를 통해 Parse Cloud와 상호 작용하는 동안 발생하는 모든 오류에 대해 호출됩니다. 이러한 오류는 클라우드에 연결하는 문제나 요청된 작업을 수행하는 문제와 관련이 있습니다. 다른 예를 살펴보겠습니다.  아래 코드에서는 존재하지 않는 `objectId`가 지정된 개체를 가져오려고 합니다. Parse Cloud에서는 오류를 반환하며 콜백에서 올바르게 처리하는 방법은 다음과 같습니다.
 
@@ -42,4 +42,4 @@ query.get("thisObjectIdDoesntExist", {
 });
 ```
 
-`save` 및 `signUp`과 같이 특정 `Parse.Object`에 영향을 주는 메서드에서 오류 함수의 첫 번째 인수는 개체 자신이고 두 번째 인수는 `Parse.Error` 개체입니다.  이것은 Backbone 유형 프레임워크와의 호환성을 위한 조치입니다.  가능한 모든 `Parse.Error` 코드의 목록은 [JavaScript API](/docs/js)의 오류 코드 섹션을 참조하세요.
+`save` 및 `signUp`과 같이 특정 `%{ParseObject}`에 영향을 주는 메서드에서 오류 함수의 첫 번째 인수는 개체 자신이고 두 번째 인수는 `Parse.Error` 개체입니다.  이것은 Backbone 유형 프레임워크와의 호환성을 위한 조치입니다.  가능한 모든 `Parse.Error` 코드의 목록은 [JavaScript API](/docs/js)의 오류 코드 섹션을 참조하세요.

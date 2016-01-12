@@ -39,7 +39,7 @@ var game = new Parse.Object("Game");
 game.set("createdBy", Parse.User.current());
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -73,7 +73,7 @@ var query = new Parse.Query("Game");
 query.equalTo("createdBy", Parse.User.current());
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -124,7 +124,7 @@ var game = ...
 var user = game.get("createdBy");
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -233,7 +233,7 @@ var user = Parse.User.current();
 user.set("weaponsList", weapons);
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -260,7 +260,7 @@ var weapons = ParseUser.CurrentUser.Get<IList<Object>>("weaponsList");
 var weapons = Parse.User.current().get("weaponsList")
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -367,7 +367,7 @@ userQuery.find({
 });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -418,7 +418,7 @@ userQuery.equalTo("weaponsList", scimitar);
 userQuery.containedIn("weaponsList", arrayOfWeapons);
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -553,7 +553,7 @@ relation.add(authorThree);
 book.save();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -634,7 +634,7 @@ var query = relation.query();
 // now execute the query
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -709,7 +709,7 @@ var query = new Parse.Query("Book");
 query.equalTo("authors", author);
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -787,7 +787,7 @@ follow.set("date", Date());
 follow.save();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -870,7 +870,7 @@ query.find({
 });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -949,7 +949,7 @@ query.find({
 });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -1024,7 +1024,7 @@ var book = ...
 book.add("authors", author);
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -1113,7 +1113,7 @@ bookQuery.find({
 });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -1140,7 +1140,7 @@ var authorList = book.Get<List<ParseObject>>("authors");
 var authorList = book.get("authors")
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -1246,7 +1246,7 @@ bookQuery.find({
 });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example

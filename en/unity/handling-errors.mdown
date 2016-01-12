@@ -16,7 +16,7 @@ The second type of error is one that occurs when interacting with the Parse Clou
 ```csharp
 try
 {
-    user.SignUpAsync().ContinueWith(t => {
+    user.SignUpAsync().ContinueWith(t → {
         if (t.IsFaulted) {
             // Errors from Parse Cloud and network interactions
             using (IEnumerator<System.Exception> enumerator = t.Exception.InnerExceptions.GetEnumerator()) {

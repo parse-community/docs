@@ -2,9 +2,9 @@
 
 ## Parse.Object
 
-Parse 上的数据储存建立在 `Parse.Object` 的基础上。每个 `Parse.Object` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `Parse.Object` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
+Parse 上的数据储存建立在 `%{ParseObject}` 的基础上。每个 `%{ParseObject}` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `%{ParseObject}` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
 
-例如，假设您要跟踪游戏的高分。单个 `Parse.Object` 可能包括：
+例如，假设您要跟踪游戏的高分。单个 `%{ParseObject}` 可能包括：
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,9 +12,9 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 键值必须是字母数字字符串。键值可以是字符串、数字、布尔值或设置是数组和字典 － 只要是能用 JSON 编码的任何内容。
 
-每个 `Parse.Object` 都是一种具体子类的实例，您可以用其类名来区别不同组的数据。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
+每个 `%{ParseObject}` 都是一种具体子类的实例，您可以用其类名来区别不同组的数据。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
 
-若要创建新的子类，可使用 `Parse.Object.extend` 方法。任何 `Parse.Query` 将返回具有相同类名的任何 `Parse.Object` 的新子类实例。如果您熟悉 `Backbone.Model`，那么您就知道如何使用 `Parse.Object`。它被设计为一种混入式替代品。
+若要创建新的子类，可使用 `Parse.Object.extend` 方法。任何 `%{ParseQuery}` 将返回具有相同类名的任何 `%{ParseObject}` 的新子类实例。如果您熟悉 `Backbone.Model`，那么您就知道如何使用 `%{ParseObject}`。它被设计为一种混入式替代品。
 
 ```js
 // Simple syntax to create a new subclass of Parse.Object.
@@ -27,7 +27,7 @@ var gameScore = new GameScore();
 var Achievement = Parse.Object.extend({ className: "Achievement" });
 ```
 
-您可以向您的 `Parse.Object` 子类添加额外的方法和属性。
+您可以向您的 `%{ParseObject}` 子类添加额外的方法和属性。
 
 ```js
 // A complex subclass of Parse.Object
@@ -86,7 +86,7 @@ objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 
 这里要注意两点。在运行这个代码前，您不需要配置或创建名称为 `GameScore` 的新类别。您的 Parse 应用在第一次遇到这个类别时会为您创建该类别。
 
-还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`Parse.Object` 上才会存在这些字段。
+还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`%{ParseObject}` 上才会存在这些字段。
 
 如果您喜欢，可以在调用 `save` 时直接设置属性。
 
@@ -110,7 +110,7 @@ gameScore.save({
 
 ## 对象检索
 
-将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `Parse.Query` 检索整个 `Parse.Object`：
+将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `%{ParseQuery}` 检索整个 `%{ParseObject}`：
 
 ```js
 var GameScore = Parse.Object.extend("GameScore");
@@ -126,7 +126,7 @@ query.get("xWMyZ4YEGZ", {
 });
 ```
 
-若要从 `Parse.Object` 获取数值，可使用 `get` 方法。
+若要从 `%{ParseObject}` 获取数值，可使用 `get` 方法。
 
 ```js
 var score = gameScore.get("score");
@@ -245,7 +245,7 @@ myObject.save();
 
 ### 一对一和一对多关系
 
-一对一和一对多关系是通过把 `Parse.Object` 保存为另一个对象的值来建立模型的。例如，一个博客应用中的每个 `Comment` 可能对应一个 `Post`。
+一对一和一对多关系是通过把 `%{ParseObject}` 保存为另一个对象的值来建立模型的。例如，一个博客应用中的每个 `Comment` 可能对应一个 `Post`。
 
 要创建一篇带有单一 `Comment` 的新 `Post`，您可以这样写：
 
@@ -276,7 +276,7 @@ post.id = "1zEcyElZ80";
 myComment.set("parent", post);
 ```
 
-默认在提取对象时不提取相关的 `Parse.Object`。这些对象的值在按如下方式提取之前无法检索：
+默认在提取对象时不提取相关的 `%{ParseObject}`。这些对象的值在按如下方式提取之前无法检索：
 
 ```js
 var post = fetchedComment.get("parent");
@@ -289,7 +289,7 @@ post.fetch({
 
 ### 多对多关系
 
-多对多关系模型使用 `Parse.Relation` 建立。这与在键值上储存 `Parse.Object` 数组类似，只是您不需要一次提取某项关系的所有对象。此外，这让 `Parse.Relation` 可以扩展到比 `Parse.Object` 方法多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Posts`。这种情况下，您可以用 `relation` 储存 `User` 喜欢的 `Posts`。若要将一个 `Post` 添加至 `User` 的&ldquo;likes&rdquo;（喜欢）列表，您可以：
+多对多关系模型使用 `%{ParseRelation}` 建立。这与在键值上储存 `%{ParseObject}` 数组类似，只是您不需要一次提取某项关系的所有对象。此外，这让 `%{ParseRelation}` 可以扩展到比 `%{ParseObject}` 方法多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Posts`。这种情况下，您可以用 `relation` 储存 `User` 喜欢的 `Posts`。若要将一个 `Post` 添加至 `User` 的&ldquo;likes&rdquo;（喜欢）列表，您可以：
 
 ```js
 var user = Parse.User.current();
@@ -298,7 +298,7 @@ relation.add(post);
 user.save();
 ```
 
-您可以从 `Parse.Relation` 中删除一篇帖子：
+您可以从 `%{ParseRelation}` 中删除一篇帖子：
 
 ```js
 relation.remove(post);
@@ -313,14 +313,14 @@ relation.remove(post2);
 user.save();
 ```
 
-您还可以将 `Parse.Object` 数组传递给 `add` 和 `remove`：
+您还可以将 `%{ParseObject}` 数组传递给 `add` 和 `remove`：
 
 ```js
 relation.add([post1, post2, post3]);
 user.save();
 ```
 
-默认情况下，不下载这种关系中的对象列表。您可以用 `query` 返回的 `Parse.Query`，获取用户喜欢的帖子列表。代码类似于：
+默认情况下，不下载这种关系中的对象列表。您可以用 `query` 返回的 `%{ParseQuery}`，获取用户喜欢的帖子列表。代码类似于：
 
 ```js
 relation.query().find({
@@ -330,7 +330,7 @@ relation.query().find({
 });
 ```
 
-若您只想要帖子的一个子集，可以像这样对查询返回的 `Parse.Query` 添加额外限制条件：
+若您只想要帖子的一个子集，可以像这样对查询返回的 `%{ParseQuery}` 添加额外限制条件：
 
 ```js
 var query = relation.query();
@@ -342,13 +342,13 @@ query.find({
 });
 ```
 
-若要了解有关 `Parse.Query` 的更多详细信息，请查看本指南的查询部分。`Parse.Relation` 的运作方式类似于用于查询的 `Parse.Object` 数组，所以对于可以在对象数组上执行的任何查询，您都可以在 `Parse.Relation` 上执行。
+若要了解有关 `%{ParseQuery}` 的更多详细信息，请查看本指南的查询部分。`%{ParseRelation}` 的运作方式类似于用于查询的 `%{ParseObject}` 数组，所以对于可以在对象数组上执行的任何查询，您都可以在 `%{ParseRelation}` 上执行。
 
 ## 数据类型
 
-目前，我们使用的数值类型有 `String`、`Number` 和 `Parse.Object`。Parse 还支持 JavaScript `Date` 和 `null`。
+目前，我们使用的数值类型有 `String`、`Number` 和 `%{ParseObject}`。Parse 还支持 JavaScript `Date` 和 `null`。
 
-您可以嵌套 JavaScript `Object` 和 JavaScript `Array`，以在单一 `Parse.Object` 中储存更多结构数据。
+您可以嵌套 JavaScript `Object` 和 JavaScript `Array`，以在单一 `%{ParseObject}` 中储存更多结构数据。
 
 一些示例：
 
@@ -370,6 +370,6 @@ bigObject.set("myNull", null);
 bigObject.save();
 ```
 
-`Parse.Object` 的大小不应超过 128 KB。
+`%{ParseObject}` 的大小不应超过 128 KB。
 
 若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](#data)部分的文档。

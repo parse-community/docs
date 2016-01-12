@@ -44,7 +44,7 @@ placeObject[@"location"] = point;
 
 ## Geo 查询
 
-有了一些具有空间坐标的对象后，找到哪些对象距离某个点最近将会产生很好的效应。这可以通过使用 `whereKey:nearGeoPoint:` 对 `PFQuery` 添加另一限制条件完成。举例而言，找出距离某个用户最近的十个地点的方法如下：
+有了一些具有空间坐标的对象后，找到哪些对象距离某个点最近将会产生很好的效应。这可以通过使用 `whereKey:nearGeoPoint:` 对 `%{ParseQuery}` 添加另一限制条件完成。举例而言，找出距离某个用户最近的十个地点的方法如下：
 
 ```objc
 // User's location
@@ -63,7 +63,7 @@ placesObjects = [query findObjects];
 
 若要用距离来限定获得哪些结果，请使用 `whereKey:nearGeoPoint:withinMiles`、`whereKey:nearGeoPoint:withinKilometers` 和 `whereKey:nearGeoPoint:withinRadians`。
 
-您还可以查询包含在特定区域内的对象集合。若要查找位于某个矩形区域内的对象，请将 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 限制条件添加至您的 `PFQuery`。
+您还可以查询包含在特定区域内的对象集合。若要查找位于某个矩形区域内的对象，请将 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 限制条件添加至您的 `%{ParseQuery}`。
 
 ```objc
 PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];

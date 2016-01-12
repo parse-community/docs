@@ -1,6 +1,6 @@
 # 收藏
 
-`Parse.Collection` 是 `Parse.Object` 的有序集合。它与 `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)` 兼容，并拥有完全相同的功能。您可以使用模型类或特定的 `Parse.Query` 创建新的子类。
+`Parse.Collection` 是 `%{ParseObject}` 的有序集合。它与 `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)` 兼容，并拥有完全相同的功能。您可以使用模型类或特定的 `%{ParseQuery}` 创建新的子类。
 
 ```js
 // A Collection containing all instances of TestObject.
@@ -87,11 +87,11 @@ collection.reset([
 请阅读我们的 [JavaScript 待办事项应用教程](/tutorials/todo-app-with-javascript)，了解如何把 Parse 用作后台存留用户帐户和数据，继而创建[标准 Backbone 待办事项应用程序](http://addyosmani.github.com/todomvc/)。
 </div></div>
 
-我们的 JavaScript SDK 与 Backbone 兼容，这意味着我们的 `Parse.Object` 和 `Parse.Collection` 经过细微调整可以兼容 `Backbone.Model` 和 `Backbone.Collection`。以下是转化应用的示例：
+我们的 JavaScript SDK 与 Backbone 兼容，这意味着我们的 `%{ParseObject}` 和 `Parse.Collection` 经过细微调整可以兼容 `Backbone.Model` 和 `Backbone.Collection`。以下是转化应用的示例：
 
 [请遵守关于为现有 JavaScript 应用安装 SDK 的说明](/apps/quickstart#js/existing)。
 
-用 `Parse.Object` 替换所有 `Backbone.Model` 实例。替换时，应该用可以将您的对象映射到 Parse 类的适当 `className` 来代替 `url` 和 `urlRoot`。
+用 `%{ParseObject}` 替换所有 `Backbone.Model` 实例。替换时，应该用可以将您的对象映射到 Parse 类的适当 `className` 来代替 `url` 和 `urlRoot`。
 ```js
 var BackboneTodo = Backbone.Model.extend({
   urlRoot: "/todos"
@@ -102,7 +102,7 @@ var BackboneTodo = Backbone.Model.extend({
 });
 ```
 
-用 `Parse.Collection` 替换 `Backbone.Collection` 的所有实例，并把 `Parse.Object` 类指定为 `model`。您还应该指定一个 `query`，这样收藏夹知道如何提取对象：
+用 `Parse.Collection` 替换 `Backbone.Collection` 的所有实例，并把 `%{ParseObject}` 类指定为 `model`。您还应该指定一个 `query`，这样收藏夹知道如何提取对象：
 
 ```js
 var ParseTodoCollection = Parse.Collection.extend({
@@ -116,7 +116,7 @@ todos.query = query;
 todos.fetch();
 ```
 
-您通过服务器创建模式的过程中，需要创建一个 `Parse.Query` 来抓取您感兴趣的对象，类似于我们在 `Parse.Collection` 上对 `query` 属性所做的操作。
+您通过服务器创建模式的过程中，需要创建一个 `%{ParseQuery}` 来抓取您感兴趣的对象，类似于我们在 `Parse.Collection` 上对 `query` 属性所做的操作。
 
 添加或更新您的应用，以便可以使用[用户验证](/docs/cn/js_guide#users)并按需要对对象应用 ACL。
 

@@ -2,13 +2,13 @@
 
 ## PFFile
 
-`PFFile`을 사용하면 일반 `%{ParseObject}`에 보관하기에 너무 크거나 번거로운 앱 파일을 클라우드에 저장할 수 있습니다. 가장 일반적인 사용 사례는 이미지 저장이지만 문서와 동영상, 음악, 기타 바이너리 데이터(최대 10MB) 저장에도 사용할 수 있습니다.
+`%{ParseFile}`을 사용하면 일반 `%{ParseObject}`에 보관하기에 너무 크거나 번거로운 앱 파일을 클라우드에 저장할 수 있습니다. 가장 일반적인 사용 사례는 이미지 저장이지만 문서와 동영상, 음악, 기타 바이너리 데이터(최대 10MB) 저장에도 사용할 수 있습니다.
 
 <div class='tip info'><div>
 사용자가 사진을 찍고 곧바로 Parse에 업로드할 수 있도록 하는 앱을 만드는 방법은 [이미지 저장 튜토리얼](/tutorials/saving-images)을 참조하세요.
 </div></div>
 
-`PFFile`은 쉽게 시작할 수 있습니다. 먼저 `NSData` 형식의 데이터가 있어야 합니다. 그런 다음 이 데이터로 `PFFile`을 만듭니다. 다음 예에서는 문자열을 사용합니다.
+`%{ParseFile}`은 쉽게 시작할 수 있습니다. 먼저 `NSData` 형식의 데이터가 있어야 합니다. 그런 다음 이 데이터로 `%{ParseFile}`을 만듭니다. 다음 예에서는 문자열을 사용합니다.
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -26,7 +26,7 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 [file saveInBackground];
 ```
 
-마지막으로, 저장이 완료되면 다른 데이터와 마찬가지로 `PFFile`을 `%{ParseObject}`에 연결할 수 있습니다.
+마지막으로, 저장이 완료되면 다른 데이터와 마찬가지로 `%{ParseFile}`을 `%{ParseObject}`에 연결할 수 있습니다.
 
 ```objc
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
@@ -35,7 +35,7 @@ jobApplication[@"applicantResumeFile"] = file;
 [jobApplication saveInBackground];
 ```
 
-다시 검색하면 `PFFile`의 `getData` 변형 중 하나를 호출합니다. 다음 예에서는 다른 JobApplication 개체에서 이력서 파일을 검색합니다.
+다시 검색하면 `%{ParseFile}`의 `getData` 변형 중 하나를 호출합니다. 다음 예에서는 다른 JobApplication 개체에서 이력서 파일을 검색합니다.
 
 ```objc
 PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
@@ -46,7 +46,7 @@ NSData *resumeData = [applicantResume getData];
 
 ## 이미지
 
-이미지를 `NSData`로 변환한 다음 `PFFile`을 사용하여 쉽게 저장할 수 있습니다. `PFFile`로 저장하려는 `image`라는 `UIImage`가 있다고 가정해 보겠습니다.
+이미지를 `NSData`로 변환한 다음 `%{ParseFile}`을 사용하여 쉽게 저장할 수 있습니다. `%{ParseFile}`로 저장하려는 `image`라는 `UIImage`가 있다고 가정해 보겠습니다.
 
 ```objc
 NSData *imageData = UIImagePNGRepresentation(image);
@@ -57,9 +57,9 @@ userPhoto[@"imageFile"] = imageFile;
 [userPhoto saveInBackground];
 ```
 
-`PFFile`은 `userPhoto` 개체를 저장할 때 업로드됩니다. 또한 `PFFile`의 [업로드 및 다운로드 진행 상태](/docs/kr/ios_guide#files-progress)를 추적할 수도 있습니다.
+`%{ParseFile}`은 `userPhoto` 개체를 저장할 때 업로드됩니다. 또한 `%{ParseFile}`의 [업로드 및 다운로드 진행 상태](/docs/kr/ios_guide#files-progress)를 추적할 수도 있습니다.
 
-이미지를 다시 검색하면 `PFFile`의 `getData` 변형 중 하나를 호출합니다. 다음 예에서는 `anotherPhoto`라는 다른 `UserPhoto`에서 이미지 파일을 검색합니다.
+이미지를 다시 검색하면 `%{ParseFile}`의 `getData` 변형 중 하나를 호출합니다. 다음 예에서는 `anotherPhoto`라는 다른 `UserPhoto`에서 이미지 파일을 검색합니다.
 
 ```objc
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
@@ -72,7 +72,7 @@ PFFile *userImageFile = anotherPhoto[@"imageFile"];
 
 ## 진행 상태
 
-`PFFile`을 사용하는 업로드와 다운로드의 진행 상태는 각각 `saveInBackgroundWithBlock:progressBlock:` 및 `getDataInBackgroundWithBlock:progressBlock:`을 사용하여 쉽게 가져올 수 있습니다. 예:
+`%{ParseFile}`을 사용하는 업로드와 다운로드의 진행 상태는 각각 `saveInBackgroundWithBlock:progressBlock:` 및 `getDataInBackgroundWithBlock:progressBlock:`을 사용하여 쉽게 가져올 수 있습니다. 예:
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];

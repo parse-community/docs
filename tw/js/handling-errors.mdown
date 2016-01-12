@@ -1,6 +1,6 @@
 # 錯誤處理
 
-大多數 Parse JavaScript 函數會透過物件回呼來回報成功與否，與 Backbone 的「選項」物件類似。使用的兩個最主要的回呼為 `success` 和 `error`。作業完成時若未發生錯誤，就會呼叫 `success`。一般而言，在 `save` 或 `get` 的情況，其參數會是 `Parse.Object`，而在 `find` 的情況其參數則為 `Parse.Object` 的陣列。
+大多數 Parse JavaScript 函數會透過物件回呼來回報成功與否，與 Backbone 的「選項」物件類似。使用的兩個最主要的回呼為 `success` 和 `error`。作業完成時若未發生錯誤，就會呼叫 `success`。一般而言，在 `save` 或 `get` 的情況，其參數會是 `%{ParseObject}`，而在 `find` 的情況其參數則為 `%{ParseObject}` 的陣列。
 
 在網路上與 Parse Cloud 互動時，只要發生任何類型的錯誤，就會呼叫 `error`。這些錯誤要不就是有關連線到雲端的問題，要不就是有關執行所要求作業的問題。我們來一起看看另一個範例。在下列程式碼中，我們試圖用不存在的 `objectId` 擷取物件。Parse Cloud 將傳回錯誤，因此以下為在回呼中正確處理的方法：
 
@@ -42,4 +42,4 @@ query.get("thisObjectIdDoesntExist", {
 });
 ```
 
-像是會影響特定 `Parse.Object` 的`save` 和 `signUp` 方法，錯誤函數的第一個引數會是物件本身，而第二個引數則為 `Parse.Error` 物件。這是為了與 Backbone 類型的架構之相容性。如需所有可能的 `Parse.Error` 程式碼清單，請參閱 [JavaScript API](/docs/js) 的「錯誤程式碼」章節。
+像是會影響特定 `%{ParseObject}` 的`save` 和 `signUp` 方法，錯誤函數的第一個引數會是物件本身，而第二個引數則為 `Parse.Error` 物件。這是為了與 Backbone 類型的架構之相容性。如需所有可能的 `Parse.Error` 程式碼清單，請參閱 [JavaScript API](/docs/js) 的「錯誤程式碼」章節。

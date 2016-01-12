@@ -1,7 +1,7 @@
 # Users
 
 <div class='tip info'><div>
-  Some `ParseUser` feature like `ParseUser.CurrentUser` and `ParseUser.LogIn` are not working properly in ASP.NET due to its server-side nature.
+  Some `%{ParseUser}` feature like `ParseUser.CurrentUser` and `ParseUser.LogIn` are not working properly in ASP.NET due to its server-side nature.
 </div></div>
 
 Many apps have a unified login that works across the mobile app and other systems. Accessing user accounts through the REST API lets you build this functionality on top of Parse.

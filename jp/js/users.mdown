@@ -4,12 +4,12 @@
 
 このクラスでは、ユーザーアカウントの機能をアプリに追加できます。
 
-`Parse.User`は`Parse.Object`のサブクラスであり、柔軟なスキーマ、自動継続、主要な値に関するインターフェイスなど、同じ機能をすべて使用できます。`Parse.Object`に関するメソッドはすべて`Parse.User`でも使用できます。Parse.Userにはユーザーアカウントに固有の特別な追加事項がある点が異なります。
+`Parse.User`は`%{ParseObject}`のサブクラスであり、柔軟なスキーマ、自動継続、主要な値に関するインターフェイスなど、同じ機能をすべて使用できます。`%{ParseObject}`に関するメソッドはすべて`Parse.User`でも使用できます。Parse.Userにはユーザーアカウントに固有の特別な追加事項がある点が異なります。
 
 
 ## プロパティ
 
-`Parse.User`には、`Parse.Object`にはない値をいくつか設定できます。
+`Parse.User`には、`%{ParseObject}`にはない値をいくつか設定できます。
 
 *   username: 利用者のユーザーネームです（必須）。
 *   password: 利用者のパスワードです（必須）。
@@ -229,7 +229,7 @@ Parse.User.requestPasswordReset("email@example.com", {
 
 ## クエリ
 
-利用者にクエリを実行するには、`Parse.User`に新しい`Parse.Query`を作成します。
+利用者にクエリを実行するには、`Parse.User`に新しい`%{ParseQuery}`を作成します。
 
 ```js
 var query = new Parse.Query(Parse.User);

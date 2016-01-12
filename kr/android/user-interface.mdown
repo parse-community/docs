@@ -40,9 +40,9 @@ public void onCreate(Bundle savedInstanceState) {
 
 ### 쿼리 사용자 지정
 
-기본적으로 가장 단순한 `ParseQueryAdapter` 생성자에서는 `Context` 및 Parse 클래스 이름을 사용합니다. 그런 다음 해당 클래스의 모든 `ParseObject`를 가져오고 해당 `createdAt` 타임스탬프 순서로 표시합니다.
+기본적으로 가장 단순한 `ParseQueryAdapter` 생성자에서는 `Context` 및 Parse 클래스 이름을 사용합니다. 그런 다음 해당 클래스의 모든 `%{ParseObject}`를 가져오고 해당 `createdAt` 타임스탬프 순서로 표시합니다.
 
-이 동작을 변경하려면 `ArrayAdapter`의 기능에서 이끌어 냅니다. 그러나 어댑터에서 표시할 개체의 vanilla 배열을 사용하는 대신, `ParseQueryAdapter`에서는 정의하는 `ParseQuery`를 반환하는 `QueryFactory` 클래스를 사용할 수도 있습니다. 이 클래스를 생성자에 전달하면 어댑터에서는 해당 쿼리를 사용하여 가져오고 표시할 개체를 결정합니다.
+이 동작을 변경하려면 `ArrayAdapter`의 기능에서 이끌어 냅니다. 그러나 어댑터에서 표시할 개체의 vanilla 배열을 사용하는 대신, `ParseQueryAdapter`에서는 정의하는 `%{ParseQuery}`를 반환하는 `QueryFactory` 클래스를 사용할 수도 있습니다. 이 클래스를 생성자에 전달하면 어댑터에서는 해당 쿼리를 사용하여 가져오고 표시할 개체를 결정합니다.
 
 아래에서 멤버가 4명 이상인 펑크 및 메탈 밴드만 판매된 레코드 수를 기준으로 정렬하여 표시하도록 `ParseQueryAdapter`를 설정하는 예를 참조하세요.
 
@@ -62,7 +62,7 @@ ParseQueryAdapter<ParseObject> adapter =
 
 ### 행 사용자 지정
 
-`AdapterView`에서 개별 `View`의 기본 레이아웃은 `ParseImageView` 및 `TextView`가 포함된 단순한 `LinearLayout`입니다. `ParseQueryAdapter`에 `setTextKey(String)`를 사용하면 해당 매개변수를 사용하여 `ParseObject`의 키 중 `TextView`에 표시되는 키를 선택합니다. 마찬가지로 `setImageKey(String)`를 사용하면 해당 매개변수를 사용하여 ImageView에 표시되는 이미지를 결정합니다.
+`AdapterView`에서 개별 `View`의 기본 레이아웃은 `ParseImageView` 및 `TextView`가 포함된 단순한 `LinearLayout`입니다. `ParseQueryAdapter`에 `setTextKey(String)`를 사용하면 해당 매개변수를 사용하여 `%{ParseObject}`의 키 중 `TextView`에 표시되는 키를 선택합니다. 마찬가지로 `setImageKey(String)`를 사용하면 해당 매개변수를 사용하여 ImageView에 표시되는 이미지를 결정합니다.
 
 행을 사용자 지정하는 한 가지 방법은 `getItemView(ParseObject, View, ViewGroup)` 또는 `getNextPageView(View, ViewGroup)`를 재정의하고 적절한 메서드의 상위 클래스 구현을 호출하여 heavy lifting을 수행하는 것입니다. 상위 클래스 구현의 레이아웃을 직접 제공하는 경우에는 `getItemView(ParseObject, View, ViewGroup)` 및 `getNextPageView(View, ViewGroup)`에 `TextView`(id: `android.R.id.text1`)(`textKey`가 설정된 경우) 및 `ParseImageView`(id: `android.R.id.icon`)(`imageKey`가 설정된 경우)가 필요합니다.
 
@@ -86,7 +86,7 @@ public View getItemView(ParseObject object, View v, ViewGroup parent)
 }
 ```
 
-행을 사용자 지정하는 다른 방법은 `ParseQueryAdapter`의 메서드를 재정의하고 상위 클래스의 구현을 완전히 무시하여 행의 모양을 완벽히 제어하는 것입니다. 이 예에서는 항목 보기가 단순한 행이고, 색은 `ParseObject`로 정의됩니다.
+행을 사용자 지정하는 다른 방법은 `ParseQueryAdapter`의 메서드를 재정의하고 상위 클래스의 구현을 완전히 무시하여 행의 모양을 완벽히 제어하는 것입니다. 이 예에서는 항목 보기가 단순한 행이고, 색은 `%{ParseObject}`로 정의됩니다.
 
 ```java
 @Override
@@ -113,9 +113,9 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 ### 행에서 원격 이미 로드
 
-`ParseQueryAdapter`를 사용하면 원격 이미지를 간단히 표시할 수 있습니다. `setImageKey(String)`를 호출하면 Parse에서 가져와 해당 행의 `ParseImageView`에 로드할 이미지가 포함된 `ParseFile`을 포함하는 키 이름을 `ParseObject`에 전달할 수 있습니다.
+`ParseQueryAdapter`를 사용하면 원격 이미지를 간단히 표시할 수 있습니다. `setImageKey(String)`를 호출하면 Parse에서 가져와 해당 행의 `ParseImageView`에 로드할 이미지가 포함된 `%{ParseFile}`을 포함하는 키 이름을 `%{ParseObject}`에 전달할 수 있습니다.
 
-이미지는 비동기적으로 다운로드되며 적절한 `ParseImageView`가 백그라운드에서 업데이트됩니다. 사용자가 스크롤하고 어댑터에서 행이 재생되면 행이 표시되고 `ParseObject`가 할당될 때 이미지를 가져옵니다.
+이미지는 비동기적으로 다운로드되며 적절한 `ParseImageView`가 백그라운드에서 업데이트됩니다. 사용자가 스크롤하고 어댑터에서 행이 재생되면 행이 표시되고 `%{ParseObject}`가 할당될 때 이미지를 가져옵니다.
 
 이미지 가져오기가 아직 완료되지 않은 동안 사용할 플레이스홀더 이미지를 정의할 수 있습니다. `ParseQueryAdapter`에서 `setPlaceholder(Drawable)`를 호출하여 지정된 `Drawable`을 폴백 이미지로 사용하세요.
 
@@ -131,7 +131,7 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 쿼리가 자동으로 변경되어 페이지 매기기가 적용되며, 페이지 매기기 행이 `AdapterView` 아래쪽에 표시되므로, 이를 사용하여 다음 페이지를 로드할 수 있습니다.
 
-페이지 매기기는 기본적으로 켜져 있습니다. 끄려면 `setPaginationEnabled(false)`를 호출하세요. 페이지 매기기를 끈 경우 `ParseQueryAdapter`에서는 기본 `ParseQuery` 제한인 100개 항목을 사용합니다.
+페이지 매기기는 기본적으로 켜져 있습니다. 끄려면 `setPaginationEnabled(false)`를 호출하세요. 페이지 매기기를 끈 경우 `ParseQueryAdapter`에서는 기본 `%{ParseQuery}` 제한인 100개 항목을 사용합니다.
 
 ### 데이터 자동 로드
 

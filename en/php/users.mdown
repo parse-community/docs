@@ -1,15 +1,15 @@
 # Users
 
-At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `ParseUser` that automatically handles much of the functionality required for user account management.
+At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `%{ParseUser}` that automatically handles much of the functionality required for user account management.
 
 With this class, you'll be able to add user account functionality in your app.
 
-`ParseUser` is a subclass of `ParseObject`, and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `ParseObject` also exist in `ParseUser`. The difference is that ParseUser has some special additions specific to user accounts.
+`%{ParseUser}` is a subclass of `%{ParseObject}`, and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `%{ParseObject}` also exist in `%{ParseUser}`. The difference is that ParseUser has some special additions specific to user accounts.
 
 
 ## Properties
 
-`ParseUser` has several values that set it apart from `ParseObject`:
+`%{ParseUser}` has several values that set it apart from `%{ParseObject}`:
 
 *   username: The username for the user (required).
 *   password: The password for the user (required on signup).
@@ -42,11 +42,11 @@ try {
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
-Note that we used the `signUp` method, not the `save` method. New `ParseUser`s should always be created using the `signUp` method. Subsequent updates to a user can be done by calling `save`.
+Note that we used the `signUp` method, not the `save` method. New `%{ParseUser}`s should always be created using the `signUp` method. Subsequent updates to a user can be done by calling `save`.
 
 If a signup isn't successful, you should read the error object that is returned. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.
 
-You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property &mdash; `ParseUser` will work as normal. We'll go over how this is handled in the reset password section.
+You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property &mdash; `%{ParseUser}` will work as normal. We'll go over how this is handled in the reset password section.
 
 ## Logging In
 
@@ -63,17 +63,17 @@ try {
 
 ## Verifying Emails
 
-Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `ParseUser` object. When a `ParseUser`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
+Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `%{ParseUser}` object. When a `%{ParseUser}`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
 
 There are three `emailVerified` states to consider:
 
 1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `ParseUsers` can never have a `true` value when the user account is first created.
-2.  `false` - at the time the `ParseUser` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `fetch` on the `ParseUser`.
-3.  _missing_ - the `ParseUser` was created when email verification was off or the `ParseUser` does not have an `email`.
+2.  `false` - at the time the `%{ParseUser}` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `fetch` on the `%{ParseUser}`.
+3.  _missing_ - the `%{ParseUser}` was created when email verification was off or the `%{ParseUser}` does not have an `email`.
 
 ## Current User
 
-It would be bothersome if the user had to log in every time they open your app. You can avoid this by using the cached current `ParseUser` object.
+It would be bothersome if the user had to log in every time they open your app. You can avoid this by using the cached current `%{ParseUser}` object.
 
 By default, whenever you use any signup or login methods, the user will be saved in PHP Session storage (The `$_SESSION` superglobal.)
 
@@ -117,9 +117,9 @@ If you do not want to use the default PHP `$_SESSION` for storage, you can add y
 
 ## Security For User Objects
 
-The `ParseUser` class is secured by default. Data stored in a `ParseUser` can only be modified by that user. By default, the data can still be read by any client. Thus, some `ParseUser` objects are authenticated and can be modified, whereas others are read-only.
+The `%{ParseUser}` class is secured by default. Data stored in a `%{ParseUser}` can only be modified by that user. By default, the data can still be read by any client. Thus, some `%{ParseUser}` objects are authenticated and can be modified, whereas others are read-only.
 
-Specifically, you are not able to invoke any of the `save` or `delete` methods unless the `ParseUser` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
+Specifically, you are not able to invoke any of the `save` or `delete` methods unless the `%{ParseUser}` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
 
 The following illustrates this security policy:
 
@@ -137,15 +137,15 @@ $userAgain->set("username", "another_username");
 $userAgain->save();
 ```
 
-The `ParseUser` obtained from `ParseUser::getCurrentUser()` will always be authenticated.
+The `%{ParseUser}` obtained from `ParseUser::getCurrentUser()` will always be authenticated.
 
-If you need to check if a `ParseUser` is authenticated, you can invoke the `authenticated` method. You do not need to check `authenticated` with `ParseUser` objects that are obtained via an authenticated method.
+If you need to check if a `%{ParseUser}` is authenticated, you can invoke the `authenticated` method. You do not need to check `authenticated` with `%{ParseUser}` objects that are obtained via an authenticated method.
 
 ## Security For Other Objects
 
-The same security model that applies to the `ParseUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
+The same security model that applies to the `%{ParseUser}` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
 
-The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, `new ParseACL::createACLWithUser($user)` generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
+The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `%{ParseUser}`. Then, `new ParseACL::createACLWithUser($user)` generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
 ```php
 $privateNote = new ParseObject("Note");
@@ -212,7 +212,7 @@ Note that the messaging in this flow will reference your app by the name that yo
 
 ## Querying
 
-To query for users, you can get a new `ParseQuery` for `ParseUser`s:
+To query for users, you can get a new `%{ParseQuery}` for `%{ParseUser}`s:
 
 ```php
 $query = ParseUser::query();
@@ -222,7 +222,7 @@ $results = $query->find();
 
 ## Associations
 
-Associations involving a `ParseUser` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all of their posts:
+Associations involving a `%{ParseUser}` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all of their posts:
 
 ```php
 $user = ParseUser::getCurrentUser()

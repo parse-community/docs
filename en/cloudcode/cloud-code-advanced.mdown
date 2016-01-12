@@ -200,22 +200,22 @@ To create a webhook for a Cloud function, start by writing the function's code o
 
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
-# use the webhook key to prove authenticity. protect_from_forgery :except => :index
+# use the webhook key to prove authenticity. protect_from_forgery :except → :index
 
 def index
   # Ensure the request is authorized. You can find this key on your app's settings page
   # and you should ALWAYS validate it in your request.
   if request.headers['X-Parse-Webhook-Key'] !== @webhook_key
-    return render :json => { :error => "Request Unauthorized"}
+    return render :json → { :error → "Request Unauthorized"}
   end
 
   # Check the function name and return a message if it's correct
   if params[:functionName] == "helloWorld"
-    return render :json => { :success => "Hello World!" }
+    return render :json → { :success → "Hello World!" }
   end
 
   # Return an error if it's not the function we expected
-  return render :json => { :error => "Unknown function"}
+  return render :json → { :error → "Unknown function"}
 end
 ```
 
@@ -263,12 +263,12 @@ Here's a more complex example where we use a webhook to perform some task for ou
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
 # use the webhook key to prove authenticity.
-protect_from_forgery :except => :index
+protect_from_forgery :except → :index
 
 def index
   # Ensure the request is validated
   if request.headers['X-Parse-Webhook-Key'] !== @webhook_key
-    return render :json => { :error => "Request Unauthorized"}
+    return render :json → { :error → "Request Unauthorized"}
   end
 
   # Check the function name
@@ -281,10 +281,10 @@ def index
     Resque.enqueue(BillingJob, user_id)
 
     # return a json object of this billing info
-    return render :json => { :success => "User billed!" }
+    return render :json → { :success → "User billed!" }
   end
 
-  return render :json => { :error => "Unknown function"}
+  return render :json → { :error → "Unknown function"}
 end
 ```
 
@@ -338,11 +338,11 @@ Let's [recreate our trigger](#cloud-code-beforesave-triggers) to truncate movie 
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
 # use the webhook key to prove authenticity.
-protect_from_forgery :except => :reviews
+protect_from_forgery :except → :reviews
 
 def reviews
   if request.headers['X-Parse-Webhook-Key'] != @webhook_key
-    return render :json => { :error => "Request Unauthorized"}
+    return render :json → { :error → "Request Unauthorized"}
   end
 
   review = params[:object]
@@ -350,14 +350,14 @@ def reviews
     # truncate the object and return the new data
     if review["comment"].length > 140
       review["comment"] = review["comment"].truncate(140)
-      return render :json => { :success => review }
+      return render :json → { :success → review }
     end
 
     # if the comment is ok we just return a success
-    return render :json => { :success => true }
+    return render :json → { :success → true }
   end
 
-  return render :json => { :error => "Unknown trigger"}
+  return render :json → { :error → "Unknown trigger"}
 end
 ```
 
@@ -412,11 +412,11 @@ Let's take the same example we created in Cloud Code [in the last chapter](#clou
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
 # use the webhook key to prove authenticity.
-protect_from_forgery :except => :comments
+protect_from_forgery :except → :comments
 
 def comments
   if request.headers['X-Parse-Webhook-Key'] != @webhook_key
-    return render :nothing => true
+    return render :nothing → true
   end
 
   comment = params[:object]
@@ -425,10 +425,10 @@ def comments
     @post_model = Post.where("id = #{post["objectId"]}")
     @post_model.increment(:comments_count, 1)
     @post_model.save!
-    return render :nothing => true
+    return render :nothing → true
   end
 
-  render :nothing => true
+  render :nothing → true
 end
 ```
 
@@ -478,23 +478,23 @@ As an example, let's use this trigger to prohibit a user from deleting or creati
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
 # use the webhook key to prove authenticity.
-protect_from_forgery :except => :posts
+protect_from_forgery :except → :posts
 
 def posts
   if request.headers['X-Parse-Webhook-Key'] != @webhook_key
-    return render :json => { :error => "Request Unauthorized"}
+    return render :json → { :error → "Request Unauthorized"}
   end
 
   post = params[:object]
   if (params[:triggerName] == "beforeDelete" || params[:triggerName] == "beforeSave") && post["className"] == "Post"
     @user = User.find(post['user'])
     if !@user.paid_up
-      return render :json => { :error => "You have outstanding charges on your account. Please update your credit card information before proceeding." }
+      return render :json → { :error → "You have outstanding charges on your account. Please update your credit card information before proceeding." }
     end
 
-    return render :json => { :success => true }
+    return render :json → { :success → true }
   end
-  return render :json => { :error => "Unknown trigger"}
+  return render :json → { :error → "Unknown trigger"}
 end
 ```
 
@@ -548,11 +548,11 @@ In our [webhooks example for the afterSave](#cloud-code-aftersave-triggers) trig
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
 # use the webhook key to prove authenticity.
-protect_from_forgery :except => :comments
+protect_from_forgery :except → :comments
 
 def comments
   if request.headers['X-Parse-Webhook-Key'] != @webhook_key
-    return render :nothing => true
+    return render :nothing → true
   end
 
   comment = params[:object]
@@ -560,10 +560,10 @@ def comments
     @post_model = Post.where("id = #{comment['post']}")
     @post_model.decrement(:comments_count, 1)
     @post_model.save!
-    return render :nothing => true
+    return render :nothing → true
   end
 
-  render :nothing => true
+  render :nothing → true
 end
 ```
 

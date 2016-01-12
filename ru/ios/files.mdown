@@ -2,13 +2,13 @@
 
 ## PFFile
 
-`PFFile` позволяет хранить файлы приложения в облаке, иначе они будут слишком объемными, или их будет сложно поместить в обычный объект `%{ParseObject}`. Чаще всего пользователи хранят изображения, но также можно хранить документы, видео, музыку и любые другие бинарные данные (до 10 мегабайт).
+`%{ParseFile}` позволяет хранить файлы приложения в облаке, иначе они будут слишком объемными, или их будет сложно поместить в обычный объект `%{ParseObject}`. Чаще всего пользователи хранят изображения, но также можно хранить документы, видео, музыку и любые другие бинарные данные (до 10 мегабайт).
 
 <div class='tip info'><div>
   Узнайте, как создать приложение для создания фото и их загрузки непосредственно в Parse в нашем [руководстве «Сохранение изображений»](/tutorials/saving-images).
 </div></div>
 
-Приступить к работе с `PFFile` довольно просто. Для начала следует располагать данными в форме `NSData`, затем создать с ними класс `PFFile`. В этом примере просто используется строка:
+Приступить к работе с `%{ParseFile}` довольно просто. Для начала следует располагать данными в форме `NSData`, затем создать с ними класс `%{ParseFile}`. В этом примере просто используется строка:
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -26,7 +26,7 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 [file saveInBackground];
 ```
 
-Наконец, после завершения сохранения можно ассоциировать класс `PFFile` с объектом `%{ParseObject}`, как и любые другие данные:
+Наконец, после завершения сохранения можно ассоциировать класс `%{ParseFile}` с объектом `%{ParseObject}`, как и любые другие данные:
 
 ```objc
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
@@ -35,7 +35,7 @@ jobApplication[@"applicantResumeFile"] = file;
 [jobApplication saveInBackground];
 ```
 
-Процесс извлечения предполагает вызов одного из вариантов метода `getData` для объекта `PFFile`. Ниже представлен пример извлечения файла анкеты из другого объекта JobApplication:
+Процесс извлечения предполагает вызов одного из вариантов метода `getData` для объекта `%{ParseFile}`. Ниже представлен пример извлечения файла анкеты из другого объекта JobApplication:
 
 ```objc
 PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
@@ -46,7 +46,7 @@ NSData *resumeData = [applicantResume getData];
 
 ## Изображения
 
-Можно просто хранить изображения, преобразовывая их в формат `NSData`, а затем использовав `PFFile`. Предположим, у вас есть `UIImage` под названием `image`, который необходимо сохранить как файл `PFFile`:
+Можно просто хранить изображения, преобразовывая их в формат `NSData`, а затем использовав `%{ParseFile}`. Предположим, у вас есть `UIImage` под названием `image`, который необходимо сохранить как файл `%{ParseFile}`:
 
 ```objc
 NSData *imageData = UIImagePNGRepresentation(image);
@@ -57,9 +57,9 @@ userPhoto[@"imageFile"] = imageFile;
 [userPhoto saveInBackground];
 ```
 
-Файл `PFFile` будет загружен как часть операции сохранения для объекта `userPhoto`. Также можно отслеживать [процесс передачи и загрузки](/docs/ru/ios_guide#files-progress) файла `PFFile`.
+Файл `%{ParseFile}` будет загружен как часть операции сохранения для объекта `userPhoto`. Также можно отслеживать [процесс передачи и загрузки](/docs/ru/ios_guide#files-progress) файла `%{ParseFile}`.
 
-Процесс извлечения изображения предполагает вызов одного из вариантов метода `getData` для файла `PFFile`. Ниже представлен пример извлечения файла изображения другой фотографии `UserPhoto` под названием `anotherPhoto`:
+Процесс извлечения изображения предполагает вызов одного из вариантов метода `getData` для файла `%{ParseFile}`. Ниже представлен пример извлечения файла изображения другой фотографии `UserPhoto` под названием `anotherPhoto`:
 
 ```objc
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
@@ -72,7 +72,7 @@ PFFile *userImageFile = anotherPhoto[@"imageFile"];
 
 ## Ход выполнения
 
-При помощи класса `PFFile` можно получить ход выполнения передачи и загрузки при помощи методов `saveInBackgroundWithBlock:progressBlock:` и `getDataInBackgroundWithBlock:progressBlock:` соответственно. Например:
+При помощи класса `%{ParseFile}` можно получить ход выполнения передачи и загрузки при помощи методов `saveInBackgroundWithBlock:progressBlock:` и `getDataInBackgroundWithBlock:progressBlock:` соответственно. Например:
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];

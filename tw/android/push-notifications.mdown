@@ -12,14 +12,14 @@ Parse 程式庫利用 Google 雲端訊息 (GCM)，在可能的情況下提供推
 
 在已登錄推播通知的裝置上所安裝的每個 Parse 應用程式，都有相關聯的 `Installation` 物件。`Installation` 物件是儲存推播通知目標設定所需全部資料的地方。例如，您可以在棒球應用程式中將某使用者感興趣的球隊儲存起來，以便傳送關於球隊表現的更新資訊。
 
-在 Android 中，`Installation` 物件可透過 `ParseInstallation` 類別使用（`ParseObject` 的子類別）。此物件會使用[相同的 API](#objects) 儲存和擷取資料。若要從 Android 應用程式存取目前的 `Installation` 物件，請使用 `ParseInstallation.getCurrentInstallation()` 方法。初次儲存 `ParseInstallation` 時，Parse 會把它加入 `Installation` 類別，然後即可用於推播通知目標設定。
+在 Android 中，`Installation` 物件可透過 `%{ParseInstallation}` 類別使用（`%{ParseObject}` 的子類別）。此物件會使用[相同的 API](#objects) 儲存和擷取資料。若要從 Android 應用程式存取目前的 `Installation` 物件，請使用 `ParseInstallation.getCurrentInstallation()` 方法。初次儲存 `%{ParseInstallation}` 時，Parse 會把它加入 `Installation` 類別，然後即可用於推播通知目標設定。
 
 ```java
 // Save the current Installation to Parse.
 ParseInstallation.getCurrentInstallation().saveInBackground();
 ```
 
-雖然可以像 `ParseObject` 一樣修改 `ParseInstallation`，不過有幾個特殊欄位有助於管理和鎖定裝置。
+雖然可以像 `%{ParseObject}` 一樣修改 `%{ParseInstallation}`，不過有幾個特殊欄位有助於管理和鎖定裝置。
 
 *   **`badge`**：iOS 應用程式目前的圖示徽章值。在伺服器上對此值所做的更改，將可用於之後的徽章遞增推播通知。
 *   **`channels`**: 裝置目前訂閱的頻道陣列。
@@ -106,7 +106,7 @@ push.sendInBackground();
 
 雖然對許多應用程式來說頻道很好用，不過有時您在設定推播的目標接收者時需要更高的準確度。Parse 能讓您利用[查詢 API](#queries)，對 `Installation` 物件的任何子集編寫查詢，再傳送推播給它們。
 
-由於 `ParseInstallation` 是 `ParseObject` 的子類別，因此您可以儲存想儲存的任何資料，甚至能在 `Installation` 物件和其他物件之間建立關聯。這讓您能將推播傳送給自訂程度很高又不斷變化的使用者群。
+由於 `%{ParseInstallation}` 是 `%{ParseObject}` 的子類別，因此您可以儲存想儲存的任何資料，甚至能在 `Installation` 物件和其他物件之間建立關聯。這讓您能將推播傳送給自訂程度很高又不斷變化的使用者群。
 
 #### 儲存安裝資料
 
@@ -121,7 +121,7 @@ installation.put("injuryReports",true);
 installation.saveInBackground();
 ```
 
-您甚至可以在 `Installation` 物件和儲存於 Parse 的其他類別之間建立關聯性。例如，若您要在 Installation 與特定使用者建立關聯，只需將目前使用者儲存於 `ParseInstallation` 即可。
+您甚至可以在 `Installation` 物件和儲存於 Parse 的其他類別之間建立關聯性。例如，若您要在 Installation 與特定使用者建立關聯，只需將目前使用者儲存於 `%{ParseInstallation}` 即可。
 
 ```java
 // Associate the device with a user
@@ -132,7 +132,7 @@ installation.saveInBackground();
 
 #### 將推播傳送至查詢
 
-一旦您將資料儲存於 `Installation` 物件，就可以使用 `PFQuery` 鎖定這些裝置的子集。`Installation` 查詢跟任何其他 [Parse 查詢](#queries)的運作方式一樣，但我們使用特殊的靜態方法 `ParseInstallation.getQuery()` 來建立查詢。在傳送通知之前，我們在 `PFPush` 物件上設定此查詢。
+一旦您將資料儲存於 `Installation` 物件，就可以使用 `%{ParseQuery}` 鎖定這些裝置的子集。`Installation` 查詢跟任何其他 [Parse 查詢](#queries)的運作方式一樣，但我們使用特殊的靜態方法 `ParseInstallation.getQuery()` 來建立查詢。在傳送通知之前，我們在 `PFPush` 物件上設定此查詢。
 
 ```java
 // Create our Installation query
@@ -372,7 +372,7 @@ public class MyCustomReceiver extends BroadcastReceiver {
             Iterator itr = json.keys();
             while (itr.hasNext()) {
                 String key = (String) itr.next();
-                Log.d(TAG, "..." + key + " => " + json.getString(key));
+                Log.d(TAG, "..." + key + " → " + json.getString(key));
             }
         } catch (JSONException e) {
             Log.d(TAG, "JSONException: " + e.getMessage());

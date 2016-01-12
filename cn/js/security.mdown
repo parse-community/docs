@@ -1,6 +1,6 @@
 # 错误处理
 
-大多数 Parse JavaScript 函数使用带回调的对象（与 Backbone 的&ldquo;options&rdquo;对象类似）报告成功与否。用到的两个主要回调是 `success` 和 `error`。当操作顺利完成未发生错误时，会调用 `success`。通常，对于 `save` 或 `get`，其参数为 `Parse.Object`，对于 `find`，其参数为一组 `Parse.Object`。
+大多数 Parse JavaScript 函数使用带回调的对象（与 Backbone 的&ldquo;options&rdquo;对象类似）报告成功与否。用到的两个主要回调是 `success` 和 `error`。当操作顺利完成未发生错误时，会调用 `success`。通常，对于 `save` 或 `get`，其参数为 `%{ParseObject}`，对于 `find`，其参数为一组 `%{ParseObject}`。
 
 通过互联网与 Parse 云互动时，若发生任何错误，则调用 `error`。这些错误要么关乎与云有关的问题，要么关乎与执行所请求操作相关的问题。我们再来看一个示例。在下面的代码中，我们尝试用不存在的 `objectId` 提取一个对象。Parse 云将返回一条错误 － 下面说明如何在回调中正确处理它：
 
@@ -42,4 +42,4 @@ query.get("thisObjectIdDoesntExist", {
 });
 ```
 
-对于影响特定 `Parse.Object` 的方法，如 `save` 和 `signUp`，错误函数的第一个变量是对象本身，第二个变量是 `Parse.Error` 对象。这是为了与 Backbone 型框架兼容。如需了解所有可能的 `Parse.Error` 代码，请查看 [JavaScript API](/docs/js) 的&ldquo;错误代码&rdquo;部分。
+对于影响特定 `%{ParseObject}` 的方法，如 `save` 和 `signUp`，错误函数的第一个变量是对象本身，第二个变量是 `Parse.Error` 对象。这是为了与 Backbone 型框架兼容。如需了解所有可能的 `Parse.Error` 代码，请查看 [JavaScript API](/docs/js) 的&ldquo;错误代码&rdquo;部分。

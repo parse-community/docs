@@ -42,7 +42,7 @@ PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
 
 ## 지리적 쿼리
 
-공간 좌표를 갖는 여러 개체가 있으므로 이제 한 지점과 가장 가까운 개체를 찾으면 좋을 것입니다.  이렇게 하려면 `whereKey:nearGeoPoint:`를 사용하여 `PFQuery`에 다른 제한을 추가합니다.  사용자와 가장 가까운 장소 10개의 목록을 가져오는 쿼리는 다음과 같습니다.
+공간 좌표를 갖는 여러 개체가 있으므로 이제 한 지점과 가장 가까운 개체를 찾으면 좋을 것입니다.  이렇게 하려면 `whereKey:nearGeoPoint:`를 사용하여 `%{ParseQuery}`에 다른 제한을 추가합니다.  사용자와 가장 가까운 장소 10개의 목록을 가져오는 쿼리는 다음과 같습니다.
 
 ```objc
 // User's location
@@ -61,7 +61,7 @@ placesObjects = [query findObjects];
 
 거리를 사용하여 결과를 제한하려면 `whereKey:nearGeoPoint:withinMiles`, `whereKey:nearGeoPoint:withinKilometers` 및 `whereKey:nearGeoPoint:withinRadians`를 체크아웃하세요.
 
-특정 영역 내에 포함된 개체 집합을 쿼리하는 것도 가능합니다.  사각형 경계 상자 안의 개체를 찾으려면 `PFQuery`에 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 제한을 추가합니다.
+특정 영역 내에 포함된 개체 집합을 쿼리하는 것도 가능합니다.  사각형 경계 상자 안의 개체를 찾으려면 `%{ParseQuery}`에 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 제한을 추가합니다.
 
 ```objc
 PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];

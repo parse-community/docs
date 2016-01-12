@@ -305,7 +305,7 @@ $result = ParseCloud::run("hello", []);
 ```
 ```csharp
 // .NET SDK
-ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t → {
   var result = t.Result;
 // result is "Hello world!"
 });
@@ -321,7 +321,7 @@ Parse.Cloud.run('hello', {}, {
 });
 ```
 ```bash
-// REST API, command line
+# REST API, command line
 curl -X POST \
  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \

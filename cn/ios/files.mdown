@@ -2,13 +2,13 @@
 
 ## PFFile
 
-`PFFile` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `%{ParseObject}` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
+`%{ParseFile}` 让您可以把应用程序文件储存在云中，以应对文件太大或太多，不适宜放入普通 `%{ParseObject}` 的情况。最常见的用例是储存图片，但是您还可以用它储存文件、视频、音乐以及其他任何二进制数据（大小不超过 10 MB）。
 
 <div class='tip info'><div>
 查看[保存图像教程](/tutorials/saving-images)，了解如何制作应用程序，让用户拍照并把照片直接上传到 Parse 中。
 </div></div>
 
-`PFFile` 非常容易上手。首先，您需要拥有 `NSData` 格式的数据，然后使用此数据创建 `PFFile`。在该示例中，我们只使用一个字符串：
+`%{ParseFile}` 非常容易上手。首先，您需要拥有 `NSData` 格式的数据，然后使用此数据创建 `%{ParseFile}`。在该示例中，我们只使用一个字符串：
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -26,7 +26,7 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 [file saveInBackground];
 ```
 
-最后，保存完成后，您可以像其他数据一样把 `PFFile` 与 `%{ParseObject}` 关联起来：
+最后，保存完成后，您可以像其他数据一样把 `%{ParseFile}` 与 `%{ParseObject}` 关联起来：
 
 ```objc
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"];
@@ -35,7 +35,7 @@ jobApplication[@"applicantResumeFile"] = file;
 [jobApplication saveInBackground];
 ```
 
-重新获取此数据涉及对 `PFFile` 调用任一 `getData` 版本。这里我们从另一 JobApplication 对象获取恢复文件：
+重新获取此数据涉及对 `%{ParseFile}` 调用任一 `getData` 版本。这里我们从另一 JobApplication 对象获取恢复文件：
 
 ```objc
 PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
@@ -46,7 +46,7 @@ NSData *resumeData = [applicantResume getData];
 
 ## 图像
 
-通过将图片转换成 `NSData` 然后使用 `PFFile` 就可以轻松地储存图片。假设您有一个文件名为 `image` 的 `UIImage`，并想把它另存为 `PFFile`：
+通过将图片转换成 `NSData` 然后使用 `%{ParseFile}` 就可以轻松地储存图片。假设您有一个文件名为 `image` 的 `UIImage`，并想把它另存为 `%{ParseFile}`：
 
 ```objc
 NSData *imageData = UIImagePNGRepresentation(image);
@@ -57,9 +57,9 @@ userPhoto[@"imageFile"] = imageFile;
 [userPhoto saveInBackground];
 ```
 
-您的 `PFFile` 将作为保存操作的一部分被上传到 `userPhoto` 对象。还可以跟踪 `PFFile` 的[上传和下载进度](/docs/cn/ios_guide#files-progress)。
+您的 `%{ParseFile}` 将作为保存操作的一部分被上传到 `userPhoto` 对象。还可以跟踪 `%{ParseFile}` 的[上传和下载进度](/docs/cn/ios_guide#files-progress)。
 
-重新获取此图像涉及对 `PFFile` 调用任一 `getData` 版本。这里我们从另一个名为 `anotherPhoto`的 `UserPhoto` 获取图像文件：
+重新获取此图像涉及对 `%{ParseFile}` 调用任一 `getData` 版本。这里我们从另一个名为 `anotherPhoto`的 `UserPhoto` 获取图像文件：
 
 ```objc
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
@@ -72,7 +72,7 @@ PFFile *userImageFile = anotherPhoto[@"imageFile"];
 
 ## 进度
 
-使用 `saveInBackgroundWithBlock:progressBlock:` 和 `getDataInBackgroundWithBlock:progressBlock:` 可以分别轻松了解 `PFFile` 的上传和下载进度。例如：
+使用 `saveInBackgroundWithBlock:progressBlock:` 和 `getDataInBackgroundWithBlock:progressBlock:` 可以分别轻松了解 `%{ParseFile}` 的上传和下载进度。例如：
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];

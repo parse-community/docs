@@ -1,12 +1,12 @@
 # Queries
 
-We've already seen how a `Parse.Query` with `get` can retrieve a single `Parse.Object` from Parse. There are many other ways to retrieve data with `Parse.Query` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
+We've already seen how a `%{ParseQuery}` with `get` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `%{ParseQuery}` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
 
 ## Basic Queries
 
-In many cases, `get` isn't powerful enough to specify which objects you want to retrieve. `Parse.Query` offers different ways to retrieve a list of objects rather than just a single object.
+In many cases, `get` isn't powerful enough to specify which objects you want to retrieve. `%{ParseQuery}` offers different ways to retrieve a list of objects rather than just a single object.
 
-The general pattern is to create a `Parse.Query`, put conditions on it, and then retrieve an `Array` of matching `Parse.Object`s using `find`. For example, to retrieve the scores that have a particular `playerName`, use the `equalTo` method to constrain the value for a key.
+The general pattern is to create a `%{ParseQuery}`, put conditions on it, and then retrieve an `Array` of matching `%{ParseObject}`s using `find`. For example, to retrieve the scores that have a particular `playerName`, use the `equalTo` method to constrain the value for a key.
 
 ```js
 var GameScore = Parse.Object.extend("GameScore");
@@ -29,7 +29,7 @@ query.find({
 
 ## Query Constraints
 
-There are several ways to put constraints on the objects found by a `Parse.Query`. You can filter out objects with a particular key-value pair with `notEqualTo`:
+There are several ways to put constraints on the objects found by a `%{ParseQuery}`. You can filter out objects with a particular key-value pair with `notEqualTo`:
 
 ```js
 query.notEqualTo("playerName", "Michael Yabuti");
@@ -208,7 +208,7 @@ Queries that have regular expression constraints are very expensive, especially 
 
 ## Relational Queries
 
-There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `Parse.Object`, you can use `equalTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `%{ParseObject}`, you can use `equalTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
 ```js
 // Assume Parse.Object myPost was previously created.
@@ -221,7 +221,7 @@ query.find({
 });
 ```
 
-If you want to retrieve objects where a field contains a `Parse.Object` that matches a different query, you can use `matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that matches a different query, you can use `matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
 
 ```js
 var Post = Parse.Object.extend("Post");
@@ -237,7 +237,7 @@ query.find({
 });
 ```
 
-If you want to retrieve objects where a field contains a `Parse.Object` that does not match a different query, you can use `doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
 ```js
 var Post = Parse.Object.extend("Post");
@@ -338,6 +338,6 @@ mainQuery.find({
 });
 ```
 
-You can add additional constraints to the newly created `Parse.Query` that act as an 'and' operator.
+You can add additional constraints to the newly created `%{ParseQuery}` that act as an 'and' operator.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `near`, `withinGeoBox`, `limit`, `skip`, `ascending`/`descending`, `include`) in the subqueries of the compound query.

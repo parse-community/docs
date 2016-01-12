@@ -71,13 +71,12 @@ query.whereContainedIn("playerName", Arrays.asList("Jonathan Walsh", "Dario Wuns
 ```
 ```common-csharp
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
-var results = await ParseObject.GetQuery("GameScore")
+var query = new ParseObject.GetQuery("GameScore")
     .WhereEqualTo("score", 50)
-    .WhereContainedIn("playerName", names)
-    .FindAsync();
+    .WhereContainedIn("playerName", names);
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -103,7 +102,7 @@ query.whereEqualTo("cheatMode", false);
 .WhereEqualTo("cheatMode", false);
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -185,7 +184,7 @@ var results = await ParseObject.GetQuery("GameScore")
     .FindAsync();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -214,12 +213,11 @@ ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 query.whereNotEqualTo("state", "Invited");
 ```
 ```common-csharp
-var results = await ParseUser.Query
-    .WhereNotEqualTo("state", "Invited")
-    .FindAsync();
+var query = ParseUser.Query
+    .WhereNotEqualTo("state", "Invited");
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -241,13 +239,10 @@ query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```
 ```common-csharp
-var states = new[] { "SignedUp", "Verified" };
-var results = ParseUser.Query
-    .WhereContainedIn("state", states)
-    .FindAsync();
+query.WhereContainedIn("state", new[] { "SignedUp", "Verified" });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -305,7 +300,7 @@ var results = await ParseObject.GetQuery("GameScore")
     .FindAsync();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -334,13 +329,11 @@ ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 query.whereNotContainedIn("state", Arrays.asList("Invited", "Blocked"));
 ```
 ```common-csharp
-var states = new[] { "Invited", "Blocked" };
-var results = await ParseUser.Query()
-    .WhereNotContainedIn("state", states)
-    .FindAsync();
+var query = ParseUser.Query
+    .WhereNotContainedIn("state", new[] { "Invited", "Blocked" });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -352,22 +345,19 @@ Using a complimentary “Contained In” query constraint will always be faster:
 query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 ```common-objc
-query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
+[query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
 ```
 ```common-swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 ```
 ```common-java
-query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));;
+query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```
 ```common-csharp
-var states = new[] { "SignedUp", "Verified" };
-var results = await ParseUser.Query()
-    .WhereContainedIn("state", states)
-    .FindAsync();
+query.WhereContainedIn("state", new[] { "SignedUp", "Verified"});
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -394,10 +384,10 @@ query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
 query.whereMatches("playerName", "Michael", "i");
 ```
 ```common-csharp
-.WhereMatches("playerName", "Michael", "i")
+query.WhereMatches("playerName", "Michael", "i")
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -418,10 +408,10 @@ query.whereKey("playerName", containsString: "Michael")
 query.whereContains("playerName", "Michael");
 ```
 ```common-csharp
-.WhereContains("playerName", "Michael")
+query.WhereContains("playerName", "Michael")
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -442,10 +432,10 @@ query.whereKey("playerName", hasPrefix: "Michael")
 query.whereStartsWith("playerName", "Michael");
 ```
 ```common-csharp
-.WhereStartsWith("playerName", "Michael")
+query.WhereStartsWith("playerName", "Michael")
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -468,10 +458,10 @@ query.whereKey("playerName", matchesRegex: "^Michael")
 query.whereMatches("playerName", "^Michael");
 ```
 ```common-csharp
-.WhereMatches("playerName", "^Michael")
+query.WhereMatches("playerName", "^Michael")
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -498,10 +488,10 @@ query.limit = 10 // limit to at most 10 results
 query.setLimit(10); // limit to at most 10 results
 ```
 ```common-csharp
-.Limit(10) // limit to at most 10 results
+query.Limit(10); // limit to at most 10 results
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -553,7 +543,7 @@ var results = await ParseObject.GetQuery("GameScore")
     .FindAsync();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -601,14 +591,13 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 ```common-csharp
-var keys = new[] { "score", "playerName" };
 var results = await ParseObject.GetQuery("GameScore")
-    .Select(keys)
-    .FindAsync();
+     .Select(new[] { "score", "playerName" })
+     .FindAsync();
 // each of results will only have the selected fields available.
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -687,13 +676,13 @@ IDictionary<string, object> dictionary = new Dictionary<string, object>
     { "movie", "The Matrix" }
 };
 
-ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", dictionary).ContinueWith(t => {
+ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t → {
   var result = t.Result;
-// result is 4.5
+  // result is 4.5
 });
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -757,7 +746,7 @@ var count = await ParseObject.GetQuery("Review")
     .CountAsync();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -827,7 +816,7 @@ var results = await ParseObject.GetQuery("Movie")
 // Results include the reviews count field
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example
@@ -908,13 +897,12 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 ```common-csharp
-var hashtags = new[] { "#parse", "#ftw" };
 var results = await ParseObject.GetQuery("Post")
-    .WhereContainsAll("hashtags", hashtags)
+    .WhereContainsAll("hashtags", new[] { "#parse", "#ftw" })
     .FindAsync();
 ```
 ```common-bash
-// No REST API example
+# No REST API example
 ```
 ```common-cpp
 // No C++ example

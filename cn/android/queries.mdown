@@ -2,9 +2,9 @@
 
 ## 基本查询
 
-在许多情况下，`getInBackground` 不够强大，不能指定您想要检索的对象。`ParseQuery` 提供了不同的方法用于检索一系列对象而非仅仅检索单一对象。
+在许多情况下，`getInBackground` 不够强大，不能指定您想要检索的对象。`%{ParseQuery}` 提供了不同的方法用于检索一系列对象而非仅仅检索单一对象。
 
-常规模式是创建一个 `ParseQuery`，对其设置条件，然后用带 `FindCallback` 的 `findInBackground` 检索一个 `List` 的匹配 `ParseObject`。例如，若要检索 `playerName` 的得分，可以使用 `whereEqualTo` 方法限定键值。
+常规模式是创建一个 `%{ParseQuery}`，对其设置条件，然后用带 `FindCallback` 的 `findInBackground` 检索一个 `List` 的匹配 `%{ParseObject}`。例如，若要检索 `playerName` 的得分，可以使用 `whereEqualTo` 方法限定键值。
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -24,7 +24,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 ## 查询限制条件
 
-有几种方法可以对 `ParseQuery` 找到的对象设置限制条件。您可以用 `whereNotEqualTo` 将具有特定键值对的对象过滤出来：
+有几种方法可以对 `%{ParseQuery}` 找到的对象设置限制条件。您可以用 `whereNotEqualTo` 将具有特定键值对的对象过滤出来：
 
 ```java
 query.whereNotEqualTo("playerName", "Michael Yabuti");
@@ -204,7 +204,7 @@ query.whereStartsWith("name", "Big Daddy's");
 
 ## 关系型查询
 
-有几种方法可以用于关系型数据查询。如果您想检索有字段与某一特定 `ParseObject` 匹配的对象，可以像检索其他类型的数据一样使用 `whereEqualTo`。例如，如果每个 `Comment` 在 `post` 字段中有一个 `Post` 对象，您可以提取某一特定 `Post` 的评论：
+有几种方法可以用于关系型数据查询。如果您想检索有字段与某一特定 `%{ParseObject}` 匹配的对象，可以像检索其他类型的数据一样使用 `whereEqualTo`。例如，如果每个 `Comment` 在 `post` 字段中有一个 `Post` 对象，您可以提取某一特定 `Post` 的评论：
 
 ```java
 // Assume ParseObject myPost was previously created.
@@ -218,7 +218,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-如果想要检索的对象中，有字段包含与其他查询匹配的 `ParseObject`，您可以使用 `whereMatchesQuery`。注意，默认限值 100 和最大限值 1000 也适用于内部查询，因此在大型数据集中进行查询时，您可能需要谨慎构建查询条件才能按需要进行查询。为了查找包含图像的帖子的评论，您可以使用如下代码：
+如果想要检索的对象中，有字段包含与其他查询匹配的 `%{ParseObject}`，您可以使用 `whereMatchesQuery`。注意，默认限值 100 和最大限值 1000 也适用于内部查询，因此在大型数据集中进行查询时，您可能需要谨慎构建查询条件才能按需要进行查询。为了查找包含图像的帖子的评论，您可以使用如下代码：
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -232,7 +232,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-如果想要检索的对象中，有字段包含与其他查询不匹配的 `ParseObject`，您可以使用 `whereDoesNotMatchQuery`。为了查找不包含图像的帖子的评论，您可以这样：
+如果想要检索的对象中，有字段包含与其他查询不匹配的 `%{ParseObject}`，您可以使用 `whereDoesNotMatchQuery`。为了查找不包含图像的帖子的评论，您可以这样：
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -333,7 +333,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 现在，当您使用 `fromLocalDatastore` 进行任何查询时，只要这些对象仍与查询匹配，它们都会包含在结果中。
 
-如果您不使用本地数据存储库，您也可以使用 `ParseQuery` 的每次查询缓存。默认的查询行为不使用此缓存，但您可以使用 `setCachePolicy` 来启用缓存。例如，要尝试连接网络并在网络不可用时回到缓存的数据：
+如果您不使用本地数据存储库，您也可以使用 `%{ParseQuery}` 的每次查询缓存。默认的查询行为不使用此缓存，但您可以使用 `setCachePolicy` 来启用缓存。例如，要尝试连接网络并在网络不可用时回到缓存的数据：
 
 ```java
 query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
@@ -422,6 +422,6 @@ mainQuery.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-您可以对新创建的 `ParseQuery` 添加额外限制条件，作为“and”运算符。
+您可以对新创建的 `%{ParseQuery}` 添加额外限制条件，作为“and”运算符。
 
 但是，请注意：在混合查询结果中查询时，我们不支持非过滤型限制条件（如 `setLimit`、`skip`、`orderBy...`、`include`）。

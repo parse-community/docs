@@ -4,11 +4,11 @@
 
 您可以透過此類別在應用程式中加入使用者帳號功能。
 
-`Parse.User` 為 `Parse.Object` 的子類別，並且具有所有相同功能，比如具彈性的結構描述、自動保留和索引鍵值介面。`Parse.Object` 的所有方法也存在於 `Parse.User`。不同之處在於 Parse.User 有一些專用於使用者帳號的特殊附加功能。
+`Parse.User` 為 `%{ParseObject}` 的子類別，並且具有所有相同功能，比如具彈性的結構描述、自動保留和索引鍵值介面。`%{ParseObject}` 的所有方法也存在於 `Parse.User`。不同之處在於 Parse.User 有一些專用於使用者帳號的特殊附加功能。
 
 ## 屬性
 
-`Parse.User` 有一些值與 `Parse.Object` 有所區別：
+`Parse.User` 有一些值與 `%{ParseObject}` 有所區別：
 
 *   使用者名稱：使用者的名稱（必要）。
 *   密碼：使用者的密碼（註冊時需要）。
@@ -219,7 +219,7 @@ Parse.User.requestPasswordReset("email@example.com", {
 
 ## 查詢
 
-若要查詢使用者，您只需新建 `Parse.User` 的 `Parse.Query`：
+若要查詢使用者，您只需新建 `Parse.User` 的 `%{ParseQuery}`：
 
 ```js
 var query = new Parse.Query(Parse.User);

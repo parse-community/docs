@@ -1,6 +1,6 @@
 # 로컬 데이터 저장소
 
-Parse Android SDK에서는 네트워크를 사용할 수 없는 경우에도 `ParseObject`를 저장하고 검색하는 데 사용할 수 있는 로컬 데이터 저장소를 제공합니다. 이 기능을 활성화하려면 `initialize`를 호출하기 전에 `Parse.enableLocalDatastore()`를 호출하면 됩니다.
+Parse Android SDK에서는 네트워크를 사용할 수 없는 경우에도 `%{ParseObject}`를 저장하고 검색하는 데 사용할 수 있는 로컬 데이터 저장소를 제공합니다. 이 기능을 활성화하려면 `initialize`를 호출하기 전에 `Parse.enableLocalDatastore()`를 호출하면 됩니다.
 
 ```java
 import com.parse.Parse;
@@ -16,15 +16,15 @@ public class App extends Application {
 }
 ```
 
-로컬 데이터 저장소를 활성화할 경우의 몇 가지 부작용에 대해 알고 있어야 합니다. 활성화할 경우 지정된 `ParseObject`의 인스턴스가 하나만 있게 됩니다. 예를 들어 `objectId`가 `"xWMyZ4YEGZ"`인 `"GameScore"` 클래스의 인스턴스가 있는데 해당 `objectId`의 모든 `"GameScore"` 인스턴스에 대해 `ParseQuery`를 실행한다고 상상해 보세요. 결과는 메모리에 이미 있는 개체의 동일한 인스턴스가 됩니다.
+로컬 데이터 저장소를 활성화할 경우의 몇 가지 부작용에 대해 알고 있어야 합니다. 활성화할 경우 지정된 `%{ParseObject}`의 인스턴스가 하나만 있게 됩니다. 예를 들어 `objectId`가 `"xWMyZ4YEGZ"`인 `"GameScore"` 클래스의 인스턴스가 있는데 해당 `objectId`의 모든 `"GameScore"` 인스턴스에 대해 `%{ParseQuery}`를 실행한다고 상상해 보세요. 결과는 메모리에 이미 있는 개체의 동일한 인스턴스가 됩니다.
 
 다른 부작용은 현재 사용자와 현재 설치가 로컬 데이터 저장소에 저장된다는 것인데, 따라서 아래 메서드를 사용하여 이러한 개체에 대한 저장되지 않은 변경 사항을 앱 실행 간에 유지할 수 있습니다.
 
-`ParseObject`에서 `saveEventually` 메서드를 호출하면 저장이 완료될 때까지 개체가 로컬 데이터 저장소에 고정됩니다. 따라서 현재 `ParseUser`를 변경하고 `ParseUser.getCurrent().saveEventually()`를 호출하는 경우 변경한 사항이 앱에 항상 표시됩니다.
+`%{ParseObject}`에서 `saveEventually` 메서드를 호출하면 저장이 완료될 때까지 개체가 로컬 데이터 저장소에 고정됩니다. 따라서 현재 `%{ParseUser}`를 변경하고 `ParseUser.getCurrent().saveEventually()`를 호출하는 경우 변경한 사항이 앱에 항상 표시됩니다.
 
 ## 고정
 
-`ParseObject`를 고정하여 로컬 데이터 저장소에 저장할 수 있습니다. `ParseObject` 고정은 저장처럼 재귀적이므로 고정하는 개체에 의해 고정되는 모든 개체도 고정됩니다. 개체를 고정하는 경우 새 데이터를 가져오거나 저장하여 개체를 업데이트할 때마다 로컬 데이터 저장소의 복사본이 자동으로 업데이트됩니다. 업데이트에 대해 염려할 필요가 전혀 없습니다.
+`%{ParseObject}`를 고정하여 로컬 데이터 저장소에 저장할 수 있습니다. `%{ParseObject}` 고정은 저장처럼 재귀적이므로 고정하는 개체에 의해 고정되는 모든 개체도 고정됩니다. 개체를 고정하는 경우 새 데이터를 가져오거나 저장하여 개체를 업데이트할 때마다 로컬 데이터 저장소의 복사본이 자동으로 업데이트됩니다. 업데이트에 대해 염려할 필요가 전혀 없습니다.
 
 ```java
 ParseObject gameScore = new ParseObject("GameScore");
@@ -42,7 +42,7 @@ ParseObject.pinAllInBackground(listOfObjects);
 
 ## 로컬 데이터 저장소에서 저장
 
-개체를 저장하면 좋지만 저장한 개체를 나중에 다시 가져올 수 있는 경우에만 유용합니다. 로컬 데이터 저장소에서 개체를 검색하는 기능은 네트워크를 통해 검색할 때와 동일하게 작동합니다. 다만 `fromLocalDatastore` 메서드를 호출하여 `ParseQuery`에 결과를 어디서 찾을지 알려주는 점만 다릅니다.
+개체를 저장하면 좋지만 저장한 개체를 나중에 다시 가져올 수 있는 경우에만 유용합니다. 로컬 데이터 저장소에서 개체를 검색하는 기능은 네트워크를 통해 검색할 때와 동일하게 작동합니다. 다만 `fromLocalDatastore` 메서드를 호출하여 `%{ParseQuery}`에 결과를 어디서 찾을지 알려주는 점만 다릅니다.
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -135,13 +135,13 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 ## 로컬 변경 사항 동기화
 
-일부 변경 사항을 로컬에 저장했으면 몇 가지 다른 방법으로 이러한 변경 사항을 네트워크를 통해 Parse에 저장할 수 있습니다. 이렇게 하는 가장 쉬운 방법은 `saveEventually`를 사용하는 것입니다. `ParseObject`에서 `saveEventually`를 호출하면 개체가 저장할 수 있을 때까지 고정됩니다. 다음에 네트워크를 사용할 수 있게 되면 개체가 저장됩니다.
+일부 변경 사항을 로컬에 저장했으면 몇 가지 다른 방법으로 이러한 변경 사항을 네트워크를 통해 Parse에 저장할 수 있습니다. 이렇게 하는 가장 쉬운 방법은 `saveEventually`를 사용하는 것입니다. `%{ParseObject}`에서 `saveEventually`를 호출하면 개체가 저장할 수 있을 때까지 고정됩니다. 다음에 네트워크를 사용할 수 있게 되면 개체가 저장됩니다.
 
 ```java
 gameScore.saveEventually();
 ```
 
-개체가 동기화되는 방법을 보다 세밀하게 제어하려면 개체를 `saveInBackground`를 사용하여 저장할 수 있을 때까지 로컬 데이터 저장소에 유지할 수 있습니다. 저장해야 하는 개체 세트를 관리하려면 마찬가지로 레이블을 사용할 수 있습니다. `ParseQuery`의 `fromPin` 메서드를 사용하면 관심 있는 개체만 쉽게 가져올 수 있습니다.
+개체가 동기화되는 방법을 보다 세밀하게 제어하려면 개체를 `saveInBackground`를 사용하여 저장할 수 있을 때까지 로컬 데이터 저장소에 유지할 수 있습니다. 저장해야 하는 개체 세트를 관리하려면 마찬가지로 레이블을 사용할 수 있습니다. `%{ParseQuery}`의 `fromPin` 메서드를 사용하면 관심 있는 개체만 쉽게 가져올 수 있습니다.
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");

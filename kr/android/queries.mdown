@@ -2,9 +2,9 @@
 
 ## 기본 쿼리
 
-검색할 개체를 지정하기에는 `getInBackground`만으로는 충분하지 않은 경우가 많습니다. `ParseQuery`에서는 다양한 방법으로 싱글 개체가 아닌 개체 목록을 검색할 수 있습니다.
+검색할 개체를 지정하기에는 `getInBackground`만으로는 충분하지 않은 경우가 많습니다. `%{ParseQuery}`에서는 다양한 방법으로 싱글 개체가 아닌 개체 목록을 검색할 수 있습니다.
 
-일반적인 패턴은 `ParseQuery`를 만들고 조건을 지정한 다음 `findInBackground` 메서드와 함께 `FindCallback`을 사용하여 일치하는 `ParseObject`의 `List`를 가져오는 것입니다. 예를 들어 특정 `playerName`의 점수를 검색하려면 `whereEqualTo` 메서드를 사용하여 키의 값을 제한합니다.
+일반적인 패턴은 `%{ParseQuery}`를 만들고 조건을 지정한 다음 `findInBackground` 메서드와 함께 `FindCallback`을 사용하여 일치하는 `%{ParseObject}`의 `List`를 가져오는 것입니다. 예를 들어 특정 `playerName`의 점수를 검색하려면 `whereEqualTo` 메서드를 사용하여 키의 값을 제한합니다.
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -24,7 +24,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 ## 쿼리 조건
 
-`ParseQuery`에서 찾은 개체에 조건을 지정하는 방법에는 여러 가지가 있습니다. 다음과 같이 `whereNotEqualTo`로 특정 키-값 쌍을 사용하여 개체를 필터링할 수 있습니다.:
+`%{ParseQuery}`에서 찾은 개체에 조건을 지정하는 방법에는 여러 가지가 있습니다. 다음과 같이 `whereNotEqualTo`로 특정 키-값 쌍을 사용하여 개체를 필터링할 수 있습니다.:
 
 ```java 
 query.whereNotEqualTo("playerName", "Michael Yabuti");
@@ -201,7 +201,7 @@ query.whereStartsWith("name", "Big Daddy's");
 
 ## 관계형 쿼리
 
-관계형 데이터를 쿼리하는 방법에는 여러 가지가 있습니다. 필드가 특정 `ParseObject`와 일치하는 개체를 검색하려는 경우 다른 데이터 유형과 마찬가지로 `whereEqualTo`를 사용할 수 있습니다. 예를 들어 각 `Comment`의 `post` 필드에 `Post` 개체가 있는 경우 특정 `Post`에 대한 댓글을 가져올 수 있습니다.
+관계형 데이터를 쿼리하는 방법에는 여러 가지가 있습니다. 필드가 특정 `%{ParseObject}`와 일치하는 개체를 검색하려는 경우 다른 데이터 유형과 마찬가지로 `whereEqualTo`를 사용할 수 있습니다. 예를 들어 각 `Comment`의 `post` 필드에 `Post` 개체가 있는 경우 특정 `Post`에 대한 댓글을 가져올 수 있습니다.
 
 ```java
 // Assume ParseObject myPost was previously created.
@@ -215,7 +215,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-필드에 다른 쿼리와 일치하는 `ParseObject`가 포함된 개체를 검색하려는 경우 `whereMatchesQuery`를 사용할 수 있습니다. 기본 한도 100개와 최대 한도 1000개가 내부 쿼리에도 적용되므로 데이터 세트가 큰 경우 쿼리를 신중하게 구성해야 원하는 동작을 얻을 수 있습니다. 이미지가 있는 게시물에 대한 댓글을 찾으려면 다음 쿼리를 수행하세요.
+필드에 다른 쿼리와 일치하는 `%{ParseObject}`가 포함된 개체를 검색하려는 경우 `whereMatchesQuery`를 사용할 수 있습니다. 기본 한도 100개와 최대 한도 1000개가 내부 쿼리에도 적용되므로 데이터 세트가 큰 경우 쿼리를 신중하게 구성해야 원하는 동작을 얻을 수 있습니다. 이미지가 있는 게시물에 대한 댓글을 찾으려면 다음 쿼리를 수행하세요.
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -229,7 +229,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-필드에 다른 쿼리와 일치하지 않는 `ParseObject`가 포함된 개체를 가져오려면 `whereDoesNotMatchQuery`를 사용할 수 있습니다. 이미지가 없는 게시물에 대한 댓글을 찾으려면 다음 쿼리를 수행하세요.
+필드에 다른 쿼리와 일치하지 않는 `%{ParseObject}`가 포함된 개체를 가져오려면 `whereDoesNotMatchQuery`를 사용할 수 있습니다. 이미지가 없는 게시물에 대한 댓글을 찾으려면 다음 쿼리를 수행하세요.
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -327,7 +327,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 이제 `fromLocalDatastore`를 사용하여 쿼리하면 이러한 개체가 쿼리와 계속 일치하는 경우 결과에 포함됩니다.
 
-로컬 데이터 저장소를 사용하지 않는 경우 대신 `ParseQuery`에 대해 쿼리별 캐시를 사용할 수 있습니다. 기본적으로 쿼리 동작에서는 캐시를 사용하지 않지만, `setCachePolicy`를 사용하여 캐시를 활성화할 수 있습니다. 예를 들어 네트워크를 통해 쿼리를 시도하고 네트워크를 사용할 수 없는 경우 캐시된 데이터에 시도하려는 경우 다음과 같이 수행합니다.
+로컬 데이터 저장소를 사용하지 않는 경우 대신 `%{ParseQuery}`에 대해 쿼리별 캐시를 사용할 수 있습니다. 기본적으로 쿼리 동작에서는 캐시를 사용하지 않지만, `setCachePolicy`를 사용하여 캐시를 활성화할 수 있습니다. 예를 들어 네트워크를 통해 쿼리를 시도하고 네트워크를 사용할 수 없는 경우 캐시된 데이터에 시도하려는 경우 다음과 같이 수행합니다.
 
 ```java
 query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
@@ -406,6 +406,6 @@ mainQuery.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-새로 생성된 `ParseQuery`에 'and' 연산자처럼 작동하는 조건을 추가할 수 있습니다.
+새로 생성된 `%{ParseQuery}`에 'and' 연산자처럼 작동하는 조건을 추가할 수 있습니다.
 
 하지만 복합 쿼리의 하위 쿼리에서 필터링되지 않은 조건(예: `setLimit`, `skip`, `orderBy...`, `include`)은 지원되지 않습니다.

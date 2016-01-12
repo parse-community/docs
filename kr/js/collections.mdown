@@ -1,6 +1,6 @@
 # 컬렉션
 
-`Parse.Collection`은 순서가 지정된 일련의 `Parse.Object`입니다. `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)`과 호환되며 같은 기능을 모두 가지고 있습니다.  모델 클래스나 특정 `Parse.Query`를 사용하여 새 하위 클래스를 만들 수 있습니다.
+`Parse.Collection`은 순서가 지정된 일련의 `%{ParseObject}`입니다. `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)`과 호환되며 같은 기능을 모두 가지고 있습니다.  모델 클래스나 특정 `%{ParseQuery}`를 사용하여 새 하위 클래스를 만들 수 있습니다.
 
 ```js
 // A Collection containing all instances of TestObject.
@@ -87,10 +87,10 @@ collection.reset([
   [JavaScript를 사용한 Todo 앱 튜토리얼](/tutorials/todo-app-with-javascript)을 읽고 사용자 계정과 데이터를 유지하기 위해 Parse를 Backbone으로 사용하여 [표준 Backbone Todo 앱](http://addyosmani.github.com/todomvc/)을 만드는 방법을 확인하세요.
 </div></div>
 
-JavaScript SDK는 Backbone과 호환되므로 `Parse.Object` 및 `Parse.Collection`을 약간만 바꾸어 `Backbone.Model` 및 `Backbone.Collection`에 사용할 수 있습니다. 앱을 변환하는 방법은 다음과 같습니다.
+JavaScript SDK는 Backbone과 호환되므로 `%{ParseObject}` 및 `Parse.Collection`을 약간만 바꾸어 `Backbone.Model` 및 `Backbone.Collection`에 사용할 수 있습니다. 앱을 변환하는 방법은 다음과 같습니다.
 
 1.  [기존 JavaScript 앱에 대한 SDK 설치 지침을 따릅니다](/apps/quickstart#js/existing).
-2.  `Backbone.Model`의 모든 인스턴스를 `Parse.Object`로 바꿉니다. 그 동안 `url`과 `urlRoot`는 개체를 Parse 클래스에 매핑하는 적절한 `className`으로 바꿔야 합니다.
+2.  `Backbone.Model`의 모든 인스턴스를 `%{ParseObject}`로 바꿉니다. 그 동안 `url`과 `urlRoot`는 개체를 Parse 클래스에 매핑하는 적절한 `className`으로 바꿔야 합니다.
 
 ```js
 var BackboneTodo = Backbone.Model.extend({
@@ -101,7 +101,7 @@ var BackboneTodo = Backbone.Model.extend({
   className: "Todo"
 });
 ```
-3.  모든 `Backbone.Collection` 인스턴스를 `Parse.Collection`으로 바꾸고 `Parse.Object` 클래스를 `model`로 지정합니다. 컬렉션에서 개체를 가져오는 방법을 알 수 있게 `query`도 지정해야 합니다.
+3.  모든 `Backbone.Collection` 인스턴스를 `Parse.Collection`으로 바꾸고 `%{ParseObject}` 클래스를 `model`로 지정합니다. 컬렉션에서 개체를 가져오는 방법을 알 수 있게 `query`도 지정해야 합니다.
 
 ```js
 var ParseTodoCollection = Parse.Collection.extend({
@@ -114,7 +114,7 @@ query.equalTo("user", Parse.User.current());
 todos.query = query;
 todos.fetch();
 ```
-4.  `Parse.Collection`의 `query` 특성에 했던 것과 같은 방법으로, 서버에서 모델을 구축하던 모든 위치에서 `Parse.Query`를 구성하여 관심이 있는 개체를 가져와야 합니다.
+4.  `Parse.Collection`의 `query` 특성에 했던 것과 같은 방법으로, 서버에서 모델을 구축하던 모든 위치에서 `%{ParseQuery}`를 구성하여 관심이 있는 개체를 가져와야 합니다.
 
 5.  [사용자 인증](#users)을 사용하도록 앱을 추가하거나 업데이트하고 필요한 경우 개체에 ACL을 적용합니다.
 

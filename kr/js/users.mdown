@@ -4,11 +4,11 @@
 
 이 클래스로 앱에 사용자 계정 기능을 추가할 수 있습니다.
 
-`Parse.User`는 `Parse.Object`의 하위 클래스로서, 유연한 스키마, 자동 지속 및 키 값 인터페이스 등의 동일한 기능이 모두 포함되어 있습니다. 또한 `Parse.Object`에 있는 모든 메서드가 `Parse.User`에도 있습니다. Parse.User에는 사용자 계정과 관련된 몇 가지 특별한 추가 기능이 있다는 점만 다릅니다.
+`Parse.User`는 `%{ParseObject}`의 하위 클래스로서, 유연한 스키마, 자동 지속 및 키 값 인터페이스 등의 동일한 기능이 모두 포함되어 있습니다. 또한 `%{ParseObject}`에 있는 모든 메서드가 `Parse.User`에도 있습니다. Parse.User에는 사용자 계정과 관련된 몇 가지 특별한 추가 기능이 있다는 점만 다릅니다.
 
 ## 속성
 
-`Parse.User`에는 다음과 같이 `Parse.Object`와 구분되는 몇 가지 값이 있습니다.
+`Parse.User`에는 다음과 같이 `%{ParseObject}`와 구분되는 몇 가지 값이 있습니다.
 
 *   username: 사용자의 사용자 이름입니다(필수).
 *   password: 사용자의 비밀번호입니다(가입 시 필수).
@@ -219,7 +219,7 @@ Parse.User.requestPasswordReset("email@example.com", {
 
 ## 쿼리
 
-사용자를 쿼리하려면 간단하게 `Parse.User`에 대해 새 `Parse.Query`를 만듭니다.
+사용자를 쿼리하려면 간단하게 `Parse.User`에 대해 새 `%{ParseQuery}`를 만듭니다.
 
 ```js
 var query = new Parse.Query(Parse.User);
