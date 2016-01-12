@@ -382,7 +382,7 @@ public class MyCustomReceiver extends BroadcastReceiver {
             Iterator itr = json.keys();
             while (itr.hasNext()) {
                 String key = (String) itr.next();
-                Log.d(TAG, "..." + key + " → " + json.getString(key));
+                Log.d(TAG, "..." + key + " => " + json.getString(key));
             }
         } catch (JSONException e) {
             Log.d(TAG, "JSONException: " + e.getMessage());

@@ -46,7 +46,7 @@ It's easy to get the progress of `%{ParseFile}` uploads by passing a `Progress` 
 byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
 ParseFile file = new ParseFile("resume.txt", data);
 
-await file.SaveAsync(new Progress<ParseUploadProgressEventArgs>(e → {
+await file.SaveAsync(new Progress<ParseUploadProgressEventArgs>(e => {
     // Check e.Progress to get the progress of the file upload
 }));
 ```

@@ -297,7 +297,7 @@ Sending scheduled push notifications is not currently supported by the .NET SDK.
 If your app is running while a push notification is received, the `ParsePush.ParsePushNotificationReceived` event is fired. You can register for this event. This event provides `ParsePushNotificationEventArgs`.
 
 ```csharp
-ParsePush.ParsePushNotificationReceived += (sender, args) → {
+ParsePush.ParsePushNotificationReceived += (sender, args) => {
   var payload = args.Payload;
   object objectId;
   if (payload.TryGetValue("objectId", out objectId)) {
@@ -308,7 +308,7 @@ ParsePush.ParsePushNotificationReceived += (sender, args) → {
 
 In Unity Android, we provide a helper method that you can utilize as a handler to display a notification. If the app is in background it will display a notification by default.
 ```csharp
-ParsePush.ParsePushNotificationReceived += (sender, args) → {
+ParsePush.ParsePushNotificationReceived += (sender, args) => {
 #if UNITY_ANDROID
 	AndroidJavaClass parseUnityHelper = new AndroidJavaClass("com.parse.ParsePushUnityHelper");
 	AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");

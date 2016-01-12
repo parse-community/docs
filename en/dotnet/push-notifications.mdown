@@ -323,7 +323,7 @@ Sending scheduled push notifications is not currently supported by the .NET SDK.
 If your app is running while a push notification is received, the `ParsePush.ParsePushNotificationReceived` event is fired. You can register for this event. This event provides `ParsePushNotificationEventArgs`. When Parse sends a toast notification, it embeds the JSON payload in the notification.
 
 ```csharp
-ParsePush.ParsePushNotificationReceived += (sender, args) → {
+ParsePush.ParsePushNotificationReceived += (sender, args) => {
   var payload = args.Payload;
   object objectId;
   if (payload.TryGetValue("objectId", out objectId)) {
@@ -401,7 +401,7 @@ You can also track application launches from toast notifications in Windows Phon
     To track application launches from toasts and tiles, add the following to your App constructor:
 
 ```csharp
-this.Startup += (sender, args) → {
+this.Startup += (sender, args) => {
   ParseAnalytics.TrackAppOpens(RootFrame);
 };
 ```

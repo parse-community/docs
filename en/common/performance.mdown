@@ -676,7 +676,7 @@ IDictionary<string, object> dictionary = new Dictionary<string, object>
     { "movie", "The Matrix" }
 };
 
-ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t → {
+ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t => {
   var result = t.Result;
   // result is 4.5
 });

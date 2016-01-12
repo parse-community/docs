@@ -394,16 +394,16 @@ For more details on `%{ParseQuery}`, please look at the query portion of this gu
 
 So far we've used values with type `%{string}`, `%{integer}`, and `%{ParseObject}`. Parse also supports `%{date}`s and `%{null}`. You can nest `%{map}`s and `%{array}`s to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
 
-* String → `%{string}`
-* Number → `%{integer}`
-* Bool → `%{bool}`
-* Array → `%{array}`
-* Object → `%{map}`
-* Date → `%{date}`
-* File → `%{ParseFile}`
-* Pointer → other `%{ParseObject}`
-* Relation → `%{ParseRelation}`
-* Null → `%{null}`
+* String => `%{string}`
+* Number => `%{integer}`
+* Bool => `%{bool}`
+* Array => `%{array}`
+* Object => `%{map}`
+* Date => `%{date}`
+* File => `%{ParseFile}`
+* Pointer => other `%{ParseObject}`
+* Relation => `%{ParseRelation}`
+* Null => `%{null}`
 
 Some examples:
 

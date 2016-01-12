@@ -315,16 +315,16 @@ So far we've used values with type `%{string}`, `%{number}`, `%{bool}`, and `%{P
 
 You can nest `%{map}` and `%{array}` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
 
-* String → `%{string}`
-* Number → primitive numeric values such as `%{double}`s, `%{long}`s, or `%{float}`s
-* Bool → `%{bool}`
-* Array → `%{array}`
-* Object → `%{map}`
-* Date → `%{date}`
-* File → `%{ParseFile}`
-* Pointer → other `%{ParseObject}`
-* Relation → `%{ParseRelation}`
-* Null → `%{null}`
+* String => `%{string}`
+* Number => primitive numeric values such as `%{double}`s, `%{long}`s, or `%{float}`s
+* Bool => `%{bool}`
+* Array => `%{array}`
+* Object => `%{map}`
+* Date => `%{date}`
+* File => `%{ParseFile}`
+* Pointer => other `%{ParseObject}`
+* Relation => `%{ParseRelation}`
+* Null => `%{null}`
 
 Some examples:
 

@@ -13,8 +13,8 @@ Say your app offers search functionality for apartment listings, and you want to
 ```php
 // Define ranges to bucket data points into meaningful segments
 $dimensions = [
-  "priceRange" → '1000-1500', 
-  "source" → 'craigslist', 
+  "priceRange" => '1000-1500', 
+  "source" => 'craigslist', 
   "dayType": 'weekday'
 ];
 // Send the dimensions to Parse along with the 'search' event
@@ -25,7 +25,7 @@ ParseAnalytics::track('search', $dimensions);
 
 ```php
 $codeString = '' + $error->getCode();
-ParseAnalytics::track('error', ["code" → codeString]);
+ParseAnalytics::track('error', ["code" => codeString]);
 ```
 
 Note that Parse currently only stores the first eight dimension pairsper call to `ParseAnalytics::track()`.

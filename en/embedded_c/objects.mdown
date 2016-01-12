@@ -20,15 +20,15 @@ So far we've used values with type `%{double}` and `%{bool}`. The Parse REST API
 
 Overall, the following types are allowed for each field in your object:
 
-* String → `%{string}`
-* Number → `%{integer}`, `%{double}`
-* Boolean → `%{bool}`
-* Array → `%{array}`
-* Object → `%{map}`
-* Date → `%{date}`
-* File → `%{ParseFile}`
-* Pointer → other `%{ParseObject}`
-* Relation → `%{ParseRelation}`
-* Null → `%{null}`
+* String => `%{string}`
+* Number => `%{integer}`, `%{double}`
+* Boolean => `%{bool}`
+* Array => `%{array}`
+* Object => `%{map}`
+* Date => `%{date}`
+* File => `%{ParseFile}`
+* Pointer => other `%{ParseObject}`
+* Relation => `%{ParseRelation}`
+* Null => `%{null}`
 
 The type `%{map}` simply denotes that each value can be composed of nested objects that are JSON-encodable. Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself.

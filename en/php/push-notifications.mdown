@@ -46,11 +46,11 @@ The PHP SDK does not currently support subscribing iOS and Android devices for p
 With the PHP SDK, the following code can be used to alert all subscribers of the "Giants" and "Mets" channels about the results of the game. This will display a notification center alert to iOS users and a system tray notification to Android users.
 
 ```php
-$data = array("alert" → "Hi!");
+$data = array("alert" => "Hi!");
 
 ParsePush::send(array(
-  "channels" → ["PHPFans"],
-  "data" → $data
+  "channels" => ["PHPFans"],
+  "data" => $data
 ));
 ```
 
@@ -72,8 +72,8 @@ Once you have your data stored on your `Installation` objects, you can use a que
 $query = ParseInstallation::query();
 $query->equalTo("design", "rad");
 ParsePush::send(array(
-  "where" → $query,
-  "data" → $data
+  "where" => $query,
+  "data" => $data
 ));
 ```
 
@@ -85,9 +85,9 @@ $query->equalTo("channels", "Giants");
 $query->equalTo("scores", true);
 
 ParsePush::send(array(
-  "where" → $query,
-  "data" → array(
-    "alert" → "Giants scored against the A's! It's now 2-2."
+  "where" => $query,
+  "data" => array(
+    "alert" => "Giants scored against the A's! It's now 2-2."
   )
 ));
 ```
@@ -105,9 +105,9 @@ $pushQuery->matchesQuery('user', $userQuery);
 
 // Send push notification to query
 ParsePush::send(array(
-  "where" → $pushQuery,
-  "data" → array(
-    "alert" → "Free hotdogs at the Parse concession stand!"
+  "where" => $pushQuery,
+  "data" => array(
+    "alert" => "Free hotdogs at the Parse concession stand!"
   )
 ));
 ```
@@ -132,12 +132,12 @@ For example, to send a notification that increases the current badge number by 1
 
 ```php
 ParsePush::send(array(
-  "channels" → [ "Mets" ],
-  data → array(
-    "alert" → "The Mets scored! The game is now tied 1-1.",
-    "badge" → "Increment",
-    "sound" → "cheering.caf",
-    "title" → "Mets Score!"
+  "channels" => [ "Mets" ],
+  data => array(
+    "alert" => "The Mets scored! The game is now tied 1-1.",
+    "badge" => "Increment",
+    "sound" => "cheering.caf",
+    "title" => "Mets Score!"
   )
 ));
 ```
@@ -150,12 +150,12 @@ $query->equalTo('channels', 'Indians');
 $query->equalTo('injuryReports', true);
 
 ParsePush::send(array(
-  "where" → $query,
-  "data" → array(
-    "action" → "com.example.UPDATE_STATUS"
-    "alert" → "Ricky Vaughn was injured in last night's game!",
-    "name" → "Vaughn",
-    "newsItem" → "Man bites dog"
+  "where" => $query,
+  "data" => array(
+    "action" => "com.example.UPDATE_STATUS"
+    "alert" => "Ricky Vaughn was injured in last night's game!",
+    "name" => "Vaughn",
+    "newsItem" => "Man bites dog"
   )
 ));
 ```
@@ -180,9 +180,9 @@ $queryAndroid = ParseInstallation::query();
 $queryAndroid->equalTo('deviceType', 'android');
 
 ParsePush::send(array(
-  "where" → $queryAndroid,
-  "data" → array(
-    "alert" → "Your suitcase has been filled with tiny robots!" 
+  "where" => $queryAndroid,
+  "data" => array(
+    "alert" => "Your suitcase has been filled with tiny robots!" 
   )
 ));
 
@@ -191,9 +191,9 @@ $queryIOS = ParseInstallation::query();
 $queryIOS->equalTo('deviceType', 'ios');
 
 ParsePush::send(array(
-  "where" → $queryIOS,
-  "data" → array(
-    "alert" → "Your suitcase has been filled with tiny apples!" 
+  "where" => $queryIOS,
+  "data" => array(
+    "alert" => "Your suitcase has been filled with tiny apples!" 
   )
 ));
 
@@ -202,9 +202,9 @@ $queryWindows = ParseInstallation::query();
 $queryWindows->equalTo('deviceType', 'winrt');
 
 ParsePush::send(array(
-  "where" → $queryWindows,
-  "data" → array(
-    "alert" → "Your suitcase has been filled with tiny surfaces!" 
+  "where" => $queryWindows,
+  "data" => array(
+    "alert" => "Your suitcase has been filled with tiny surfaces!" 
   )
 ));
 
@@ -213,9 +213,9 @@ $queryWP8 = ParseInstallation::query();
 $queryWP8->equalTo('deviceType', 'winphone');
 
 ParsePush::send(array(
-  "where" → $queryWP8,
-  "data" → array(
-    "alert" → "Your suitcase is very hip; very metro." 
+  "where" => $queryWP8,
+  "data" => array(
+    "alert" => "Your suitcase is very hip; very metro." 
   )
 ));
 ```

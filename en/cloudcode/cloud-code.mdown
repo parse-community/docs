@@ -87,7 +87,7 @@ PFCloud.callFunctionInBackground("averageRatings", withParameters: ["movie":"The
 This is how you would call the same Cloud function using PHP:
 
 ```php
-$ratings = ParseCloud::run("averageRatings", ["movie" → "The Matrix"]);
+$ratings = ParseCloud::run("averageRatings", ["movie" => "The Matrix"]);
 // $ratings is 4.5
 ```
 
@@ -98,7 +98,7 @@ IDictionary<string, object> params = new Dictionary<string, object>
 {
     { "movie", "The Matrix" }
 };
-ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params).ContinueWith(t → {
+ParseCloud.CallFunctionAsync<IDictionary<string, object>>("averageStars", params).ContinueWith(t => {
   var ratings = t.Result;
   // ratings is 4.5
 });

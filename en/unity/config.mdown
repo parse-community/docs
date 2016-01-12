@@ -9,7 +9,7 @@
 After that you will be able to fetch the `ParseConfig` on the client, like in this example:
 
 ```csharp
-ParseConfig.GetAsync().ContinueWith(t → 
+ParseConfig.GetAsync().ContinueWith(t => 
 {
   if (t.isFaulted) {
     // Something went wrong (e.g. request timed out)
@@ -24,7 +24,7 @@ ParseConfig.GetAsync().ContinueWith(t →
 `ParseConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `GetAsync` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `CurrentConfig`.
 
 ```csharp
-ParseConfig.GetAsync().ContinueWith(t → 
+ParseConfig.GetAsync().ContinueWith(t => 
 {
   ParseConfig config = null;
   if (t.isFaulted) {
