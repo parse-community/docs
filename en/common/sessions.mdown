@@ -36,18 +36,18 @@ To handle this error, we recommend writing a global utility function that is cal
 
 ```common-objc
 @interface ParseErrorHandlingController : NSObject
- 
+
 + (void)handleParseError:(NSError *)error;
- 
+
 @end
- 
+
 @implementation ParseErrorHandlingController
- 
+
 + (void)handleParseError:(NSError *)error {
   if (![error.domain isEqualToString:PFParseErrorDomain]) {
     return;
   }
- 
+
   switch (error.code) {
     case kPFErrorInvalidSessionToken: {
       [self _handleInvalidSessionTokenError];
@@ -56,7 +56,7 @@ To handle this error, we recommend writing a global utility function that is cal
     ... // Other Parse API Errors that you want to explicitly handle.
   }
 }
- 
+
 + (void)_handleInvalidSessionTokenError {
   //--------------------------------------
   // Option 1: Show a message asking the user to log out and log back in.
@@ -69,7 +69,7 @@ To handle this error, we recommend writing a global utility function that is cal
   //                                           cancelButtonTitle:@"Not Now"
   //                                           otherButtonTitles:@"OK"];
   // [alertView show];
- 
+
   //--------------------------------------
   // Option #2: Show login screen so user can re-authenticate.
   //--------------------------------------
@@ -79,9 +79,9 @@ To handle this error, we recommend writing a global utility function that is cal
   // PFLogInViewController *logInViewController = [[PFLogInViewController alloc] init];
   // [presentingViewController presentViewController:logInViewController animated:YES completion:nil];
 }
- 
+
 @end
- 
+
 // In all API requests, call the global error handler, e.g.
 [[PFQuery queryWithClassName:@"Object"] findInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
   if (!error) {
@@ -98,14 +98,14 @@ class ParseErrorHandlingController {
     if error.domain != PFParseErrorDomain {
       return
     }
- 
+
     switch (error.code) {
     case kPFErrorInvalidSessionToken:
       handleInvalidSessionTokenError()
- 
+
     ... // Other Parse API Errors that you want to explicitly handle.
   }
- 
+
   private class func handleInvalidSessionTokenError() {
     //--------------------------------------
     // Option 1: Show a message asking the user to log out and log back in.
@@ -120,7 +120,7 @@ class ParseErrorHandlingController {
     //   otherButtonTitles: "OK"
     // )
     // alertView.show()
- 
+
     //--------------------------------------
     // Option #2: Show login screen so user can re-authenticate.
     //--------------------------------------
@@ -131,7 +131,7 @@ class ParseErrorHandlingController {
     // presentingViewController?.presentViewController(logInViewController, animated: true, completion: nil)
   }
 }
- 
+
 // In all API requests, call the global error handler, e.g.
 let query = PFQuery(className: "Object")
 query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!) -> Void in
@@ -149,11 +149,11 @@ public class ParseErrorHandler {
     switch (e.getCode()) {
       case INVALID_SESSION_TOKEN: handleInvalidSessionToken()
         break;
- 
+
       ... // Other Parse API errors that you want to explicitly handle
     }
   }
- 
+
   private static void handleInvalidSessionToken() {
     //--------------------------------------
     // Option 1: Show a message asking the user to log out and log back in.
@@ -163,7 +163,7 @@ public class ParseErrorHandler {
     // new AlertDialog.Builder(getActivity())
     //   .setMessage("Session is no longer valid, please log out and log in again.")
     //   .setCancelable(false).setPositiveButton("OK", ...).create().show();
- 
+
     //--------------------------------------
     // Option #2: Show login screen so user can re-authenticate.
     //--------------------------------------
@@ -172,7 +172,7 @@ public class ParseErrorHandler {
     // startActivityForResult(new ParseLoginBuilder(getActivity()).build(), 0);
   }
 }
- 
+
 // In all API requests, call the global error handler, e.g.
 query.findInBackground(new FindCallback<ParseObject>() {
   public void done(List<ParseObject> results, ParseException e) {
@@ -193,11 +193,11 @@ function handleParseError(err) {
       ... // If web browser, render a log in screen
       ... // If Express.js, redirect the user to the log in route
       break;
- 
+
     ... // Other Parse API errors that you want to explicitly handle
   }
 }
- 
+
 // For each API request, call the global error handler
 query.find().then(function() {
   ...
@@ -212,24 +212,24 @@ public class ParseErrorHandler {
       case ParseException.ErrorCode.InvalidSessionToken:
         HandleInvalidSessionToken()
         break;
- 
+
       ... // Other Parse API errors that you want to explicitly handle
     }
   }
- 
+
   private static void HandleInvalidSessionToken() {
     //--------------------------------------
     // Option 1: Show a message asking the user to log out and log back in.
     //--------------------------------------
     // If the user needs to finish what they were doing, they have the opportunity to do so.
- 
+
     //--------------------------------------
     // Option #2: Show login screen so user can re-authenticate.
     //--------------------------------------
     // You may want this if the logout button is inaccessible in the UI.
   }
 });
- 
+
 // In all API requests, call the global error handler, e.g.
 query.FindAsync().ContinueWith(t => {
   if (t.IsFaulted) {
@@ -263,7 +263,12 @@ try {
   ParseErrorHandler::handleParseError($e)
 }
 ```
-
+```common-bash
+// No command line example
+```
+```common-cpp
+// No C++ example
+```
 
 ## Security
 
