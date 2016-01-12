@@ -99,7 +99,7 @@ query.whereKey("cheatMode", equalTo: false)
 query.whereEqualTo("cheatMode", false);
 ```
 ```common-csharp
-.WhereEqualTo("cheatMode", false);
+query.WhereEqualTo("cheatMode", false);
 ```
 ```common-bash
 # No REST API example

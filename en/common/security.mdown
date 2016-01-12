@@ -100,7 +100,7 @@ $user = ParseUser::getCurrentUser();
 $user->setACL(new ParseACL($user))
 ```
 ```common-bash
-// No command line example
+# No command line example
 ```
 ```common-cpp
 // No C++ example
@@ -129,7 +129,7 @@ ParseACL.setDefaultACL(new ParseACL(), true);
 ParseACL::setDefaultACL(new ParseACL(), true);
 ```
 ```common-bash
-// No command line example
+# No command line example
 ```
 ```common-cpp
 // No C++ example
@@ -181,7 +181,7 @@ $privateData->set("phoneNumber", "555-5309");
 ParseUser::getCurrentUser()->set("privateData", $privateData);
 ```
 ```common-bash
-// No command line example
+# No command line example
 ```
 ```common-cpp
 // No C++ example
@@ -222,7 +222,7 @@ $acl->setPublicReadAccess(true);
 $acl->setWriteAccess(ParseUser::getCurrentUser(), true);
 ```
 ```common-bash
-// No command line example
+# No command line example
 ```
 ```common-cpp
 // No C++ example
@@ -263,7 +263,7 @@ $acl->setPublicReadAccess(true);
 $acl->setRoleWriteAccessWithName("admins", true);
 ```
 ```common-bash
-// No command line example
+# No command line example
 ```
 ```common-cpp
 // No C++ example
