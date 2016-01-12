@@ -35,9 +35,9 @@ query = query.Limit(10);
 var placeObjects = await query.FindAsync();
 ```
 
- At this point `placesObjects` will be an `IEnumerable<ParseObject>` of `PlaceObject`s ordered by distance (nearest to farthest) from `userGeoPoint`. 
+At this point `placesObjects` will be an `IEnumerable<ParseObject>` of `PlaceObject`s ordered by distance (nearest to farthest) from `userGeoPoint`.
 
- To limit the results using distance check out `WhereWithinDistance`,.
+To limit the results using distance check out `WhereWithinDistance`,.
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `WhereWithinGeoBox` restriction to your `ParseQuery`.
 
