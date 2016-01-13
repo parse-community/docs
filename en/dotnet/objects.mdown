@@ -39,7 +39,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 ## Data Types
 
-So far we've used values with type `%{string}` and `%{integer}` assigned to fields of a `%{ParseObject}`. Parse also supports `%{double}`, `%{date}`, and `%{null}`. You can also nest `%{map}` and `${array}` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
+So far we've used values with type `%{string}` and `%{integer}` assigned to fields of a `%{ParseObject}`. Parse also supports `%{double}`, `%{date}`, and `%{null}`. You can also nest `%{map}` and `%{array}` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
 
 * String => `%{string}`
 * Number => primitive numeric values such as `%{double}`s, `%{long}`s, or `%{float}`s
