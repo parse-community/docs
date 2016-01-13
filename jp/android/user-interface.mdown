@@ -42,9 +42,9 @@ public void onCreate(Bundle savedInstanceState) {
 
 ### クエリのカスタマイズ
 
-デフォルトでは、最もシンプルな`ParseQueryAdapter`コンストラクタは`Context`とParseクラス名を取ります。それから、そのクラスのあらゆる`ParseObject`が`createdAt`タイプスタンプ順にフェッチされます。
+デフォルトでは、最もシンプルな`ParseQueryAdapter`コンストラクタは`Context`とParseクラス名を取ります。それから、そのクラスのあらゆる`%{ParseObject}`が`createdAt`タイプスタンプ順にフェッチされます。
 
-この動作を変更するために、`ArrayAdapter`の機能を採用しました。ただし、`ParseQueryAdapter`は、単純にアダプタで表示するオブジェクトのリストをとるだけでなく、アプリ開発者が定義した`ParseQuery`を返す`QueryFactory`クラスもとることができます。コンストラクタにそれを渡すと、次にアダプタはそのクエリを使ってどのオブジェクトをフェッチして表示するかを判定します。
+この動作を変更するために、`ArrayAdapter`の機能を採用しました。ただし、`ParseQueryAdapter`は、単純にアダプタで表示するオブジェクトのリストをとるだけでなく、アプリ開発者が定義した`%{ParseQuery}`を返す`QueryFactory`クラスもとることができます。コンストラクタにそれを渡すと、次にアダプタはそのクエリを使ってどのオブジェクトをフェッチして表示するかを判定します。
 
 以下に示す例では、メンバーが4人以上のパンクまたはメタルバンドを、レコード売り上げ枚数順に並べて表示する`ParseQueryAdapter`を設定します。
 
@@ -64,7 +64,7 @@ ParseQueryAdapter<ParseObject> adapter =
 
 ### 行のカスタマイズ
 
-`AdapterView`における各`View`のレイアウトは、`ParseImageView`と`TextView`を使用したシンプルな`LinearLayout`です。`setTextKey(String)`を`ParseQueryAdapter`とあわせて使用する場合、パラメータは`TextView`で`ParseObject`のどのキーを表示するかを選択するのに使用されます。同様に、`setImageKey(String)`を使用する場合、パラメータはImageViewでどの画像を表示するかを決定するのに使用されます。
+`AdapterView`における各`View`のレイアウトは、`ParseImageView`と`TextView`を使用したシンプルな`LinearLayout`です。`setTextKey(String)`を`ParseQueryAdapter`とあわせて使用する場合、パラメータは`TextView`で`%{ParseObject}`のどのキーを表示するかを選択するのに使用されます。同様に、`setImageKey(String)`を使用する場合、パラメータはImageViewでどの画像を表示するかを決定するのに使用されます。
 
 行をカスタマイズする方法の1つは、`getItemView(ParseObject, View, ViewGroup)`または`getNextPageView(View, ViewGroup)`をオーバーライドし、スーパークラスにおける適切なメソッドの実装を呼び出して処理を行わせることです。スーパークラスの実装に自分でレイアウトを提供している場合、`getItemView(ParseObject, View, ViewGroup)`と`getNextPageView(View, ViewGroup)`には以下のものが必要であることを覚えておいてください。`TextView`（id:`android.R.id.text1`）（`textKey`を設定している場合）、または`ParseImageView`（id:`android.R.id.icon`）（`imageKey`を設定している場合）。
 
@@ -88,7 +88,7 @@ public View getItemView(ParseObject object, View v, ViewGroup parent)
 }
 ```
 
-行をカスタマイズするもう1つの方法は、`ParseQueryAdapter`のメソッドをオーバーライドしてサブクラスの実装をすべて無視し、行の表示方法を完全に制御することです。以下の例では、項目をシンプルな行で表示し、色は`ParseObject`で定義します。
+行をカスタマイズするもう1つの方法は、`ParseQueryAdapter`のメソッドをオーバーライドしてサブクラスの実装をすべて無視し、行の表示方法を完全に制御することです。以下の例では、項目をシンプルな行で表示し、色は`%{ParseObject}`で定義します。
 
 ```java
 @Override
@@ -115,9 +115,9 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 ### 行へのリモート画像の読み込み
 
-`ParseQueryAdapter` を使うと、シンプルな処理でリモート画像を表示できます。`setImageKey(String)`を呼び出すと、`ParseObject`のキー名を渡すことができます。このキーには、Parseからフェッチして、該当する`ParseImageView`の行に表示するための画像を格納した、`ParseFile`が含まれています。
+`ParseQueryAdapter` を使うと、シンプルな処理でリモート画像を表示できます。`setImageKey(String)`を呼び出すと、`%{ParseObject}`のキー名を渡すことができます。このキーには、Parseからフェッチして、該当する`ParseImageView`の行に表示するための画像を格納した、`%{ParseFile}`が含まれています。
 
-画像は非同期的にダウンロードされ、適切な`ParseImageView`がバックグラウンドで更新されます。ユーザーがスクロールして行がアダプタによってリサイクルされると、行が見えて`ParseObject`が割り当てられるのにしたがって、画像がフェッチされます。
+画像は非同期的にダウンロードされ、適切な`ParseImageView`がバックグラウンドで更新されます。ユーザーがスクロールして行がアダプタによってリサイクルされると、行が見えて`%{ParseObject}`が割り当てられるのにしたがって、画像がフェッチされます。
 
 イメージのフェッチが完了する前に表示されるプレースホルダーの画像を指定することもできます。指定した`Drawable`をフォールバック画像として使用するには、`ParseQueryAdapter`で`setPlaceholder(Drawable)`を呼び出します。
 
@@ -133,7 +133,7 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 クエリはページネーションを適用できるよう自動的に調整され、ページ切り替え操作用の行が`AdapterView`の下部に表示されます。
 
-ページネーションはデフォルトで有効になっています。無効にするには、`setPaginationEnabled(false)`を呼び出します。ページネーションが無効の場合、`ParseQueryAdapter`はデフォルトで`ParseQuery`の結果に100件までという制限をかけます。
+ページネーションはデフォルトで有効になっています。無効にするには、`setPaginationEnabled(false)`を呼び出します。ページネーションが無効の場合、`ParseQueryAdapter`はデフォルトで`%{ParseQuery}`の結果に100件までという制限をかけます。
 
 ### データの自動読み込み
 

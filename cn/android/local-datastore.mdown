@@ -1,6 +1,6 @@
 # 本地数据存储库
 
-Parse Android SDK 提供了本地数据存储库，可用于存储和检索 `ParseObject`，甚至在无网络的情况下。要启用此功能，只需调用 `Parse.enableLocalDatastore()`，然后再调用 `initialize`。
+Parse Android SDK 提供了本地数据存储库，可用于存储和检索 `%{ParseObject}`，甚至在无网络的情况下。要启用此功能，只需调用 `Parse.enableLocalDatastore()`，然后再调用 `initialize`。
 
 ```java
 import com.parse.Parse;
@@ -17,15 +17,15 @@ public class App extends Application {
 }
 ```
 
-应注意，启用本地数据存储库会出现一些副效应。启用时，只存在任何给定 `ParseObject` 的一个实例。例如，假设您有一个 `"GameScore"` 类实例，带 `"xWMyZ4YEGZ"` 的 `objectId`，然后您向带此 `objectId` 的所有 `"GameScore"` 实例发送了 `ParseQuery`。结果会得到您记忆库中已有的对象的同一实例。
+应注意，启用本地数据存储库会出现一些副效应。启用时，只存在任何给定 `%{ParseObject}` 的一个实例。例如，假设您有一个 `"GameScore"` 类实例，带 `"xWMyZ4YEGZ"` 的 `objectId`，然后您向带此 `objectId` 的所有 `"GameScore"` 实例发送了 `%{ParseQuery}`。结果会得到您记忆库中已有的对象的同一实例。
 
 另一种副效应是，当前用户和当前安装的应用将存储在本地数据存储库中，所以您可以使用以下方法，在您应用程序不同运行次之间将未保存的更改保留到这些对象中。
 
-对 `ParseObject` 调用 `saveEventually` 方法将会导致该对象被 pin 在本地数据存储库中，直到保存完成。所以现在，如果您更改当前的 `ParseUser` 并且调用 `ParseUser.getCurrent().saveEventually()`，则应用程序将总能看到您所做的更改。
+对 `%{ParseObject}` 调用 `saveEventually` 方法将会导致该对象被 pin 在本地数据存储库中，直到保存完成。所以现在，如果您更改当前的 `%{ParseUser}` 并且调用 `ParseUser.getCurrent().saveEventually()`，则应用程序将总能看到您所做的更改。
 
 ## Pin 操作
 
-您可以通过 pin 操作将 `ParseObject` 存储在本地数据存储库中。Pin 一个 `ParseObject` 是递归性操作，如同保存，所以被您 pin 的对象指向的任何其他对象也将被 pin。Pin 一个对象时，每次通过提取或保存新数据更新该对象时，本地数据存储库中的副本也会自动更新。您完全不必为此担心。
+您可以通过 pin 操作将 `%{ParseObject}` 存储在本地数据存储库中。Pin 一个 `%{ParseObject}` 是递归性操作，如同保存，所以被您 pin 的对象指向的任何其他对象也将被 pin。Pin 一个对象时，每次通过提取或保存新数据更新该对象时，本地数据存储库中的副本也会自动更新。您完全不必为此担心。
 
 ```java
 ParseObject gameScore = new ParseObject("GameScore");
@@ -44,7 +44,7 @@ ParseObject.pinAllInBackground(listOfObjects);
 
 ## 从本地数据存储库检索
 
-对象存储是一项好功能，但是只有在以后能再找回这些对象的情况下才有价值。从本地数据存储库检索对象与在网络上检索一样。唯一的不同在于要调用 `fromLocalDatastore` 方法，告知 `ParseQuery` 在何处查找其结果。
+对象存储是一项好功能，但是只有在以后能再找回这些对象的情况下才有价值。从本地数据存储库检索对象与在网络上检索一样。唯一的不同在于要调用 `fromLocalDatastore` 方法，告知 `%{ParseQuery}` 在何处查找其结果。
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
@@ -60,7 +60,7 @@ query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
 
 ## 查询本地数据存储库
 
-通常，您可能想查找符合一定标准的所有对象，而不是通过 ID 找到单个对象。为此，您可以使用 [ParseQuery](#queries). Any `ParseQuery` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
+通常，您可能想查找符合一定标准的所有对象，而不是通过 ID 找到单个对象。为此，您可以使用 [ParseQuery](#queries). Any `%{ParseQuery}` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -148,13 +148,13 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 ## 同步本地更改
 
-您本地保存了一些更改后，可以通过一些不同的办法在网络上把那些更改保存到 Parse。要达到此目的最简单的方法是借助`saveEventually`。当您对 `ParseObject` 调用 `saveEventually` 时，前者将被 pin，直到能被保存。SDK 将确保在网络下次可用时保存此对象。
+您本地保存了一些更改后，可以通过一些不同的办法在网络上把那些更改保存到 Parse。要达到此目的最简单的方法是借助`saveEventually`。当您对 `%{ParseObject}` 调用 `saveEventually` 时，前者将被 pin，直到能被保存。SDK 将确保在网络下次可用时保存此对象。
 
 ```java
 gameScore.saveEventually();
 ```
 
-如果您想更好地控制同步化各对象的方式，可以将它们保存在本地数据存储库中，直到您准备好使用 `saveInBackground` 亲自保存它们为止。想要管理一组需要保存的对象时，您可以再次使用标签。`ParseQuery` 上的 `fromPin` 方法让您能轻松提取您所关注的对象。
+如果您想更好地控制同步化各对象的方式，可以将它们保存在本地数据存储库中，直到您准备好使用 `saveInBackground` 亲自保存它们为止。想要管理一组需要保存的对象时，您可以再次使用标签。`%{ParseQuery}` 上的 `fromPin` 方法让您能轻松提取您所关注的对象。
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");

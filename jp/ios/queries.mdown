@@ -1,12 +1,12 @@
 # クエリ
 
-これまでに`getObjectWithId:`がある`PFQuery`でParseから1つの`%{ParseObject}`を取得する方法を確認しました。`PFQuery`を使用したデータの取得には、他にも次のように多数の方法があります。一度に多数のオブジェクトを取得したり、取得するオブジェクトに条件を設定したりできます。また、クエリを自動的にキャッシュしてコードへの書き込みを阻止したりできます。
+これまでに`getObjectWithId:`がある`%{ParseQuery}`でParseから1つの`%{ParseObject}`を取得する方法を確認しました。`%{ParseQuery}`を使用したデータの取得には、他にも次のように多数の方法があります。一度に多数のオブジェクトを取得したり、取得するオブジェクトに条件を設定したりできます。また、クエリを自動的にキャッシュしてコードへの書き込みを阻止したりできます。
 
 ## 基本的なクエリ
 
-多くの場合、`getObjectInBackgroundWithId:block:`には取得するオブジェクトを指定する機能はありません。`PFQuery`には1つのオブジェクトだけではなく、オブジェクトのリストを取得するさまざまな方法があります。
+多くの場合、`getObjectInBackgroundWithId:block:`には取得するオブジェクトを指定する機能はありません。`%{ParseQuery}`には1つのオブジェクトだけではなく、オブジェクトのリストを取得するさまざまな方法があります。
 
-一般的には、`PFQuery`を作成してそれに条件を設定し、その後`findObjectsInBackgroundWithBlock:`や`findObjectsInBackgroundWithTarget:selector:`のいずれかを使用して`%{ParseObject}`が一致する`NSArray`を取得します。たとえば、特定の`playerName`でスコアを取得するには、`whereKey:equalTo:`メソッドを使用してキーの値を制約します。
+一般的には、`%{ParseQuery}`を作成してそれに条件を設定し、その後`findObjectsInBackgroundWithBlock:`や`findObjectsInBackgroundWithTarget:selector:`のいずれかを使用して`%{ParseObject}`が一致する`NSArray`を取得します。たとえば、特定の`playerName`でスコアを取得するには、`whereKey:equalTo:`メソッドを使用してキーの値を制約します。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -38,7 +38,7 @@ NSArray* scoreArray = [query findObjects];
 
 ## NSPredicateで制約を指定する
 
-`PFQuery`を最大限に活用するためには、次に記載するメソッドを使用して条件を追加することをお勧めします。ただし、`NSPredicate`を使用する場合は、`PFQuery`を作成する際に`NSPredicate`を提供することで条件のサブセットを指定します。
+`%{ParseQuery}`を最大限に活用するためには、次に記載するメソッドを使用して条件を追加することをお勧めします。ただし、`NSPredicate`を使用する場合は、`%{ParseQuery}`を作成する際に`NSPredicate`を提供することで条件のサブセットを指定します。
 
 ```objc
 NSPredicate *predicate = [NSPredicate predicateWithFormat:
@@ -64,7 +64,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore" predicate:predicate];
 
 ## クエリ条件
 
-`PFQuery`で検索するオブジェクトに条件を設定する方法がいくつかあります。`whereKey:notEqualTo`を使用すると特定のキーと値のペアを持つオブジェクトをフィルタで除外できます。
+`%{ParseQuery}`で検索するオブジェクトに条件を設定する方法がいくつかあります。`whereKey:notEqualTo`を使用すると特定のキーと値のペアを持つオブジェクトをフィルタで除外できます。
 
 ```objc
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
@@ -383,6 +383,6 @@ PFQuery *query = [PFQuery orQueryWithSubqueries:@[fewWins,lotsOfWins]];
 }];
 ```
 
-「AND」演算子として機能する新たに作成した`PFQuery`に条件を追加できます。
+「AND」演算子として機能する新たに作成した`%{ParseQuery}`に条件を追加できます。
 
 ただし、複合クエリのサブクエリ内ではフィルタ以外の条件（`limit`、`skip`、`orderBy...:`、`includeKey:`など）はサポートされません。

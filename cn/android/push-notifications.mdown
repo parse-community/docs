@@ -12,14 +12,14 @@ Parse 库提供通过谷歌云端推送 (GCM) 服务发送的推送通知（如�
 
 安装于登记了推送通知的设备上的每个 Parse 应用程序均有一个相关的 `Installation` 对象。该 `Installation` 对象是您储存推送通知目标定位所需的全部信息的位置。例如，在某个棒球应用中，您可以保存用户感兴趣的球队，以便发送关于球队成绩的更新信息。
 
-在 Android 中，可以通过 `ParseInstallation` 类（`ParseObject` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](/docs/android_guide#objects) 来储存和检索数据。要想从您的 Android 应用程序中访问当前的 `Installation` 对象，请采用 `ParseInstallation.getCurrentInstallation()` 方法。第一次保存 `ParseInstallation` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知。
+在 Android 中，可以通过 `%{ParseInstallation}` 类（`%{ParseObject}` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](/docs/android_guide#objects) 来储存和检索数据。要想从您的 Android 应用程序中访问当前的 `Installation` 对象，请采用 `ParseInstallation.getCurrentInstallation()` 方法。第一次保存 `%{ParseInstallation}` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知。
 
 ```java
 // Save the current Installation to Parse.
 ParseInstallation.getCurrentInstallation().saveInBackground();
 ```
 
-可以像修改 `ParseObject` 一样修改 `ParseInstallation`，但有几个特殊字段有助于管理和定位设备。
+可以像修改 `%{ParseObject}` 一样修改 `%{ParseInstallation}`，但有几个特殊字段有助于管理和定位设备。
 
 *   **`badge`**：iOS 应用程序图标标记的当前值。在服务器上对该值的更改将用于之后根据推送通知的数量计算图标标记增量。
 *   **`channels`**：设备当前订阅内容的各种传送通道。
@@ -106,7 +106,7 @@ push.sendInBackground();
 
 对于很多应用程序来说，通道非常好用，但是有时您在定位推送通知接收者时需要更精确。Parse 允许您使用[查询 API](/docs/android_guide#queries) 编写关于 `Installation` 对象任何子集的查询，然后向它们发送推送通知。
 
-由于 `ParseInstallation` 是 `ParseObject` 的子类，因此您可以保存您想要的任何数据，甚至可以在 `Installation` 对象与其他对象之间创建关系。这样您可以将推送通知发送给您自定义并且动态变化的一部分用户群体。
+由于 `%{ParseInstallation}` 是 `%{ParseObject}` 的子类，因此您可以保存您想要的任何数据，甚至可以在 `Installation` 对象与其他对象之间创建关系。这样您可以将推送通知发送给您自定义并且动态变化的一部分用户群体。
 
 #### 保存安装数据
 
@@ -121,7 +121,7 @@ installation.put("injuryReports",true);
 installation.saveInBackground();
 ```
 
-您甚至可以在 `Installation` 对象与 Parse 上保存的其他类之间创建关系。例如，要将安装的应用与某个用户关联，您只需要将当前用户保存在 `ParseInstallation` 上即可。
+您甚至可以在 `Installation` 对象与 Parse 上保存的其他类之间创建关系。例如，要将安装的应用与某个用户关联，您只需要将当前用户保存在 `%{ParseInstallation}` 上即可。
 
 ```java
 // Associate the device with a user
@@ -132,7 +132,7 @@ installation.saveInBackground();
 
 #### 向查询发送推送通知
 
-将数据储存在 `Installation` 对象中之后，您可以使用 `PFQuery` 来定位这些设备的某个子集。`Installation` 查询的运行方式与其他任何 [Parse 查询](/docs/android_guide#queries)相同，但我们使用专门的静态方法 `ParseInstallation.getQuery()` 来创建它。我们将此查询设置在我们的 `PFPush` 对象上以后，才可以发送通知。
+将数据储存在 `Installation` 对象中之后，您可以使用 `%{ParseQuery}` 来定位这些设备的某个子集。`Installation` 查询的运行方式与其他任何 [Parse 查询](/docs/android_guide#queries)相同，但我们使用专门的静态方法 `ParseInstallation.getQuery()` 来创建它。我们将此查询设置在我们的 `PFPush` 对象上以后，才可以发送通知。
 
 ```java
 // Create our Installation query

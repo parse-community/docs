@@ -2,9 +2,9 @@
 
 ## Parse.Object
 
-Storing data on Parse is built around `Parse.Object`. Each `Parse.Object` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `Parse.Object`. You simply set whatever key-value pairs you want, and our backend will store it.
+Storing data on Parse is built around `%{ParseObject}`. Each `%{ParseObject}` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `%{ParseObject}`. You simply set whatever key-value pairs you want, and our backend will store it.
 
-For example, let's say you're tracking high scores for a game. A single `Parse.Object` could contain:
+For example, let's say you're tracking high scores for a game. A single `%{ParseObject}` could contain:
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,9 +12,9 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
 
-Each `Parse.Object` is an instance of a specific subclass with a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
+Each `%{ParseObject}` is an instance of a specific subclass with a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
-To create a new subclass, use the `Parse.Object.extend` method.  Any `Parse.Query` will return instances of the new class for any `Parse.Object` with the same classname.  If you're familiar with `Backbone.Model`, then you already know how to use `Parse.Object`.  It's designed to be created and modified in the same ways.
+To create a new subclass, use the `Parse.Object.extend` method.  Any `%{ParseQuery}` will return instances of the new class for any `%{ParseObject}` with the same classname.  If you're familiar with `Backbone.Model`, then you already know how to use `%{ParseObject}`.  It's designed to be created and modified in the same ways.
 
 ```js
 // Simple syntax to create a new subclass of Parse.Object.
@@ -29,7 +29,7 @@ var Achievement = Parse.Object.extend({
 });
 ```
 
-You can add additional methods and properties to your subclasses of `Parse.Object`.
+You can add additional methods and properties to your subclasses of `%{ParseObject}`.
 
 ```js
 
@@ -57,9 +57,9 @@ alert(monster.get('strength'));  // Displays 200.
 alert(monster.sound); // Displays Rawr.
 ```
 
-To create a single instance of any Parse Object class, you can also use the `Parse.Object` constructor directly. `new Parse.Object(className)` will create a single Parse Object with that class name.
+To create a single instance of any Parse Object class, you can also use the `%{ParseObject}` constructor directly. `new Parse.Object(className)` will create a single Parse Object with that class name.
 
-If you’re already using ES6 in your codebase, good news! From version 1.6.0 onwards, the JavaScript SDK is compatible with ES6 classes. You can subclass `Parse.Object` with the `extends` keyword:
+If you’re already using ES6 in your codebase, good news! From version 1.6.0 onwards, the JavaScript SDK is compatible with ES6 classes. You can subclass `%{ParseObject}` with the `extends` keyword:
 
 ```js
 class Monster extends Parse.Object {
@@ -82,7 +82,7 @@ class Monster extends Parse.Object {
 }
 ```
 
-However, when using `extends`, the SDK is not automatically aware of your subclass. If you want objects returned from queries to use your subclass of `Parse.Object`, you will need to register the subclass, similar to what we do on other platforms.
+However, when using `extends`, the SDK is not automatically aware of your subclass. If you want objects returned from queries to use your subclass of `%{ParseObject}`, you will need to register the subclass, similar to what we do on other platforms.
 
 ```js
 // After specifying the Monster subclass...
@@ -123,7 +123,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the cloud. Each of these fields is filled in by Parse, so they don't exist on a `Parse.Object` until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the cloud. Each of these fields is filled in by Parse, so they don't exist on a `%{ParseObject}` until a save operation has completed.
 
 If you prefer, you can set attributes directly in your call to `save` instead.
 
@@ -148,7 +148,7 @@ gameScore.save({
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `Parse.Object` using a `Parse.Query`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `%{ParseObject}` using a `%{ParseQuery}`:
 
 ```js
 var GameScore = Parse.Object.extend("GameScore");
@@ -164,7 +164,7 @@ query.get("xWMyZ4YEGZ", {
 });
 ```
 
-To get the values out of the `Parse.Object`, use the `get` method.
+To get the values out of the `%{ParseObject}`, use the `get` method.
 
 ```js
 var score = gameScore.get("score");
@@ -288,7 +288,7 @@ Objects may have relationships with other objects. For example, in a blogging ap
 
 ### One-to-One and One-to-Many Relationships
 
-One-to-one and one-to-many relationships are modeled by saving a `Parse.Object` as a value in the other object. For example, each `Comment` in a blogging app might correspond to one `Post`.
+One-to-one and one-to-many relationships are modeled by saving a `%{ParseObject}` as a value in the other object. For example, each `Comment` in a blogging app might correspond to one `Post`.
 
 To create a new `Post` with a single `Comment`, you could write:
 
@@ -322,7 +322,7 @@ post.id = "1zEcyElZ80";
 myComment.set("parent", post);
 ```
 
-By default, when fetching an object, related `Parse.Object`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
+By default, when fetching an object, related `%{ParseObject}`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
 ```js
 var post = fetchedComment.get("parent");
@@ -335,7 +335,7 @@ post.fetch({
 
 ### Many-to-Many Relationships
 
-Many-to-many relationships are modeled using `Parse.Relation`. This works similar to storing an array of `Parse.Object`s in a key, except that you don't need to fetch all of the objects in a relation at once.  In addition, this allows `Parse.Relation` to scale to many more objects than the array of `Parse.Object` approach.  For example, a `User` may have many `Posts` that she might like. In this case, you can store the set of `Posts` that a `User` likes using `relation`.  In order to add a `Post` to the "likes" list of the `User`, you can do:
+Many-to-many relationships are modeled using `%{ParseRelation}`. This works similar to storing an array of `%{ParseObject}`s in a key, except that you don't need to fetch all of the objects in a relation at once.  In addition, this allows `%{ParseRelation}` to scale to many more objects than the array of `%{ParseObject}` approach.  For example, a `User` may have many `Posts` that she might like. In this case, you can store the set of `Posts` that a `User` likes using `relation`.  In order to add a `Post` to the "likes" list of the `User`, you can do:
 
 ```js
 var user = Parse.User.current();
@@ -344,7 +344,7 @@ relation.add(post);
 user.save();
 ```
 
-You can remove a post from a `Parse.Relation`:
+You can remove a post from a `%{ParseRelation}`:
 
 ```js
 relation.remove(post);
@@ -359,14 +359,14 @@ relation.remove(post2);
 user.save();
 ```
 
-You can also pass in an array of `Parse.Object` to `add` and `remove`:
+You can also pass in an array of `%{ParseObject}` to `add` and `remove`:
 
 ```js
 relation.add([post1, post2, post3]);
 user.save();
 ```
 
-By default, the list of objects in this relation are not downloaded.  You can get a list of the posts that a user likes by using the `Parse.Query` returned by `query`.  The code looks like:
+By default, the list of objects in this relation are not downloaded.  You can get a list of the posts that a user likes by using the `%{ParseQuery}` returned by `query`.  The code looks like:
 
 ```js
 relation.query().find({
@@ -376,7 +376,7 @@ relation.query().find({
 });
 ```
 
-If you want only a subset of the Posts, you can add extra constraints to the `Parse.Query` returned by query like this:
+If you want only a subset of the Posts, you can add extra constraints to the `%{ParseQuery}` returned by query like this:
 
 ```js
 var query = relation.query();
@@ -388,34 +388,47 @@ query.find({
 });
 ```
 
-For more details on `Parse.Query`, please look at the query portion of this guide. A `Parse.Relation` behaves similar to an array of `Parse.Object` for querying purposes, so any query you can do on an array of objects, you can do on a `Parse.Relation`.
+For more details on `%{ParseQuery}`, please look at the query portion of this guide. A `%{ParseRelation}` behaves similar to an array of `%{ParseObject}` for querying purposes, so any query you can do on an array of objects, you can do on a `%{ParseRelation}`.
 
 ## Data Types
 
-So far we've used values with type `String`, `Number`, and `Parse.Object`. Parse also supports JavaScript `Date`s and `null`.
+So far we've used values with type `%{string}`, `%{integer}`, and `%{ParseObject}`. Parse also supports `%{date}`s and `%{null}`. You can nest `%{map}`s and `%{array}`s to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
 
-You can nest JavaScript `Object`s and JavaScript `Array`s to store more structured data within a single `Parse.Object`.
+* String => `%{string}`
+* Number => `%{integer}`
+* Bool => `%{bool}`
+* Array => `%{array}`
+* Object => `%{map}`
+* Date => `%{date}`
+* File => `%{ParseFile}`
+* Pointer => other `%{ParseObject}`
+* Relation => `%{ParseRelation}`
+* Null => `%{null}`
 
 Some examples:
 
 ```js
 var number = 42;
+var bool = false;
 var string = "the number is " + number;
 var date = new Date();
 var array = [string, number];
 var object = { number: number, string: string };
+var pointer = MyClassName.createWithoutData(objectId);
 
 var BigObject = Parse.Object.extend("BigObject");
 var bigObject = new BigObject();
 bigObject.set("myNumber", number);
+bigObject.set("myBool", bool);
 bigObject.set("myString", string);
 bigObject.set("myDate", date);
 bigObject.set("myArray", array);
 bigObject.set("myObject", object);
-bigObject.set("myNull", null);
+bigObject.set("anyKey", null); // this value can only be saved to an existing key
+bigObject.set("myPointerKey", pointer); // shows up as Pointer <MyClassName> in the Data Browser
 bigObject.save();
 ```
 
-`Parse.Object`s should not exceed 128 kilobytes in size. To store more, we recommend you use `Parse.File`. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `%{ParseFile}`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).

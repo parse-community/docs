@@ -1,6 +1,6 @@
 # Command Line Tool
 
-The Parse command line tool allows you to interact with your Cloud Code from the terminal. 
+The Parse command line tool allows you to interact with your Cloud Code from the terminal.
 Some of the topics here are also covered in the [Cloud Code guide](#cloud-code), but they are repeated here for clarity.
 
 ## Installation
@@ -13,8 +13,8 @@ In Mac OS X and Linux/Unix environments, you can get the parse command line tool
 curl -s https://www.parse.com/downloads/cloud_code/installer.sh | sudo /bin/bash
 ```
 
-This installs a tool named "parse" to `/usr/local/bin/parse`. 
-There's no other junk, so to uninstall, just delete that file. 
+This installs a tool named "parse" to `/usr/local/bin/parse`.
+There's no other junk, so to uninstall, just delete that file.
 This will also update your command line tool if you already have it installed.
 
 ### Windows
@@ -128,7 +128,7 @@ myapp
 ```
 
 `.parse.local` and `.parse.project` are config files that store application info, and project level info (for instance, Javascript SDK version), respectively.
-The `cloud` directory stores your Cloud Code, 
+The `cloud` directory stores your Cloud Code,
 and the `public` directory stores any static content that you want to host on Parse.
 In the `cloud` directory, you'll typically just be editing `main.js`, which stores all of your Cloud Code functions.
 
@@ -136,7 +136,7 @@ For now, just check that these files were created successfully.
 If you're using source control, you can check all of these files in.
 
 We recommend using source control to check in all of these files.
-If you're not already set up with source control, try this 
+If you're not already set up with source control, try this
 [tutorial from GitHub](https://guides.github.com/introduction/getting-your-project-on-github/).
 
 The same code can be deployed to multiple different applications.
@@ -204,15 +204,16 @@ Parse.Cloud.define("hello", function(request, response) {
 });
 ```
 
-To deploy the code from your machine to the Parse Cloud, run:
+To deploy the code from your machine to the Parse Cloud, run this from the command line:
 
 ```bash
 $ parse deploy
 ```
 
-To run this function once it's deployed, run:
+Once deployed, this function can be called from any of the SDKs or the command line like so:
 
-```common-java
+```java
+// Android SDK
 ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new FunctionCallback<String>() {
   void done(String result, ParseException e) {
     if (e == null) {
@@ -221,7 +222,8 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
   }
 });
 ```
-```common-objc
+```objc
+// iOS, OS X, tvOS, watchOS SDK: Objective-C
 [PFCloud callFunctionInBackground:@"hello"
                    withParameters:@{}
                             block:^(NSString *result, NSError *error) {
@@ -230,31 +232,34 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
    }
 }];
 ```
-```common-swift
+```swift
+// iOS, OS X, tvOS, watchOS SDK: Swift
 PFCloud.callFunctionInBackground("hello", withParameters: nil) {
   (response: AnyObject?, error: NSError?) -> Void in
   let responseString = response as? String
 }
 ```
-```common-php
+```php
+// PHP SDK
 $result = ParseCloud::run("hello", []);
 ```
-```common-csharp
+```csharp
+// .NET SDK
 ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
   var result = t.Result;
 // result is "Hello world!"
 });
 ```
-```common-js
-Parse.Cloud.run('hello', {}, {
-  success: function(result) {
-    // result is 'Hello world!'
-  },
-  error: function(error) {
-  }
+```js
+// JavaScript SDK
+Parse.Cloud.run('hello', {}).then(function(result) {
+  // result is 'Hello world!'
+}, function(error) {
+	// handle error
 });
 ```
 ```bash
+# REST API, command line
 curl -X POST \
  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -362,7 +367,7 @@ I2015-08-15T17:01:02.214Z] beforeSave handler in release 'v1' ran for GameScore 
 
 ## Listing Releases
 
-You can list the known set of releases on the Parse Cloud with the `releases` command. 
+You can list the known set of releases on the Parse Cloud with the `releases` command.
 Parse only tracks the last 10 releases.
 
 ```bash
@@ -387,7 +392,7 @@ index.html
 
 ## Setting the Javascript SDK version
 
-The default Parse JavaScript SDK version that is used for the Cloud Code in this directory is the latest version at the time the `new` command was run for this directory. 
+The default Parse JavaScript SDK version that is used for the Cloud Code in this directory is the latest version at the time the `new` command was run for this directory.
 If you want to change this, use `parse jssdk`.
 You can see all available Parse JavaScript SDKs using `parse jssdk -a`.
 You can also use `parse jssdk` to check which Parse JavaScript SDK version is currently being used.
@@ -417,7 +422,7 @@ $ parse jssdk -a
 
 ## Updating
 
-You can update the command line tool using `parse update`. 
+You can update the command line tool using `parse update`.
 It will update your Parse command line tool to the latest version.
 
 For instance, if you run this command on Mac OS X:
@@ -441,9 +446,9 @@ If you are using a version of command line tool older than 2.2.2 the Cloud Code 
     └── index.html
 ```
 
-All project configuration like: 
-applications to deploy to and their master keys, 
-default application associated with the project and 
+All project configuration like:
+applications to deploy to and their master keys,
+default application associated with the project and
 Javascript SDK version to use are stored in the config file at `config/global.json`.
 
 If you did not want to expose your master keys but still wanted to share your code with someone, and want them to use the
@@ -581,7 +586,7 @@ OPERATION ->
 {"op": "delete", "trigger": {"className": "cname", "triggerName": "tname"}}
 ```
 
-Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an `op` like: `put`, `post`, `delete`; on 
+Content of the json file is `{"hooks" : [...]}`, where the operation is a json object indicating an `op` like: `put`, `post`, `delete`; on
 a function or trigger webhook.
 
 Example usage:

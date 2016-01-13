@@ -2,27 +2,27 @@
 
 ## The ParseFile
 
-`ParseFile` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `ParseObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
+`%{ParseFile}` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `%{ParseObject}`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
 
-Getting started with `ParseFile` is easy. First, you'll need to have the data in `byte[]` or `Stream` form and then create a `ParseFile` with it. In this example, we'll just use a string:
+Getting started with `%{ParseFile}` is easy. First, you'll need to have the data in `byte[]` or `Stream` form and then create a `%{ParseFile}` with it. In this example, we'll just use a string:
 
 ```csharp
 byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
 ParseFile file = new ParseFile("resume.txt", data);
 ```
 
-Notice in this example that we give the file a name of `resume.txt`. There's two things to note here: 
+Notice in this example that we give the file a name of `resume.txt`. There's two things to note here:
 
 *   You don't need to worry about filename collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `resume.txt`.
 *   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your filename ends with `.png`.
 
-Next you'll want to save the file up to the cloud. As with `ParseObject`, you can call `SaveAsync` to save the file to Parse.
+Next you'll want to save the file up to the cloud. As with `%{ParseObject}`, you can call `SaveAsync` to save the file to Parse.
 
 ```csharp
 await file.SaveAsync();
 ```
 
-Finally, after the save completes, you can assign a `ParseFile` into a `ParseObject` just like any other piece of data:
+Finally, after the save completes, you can assign a `%{ParseFile}` into a `%{ParseObject}` just like any other piece of data:
 
 ```csharp
 var jobApplication = new ParseObject("JobApplication");
@@ -31,7 +31,7 @@ jobApplication["applicantResumeFile"] = file;
 await jobApplication.SaveAsync();
 ```
 
-Retrieving it back involves downloading the resource at the `ParseFile`'s `Url`. Here we retrieve the resume file off another JobApplication object:
+Retrieving it back involves downloading the resource at the `%{ParseFile}`'s `Url`. Here we retrieve the resume file off another JobApplication object:
 
 ```csharp
 var applicantResumeFile = anotherApplication.Get<ParseFile>("applicantResumeFile");
@@ -40,7 +40,7 @@ string resumeText = await new HttpClient().GetStringAsync(applicantResumeFile.Ur
 
 ## Progress
 
-It's easy to get the progress of `ParseFile` uploads by passing a `Progress` object to `SaveAsync`. For example:
+It's easy to get the progress of `%{ParseFile}` uploads by passing a `Progress` object to `SaveAsync`. For example:
 
 ```csharp
 byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");

@@ -38,6 +38,12 @@ game["createdBy"] = ParseUser.CurrentUser;
 var game = new Parse.Object("Game");
 game.set("createdBy", Parse.User.current());
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 We can obtain all of the `Game` objects created by a Parse User with a query:
 
@@ -65,6 +71,12 @@ var query = ParseObject.getQuery("Game").WhereEqualTo("createdBy", ParseUser.Cur
 ```common-js
 var query = new Parse.Query("Game");
 query.equalTo("createdBy", Parse.User.current());
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 And, if we want to find the Parse User who created a specific `Game`, that is a lookup on the `createdBy` key:
@@ -110,6 +122,12 @@ var game = ...
 
 // getting the user who created the Game
 var user = game.get("createdBy");
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 For most scenarios, Pointers will be your best bet for implementing one-to-many relationships.
@@ -214,6 +232,12 @@ var weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit];
 var user = Parse.User.current();
 user.set("weaponsList", weapons);
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 Later, if we want to retrieve the `Weapon` objects, it's just one line of code:
 
@@ -234,6 +258,12 @@ var weapons = ParseUser.CurrentUser.Get<IList<Object>>("weaponsList");
 ```
 ```common-js
 var weapons = Parse.User.current().get("weaponsList")
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 Sometimes, we will want to fetch the "many" objects in our one-to-many relationship at the same time as we fetch the "one" object. One trick we could employ is to use the `includeKey` (or `include` in Android) parameter whenever we use a Parse Query to also fetch the array of `Weapon` objects (stored in the `weaponsList` column) along with the Parse User object:
@@ -336,6 +366,12 @@ userQuery.find({
   }
 });
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 You can also get the "one" side of the one-to-many relationship from the "many" side. For example, if we want to find all Parse User objects who also have a given `Weapon`, we can write a constraint for our query like this:
 
@@ -380,6 +416,12 @@ userQuery.equalTo("weaponsList", scimitar);
 
 // or query using an array of Weapon objects...
 userQuery.containedIn("weaponsList", arrayOfWeapons);
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 ## Many-to-Many
@@ -510,6 +552,12 @@ relation.add(authorThree);
 // now save the book object
 book.save();
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 To get the list of authors who wrote a book, create a query:
 
@@ -585,6 +633,12 @@ var query = relation.query();
 
 // now execute the query
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 Perhaps you even want to get a list of all the books to which an author contributed. You can create a slightly different kind of query to get the inverse of the relationship:
 
@@ -653,6 +707,12 @@ var query = new Parse.Query("Book");
 // now we will query the authors relation to see if the author object we have
 // is contained therein
 query.equalTo("authors", author);
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 ### Using Join Tables
@@ -725,6 +785,12 @@ follow.set("from", Parse.User.current());
 follow.set("to", otherUser);
 follow.set("date", Date());
 follow.save();
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 If we want to find all of the people we are following, we can execute a query on the `Follow` table:
@@ -803,6 +869,12 @@ query.find({
   }
 });
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
 
@@ -876,6 +948,12 @@ query.find({
   }
 });
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 ### Using an Array
 
@@ -944,6 +1022,12 @@ var book = ...
 
 // add the author to the authors list for the book
 book.add("authors", author);
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 Because the author list is an Array, you should use the `includeKey` (or `include` on Android) parameter when fetching a `Book` so that Parse returns all the authors when it also returns the book:
@@ -1028,6 +1112,12 @@ bookQuery.find({
   }
 });
 ```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
+```
 
 At that point, getting all the `Author` objects in a given `Book` is a pretty straightforward call:
 
@@ -1048,6 +1138,12 @@ var authorList = book.Get<List<ParseObject>>("authors");
 ```
 ```common-js
 var authorList = book.get("authors")
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 Finally, suppose you have an `Author` and you want to find all the `Book` objects in which she appears. This is also a pretty straightforward query with an associated constraint:
@@ -1148,6 +1244,12 @@ bookQuery.find({
     ...
   }
 });
+```
+```common-bash
+# No REST API example
+```
+```common-cpp
+// No C++ example
 ```
 
 ## One-to-One

@@ -14,14 +14,14 @@ Parseライブラリでは、可能な場合にGoogle Cloud Messaging（GCM）�
 
 プッシュ通知を使用するよう登録されたすべてのParseアプリケーションには、`Installation`オブジェクトが関連付けられています。この`Installation`オブジェクトには、プッシュ通知のターゲッティングに必要なあらゆるデータが保管されています。たとえば、野球アプリでは、ユーザーが応援しているチーム名を保管し、それらのチームの最新情報を配信できます。
 
-Androidでは、`Installation`オブジェクトは`ParseObject`のサブクラスである`ParseInstallation`クラスを通じて利用できます。このオブジェクトはデータの保管と取得に[同じAPI](#objects)を使用します。Androidアプリの現在の`Installation`オブジェクトにアクセスするには、`ParseInstallation.getCurrentInstallation()`メソッドを使用します。Parseは、初めて`ParseInstallation`を保存するときに、それを`Installation`クラスに追加します。以後、このオブジェクトはプッシュ通知のターゲット設定に利用できます。
+Androidでは、`Installation`オブジェクトは`%{ParseObject}`のサブクラスである`%{ParseInstallation}`クラスを通じて利用できます。このオブジェクトはデータの保管と取得に[同じAPI](#objects)を使用します。Androidアプリの現在の`Installation`オブジェクトにアクセスするには、`ParseInstallation.getCurrentInstallation()`メソッドを使用します。Parseは、初めて`%{ParseInstallation}`を保存するときに、それを`Installation`クラスに追加します。以後、このオブジェクトはプッシュ通知のターゲット設定に利用できます。
 
 ```java
 // Save the current Installation to Parse.
 ParseInstallation.getCurrentInstallation().saveInBackground();
 ```
 
-`ParseInstallation`は`ParseObject`と同様に変更できますが、デバイスの管理やターゲッティングに役立つ特別なフィールドがいくつかあります。
+`%{ParseInstallation}`は`%{ParseObject}`と同様に変更できますが、デバイスの管理やターゲッティングに役立つ特別なフィールドがいくつかあります。
 
 *   **`badge`**:iOSアプリの、アイコンバッジの現在の値。サーバー上でこの値を変更すると、その後のバッジ増加プッシュ通知に使用されます。
 *   **`channels`**:デバイスが購読しているチャンネルの配列。
@@ -111,7 +111,7 @@ push.sendInBackground();
 
 チャンネルは多くのアプリケーションで有益ですが、プッシュ通知のターゲットをもっと詳細に制御したい場合があります。Parseでは、[クエリAPI](#queries)を使用してクエリを作成し、`Installation`のサブセットを指定してプッシュ通知を送信することができます。
 
-`ParseInstallation`は`ParseObject`のサブセットであるため、どのようなデータでも保存できるうえ、`Installation`オブジェクトと他のオブジェクトとの関係を作成することもできます。これにより、ユーザーセグメントを動的にカスタマイズしてプッシュ通知を送信することができます。
+`%{ParseInstallation}`は`%{ParseObject}`のサブセットであるため、どのようなデータでも保存できるうえ、`Installation`オブジェクトと他のオブジェクトとの関係を作成することもできます。これにより、ユーザーセグメントを動的にカスタマイズしてプッシュ通知を送信することができます。
 
 #### インストールデータの保存
 
@@ -126,7 +126,7 @@ installation.put("injuryReports",true);
 installation.saveInBackground();
 ```
 
-`Installation`オブジェクトと、Parseに保存されている他のクラスとの関係を作成することもできます。たとえば、Installationを特定のユーザーと関連付けるには、`ParseInstallation`に現在のユーザーを保管します。
+`Installation`オブジェクトと、Parseに保存されている他のクラスとの関係を作成することもできます。たとえば、Installationを特定のユーザーと関連付けるには、`%{ParseInstallation}`に現在のユーザーを保管します。
 
 ```java
 // Associate the device with a user
@@ -137,7 +137,7 @@ installation.saveInBackground();
 
 #### クエリ結果へのプッシュ通知の送信
 
-`Installation`オブジェクトにデータを保管したら、`PFQuery`を使用して、これらのデバイスのサブセットをターゲットにします。`Installation` のクエリ動作は、他の[Parseクエリ](#queries)と変わりません。ただし、作成には、特別な静的メソッド`ParseInstallation.getQuery()`を使用します。このクエリを`PFPush`オブジェクト上に設定し、それから通知を送信します。
+`Installation`オブジェクトにデータを保管したら、`%{ParseQuery}`を使用して、これらのデバイスのサブセットをターゲットにします。`Installation` のクエリ動作は、他の[Parseクエリ](#queries)と変わりません。ただし、作成には、特別な静的メソッド`ParseInstallation.getQuery()`を使用します。このクエリを`PFPush`オブジェクト上に設定し、それから通知を送信します。
 
 ```java
 // Create our Installation query

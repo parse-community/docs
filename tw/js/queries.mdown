@@ -1,12 +1,12 @@
 # 查詢
 
-我們已經見過具有 `get` 的 `Parse.Query` 如何自 Parse 取回單一 `Parse.Object`。還有許多其他方式可以用 `Parse.Query` 擷取資料：您可以一次擷取許多物件、在您想擷取的物件上設立條件等等。
+我們已經見過具有 `get` 的 `%{ParseQuery}` 如何自 Parse 取回單一 `%{ParseObject}`。還有許多其他方式可以用 `%{ParseQuery}` 擷取資料：您可以一次擷取許多物件、在您想擷取的物件上設立條件等等。
 
 ## 基本查詢
 
-在許多情況下，`get` 的功能不夠強大，而無法指定欲擷取的物件。`Parse.Query` 提供多種擷取一系列物件的方式，而不只是單一物件。
+在許多情況下，`get` 的功能不夠強大，而無法指定欲擷取的物件。`%{ParseQuery}` 提供多種擷取一系列物件的方式，而不只是單一物件。
 
-一般模式是建立一個 `Parse.Query`，並對它設立條件，然後使用 `find` 擷取相符 `Parse.Object` 的 `Array`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `equalTo` 方法限制索引鍵的值。
+一般模式是建立一個 `%{ParseQuery}`，並對它設立條件，然後使用 `find` 擷取相符 `%{ParseObject}` 的 `Array`。舉例來說，若要擷取特定 `playerName` 的分數，請使用 `equalTo` 方法限制索引鍵的值。
 
 ```js
 var GameScore = Parse.Object.extend("GameScore");
@@ -29,7 +29,7 @@ query.find({
 
 ## 查詢限制
 
-有幾種方式可以在 `Parse.Query` 找到的物件加上限制。您可以利用 `notEqualTo` 篩選出具有特定鍵值組的物件：
+有幾種方式可以在 `%{ParseQuery}` 找到的物件加上限制。您可以利用 `notEqualTo` 篩選出具有特定鍵值組的物件：
 
 ```js
 query.notEqualTo("playerName", "Michael Yabuti");
@@ -198,7 +198,7 @@ query.startsWith("name", "Big Daddy's");
 
 ## 關聯性查詢
 
-有幾種方式可以查詢關聯性資料。如果您希望擷取欄位符合特定 `Parse.Object` 的物件，您可以使用 `equalTo`，就如其他資料類型一樣。舉例而言，如果每個 `Comment` 在其 `post` 欄位中都有一個 `Post` 物件，您可以針對特定 `Post` 擷取留言：
+有幾種方式可以查詢關聯性資料。如果您希望擷取欄位符合特定 `%{ParseObject}` 的物件，您可以使用 `equalTo`，就如其他資料類型一樣。舉例而言，如果每個 `Comment` 在其 `post` 欄位中都有一個 `Post` 物件，您可以針對特定 `Post` 擷取留言：
 
 ```js
 // Assume Parse.Object myPost was previously created.
@@ -211,7 +211,7 @@ query.find({
 });
 ```
 
-如果您希望擷取欄位包含 `Parse.Object` 符合不同查詢的物件，可以使用 `matchesQuery`。請注意，預設限制 100 與最高限制 1000 同樣適用於內部查詢，因此在處理大型資料集時，您可能需要小心地建構您的查詢，以取得您想要的行為。若要尋找圖文貼文的留言，您可以這樣做：
+如果您希望擷取欄位包含 `%{ParseObject}` 符合不同查詢的物件，可以使用 `matchesQuery`。請注意，預設限制 100 與最高限制 1000 同樣適用於內部查詢，因此在處理大型資料集時，您可能需要小心地建構您的查詢，以取得您想要的行為。若要尋找圖文貼文的留言，您可以這樣做：
 
 ```js
 var Post = Parse.Object.extend("Post");
@@ -227,7 +227,7 @@ query.find({
 });
 ```
 
-如果您希望擷取欄位包含 `Parse.Object` 符合相同查詢的物件，可以使用 `doesNotMatchQuery`。若要尋找沒有圖文貼文的留言，您可以這樣做：
+如果您希望擷取欄位包含 `%{ParseObject}` 符合相同查詢的物件，可以使用 `doesNotMatchQuery`。若要尋找沒有圖文貼文的留言，您可以這樣做：
 
 ```js
 var Post = Parse.Object.extend("Post");
@@ -328,6 +328,6 @@ mainQuery.find({
 });
 ```
 
-您可將其他限制作為'and'運轉子新增到新建的 `Parse.Query`。
+您可將其他限制作為'and'運轉子新增到新建的 `%{ParseQuery}`。
 
 請注意，我們並不支援複合查詢子查詢中的非篩選條件限制（例如，`limit`、`skip`、`ascending`/`descending`、`include`）。

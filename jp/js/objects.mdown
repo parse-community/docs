@@ -2,9 +2,9 @@
 
 ## Parse.Object
 
-Parseでのデータ保存は`Parse.Object`に基づいて設計されています。各`Parse.Object`にはJSON互換データのキーの値のペアが入ります。このデータはスキーマレスであり、各`Parse.Object`に存在するキーを事前に指定する必要がありません。必要なキーの値を設定するだけで、バックエンドによって保存されます。
+Parseでのデータ保存は`%{ParseObject}`に基づいて設計されています。各`%{ParseObject}`にはJSON互換データのキーの値のペアが入ります。このデータはスキーマレスであり、各`%{ParseObject}`に存在するキーを事前に指定する必要がありません。必要なキーの値を設定するだけで、バックエンドによって保存されます。
 
-たとえば、ゲームの高得点をトラッキングするとします。`Parse.Object`には次のようなキーを入れることができます。
+たとえば、ゲームの高得点をトラッキングするとします。`%{ParseObject}`には次のようなキーを入れることができます。
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,9 +12,9 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 キーは英数字で指定します。値には、JSONエンコード可能なものであれば、文字列、数字、ブール値だけでなく配列や辞書も使用できます。
 
-各`Parse.Object`は、データの種類の区別に使用するクラス名を持った特定のサブクラスのインスタンスです。たとえば、高得点オブジェクトには`GameScore`という名前を付けることができます。コードを見やすくするために、NameYourClassesLikeThisやnameYourKeysLikeThisのような名前を付けることをお勧めします。
+各`%{ParseObject}`は、データの種類の区別に使用するクラス名を持った特定のサブクラスのインスタンスです。たとえば、高得点オブジェクトには`GameScore`という名前を付けることができます。コードを見やすくするために、NameYourClassesLikeThisやnameYourKeysLikeThisのような名前を付けることをお勧めします。
 
-新しいサブクラスを作成するには、`Parse.Object.extend`メソッドを使用します。`Parse.Query`では、同じクラス名を持った`Parse.Object`の新しいクラスのインスタンスが返されます。`Backbone.Model`を熟知していると、`Parse.Object`の使用方法も分かります。一時的な代用品として使用できます。
+新しいサブクラスを作成するには、`Parse.Object.extend`メソッドを使用します。`%{ParseQuery}`では、同じクラス名を持った`%{ParseObject}`の新しいクラスのインスタンスが返されます。`Backbone.Model`を熟知していると、`%{ParseObject}`の使用方法も分かります。一時的な代用品として使用できます。
 
 ```js
 // Simple syntax to create a new subclass of Parse.Object.
@@ -27,7 +27,7 @@ var gameScore = new GameScore();
 var Achievement = Parse.Object.extend({ className: "Achievement" });
 ```
 
-`Parse.Object`のサブクラスにはメソッドとプロパティを追加できます。
+`%{ParseObject}`のサブクラスにはメソッドとプロパティを追加できます。
 
 ```js
 // A complex subclass of Parse.Object
@@ -86,7 +86,7 @@ objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 
 ここでは2つの点に注目します。このコードを実行する前には、`GameScore`と呼ばれる新しいクラスを作成したり、設定する必要はありません。コードがあった場合に、Parseアプリによってこのクラスが作成されます。
 
-また、指定しなくても、いくつかのフィールドは必要に応じて入力されます。`objectId`は保存した各オブジェクトの一意のIDです。`createdAt`と`updatedAt`はクラウドでの各オブジェクトの作成日時と、最終更新日時を表します。これらのフィールドはParseが入力することから、保存操作が完了するまで`Parse.Object`上には存在しません。
+また、指定しなくても、いくつかのフィールドは必要に応じて入力されます。`objectId`は保存した各オブジェクトの一意のIDです。`createdAt`と`updatedAt`はクラウドでの各オブジェクトの作成日時と、最終更新日時を表します。これらのフィールドはParseが入力することから、保存操作が完了するまで`%{ParseObject}`上には存在しません。
 
 必要な場合は、`save`への呼び出しに属性を直接設定できます。
 
@@ -110,7 +110,7 @@ gameScore.save({
 
 ## オブジェクトの取得
 
-クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`があると、`Parse.Query`を使用して`Parse.Object`全体を取得できます。
+クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`があると、`%{ParseQuery}`を使用して`%{ParseObject}`全体を取得できます。
 
 ```js
 var GameScore = Parse.Object.extend("GameScore");
@@ -126,7 +126,7 @@ query.get("xWMyZ4YEGZ", {
 });
 ```
 
-`Parse.Object`から値を取得するには、`get`メソッドを使用します。
+`%{ParseObject}`から値を取得するには、`get`メソッドを使用します。
 
 ```js
 var score = gameScore.get("score");
@@ -248,7 +248,7 @@ object.set("null") を使用しません。
 
 ### 1対1の関係と1対多の関係
 
-1対1の関係と1対多の関係は、`Parse.Object`を他のオブジェクトの値として保存することでモデル化できます。たとえば、ブログアプリのそれぞれの`Comment`が1つの`Post`に対応することもあります。
+1対1の関係と1対多の関係は、`%{ParseObject}`を他のオブジェクトの値として保存することでモデル化できます。たとえば、ブログアプリのそれぞれの`Comment`が1つの`Post`に対応することもあります。
 
 `Comment`を1つ持つ新しい`Post`を作成するには、次のように記述します。
 
@@ -279,7 +279,7 @@ post.id = "1zEcyElZ80";
 myComment.set("parent", post);
 ```
 
-デフォルトでは、オブジェクトを取得する際には、関連する`Parse.Object`は取得されません。次の方法で取得しない限り、これらのオブジェクトの値を取り出すことはできません。
+デフォルトでは、オブジェクトを取得する際には、関連する`%{ParseObject}`は取得されません。次の方法で取得しない限り、これらのオブジェクトの値を取り出すことはできません。
 
 ```js
 var post = fetchedComment.get("parent");
@@ -292,7 +292,7 @@ post.fetch({
 
 ### 多対多の関係
 
-多対多の関係は、`Parse.Relation`を使用してモデル化します。これは`Parse.Object`の配列をキーに格納するのと同じ方法ですが、関係のすべてのオブジェクトを一度に取得する必要がないという点が異なります。さらに、そのおかげで`Parse.Object`の配列による方法よりも、`Parse.Relation`の方がより多くのオブジェクトに対応できます。たとえば、`User`が「いいね！」した多数の`Posts`を持っているとします。この場合、`User`が「いいね！」した一連の`Posts`を、`relation`を使用して格納できます。`Post`を`User`の「いいね！」リストに追加するには、次のような方法があります。
+多対多の関係は、`%{ParseRelation}`を使用してモデル化します。これは`%{ParseObject}`の配列をキーに格納するのと同じ方法ですが、関係のすべてのオブジェクトを一度に取得する必要がないという点が異なります。さらに、そのおかげで`%{ParseObject}`の配列による方法よりも、`%{ParseRelation}`の方がより多くのオブジェクトに対応できます。たとえば、`User`が「いいね！」した多数の`Posts`を持っているとします。この場合、`User`が「いいね！」した一連の`Posts`を、`relation`を使用して格納できます。`Post`を`User`の「いいね！」リストに追加するには、次のような方法があります。
 
 ```js
 var user = Parse.User.current();
@@ -301,7 +301,7 @@ relation.add(post);
 user.save();
 ```
 
-次の方法では、`Parse.Relation`から投稿を削除できます。
+次の方法では、`%{ParseRelation}`から投稿を削除できます。
 
 ```js
 relation.remove(post);
@@ -316,14 +316,14 @@ relation.remove(post2);
 user.save();
 ```
 
-また、`Parse.Object`の配列を`add`と`remove`に渡すことができます。
+また、`%{ParseObject}`の配列を`add`と`remove`に渡すことができます。
 
 ```js
 relation.add([post1, post2, post3]);
 user.save();
 ```
 
-デフォルトでは、この関係のオブジェクトのリストはダウンロードされません。利用者が「いいね！」した投稿のリストを取得するには、`query`が返す`Parse.Query`を使用します。コードは次のようになります。
+デフォルトでは、この関係のオブジェクトのリストはダウンロードされません。利用者が「いいね！」した投稿のリストを取得するには、`query`が返す`%{ParseQuery}`を使用します。コードは次のようになります。
 
 ```js
 relation.query().find({
@@ -333,7 +333,7 @@ relation.query().find({
 });
 ```
 
-投稿のサブセットのみが必要な場合は、次のように、クエリが返す`Parse.Query`に条件を追加できます。
+投稿のサブセットのみが必要な場合は、次のように、クエリが返す`%{ParseQuery}`に条件を追加できます。
 
 ```js
 var query = relation.query();
@@ -345,14 +345,14 @@ query.find({
 });
 ```
 
-`Parse.Query`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。クエリ目的の場合、`Parse.Relation`は`Parse.Object`の配列と同様の働きをすることから、オブジェクトの配列に実行可能なクエリはすべて`Parse.Relation`に実行できます。
+`%{ParseQuery}`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。クエリ目的の場合、`%{ParseRelation}`は`%{ParseObject}`の配列と同様の働きをすることから、オブジェクトの配列に実行可能なクエリはすべて`%{ParseRelation}`に実行できます。
 
 
 ## データタイプ
 
-ここまでは`String`、`Number`、`Parse.Object`といったタイプの値を使用してきました。ParseはJavaScript `Date`と`null`もサポートしています。
+ここまでは`String`、`Number`、`%{ParseObject}`といったタイプの値を使用してきました。ParseはJavaScript `Date`と`null`もサポートしています。
 
-JavaScript `Object`とJavaScript `Array`をネストすると、単一の`Parse.Object`内により多くの構造化データを格納できます。
+JavaScript `Object`とJavaScript `Array`をネストすると、単一の`%{ParseObject}`内により多くの構造化データを格納できます。
 
 次のその例を示します。
 
@@ -374,6 +374,6 @@ bigObject.set("myNull", null);
 bigObject.save();
 ```
 
-`Parse.Object`のサイズは128キロバイト以下にする必要があります。
+`%{ParseObject}`のサイズは128キロバイト以下にする必要があります。
 
 Parseによるデータの処理方法についての詳細は、[データとセキュリティ](#data)にあるドキュメントをご覧ください。

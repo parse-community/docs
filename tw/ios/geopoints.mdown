@@ -42,7 +42,7 @@ PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
 
 ## Geo 查詢
 
-既然您有一堆具有空間座標的物件，若能找出哪個物件離某個地點最近會很棒。這點可以透過使用 `whereKey:nearGeoPoint:` 將另一個限制加入 `PFQuery` 來達成。若要取得距離使用者最近十個位置的清單，看起來會像是：
+既然您有一堆具有空間座標的物件，若能找出哪個物件離某個地點最近會很棒。這點可以透過使用 `whereKey:nearGeoPoint:` 將另一個限制加入 `%{ParseQuery}` 來達成。若要取得距離使用者最近十個位置的清單，看起來會像是：
 
 ```objc
 // User's location
@@ -61,7 +61,7 @@ placesObjects = [query findObjects];
 
 若要使用距離限制結果，請檢查 `whereKey:nearGeoPoint:withinMiles`、`whereKey:nearGeoPoint:withinKilometers` 和 `whereKey:nearGeoPoint:withinRadians`。
 
-也可以查詢包含在特定區域內的物件組合。若要找出矩形邊框內的物件，請將 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 限制加入 `PFQuery`。
+也可以查詢包含在特定區域內的物件組合。若要找出矩形邊框內的物件，請將 `whereKey:withinGeoBoxFromSouthwest:toNortheast:` 限制加入 `%{ParseQuery}`。
 
 ```objc
 PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];

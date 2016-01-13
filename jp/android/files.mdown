@@ -2,9 +2,9 @@
 
 ## ParseFile
 
-`ParseFile` を使うと、`ParseObject`で扱うには大きすぎたり手間がかかりすぎたりする、アプリケーションファイルを保管することができます。最も一般的な使用例としては画像の保管がありますが、他にも文書、ビデオ、音楽、その他のバイナリデータにも使えます（最大10メガバイト）。
+`%{ParseFile}` を使うと、`%{ParseObject}`で扱うには大きすぎたり手間がかかりすぎたりする、アプリケーションファイルを保管することができます。最も一般的な使用例としては画像の保管がありますが、他にも文書、ビデオ、音楽、その他のバイナリデータにも使えます（最大10メガバイト）。
 
-`ParseFile`を使うための準備は簡単です。まず`byte[]`形式でデータを用意し、それを使って`ParseFile`を作成します。以下の例では、文字列を使用します。
+`%{ParseFile}`を使うための準備は簡単です。まず`byte[]`形式でデータを用意し、それを使って`%{ParseFile}`を作成します。以下の例では、文字列を使用します。
 
 ```java
 byte[] data = "Working at Parse is great!".getBytes();
@@ -16,13 +16,13 @@ ParseFile file = new ParseFile("resume.txt", data);
 *   ファイル名の衝突を気にする必要はありません。アップロードされた各ファイルには一意の識別子が付与されるため、`resume.txt`という名前のファイルを複数アップロードしても問題ありません。
 *   ただし、ファイルに拡張子をつけるのを忘れないでください。Parseは拡張子でファイルの種類を識別し、それに従って処理します。ですから、PNGを保管する場合は、ファイル名の末尾を必ず`.png`にしてください。
 
-次に、ファイルをクラウドに保存します。`ParseObject`と同様、`save`メソッドにもさまざまなバリアントがあり、コールバックや処理の必要に応じて使い分けることができます。
+次に、ファイルをクラウドに保存します。`%{ParseObject}`と同様、`save`メソッドにもさまざまなバリアントがあり、コールバックや処理の必要に応じて使い分けることができます。
 
 ```java
 file.saveInBackground();
 ```
 
-最後に、保存処理の完了後、他のデータと同様に、`ParseFile`を`ParseObject`に関連付けます。
+最後に、保存処理の完了後、他のデータと同様に、`%{ParseFile}`を`%{ParseObject}`に関連付けます。
 
 ```java
 ParseObject jobApplication = new ParseObject("JobApplication");
@@ -31,7 +31,7 @@ jobApplication.put("applicantResumeFile", file);
 jobApplication.saveInBackground();
 ```
 
-このファイルを再取得するには、`ParseObject`に`getData`のバリアントを呼び出します。以下の例では、別のJobApplicationオブジェクトからresumeファイルを取得します。
+このファイルを再取得するには、`%{ParseObject}`に`getData`のバリアントを呼び出します。以下の例では、別のJobApplicationオブジェクトからresumeファイルを取得します。
 
 ```java
 ParseFile applicantResume = (ParseFile)anotherApplication.get("applicantResumeFile");
@@ -46,7 +46,7 @@ applicantResume.getDataInBackground(new GetDataCallback() {
 });
 ```
 
-`ParseObject`と同様、`getData`のバックグラウンド版を使うことが多いでしょう。
+`%{ParseObject}`と同様、`getData`のバックグラウンド版を使うことが多いでしょう。
 
 ## 進行状況
 

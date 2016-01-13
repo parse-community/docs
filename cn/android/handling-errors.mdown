@@ -1,5 +1,5 @@
 # 处理错误
 
-`ParseObject` 上的许多方法（包括 `save()`、`delete()` 和 `get()`）将对无效请求丢出 `ParseException`，此类请求包括删除或编辑云中不存在的对象，或者在网络故障致使无法连接 Parse 云时删除或编辑对象。您需要获取和处理这些异常。
+`%{ParseObject}` 上的许多方法（包括 `save()`、`delete()` 和 `get()`）将对无效请求丢出 `ParseException`，此类请求包括删除或编辑云中不存在的对象，或者在网络故障致使无法连接 Parse 云时删除或编辑对象。您需要获取和处理这些异常。
 
 更多详细信息请查看 [Android API](/docs/android)。

@@ -2,9 +2,9 @@
 
 ## Parse 物件
 
-Parse 上的儲存資料是以 `ParseObject` 為建置基礎。每個 `ParseObject` 內含 JSON 相容資料的鍵值組。此資料沒有結構描述，代表您不需要預先指定哪個索引鍵存在於哪個 `ParseObject`。您只要設定任何想要的鍵值組，我們的後端將會儲存您的設定。
+Parse 上的儲存資料是以 `%{ParseObject}` 為建置基礎。每個 `%{ParseObject}` 內含 JSON 相容資料的鍵值組。此資料沒有結構描述，代表您不需要預先指定哪個索引鍵存在於哪個 `%{ParseObject}`。您只要設定任何想要的鍵值組，我們的後端將會儲存您的設定。
 
-舉例而言，假設您正在追蹤某個遊戲的高分排行榜，單一 `ParseObject` 可能包含：
+舉例而言，假設您正在追蹤某個遊戲的高分排行榜，單一 `%{ParseObject}` 可能包含：
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 索引鍵必須是英數字串。值可以是字串、數字、布林值，甚至是陣列和物件；任何可以是 JSON 編碼的東西。
 
-每個 `ParseObject` 都有一個類別名稱，可以用來區別不同的資料。舉例來說，我們可以將高分物件稱作 `GameScore`。我們建議，以 NameYourClassesLikeThis 和 nameYourKeysLikeThis 的方式為您的類別命名，讓您的程式碼看起來比較容易判讀。
+每個 `%{ParseObject}` 都有一個類別名稱，可以用來區別不同的資料。舉例來說，我們可以將高分物件稱作 `GameScore`。我們建議，以 NameYourClassesLikeThis 和 nameYourKeysLikeThis 的方式為您的類別命名，讓您的程式碼看起來比較容易判讀。
 
 ## 儲存物件
 
@@ -34,11 +34,11 @@ objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 
 在這裡有兩件事需要注意。您不用在執行程式碼之前，設定或是建立名稱為 `GameScore` 的新「類別」。您的 Parse 應用程式初次遇到此「類別」時，就先幫您建立好了。
 
-也有一些您不需要指定的欄位，專為了方便起見而提供。`objectId` 是每個已儲存物件的唯一識別碼。`createdAt` 和 `updatedAt` 代表每個物件在雲端中的建立和最後修改時間。每個欄位都由 Parse 填入，所以在儲存操作完成前，都不會存在於 `ParseObject` 上。
+也有一些您不需要指定的欄位，專為了方便起見而提供。`objectId` 是每個已儲存物件的唯一識別碼。`createdAt` 和 `updatedAt` 代表每個物件在雲端中的建立和最後修改時間。每個欄位都由 Parse 填入，所以在儲存操作完成前，都不會存在於 `%{ParseObject}` 上。
 
 ## 擷取物件
 
-將資料儲存於雲端很有趣，但是更有趣的是將資料再次取出。如果您有 `objectId`，可以使用 `ParseQuery` 擷取整個 `ParseObject`：
+將資料儲存於雲端很有趣，但是更有趣的是將資料再次取出。如果您有 `objectId`，可以使用 `%{ParseQuery}` 擷取整個 `%{ParseObject}`：
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -53,7 +53,7 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
 });
 ```
 
-若要從 `ParseObject` 將值取出，每種資料類型都有提供 `getX` 方法：
+若要從 `%{ParseObject}` 將值取出，每種資料類型都有提供 `getX` 方法：
 
 ```java
 int score = gameScore.getInt("score");
@@ -103,7 +103,7 @@ gameScore.pinInBackground();
 
 ### 從本機資料存放區擷取物件
 
-物件必須能夠重新取出，存放才有意義。若要取得特定物件的資料，您可以使用 `ParseQuery`，如同在網路上的做法一樣；不同的是，需要使用 `fromLocalDatastore` 方法，讓它知道何處取得資料。
+物件必須能夠重新取出，存放才有意義。若要取得特定物件的資料，您可以使用 `%{ParseQuery}`，如同在網路上的做法一樣；不同的是，需要使用 `fromLocalDatastore` 方法，讓它知道何處取得資料。
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -156,7 +156,7 @@ gameScore.saveEventually();
 
 ## 更新物件
 
-更新物件相當簡單。只需要在物件上設定一些新資料，並且呼叫其中一種儲存方法。假設您已經將物件儲存，並且擁有 `objectId`，您可以使用 `ParseQuery` 擷取 `ParseObject`，同時更新物件資料：
+更新物件相當簡單。只需要在物件上設定一些新資料，並且呼叫其中一種儲存方法。假設您已經將物件儲存，並且擁有 `objectId`，您可以使用 `%{ParseQuery}` 擷取 `%{ParseObject}`，同時更新物件資料：
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -227,7 +227,7 @@ myObject.saveInBackground();
 
 ## 關聯式資料
 
-物件與其他物件可能具有關聯性。若要建立此行為的模型，任何 `ParseObject` 可以作為其他 `ParseObject` 中的值。Parse 框架內部為了維持一致性，會將引用物件只存放於一個地方。
+物件與其他物件可能具有關聯性。若要建立此行為的模型，任何 `%{ParseObject}` 可以作為其他 `%{ParseObject}` 中的值。Parse 框架內部為了維持一致性，會將引用物件只存放於一個地方。
 
 舉例而言，部落格應用程式中的每個 `Comment` 可能會對應到一個 `Post`。若要使用單一 `Comment` 建立新 `Post`，您可以這樣編寫：
 
@@ -255,7 +255,7 @@ myComment.saveInBackground();
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
 ```
 
-依據預設，擷取物件時不會擷取相關的 `ParseObject`。在透過下列方式擷取物件之前，您無法擷取這些物件的值：
+依據預設，擷取物件時不會擷取相關的 `%{ParseObject}`。在透過下列方式擷取物件之前，您無法擷取這些物件的值：
 
 ```java
 fetchedComment.getParseObject("post")
@@ -266,7 +266,7 @@ fetchedComment.getParseObject("post")
               });
 ```
 
-您也可以使用 `ParseRelation` 物件來建立多對多關聯的模型。這個方式與 `List<ParseObject>` 類似，不過您不需要一次下載同一個關聯中的所有 `ParseObject`。與 `List<ParseObject>` 方法相較之下，這使得 `ParseRelation` 能夠擴大至更多物件。舉例而言，一個 `User` 或許會有許多他們可能喜歡的 `Post`。在這種情況下，您可以使用 `getRelation` 存放 `User` 喜歡的 `Post` 集。若要新增一則貼文至清單，程式碼可能會看起來像：
+您也可以使用 `%{ParseRelation}` 物件來建立多對多關聯的模型。這個方式與 `List<ParseObject>` 類似，不過您不需要一次下載同一個關聯中的所有 `%{ParseObject}`。與 `List<ParseObject>` 方法相較之下，這使得 `%{ParseRelation}` 能夠擴大至更多物件。舉例而言，一個 `User` 或許會有許多他們可能喜歡的 `Post`。在這種情況下，您可以使用 `getRelation` 存放 `User` 喜歡的 `Post` 集。若要新增一則貼文至清單，程式碼可能會看起來像：
 
 ```java
 ParseUser user = ParseUser.getCurrentUser();
@@ -275,13 +275,13 @@ relation.add(post);
 user.saveInBackground();
 ```
 
-您可以用下列方式從 `ParseRelation` 移除貼文：
+您可以用下列方式從 `%{ParseRelation}` 移除貼文：
 
 ```java
 relation.remove(post);
 ```
 
-依據預設，此關聯中的物件清單並未被下載。您可以在 `getQuery` 傳回的 `ParseQuery` 上呼叫 `findInBackground`，取得 `Post` 清單。程式碼看起來可能像：
+依據預設，此關聯中的物件清單並未被下載。您可以在 `getQuery` 傳回的 `%{ParseQuery}` 上呼叫 `findInBackground`，取得 `Post` 清單。程式碼看起來可能像：
 
 ```java
 relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
@@ -295,20 +295,20 @@ relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-如果您只希望取得 `Post` 的子集，可以在 `getQuery` 傳回的 `ParseQuery` 上新增額外限制。程式碼看起來可能像：
+如果您只希望取得 `Post` 的子集，可以在 `getQuery` 傳回的 `%{ParseQuery}` 上新增額外限制。程式碼看起來可能像：
 
 ```java
 ParseQuery<ParseObject> query = relation.getQuery();
 // Add other query constraints.
 ```
 
-更多關於 `ParseQuery` 的細節，請參閱[本指南的查詢部分](#queries)。為了查詢之故，`ParseRelation` 的作用與 `List<ParseObject>` 類似，因此任何可以於物件清單上執行的查詢（`include` 除外），皆能於 `ParseRelation` 上執行。
+更多關於 `%{ParseQuery}` 的細節，請參閱[本指南的查詢部分](#queries)。為了查詢之故，`%{ParseRelation}` 的作用與 `List<ParseObject>` 類似，因此任何可以於物件清單上執行的查詢（`include` 除外），皆能於 `%{ParseRelation}` 上執行。
 
 ## 資料類型
 
-目前為止我們使用過`String`、`int`、`bool` 和 `ParseObject` 類型的值。Parse 也支援 `java.util.Date`、`byte[]` 和 `JSONObject.NULL`。
+目前為止我們使用過`String`、`int`、`bool` 和 `%{ParseObject}` 類型的值。Parse 也支援 `java.util.Date`、`byte[]` 和 `JSONObject.NULL`。
 
-若要在單一 `ParseObject` 中存放更多結構化資料，您可以將 `JSONObject` 和 `JSONArray` 物件巢狀化。
+若要在單一 `%{ParseObject}` 中存放更多結構化資料，您可以將 `JSONObject` 和 `JSONArray` 物件巢狀化。
 
 部分範例：
 
@@ -338,13 +338,13 @@ bigObject.put("myNull", JSONObject.NULL);
 bigObject.saveInBackground();
 ```
 
-我們不建議在 `ParseObject` 上使用 `byte[]` 存放大型的二進位資料，如圖像或文件。`ParseObjects` 的大小不應該超過 128 KB。若要存放更多，我們建議您使用 `ParseFile`。如需更多詳細資料，請參閱[指南章節](#files)。
+我們不建議在 `%{ParseObject}` 上使用 `byte[]` 存放大型的二進位資料，如圖像或文件。`ParseObjects` 的大小不應該超過 128 KB。若要存放更多，我們建議您使用 `%{ParseFile}`。如需更多詳細資料，請參閱[指南章節](#files)。
 
 關於 Parse 如何處理資料的更多資訊，請至[資料與安全性](#data)查看我們的說明文件。
 
 ## 子類別
 
-Parse 的設計是為了讓您更快上手。您可以使用 `ParseObject` 類別存取所有資料，並且利用 `get()` 存取任何欄位。在成熟的程式碼庫中，子類別擁有許多優勢，包含簡潔、擴充性及支援自動完成功能。子類別化是完全選擇性的功能，但是可以將以下程式碼：
+Parse 的設計是為了讓您更快上手。您可以使用 `%{ParseObject}` 類別存取所有資料，並且利用 `get()` 存取任何欄位。在成熟的程式碼庫中，子類別擁有許多優勢，包含簡潔、擴充性及支援自動完成功能。子類別化是完全選擇性的功能，但是可以將以下程式碼：
 
 ```java
 ParseObject shield = new ParseObject("Armor");
@@ -364,13 +364,13 @@ shield.setRupees(50);
 
 ### 建立 ParseObject 的子類別
 
-若要建立 `ParseObject` 的子類別：
+若要建立 `%{ParseObject}` 的子類別：
 
-1.  宣告延伸 `ParseObject` 的子類別。
-2.  新增 `@ParseClassName` 註解。其值應該是會讓您傳入 `ParseObject` 建構函式的字串，並使未來所有的類別名稱參考變得沒必要。
-3.  確保您的子類別具有公開預設（即零引數）建構函式。請勿修改此建構函式中的任何 `ParseObject` 欄位。
+1.  宣告延伸 `%{ParseObject}` 的子類別。
+2.  新增 `@ParseClassName` 註解。其值應該是會讓您傳入 `%{ParseObject}` 建構函式的字串，並使未來所有的類別名稱參考變得沒必要。
+3.  確保您的子類別具有公開預設（即零引數）建構函式。請勿修改此建構函式中的任何 `%{ParseObject}` 欄位。
 4.  請在呼叫 `Parse.initialize()` 前，先呼叫您 `Application` 建構函式中的 `ParseObject.registerSubclass(YourClass.class)`。
-以下程式碼成功地實作和登錄 `ParseObject` 的 `Armor` 子類別：
+以下程式碼成功地實作和登錄 `%{ParseObject}` 的 `Armor` 子類別：
 
 ```java
 // Armor.java
@@ -396,9 +396,9 @@ public class App extends Application {
 
 ### 存取子、更動子和方法
 
-將方法加入 `ParseObject` 子類別，有助於封裝有關此類別的邏輯。您可以將有關同一主題的所有邏輯放在同一個位置，而不是在商務邏輯和存放／傳輸邏輯使用獨立的類別。
+將方法加入 `%{ParseObject}` 子類別，有助於封裝有關此類別的邏輯。您可以將有關同一主題的所有邏輯放在同一個位置，而不是在商務邏輯和存放／傳輸邏輯使用獨立的類別。
 
-您可以輕鬆為 `ParseObject` 欄位新增存取子和更動子。如往常般宣告欄位的 Getter 和 Setter，但是以 `get()` 和 `put()` 的方式實作。以下範例於 `Armor` 類別中建立 `displayName` 欄位：
+您可以輕鬆為 `%{ParseObject}` 欄位新增存取子和更動子。如往常般宣告欄位的 Getter 和 Setter，但是以 `get()` 和 `put()` 的方式實作。以下範例於 `Armor` 類別中建立 `displayName` 欄位：
 
 ```java
 // Armor.java
@@ -433,7 +433,7 @@ public void takeDamage(int amount) {
 
 ### 初始化子類別
 
-您應該使用已經定義的建構函式建立子類別的新執行個體。您的子類別必須定義一個未修改 `ParseObject` 欄位的公開預設建構函式；Parse SDK 將會全程使用此函式，以建立子類別的強型別執行個體。
+您應該使用已經定義的建構函式建立子類別的新執行個體。您的子類別必須定義一個未修改 `%{ParseObject}` 欄位的公開預設建構函式；Parse SDK 將會全程使用此函式，以建立子類別的強型別執行個體。
 
 若要為現有物件建立參考資料，請使用 `ParseObject.createWithoutData()`：
 

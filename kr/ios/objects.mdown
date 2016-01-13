@@ -41,7 +41,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 ## 개체 검색
 
-클라우드에 손쉽게 데이터를 저장할 수 있으며 데이터 검색은 더욱 간편합니다. `objectId`가 있으면 `PFQuery`를 사용하여 전체 `%{ParseObject}`를 검색할 수 있습니다.  검색은 비동기 방식이며 블록 또는 콜백 메서드를 사용하여 변화를 줄 수 있습니다.
+클라우드에 손쉽게 데이터를 저장할 수 있으며 데이터 검색은 더욱 간편합니다. `objectId`가 있으면 `%{ParseQuery}`를 사용하여 전체 `%{ParseObject}`를 검색할 수 있습니다.  검색은 비동기 방식이며 블록 또는 콜백 메서드를 사용하여 변화를 줄 수 있습니다.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## 개체 업데이트
 
-개체를 간단히 업데이트할 수 있습니다. 개체에 몇 가지 새로운 데이터를 설정하고 저장 메서드 중 하나를 호출하면 됩니다. 개체를 저장하고 `objectId`가 있는 경우 `PFQuery`를 사용하여 `%{ParseObject}`를 검색하고 데이터를 업데이트할 수 있습니다.
+개체를 간단히 업데이트할 수 있습니다. 개체에 몇 가지 새로운 데이터를 설정하고 저장 메서드 중 하나를 호출하면 됩니다. 개체를 저장하고 `objectId`가 있는 경우 `%{ParseQuery}`를 사용하여 `%{ParseObject}`를 검색하고 데이터를 업데이트할 수 있습니다.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -213,7 +213,7 @@ PFRelation *relation = [user relationForKey:@"likes"];
 [relation removeObject:post];
 ```
 
-기본적으로 이러한 관계에 있는 개체의 목록은 다운로드되지 않습니다.  `query`에서 반환한 `PFQuery`에서 `findObjectsInBackgroundWithBlock:`을 호출하여 `Post`의 목록을 가져올 수 있습니다.  코드는 다음과 같습니다.
+기본적으로 이러한 관계에 있는 개체의 목록은 다운로드되지 않습니다.  `query`에서 반환한 `%{ParseQuery}`에서 `findObjectsInBackgroundWithBlock:`을 호출하여 `Post`의 목록을 가져올 수 있습니다.  코드는 다음과 같습니다.
 
 ```objc
 [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -225,14 +225,14 @@ PFRelation *relation = [user relationForKey:@"likes"];
 }];
 ```
 
-`Post`의 일부만 가져오고 싶은 경우 다음과 같이 `query`에서 반환한 `PFQuery`에 조건을 추가할 수 있습니다.
+`Post`의 일부만 가져오고 싶은 경우 다음과 같이 `query`에서 반환한 `%{ParseQuery}`에 조건을 추가할 수 있습니다.
 
 ```objc
 PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-`PFQuery`에 대한 자세한 내용은 이 가이드의 쿼리 부분을 참조하세요.  `PFRelation`은 `%{ParseObject}`의 `NSArray`와 유사하게 작동하므로 개체의 배열에서 수행할 수 있는 모든 쿼리(`includeKey:` 제외)를 `PFRelation`에서 수행할 수 있습니다.
+`%{ParseQuery}`에 대한 자세한 내용은 이 가이드의 쿼리 부분을 참조하세요.  `PFRelation`은 `%{ParseObject}`의 `NSArray`와 유사하게 작동하므로 개체의 배열에서 수행할 수 있는 모든 쿼리(`includeKey:` 제외)를 `PFRelation`에서 수행할 수 있습니다.
 
 ## 데이터 유형
 
@@ -263,7 +263,7 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-`%{ParseObject}`에서 `NSData` 필드를 사용하여 이미지나 문서 등 대용량의 바이너리 데이터를 저장하지 않는 것이 좋습니다. `%{ParseObject}` 크기는 128KB를 넘지 않아야 합니다. 더 많이 저장하려면 `PFFile`을 사용하는 것이 좋습니다. 자세한 내용은 [가이드 섹션](#files)을 참조하세요.
+`%{ParseObject}`에서 `NSData` 필드를 사용하여 이미지나 문서 등 대용량의 바이너리 데이터를 저장하지 않는 것이 좋습니다. `%{ParseObject}` 크기는 128KB를 넘지 않아야 합니다. 더 많이 저장하려면 `%{ParseFile}`을 사용하는 것이 좋습니다. 자세한 내용은 [가이드 섹션](#files)을 참조하세요.
 
 Parse에서 데이터를 처리하는 방식에 대한 자세한 내용은 [데이터 및 보안](#data)에 대한 설명서를 참조하세요.
 

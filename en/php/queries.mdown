@@ -1,12 +1,12 @@
 # Queries
 
-We've already seen how a `ParseQuery` with `get` can retrieve a single `ParseObject` from Parse. There are many other ways to retrieve data with `ParseQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
+We've already seen how a `%{ParseQuery}` with `get` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `%{ParseQuery}` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
 
 ## Basic Queries
 
-In many cases, `get` isn't powerful enough to specify which objects you want to retrieve. `ParseQuery` offers different ways to retrieve an array of objects rather than just a single object.
+In many cases, `get` isn't powerful enough to specify which objects you want to retrieve. `%{ParseQuery}` offers different ways to retrieve an array of objects rather than just a single object.
 
-The general pattern is to create a `ParseQuery`, put conditions on it, and then retrieve an `Array` of matching `ParseObject`s using `find`. For example, to retrieve of the scores with a particular `playerName`, use the `equalTo` method to constrain the value for a key.
+The general pattern is to create a `%{ParseQuery}`, put conditions on it, and then retrieve an `Array` of matching `%{ParseObject}`s using `find`. For example, to retrieve of the scores with a particular `playerName`, use the `equalTo` method to constrain the value for a key.
 
 ```php
 $query = new ParseQuery("GameScore");
@@ -22,7 +22,7 @@ for ($i = 0; $i < count($results); $i++) {
 
 ## Query Constraints
 
-There are several ways to put constraints on the objects found by a `ParseQuery`. You can filter out objects with a particular key-value pair with `notEqualTo`:
+There are several ways to put constraints on the objects found by a `%{ParseQuery}`. You can filter out objects with a particular key-value pair with `notEqualTo`:
 
 ```php
 $query->notEqualTo("playerName", "Michael Yabuti");
@@ -182,7 +182,7 @@ Queries that have regular expression constraints are very expensive, especially 
 
 ## Relational Queries
 
-There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `ParseObject`, you can use `equalTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `%{ParseObject}`, you can use `equalTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
 ```php
 // Assume ParseObject $myPost was previously created.
@@ -192,7 +192,7 @@ $comments = $query->find();
 // comments now contains the comments for myPost
 ```
 
-If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that matches a different query, you can use `matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
 
 ```php
 $innerQuery = new ParseQuery("Post");
@@ -203,7 +203,7 @@ $comments = $query->find();
 // comments now contains the comments for posts with images.
 ```
 
-If you want to retrieve objects where a field contains a `ParseObject` that does not match a different query, you can use `doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
 ```php
 $innerQuery = new ParseQuery("Post");
@@ -282,13 +282,13 @@ $results = $mainQuery->find();
 // results contains an array of players that either have won a lot of games or won only a few games.
 ```
 
-You can add additional constraints to the newly created `ParseQuery` that act as an 'and' operator.
+You can add additional constraints to the newly created `%{ParseQuery}` that act as an 'and' operator.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `near`, `withinGeoBox`, `limit`, `skip`, `ascending`/`descending`, `includeKey`) in the subqueries of the compound query.
 
-Each `ParseObject` is an instance of a specific subclass with a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
+Each `%{ParseObject}` is an instance of a specific subclass with a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
-To create a new subclass, create a new class which extends the `ParseObject` class, add the `$parseClassName` static property, and call the `registerSubclass` method before use.  Any `ParseQuery` will return instances of the new class for any `ParseObject` with the same class name.
+To create a new subclass, create a new class which extends the `%{ParseObject}` class, add the `$parseClassName` static property, and call the `registerSubclass` method before use.  Any `%{ParseQuery}` will return instances of the new class for any `%{ParseObject}` with the same class name.
 
 ```php
 class GameScore extends ParseObject
@@ -305,7 +305,7 @@ GameScore::registerSubclass();
 $gameScore = new GameScore();
 ```
 
-You can add additional methods and properties to your subclasses of `ParseObject`.
+You can add additional methods and properties to your subclasses of `%{ParseObject}`.
 
 ```php
 // A complex subclass of ParseObject

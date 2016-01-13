@@ -135,7 +135,7 @@ installation[@"user"] = [PFUser currentUser];
 
 #### クエリへのプッシュの送信
 
-`Installation`オブジェクトにデータを保存したら、`PFQuery`を使用してこれらの端末のサブセットにターゲットを絞り込むことができます。`Installation`クエリはその他の[Parseクエリ](#queries)と同じように機能しますが、特別な静的メソッドである`[PFInstallation query]`を使用して作成します。通知を送信する前にこのクエリを`PFPush`オブジェクトに設定します。
+`Installation`オブジェクトにデータを保存したら、`%{ParseQuery}`を使用してこれらの端末のサブセットにターゲットを絞り込むことができます。`Installation`クエリはその他の[Parseクエリ](#queries)と同じように機能しますが、特別な静的メソッドである`[PFInstallation query]`を使用して作成します。通知を送信する前にこのクエリを`PFPush`オブジェクトに設定します。
 
 ```objc
 // Create our Installation query

@@ -2,9 +2,9 @@
 
 ## The ParseObject
 
-Storing data on Parse is built around the `ParseObject`. Each `ParseObject` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `ParseObject`. You simply set whatever key-value pairs you want, and our backend will store it.
+Storing data on Parse is built around the `%{ParseObject}`. Each `%{ParseObject}` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `%{ParseObject}`. You simply set whatever key-value pairs you want, and our backend will store it.
 
-For example, let's say you're tracking high scores for a game. A single `ParseObject` could contain:
+For example, let's say you're tracking high scores for a game. A single `%{ParseObject}` could contain:
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and objects - anything that can be JSON-encoded.
 
-Each `ParseObject` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
+Each `%{ParseObject}` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
 ## Saving Objects
 
@@ -35,11 +35,11 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the cloud. Each of these fields is filled in by Parse, so they don't exist on a `ParseObject` until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the cloud. Each of these fields is filled in by Parse, so they don't exist on a `%{ParseObject}` until a save operation has completed.
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `%{ParseObject}` using a `%{ParseQuery}`:
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -54,7 +54,7 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
 });
 ```
 
-To get the values out of the `ParseObject`, there's a `getX` method for each data type:
+To get the values out of the `%{ParseObject}`, there's a `getX` method for each data type:
 
 ```java
 int score = gameScore.getInt("score");
@@ -105,7 +105,7 @@ As with saving, this recursively stores every object and file that `gameScore` p
 
 ## Retrieving Objects from the Local Datastore
 
-Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a `ParseQuery` just like you would while on the network, but using the `fromLocalDatastore` method to tell it where to get the data.
+Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a `%{ParseQuery}` just like you would while on the network, but using the `fromLocalDatastore` method to tell it where to get the data.
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -158,7 +158,7 @@ gameScore.saveEventually();
 
 ## Updating Objects
 
-Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the `objectId`, you can retrieve the `ParseObject` using a `ParseQuery` and update its data:
+Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the `objectId`, you can retrieve the `%{ParseObject}` using a `%{ParseQuery}` and update its data:
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -231,7 +231,7 @@ myObject.saveInBackground();
 
 ## Relational Data
 
-Objects can have relationships with other objects. To model this behavior, any `ParseObject` can be used as a value in other `ParseObject`s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.
+Objects can have relationships with other objects. To model this behavior, any `%{ParseObject}` can be used as a value in other `%{ParseObject}`s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 
@@ -259,7 +259,7 @@ You can also link objects using just their `objectId`s like so:
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
 ```
 
-By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
+By default, when fetching an object, related `%{ParseObject}`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
 ```java
 fetchedComment.getParseObject("post")
@@ -271,7 +271,7 @@ fetchedComment.getParseObject("post")
     });
 ```
 
-You can also model a many-to-many relation using the `ParseRelation` object.  This works similar to `List<ParseObject>`, except that you don't need to download all the `ParseObject`s in a relation at once.  This allows `ParseRelation` to scale to many more objects than the `List<ParseObject>` approach.  For example, a `User` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `User` likes using `getRelation`.  In order to add a post to the list, the code would look something like:
+You can also model a many-to-many relation using the `%{ParseRelation}` object.  This works similar to `List<ParseObject>`, except that you don't need to download all the `%{ParseObject}`s in a relation at once.  This allows `%{ParseRelation}` to scale to many more objects than the `List<ParseObject>` approach.  For example, a `User` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `User` likes using `getRelation`.  In order to add a post to the list, the code would look something like:
 
 ```java
 ParseUser user = ParseUser.getCurrentUser();
@@ -280,13 +280,13 @@ relation.add(post);
 user.saveInBackground();
 ```
 
-You can remove a post from the `ParseRelation` with something like:
+You can remove a post from the `%{ParseRelation}` with something like:
 
 ```java
 relation.remove(post);
 ```
 
-By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by calling `findInBackground` on the `ParseQuery` returned by `getQuery`.  The code would look like:
+By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by calling `findInBackground` on the `%{ParseQuery}` returned by `getQuery`.  The code would look like:
 
 ```java
 relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
@@ -300,20 +300,31 @@ relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-If you want only a subset of the `Post`s you can add extra constraints to the `ParseQuery` returned by `getQuery`.  The code would look something like:
+If you want only a subset of the `Post`s you can add extra constraints to the `%{ParseQuery}` returned by `getQuery`.  The code would look something like:
 
 ```java
 ParseQuery<ParseObject> query = relation.getQuery();
 // Add other query constraints.
 ```
 
- For more details on `ParseQuery`, please look at the [query portion of this guide](#queries).  A `ParseRelation` behaves similar to a `List<ParseObject>` for querying purposes, so any queries you can do on lists of objects (other than `include`) you can do on `ParseRelation`.
+ For more details on `%{ParseQuery}`, please look at the [query portion of this guide](#queries).  A `%{ParseRelation}` behaves similar to a `List<%{ParseObject}>` for querying purposes, so any queries you can do on lists of objects (other than `include`) you can do on `%{ParseRelation}`.
 
 ## Data Types
 
-So far we've used values with type `String`, `int`, `bool`, and `ParseObject`. Parse also supports `java.util.Date`, and `JSONObject.NULL`.
+So far we've used values with type `%{string}`, `%{number}`, `%{bool}`, and `%{ParseObject}`. Parse also supports `%{float}`, `%{date}`, and `%{null}`.
 
-You can nest `JSONObject` and `JSONArray` objects to store more structured data within a single `ParseObject`.
+You can nest `%{map}` and `%{array}` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
+
+* String => `%{string}`
+* Number => primitive numeric values such as `%{double}`s, `%{long}`s, or `%{float}`s
+* Bool => `%{bool}`
+* Array => `%{array}`
+* Object => `%{map}`
+* Date => `%{date}`
+* File => `%{ParseFile}`
+* Pointer => other `%{ParseObject}`
+* Relation => `%{ParseRelation}`
+* Null => `%{null}`
 
 Some examples:
 
@@ -340,13 +351,13 @@ bigObject.put("myNull", JSONObject.NULL);
 bigObject.saveInBackground();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents using `byte[]` fields on `ParseObject`. `ParseObjects`s should not exceed 128 kilobytes in size. To store more, we recommend you use `ParseFile`. See the [guide section](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `%{ParseFile}`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
 ## Subclasses
 
-Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `ParseObject` class and access any field with `get()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:
+Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `%{ParseObject}` class and access any field with `get()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:
 
 ```java
 ParseObject shield = new ParseObject("Armor");
@@ -366,13 +377,13 @@ shield.setRupees(50);
 
 ### Subclassing ParseObject
 
-To create a `ParseObject` subclass:
+To create a `%{ParseObject}` subclass:
 
-1.  Declare a subclass which extends `ParseObject`.
-2.  Add a `@ParseClassName` annotation. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
-3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
+1.  Declare a subclass which extends `%{ParseObject}`.
+2.  Add a `@ParseClassName` annotation. Its value should be the string you would pass into the `%{ParseObject}` constructor, and makes all future class name references unnecessary.
+3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `%{ParseObject}` fields in this constructor.
 4.  Call `ParseObject.registerSubclass(YourClass.class)` in your `Application` constructor before calling `Parse.initialize()`.
-    The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
+    The following code sucessfully implements and registers the `Armor` subclass of `%{ParseObject}`:
 
 ```java
 // Armor.java
@@ -400,9 +411,9 @@ public class App extends Application {
 
 ### Accessors, Mutators, and Methods
 
-Adding methods to your `ParseObject` subclass helps encapsulate logic about the class. You can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
+Adding methods to your `%{ParseObject}` subclass helps encapsulate logic about the class. You can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
 
-You can add accessors and mutators for the fields of your `ParseObject` easily. Declare the getter and setter for the field as you normally would, but implement them in terms of `get()` and `put()`. The following example creates a `displayName` field in the `Armor` class:
+You can add accessors and mutators for the fields of your `%{ParseObject}` easily. Declare the getter and setter for the field as you normally would, but implement them in terms of `get()` and `put()`. The following example creates a `displayName` field in the `Armor` class:
 
 ```java
 // Armor.java
@@ -435,7 +446,7 @@ public void takeDamage(int amount) {
 
 ### Initializing Subclasses
 
-You should create new instances of your subclasses using the constructors you have defined. Your subclass must define a public default constructor that does not modify fields of the `ParseObject`, which will be used throughout the Parse SDK to create strongly-typed instances of your subclass.
+You should create new instances of your subclasses using the constructors you have defined. Your subclass must define a public default constructor that does not modify fields of the `%{ParseObject}`, which will be used throughout the Parse SDK to create strongly-typed instances of your subclass.
 
 To create a reference to an existing object, use `ParseObject.createWithoutData()`:
 

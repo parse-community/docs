@@ -41,7 +41,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 ## オブジェクトの取得
 
-クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`がある場合、`PFQuery`を使用して`%{ParseObject}`全体を取得できます。これは非同期メソッドで、ブロックやコールバックメソッドのいずれかを使用したバリエーションがあります。
+クラウドへのデータの保存は便利ですが、そのデータを再度取得できればさらに便利です。`objectId`がある場合、`%{ParseQuery}`を使用して`%{ParseObject}`全体を取得できます。これは非同期メソッドで、ブロックやコールバックメソッドのいずれかを使用したバリエーションがあります。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -91,7 +91,7 @@ gameScore[@"cheatMode"] = @NO;
 
 ## オブジェクトの更新
 
-オブジェクトは簡単に更新できます。新しいデータをオブジェクトに設定し、保存メソッドの1つを呼び出すだけです。オブジェクトを保存して`objectId`があるとします。`PFQuery`を使用して`%{ParseObject}`を取得し、データを更新することができます。
+オブジェクトは簡単に更新できます。新しいデータをオブジェクトに設定し、保存メソッドの1つを呼び出すだけです。オブジェクトを保存して`objectId`があるとします。`%{ParseQuery}`を使用して`%{ParseObject}`を取得し、データを更新することができます。
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -213,7 +213,7 @@ PFRelation *relation = [user relationForKey:@"likes"];
 [relation removeObject:post];
 ```
 
-デフォルトでは、この関係のオブジェクトリストはダウンロードされません。`query`によって返された`PFQuery`で`findObjectsInBackgroundWithBlock:`を呼び出して`Post`のリストを取得します。コードは次のようになります。
+デフォルトでは、この関係のオブジェクトリストはダウンロードされません。`query`によって返された`%{ParseQuery}`で`findObjectsInBackgroundWithBlock:`を呼び出して`Post`のリストを取得します。コードは次のようになります。
 
 ```objc
 [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -225,14 +225,14 @@ PFRelation *relation = [user relationForKey:@"likes"];
 }];
 ```
 
-`Post`のサブセットのみが必要な場合は、次のように`query`が返す`PFQuery`に条件を追加できます。
+`Post`のサブセットのみが必要な場合は、次のように`query`が返す`%{ParseQuery}`に条件を追加できます。
 
 ```objc
 PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 
-`PFQuery`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。`PFRelation`は`%{ParseObject}`の`NSArray`と同様に作用するので、オブジェクトの配列で実行するクエリ（`includeKey:`以外）は、`PFRelation`で実行できます。
+`%{ParseQuery}`の詳細については、このガイドに記載のあるクエリに関する箇所をご覧ください。`PFRelation`は`%{ParseObject}`の`NSArray`と同様に作用するので、オブジェクトの配列で実行するクエリ（`includeKey:`以外）は、`PFRelation`で実行できます。
 
 ## データタイプ
 
@@ -263,7 +263,7 @@ bigObject[@"myNull"] = null;
 [bigObject saveInBackground];
 ```
 
-`%{ParseObject}`で`NSData`フィールドを使用して画像やドキュメントなどサイズの大きいバイナリデータを保存することはお勧めできません。`%{ParseObject}`のサイズは128キロバイト以下にする必要があります。それ以上を保存するには`PFFile`の使用をお勧めいたします。詳細は[ガイドセクション](#files)をご覧ください。
+`%{ParseObject}`で`NSData`フィールドを使用して画像やドキュメントなどサイズの大きいバイナリデータを保存することはお勧めできません。`%{ParseObject}`のサイズは128キロバイト以下にする必要があります。それ以上を保存するには`%{ParseFile}`の使用をお勧めいたします。詳細は[ガイドセクション](#files)をご覧ください。
 
 Parseにおけるデータ処理方法に関する詳細情報は、 [データとセキュリティ](#data)ドキュメントをご覧ください。
 

@@ -10,7 +10,7 @@
 
 安装于注册了推送通知的设备上的每个 Parse 应用程序均有一个相关的 `Installation` 对象。该 `Installation` 对象是您储存推送通知目标定位所需的全部信息的位置。例如，在某个棒球应用中，您可以保存用户感兴趣的球队，以便发送关于球队成绩的更新信息。
 
-在 iOS 中，可以通过 `ParseInstallation` 类（`%{ParseObject}` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](#objects) 来储存和检索数据。要想从您的 iOS 应用程序中访问当前的 `Installation` 对象，请采用 `[PFInstallation currentInstallation]` 方法。第一次保存 `%{ParseInstallation}` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知，只要其 `deviceToken` 字段置位。
+在 iOS 中，可以通过 `%{ParseInstallation}` 类（`%{ParseObject}` 的一个子类）可以获得 `Installation` 对象。其采用[相同的 API](#objects) 来储存和检索数据。要想从您的 iOS 应用程序中访问当前的 `Installation` 对象，请采用 `[PFInstallation currentInstallation]` 方法。第一次保存 `%{ParseInstallation}` 时，Parse 会将其添加到 `Installation` 类中，之后其便可以用于定位推送通知，只要其 `deviceToken` 字段置位。
 
 ```objc
 - (void)application:(UIApplication *)application
@@ -135,7 +135,7 @@ installation[@"user"] = [PFUser currentUser];
 
 #### 向查询发送推送通知
 
-将数据储存在 `Installation` 对象中之后，您可以使用 `PFQuery` 来定位这些设备的某个子集。`Installation` 查询的运行方式与其他任何 [Parse 查询](#queries)相同，但我们使用专门的静态方法 `[PFInstallation query]` 来创建它。我们将此查询设置在我们的 `PFPush` 对象上以后，才可以发送通知。
+将数据储存在 `Installation` 对象中之后，您可以使用 `%{ParseQuery}` 来定位这些设备的某个子集。`Installation` 查询的运行方式与其他任何 [Parse 查询](#queries)相同，但我们使用专门的静态方法 `[PFInstallation query]` 来创建它。我们将此查询设置在我们的 `PFPush` 对象上以后，才可以发送通知。
 
 ```objc
 // Create our Installation query

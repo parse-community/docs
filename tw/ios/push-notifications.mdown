@@ -136,7 +136,7 @@ installation[@"user"] = [PFUser currentUser];
 
 #### 將推播傳送至查詢
 
-一旦您將資料儲存於 `Installation` 物件，就可以使用 `PFQuery` 鎖定這些裝置的子集。`Installation` 查詢跟任何其他 [Parse 查詢](#queries)的運作方式一樣，但我們使用特殊的靜態方法 `[PFInstallation query]` 來建立查詢。在傳送通知之前，我們在 `PFPush` 物件上設定此查詢。
+一旦您將資料儲存於 `Installation` 物件，就可以使用 `%{ParseQuery}` 鎖定這些裝置的子集。`Installation` 查詢跟任何其他 [Parse 查詢](#queries)的運作方式一樣，但我們使用特殊的靜態方法 `[PFInstallation query]` 來建立查詢。在傳送通知之前，我們在 `PFPush` 物件上設定此查詢。
 
 ```objc
 // Create our Installation query

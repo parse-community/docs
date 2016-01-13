@@ -1,12 +1,12 @@
 # Queries
 
-We've already seen how a `ParseQuery` with `GetAsync` can retrieve a single `ParseObject` from Parse. There are many other ways to retrieve data with `ParseQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
+We've already seen how a `%{ParseQuery}` with `GetAsync` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `%{ParseQuery}` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
 
 ## Basic Queries
 
-In many cases, `GetAsync` isn't powerful enough to specify which objects you want to retrieve. The `ParseQuery` offers different ways to retrieve a list of objects rather than just a single object.
+In many cases, `GetAsync` isn't powerful enough to specify which objects you want to retrieve. The `%{ParseQuery}` offers different ways to retrieve a list of objects rather than just a single object.
 
-The general pattern is to create a `ParseQuery`, constraints to it, and then retrieve an `IEnumerable` of matching `ParseObjects`s using `FindAsync`. While `ParseQuery` supports a method-based approach for building your query, we highly recommend you use LINQ.  This allows to use the full power of the LINQ C# and Visual Basic language features to create rich queries over your data.
+The general pattern is to create a `%{ParseQuery}`, constraints to it, and then retrieve an `IEnumerable` of matching `ParseObjects`s using `FindAsync`. While `%{ParseQuery}` supports a method-based approach for building your query, we highly recommend you use LINQ.  This allows to use the full power of the LINQ C# and Visual Basic language features to create rich queries over your data.
 
 For example, to retrieve scores with a particular `playerName`, use a "where" clause to constrain the value for a key.
 
@@ -24,7 +24,7 @@ IEnumerable<ParseObject> results = await query.FindAsync();
 
 ## Query Constraints
 
-There are several ways to put constraints on the objects found by a `ParseQuery`. You can filter out objects with a particular key-value pair with a LINQ `where ... != ...` clause or a call to `WhereNotEqualTo`:
+There are several ways to put constraints on the objects found by a `%{ParseQuery}`. You can filter out objects with a particular key-value pair with a LINQ `where ... != ...` clause or a call to `WhereNotEqualTo`:
 
 ```csharp
 var query = from gameScore in ParseObject.GetQuery("GameScore")
@@ -253,7 +253,7 @@ Queries that have regular expression constraints are very expensive. Refer to th
 
 ## Relational Queries
 
-There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `ParseObject`, you can use `WhereEqualTo` or a `==` LINQ query just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `%{ParseObject}`, you can use `WhereEqualTo` or a `==` LINQ query just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
 ```csharp
 // Assume ParseObject myPost was previously created.
@@ -285,7 +285,7 @@ var query = ParseObject.GetQuery("Comment")
     .WhereEqualTo("post", ParseObject.CreateWithoutData("Post", "1zEcyElZ80"));
 ```
 
-If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `WhereMatchesQuery` or a `join` LINQ query. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that matches a different query, you can use `WhereMatchesQuery` or a `join` LINQ query. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
 
 ```csharp
 var imagePosts = from post in ParseObject.GetQuery("Post")
@@ -308,7 +308,7 @@ var comments = await query.FindAsync();
 // comments now contains the comments for posts with images
 ```
 
-If you want to retrieve objects where a field contains a `ParseObject` that does not match a different query, you can use `WhereDoesNotMatchQuery`.  In order to find comments for posts without images, you can do:
+If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `WhereDoesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
 ```csharp
 var imagePosts = from post in ParseObject.GetQuery("Post")
@@ -384,7 +384,7 @@ You can also do multi level includes using dot notation.  If you wanted to inclu
 query = query.Include("post.author");
 ```
 
-You can issue a query with multiple fields included by calling `Include` multiple times. This functionality also works with `ParseQuery` helpers like `FirstAsync` and `GetAsync`
+You can issue a query with multiple fields included by calling `Include` multiple times. This functionality also works with `%{ParseQuery}` helpers like `FirstAsync` and `GetAsync`
 
 ## Counting Objects
 
@@ -434,6 +434,6 @@ ParseQuery<ParseObject> query = lotsOfWins.Or(fewWins);
 // results contains players with lots of wins or only a few wins.
 ```
 
-You can add additional constraints to the newly created `ParseQuery` that act as an 'and' operator.
+You can add additional constraints to the newly created `%{ParseQuery}` that act as an 'and' operator.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `Near`, `WhereWithinGeoBox`, `Limit`, `Skip`, `OrderBy...`, `Include`) in the subqueries of the compound query.

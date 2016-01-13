@@ -2,9 +2,9 @@
 
 ## ParseObject
 
-Parse 上的数据储存建立在 `ParseObject` 的基础上。每个 `ParseObject` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `ParseObject` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
+Parse 上的数据储存建立在 `%{ParseObject}` 的基础上。每个 `%{ParseObject}` 包含 JSON 兼容数据的键值对。该数据没有计划性，即您不需要事先指定每个 `%{ParseObject}` 上存在的键。您只需随意设置您需要的键值对，我们的后台会储存它们。
 
-例如，假设您要跟踪游戏的高分。单个 `ParseObject` 可能包括：
+例如，假设您要跟踪游戏的高分。单个 `%{ParseObject}` 可能包括：
 
 ```js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 键值必须是字母数字字符串。键值可以是字符串、数字、布尔值或设置是数组和对象 － 只要是能用 JSON 编码的任何内容。
 
-每个 `ParseObject` 均有可供您用以区分不同数据种类的类名。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
+每个 `%{ParseObject}` 均有可供您用以区分不同数据种类的类名。例如，您可以把高分对象称为 `GameScore`。我们建议您这样命名类名（如：NameYourClassesLikeThis）和键值（如：nameYourKeysLikeThis），让您的代码看起来整齐美观。
 
 ## 保存对象
 
@@ -35,11 +35,11 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 这里要注意两点。在运行这个代码前，您不需要配置或设置名称为 `GameScore` 的新类别。您的 Parse 应用在第一次遇到这个类别时会为您创建该类别。
 
-还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`ParseObject` 上才会存在这些字段。
+还有几个字段只是为了方便，您不需要指定内容。`objectId` 是各已存对象的唯一标识符。`createdAt` 和 `updatedAt` 分别是各个对象在云中的创建时间和最后修改时间。每个字段都由 Parse 填充，所以完成保存操作后，`%{ParseObject}` 上才会存在这些字段。
 
 ## 对象检索
 
-将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `ParseQuery` 检索整个 `ParseObject`：
+将数据保存到云中非常有趣，但是更有趣的是从云中获取这些数据。如果您有 `objectId`，您可以用 `%{ParseQuery}` 检索整个 `%{ParseObject}`：
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -54,7 +54,7 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
 });
 ```
 
-要从 `ParseObject` 中提取值，可针对每种数据类型采用 `getX` 方法：
+要从 `%{ParseObject}` 中提取值，可针对每种数据类型采用 `getX` 方法：
 
 ```java
 int score = gameScore.getInt("score");
@@ -104,7 +104,7 @@ gameScore.pinInBackground();
 
 ### 从本地数据存储库检索对象
 
-存储对象仅在您可以将其提取出来时有意义。要获取特定对象的数据，您可以向平时在网络上的做法一样使用 `ParseQuery`，但必须使用 `fromLocalDatastore` 方法告诉它从哪里获取数据。
+存储对象仅在您可以将其提取出来时有意义。要获取特定对象的数据，您可以向平时在网络上的做法一样使用 `%{ParseQuery}`，但必须使用 `fromLocalDatastore` 方法告诉它从哪里获取数据。
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -157,7 +157,7 @@ gameScore.saveEventually();
 
 ## 对象更新
 
-进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `ParseQuery` 检索 `ParseObject` 和更新其数据：
+进行对象更新非常简单。只需在对象上设置一些新的数据并调用其中一种保存方法即可。假设您已保存对象并有 `objectId`，您可以使用 `%{ParseQuery}` 检索 `%{ParseObject}` 和更新其数据：
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -230,7 +230,7 @@ myObject.saveInBackground();
 
 ## 关系数据
 
-一些对象可能与另外一些对象有一定的关系。要为此建模，可将任意 `ParseObject` 用作其他 `ParseObject` 中的值。在内部，Parse 框架只将提及的对象仅存储于一个位置，以便保持一致性。
+一些对象可能与另外一些对象有一定的关系。要为此建模，可将任意 `%{ParseObject}` 用作其他 `%{ParseObject}` 中的值。在内部，Parse 框架只将提及的对象仅存储于一个位置，以便保持一致性。
 
 例如，一个博客应用中的每个 `Comment` 可能对应一个 `Post`。要创建一篇带有单一 `Comment` 的新 `Post`，您可以这样写：
 
@@ -258,7 +258,7 @@ myComment.saveInBackground();
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
 ```
 
-默认在提取对象时不提取相关的 `ParseObject`。这些对象的值在按如下方式提取之前无法检索：
+默认在提取对象时不提取相关的 `%{ParseObject}`。这些对象的值在按如下方式提取之前无法检索：
 
 ```java
 fetchedComment.getParseObject("post")
@@ -269,7 +269,7 @@ fetchedComment.getParseObject("post")
     });
 ```
 
-您还可以使用 `ParseRelation` 对象建立多对多关系模型。其机理与 `List<ParseObject>` 类似，但您不必一次性下载关系中的所有 `ParseObject`。因此 `ParseRelation` 可以扩展到比 `List<ParseObject>` 方法多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `getRelation` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
+您还可以使用 `%{ParseRelation}` 对象建立多对多关系模型。其机理与 `List<ParseObject>` 类似，但您不必一次性下载关系中的所有 `%{ParseObject}`。因此 `%{ParseRelation}` 可以扩展到比 `List<ParseObject>` 方法多很多的对象上。例如，一个 `User` 可能有很多篇喜欢的 `Post`。这种情况下，您可以用 `getRelation` 储存 `User` 喜欢的 `Post`。要将一个帖子添加至此列表，代码如下所示：
 
 ```java
 ParseUser user = ParseUser.getCurrentUser();
@@ -278,13 +278,13 @@ relation.add(post);
 user.saveInBackground();
 ```
 
-您可以从 `ParseRelation` 删除一个帖子，代码如下：
+您可以从 `%{ParseRelation}` 删除一个帖子，代码如下：
 
 ```java
 relation.remove(post);
 ```
 
-默认情况下，不下载这种关系中的对象列表。您可以通过对 `getQuery` 返回的 `ParseQuery` 调用 `findInBackground` 获取 `Post` 列表。代码应如下所示：
+默认情况下，不下载这种关系中的对象列表。您可以通过对 `getQuery` 返回的 `%{ParseQuery}` 调用 `findInBackground` 获取 `Post` 列表。代码应如下所示：
 
 ```java
 relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
@@ -298,20 +298,20 @@ relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-若您只想要 `Post` 的一个子集，可以像这样对 `ParseQuery` 返回的 `Post` 添加额外限制条件：代码如下所示：
+若您只想要 `Post` 的一个子集，可以像这样对 `%{ParseQuery}` 返回的 `Post` 添加额外限制条件：代码如下所示：
 
 ```java
 ParseQuery<ParseObject> query = relation.getQuery();
 // Add other query constraints.
 ```
 
- 若要了解有关 `ParseQuery` 的更多详细信息，请查看[本指南的查询部分](#queries)。查询时，`ParseRelation` 的工作方式与 `List<ParseObject>` 类似，因此您能对对象列表进行的任何查询（不含 `include`）均可对 `ParseRelation` 执行。
+ 若要了解有关 `%{ParseQuery}` 的更多详细信息，请查看[本指南的查询部分](#queries)。查询时，`%{ParseRelation}` 的工作方式与 `List<ParseObject>` 类似，因此您能对对象列表进行的任何查询（不含 `include`）均可对 `%{ParseRelation}` 执行。
 
 ## 数据类型
 
-目前，我们所使用的数值类型有 `String`、`int`、`bool` 和 `ParseObject`。Parse 还支持 `java.util.Date`、`byte[]` 和 `JSONObject.NULL`。
+目前，我们所使用的数值类型有 `String`、`int`、`bool` 和 `%{ParseObject}`。Parse 还支持 `java.util.Date`、`byte[]` 和 `JSONObject.NULL`。
 
-您可以嵌套 `JSONObject` 和 `JSONArray` 对象，以在单一 `ParseObject` 中存储更多结构数据。
+您可以嵌套 `JSONObject` 和 `JSONArray` 对象，以在单一 `%{ParseObject}` 中存储更多结构数据。
 
 一些示例：
 
@@ -341,13 +341,13 @@ bigObject.put("myNull", JSONObject.NULL);
 bigObject.saveInBackground();
 ```
 
-我们不建议通过在 `ParseObject` 中使用 `byte[]` 字段来存储图像或文档等大型二进制数据。`ParseObjects` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `ParseFile`。更多详细信息请参考[指南部分](#files)。
+我们不建议通过在 `%{ParseObject}` 中使用 `byte[]` 字段来存储图像或文档等大型二进制数据。`ParseObjects` 的大小不应超过 128 KB。要存储更多数据，我们建议您使用 `%{ParseFile}`。更多详细信息请参考[指南部分](#files)。
 
 若要了解有关 Parse 如何处理数据的更多信息，请查看[数据与安全](#data)部分的文档。
 
 ## 子类
 
-Parse 的设计能让您尽快上手并开始使用。您可以使用 `ParseObject` 类访问所有数据，以及通过 `get()` 访问任何字段。在成熟的代码库中，子类具有许多优势，包括简洁性、可扩展性和支持自动完成。子类化纯属可选操作，但它会将以下代码：
+Parse 的设计能让您尽快上手并开始使用。您可以使用 `%{ParseObject}` 类访问所有数据，以及通过 `get()` 访问任何字段。在成熟的代码库中，子类具有许多优势，包括简洁性、可扩展性和支持自动完成。子类化纯属可选操作，但它会将以下代码：
 
 ```java
 ParseObject shield = new ParseObject("Armor");
@@ -367,13 +367,13 @@ shield.setRupees(50);
 
 ### ParseObject 子类化
 
-要创建 `ParseObject` 子类：
+要创建 `%{ParseObject}` 子类：
 
-1.  Declare 一个扩展 `ParseObject` 的子类。
-2.  添加一个 `@ParseClassName` 注释。它的值应等于您将传递至 `ParseObject` 构造函数的字符串，这样后续就不必进行类名引用。
-3.  确保该子类拥有公共的默认（即无变量）构造函数。您不得修改该构造函数中的任何 `ParseObject` 字段。
+1.  Declare 一个扩展 `%{ParseObject}` 的子类。
+2.  添加一个 `@ParseClassName` 注释。它的值应等于您将传递至 `%{ParseObject}` 构造函数的字符串，这样后续就不必进行类名引用。
+3.  确保该子类拥有公共的默认（即无变量）构造函数。您不得修改该构造函数中的任何 `%{ParseObject}` 字段。
 4.  在 `Application` 构造函数中调用 `ParseObject.registerSubclass(YourClass.class)`，然后调用 `Parse.initialize()`。
-下面的代码成功地实施和注册了 `ParseObject` 的 `Armor` 子类：
+下面的代码成功地实施和注册了 `%{ParseObject}` 的 `Armor` 子类：
 
 ```java
 // Armor.java
@@ -401,9 +401,9 @@ public class App extends Application {
 
 ### 访问器、转变器和方法
 
-向 `ParseObject` 子类添加方法有助于封装关于类的逻辑。您可以将主题的所有相关逻辑保存在一个位置，而不必分别针对事务逻辑和存储/传输逻辑使用单独的类。
+向 `%{ParseObject}` 子类添加方法有助于封装关于类的逻辑。您可以将主题的所有相关逻辑保存在一个位置，而不必分别针对事务逻辑和存储/传输逻辑使用单独的类。
 
-您可以为 `ParseObject` 的各字段轻松添加访问器和转变器。像平时一样为字段 declare 一个 getter 和 setter，但实施时按照 `get()` 和 `put()` 进行。下面的示例在 `Armor` 类中创建了 `displayName` 字段：
+您可以为 `%{ParseObject}` 的各字段轻松添加访问器和转变器。像平时一样为字段 declare 一个 getter 和 setter，但实施时按照 `get()` 和 `put()` 进行。下面的示例在 `Armor` 类中创建了 `displayName` 字段：
 
 ```java
 // Armor.java
@@ -436,7 +436,7 @@ public void takeDamage(int amount) {
 
 ### 初始化子类
 
-您应该使用已定义的构造函数创建子类的新实例。子类必须定义一个不修改 `ParseObject` 各字段的公共默认构造函数，它将在整个 Parse SDK 中被用于创建子类的强类型实例。
+您应该使用已定义的构造函数创建子类的新实例。子类必须定义一个不修改 `%{ParseObject}` 各字段的公共默认构造函数，它将在整个 Parse SDK 中被用于创建子类的强类型实例。
 
 要创建现有对象的引用，使用 `ParseObject.createWithoutData()`：
 

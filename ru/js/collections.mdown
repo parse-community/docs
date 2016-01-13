@@ -1,6 +1,6 @@
 # Совокупности
 
-`Parse.Collection` &mdash; это упорядоченная совокупность `Parse.Object`. Она совместима с `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)` и имеет те же функции.  Можно создать новый подкласс с помощью класса модели или определенного запроса `Parse.Query`.
+`Parse.Collection` &mdash; это упорядоченная совокупность `%{ParseObject}`. Она совместима с `[Backbone.Collection](http://documentcloud.github.com/backbone/#Collection)` и имеет те же функции.  Можно создать новый подкласс с помощью класса модели или определенного запроса `%{ParseQuery}`.
 
 ```js
 // A Collection containing all instances of TestObject.
@@ -87,10 +87,10 @@ collection.reset([
   Ознакомьтесь с [руководством по созданию приложения списка дел с помощью JavaScript](/tutorials/todo-app-with-javascript), в котором объясняется, как создать [классическое приложение списка дел Backbone](http://addyosmani.github.com/todomvc/) с помощью Parse в качестве серверного приложения для хранения аккаунтов и данных пользователей.
 </div></div>
 
-Наш SDK JavaScript совместим с Backbone, поэтому  `Parse.Object` и `Parse.Collection` могут использоваться для `Backbone.Model` и `Backbone.Collection` с небольшими настройками. Как преобразовать приложение:
+Наш SDK JavaScript совместим с Backbone, поэтому  `%{ParseObject}` и `Parse.Collection` могут использоваться для `Backbone.Model` и `Backbone.Collection` с небольшими настройками. Как преобразовать приложение:
 
 1.  [Следуйте инструкциям для установки SDK для существующего приложения JavaScript](/apps/quickstart#js/existing).
-2.  Замените все экземпляры `Backbone.Model` на `Parse.Object`. При этом `url` и `urlRoot` должны заменяться соответствующим `className`, который преобразовывает объекты в класс Parse:
+2.  Замените все экземпляры `Backbone.Model` на `%{ParseObject}`. При этом `url` и `urlRoot` должны заменяться соответствующим `className`, который преобразовывает объекты в класс Parse:
 
 ```js
 var BackboneTodo = Backbone.Model.extend({
@@ -101,7 +101,7 @@ var BackboneTodo = Backbone.Model.extend({
   className: "Todo"
 });
 ```
-3.  Замените все экземпляры `Backbone.Collection` на `Parse.Collection` и укажите класс `Parse.Object` в качестве `model`. Следует также указать `query`, чтобы совокупность представляла, как извлекать объекты:
+3.  Замените все экземпляры `Backbone.Collection` на `Parse.Collection` и укажите класс `%{ParseObject}` в качестве `model`. Следует также указать `query`, чтобы совокупность представляла, как извлекать объекты:
 
 ```js
 var ParseTodoCollection = Parse.Collection.extend({
@@ -114,7 +114,7 @@ query.equalTo("user", Parse.User.current());
 todos.query = query;
 todos.fetch();
 ```
-4.  Во всех случаях создания моделей с сервера потребуется сконструировать запрос `Parse.Query`, чтобы охватить все интересующие вас объекты, подобно тому, как нужно было сделать для атрибута `query` по совокупности `Parse.Collection`.
+4.  Во всех случаях создания моделей с сервера потребуется сконструировать запрос `%{ParseQuery}`, чтобы охватить все интересующие вас объекты, подобно тому, как нужно было сделать для атрибута `query` по совокупности `Parse.Collection`.
 
 5.  Добавьте или обновите приложение для использования [аутентификации пользователя](/docs/js_guide#users), и примените к объектам списки управления доступом, при необходимости.
 

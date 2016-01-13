@@ -286,7 +286,7 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 1.  `PFQueryTableViewController`のサブクラスを作成してカスタマイズします。開始点として[テンプレートファイル](https://gist.github.com/ba03c1a550f14f88f95d)を使用します。
 2.  デリゲートとデータソースとして自動設定されます。
 3.  `parseClassName`インスタンス変数を設定してデータをクエリするParseのクラスを指定します。
-4.  `queryForTable`メソッドを上書きして、テーブルのオブジェクトを取得するのに使用するカスタム`PFQuery`を作成します。
+4.  `queryForTable`メソッドを上書きして、テーブルのオブジェクトを取得するのに使用するカスタム`%{ParseQuery}`を作成します。
 5.  `tableView:cellForRowAtIndexPath:object:`を上書きして、それぞれの`%{ParseObject}`に合わせたカスタムセルを返します。
 6.  カスタムセルクラスを実装し、`PFTableViewCell`クラスから継承されるようにします。
 7.  ビューがロードされたら、クラスは作成したクエリを通じて自動的に`%{ParseObject}`を取得して、テーブルにロードします。ページネーションと「スライドして更新」はすでに指定されているので、すぐに利用できます。
@@ -358,7 +358,7 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 
 ### セルでリモート画像をロードする
 
-`PFQueryTableViewController`では、Parseクラウドで`PFFile`として保存されているリモート画像を簡単に表示できます。`tableView:cellForRowAtIndexPath:object:`を上書きして、正しく指定された`imageView`の`file`を`PFTableViewCell`で返すだけでできます。リモート画像をロードする前にプレースホルダ―の画像を表示させる場合、プレースホルダ―の画像を`imageView`の`image`プロパティに割り当てます。
+`PFQueryTableViewController`では、Parseクラウドで`%{ParseFile}`として保存されているリモート画像を簡単に表示できます。`tableView:cellForRowAtIndexPath:object:`を上書きして、正しく指定された`imageView`の`file`を`PFTableViewCell`で返すだけでできます。リモート画像をロードする前にプレースホルダ―の画像を表示させる場合、プレースホルダ―の画像を`imageView`の`image`プロパティに割り当てます。
 
 ```objc
 @implementation SimpleTableViewController
@@ -380,13 +380,13 @@ Parseアプリケーションの`Todo`クラスからのオブジェクトを表
 
 ![](/images/docs/images_table.png)
 
-このテーブルでは、Parseクラウドで`PFFile`として保存されているかわいい動物の写真の一覧が表示されます。「placeholder.jpg」はアプリケーションバンドルに含まれる画像で、動物の写真がダウンロードされる前に表示されます。
+このテーブルでは、Parseクラウドで`%{ParseFile}`として保存されているかわいい動物の写真の一覧が表示されます。「placeholder.jpg」はアプリケーションバンドルに含まれる画像で、動物の写真がダウンロードされる前に表示されます。
 
 画像のダウンロードはオンデマンドです。テーブルをスクロールしていくと、現在表示されるセルにある画像がダウンロードされます。帯域幅を節約するだけでなく、表示される画像をタイムリーに表示するため、このジャストインタイムのビヘイビアが便利です。よりアグレッシブなローディングビヘイビアが必要な場合は、`imageView`で`loadInBackground`メソッドを使用して画像をダウンロードできます。
 
 ### クエリのカスタマイズ
 
-デフォルトのクエリは`createdAt`の下降順にクラスからオブジェクトを取得するように設定されています。カスタマイズするには、独自の`PFQuery`を返すように`queryForTable`メソッドを上書きします。テーブルでは表示するオブジェクトの取得にはこのクエリを使用します。
+デフォルトのクエリは`createdAt`の下降順にクラスからオブジェクトを取得するように設定されています。カスタマイズするには、独自の`%{ParseQuery}`を返すように`queryForTable`メソッドを上書きします。テーブルでは表示するオブジェクトの取得にはこのクエリを使用します。
 
 ### セルのカスタマイズ
 
@@ -428,7 +428,7 @@ _重要:_ テーブルビューセルは`UITableViewCell`ではなく`PFTableVie
 
 ## PFImageView
 
-多くのアプリでは、Parseクラウドで`PFFile`として保存されている画像を表示する必要がありますが、内蔵型の`UIImageView`でリモート画像をロードするには、数多くのボイラープレートコードを書き込む必要があります。`PFImageView`ではそのタスクを簡易化することができます。
+多くのアプリでは、Parseクラウドで`%{ParseFile}`として保存されている画像を表示する必要がありますが、内蔵型の`UIImageView`でリモート画像をロードするには、数多くのボイラープレートコードを書き込む必要があります。`PFImageView`ではそのタスクを簡易化することができます。
 
 ```objc
 PFImageView *imageView = [[PFImageView alloc] init];
@@ -441,7 +441,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 
 ## PFTableViewCell
 
-多くのアプリでは、Parseクラウドで`PFFile`として保存されている画像を含むテーブルビューセルを表示する必要がありますが、内蔵型の`UITableViewCell`でリモート画像をロードするには、数多くのボイラープレートコードを書き込む必要があります。`PFTableViewCell`では、リモート画像のロードをサポートする`PFImageView`タイプの`imageView`プロパティを公開することで、そのタスクを簡易化することができます。
+多くのアプリでは、Parseクラウドで`%{ParseFile}`として保存されている画像を含むテーブルビューセルを表示する必要がありますが、内蔵型の`UITableViewCell`でリモート画像をロードするには、数多くのボイラープレートコードを書き込む必要があります。`PFTableViewCell`では、リモート画像のロードをサポートする`PFImageView`タイプの`imageView`プロパティを公開することで、そのタスクを簡易化することができます。
 
 ```objc
 @implementation SimpleTableViewController
@@ -462,7 +462,7 @@ imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 @end
 ```
 
-`UITableViewCell`のように`PFTableViewCell`ではデフォルトのレイアウトスタイルをサポートします。`UITableViewCell`とは違い、`PFTableViewCell`の`imageView`プロパティは`PFImageView`タイプであり、`PFFile`へのリモート画像のダウンロードをサポートします。
+`UITableViewCell`のように`PFTableViewCell`ではデフォルトのレイアウトスタイルをサポートします。`UITableViewCell`とは違い、`PFTableViewCell`の`imageView`プロパティは`PFImageView`タイプであり、`%{ParseFile}`へのリモート画像のダウンロードをサポートします。
 
 `PFTableViewCell`は個別に使用することができますが、`PFQueryTableViewController`で使用される場合にその威力を発揮します。`PFQueryTableViewController`では`PFTableViewCell`を把握し、画像を自動的にロードされます。このビヘイビアの詳細は`PFQueryTableViewController`のドキュメントで説明します。
 

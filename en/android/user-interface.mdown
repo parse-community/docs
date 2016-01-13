@@ -4,7 +4,7 @@ At the end of the day, users of your application will be interacting with Androi
 
 ## ParseLoginUI
 
-If you are using Parse to manage users in your mobile app, you are already familiar with the `ParseUser`  class. At some point in your app, you might want to present a screen to log in your `ParseUser`.  Parse provides an open-source [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) for detail steps.
+If you are using Parse to manage users in your mobile app, you are already familiar with the `%{ParseUser}`  class. At some point in your app, you might want to present a screen to log in your `%{ParseUser}`.  Parse provides an open-source [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) for detail steps.
 
 This library contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.
 
@@ -14,7 +14,7 @@ This library contains an Android login activity that is ultra-customizable and e
 
 ### Basic Integration
 
-The login library integration is simple.  Our library exposes an activity-level API that lets you launch the login library activity (`ParseLoginActivity`) to obtain a `ParseUser`.  `ParseLoginActivity` will guide the user through several screens to log in, sign up, or reset their password.  If the user resets their password by email, they are taken back to the login screen.
+The login library integration is simple.  Our library exposes an activity-level API that lets you launch the login library activity (`ParseLoginActivity`) to obtain a `%{ParseUser}`.  `ParseLoginActivity` will guide the user through several screens to log in, sign up, or reset their password.  If the user resets their password by email, they are taken back to the login screen.
 The user will also see helpful toast messages if they provide invalid input (e.g. logging in with an incorrect password or signing up with a username that's already taken).
 
 To include `ParseLoginActivity` in your app, import the ParseLoginUI library project, and add the following into your `AndroidManifest.xml`:
@@ -50,7 +50,7 @@ This basic integration case works well if your caller activity is designed to fu
 
 ### Advanced Integration
 
-If some parts or all of your app cannot function without a valid `ParseUser`, you can protect these parts of your app with a `ParseLoginDispatchActivity` (supplied in this library project).  This dispatch activity acts like a gatekeeper; it automatically launches `ParseLoginActivity` if no user is logged in, or launches the protected activity if a user is already logged in.  To use this, you subclass `ParseLoginDispatchActivity` and specify what protected activity to launch.
+If some parts or all of your app cannot function without a valid `%{ParseUser}`, you can protect these parts of your app with a `ParseLoginDispatchActivity` (supplied in this library project).  This dispatch activity acts like a gatekeeper; it automatically launches `ParseLoginActivity` if no user is logged in, or launches the protected activity if a user is already logged in.  To use this, you subclass `ParseLoginDispatchActivity` and specify what protected activity to launch.
 
 ```java
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
@@ -173,7 +173,7 @@ startActivityForResult(parseLoginIntent, 0);
 You can override any layout resources by having files with the same name as those in the ParseLoginUI library project.  This is useful if you want to add a background image, or reposition the login components on the screen.  The Android build process will automatically merge resource files with the same name, giving your app project's files precedence.   The top-level layout files are:
 
 *   `com_parse_ui_parse_login_fragment.xml`: If you do not use certain login methods (username/password, Facebook, or Twitter), you can remove the corresponding UI elements from this layout.
-*   `com_parse_ui_parse_signup_fragment.xml`: You can add additional input fields in the signup form here.  If you do, you also need add code to `ParseSignupFragment` to copy that data into the `ParseUser` object.
+*   `com_parse_ui_parse_signup_fragment.xml`: You can add additional input fields in the signup form here.  If you do, you also need add code to `ParseSignupFragment` to copy that data into the `%{ParseUser}` object.
 *   `com_parse_ui_parse_login_help_fragment.xml`: You can change the message for password reset.
 
 We've provided another sample app, [ParseLoginSampleLayoutOverride](https://github.com/ParsePlatform/ParseUI-Android) showing how to do this.  This sample app only has a Facebook login button in `com_parse_ui_parse_login_fragment.xml`, and adds a background image to the login screens.
@@ -219,9 +219,9 @@ The `ParseQueryAdapter` can be configured to customize what data to use, how to 
 
 ## Customizing the Query
 
-By default, the simplest `ParseQueryAdapter` constructor takes a `Context` and a Parse class name. All `ParseObject`s in that class are then fetched and displayed in order of their `createdAt` timestamps.
+By default, the simplest `ParseQueryAdapter` constructor takes a `Context` and a Parse class name. All `%{ParseObject}`s in that class are then fetched and displayed in order of their `createdAt` timestamps.
 
-To change this behavior, we drew from the functionality of an `ArrayAdapter`: but instead of taking in a vanilla array of objects to be displayed by the adapter, `ParseQueryAdapter` can also take a `QueryFactory` class which returns a `ParseQuery` you define. Pass that into the constructor, and the adapter will then use that query to determine which objects to fetch and display.
+To change this behavior, we drew from the functionality of an `ArrayAdapter`: but instead of taking in a vanilla array of objects to be displayed by the adapter, `ParseQueryAdapter` can also take a `QueryFactory` class which returns a `%{ParseQuery}` you define. Pass that into the constructor, and the adapter will then use that query to determine which objects to fetch and display.
 
 See below for an example setting up a `ParseQueryAdapter` to display only punk and metal bands with four or more members, ordered by number of records sold:
 
@@ -241,7 +241,7 @@ ParseQueryAdapter<ParseObject> adapter =
 
 ## Customizing the Rows
 
-The default layout for the individual `View`s in your `AdapterView` is a simple `LinearLayout` with a `ParseImageView` and a `TextView`. If `setTextKey(String)` is used with the `ParseQueryAdapter`, its parameter will be used to select which key on your `ParseObject` is displayed in the `TextView`. Similarly, if `setImageKey(String)` is used, its parameter will be used to determine the image displayed in the ImageView.
+The default layout for the individual `View`s in your `AdapterView` is a simple `LinearLayout` with a `ParseImageView` and a `TextView`. If `setTextKey(String)` is used with the `ParseQueryAdapter`, its parameter will be used to select which key on your `%{ParseObject}` is displayed in the `TextView`. Similarly, if `setImageKey(String)` is used, its parameter will be used to determine the image displayed in the ImageView.
 
 One way to customize the rows is to override `getItemView(ParseObject, View, ViewGroup)` or `getNextPageView(View, ViewGroup)` and call the superclass's implementation of the appropriate method to do the heavy lifting. If you provide your own layout to the superclass's implementation, note that `getItemView(ParseObject, View, ViewGroup)` and `getNextPageView(View, ViewGroup)` expect a `TextView` (id: `android.R.id.text1`) if the `textKey` is set and a `ParseImageView` (id: `android.R.id.icon`) if the `imageKey` is set.
 
@@ -267,7 +267,7 @@ public View getItemView(ParseObject object, View v, ViewGroup parent) {
 }
 ```
 
-Another way to customize the rows is to have complete control over the look of the rows by overriding `ParseQueryAdapter`'s methods and ignoring the superclass's implementation entirely. In this example, our item views are simply rows where the color is defined by the `ParseObject`:
+Another way to customize the rows is to have complete control over the look of the rows by overriding `ParseQueryAdapter`'s methods and ignoring the superclass's implementation entirely. In this example, our item views are simply rows where the color is defined by the `%{ParseObject}`:
 
 ```java
 @Override
@@ -295,9 +295,9 @@ public View getNextPageView(View v, ViewGroup parent) {
 
 ## Loading Remote Images in Rows
 
-`ParseQueryAdapter` makes it simple to display remote images. By calling `setImageKey(String)`, you can pass in a key name on your `ParseObject` which should contain a `ParseFile` containing an image to be fetched from Parse and loaded into the `ParseImageView` of the corresponding row.
+`ParseQueryAdapter` makes it simple to display remote images. By calling `setImageKey(String)`, you can pass in a key name on your `%{ParseObject}` which should contain a `%{ParseFile}` containing an image to be fetched from Parse and loaded into the `ParseImageView` of the corresponding row.
 
-The image will download asynchronously, and the appropriate `ParseImageView` will be updated in the background. As the user scrolls and rows are recycled by the adapter, images will be fetched as rows become visible and assigned `ParseObject`s.
+The image will download asynchronously, and the appropriate `ParseImageView` will be updated in the background. As the user scrolls and rows are recycled by the adapter, images will be fetched as rows become visible and assigned `%{ParseObject}`s.
 
 You can define a placeholder image to be used when the image fetch has not yet completed. Call `setPlaceholder(Drawable)` on your `ParseQueryAdapter` to use the specified `Drawable` as a fallback image.
 
@@ -313,7 +313,7 @@ Pagination ensures that the table only gets one page of objects at a time. You c
 
 The query is automatically altered to apply pagination, and a pagination row appears at the bottom of the `AdapterView` to allow users to load the next page.
 
-Pagination is turned on by default. To turn it off, call `setPaginationEnabled(false)`. With pagination turned off, the `ParseQueryAdapter` will use the default `ParseQuery` limit of 100 items.
+Pagination is turned on by default. To turn it off, call `setPaginationEnabled(false)`. With pagination turned off, the `ParseQueryAdapter` will use the default `%{ParseQuery}` limit of 100 items.
 
 ## Auto-loading of Data
 
