@@ -29,4 +29,4 @@ One can get the current session token by doing:
 char* session_token = parseGetSessionToken(client);
 ```
 
-The session token will be persistent across reboots. Note that we highly recommend using Restricted Sessions on hardware devices, especially ones that do not provide a high level of client security. For more details, check out the Session section in our [REST API documentation](/docs/rest#sessions).
+The session token will be persistent across reboots. Note that we highly recommend using Restricted Sessions on hardware devices, especially ones that do not provide a high level of client security. For more details, check out the [guide on Sessions](#sessions).
