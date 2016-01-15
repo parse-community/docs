@@ -72,7 +72,7 @@ gameScore.save(null, {
   },
   error: function(gameScore, error) {
     // Execute any logic that should take place if the save fails.
-    // error is a Parse.Error with an error code and description.
+    // error is a Parse.Error with an error code and message.
     alert('Failed to create new object, with error code: ' + error.description);
   }
 });
@@ -103,7 +103,7 @@ gameScore.save({
   },
   error: function(gameScore, error) {
     // The save failed.
-    // error is a Parse.Error with an error code and description.
+    // error is a Parse.Error with an error code and message.
   }
 });
 ```
@@ -121,7 +121,7 @@ query.get("xWMyZ4YEGZ", {
   },
   error: function(object, error) {
     // The object was not retrieved successfully.
-    // error is a Parse.Error with an error code and description.
+    // error is a Parse.Error with an error code and message.
   }
 });
 ```
@@ -151,7 +151,7 @@ myObject.fetch({
   },
   error: function(myObject, error) {
     // The object was not refreshed successfully.
-    // error is a Parse.Error with an error code and description.
+    // error is a Parse.Error with an error code and message.
   }
 });
 ```
@@ -225,7 +225,7 @@ myObject.destroy({
   },
   error: function(myObject, error) {
     // The delete failed.
-    // error is a Parse.Error with an error code and description.
+    // error is a Parse.Error with an error code and message.
   }
 });
 ```
