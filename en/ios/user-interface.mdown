@@ -536,7 +536,7 @@ class SimpleTableViewController : PFQueryTableViewController {
 }
 ```
 
-<img src="https://parse.com/images/docs/todo_view.gif" style="max-width:200px"/>
+<img src="https://parse.com/images/docs/todo_view.png" style="max-width:200px"/>
 
 This view shows a list of Todo items and also allows the user to pull-to-refresh and load the next page by touching a special pagination cell at the end of the table. It also properly caches the objects such that  when the view is no longer in memory, the next time it loads it will use the query cache to immediately show the previously loaded objects while making a network call to update.
 
