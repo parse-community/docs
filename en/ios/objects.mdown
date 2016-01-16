@@ -702,7 +702,7 @@ If you need more complicated logic than simple property access, you can declare 
   PFImageView *view = [[PFImageView alloc] initWithImage:kPlaceholderImage];
   view.file = self.iconFile;
   [view loadInBackground];
-  return [view autorelease];
+  return view;
 }
 ```
 ```swift
