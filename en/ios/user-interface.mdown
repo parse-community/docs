@@ -51,14 +51,14 @@ Any of the above features can be turned on or off. The options can be set using 
                            | PFLogInFieldsDismissButton);
 ```
 ```swift
-  logInController.fields = (PFLogInFields.UsernameAndPassword
-                           | PFLogInFields.LogInButton
-                           | PFLogInFields.SignUpButton
-                           | PFLogInFields.PasswordForgotten
-                           | PFLogInFields.DismissButton)
+  logInController.fields = [PFLogInFields.UsernameAndPassword,
+                            PFLogInFields.LogInButton,
+                            PFLogInFields.SignUpButton,
+                            PFLogInFields.PasswordForgotten,
+                            PFLogInFields.DismissButton]
 ```
 
-Essentially, you use the bitwise or operator (`|`) to chain up all the options you want to include in the log in screen, and assign the value to `fields`.
+Essentially, you create an array of all the options you want to include in the log in screen, and assign the value to `fields`.
 
 In addition, there are a number of other options that can be turned on, including:
 
@@ -73,9 +73,9 @@ logInController.fields = (PFLogInFieldsUsernameAndPassword
                           | PFLogInFieldsTwitter);
 ```
 ```swift
-logInController.fields = (PFLogInFields.UsernameAndPassword
-                          | PFLogInFields.Facebook
-                          | PFLogInFields.Twitter)
+logInController.fields = [PFLogInFields.UsernameAndPassword,
+                           PFLogInFields.Facebook,
+                           PFLogInFields.Twitter]
 ```
 
 The above code would produce a log in screen that includes username, password, Facebook and Twitter buttons. Facebook log in permissions can be set via the `facebookPermissions`.
