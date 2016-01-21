@@ -131,7 +131,7 @@ You can restrict the fields returned by calling `select` with an array of keys. 
 
 ```php
 $query = new ParseQuery("GameScore");
-$query->select("score", "playerName");
+$query->select(["score", "playerName"]);
 $results = $query->find();
 // each of results will only have the selected fields available.
 ```
