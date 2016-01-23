@@ -6,7 +6,7 @@ If you haven't installed the SDK yet, [head over to the Push QuickStart](/apps/q
 
 ## Setting Up Push
 
-If you want to start using push, start by completing the [Android Push tutorial](/tutorials/android-push-notifications) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
+If you want to start using push, start by completing the [Android Push Notifications QuickStart Guide](https://parse.com/apps/quickstart#parse_push/android/native/existing) to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.
 
 The Parse library provides push notifications using Google Cloud Messaging (GCM) if Google Play Services are available. Learn more about Google Play Services [here](https://developers.google.com/android/guides/overview).
 
@@ -333,15 +333,17 @@ Note that some Android emulators (the ones without Google API support) don't sup
 
 ### Customizing Notifications
 
+Now that your app is all set up to receive push notifications, you can start customizing the display of these notifications.
+
 #### Customizing Notification Icons
 
-The [Android style guide](http://developer.android.com/design/style/iconography.html#notification) recommends apps use a push icon that is monochromatic and flat. The default push icon is your application's launcher icon, which is unlikely to conform to the style guide. To provide a custom push icon, add the following metadata tag to your app's `AndroidManifest.xml`:
+The [Android style guide](https://www.google.com/design/spec/style/icons.html#notification) recommends apps use a push icon that is monochromatic and flat. The default push icon is your application's launcher icon, which is unlikely to conform to the style guide. To provide a custom push icon, add the following metadata tag to your app's `AndroidManifest.xml`:
 
 ```java
 <meta-data android:name="com.parse.push.notification_icon" android:resource="@drawable/push_icon"/>
 ```
 
-where `push_icon` is the name of a drawable resource in your package. If your application needs more than one small icon, you can override `getSmallIconId` in your `ParsePushBroadcastReceiver` subclass.
+...where `push_icon` is the name of a drawable resource in your package. If your application needs more than one small icon, you can override `getSmallIconId` in your `ParsePushBroadcastReceiver` subclass.
 
 If your push has a unique context associated with an image, such as the avatar of the user who sent a message, you can use a large push icon to call attention to the notification. When a notification has a large push icon, your app's static (small) push icon is moved to the lower right corner of the notification and the large icon takes its place. See the [Android UI documentation](http://developer.android.com/guide/topics/ui/notifiers/notifications.html#NotificationUI) for examples. To provide a large icon, you can override `getLargeIcon` in your `ParsePushBroadcastReceiver` subclass.
 
