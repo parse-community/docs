@@ -141,7 +141,7 @@ installation[@"user"] = [PFUser currentUser];
 ```objc
 // Create our Installation query
 PFQuery *pushQuery = [PFInstallation query];
-[pushQuery whereKey:@"injuryReports" equalTo:YES];
+[pushQuery whereKey:@"injuryReports" equalTo:@YES];
 // Send push notification to query
 PFPush *push = [[PFPush alloc] init];
 [push setQuery:pushQuery];
@@ -157,7 +157,7 @@ PFPush *push = [[PFPush alloc] init];
 PFQuery *pushQuery = [PFInstallation query];
 [pushQuery whereKey:@"channels" equalTo:@"Giants"];
 // Set channel
-[pushQuery whereKey:@"scores" equalTo:YES];
+[pushQuery whereKey:@"scores" equalTo:@YES];
 // Send push notification to query
 PFPush *push = [[PFPush alloc] init];
 [push setQuery:pushQuery];
