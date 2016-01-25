@@ -1,6 +1,6 @@
-# Extensions and WatchKit
+# App Extensions
 
-Local data sharing in Parse SDKs allows you do share persistent local data between your main application and extensions that it contains, including Apple Watch apps, Keyboard, Share/Today/Photo/Action extensions and Document Providers.
+Local data sharing in Parse SDKs allows you do share persistent local data between your main application and extensions that it contains, including Keyboard, Share/Today/Photo/Action extensions and Document Providers.
 
 ## Shared Local Data
 
@@ -63,7 +63,7 @@ As you might have noticed - there are few pieces of information that need to be 
 *   **Keychain Sharing** means that your app and extension can access data that is securely stored in the keychain.
 *   **Containing Application Identifier** is your main apps bundle identifier. This is required for app extensions to know which application to talk to.
 
-This process is required to be completed for both your main application and any extension, including WatchKit apps.
+This process is required to be completed for both your main application and any extension.
 
 After all these steps are done, you are all set and all data will be shared between your app and any app extension that the app contains.
 
