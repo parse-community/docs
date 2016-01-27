@@ -133,7 +133,7 @@ For example, to send a notification that increases the current badge number by 1
 ```php
 ParsePush::send(array(
   "channels" => [ "Mets" ],
-  data => array(
+  "data" => array(
     "alert" => "The Mets scored! The game is now tied 1-1.",
     "badge" => "Increment",
     "sound" => "cheering.caf",
