@@ -206,7 +206,7 @@ You can export all your data in your app settings and grab the device tokens in 
 
 ***Exporting GCM Registration IDs***
 
-Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, Parse sends pushes using its own GCM sender ID, which won't work after Parse's service is retired. To continue sending pushes to your app, make sure to follow these steps to migrate to your own GCM sender ID:
+Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, the GCM registration IDs (stored in the `deviceToken` field) for your app are associated with Parse's GCM sender ID, which won't work after Parse is retired. You may want to take these actions to have your app register with a different GCM sender ID, which will make the registration IDs in the `deviceToken` field exportable to other push providers:
 
 * Enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number (it should be a large integer like `123427208255`). This is also known as your GCM sender ID.
 * Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide](/docs/android/guide#push-notifications-setting-up-push) for more details on this attribute.
