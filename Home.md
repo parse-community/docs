@@ -6,13 +6,7 @@ Parse Server is a new project, separate from the hosted Parse API service.  Our 
 
 ---
 
-Discussion:
-
-To ask a question, please submit an issue against the repository.  Answers to questions may be placed in the wiki.
-
-* [[About|About]] - 
-
-Files:
+Table of contents:
 
 * [[index.js|index.js]] - exposes the ParseServer constructor and mutates Parse.Cloud
 * [[analytics.js|analytics.js]] - handle the /events routes
