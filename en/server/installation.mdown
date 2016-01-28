@@ -1,0 +1,53 @@
+# Usage
+
+Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](https://github.com/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
+
+The constructor returns an API object that conforms to an [Express Middleware](http://expressjs.com/en/api.html#app.use). This object provides the REST endpoints for a Parse app. Create an instance like so:
+
+```js
+var api = new ParseServer({
+  databaseURI: 'mongodb://your.mongo.uri',
+  cloud: './cloud/main.js',
+  appId: 'myAppId',
+  fileKey: 'myFileKey',
+  masterKey: 'mySecretMasterKey',
+  clientKey: 'myClientKey',
+  restAPIKey: 'myRESTAPIKey',
+  javascriptKey: 'myJavascriptKey',
+  dotNetKey: 'myDotNetKey',
+});
+```
+
+The paramaters are as follows:
+
+* databaseURI: Connection string URI for your MongoDB.
+* cloud: Path to your app’s Cloud Code.
+* appId: A unique identifier for your app.
+* fileKey: A key that specifies a prefix used for file storage. (only necessary for old files in s3 *clarify this*)
+* masterKey: A key that overrides all permissions. Keep this secret.
+* clientKey: The client key for your app.
+* restAPIKey: The REST API key for your app.
+* javascriptKey: The JavaScript key for your app.
+* dotNetKey: The .NET key for your app.
+
+The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
+
+```js
+var express = require('express');
+var ParseServer = require('parse-server').ParseServer;
+
+var app = express();
+var api = new ParseServer({ ... });
+
+// Serve the Parse API at /parse URL prefix
+app.use('/parse', api);
+
+var port = 1337;
+app.listen(port, function() {
+  console.log('parse-server-example running on port ' + port + '.');
+});
+```
+
+And with that, you will have a Parse Server running on port 1337, serving the Parse API at `/parse`.
+
+The easiest way to get started with Parse Server is to use the [sample Express project at the root of the Parse Server repo](https://www.github.com/ParsePlatform/parse-server) which contains everything you need after setting a few parameters.
