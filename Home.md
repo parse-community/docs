@@ -51,3 +51,5 @@ Hosting on IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/20
 Hosting on Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/
 
 A module for emulating hosted cloud code behavior and modules: https://github.com/flovilmart/parse-anywhere
+
+Migration tool for Push Notifications to OneSignal: https://onesignal.com/parse
