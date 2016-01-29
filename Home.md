@@ -6,7 +6,7 @@ Parse Server is a new project, separate from the hosted Parse API service.  Our 
 
 ---
 
-Table of contents:
+Files:
 
 * [[index.js|index.js]] - exposes the ParseServer constructor and mutates Parse.Cloud
 * [[analytics.js|analytics.js]] - handle the /events routes
@@ -37,4 +37,10 @@ Table of contents:
 * [[transform.js|transform.js]] - transforms keys/values between Mongo and Rest API formats.
 * [[triggers.js|triggers.js]] - cloud code methods for handling database trigger events
 * [[users.js|users.js]] - handle the /users and /login routes
+
+---
+
+### Community links:
+
+A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
 
