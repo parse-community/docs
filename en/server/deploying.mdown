@@ -13,7 +13,7 @@ Here are the steps:
 
 # Deploying to Google App Engine and MongoLab
 
-Google App Engine and MongoLab make it easy to build scalable node.js application on Google's infrastructure. For a basic guide on setting up node.js applications on Google App Engine, check out the [getting started guide](https://cloud.google.com/nodejs/getting-started/hello-world).
+Google App Engine and MongoLab make it easy to build scalable node.js applications on Google's infrastructure. For a basic guide on setting up node.js applications on Google App Engine, check out the [getting started guide](https://cloud.google.com/nodejs/getting-started/hello-world).
 
 ### Run the sample locally
 
