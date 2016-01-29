@@ -10,3 +10,33 @@ Here are the steps:
 4. Use heroku config and note the URI provided by MongoLab under the var MONGOLAB_URI
 5. Copy this URI and set it as a new config variable: heroku config:set `DATABASE_URI=mongodb://...`
 6. Deploy it: `git push heroku master`
+
+#Deploying to Pivotal Web Services and MongoLab
+
+PWS and MongoLab and MongoLab provide an easy way to deploy Parse Server, especially if you're new to managing your own backend infrastructure.
+
+1. Create an Pivotal Web Services account if you don't have one already at http://run.pivotal.io and download the CF CLI tool.
+2. Log in using the [CF CLI tool](https://console.run.pivotal.io/tools): `cf login -u username -a api.run.pivotal.io`
+3. Select the org and space where you would like to deploy.
+4. Create a MongoLab service instance: `cf create-service mongolab sandbox my-parse-mongodb`
+5. Create your Express app with the Parse Server middleware mounted, or you can use the [sample project](https://github.com/ParsePlatform/parse-server-example).
+6. Push your app to PWS, but do not start it yet: 
+
+    ```
+    cd ~/workspace/my-parse-server
+    cf push my-awesome-parse-server --no start
+    ```
+    
+7. Bind your MongoDB service to your app: `cf bind-service my-awesome-parse-server my-parse-mongodb`
+8. Modify your parse server init in your express app like so:
+
+    ```javascript
+    var api = new ParseServer({
+      databaseURI: JSON.parse(process.env.VCAP_SERVICES).mongolab[0].credentials.uri || 'mongodb://localhost:27017/dev',
+      cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
+      appId: '<insert parse app id from console here>',
+      masterKey: '<insert parse master key here>'
+    });
+    ```
+    
+9. Push your changes and start your app! `cf push my-awesome-parse-server`.
