@@ -48,4 +48,6 @@ Hosting parse-server on Google App Engine: https://medium.com/@justinbeckwith/de
 
 Hosting on IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/
 
+Hosting on Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/
+
 A module for emulating hosted cloud code behavior and modules: https://github.com/flovilmart/parse-anywhere
