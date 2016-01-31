@@ -55,3 +55,5 @@ Hosting on Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-
 A module for emulating hosted cloud code behavior and modules: https://github.com/flovilmart/parse-anywhere
 
 Migration tool for Push Notifications to OneSignal: https://onesignal.com/parse
+
+(French) A guide for deploying on Docker: https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd
