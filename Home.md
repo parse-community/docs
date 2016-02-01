@@ -44,6 +44,8 @@ Files:
 
 A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
 
+Heroku: https://parse.com/docs/server/guide#deploying  or use the Heroku Button @ https://github.com/ParsePlatform/parse-server-example
+
 Google App Engine: https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50
 
 Google Cloud Platform: https://cloud.google.com/nodejs/resources/frameworks/parse-server
