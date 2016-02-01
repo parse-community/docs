@@ -44,15 +44,17 @@ Files:
 
 A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
 
-Hosting on Google App Engine: https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50
+Google App Engine: https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50
 
-Hosting on Google Cloud Platform: https://cloud.google.com/nodejs/resources/frameworks/parse-server
+Google Cloud Platform: https://cloud.google.com/nodejs/resources/frameworks/parse-server
 
-Hosting on IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/
+Microsoft Azure: https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/
 
-Hosting on Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/
+IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/
 
-Hosting Parse on Pivotal Web Services: https://github.com/cf-platform-eng/pws-parse-server
+Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/
+
+Pivotal Web Services: https://github.com/cf-platform-eng/pws-parse-server
 
 A module for emulating hosted cloud code behavior and modules: https://github.com/flovilmart/parse-anywhere
 
