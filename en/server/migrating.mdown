@@ -41,7 +41,7 @@ Note that you can elect to skip migrating your data and test the functionality o
 
 **2. Set Up Local Parse Server**
 
-Follow the instructions in the Parse Server Sample App [link to express sample app] and use the Mongo connection string from Step 1.
+Follow the instructions in the [Parse Server Sample App](https://github.com/ParsePlatform/parse-server-example) and use the Mongo connection string from Step 1.
 
 Go to the Security & Keys section of App Settings and use the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey. Pass that into the ParseServer constructor in index.js.
 
