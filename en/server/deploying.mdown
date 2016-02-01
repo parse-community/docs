@@ -10,3 +10,31 @@ Here are the steps:
 4. Use heroku config and note the URI provided by MongoLab under the var MONGOLAB_URI
 5. Copy this URI and set it as a new config variable: heroku config:set `DATABASE_URI=mongodb://...`
 6. Deploy it: `git push heroku master`
+
+# Deploying to Google App Engine and MongoLab
+
+Google App Engine and MongoLab make it easy to build scalable node.js applications on Google's infrastructure. For a basic guide on setting up node.js applications on Google App Engine, check out the [getting started guide](https://cloud.google.com/nodejs/getting-started/hello-world).
+
+### Run the sample locally
+
+1. `git clone https://github.com/GoogleCloudPlatform/nodejs-docs-samples.git`
+2. `cd appengine/parse-server`
+3. `npm install`
+4. Set the necessary [environment variables](https://github.com/GoogleCloudPlatform/nodejs-docs-samples/blob/master/appengine/parse-server/server.js#L23).
+5. `npm start`
+
+### Create a project on Google Cloud
+
+1. Create a project in the [Google Cloud Platform Console](https://console.cloud.google.com/).
+2. [Enable billing](https://console.cloud.google.com/project/_/settings) for your project.
+3. Install the [Google Cloud SDK](https://cloud.google.com/sdk/).
+4. Setup a MongoDB server.  You have a few options:
+  1. Create a Google Compute Engine virtual machine with [MongoDB pre-installed](https://cloud.google.com/launcher/?q=mongodb).
+  2. Use [MongoLab](https://mongolab.com/google/) to create a free MongoDB deployment on Google Cloud Platform.
+
+### Deploy
+
+1. Modify `app.yaml` to update your environment variables. 
+2. `gcloud preview app deploy`
+
+
