@@ -44,7 +44,7 @@ Parse.serverURL = 'http://localhost:1337/parse'
 ```csharp
 ParseClient.initialize(new ParseClient.Configuration {
     ApplicationId = "YOUR_APP_ID",
-    ClientKey = "YOUR_APP_CLIENT_KEY",
+    WindowsKey = "YOUR_APP_DOTNET_KEY",
     Server = "http://localhost:1337/parse"
 });
 ```
