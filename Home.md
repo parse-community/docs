@@ -42,15 +42,17 @@ Files:
 
 ### Community links:
 
-A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
-
 Heroku: https://parse.com/docs/server/guide#deploying  or use the Heroku Button @ https://github.com/ParsePlatform/parse-server-example
+
+Digital Ocean tutorial: https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04
 
 Google App Engine: https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50
 
 Google Cloud Platform: https://cloud.google.com/nodejs/resources/frameworks/parse-server
 
 Microsoft Azure: https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/
+
+A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
 
 IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/
 
