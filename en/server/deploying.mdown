@@ -10,3 +10,27 @@ Here are the steps:
 4. Use heroku config and note the URI provided by MongoLab under the var MONGOLAB_URI
 5. Copy this URI and set it as a new config variable: heroku config:set `DATABASE_URI=mongodb://...`
 6. Deploy it: `git push heroku master`
+
+# Deploying to Clever Cloud
+
+Clever Cloud provides both Node.js and MongoDB to deploy your own Parse Server.
+
+Here are the steps:
+
+1. Create a new / use an existing Express app with the Parse Server middleware mounted (you can use our sample project, or start your own).
+2. Modify the parse-server instanciation following this example:
+```
+var api = new ParseServer({
+  databaseURI: process.env.MONGODB_ADDON_URI,
+  cloud: process.env.CLOUD_CODE_MAIN || __dirname + '/cloud/main.js',
+  appId: process.env.PARSE_APPID,
+  masterKey: process.env.PARSE_MASTERKEY
+});
+
+```
+3. Open the [Clever Cloud Console](https://console.clever-cloud.com), create an account if you don't have one yet
+4. Create a [Node.js application and a MongoDB addon](https://www.clever-cloud.com/doc/clever-cloud-overview/add-application/)
+5. Add these two [environment variables](https://www.clever-cloud.com/doc/admin-console/environment-variables/): ``PARSE_APPID: <parseAppID>``, ``PARSE_MASTERKEY: <parseMasterKey>``
+6. Follow the instructions about adding the remote to your local git repository
+7. Deploy it: ``git push clever master`` and head to your [application's logs](https://www.clever-cloud.com/doc/admin-console/apps-management/)
+
