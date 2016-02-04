@@ -44,6 +44,8 @@ Files:
 
 Heroku: https://parse.com/docs/server/guide#deploying  or use the Heroku Button @ https://github.com/ParsePlatform/parse-server-example
 
+AWS: http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk
+
 Tutorial on deploying MongoDB to EC2: https://www.mongodb.com/migrate-from-parse-to-mongodb-cloud-manager-and-aws
 
 Digital Ocean tutorial: https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04
