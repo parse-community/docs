@@ -7,9 +7,9 @@
 
 # Overview
 
-**The Parse hosted backend will be fully retired on January 28, 2017. If you are migrating an existing Parse app, please carefully read through this entire guide. You will need to go through the [migration guide](#migrating) or your app will stop working after the retirement date.**
+**The Parse hosted backend will be fully retired on January 28, 2017. If you are migrating an existing Parse app, please carefully read through this entire guide. You will need to go through the [migration guide](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App) or your app will stop working after the retirement date.**
 
-Parse Server is an open source version of the Parse backend that can be deployed to any infrastructure that can run Node.js. You can find the source on the [GitHub repo](https://www.github.com/ParsePlatform/parse-server).
+Parse Server is an open source version of the Parse backend that can be deployed to any infrastructure that can run Node.js. You can find the source on the [GitHub repo](/ParsePlatform/parse-server).
 
 * Parse Server is not dependent on the hosted Parse backend.
 * Parse Server uses MongoDB directly, and is not dependent on the Parse hosted database.
@@ -35,7 +35,7 @@ Or, you can specify parse-server in your packages.json file.
 
 # Usage
 
-Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](https://github.com/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
+Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
 
 The constructor returns an API object that conforms to an [Express Middleware](http://expressjs.com/en/api.html#app.use). This object provides the REST endpoints for a Parse app. Create an instance like so:
 
@@ -53,7 +53,7 @@ var api = new ParseServer({
 });
 ```
 
-The paramaters are as follows:
+The parameters are as follows:
 
 * databaseURI: Connection string URI for your MongoDB.
 * cloud: Path to your app’s Cloud Code.
@@ -85,7 +85,7 @@ app.listen(port, function() {
 
 And with that, you will have a Parse Server running on port 1337, serving the Parse API at `/parse`.
 
-The easiest way to get started with Parse Server is to use the [sample Express project at the root of the Parse Server repo](https://www.github.com/ParsePlatform/parse-server) which contains everything you need after setting a few parameters.
+The easiest way to get started with Parse Server is to use the [sample Express project at the root of the Parse Server repo](/ParsePlatform/parse-server) which contains everything you need after setting a few parameters.
 
 # Database
 
