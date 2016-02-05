@@ -85,8 +85,6 @@ app.listen(port, function() {
 
 And with that, you will have a Parse Server running on port 1337, serving the Parse API at `/parse`.
 
-The easiest way to get started with Parse Server is to use the [sample Express project at the root of the Parse Server repo](/ParsePlatform/parse-server) which contains everything you need after setting a few parameters.
-
 # Database
 
 Parse Server uses [MongoDB](https://www.mongodb.org/) as the database for your application. If you have not used MongoDB before, we highly recommend familiarizing yourself with it first before proceeding.
