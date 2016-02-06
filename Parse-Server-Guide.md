@@ -48,15 +48,15 @@ var api = new ParseServer({
 
 The parameters are as follows:
 
-* databaseURI: Connection string URI for your MongoDB.
-* cloud: Path to your app’s Cloud Code.
-* appId: A unique identifier for your app.
-* fileKey: A key that specifies a prefix used for file storage. (only necessary for old files in s3 *clarify this*)
-* masterKey: A key that overrides all permissions. Keep this secret.
-* clientKey: The client key for your app.
-* restAPIKey: The REST API key for your app.
-* javascriptKey: The JavaScript key for your app.
-* dotNetKey: The .NET key for your app.
+* `databaseURI`: Connection string URI for your MongoDB.
+* `cloud`: Path to your app’s Cloud Code.
+* `appId`: A unique identifier for your app.
+* `fileKey`: A key that specifies a prefix used for file storage. (only necessary for old files in s3 *clarify this*)
+* `masterKey`: A key that overrides all permissions. Keep this secret.
+* `clientKey`: The client key for your app.
+* `restAPIKey`: The REST API key for your app.
+* `javascriptKey`: The JavaScript key for your app.
+* `dotNetKey`: The .NET key for your app.
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
