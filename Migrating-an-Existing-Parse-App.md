@@ -41,7 +41,7 @@ Note that you can elect to skip migrating your data and test the functionality o
 
 Follow the instructions in the [Parse Server Sample App](https://github.com/ParsePlatform/parse-server-example) and use the Mongo connection string from Step 1.
 
-Go to the Security & Keys section of App Settings and use the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey. Pass that into the ParseServer constructor in index.js.
+Go to the Security & Keys section of App Settings in your [Parse Dashboard](https://dashboard.parse.com) and take note of the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey values. Pass that into the ParseServer constructor in `index.js`.
 
 ### Verification
 
