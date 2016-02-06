@@ -45,17 +45,17 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 ### Community links:
 
 * [Deploying to Heroku and MongoLab](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab)
-* [Deploy to Heroku with the Heroku Button](https://github.com/ParsePlatform/parse-server-example)
+* [Heroku Button](https://github.com/ParsePlatform/parse-server-example) - The Parse-Server Example can be deployed using the Heroku Button
 * [How to set up Parse Server on AWS using AWS Elastic Beanstalk](http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk)
 * [Migrate from Parse to MongoDB Cloud Manager and AWS](https://www.mongodb.com/migrate-from-parse-to-mongodb-cloud-manager-and-aws)
-* [Run Parse Server on Ubuntu with Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04)
+* [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04) - Run Parse Server on Ubuntu 14.04
 * [Deploying Parse Server to Google App Engine](https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50)
 * [Run Parse-server on Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server)
-* [Migrating to Microsoft Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/)
-* [A docker image for running parse-server quickly](https://hub.docker.com/r/instainer/parse-server)  
+* [Microsoft Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/) - Migration guide
+* [docker image](https://hub.docker.com/r/instainer/parse-server) - A docker image for running parse-server quickly
 * [IBM Bluemix + Compose](https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/)
-* [How to Install and Run Private Parse Server in Production on Kontena](http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/)
+* [Kontena](http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/) - How to install and run Parse Server
 * [Pivotal Web Services Parse Server](https://github.com/cf-platform-eng/pws-parse-server)
-* [parse-anywhere, a module for emulating hosted cloud code behavior and modules](https://github.com/flovilmart/parse-anywhere)
-* [Migration tool for Push Notifications to OneSignal](https://onesignal.com/parse)
+* [parse-anywhere](https://github.com/flovilmart/parse-anywhere) - A module for emulating hosted cloud code behavior and modules
+* [OneSignal](https://onesignal.com/parse) - Migration tool for Push Notifications to OneSignal
 * [Guide for deploying on Docker (French)](https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd)
