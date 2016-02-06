@@ -42,7 +42,7 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 
 ---
 
-### Community links:
+### Community links
 
 * [Deploying to Heroku and MongoLab](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab)
 * [Heroku Button](https://github.com/ParsePlatform/parse-server-example) - The Parse-Server Example can be deployed using the Heroku Button
