@@ -23,7 +23,7 @@ Here is a visual overview of the migration steps. Follow the detailed instructio
 
 ![](https://parse.com/images/docs/server/migration.png)
 
-**1. Migrate Parse DB to Self-Hosted MongoDB**
+## 1. Migrate Parse DB to Self-Hosted MongoDB
 
 The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. Set up a MongoDB instance that conforms to our [database specifications](#database). Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your app's Analytics overview page).
 
@@ -37,13 +37,13 @@ Once you're satisfied, you can finalize the transfer in the migration UI and you
 
 Note that you can elect to skip migrating your data and test the functionality of your Parse Server hosted app with a blank database. You can always migrate your data later.
 
-**2. Set Up Local Parse Server**
+## 2. Set Up Local Parse Server
 
 Follow the instructions in the [Parse Server Sample App](https://github.com/ParsePlatform/parse-server-example) and use the Mongo connection string from Step 1.
 
 Go to the Security & Keys section of App Settings and use the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey. Pass that into the ParseServer constructor in index.js.
 
-*Verification*
+### Verification
 
 Make sure saving an object and retrieving it via a query works:
 
@@ -62,60 +62,59 @@ curl -X GET \
 
 You now have a Parse Server running locally that is connected to the data in MongoDB from step 1.
 
-**3. Cloud Code**
+## 3. Cloud Code
 
 We will now migrate your existing Cloud Code to run in Parse Server. Copy your app’s Cloud Code to the parse-server/cloud directory, replacing the example main.js. You will need to replace any relative paths like ‘cloud/…’ to ‘./cloud’.
 
 Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
 
-**App Links**
+#### App Links
 
 There is no direct replacement , but it is relatively easy to generate these tags yourself.
 
-**Buffer**
+#### Buffer
 
 This is included natively with Node. Remove any require('buffer') calls.
 
-**Mailgun**
+#### Mailgun
 
 Use the official npm module: https://www.npmjs.com/package/mailgun-js
 
-**Mandrill**
+#### Mandrill
 
 Use the official npm module: https://www.npmjs.com/package/mandrill-api
 
-**Moment**
+#### Moment
 
 Use the official npm module: https://www.npmjs.com/package/moment
 
-**Parse Image**
+#### Parse Image
 
-We recommend using another image manipulation library, like the imagemagick wrapper module: https://www.npmjs.com/package/imagemagick
-Alternatively, consider using a cloud-based image manipulation and management platform, such as Cloudinary. Wrapper module: https://www.npmjs.com/package/cloudinary
+We recommend using another image manipulation library, like the [imagemagick wrapper module](https://www.npmjs.com/package/imagemagick). Alternatively, consider using a cloud-based image manipulation and management platform, such as [Cloudinary](https://www.npmjs.com/package/cloudinary).
 
-**SendGrid**
+#### SendGrid
 
 Use the official npm module: https://www.npmjs.com/package/sendgrid
 
-**Stripe**
+#### Stripe
 
 Use the official npm module: https://www.npmjs.com/package/stripe
 
-**Twilio**
+#### Twilio
 
 Use the official npm module: https://www.npmjs.com/package/twilio
 
-**Underscore**
+#### Underscore
 
 Use the official npm module: https://www.npmjs.com/package/underscore
 
-*Verification*
+### Verification
 
 Run Parse Server and make some calls to it to verify that your Cloud Code is running correctly. If you had tests setup for the Cloud Code in your Parse hosted backend, point them to your local Parse Server and run the test suite.
 
 Because the Parse hosted Cloud Code isn’t running a full node environment, there may be subtle differences in how your Cloud Code runs in Parse Server. We recommend exercising all your critical code paths to ensure full functionality.
 
-**4. Hosting**
+## 4. Hosting
 
 If you are using Parse Hosting, you can migrate all these web endpoints to the same Express app that is serving Parse Server. For example, you could mount Parse Server under /parse and your website at the root, like so:
 
@@ -130,11 +129,11 @@ app.get('/about', aboutController.index);
 // ...
 ```
 
-**5. App Settings**
+## 5. App Settings
 
 Go through your app settings panel and make sure to understand how these settings will be impacted by moving to Parse Server.
 
-**User Sessions**
+#### User Sessions
 
 Require revocable sessions - This is required by Parse Server.
 
@@ -142,7 +141,7 @@ Expire inactive sessions - This is not yet available in Parse Server.
 
 Revoke session on password change - This is not yet available in Parse Server.
 
-**User Authentication**
+### User Authentication
 
 Enable new methods by default - This is hardcoded as true in Parse Server.
 
@@ -150,60 +149,60 @@ Allow username and password-based authentication - This is currently not optiona
 
 Allow anonymous users - This is currently not optional in Parse Server, anonymous users are always enabled.
 
-**Social Login**
+### Social Login
 
 Allow FB auth - This is available in Parse Server if a Facebook App ID is configured.
 
 Add a Facebook app (list of apps) - The ability to restrict to one Facebook App is not available in Parse Server.
 
 
-**6. Point Client to Local Parse Server**
+## 6. Point Client to Local Parse Server
 
 Update your app with the latest version of the Parse SDK (at least version 1.12 for iOS, 1.13.0 for Android, 1.6.14 for JS, 1.7.0 for .NET), which will have the ability to change the server URL.
 
-**7. Checkpoint: Test Your App**
+## 7. Checkpoint: Test Your App
 
 Now, test your app locally. Be careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data. 
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
-**8. Compatibility Issues**
+## 8. Compatibility Issues
 
 There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend.
 
-**Analytics**
+#### Analytics
 
 This is not supported. We recommend sending analytics to another similar service like Mixpanel or Google Analytics.
 
-**Client Class Creation**
+#### Client Class Creation
 
 This is always allowed in Parse Server.
 
-**Config**
+#### Config
 
 This is not supported. You can create config variables in Node that can be changed and deployed. Or, it would be relatively straightforward to create a Node version of Parse Config with a dashboard to change these variables without a deployment.
 
-**Dashboard**
+#### Dashboard
 
 We do not provide a self-hosted dashboard out of the box. It is possible to write your own dashboard using the JavaScript SDK and host it yourself, or, you can manage the data directly in Mongo.
 
 It is possible to keep using the Parse hosted dashboard, since it will be pointing to the same data in Mongo. However, you should not consider this a long term solution, as the hosted Parse state may diverge and mutate data in unpredictable ways (for example: if your Cloud Code gets out of sync with the Cloud Code in your Parse Server).
 
-**In-App Purchases**
+#### In-App Purchases
 
 iOS in-app purchase verification is not supported.
 
-**Jobs**
+#### Jobs
 
 There is no Job functionality in Parse Server. If you have scheduled jobs, port them over to a self-hosted solution using a wide variety of open source job queue projects. A popular one is [kue](https://github.com/Automattic/kue). Alternatively, if your jobs are simple, you could use a cron job.
 
-**Push Notifications**
+#### Push Notifications
 
 Parse Server does not implement any push notification functionality. We recommend migrating to a different push provider.
 
 You can export all your data in your app settings and grab the device tokens in the Installation class and upload it to another push provider. Alternately, you can also grab these tokens directly from your MongoDB under the installations collection. You will then need to publish a new version of your app replacing Parse’s push registration with the other service.
 
-**Exporting GCM Registration IDs**
+#### Exporting GCM Registration IDs
 
 Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, the GCM registration IDs (stored in the `deviceToken` field) for your app are associated with Parse's GCM sender ID, which won't work after Parse is retired. You may want to take these actions to have your app register with a different GCM sender ID, which will make the registration IDs in the `deviceToken` field exportable to other push providers:
 
@@ -211,40 +210,40 @@ Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM
 * Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide](/docs/android/guide#push-notifications-setting-up-push) for more details on this attribute.
 * Parse will now register for GCM with both its GCM sender ID and your GCM sender ID on app startup. You can use the resulting GCM registration IDs (stored in the `deviceToken` field of ParseInstallation) with other GCM push providers.
 
-**Schema API**
+#### Schema API
 
 This is not supported.
 
-**Session Features**
+#### Session Features
 
 Parse Server requires the use of [revocable sessions](http://blog.parse.com/announcements/announcing-new-enhanced-sessions/). If your app is still using legacy sessions, follow this [migration guide](https://parse.com/tutorials/session-migration-tutorial).
 
 Parse Server does not yet implement the option to expire inactive sessions and to revoke a session on password changes.
 
-**Social Login**
+#### Social Login
 
 Only Facebook and Anonymous logins are supported.
 
-**Webhooks**
+#### Webhooks
 
 This is not supported. 
 
-**Welcome Emails and Email Verification**
+#### Welcome Emails and Email Verification
 
 This is not supported out of the box. But, you can use a beforeSave to send out emails using a provider like Mailgun and add logic for verification.
 
-**9. Set Up Parse Server on Heroku**
+## 9. Set Up Parse Server on Heroku
 
 Follow the instructions for [deploying the server to Heroku](#deploying).
 
-**10. Point Client to Heroku Parse Server**
+## 10. Point Client to Heroku Parse Server
 
 Now, update your client to point to the location of the API that you deployed on Heroku.
 
-**11. Checkpoint: Test Your App**
+## 11. Checkpoint: Test Your App
 
 Test your app now that it uses the Heroku backend.
 
-**12. Publish Your App**
+## 12. Publish Your App
 
 You can now publish the new app, which will utilize your new backend. You should encourage users to update to the new version of your app. On January 28, 2017, any calls to the hosted Parse backend service will cease to function.
