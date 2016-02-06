@@ -44,30 +44,17 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 
 ### Community links:
 
-Heroku: https://parse.com/docs/server/guide#deploying  or use the Heroku Button @ https://github.com/ParsePlatform/parse-server-example
-
-AWS: http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk
-
-Tutorial on deploying MongoDB to EC2: https://www.mongodb.com/migrate-from-parse-to-mongodb-cloud-manager-and-aws
-
-Digital Ocean tutorial: https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04
-
-Google App Engine: https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50
-
-Google Cloud Platform: https://cloud.google.com/nodejs/resources/frameworks/parse-server
-
-Microsoft Azure: https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/
-
-A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
-
-IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/
-
-Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/
-
-Pivotal Web Services: https://github.com/cf-platform-eng/pws-parse-server
-
-A module for emulating hosted cloud code behavior and modules: https://github.com/flovilmart/parse-anywhere
-
-Migration tool for Push Notifications to OneSignal: https://onesignal.com/parse
-
-(French) A guide for deploying on Docker: https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd
+* Heroku: https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab or use the Heroku Button @ https://github.com/ParsePlatform/parse-server-example
+* AWS: http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk
+* Tutorial on deploying MongoDB to EC2: https://www.mongodb.com/migrate-from-parse-to-mongodb-cloud-manager-and-aws
+* Digital Ocean tutorial: https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04
+* Google App Engine: https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50
+* Google Cloud Platform: https://cloud.google.com/nodejs/resources/frameworks/parse-server
+* Microsoft Azure: https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/
+* A docker image for running parse-server quickly:  https://hub.docker.com/r/instainer/parse-server
+* IBM Bluemix + Compose: https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/
+* Kontena: http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/
+* Pivotal Web Services: https://github.com/cf-platform-eng/pws-parse-server
+* A module for emulating hosted cloud code behavior and modules: https://github.com/flovilmart/parse-anywhere
+* Migration tool for Push Notifications to OneSignal: https://onesignal.com/parse
+* (French) A guide for deploying on Docker: https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd
