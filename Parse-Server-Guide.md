@@ -51,7 +51,7 @@ The parameters are as follows:
 * `databaseURI`: Connection string URI for your MongoDB.
 * `cloud`: Path to your app’s Cloud Code.
 * `appId`: A unique identifier for your app.
-* `fileKey`: A key that specifies a prefix used for file storage. (only necessary for old files in s3 *clarify this*)
+* `fileKey`: A key that specifies a prefix used for file storage. For migrated apps, this is necessary to provide access to files already hosted on Parse.
 * `masterKey`: A key that overrides all permissions. Keep this secret.
 * `clientKey`: The client key for your app.
 * `restAPIKey`: The REST API key for your app.
