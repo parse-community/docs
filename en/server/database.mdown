@@ -7,7 +7,7 @@ The Mongo requirements for Parse Server are:
 * MongoDB version 2.6.X or 3.0.X
 * The [failIndexKeyTooLong](https://docs.mongodb.org/manual/reference/parameters/#param.failIndexKeyTooLong) parameter must be set to `false`.
 * An SSL connection is recommended (but not required).
-* We strongly recommend that your MongoDB servers be hosted in the US-East region for minimal lantecy.
+* We strongly recommend that your MongoDB servers be hosted in the US-East region for minimal latency.
 
 If this is your first time setting up a production MongoDB instance, we recommend using [MongoLab](http://www.mongolab.com), a database-as-a-service which has options to scale up as needed.
 
