@@ -47,6 +47,7 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 * [Deploying to Heroku and MongoLab](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab)
 * [Heroku Button](https://github.com/ParsePlatform/parse-server-example) - The Parse-Server Example can be deployed using the Heroku Button
 * [How to set up Parse Server on AWS using AWS Elastic Beanstalk](http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk)
+* [Parse Server AWS EC2 image provided by Bitnami](https://aws.amazon.com/marketplace/pp/B01BLQ17TO)
 * [Migrate from Parse to MongoDB Cloud Manager and AWS](https://www.mongodb.com/migrate-from-parse-to-mongodb-cloud-manager-and-aws)
 * [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04) - Run Parse Server on Ubuntu 14.04
 * [Deploying Parse Server to Google App Engine](https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50)
