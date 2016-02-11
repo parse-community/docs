@@ -28,7 +28,7 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 * [[installations.js|installations.js]] - handle the /installations routes
 * [[middlewares.js|middlewares.js]] - Express middleware used during request processing
 * [[PromiseRouter.js|PromiseRouter.js]] - PromiseRouter uses promises instead of req/res/next middleware conventions
-* [[push.js|push.js]] - handle the /push route (not yet implemented)
+* [[push.js|push.js]] - handle the /push route
 * [[rest.js|rest.js]] - main interface for REST operations
 * [[RestQuery.js|RestQuery.js]] - RestQuery encapsulates everything needed for a 'find' operation from REST API format
 * [[RestWrite.js|RestWrite.js]] - RestWrite encapsulates everything needed for 'create' and 'update' operations from REST API format
