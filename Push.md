@@ -46,11 +46,11 @@ Here is the list of sending options we do not support yet:
 
 ### GCM (Android)
 
-  By default, the hosted Parse service (parse.com) sends pushes to your Android app with its own GCM sender ID. With your Parse Server, this setup will no longer work. Instead, your Parse Server will send GCM pushes with its own GCM sender ID and API key.
-
   To get your GCM sender ID, enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number. It should be a large integer like 123427208255. This project number is your GCM sender ID.
 
   To get your GCM API key, go to the [Google developer credentials](https://console.developers.google.com/apis/credentials) page, and either create a new API key or reuse an existing one.
+
+  By default, the hosted Parse service (parse.com) sends pushes to your Android app with its own GCM sender ID. With your Parse Server, this setup will no longer work. Instead, your Parse Server will send GCM pushes with its own GCM sender ID and API key.  You should register a GCM sender ID and update your app as soon as possible.  Until users update, you can continue sending push notifications through Parse.com.
 
 ## 2. Configure Parse Server
 
