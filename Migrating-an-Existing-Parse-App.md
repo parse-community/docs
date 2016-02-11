@@ -198,9 +198,7 @@ There is no Job functionality in Parse Server. If you have scheduled jobs, port 
 
 #### Push Notifications
 
-Parse Server does not implement any push notification functionality. We recommend migrating to a different push provider.
-
-You can export all your data in your app settings and grab the device tokens in the Installation class and upload it to another push provider. Alternately, you can also grab these tokens directly from your MongoDB under the installations collection. You will then need to publish a new version of your app replacing Parse’s push registration with the other service.
+Parse Server implements basic transactional pushes for channels and queries. Check out the [Push Guide](https://github.com/ParsePlatform/parse-server/wiki/Push) for the details.
 
 #### Exporting GCM Registration IDs
 
