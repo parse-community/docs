@@ -23,9 +23,11 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 * [[facebook.js|facebook.js]] - helper functions for accessing the Graph API
 * [[files.js|files.js]] - handle the /files routes
 * [[FilesAdapter.js|FilesAdapter.js]] - Interface for allowing the underlying file storage to be changed
+* [[FileLoggerAdapter.js|FileLoggerAdapter.js]] - LoggerAdapter for logging info and error messages into local files (default)
 * [[functions.js|functions.js]] - handle the /functions routes
 * [[GridStoreAdapter.js|GridStoreAdapter.js]] - FilesAdapter for storing uploaded files in GridStore/MongoDB (default)
 * [[installations.js|installations.js]] - handle the /installations routes
+* [[LoggerAdapter.js|LoggerAdapter.js]] - Interface for allowing the underlying logging transport to be changed
 * [[middlewares.js|middlewares.js]] - Express middleware used during request processing
 * [[PromiseRouter.js|PromiseRouter.js]] - PromiseRouter uses promises instead of req/res/next middleware conventions
 * [[push.js|push.js]] - handle the /push route
