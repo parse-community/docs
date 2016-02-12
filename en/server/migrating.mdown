@@ -68,7 +68,9 @@ You now have a Parse Server running locally that is connected to the data in Mon
 
 We will now migrate your existing Cloud Code to run in Parse Server. Copy your app’s Cloud Code to the parse-server/cloud directory, replacing the example main.js. You will need to replace any relative paths like ‘cloud/…’ to ‘./cloud’.
 
-Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
+`Parse.User.current()` and `Parse.Cloud.useMasterKey()` are not available in Parse Server. Instead of `Parse.User.current()` use `request.user` and instead of `Parse.Cloud.useMasterKey()` pass `useMasterKey: true` to each query. To make queries and saves as a specific user within Cloud Code, you need a session token, which you can pass in the request body, or find with a query.
+
+Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are also not available in Parse Server, so you will need to use a replacement:
 
 **App Links**
 
