@@ -43,6 +43,7 @@ var api = new ParseServer({
   restAPIKey: 'myRESTAPIKey',
   javascriptKey: 'myJavascriptKey',
   dotNetKey: 'myDotNetKey',
+  push: { ... }, // See the Push wiki page
 });
 ```
 
@@ -57,6 +58,7 @@ The parameters are as follows:
 * `restAPIKey`: The REST API key for your app.
 * `javascriptKey`: The JavaScript key for your app.
 * `dotNetKey`: The .NET key for your app.
+* `push`: An object containing push configuration.  See [Push](/ParsePlatform/parse-server/wiki/Push)
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
@@ -153,4 +155,11 @@ ParseClient.initialize(new ParseClient.Configuration {
     WindowsKey = "YOUR_APP_DOTNET_KEY",
     Server = "http://localhost:1337/parse"
 });
+```
+
+**PHP**
+
+```php
+ParseClient::initialize('appId', 'restKey', 'masterKey');
+ParseClient::setServerURL('http://localhost:1337/parse');
 ```
