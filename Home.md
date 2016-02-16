@@ -56,7 +56,7 @@ See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide
 * [Deploying Parse Server to Google App Engine](https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50)
 * [Run Parse-server on Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server)
 * [Microsoft Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/) - Migration guide
-* [Urban Airship](https://www.urbanairship.com/blog/announcing-urban-airships-parse-importer-tool) - Push notification migration tool from Urban Airship
+* [Urban Airship](https://www.urbanairship.com/parse-migration) - Push notification migration tool from Urban Airship
 * [docker image](https://hub.docker.com/r/instainer/parse-server) - A docker image for running parse-server quickly
 * [IBM Bluemix + Compose](https://developer.ibm.com/clouddataservices/2016/01/29/parse-on-ibm-bluemix/)
 * [Kontena](http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/) - How to install and run Parse Server
