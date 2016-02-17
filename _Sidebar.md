@@ -1,6 +1,8 @@
 # Parse Server Wiki
 
 * [Overview](/ParsePlatform/parse-server/wiki)
+* [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide)
+* [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide)
 * [Community Links](/ParsePlatform/parse-server/wiki#community-links)
 
 ## Parse Server Guide
