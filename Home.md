@@ -1,5 +1,3 @@
-##### The development wiki for the parse-server module.
-
 Parse Server is a new project, separate from the hosted Parse API service.  Our intention is to provide and support the growth of an open-source API server, and allow new developers to benefit from the powerful Parse client SDKs regardless of where their application logic and data is stored.
 
 ### Documentation
