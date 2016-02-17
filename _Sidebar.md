@@ -1,7 +1,4 @@
-# Development Wiki
-
 * [Overview](/ParsePlatform/parse-server/wiki)
-* [Files](/ParsePlatform/parse-server/wiki#files)
 * [Community Links](/ParsePlatform/parse-server/wiki#community-links)
 
 # Parse Server Guide
@@ -14,3 +11,7 @@
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Deploying-Parse-Server)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Migrating an Existing Parse App](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
+
+# Development Guide
+
+* [Files](/ParsePlatform/parse-server/wiki/Development-Guide#files)
