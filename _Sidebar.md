@@ -10,7 +10,7 @@
 * [Overview](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#overview)
 * [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
 * [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
-* [MongoDB + RocksDB](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-mongodb-+-rocksdb)
+* [MongoDB + RocksDB](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-mongodb--rocksdb)
 * [Keys](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#keys)
 * [Using Parse SDKs with Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server)
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Deploying-Parse-Server)
