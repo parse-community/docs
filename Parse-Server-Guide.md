@@ -100,7 +100,7 @@ When using MongoDB with your Parse app, there are some differences with the host
 * You need to manage your indexes yourself. Hosted Parse automatically adds indexes based on the incoming query stream.
 * You need to size up your database as your data grows.
 
-If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](/ParsePlatform/parse-server/wiki/Perse-Server-Guide#Using MongoDB + RocksDB)
+If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-mongodb--rocksdb).
 
 # Using MongoDB + RocksDB
 
