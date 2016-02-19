@@ -16,5 +16,7 @@ Have a helper script in Parse Server that looks up the Schema places with known 
 
 ### S3 Listing
 
+We could have an API on Hosted Parse that once authenticated, returns the list of all the files an app has in S3 by doing a listing on the bucket.
+
 * Pros: users control how they want to sync their files, ability to download all files even those deleted in Mongo
 * Cons: need to implement some API on Hosted Parse for security, listing job can take a long time for apps with lots of files
