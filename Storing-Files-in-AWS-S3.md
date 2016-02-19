@@ -22,7 +22,7 @@ var api = new ParseServer({
 });
 ```
 
-Don't forget to change AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and BUCKET_NAME to their correct value.
+Don't forget to change **AWS_ACCESS_KEY_ID**, **AWS_SECRET_ACCESS_KEY** and **BUCKET_NAME** to their correct value.
 
 ### Setup your bucket and permissions
 
