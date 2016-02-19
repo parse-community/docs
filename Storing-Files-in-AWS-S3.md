@@ -24,7 +24,7 @@ var api = new ParseServer({
 
 Don't forget to change AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and BUCKET_NAME to their correct value.
 
-### Setup your bucket and permission
+### Setup your bucket and permissions
 
 1. Log into your [AWS account](https://console.aws.amazon.com/) or create a new one
 2. Head to the S3 service and choose **Create Bucket**
