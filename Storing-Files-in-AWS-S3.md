@@ -29,4 +29,4 @@
     ```
 11. Make sure to **Validate Policy** first, then click **Create Policy**
 12. Go back to the **Users** tab and select the user you created earlier
-23. In Permissions, select **Attach Policy** and find the policy we just created to attach it
+13. In Permissions, select **Attach Policy** and find the policy we just created to attach it
