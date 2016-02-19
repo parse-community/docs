@@ -12,6 +12,8 @@
 10. Copy the following config in **Policy Document**, changing **BUCKET_NAME** for the name of the bucket you created earlier. (note: this is a little more permissive than we need, but it works for now)
     ```
     test
+toto
+tutu
     ```
 11. Make sure to **Validate Policy** first, then click **Create Policy**
 12. Go back to the **Users** tab and select the user you created earlier
