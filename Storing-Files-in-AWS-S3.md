@@ -10,6 +10,7 @@
 8. Now select the **Policies** tab, then **Create Policy**
 9. Select **Create Your Own Policy**, fill out a **Policy Name**
 10. Copy the following config in **Policy Document**, changing **BUCKET_NAME** for the name of the bucket you created earlier. (note: this is a little more permissive than we need, but it works for now)
+
     ```
     test
 toto
