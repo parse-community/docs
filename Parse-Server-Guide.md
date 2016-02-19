@@ -287,7 +287,7 @@ To use a Parse SDK with Parse Server, change the server URL to your Parse API UR
    ...
    
    configuration.applicationId = @"YOUR_APP_ID";
-   configuration.clientKey = @"YOUR_APP_CLIENT_KEY";
+   configuration.clientKey = @"";
    configuration.server = @"http://localhost:1337/parse";
    
    ...
@@ -300,9 +300,8 @@ To use a Parse SDK with Parse Server, change the server URL to your Parse API UR
 ```java
 Parse.initialize(new Parse.Configuration.Builder(myContext)
     .applicationId("YOUR_APP_ID")
-    .clientKey("YOUR_APP_CLIENT_KEY")
+    .clientKey(null)
     .server("http://localhost:1337/parse")
-
 
     ...
           
@@ -313,7 +312,7 @@ Parse.initialize(new Parse.Configuration.Builder(myContext)
 **JavaScript**
 
 ```js
-Parse.initialize("YOUR_APP_ID", "YOUR_APP_CLIENT_KEY");
+Parse.initialize("YOUR_APP_ID");
 Parse.serverURL = 'http://localhost:1337/parse'
 ```
 
@@ -322,7 +321,6 @@ Parse.serverURL = 'http://localhost:1337/parse'
 ```csharp
 ParseClient.initialize(new ParseClient.Configuration {
     ApplicationId = "YOUR_APP_ID",
-    WindowsKey = "YOUR_APP_DOTNET_KEY",
     Server = "http://localhost:1337/parse"
 });
 ```
@@ -330,6 +328,6 @@ ParseClient.initialize(new ParseClient.Configuration {
 **PHP**
 
 ```php
-ParseClient::initialize('appId', 'restKey', 'masterKey');
+ParseClient::initialize('YOUR_APP_ID', 'YOUR_CLIENT_KEY', 'YOUR_MASTER_KEY');
 ParseClient::setServerURL('http://localhost:1337/parse');
 ```
