@@ -12,7 +12,7 @@
 10. Copy the following config in **Policy Document**, changing **BUCKET_NAME** for the name of the bucket you created earlier. (note: this is a little more permissive than we need, but it works for now)
     ```
     test
-    ````
+    ```
 11. Make sure to **Validate Policy** first, then click **Create Policy**
 12. Go back to the **Users** tab and select the user you created earlier
 23. In Permissions, select **Attach Policy** and find the policy we just created to attach it
