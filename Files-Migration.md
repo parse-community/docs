@@ -9,7 +9,7 @@ Parse Server knows how to access and read existing files in Hosted Parse S3. We 
 
 ### Mongo Objects
 
-Have a helper script in Parse Server looks up the Schema places with known file objects, iterates over all those object and 
+Have a helper script in Parse Server that looks up the Schema places with known file objects, iterates over all those object and copies them to the new data store using the file adapter.
 
 * Pros: guaranties that all referenced files are copied, would allow you to migrate from one file adapter to another
 * Cons: can be costly and take a long time to iterate on all Mongo objects for large apps, what to do for file objects within objects/arrays?
