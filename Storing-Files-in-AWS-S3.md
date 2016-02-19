@@ -1,3 +1,29 @@
+
+### Using the S3Adapter
+
+Writing to S3 from Parse Server is as simple as configuring and using the S3 files adapter in your main Node/Express script. Here's what it should look like:
+
+```javascript
+...
+var S3Adapter = require('parse-server').S3Adapter;
+
+var api = new ParseServer({
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  appId: process.env.APP_ID || 'myAppId',
+  masterKey: process.env.MASTER_KEY || '',
+  ...
+  filesAdapter: new S3Adapter(
+    "AWS_ACCESS_KEY_ID",
+    "AWS_SECRET_ACCESS_KEY",
+    "BUCKET_NAME,
+    {directAccess: true}
+  ), 
+  ...
+});
+```
+
+Don't forget to change AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and BUCKET_NAME to their correct value.
+
 ### Setup your bucket and permission
 
 1. Log into your [AWS account](https://console.aws.amazon.com/) or create a new one
@@ -30,8 +56,6 @@
 11. Make sure to **Validate Policy** first, then click **Create Policy**
 12. Go back to the **Users** tab and select the user you created earlier
 13. In Permissions, select **Attach Policy** and find the policy we just created to attach it
-
-### Using the S3Adapter
 
 ### S3Adapter constructor options
 
