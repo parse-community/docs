@@ -11,10 +11,21 @@
 9. Select **Create Your Own Policy**, fill out a **Policy Name**
 10. Copy the following config in **Policy Document**, changing **BUCKET_NAME** for the name of the bucket you created earlier. (note: this is a little more permissive than we need, but it works for now)
 
-    ```
-    test
-toto
-tutu
+    ```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:*"
+            ],
+            "Resource": [
+                "arn:aws:s3:::BUCKET_NAME/*"
+            ]
+        }
+    ]
+}
     ```
 11. Make sure to **Validate Policy** first, then click **Create Policy**
 12. Go back to the **Users** tab and select the user you created earlier
