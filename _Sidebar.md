@@ -21,3 +21,7 @@
 ## Development Guide
 
 * [Files](/ParsePlatform/parse-server/wiki/Development-Guide#files)
+
+## Other
+
+* [PPNS Protocol Specification](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)
