@@ -24,7 +24,7 @@ Start using Parse Server by grabbing the npm module:
 npm install -g parse-server
 ```
 
-Or, you can specify parse-server in your packages.json file.
+Or, you can specify "parse-server" in your `packages.json` file.
 
 # Usage
 
@@ -39,10 +39,6 @@ var api = new ParseServer({
   appId: 'myAppId',
   fileKey: 'myFileKey',
   masterKey: 'mySecretMasterKey',
-  clientKey: 'myClientKey',
-  restAPIKey: 'myRESTAPIKey',
-  javascriptKey: 'myJavascriptKey',
-  dotNetKey: 'myDotNetKey',
   push: { ... }, // See the Push wiki page
   filesAdapter: ..., 
 });
@@ -55,11 +51,11 @@ The parameters are as follows:
 * `appId`: A unique identifier for your app.
 * `fileKey`: A key that specifies a prefix used for file storage. For migrated apps, this is necessary to provide access to files already hosted on Parse.
 * `masterKey`: A key that overrides all permissions. Keep this secret.
-* `clientKey`: The client key for your app.
-* `restAPIKey`: The REST API key for your app.
-* `javascriptKey`: The JavaScript key for your app.
-* `dotNetKey`: The .NET key for your app.
-* `push`: An object containing push configuration.  See [Push](/ParsePlatform/parse-server/wiki/Push)
+* `clientKey`: The client key for your app. (optional)
+* `restAPIKey`: The REST API key for your app. (optional)
+* `javascriptKey`: The JavaScript key for your app. (optional)
+* `dotNetKey`: The .NET key for your app. (optional)
+* `push`: An object containing push configuration. See [Push](/ParsePlatform/parse-server/wiki/Push)
 * `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#storing-files-in-s3)
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
