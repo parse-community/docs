@@ -44,6 +44,7 @@ var api = new ParseServer({
   javascriptKey: 'myJavascriptKey',
   dotNetKey: 'myDotNetKey',
   push: { ... }, // See the Push wiki page
+  filesAdapter: ..., 
 });
 ```
 
@@ -59,6 +60,7 @@ The parameters are as follows:
 * `javascriptKey`: The JavaScript key for your app.
 * `dotNetKey`: The .NET key for your app.
 * `push`: An object containing push configuration.  See [Push](/ParsePlatform/parse-server/wiki/Push)
+* `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#storing-files-in-s3)
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
