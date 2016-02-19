@@ -15,7 +15,7 @@ var api = new ParseServer({
   filesAdapter: new S3Adapter(
     "AWS_ACCESS_KEY_ID",
     "AWS_SECRET_ACCESS_KEY",
-    "BUCKET_NAME,
+    "BUCKET_NAME",
     {directAccess: true}
   ), 
   ...
