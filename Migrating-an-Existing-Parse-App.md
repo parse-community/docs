@@ -2,8 +2,8 @@
 
 For most apps, the migration process is non-trivial, and will require dedicated development time. We recommend the following schedule:
 
-* April 28, 2016: Data migrated to a self-hosted MongoDB (Step 1)
-* July 28, 2016: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
+* **April 28, 2016**: Data migrated to a self-hosted MongoDB (Step 1)
+* **July 28, 2016**: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
 
 Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service.
 
@@ -26,6 +26,8 @@ Here is a visual overview of the migration steps. Follow the detailed instructio
 ## 1. Migrate Parse DB to Self-Hosted MongoDB
 
 The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. Set up a MongoDB instance that conforms to our [database specifications](#database). Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your app's Analytics overview page).
+
+Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. Both MongoLab and ObjectRocket provide the option to host your database in their datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after migrating your data to the self-hosted MongoDB in US East.
 
 Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some paramaters automatically during the process.  
 
