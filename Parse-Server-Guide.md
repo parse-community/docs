@@ -106,13 +106,6 @@ Parse Server does not require the use of client-side keys. This includes the cli
 
 However, you have the option to specify any of these four keys upon initialization. Upon doing so, Parse Server will enforce that any clients passing a key matches. The behavior is consistent with hosted Parse.
 
-# Storing files in S3
-
-Options:
-* region
-* bucketPrefix
-* directAccess
-
 # Using Parse SDKs with Parse Server
 
 To use a Parse SDK with Parse Server, change the server URL to your Parse API URL (make sure you have the [latest version of the SDKs](https://parse.com/docs/downloads)). For example, if you have Parse Server running locally mounted at /parse:
