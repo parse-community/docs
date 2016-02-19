@@ -1,4 +1,4 @@
-# Setup your bucket and permission
+### Setup your bucket and permission
 
 1. Log into your [AWS account](https://console.aws.amazon.com/) or create a new one
 2. Head to the S3 service and choose **Create Bucket**
