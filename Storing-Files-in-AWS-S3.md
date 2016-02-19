@@ -1,11 +1,11 @@
 # Setup your bucket and permission
 
-1. Log into your AWS account (https://console.aws.amazon.com/) or create a new one
+1. Log into your [AWS account](https://console.aws.amazon.com/) or create a new one
 2. Head to the S3 service and choose **Create Bucket**
 3. Fill out a unique **Bucket Name** (also it should not contain any period '.' for directAccess to work) and click **Create** (all other defaults are OK)
 4. Now head to the Identity and Access Management (IAM) service
 5. Click the **Users** tab, then **Create New User**
-6. Fill out at least one user name and make sure **Generate an access key for each user **is selected before clicking **Create**
+6. Fill out at least one user name and make sure **Generate an access key for each user** is selected before clicking **Create**
 7. Make sure to **Download Credentials** on the next screen
 8. Now select the **Policies** tab, then **Create Policy**
 9. Select **Create Your Own Policy**, fill out a **Policy Name**
