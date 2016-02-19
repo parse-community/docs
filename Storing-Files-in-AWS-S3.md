@@ -33,4 +33,16 @@
 
 ### Using the S3Adapter
 
-### S3Adapter options
+### S3Adapter constructor options
+
+``` new S3Adapter(accessKey, secretKey, bucket, options) ```
+
+Required:
+* **accessKey**: the AWS access key for a user that has the required permissions
+* **secretKey**: the AWS secret key for the user
+* **bucket**: the name of your S3 bucket. Needs to be globally unique in all of S3
+
+```options``` is a Javascript object (map) that can contain:
+* **region**: the AWS region to connect to. Default: 'us-east-1'
+* **bucketPrefix**: create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. Default: ''
+* **directAccess**: whether reads are going directly to S3 or proxied through your Parse Server. Default: false
