@@ -3,10 +3,10 @@
 * [Database](#database)
   * [MongoDB + RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
 * [Keys](#keys)
-* [Storing files in S3](/ParsePlatform/parse-server/wiki/Storing-Files-in-AWS-S3)
 * [Using Parse SDKs with Parse Server](#using-parse-sdks-with-parse-server)
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Deploying-Parse-Server)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
+* [Storing files in S3](/ParsePlatform/parse-server/wiki/Storing-Files-in-AWS-S3)
 
 # Overview
 
@@ -231,3 +231,16 @@ ParseClient.initialize(new ParseClient.Configuration {
 ParseClient::initialize('YOUR_APP_ID', 'YOUR_CLIENT_KEY', 'YOUR_MASTER_KEY');
 ParseClient::setServerURL('http://localhost:1337/parse');
 ```
+
+# Deploying Parse Server
+
+* [Deploying to Heroku and MongoLab](/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab)
+
+# Setting up Push Notifications
+
+* See the [Push Notification guide](/ParsePlatform/parse-server/wiki/Push).
+* [PPNS Protocol Specification (for Parse IoT devices)](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)
+
+# Other
+
+* [Storing files in AWS S3](/ParsePlatform/parse-server/wiki/Storing-Files-in-AWS-S3)
