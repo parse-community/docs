@@ -90,7 +90,7 @@ Parse Server supports 3rd party authentication with
 * Instagram
 * Facebook
 
-Configuration options for these 3rd-party modules is done with the oauth option passed to `ParseServer()`:
+Configuration options for these 3rd-party modules is done with the `oauth` option passed to Parse Server:
 
 ```
 {
