@@ -223,7 +223,7 @@ Push notification support for the Parse IoT SDKs is provided through the Parse P
 
 #### Schema
 
-Schema validation is built in. Retrieving the schema via API is not supported.
+Schema validation is built in. Retrieving the schema via API is available.
 
 #### Session Features
 
