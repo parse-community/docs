@@ -178,7 +178,16 @@ This is not supported. We recommend sending analytics to another similar service
 
 #### Client Class Creation
 
-This is always allowed in Parse Server.
+Automatic creation of classes by the client is always allowed in Parse Server.
+
+#### Cloud Code
+
+There are two methods that are not directly supported in Cloud Code when using Parse Server: 
+
+* `Parse.User.current()`: Use `request.user` instead.
+* `Parse.Cloud.useMasterKey()`: Pass `useMasterKey: true` as an option to each `Parse.Query`.
+
+To make queries and writes as a specific user within Cloud Code, you need to pass the user's `sessionToken` as an option. The session token for the authenticated user making the request is available in `request.user.getSessionToken()`.
 
 #### Config
 
@@ -186,9 +195,13 @@ This is not supported. You can create config variables in Node that can be chang
 
 #### Dashboard
 
-We do not provide a self-hosted dashboard out of the box. It is possible to write your own dashboard using the JavaScript SDK and host it yourself, or, you can manage the data directly in Mongo.
+Parse Server does not currently provide a self-hosted dashboard out of the box. It is possible to write your own dashboard using the JavaScript SDK and host it yourself, or, you can manage the data directly in Mongo. [You may subscribe to this issue](https://github.com/ParsePlatform/Parse-Server/issues/3) to be notified when a dashboard is added to Parse Server.
 
 It is possible to keep using the Parse hosted dashboard, since it will be pointing to the same data in Mongo. However, you should not consider this a long term solution, as the hosted Parse state may diverge and mutate data in unpredictable ways (for example: if your Cloud Code gets out of sync with the Cloud Code in your Parse Server).
+
+##### Class Level Permissions
+
+Class-level permissions are supported in Parse Server, but they have always been configured using the dashboard on Parse.com. It is possible to modify these permissions without the dashboard. You'll see the format for class-level permissions in the SCHEMA collection when you migrate your database. There is also a `setPermissions` method on the `Schema` class, which you can see used in the unit-tests in `Schema.spec.js`.
 
 #### In-App Purchases
 
@@ -196,13 +209,13 @@ iOS in-app purchase verification is not supported.
 
 #### Jobs
 
-There is no Job functionality in Parse Server. If you have scheduled jobs, port them over to a self-hosted solution using a wide variety of open source job queue projects. A popular one is [kue](https://github.com/Automattic/kue). Alternatively, if your jobs are simple, you could use a cron job.
+There is no background job functionality in Parse Server. If you have scheduled jobs, port them over to a self-hosted solution using a wide variety of open source job queue projects. A popular one is [kue](https://github.com/Automattic/kue). Alternatively, if your jobs are simple, you could use a cron job.
 
 #### Push Notifications
 
-Parse Server implements basic transactional pushes for channels and queries. Check out the [Push Guide](https://github.com/ParsePlatform/parse-server/wiki/Push) for the details.
+Parse Server implements basic transactional pushes to iOS and Android devices using channels or queries. Check out the [Push Guide](https://github.com/ParsePlatform/parse-server/wiki/Push) for the details.
 
-#### Exporting GCM Registration IDs
+##### Exporting GCM Registration IDs
 
 Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, the GCM registration IDs (stored in the `deviceToken` field) for your app are associated with Parse's GCM sender ID, which won't work after Parse is retired. You may want to take these actions to have your app register with a different GCM sender ID, which will make the registration IDs in the `deviceToken` field exportable to other push providers:
 
@@ -210,9 +223,9 @@ Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM
 * Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide](/docs/android/guide#push-notifications-setting-up-push) for more details on this attribute.
 * Parse will now register for GCM with both its GCM sender ID and your GCM sender ID on app startup. You can use the resulting GCM registration IDs (stored in the `deviceToken` field of ParseInstallation) with other GCM push providers.
 
-#### Schema API
+#### Schema
 
-This is not supported.
+Schema validation is built in. Retrieving the schema via API is not supported.
 
 #### Session Features
 
@@ -222,7 +235,7 @@ Parse Server does not yet implement the option to expire inactive sessions and t
 
 #### Social Login
 
-Only Facebook and Anonymous logins are supported.
+Only Facebook and Anonymous logins are supported out of the box. Additional support may be configured via the `oauth` option.
 
 #### Webhooks
 
@@ -230,7 +243,7 @@ This is not supported.
 
 #### Welcome Emails and Email Verification
 
-This is not supported out of the box. But, you can use a beforeSave to send out emails using a provider like Mailgun and add logic for verification.
+This is not supported out of the box. But, you can use a `beforeSave` to send out emails using a provider like Mailgun and add logic for verification. [Subscribe to this issue](https://github.com/ParsePlatform/parse-server/issues/275) to be notified if email verification support is added to Parse Server.
 
 ## 9. Set Up Parse Server on Heroku
 
