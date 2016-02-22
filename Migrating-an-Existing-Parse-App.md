@@ -223,10 +223,6 @@ Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM
 * Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide](/docs/android/guide#push-notifications-setting-up-push) for more details on this attribute.
 * Parse will now register for GCM with both its GCM sender ID and your GCM sender ID on app startup. You can use the resulting GCM registration IDs (stored in the `deviceToken` field of ParseInstallation) with other GCM push providers.
 
-##### Parse IoT Devices
-
-Push notification support for the Parse IoT SDKs is provided through the Parse Push Notification Service (PPNS). PPNS is a push notification service for Android and IoT devices maintained by Parse. This service will be retired on January 28, 2017. [This page](https://github.com/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification) documents the PPNS protocol for users that wish to create their own PPNS-compatible server for use with their Parse IoT devices.
-
 #### Schema
 
 Schema validation is built in. Retrieving the schema via API is not supported.
@@ -239,7 +235,7 @@ Parse Server does not yet implement the option to expire inactive sessions and t
 
 #### Social Login
 
-Only Facebook and Anonymous logins are supported out of the box. Additional support may be configured via the `oauth` option.
+Facebook, Twitter, and Anonymous logins are supported out of the box. Additional support may be configured via the `oauth` option.
 
 #### Webhooks
 
