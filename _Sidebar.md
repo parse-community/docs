@@ -2,5 +2,6 @@
 
 * [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide)
 * [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide)
+* [Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Migrating an Existing Parse App](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
 * [Community Links](/ParsePlatform/parse-server/wiki#community-links)
