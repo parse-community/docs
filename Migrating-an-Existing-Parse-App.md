@@ -239,7 +239,7 @@ Parse Server does not yet implement the option to expire inactive sessions and t
 
 #### Social Login
 
-Only Facebook and Anonymous logins are supported out of the box. Additional support may be configured via the `oauth` option.
+Facebook, Twitter, and Anonymous logins are supported out of the box. Additional support may be configured via the `oauth` option
 
 #### Webhooks
 
