@@ -35,7 +35,3 @@ We really want Parse to be yours, to see it grow and thrive in the open source c
 * [[transform.js|transform.js]] - transforms keys/values between Mongo and Rest API formats.
 * [[triggers.js|triggers.js]] - cloud code methods for handling database trigger events
 * [[users.js|users.js]] - handle the /users and /login routes
-
-## Other
-
-* [PPNS Protocol Specification](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)
