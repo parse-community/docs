@@ -132,7 +132,8 @@ Here is the list of sending options we do not support yet:
 ### 4. Send Push Notifications
 
   Currently Parse Server only supports sending push notifications by your `masterKey`. The easiest way to do that is to curl:
-  ```curl
+
+```curl
   curl -X POST \
     -H "X-Parse-Application-Id: you_app_id" \
     -H "X-Parse-Master-Key: your_master_key" \
@@ -152,6 +153,16 @@ Here is the list of sending options we do not support yet:
           }
         }'\   http://your_server_address/parse/push
   ```
+
+Push notifications can also be sent from cloud code:
+
+```js
+Parse.Push.send({
+  where: { ... },
+  data: { ... }
+}, { useMasterKey: true });
+```
+
   After sending this to your Parse Server, you should see the push notifications show up on your devices.
   
   If your Parse Server logs, you can see something similar to
