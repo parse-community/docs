@@ -137,26 +137,20 @@ Go through your app settings panel and make sure to understand how these setting
 
 #### User Sessions
 
-Require revocable sessions - This is required by Parse Server.
-
-Expire inactive sessions - This is not yet available in Parse Server.
-
-Revoke session on password change - This is not yet available in Parse Server.
+* Require revocable sessions - This is required by Parse Server.
+* Expire inactive sessions - This is not yet available in Parse Server.
+* Revoke session on password change - This is not yet available in Parse Server.
 
 ### User Authentication
 
-Enable new methods by default - This is hardcoded as true in Parse Server.
-
-Allow username and password-based authentication - This is currently not optional in Parse Server, username and password based accounts are always enabled.
-
-Allow anonymous users - This is currently not optional in Parse Server, anonymous users are always enabled.
+* Enable new methods by default - This is hardcoded as true in Parse Server.
+* Allow username and password-based authentication - This is currently not optional in Parse Server, username and password based accounts are always enabled.
+* Allow anonymous users - This is currently not optional in Parse Server, anonymous users are always enabled.
 
 ### Social Login
 
-Allow FB auth - This is available in Parse Server if a Facebook App ID is configured.
-
-Add a Facebook app (list of apps) - The ability to restrict to one Facebook App is not available in Parse Server.
-
+* Allow FB auth - This is available in Parse Server if a Facebook App ID is configured.
+* Add a Facebook app (list of apps) - The ability to restrict to one Facebook App is not available in Parse Server.
 
 ## 6. Point Client to Local Parse Server
 
