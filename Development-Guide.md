@@ -1,4 +1,6 @@
-##### The development wiki for the parse-server module.
+## Contributing
+
+We really want Parse to be yours, to see it grow and thrive in the open source community. Please see the [Contributing to Parse Server notes](https://github.com/ParsePlatform/parse-server/blob/master/CONTRIBUTING.md).
 
 ## Files
 
@@ -33,3 +35,7 @@
 * [[transform.js|transform.js]] - transforms keys/values between Mongo and Rest API formats.
 * [[triggers.js|triggers.js]] - cloud code methods for handling database trigger events
 * [[users.js|users.js]] - handle the /users and /login routes
+
+## Other
+
+* [PPNS Protocol Specification](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)
