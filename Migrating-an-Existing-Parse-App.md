@@ -158,7 +158,7 @@ Update your app with the latest version of the Parse SDK (at least version 1.12 
 
 ## 7. Checkpoint: Test Your App
 
-Now, test your app locally. Be careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data. 
+Now, test your app locally. We recommend running a staging database using a snapshot of your production database, as there may be legacy data in your database that exercises code paths that wouldn't otherwise be exercised. Be very careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data. 
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
