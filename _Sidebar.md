@@ -1,4 +1,5 @@
-* [Overview](/ParsePlatform/parse-server/wiki)
+## [Parse Server Wiki](/ParsePlatform/parse-server/wiki)
+
 * [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide)
 * [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide)
 * [Migrating an Existing Parse App](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
