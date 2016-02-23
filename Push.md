@@ -192,6 +192,23 @@ var server = new ParseServer({
 
 By doing this, after Parse Server decodes the push API request and runs the installation query, your `PushAdapter`'s `send(data, installations)` will be called and is responsible for sending the notifications. If you provide your custom `PushAdapter`, the default `ParsePushAdapter` will be ignored.
 
+Currently included in Parse Server is a One Signal push adapter. If you wish to use One Signal for push, configure your server like this:
+
+```
+var OneSignalPushAdapter = require('parse-server/lib/Adapters/Push/OneSignalPushAdapter');
+var oneSignalPushAdapter = new OneSignalPushAdapter({
+  oneSignalAppId:"your-one-signal-app-id",
+  oneSignalApiKey:"your-one-signal-api-key"
+});
+
+var api = new ParseServer({
+  push: {
+    adapter: oneSignalPushAdapter
+  },
+  ...otherOptions
+});
+```
+
 # Future Improvements
 
 The current solution provides a good starting point for push notifications. We have a lot of ideas to improve the feature:
