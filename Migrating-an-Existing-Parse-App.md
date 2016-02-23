@@ -5,7 +5,7 @@ For most apps, the migration process is non-trivial, and will require dedicated 
 * **April 28, 2016**: Data migrated to a self-hosted MongoDB (Step 1)
 * **July 28, 2016**: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
 
-Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service.
+Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
 
 This migration guide assumes the use of Heroku and MongoLab. These two services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use any infrastructure provider that supports Node.js environments.
 
