@@ -7,13 +7,13 @@ For most apps, the migration process is non-trivial, and will require dedicated 
 
 Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
 
-This migration guide assumes the use of Heroku and MongoLab. These two services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use any infrastructure provider that supports Node.js environments.
+This migration guide assumes the use of Heroku and either MongoLab or ObjectRocket. These three services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use any infrastructure provider that supports Node.js environments.
 
 After completion, you will have the following:
 
 * Parse Server running on your computer, allowing you to develop locally.
 * Parse Server running on Heroku.
-* Your app’s data stored in MongoDB hosted on MongoLab.
+* Your app’s data stored in MongoDB hosted on MongoLab or ObjectRocket.
 * Your app’s client-side code updated to point to the Parse Server instance on Heroku, ready to be released.
 * No dependency on api.parse.com for the new app client.
 
@@ -29,7 +29,7 @@ The first step is to migrate the data from your Parse hosted app to a self-hoste
 
 Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. Both MongoLab and ObjectRocket provide the option to host your database in their datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after migrating your data to the self-hosted MongoDB in US East.
 
-Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some paramaters automatically during the process.  
+Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.  
 
 The tool first takes a snapshot of your existing data and transfers it to MongoDB. Next, it will pause to allow manual verification, while continuing to keep things in sync with writes that are coming in from your live app. While you are in this state, your app continues to read and write from your Parse hosted database.
 
@@ -158,7 +158,7 @@ Update your app with the latest version of the Parse SDK (at least version 1.12 
 
 ## 7. Checkpoint: Test Your App
 
-Now, test your app locally. We recommend running a staging database using a snapshot of your production database, as there may be legacy data in your database that exercises code paths that wouldn't otherwise be exercised. Be very careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data. 
+Now, test your app locally. We recommend running a staging database using a snapshot of your production database, as there may be legacy data in your database that exercises code paths that wouldn't otherwise be exercised. Be very careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data.
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
@@ -176,7 +176,7 @@ Automatic creation of classes by the client is always allowed in Parse Server.
 
 #### Cloud Code
 
-There are two methods that are not directly supported in Cloud Code when using Parse Server: 
+There are two methods that are not directly supported in Cloud Code when using Parse Server:
 
 * `Parse.User.current()`: Use `request.user` instead.
 * `Parse.Cloud.useMasterKey()`: Pass `useMasterKey: true` as an option to each `Parse.Query`.
@@ -237,7 +237,7 @@ Facebook, Twitter, and Anonymous logins are supported out of the box. Additional
 
 #### Webhooks
 
-This is not supported. 
+This is not supported.
 
 #### Welcome Emails and Email Verification
 
