@@ -181,7 +181,7 @@ _Swift_
 let configuration = ParseClientConfiguration {
     $0.applicationId = "YOUR_APP_ID"
     $0.clientKey = ""
-    $0.server = "http://localhost.com:1337/parse"
+    $0.server = "http://localhost:1337/parse"
 }
 Parse.initializeWithConfiguration(configuration)
 ```
