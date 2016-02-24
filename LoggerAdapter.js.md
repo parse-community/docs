@@ -10,7 +10,7 @@ Interface for allowing the underlying file storage to be changed
 * query(options, function callback)
 
 options:
-*   `level` (optional) Level of logging you want to query for (info || error)
+*   `level` (optional) Level of logging you want to query for (info or error). Defaults to info.
 *   `from` (optional) Start time for the search. Defaults to 1 week ago.
 *   `until` (optional) End time for the search. Defaults to current time.
 *   `order` (optional) Direction of results returned, either “asc” or “desc”. Defaults to “desc”.
