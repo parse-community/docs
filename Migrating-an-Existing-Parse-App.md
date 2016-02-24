@@ -131,7 +131,13 @@ app.get('/about', aboutController.index);
 // ...
 ```
 
-## 5. App Settings
+## 5. Files
+
+When using Parse Server, any new file you create will be saved on [the data store you select through the files adapter](http://blog.parse.com/announcements/hosting-files-on-parse-server/) (MongoDB, S3, ...). However, when you migrate your application to your own MongoDB instance, your existing files are still in Parse's hosted service. As long as you specify the correct `fileKey`, Parse Server knows exactly how to access them, so they will keep working just fine.
+
+Parse's S3 bucket will be turned down on January 28th, 2017, which means those files will need to be migrated before that date. We have [a plan](https://github.com/ParsePlatform/parse-server/wiki/Files-Migration) and we're currently working on a set of tooling to help you migrate all the existing files referenced by your application to your own backing store. Stay tuned!
+
+## 6. App Settings
 
 Go through your app settings panel and make sure to understand how these settings will be impacted by moving to Parse Server.
 
@@ -152,17 +158,17 @@ Go through your app settings panel and make sure to understand how these setting
 * Allow FB auth - This is available in Parse Server if a Facebook App ID is configured.
 * Add a Facebook app (list of apps) - The ability to restrict to one Facebook App is not available in Parse Server.
 
-## 6. Point Client to Local Parse Server
+## 7. Point Client to Local Parse Server
 
 Update your app with the latest version of the Parse SDK (at least version 1.12 for iOS, 1.13.0 for Android, 1.6.14 for JS, 1.7.0 for .NET), which will have the ability to change the server URL.
 
-## 7. Checkpoint: Test Your App
+## 8. Checkpoint: Test Your App
 
 Now, test your app locally. We recommend running a staging database using a snapshot of your production database, as there may be legacy data in your database that exercises code paths that wouldn't otherwise be exercised. Be very careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data.
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
-## 8. Compatibility Issues
+## 9. Compatibility Issues
 
 There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend.
 
@@ -243,18 +249,18 @@ This is not supported.
 
 This is not supported out of the box. But, you can use a `beforeSave` to send out emails using a provider like Mailgun and add logic for verification. [Subscribe to this issue](https://github.com/ParsePlatform/parse-server/issues/275) to be notified if email verification support is added to Parse Server.
 
-## 9. Set Up Parse Server on Heroku
+## 19. Set Up Parse Server on Heroku
 
 Follow the instructions for [deploying the server to Heroku](#deploying).
 
-## 10. Point Client to Heroku Parse Server
+## 11. Point Client to Heroku Parse Server
 
 Now, update your client to point to the location of the API that you deployed on Heroku.
 
-## 11. Checkpoint: Test Your App
+## 12. Checkpoint: Test Your App
 
 Test your app now that it uses the Heroku backend.
 
-## 12. Publish Your App
+## 13. Publish Your App
 
 You can now publish the new app, which will utilize your new backend. You should encourage users to update to the new version of your app. On January 28, 2017, any calls to the hosted Parse backend service will cease to function.
