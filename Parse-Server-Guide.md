@@ -234,7 +234,7 @@ ParseClient::setServerURL('http://localhost:1337/parse');
 
 # Deploying Parse Server
 
-* [Deploying to Heroku and MongoLab](/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab)
+* [Deploying to Heroku and MongoLab](https://devcenter.heroku.com/articles/deploying-a-parse-server-to-heroku)
 
 # Setting up Push Notifications
 
