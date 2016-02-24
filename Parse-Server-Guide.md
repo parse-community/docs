@@ -153,9 +153,9 @@ The Mongo requirements for Parse Server are:
 * An SSL connection is recommended (but not required).
 * We strongly recommend that your MongoDB servers be hosted in the US-East region for minimal lantecy.
 
-If this is your first time setting up a production MongoDB instance, we recommend using [MongoLab](http://www.mongolab.com), a database-as-a-service which has options to scale up as needed.
+If this is your first time setting up a production MongoDB instance, we recommend using either [MongoLab](http://www.mongolab.com) or [ObjectRocket](https://objectrocket.com/). These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
 
-For a production app with non-trivial traffic, we recommend going with MongoLab's [M1 plan](https://mongolab.com/plans/pricing/#dedicated-cluster-plans) or higher, which provides 40GB of space. If you are migrating an existing Parse app, a good rule of thumb is to get an instance with 10X the space you currently are using with Parse.
+If you are migrating an existing Parse app to a MongoDB instance that isn't backed by WiredTiger or RocksDB, a good rule of thumb is to assume you will need 10X the space you currently are using with Parse.
 
 When using MongoDB with your Parse app, there are some differences with the hosted Parse database:
 
