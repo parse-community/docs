@@ -251,7 +251,7 @@ This is not supported.
 
 This is not supported out of the box. But, you can use a `beforeSave` to send out emails using a provider like Mailgun and add logic for verification. [Subscribe to this issue](https://github.com/ParsePlatform/parse-server/issues/275) to be notified if email verification support is added to Parse Server.
 
-## 19. Set Up Parse Server on Heroku
+## 10. Set Up Parse Server on Heroku
 
 Follow the instructions for [deploying the server to Heroku](#deploying).
 
