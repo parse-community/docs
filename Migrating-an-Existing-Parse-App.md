@@ -181,6 +181,8 @@ There are two methods that are not directly supported in Cloud Code when using P
 * `Parse.User.current()`: Use `request.user` instead.
 * `Parse.Cloud.useMasterKey()`: Pass `useMasterKey: true` as an option to each `Parse.Query`.
 
+Parse Server also uses version 1.7.0 of the Parse SDK, which has some breaking changes from the previous versions. If your Parse.com Cloud Code uses a previous version of the SDK, you may need to update your cloud code.
+
 To make queries and writes as a specific user within Cloud Code, you need to pass the user's `sessionToken` as an option. The session token for the authenticated user making the request is available in `request.user.getSessionToken()`.
 
 #### Config
