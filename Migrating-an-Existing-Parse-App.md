@@ -265,4 +265,4 @@ Test your app now that it uses the Heroku backend.
 
 ## 13. Publish Your App
 
-You can now publish the new app, which will utilize your new backend. You should encourage users to update to the new version of your app. On January 28, 2017, any calls to the hosted Parse backend service will cease to function.
+You can now publish the new app, which will utilize your new backend. You should encourage users to update to the new version of your app. On January 28, 2017, any calls to the hosted Parse backend service (api.parse.com) will cease to function.
