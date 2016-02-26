@@ -6,6 +6,10 @@ Parse Server can be deployed to any infrastructure that can run Node.js. Parse S
 
 See the [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide) to learn more about using Parse Server in your project.
 
+### Migrating to Parse Server from hosted Parse
+
+The hosted version of Parse will be fully retired on January 28th, 2017. Migrate your existing Parse apps to your own Parse Server by following the [migration guide](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App).
+
 ### Development
 
 See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) to learn more about developing for Parse Server.
