@@ -19,6 +19,9 @@ After completion, you will have the following:
 
 **We highly recommend that you first run through this guide with a development or test version of your app before working with a production app.**
 
+
+There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
+
 Here is a visual overview of the migration steps. Follow the detailed instructions after the diagram to migrate your app.
 
 ![](https://parse.com/images/docs/server/migration.png)
@@ -160,7 +163,7 @@ Go through your app settings panel and make sure to understand how these setting
 
 ## 7. Point Client to Local Parse Server
 
-Update your app with the latest version of the Parse SDK (at least version 1.12 for iOS, 1.13.0 for Android, 1.6.14 for JS, 1.7.0 for .NET), which will have the ability to change the server URL.
+Update your app with the latest version of the Parse SDK (at least version 1.12 for iOS, 1.13.0 for Android, 1.6.14 for JS, 1.7.0 for .NET), which [have the ability to change the server URL]](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server).
 
 ## 8. Checkpoint: Test Your App
 
@@ -168,22 +171,18 @@ Now, test your app locally. We recommend running a staging database using a snap
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
-## 9. Compatibility Issues
-
-There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
-
-## 10. Set Up Parse Server on Heroku
+## 9. Set Up Parse Server on Heroku
 
 Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab).
 
-## 11. Point Client to Heroku Parse Server
+## 10. Point Client to Heroku Parse Server
 
-Now, update your client to [point to the location of the API that you deployed on Heroku](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server).
+Now, update your client to point to the location of the API that you deployed on Heroku.
 
-## 12. Checkpoint: Test Your App
+## 11. Checkpoint: Test Your App
 
 Test your app now that it uses the Heroku backend.
 
-## 13. Publish Your App
+## 12. Publish Your App
 
 You can now publish the new app, which will utilize your new backend. You should encourage users to update to the new version of your app. On January 28, 2017, any calls to the hosted Parse backend service (api.parse.com) will cease to function.
