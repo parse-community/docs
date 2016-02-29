@@ -24,6 +24,7 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Parse Server AWS EC2 image provided by Bitnami](https://aws.amazon.com/marketplace/pp/B01BLQ17TO)
 * [Migrate from Parse to MongoDB Cloud Manager and AWS](https://www.mongodb.com/migrate-from-parse-to-mongodb-cloud-manager-and-aws)
 * [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04) - Run Parse Server on Ubuntu 14.04
+* [NodeChef](https://nodechef.com/blog/post/6/migrate-from-parse-to-nodechef%E2%80%99s-managed-parse-server) - Migrate to a fully managed Parse Server solution from NodeChef
 * [Appcelerator Arrow](http://www.appcelerator.com/blog/2016/02/your-very-own-mbaas-how-to-move-from-parse-to-appcelerator-arrow/) - Migrating your backend to Appcelerator Arrow
 * [Deploying Parse Server to Google App Engine](https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50)
 * [Run Parse-server on Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server)
