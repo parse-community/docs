@@ -50,7 +50,7 @@ var api = new ParseServer({
   fileKey: 'myFileKey',
   masterKey: 'mySecretMasterKey',
   push: { ... }, // See the Push wiki page
-  filesAdapter: ..., 
+  filesAdapter: ...,
 });
 ```
 
@@ -153,7 +153,7 @@ The Mongo requirements for Parse Server are:
 * An SSL connection is recommended (but not required).
 * We strongly recommend that your MongoDB servers be hosted in the US-East region for minimal lantecy.
 
-If this is your first time setting up a production MongoDB instance, we recommend using either [MongoLab](http://www.mongolab.com) or [ObjectRocket](https://objectrocket.com/). These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
+If this is your first time setting up a production MongoDB instance, we recommend using either [mLab](http://www.mLab.com) or [ObjectRocket](https://objectrocket.com/). These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
 
 If you are migrating an existing Parse app to a MongoDB instance that isn't backed by WiredTiger or RocksDB, a good rule of thumb is to assume you will need 10X the space you currently are using with Parse.
 
@@ -204,7 +204,7 @@ Parse.initialize(new Parse.Configuration.Builder(myContext)
     .server("http://localhost:1337/parse")
 
     ...
-          
+
     .build()
 );
 ```
@@ -234,7 +234,7 @@ ParseClient::setServerURL('http://localhost:1337/parse');
 
 # Deploying Parse Server
 
-* [Deploying to Heroku and MongoLab](https://devcenter.heroku.com/articles/deploying-a-parse-server-to-heroku)
+* [Deploying to Heroku and mLab](https://devcenter.heroku.com/articles/deploying-a-parse-server-to-heroku)
 
 # Setting up Push Notifications
 

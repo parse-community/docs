@@ -175,7 +175,7 @@ At this point, your app may be totally functional. Objects, queries, and users w
 
 ## 9. Set Up Parse Server on Heroku
 
-Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mongolab).
+Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab).
 
 ## 10. Point Client to Heroku Parse Server
 
