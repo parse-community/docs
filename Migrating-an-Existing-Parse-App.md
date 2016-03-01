@@ -7,13 +7,15 @@ For most apps, the migration process is non-trivial, and will require dedicated 
 
 Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
 
-This migration guide assumes the use of Heroku and either MongoLab or ObjectRocket. These three services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use any infrastructure provider that supports Node.js environments.
+**If you haven't migrated your database by April 28, we will assume your app is low priority, and we will de-prioritize its traffic to focus on production apps.**
+
+This migration guide assumes the use of Heroku and either [mLab](http://docs.mlab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse). These three services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use any infrastructure provider that supports Node.js environments.
 
 After completion, you will have the following:
 
 * Parse Server running on your computer, allowing you to develop locally.
 * Parse Server running on Heroku.
-* Your app’s data stored in MongoDB hosted on MongoLab or ObjectRocket.
+* Your app’s data stored in MongoDB hosted on mLab or ObjectRocket.
 * Your app’s client-side code updated to point to the Parse Server instance on Heroku, ready to be released.
 * No dependency on api.parse.com for the new app client.
 
@@ -30,7 +32,7 @@ Here is a visual overview of the migration steps. Follow the detailed instructio
 
 The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. Set up a MongoDB instance that conforms to our [database specifications](#database). Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your app's Analytics overview page).
 
-Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. We recommend choosing either [MongoLab](http://docs.mongolab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East.
+Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. We recommend choosing either [mLab](http://docs.mLab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East.
 
 Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.  
 
