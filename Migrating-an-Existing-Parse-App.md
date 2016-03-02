@@ -7,6 +7,8 @@ For most apps, the migration process is non-trivial, and will require dedicated 
 
 Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
 
+Migrating the database can be done right away, and you can continue using the Parse.com dashboard to manage your app while you work on migrating your app to Parse Server.
+
 **If you haven't migrated your database by April 28, we will assume your app is low priority, and we will de-prioritize its traffic to focus on production apps.**
 
 This migration guide assumes the use of Heroku and either [mLab](http://docs.mlab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse). These three services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use [any infrastructure provider](https://github.com/ParsePlatform/parse-server/wiki#community-links) that supports Node.js environments.
