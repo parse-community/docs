@@ -167,7 +167,7 @@ Go through your app settings panel and make sure to understand how these setting
 
 ## 7. Point Client to Local Parse Server
 
-Update your app with the latest version of the Parse SDK (at least version 1.12 for iOS, 1.13.0 for Android, 1.6.14 for JS, 1.7.0 for .NET), which [have the ability to change the server URL]](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server).
+Update your app with the latest version of the Parse SDK (at least version 1.12 for iOS, 1.13.0 for Android, 1.6.14 for JS, 1.7.0 for .NET), which [have the ability to change the server URL](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server).
 
 ## 8. Checkpoint: Test Your App
 
