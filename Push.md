@@ -37,7 +37,7 @@ Here is the list of sending options we do not support yet:
 # Quick Start
 
 ## 1. Prepare APNS and GCM Credentials
-  
+
   You will need to obtain some credentials from GCM and APNS in order to send push notifications to iOS and Android devices.
 
 ### APNS (iOS)
@@ -96,9 +96,9 @@ Here is the list of sending options we do not support yet:
     ios: [
       {
         pfx: '', // Dev PFX or P12
-        bundleId: '', 
+        bundleId: '',
         production: false // Dev
-      }, 
+      },
       {
         pfx: '', // Prod PFX or P12
         bundleId: '',  
@@ -107,20 +107,20 @@ Here is the list of sending options we do not support yet:
     ]
   }
   ```
-  
-  If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates. 
+
+  If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates.
 
 ### 3. Configure Client Apps
-  * For iOS, configure an app which connects to Parse Server (https://parse.com/docs/server/guide#using-sdks).
-  * For Android, do the same. After that, you should make code changes to your app so that it registers for GCM with both Parse's GCM sender ID and your app's GCM sender ID. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`. For example
-   
+  * For iOS, [configure an app which connects to Parse Server](http://parse.local:3001/apps/quickstart#parse_data/mobile/ios).
+  * For Android, [do the same](http://parse.local:3001/apps/quickstart#parse_data/mobile/android). After that, you should make code changes to your app so that it registers for GCM with both Parse's GCM sender ID and your app's GCM sender ID. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`. For example
+
     ```java
     <meta-data android:name="com.parse.push.gcm_sender_id"
       android:value="id:YOUR_SENDER_ID" />;
     ```
     See our [Android push guide](https://parse.com/docs/android/guide#push-notifications-setting-up-push) for more details on this attribute.
     Note that you cannot send GCM pushes to old versions of your app that do not contain the `com.parse.push.gcm_sender_id` attribute in your app manifest, since those versions of the app haven't registered for push using your GCM sender ID.
-  
+
   If you configured your app correctly, installation objects will automatically be saved to Parse Server when you run your app. You can run this curl command to verify:
   ```curl
   curl -X GET \
@@ -140,12 +140,12 @@ Here is the list of sending options we do not support yet:
     -H "Content-Type: application/json" \
     -d '{
           "where": {
-            "deviceType": { 
-              "$in": [ 
-                "ios", 
-                "android" 
-              ] 
-            } 
+            "deviceType": {
+              "$in": [
+                "ios",
+                "android"
+              ]
+            }
           },
           "data": {
             "title": "The Shining",
@@ -164,10 +164,10 @@ Parse.Push.send({
 ```
 
   After sending this to your Parse Server, you should see the push notifications show up on your devices.
-  
+
   If your Parse Server logs, you can see something similar to
   ```json
-  GCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}} 
+  GCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
   ```
   ```json
   APNS Connected
