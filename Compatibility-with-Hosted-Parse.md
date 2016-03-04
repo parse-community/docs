@@ -29,9 +29,7 @@ Parse Config is not supported. You can create config variables in Node that can 
 
 ## Dashboard
 
-Parse Server does not currently provide a self-hosted dashboard out of the box. It is possible to write your own dashboard using the JavaScript SDK and host it yourself, or, you can manage the data directly in Mongo. [You may subscribe to this issue](https://github.com/ParsePlatform/Parse-Server/issues/3) to be notified when a dashboard is added to Parse Server.
-
-It is possible to keep using the Parse hosted dashboard, since it will be pointing to the same data in Mongo. However, you should not consider this a long term solution, as the hosted Parse state may diverge and mutate data in unpredictable ways (for example: if your Cloud Code gets out of sync with the Cloud Code in your Parse Server).
+Parse has provided a separate [Parse Dashboard project](http://blog.parse.com/announcements/introducing-the-parse-server-dashboard/) which can be used to manage all of your Parse Server applications.
 
 ### Class Level Permissions
 
