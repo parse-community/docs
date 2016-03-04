@@ -36,7 +36,7 @@ The first step is to migrate the data from your Parse hosted app to a self-hoste
 
 Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. We recommend choosing either [mLab](http://docs.mLab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East.
 
-Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.  
+Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new Parse.com Dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.  
 
 The tool first takes a snapshot of your existing data and transfers it to MongoDB. Next, it will pause to allow manual verification, while continuing to keep things in sync with writes that are coming in from your live app. While you are in this state, your app continues to read and write from your Parse hosted database.
 
@@ -50,7 +50,7 @@ Note that you can elect to skip migrating your data and test the functionality o
 
 Follow the instructions in the [Parse Server Sample App](https://github.com/ParsePlatform/parse-server-example) and use the Mongo connection string from Step 1.
 
-Go to the Security & Keys section of App Settings in your [Parse Dashboard](https://dashboard.parse.com) and take note of the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey values. Pass that into the ParseServer constructor in `index.js`.
+Go to the Security & Keys section of App Settings in your [Parse.com Dashboard](https://dashboard.parse.com) and take note of the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey values. Pass that into the ParseServer constructor in `index.js`.
 
 ### Verification
 
