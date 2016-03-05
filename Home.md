@@ -37,3 +37,4 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [parse-anywhere](https://github.com/flovilmart/parse-anywhere) - A module for emulating hosted cloud code behavior and modules
 * [OneSignal](https://onesignal.com/parse) - Migration tool for Push Notifications to OneSignal
 * [Guide for deploying on Docker (French)](https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd)
+* [Adminca](http://adminca.com) - A third-party admin/data-browser for Parse apps.
