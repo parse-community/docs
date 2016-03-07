@@ -19,6 +19,7 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 ### Community links
 
 * [Deploying to Heroku and mLab](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab)
+* [Migrating your database to mLab](http://docs.mlab.com/migrating-from-parse/#choosing-a-plan)
 * [Heroku Button](https://github.com/ParsePlatform/parse-server-example) - The Parse-Server Example can be deployed using the Heroku Button
 * [How to set up Parse Server on AWS using AWS Elastic Beanstalk](http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk)
 * [Parse Server AWS EC2 image provided by Bitnami](https://aws.amazon.com/marketplace/pp/B01BLQ17TO)
