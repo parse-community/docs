@@ -36,6 +36,35 @@ npm install -g parse-server
 
 Or, you can specify "parse-server" in your `packages.json` file.
 
+## Installation from source
+
+If you wish to run on your server the github version of parse server:
+
+If your project is not under version control or not configured to use npm:
+
+```bash
+git init
+npm init
+```
+
+Add the parse-server submodule and link.
+
+```bash
+# in your root folder of your project
+git submodule add  git@github.com:ParsePlatform/parse-server.git
+npm link parse-server ./parse-server
+```
+
+### Update to lastest version from source
+
+```bash
+cd parse-server
+git checkout master
+git pull
+cd ..
+git commit -am 'Updates parse-server to latest version'
+```
+
 # Usage
 
 Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
