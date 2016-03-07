@@ -55,7 +55,7 @@ git submodule add  git@github.com:ParsePlatform/parse-server.git
 npm link parse-server ./parse-server
 ```
 
-### Update to lastest version from source
+### Update to latest version from source
 
 ```bash
 cd parse-server
