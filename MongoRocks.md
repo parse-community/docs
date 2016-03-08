@@ -90,7 +90,7 @@ $ sudo mount /dev/md0 /var/lib/mongodb
 
 ## Installation
 
-To use MongoRocks, you will need to use a special build of MongoDB that has the storage engine compiled in. For this, we recommend you use the Percona builds located [here](https://www.percona.com/downloads/percona-server-mongodb/LATEST/). These builds are 100% feature compatible with MongoDB, but have been compiled to include the RocksDB storage engine. Distributions of MongoDB 3.0 found on the MongoDB website do not have this by default.
+To use MongoRocks, you will need to use a special build of MongoDB that has the storage engine compiled in. At Parse, we run an internally built version, as a pre-packaged version of MongoRocks did not exist when we initially migrated. For new installations, we recommend that you use the Percona builds located [here](https://www.percona.com/downloads/percona-server-mongodb/LATEST/). These builds are 100% feature compatible with the official MongoDB releases, but have been compiled to include the RocksDB storage engine. We have tested the Percona builds with the Parse migration utility and the strata backup software, and verified that both work and are suitable for running Parse apps in production.
 
 ### Ubuntu installation
 
