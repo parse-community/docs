@@ -39,3 +39,4 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [OneSignal](https://onesignal.com/parse) - Migration tool for Push Notifications to OneSignal
 * [Guide for deploying on Docker (French)](https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd)
 * [Adminca](http://adminca.com) - A third-party admin/data-browser for Parse apps.
+* [Back4app](http://blog.back4app.com/2016/03/01/quick-wizard-migration/) - A hosted solution for migrating your Parse app.
