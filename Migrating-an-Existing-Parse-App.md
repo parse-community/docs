@@ -16,7 +16,7 @@ This migration guide assumes the use of Heroku and either [mLab](http://docs.mla
 After completion, you will have the following:
 
 * Parse Server running on your computer, allowing you to develop locally.
-* Parse Server running on Heroku.
+* Parse Server running on Heroku or another infrastructure provider.
 * Your app’s data stored in MongoDB hosted on mLab or ObjectRocket.
 * Your app’s client-side code updated to point to the Parse Server instance on Heroku, ready to be released.
 * No dependency on api.parse.com for the new app client.
@@ -179,13 +179,13 @@ At this point, your app may be totally functional. Objects, queries, and users w
 
 Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab), [NodeChef](https://nodechef.com/blog/post/6/migrate-from-parse-to-nodechef%E2%80%99s-managed-parse-server), [AWS](http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk), [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04), [Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server), [Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/), or [any other infrastucture provider](https://github.com/ParsePlatform/parse-server/wiki#community-links).
 
-## 10. Point Client to Heroku Parse Server
+## 10. Point Client to Parse Server
 
-Now, update your client to point to the location of the API that you deployed on Heroku.
+Now, update your client to point to the location of the API that you just deployed.
 
 ## 11. Checkpoint: Test Your App
 
-Test your app now that it uses the Heroku backend.
+Test your app now that it uses the Parse Server backend.
 
 ## 12. Publish Your App
 
