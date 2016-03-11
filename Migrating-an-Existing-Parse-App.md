@@ -175,9 +175,9 @@ Now, test your app locally. We recommend running a staging database using a snap
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
-## 9. Set Up Parse Server on Heroku
+## 9. Set Up Parse Server on Heroku or another infrastructure provider.
 
-Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab).
+Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab), [NodeChef](https://nodechef.com/blog/post/6/migrate-from-parse-to-nodechef%E2%80%99s-managed-parse-server), [AWS](http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk), [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04), [Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server), [Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/), or [any other infrastucture provider](https://github.com/ParsePlatform/parse-server/wiki#community-links).
 
 ## 10. Point Client to Heroku Parse Server
 
