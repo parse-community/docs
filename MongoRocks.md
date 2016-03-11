@@ -1,9 +1,10 @@
 # Using MongoDB + RocksDB
 
 * [MongoRocks: What and Why?](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#mongorocks-what-and-why)
+* [Provisioning](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#example-provisioning-on-ubuntu-and-aws)
 * [Installation](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#installation)
-* [Best Practices for Larger Parse Apps](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#best-practices-for-larger-parse-apps)
 * [Backups](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#backups)
+* [Migrating Existing Data to MongoRocks](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#migrating-existing-data-to-mongorocks)
 
 ## MongoRocks: What and Why?
 
@@ -36,9 +37,60 @@ Generally speaking, MongoRocks was suitable for running all app workloads at Par
 
 It's difficult to make precise statements about performance for any given workload without data. When in doubt, run your own benchmarks. You can use the [flashback](https://github.com/ParsePlatform/flashback) toolset to record and replay benchmarks based on live traffic.
 
+## Example: Provisioning on Ubuntu and AWS
+
+There are hundreds of ways to build out your infrastructure. For illustration we use an AWS and Ubuntu configuration similar to that used by Parse. You will need a set of AWS access keys and the AWS CLI.
+
+### Choosing Hardware
+
+At Parse, we use AWS i2.* (i/o optimized) class instances with ephemeral storage for running MongoRocks. Prior to this, when we used the MMAP storage engine, we used r3.* (memory optimized) instances with EBS PIOPS storage. Why the change?
+
+- RocksDB is designed to take full advantage of SSD storage. We also experienced large bursts of I/O for some workloads, and provisioning enough IOPS with EBS to support this was expensive. The ephemeral SSDs provided by the i2 class were ideal in our case.
+- MongoRocks uses significantly more CPU than MMAP due to compression. CPU was never a major factor in MMAP.
+- Memory is less critical in MongoRocks. Memory is everything in MMAP.
+- EBS snapshots were critical to our backup strategy with MMAP. With MongoRocks, we had incremental backups with strata, so snapshots were not needed.
+
+If you're not sure about your workload requirements, we recommend running on the i2 class instances. You can always change this later depending on your production experience.
+
+Below is a general guide for instance sizing based on your existing Parse request traffic:
+
+- < 100 requests/sec: i2.xlarge
+- 100-500 requests/sec: i2.2xlarge
+- 500+ requests/sec: i2.4xlarge
+
+This guide will use i2.2xlarge as an example.
+
+### Provisioning
+
+We recommend you run MongoDB in replica set mode, with at least three nodes for availablity. Each node should run in a separate Availability Zone.
+
+There are dozens of ways to provision hosts in AWS. For reference, we use the AWS CLI below, but the inputs can be easily translated to your tool of choice.
+
+```sh
+$ SECURITY_GROUP=<my security group ID>
+$ US_EAST_1A_SUBNET=<subnet id for us-east-1a>
+$ US_EAST_1C_SUBNET=<subnet id for us-east-1c>
+$ US_EAST_1D_SUBNET=<subnet id for us-east-1d>
+$ aws ec2 run-instances —image-id ami-fce3c696 --instance-type i2.2xlarge --key-name chef3 --block-device-mappings '[{"DeviceName": "/dev/sdb", "VirtualName": "ephemeral0"},{"DeviceName": "/dev/sdc", "VirtualName": "ephemeral1"}]' --security-group-ids ${SECURITY_GROUP} --subnet-id ${US_EAST_1A_SUBNET} --associate-public-ip-address
+$ aws ec2 run-instances —image-id ami-fce3c696 --instance-type i2.2xlarge --key-name chef3 --block-device-mappings '[{"DeviceName": "/dev/sdb", "VirtualName": "ephemeral0"},{"DeviceName": "/dev/sdc", "VirtualName": "ephemeral1"}]' --security-group-ids ${SECURITY_GROUP} --subnet-id ${US_EAST_1D_SUBNET} --associate-public-ip-address
+$ aws ec2 run-instances —image-id ami-fce3c696 --instance-type i2.2xlarge --key-name chef3 --block-device-mappings '[{"DeviceName": "/dev/sdb", "VirtualName": "ephemeral0"},{"DeviceName": "/dev/sdc", "VirtualName": "ephemeral1"}]' --security-group-ids ${SECURITY_GROUP} --subnet-id ${US_EAST_1D_SUBNET} --associate-public-ip-address
+```
+
+### Configuring Storage
+
+The i2.2xlarge and larger instances have multiple ephemeral volumes that should be striped together to produce your data volume. On each host, use **mdadm** to create the raid volume:
+
+```sh
+$ sudo apt-get install mdadm
+$ sudo mdadm —create /dev/md0 --level=stripe /dev/xvdb /dev/xvdc
+$ sudo mkfs -t ext4 /dev/md0
+$ sudo mkdir -p /var/lib/mongodb
+$ sudo mount /dev/md0 /var/lib/mongodb
+```
+
 ## Installation
 
-To use MongoRocks, you will need to use a special build of MongoDB that has the storage engine compiled in. For this, we recommend you use the Percona builds located [here](https://www.percona.com/downloads/percona-server-mongodb/LATEST/). These builds are 100% feature compatible with MongoDB, but have been compiled to include the RocksDB storage engine. Distributions of MongoDB 3.0 found on the MongoDB website do not have this by default.
+To use MongoRocks, you will need to use a special build of MongoDB that has the storage engine compiled in. At Parse, we run an internally built version, as a pre-packaged version of MongoRocks did not exist when we initially migrated. For new installations, we recommend that you use the Percona builds located [here](https://www.percona.com/downloads/percona-server-mongodb/LATEST/). These builds are 100% feature compatible with the official MongoDB releases, but have been compiled to include the RocksDB storage engine. We have tested the Percona builds with the Parse migration utility and the strata backup software, and verified that both work and are suitable for running Parse apps in production.
 
 ### Ubuntu installation
 
@@ -77,29 +129,6 @@ The adjustments to the internalQueryExecYield\* options reduce the frequency tha
 ### Startup
 
 When starting MongoRocks on a host for the very first time, your storage directory (e.g. /var/lib/mongodb) should be empty. If you have existing data from other storage engines (i.e. MMAP or WiredTiger), you should back up and remove those data files, as the storage formats are not compatible.
-
-### Migrating existing data to MongoRocks
-
-The data files used by MMAP, WiredTiger, and RocksDB are not compatible. In other words, you cannot start MongoRocks using existing MMAP data. To change storage formats, you must do one of the following:
-
-1. Do a logical export and import using [mongodump](https://docs.mongodb.org/v3.0/reference/program/mongodump/) and [mongorestore](https://docs.mongodb.org/manual/reference/program/mongorestore/).
-2. Perform an initial sync of data using replication
-
-Option 2 is the easiest, as you can bring a new, empty node online and add it to the replica set without incurring downtime. To do so:
-
-1. Provision a new node configured for RocksDB, following the above steps.
-2. Add the node to your replica set using [rs.add()](https://docs.mongodb.org/v3.0/reference/method/rs.add/)
-3. Wait for initial sync. Note that your data sync must complete before the oplog window expires. Depending on the size of your data, you may need to [resize your oplog](https://docs.mongodb.org/v3.0/tutorial/change-oplog-size/)
-
-### Try before you buy
-
-It can be useful to try out a new storage engine before committing to it entirely. Fortunately, MongoDB makes this very easy with replication and its backwards-compatible oplog. If you've already migrated your Parse app to a MongoDB replica set with MMAP, you can easily add MongoRocks nodes to your configuration and try them out without switching over completely. You can even temporarily elect your MongoRocks node as primary and revert back if you are unhappy with the results.
-
-## Best Practices for Larger Parse Apps
-
-* RocksDB is designed to take advantage of multiple cores and fast storage. We recommend running MongoRocks on I/O-oriented hardware with SSDs, such as the **i2.2xlarge** on Amazon AWS, or comparable hardware.
-* For high availability, run with at least three replicas, or at least two replicas and an arbiter to break ties. For more information on elections, click [here](https://docs.mongodb.org/manual/core/replica-set-elections/#replica-set-elections).
-* Configure backups using strata on at least one node in your replica set. Ideally, the backup runs on your secondary nodes but this can be done on a primary if I/O and CPU are not significantly constrained.
 
 ## Backups
 
@@ -161,3 +190,22 @@ ID   data                      num files   size (GB)   incremental files   incre
 ```
 
 More documentation on strata, including how to restore backups, can be found [here](https://github.com/facebookgo/rocks-strata).
+
+## Migrating Existing Data to MongoRocks
+
+### Moving your Parse app for the first time
+
+If your data is still hosted on Parse, then your job is really easy. Just follow the steps in our [migration guide](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#1-migrate-parse-db-to-self-hosted-mongodb) to move your data to your new MongoRocks replica set. We highly recommend that you take steps to secure your MongoDB installation with authentication and encryption. For a list of best security practices, see the [MongoDB Security Checklist](https://docs.mongodb.org/manual/administration/security-checklist/).
+
+### Upgrading an existing replica set to MongoRocks
+
+The data files used by MMAP, WiredTiger, and RocksDB are not compatible. In other words, you cannot start MongoRocks using existing MMAP or Wiredtiger data. To change storage formats, you must do one of the following:
+
+1. Do a logical export and import using [mongodump](https://docs.mongodb.org/v3.0/reference/program/mongodump/) and [mongorestore](https://docs.mongodb.org/manual/reference/program/mongorestore/).
+2. Perform an initial sync of data using replication
+
+Option 2 is the easiest, as you can bring a new, empty node online and add it to the replica set without incurring downtime. This approach usually works fine until your data size is in the hundreds of gigabytes. To do so:
+
+1. Provision a new node configured for RocksDB, following the above steps.
+2. Add the node to your replica set using [rs.add()](https://docs.mongodb.org/v3.0/reference/method/rs.add/)
+3. Wait for initial sync. Note that your data sync must complete before the oplog window expires. Depending on the size of your data, you may need to [resize your oplog](https://docs.mongodb.org/v3.0/tutorial/change-oplog-size/)

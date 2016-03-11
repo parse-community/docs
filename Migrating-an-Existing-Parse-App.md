@@ -32,7 +32,7 @@ Here is a visual overview of the migration steps. Follow the detailed instructio
 
 ## 1. Migrate Parse DB to Self-Hosted MongoDB
 
-The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. Set up a MongoDB instance that conforms to our [database specifications](#database). Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your app's Analytics overview page).
+The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. Set up a MongoDB instance that conforms to our [database specifications](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database). Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your app's Analytics overview page).
 
 Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. We recommend choosing either [mLab](http://docs.mLab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East.
 
@@ -175,9 +175,9 @@ Now, test your app locally. We recommend running a staging database using a snap
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
 
-## 9. Set Up Parse Server on Heroku
+## 9. Set Up Parse Server on Heroku or another infrastructure provider.
 
-Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab).
+Follow the instructions for [deploying the server to Heroku](https://github.com/ParsePlatform/parse-server/wiki/Deploying-Parse-Server#deploying-to-heroku-and-mLab), [NodeChef](https://nodechef.com/blog/post/6/migrate-from-parse-to-nodechef%E2%80%99s-managed-parse-server), [AWS](http://mobile.awsblog.com/post/TxCD57GZLM2JR/How-to-set-up-Parse-Server-on-AWS-using-AWS-Elastic-Beanstalk), [Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-run-parse-server-on-ubuntu-14-04), [Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server), [Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/), or [any other infrastucture provider](https://github.com/ParsePlatform/parse-server/wiki#community-links).
 
 ## 10. Point Client to Heroku Parse Server
 

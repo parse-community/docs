@@ -36,6 +36,35 @@ npm install -g parse-server
 
 Or, you can specify "parse-server" in your `packages.json` file.
 
+## Installation from source
+
+If you wish to run on your server the github version of parse server:
+
+If your project is not under version control or not configured to use npm:
+
+```bash
+git init
+npm init
+```
+
+Add the parse-server submodule and link.
+
+```bash
+# in your root folder of your project
+git submodule add  git@github.com:ParsePlatform/parse-server.git
+npm link parse-server ./parse-server
+```
+
+### Update to latest version from source
+
+```bash
+cd parse-server
+git checkout master
+git pull
+cd ..
+git commit -am 'Updates parse-server to latest version'
+```
+
 # Usage
 
 Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
@@ -164,6 +193,18 @@ When using MongoDB with your Parse app, there are some differences with the host
 
 If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](/ParsePlatform/parse-server/wiki/MongoRocks).
 
+
+## Why do I need to set failIndexKeyTooLong=false?
+
+MongoDB only allows index keys that are 1024 bytes or smaller. If a write operation attempts to store a value greater than 1024 bytes in size to a field that has been indexed, it will fail with an error. Due to how Parse dynamically indexes collections based on query traffic, we inevitably have indexed some fields with values larger than 1024 bytes. To avoid random write errors, we configured "failIndexKeyTooLong=false" on our databases, and accept the write even if the field is indexed. A side effect of this is that data with fields larger than 1024 bytes will appear to be "missing" depending on which index is selected by the MongoDB query planner.
+
+Customers migrating their data only need to configure this parameter if they have indexed fields larger than 1024 bytes in size *and* they have collections larger than 1 million documents. For smaller apps, we will automatically clean up offending indexes during the migration. Larger apps should follow these steps as a best practice:
+
+1. Configure `failIndexKeyTooLong=false` on the destination database
+2. Migrate all data per the [migration](https://parse.com/docs/server/guide#migrating) guide.
+3. Evaluate all existing indexes and drop indexes for fields with data larger than 1024 bytes. The number of fields and indexes will depend entirely on the nature of your application and its data.
+4. Configure `failIndexKeyTooLong=true` on the database
+
 # Keys
 
 Parse Server does not require the use of client-side keys. This includes the client key, JavaScript key, .NET key, and REST API key. The Application ID is sufficient to secure your app.
@@ -201,7 +242,7 @@ _Objective-C_
 Parse.initialize(new Parse.Configuration.Builder(myContext)
     .applicationId("YOUR_APP_ID")
     .clientKey(null)
-    .server("http://localhost:1337/parse")
+    .server("http://localhost:1337/parse/") // The trailing slash is important.
 
     ...
 
