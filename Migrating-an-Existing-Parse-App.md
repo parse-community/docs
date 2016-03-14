@@ -23,12 +23,15 @@ After completion, you will have the following:
 
 **We highly recommend that you first run through this guide with a development or test version of your app before working with a production app.**
 
-
 There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
+
+# Visual Overview
 
 Here is a visual overview of the migration steps. Follow the detailed instructions after the diagram to migrate your app.
 
 ![](https://parse.com/images/docs/server/migration.png)
+
+# Migrating your Parse database
 
 ## 1. Migrate Parse DB to Self-Hosted MongoDB
 
@@ -45,6 +48,8 @@ Connect to your Mongo instance and browse through the collections in the newly c
 Once you're satisfied, you can finalize the transfer in the migration UI and your app will be using the new MongoDB instance. At this point, your app is still hitting `api.parse.com`, but is using your MongoDB instance. You will need to administrate your database instance yourself, including maintaining indexes and scaling up.
 
 Note that you can elect to skip migrating your data and test the functionality of your Parse Server hosted app with a blank database. You can always migrate your data later.
+
+# Setting up Parse Server
 
 ## 2. Set Up Local Parse Server
 
@@ -174,6 +179,8 @@ Update your app with the latest version of the Parse SDK (at least version 1.12 
 Now, test your app locally. We recommend running a staging database using a snapshot of your production database, as there may be legacy data in your database that exercises code paths that wouldn't otherwise be exercised. Be very careful if your Parse Server is pointing to the same Mongo instance as your live app, as you could be mutating production data.
 
 At this point, your app may be totally functional. Objects, queries, and users will work right out of the box.
+
+# Deploying Parse Server
 
 ## 9. Set Up Parse Server on Heroku or another infrastructure provider.
 

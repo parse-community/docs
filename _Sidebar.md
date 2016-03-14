@@ -14,6 +14,9 @@
 * [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide)
 * [Community Links](/ParsePlatform/parse-server/wiki#community-links)
 
-## Migration Guide
+## [Migration Guide](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
 
-* [Migrating an Existing Parse App](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
+* [Recommended Timeline](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
+* [Migrating your Parse database](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#migrating-your-parse-database)
+* [Setting up Parse Server](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#setting-up-parse-server)
+* [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#deploying-parse-server)
