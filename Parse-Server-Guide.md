@@ -4,7 +4,7 @@
   * [MongoDB + RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
 * [Keys](#keys)
 * [Using Parse SDKs with Parse Server](#using-parse-sdks-with-parse-server)
-* [Deploying Parse Server](#Deploying-Parse-Server)
+* [Deploying Parse Server](#deploying-parse-server)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
 
