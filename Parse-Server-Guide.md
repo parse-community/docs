@@ -6,7 +6,7 @@
 * [Using Parse SDKs with Parse Server](#using-parse-sdks-with-parse-server)
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Deploying-Parse-Server)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
-* [Storing files in S3](/ParsePlatform/parse-server/wiki/Storing-Files-in-AWS-S3)
+* [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
 
 # Overview
 
@@ -95,7 +95,7 @@ The parameters are as follows:
 * `javascriptKey`: The JavaScript key for your app. (optional)
 * `dotNetKey`: The .NET key for your app. (optional)
 * `push`: An object containing push configuration. See [Push](/ParsePlatform/parse-server/wiki/Push)
-* `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#storing-files-in-s3)
+* `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
 * `oauth`: Configure support for [3rd party authentication](#oauth).
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
@@ -284,4 +284,4 @@ ParseClient::setServerURL('http://localhost:1337/parse');
 
 # Other
 
-* [Storing files in AWS S3](/ParsePlatform/parse-server/wiki/Storing-Files-in-AWS-S3)
+Parse Server allows developers to choose from several options when hosting files (GridStore, S3, Google Cloud Storage). GridStore is used by default and requires no setup, but if you're interested in using S3 or Google Cloud Storage, [additional configuration information is available](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters).
