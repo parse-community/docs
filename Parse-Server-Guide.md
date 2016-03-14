@@ -1,13 +1,3 @@
-* [Overview](#overview)
-* [Usage](#usage)
-* [Database](#database)
-  * [MongoDB + RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
-* [Keys](#keys)
-* [Using Parse SDKs with Parse Server](#using-parse-sdks-with-parse-server)
-* [Deploying Parse Server](#deploying-parse-server)
-* [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
-* [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
-
 # Overview
 
 **The Parse hosted backend will be fully retired on January 28, 2017. If you are migrating an existing Parse app, please carefully read through this entire guide. You will need to go through the [migration guide](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App) or your app will stop working after the retirement date.**
