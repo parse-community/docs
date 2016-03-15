@@ -51,6 +51,8 @@ Once you have Mongo set up, take note of the Mongo connection URL. Use the datab
 
 ### What happens next?
 
+![Database Migration Phases](https://github.com/ParsePlatform/parse-server/blob/master/.github/MigrationPhases.png?raw=true)
+
 * **Copy Snapshot** The database migration tool first takes a snapshot of your existing data and transfers it to your Mongo database.
 * **Sync** Next, it will pause to allow manual verification, while continuing to keep things in sync with writes that are coming in from your live app. While you are in this state, your app continues to read and write from your Parse hosted database.
 * **Verify** Connect to your Mongo instance and browse through the collections in the newly created database. Check the collection counts and do a few spot checks to ensure that your data was migrated successfully.
