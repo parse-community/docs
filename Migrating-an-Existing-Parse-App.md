@@ -33,19 +33,31 @@ Here is a visual overview of the migration steps. Follow the detailed instructio
 
 # Migrating your Parse database
 
+The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. After this is done, your clients will continue talking to `api.parse.com`, and you may manage your app using the hosted Parse Dashboard.
+
 ## 1. Migrate Parse DB to Self-Hosted MongoDB
 
-The first step is to migrate the data from your Parse hosted app to a self-hosted MongoDB. Set up a MongoDB instance that conforms to our [database specifications](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database). Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your app's Analytics overview page).
+Set up a MongoDB instance that conforms to our [database specifications](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database). If this is your first time setting up a production MongoDB instance, we recommend using either mLab or ObjectRocket. These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
 
-Latency between the Parse hosted database and your self-hosted MongoDB should not exceed 20 ms. We recommend choosing either [mLab](http://docs.mLab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region. If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East.
+* **Make sure to size your Mongo at least 10x.** Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your hosted Parse app's Analytics overview page).
 
-Once you have Mongo setup, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new Parse.com Dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.  
+* **Set failIndexKeyTooLong=false.** You can configure it back to `true` after the migration is completed. ([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
 
-The tool first takes a snapshot of your existing data and transfers it to MongoDB. Next, it will pause to allow manual verification, while continuing to keep things in sync with writes that are coming in from your live app. While you are in this state, your app continues to read and write from your Parse hosted database.
+* **Latency between Parse and your self-hosted MongoDB should not exceed 20ms.** We recommend choosing either [mLab](http://docs.mLab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region.
 
-Connect to your Mongo instance and browse through the collections in the newly created database. Check the collection counts and do a few spot checks to ensure that your data was migrated successfully.
+If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East. You should also plan to host your Parse Server in the same geographic region to minimize latency.
 
-Once you're satisfied, you can finalize the transfer in the migration UI and your app will be using the new MongoDB instance. At this point, your app is still hitting `api.parse.com`, but is using your MongoDB instance. You will need to administrate your database instance yourself, including maintaining indexes and scaling up.
+Once you have Mongo set up, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new Parse.com Dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.
+
+### What happens next?
+
+* **Copy Snapshot** The database migration tool first takes a snapshot of your existing data and transfers it to your Mongo database.
+* **Sync** Next, it will pause to allow manual verification, while continuing to keep things in sync with writes that are coming in from your live app. While you are in this state, your app continues to read and write from your Parse hosted database.
+* **Verify** Connect to your Mongo instance and browse through the collections in the newly created database. Check the collection counts and do a few spot checks to ensure that your data was migrated successfully.
+
+You may stop the migration and try again as many times as you need (until you click on _Finalize_). The tool will keep things in sync for up to 24 hours after the migration started. Once you're satisfied with the database migration, you can finalize the transfer in the migration UI and your app will be using the new MongoDB instance.
+
+ At this point, your app is still hitting `api.parse.com`, but is using your MongoDB instance. You will need to administrate your database instance yourself, including maintaining indexes and scaling up.
 
 Note that you can elect to skip migrating your data and test the functionality of your Parse Server hosted app with a blank database. You can always migrate your data later.
 
