@@ -90,8 +90,9 @@ if (currentUser) {
 Можно очистить кэш текущего пользователя, осуществив для него выход из системы:
 
 ```js
-Parse.User.logOut();
-var currentUser = Parse.User.current(); // this will now be null
+Parse.User.logOut().then(() => {
+  var currentUser = Parse.User.current();  // this will now be null
+});
 ```
 
 ## Настройка текущего пользователя

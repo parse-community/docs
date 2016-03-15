@@ -95,8 +95,9 @@ if (currentUser) {
 利用者をログアウトすると、現在の利用者を消去できます。
 
 ```js
-Parse.User.logOut();
-var currentUser = Parse.User.current(); // this will now be null
+Parse.User.logOut().then(() => {
+  var currentUser = Parse.User.current();  // this will now be null
+});
 ```
 
 
