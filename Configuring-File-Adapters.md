@@ -53,15 +53,16 @@ Writing to your Amazon S3 bucket from Parse Server is as simple as configuring a
 
 #### Using environment variables
 
-If you're running a standalone Parse Server, you can use the following environment variables to enable the S3 adapter:
+If you're running a standalone Parse Server, you can use the following environment variables to configure the S3 adapter:
 
 ```bash
-S3_ACCESS_KEY     # The AWS access key for a user that has the required permissions. Required.
-S3_SECRET_KEY     # The AWS secret key for the user. Required.
-S3_BUCKET         # The name of your S3 bucket. Needs to be globally unique in all of S3. Required.
-S3_REGION         # The AWS region to connect to. Optional. (Default: 'us-east-1')
-S3_BUCKET_PREFIX  # Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. Optional. (Default: '')
-S3_DIRECT_ACCESS  # Whether reads are going directly to S3 or proxied through your Parse Server. Optional. (Default: false)
+PARSE_SERVER_FILES_ADAPTER  # Set this variable to './Files/S3Adapter.js'. Required.
+S3_ACCESS_KEY               # The AWS access key for a user that has the required permissions. Required.
+S3_SECRET_KEY               # The AWS secret key for the user. Required.
+S3_BUCKET                   # The name of your S3 bucket. Needs to be globally unique in all of S3. Required.
+S3_REGION                   # The AWS region to connect to. Optional. (Default: 'us-east-1')
+S3_BUCKET_PREFIX            # Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. Optional. (Default: '')
+S3_DIRECT_ACCESS            # Whether reads are going directly to S3 or proxied through your Parse Server. Optional. (Default: false)
 ```
 
 #### Passing as options
@@ -80,14 +81,14 @@ var api = new ParseServer({
   filesAdapter: new S3Adapter(
     "S3_ACCESS_KEY",
     "S3_SECRET_KEY",
-    "BUCKET_NAME",
+    "S3_BUCKET",
     {directAccess: true}
   ),
   ...
 });
 ```
 
-Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **BUCKET_NAME** to their correct value.
+Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to their correct value.
 
 ##### S3Adapter constructor options
 
@@ -105,12 +106,57 @@ Required:
 
 ## Configuring `GCSAdapter`
 
-You can use the following environment variable setup to enable the GCS adapter:
+Unlike the S3 adapter, you must create a new Cloud Storage bucket, as this is not created automatically. See https://googlecloudplatform.github.io/gcloud-node/#/docs/master/guides/authentication for more details.
+
+### Configuration options
+
+Writing to your Google Cloud Storage bucket from Parse Server is as simple as configuring and using the GCS files adapter.
+
+#### Using environment variables
+
+You can use Google Cloud Storage to host your static files by setting the following environment variables:
 
 ```js
-GCP_PROJECT_ID
-GCP_KEYFILE_PATH
-GCS_BUCKET
+PARSE_SERVER_FILES_ADAPTER  # Set this variable to './Files/GCSAdapter.js'. Required.
+GCP_PROJECT_ID              # Required.
+GCP_KEYFILE_PATH            # Required.
+GCS_BUCKET                  # Required.
 GCS_BUCKET_PREFIX
 GCS_DIRECT_ACCESS
 ```
+
+#### Passing as options
+
+If you're using Node.js/Express:
+
+```javascript
+...
+var GCSAdapter = require('parse-server').GCSAdapter;
+
+var api = new ParseServer({
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  appId: process.env.APP_ID || 'APPLICATION_ID',
+  masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
+  ...
+  filesAdapter: new GCSAdapter(
+    "GCP_PROJECT_ID",
+    "GCP_KEYFILE_PATH",
+    "GCS_BUCKET",
+    {directAccess: true}
+  ),
+  ...
+});
+```
+
+##### GCSAdapter constructor options
+
+``` new GCSAdapter(projectId, keyfilePath, bucket, options) ```
+
+Required:
+* **projectId**
+* **keyfilePath**
+* **bucket**
+
+```options``` is a Javascript object (map) that can contain:
+* **bucketPrefix**: create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. Default: ''
+* **directAccess**: whether reads are going directly to GCS or proxied through your Parse Server. Default: false
