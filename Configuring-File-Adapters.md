@@ -55,15 +55,15 @@ Writing to your Amazon S3 bucket from Parse Server is as simple as configuring a
 
 If you're running a standalone Parse Server, you can use the following environment variables to configure the S3 adapter:
 
-| Variable Name | Description | Required | Default Value |
-| ------------- | ----------- | -------- | ------------- |
-| PARSE_SERVER_FILES_ADAPTER  | Set this variable to './Files/S3Adapter.js'. | Required | |
-| S3_ACCESS_KEY               | The AWS access key for a user that has the required permissions. | Required | |
-| S3_SECRET_KEY               | The AWS secret key for the user. | Required | |
-| S3_BUCKET                   | The name of your S3 bucket. Needs to be globally unique in all of S3. | Required | |
-| S3_REGION                   | The AWS region to connect to. | Optional | 'us-east-1' |
-| S3_BUCKET_PREFIX            | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional | '' |
-| S3_DIRECT_ACCESS            | Whether reads are going directly to S3 or proxied through your Parse Server. | Optional | false |
+| Variable Name | Description | Notes |
+| ------------- | ----------- | ----- |
+| PARSE_SERVER_FILES_ADAPTER  | Set this variable to './Files/S3Adapter.js'. | Required |
+| S3_ACCESS_KEY               | The AWS access key for a user that has the required permissions. | Required |
+| S3_SECRET_KEY               | The AWS secret key for the user. | Required |
+| S3_BUCKET                   | The name of your S3 bucket. Needs to be globally unique in all of S3. | Required |
+| S3_REGION                   | The AWS region to connect to. | Optional. Default: 'us-east-1' |
+| S3_BUCKET_PREFIX            | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
+| S3_DIRECT_ACCESS            | Whether reads are going directly to S3 or proxied through your Parse Server. | Optional. Default: false |
 
 #### Passing as options
 
@@ -116,14 +116,14 @@ Writing to your Google Cloud Storage bucket from Parse Server is as simple as co
 
 You can use Google Cloud Storage to host your static files by setting the following environment variables:
 
-| Variable Name | Description | Required | Default Value |
-| ------------- | ----------- | -------- | ------------- |
-| PARSE_SERVER_FILES_ADAPTER  | Set this variable to './Files/GCSAdapter.js'. | Required. | |
-| GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required. | |
-| GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. | |
-| GCS_BUCKET                  | The name of your GCS bucket. | Required. | |
-| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional | '' |
-| GCS_DIRECT_ACCESS           | Whether reads are going directly to GCS or proxied through your Parse Server. | Optional | 'false' |
+| Variable Name | Description | Notes |
+| ------------- | ----------- | ----- |
+| PARSE_SERVER_FILES_ADAPTER  | Set this variable to './Files/GCSAdapter.js'. | Required |
+| GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required |
+| GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required |
+| GCS_BUCKET                  | The name of your GCS bucket. | Required |
+| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional |
+| GCS_DIRECT_ACCESS           | Whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
 
 #### Passing as options
 
