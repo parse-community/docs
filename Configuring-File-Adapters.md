@@ -118,11 +118,11 @@ You can use Google Cloud Storage to host your static files by setting the follow
 
 | Variable Name | Description | Notes |
 | ------------- | ----------- | ----- |
-| PARSE_SERVER_FILES_ADAPTER  | Set this variable to './Files/GCSAdapter.js'. | Required |
-| GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required |
-| GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required |
-| GCS_BUCKET                  | The name of your GCS bucket. | Required |
-| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional |
+| PARSE_SERVER_FILES_ADAPTER  | Set this variable to './Files/GCSAdapter.js'. | Required. |
+| GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required. |
+| GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
+| GCS_BUCKET                  | The name of your GCS bucket. | Required. |
+| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
 | GCS_DIRECT_ACCESS           | Whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
 
 #### Passing as options
@@ -150,13 +150,15 @@ var api = new ParseServer({
 
 ##### GCSAdapter constructor options
 
+Constructor:
+
 ``` new GCSAdapter(projectId, keyfilePath, bucket, options) ```
 
-Required:
-* **projectId**
-* **keyfilePath**
-* **bucket**
-
-```options``` is a Javascript object (map) that can contain:
-* **bucketPrefix**: create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. Default: ''
-* **directAccess**: whether reads are going directly to GCS or proxied through your Parse Server. Default: false
+| Parameter Name | Description | Notes |
+| -------------- | ----------- | ----- |
+| projectId      | The project ID from the Google Developer's Console. | Required. |
+| keyfilePath    | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
+| bucket         | The name of your GCS bucket. | Required. |
+| options        | JavaScript object (map) that can contain... | |
+| - bucketPrefix | ...create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Default: '' |
+| - directAccess | ...Whether reads are going directly to GCS or proxied through your Parse Server. | Default: false |
