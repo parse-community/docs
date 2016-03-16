@@ -111,8 +111,8 @@ Here is the list of sending options we do not support yet:
   If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates.
 
 ### 3. Configure Client Apps
-  * For iOS, [configure an app which connects to Parse Server](http://parse.local:3001/apps/quickstart#parse_data/mobile/ios).
-  * For Android, [do the same](http://parse.local:3001/apps/quickstart#parse_data/mobile/android). After that, you should make code changes to your app so that it registers for GCM with both Parse's GCM sender ID and your app's GCM sender ID. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`. For example
+  * For iOS, [configure an app which connects to Parse Server](http://parse.com/apps/quickstart#parse_data/mobile/ios).
+  * For Android, [do the same](http://parse.com/apps/quickstart#parse_data/mobile/android). After that, you should make code changes to your app so that it registers for GCM with both Parse's GCM sender ID and your app's GCM sender ID. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`. For example
 
     ```java
     <meta-data android:name="com.parse.push.gcm_sender_id"
