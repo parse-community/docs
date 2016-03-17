@@ -92,17 +92,20 @@ Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to
 
 ##### S3Adapter constructor options
 
-``` new S3Adapter(accessKey, secretKey, bucket, options) ```
+```js
+new S3Adapter(accessKey, secretKey, bucket, options)
+```
 
-Required:
-* **accessKey**: the AWS access key for a user that has the required permissions
-* **secretKey**: the AWS secret key for the user
-* **bucket**: the name of your S3 bucket. Needs to be globally unique in all of S3
+| Parameter | Description | Notes |
+| --------- | ----------- | ----- |
+| accessKey    | The AWS access key for a user that has the required permissions | Required. |
+| secretKey    | The AWS secret key for the user | Required. |
+| bucket       | The name of your S3 bucket. | Required. |
+| options      | JavaScript object (map) that can contain: | |
+| region       | Key in `options`. Set the AWS region to connect to. | Optional. Default: 'us-east-1' |
+| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: '' |
+| directAccess | Key in `options`. Controls whether reads are going directly to S3 or proxied through your Parse Server. | Optional. Default: false |
 
-```options``` is a Javascript object (map) that can contain:
-* **region**: the AWS region to connect to. Default: 'us-east-1'
-* **bucketPrefix**: create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. Default: ''
-* **directAccess**: whether reads are going directly to S3 or proxied through your Parse Server. Default: false
 
 ## Configuring `GCSAdapter`
 
@@ -150,15 +153,15 @@ var api = new ParseServer({
 
 ##### GCSAdapter constructor options
 
-Constructor:
+```js
+new GCSAdapter(projectId, keyfilePath, bucket, options)
+```
 
-``` new GCSAdapter(projectId, keyfilePath, bucket, options) ```
-
-| Parameter Name | Description | Notes |
-| -------------- | ----------- | ----- |
-| projectId      | The project ID from the Google Developer's Console. | Required. |
-| keyfilePath    | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
-| bucket         | The name of your GCS bucket. | Required. |
-| options        | JavaScript object (map) that can contain... | |
-| - bucketPrefix | ...create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Default: '' |
-| - directAccess | ...Whether reads are going directly to GCS or proxied through your Parse Server. | Default: false |
+| Parameter | Description | Notes |
+| --------- | ----------- | ----- |
+| projectId    | The project ID from the Google Developer's Console. | Required. |
+| keyfilePath  | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
+| bucket       | The name of your GCS bucket. | Required. |
+| options      | JavaScript object (map) that can contain: | |
+| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: '' |
+| directAccess | Key in `options`. Controls whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
