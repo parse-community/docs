@@ -20,6 +20,7 @@ let httpServer = require('http').createServer(app);
 httpServer.listen(port);
 var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer);
 ```
+The `ws` protocol URL of the LiveQuery server is the hostname and port of the `httpServer` which it is listening to. For example, if the `httpSever` is listening to `localhost:8080`, the `ws` protocol of the LiveQuery server is `ws://localhost:8080/`.
 
 ## Client Setup
 We provide javascript and iOS LiveQuery Clients for now. Let's us javascript client as an example. In order to use LiveQuery, you need to initialize a `ParseQuery` object and subscribe to it.
