@@ -10,6 +10,8 @@
   * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#deploying-parse-server)
   * [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
   * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
+  * [Using LiveQuery](/ParsePlatform/parse-server/wiki/Parse-LiveQuery)
+    * [LiveQuery Protocol](/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
 
 * [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide)
 * [Community Links](/ParsePlatform/parse-server/wiki#community-links)
