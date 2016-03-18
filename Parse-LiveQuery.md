@@ -46,9 +46,9 @@ subscription.unsubscribe();
 ```
 We support `create`, `enter`, `update`, `leave`, `delete` five types of event. You can check the LiveQuery protocol [here](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) for their meanings and choose which one to use.
 
-For more details about the javascript LiveQuery Client SDK, check our open source repo [here](https://github.com/ParsePlatform/Parse-SDK-JS).
+For more details about the javascript LiveQuery Client SDK, check out the code in our open source repo [here](https://github.com/ParsePlatform/Parse-SDK-JS) and doc [here]().
 
-For the iOS LiveQuery Client SDK, check our open source repo [here]().
+For the iOS LiveQuery Client SDK, check out the code and doc in our open source repo [here]().
 
 # LiveQuery Protocol
 The LiveQuery Protocol is the key to the Parse LiveQuery. The clients and server communicate through WebSocket using this protocol. Clients can follow the protocol to connect to the LiveQuery server, subscribe/unsubscribe a `ParseQuery` and get updates from the LiveQuery server.
