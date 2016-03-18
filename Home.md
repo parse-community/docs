@@ -1,6 +1,6 @@
 Parse Server is a new project, separate from the hosted Parse API service.  Our intention is to provide and support the growth of an open-source API server, and allow new developers to benefit from the powerful Parse client SDKs regardless of where their application logic and data is stored.
 
-Parse Server can be deployed to any infrastructure that can run Node.js. Parse Server works with the Express web application framework. It can be added to existing web applications, or run by itself.
+Parse Server can be deployed to any infrastructure that can run Node.js. Parse Server works with the Express web application framework. It can be added to existing web applications, or run by itself. See the [list of prerequisites](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#prerequisites).
 
 ### Documentation
 
