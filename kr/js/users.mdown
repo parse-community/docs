@@ -90,8 +90,9 @@ if (currentUser) {
 현재 사용자를 로그아웃하여 지울 수 있습니다.
 
 ```js
-Parse.User.logOut();
-var currentUser = Parse.User.current(); // this will now be null
+Parse.User.logOut().then(() => {
+  var currentUser = Parse.User.current();  // this will now be null
+});
 ```
 
 ## 현재 사용자 설정

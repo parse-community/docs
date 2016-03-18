@@ -91,9 +91,9 @@ if (currentUser) {
 You can clear the current user by logging them out:
 
 ```js
-Parse.User.logOut();
-
-var currentUser = Parse.User.current();  // this will now be null
+Parse.User.logOut().then(() => {
+  var currentUser = Parse.User.current();  // this will now be null
+});
 ```
 
 ## Setting the Current User

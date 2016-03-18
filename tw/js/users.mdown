@@ -90,8 +90,9 @@ if (currentUser) {
 您可藉由登出使用者清除目前的使用者：
 
 ```js
-Parse.User.logOut();
-var currentUser = Parse.User.current(); // this will now be null
+Parse.User.logOut().then(() => {
+  var currentUser = Parse.User.current();  // this will now be null
+});
 ```
 
 ## 設定目前使用者

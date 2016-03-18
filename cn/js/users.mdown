@@ -90,8 +90,9 @@ if (currentUser) {
 您可以通过注销用户来清除他们的当前登录状态：
 
 ```js
-Parse.User.logOut();
-var currentUser = Parse.User.current(); // this will now be null
+Parse.User.logOut().then(() => {
+  var currentUser = Parse.User.current();  // this will now be null
+});
 ```
 
 ## 设置当前用户
