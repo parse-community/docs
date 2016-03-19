@@ -190,7 +190,8 @@ The second one is ACL. For what is ACL, you can check the definition [here](http
 
 # LiveQuery Clients
 
-We provide clients in the Parse JavaScript SDK and Parse iOS SDK for now. LiveQuery will come soon to the Parse Android SDK.
+The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK as of version 1.8.0. A separate LiveQuery client library is available for iOS / OS X applications. An Android client is coming soon.
 
 * [Parse JavaScript SDK](https://github.com/ParsePlatform/Parse-SDK-JS)
-* [Parse iOS SDK](https://github.com/ParsePlatform/Parse-SDK-iOS-OSX)
+* [Parse LiveQuery iOS / OS X](https://github.com/ParsePlatform/ParseLiveQuery-iOS-OSX)
+* Parse LiveQuery Android - _soon!_
