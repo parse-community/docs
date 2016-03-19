@@ -1,9 +1,9 @@
 * [Overview](#overview)
 * [Usage](#usage)
-  * Server Setup
-  * Client Setup
-  * Events
-  * Further Reading
+  * [Server Setup](#server-setup)
+  * [Client Setup](#client-setup)
+  * [Events](#events)
+  * [Further Reading](#further-reading)
 * [LiveQuery Protocol](#livequery-protocol)
 * [LiveQuery Server](#livequery-server)
   * [Configuration](#configuration)
