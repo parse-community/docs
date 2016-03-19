@@ -287,6 +287,10 @@ You may also refer to the Heroku Dev Center article on [Deploying a Parse Server
 * See the [Push Notification guide](/ParsePlatform/parse-server/wiki/Push).
 * [PPNS Protocol Specification (for Parse IoT devices)](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)
 
-# Other
+# Configuring File Adapters
 
 Parse Server allows developers to choose from several options when hosting files (GridStore, S3, Google Cloud Storage). GridStore is used by default and requires no setup, but if you're interested in using S3 or Google Cloud Storage, [additional configuration information is available](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters).
+
+# Using LiveQuery
+
+LiveQuery provides real-time subscriptions to Parse Queries. To learn more, check out the [LiveQuery guide](/ParsePlatform/parse-server/wiki/Parse-LiveQuery).
