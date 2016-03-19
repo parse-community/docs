@@ -1,5 +1,3 @@
-# Getting Started
-
 The fastest and easiest way to get started is to run MongoDB and Parse Server locally.
 
 ## Running Parse Server locally
@@ -81,3 +79,7 @@ $ curl -X GET \
 ```
 
 To learn more about using saving and querying objects on Parse Server, check out the [Parse documentation](https://parse.com/docs).
+
+### Connect your app to Parse Server
+
+Parse provides SDKs for all the major platforms. Refer to the Parse Server guide to [learn how to connect your app to Parse Server](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server).
