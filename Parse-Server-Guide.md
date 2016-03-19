@@ -3,6 +3,7 @@
 ---
 
 * [Overview](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#overview)
+* [Getting Started](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#getting-started)
 * [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
 * [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
   * [Using RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
@@ -30,6 +31,10 @@ Parse Server is an open source version of the Parse backend that can be deployed
 * Python 2.x (For Windows users, 2.7.1 is the required version)
 * For deployment, an infrastructure provider like Heroku or AWS
 
+# Getting Started
+
+The fastest and easiest way to get started is to follow our [Quick Start guide](/ParsePlatform/parse-server/wiki/Quick-Start) to run MongoDB and Parse Server locally.
+
 ## Installation
 
 Start using Parse Server by grabbing the npm module:
@@ -42,7 +47,7 @@ Or, you can specify "parse-server" in your `packages.json` file.
 
 ## Installation from source
 
-If you wish to run on your server the github version of parse server:
+If you wish to run the latest version of Parse Server from `master`:
 
 If your project is not under version control or not configured to use npm:
 
@@ -51,7 +56,7 @@ git init
 npm init
 ```
 
-Add the parse-server submodule and link.
+Add the "parse-"server submodule and link.
 
 ```bash
 # in your root folder of your project

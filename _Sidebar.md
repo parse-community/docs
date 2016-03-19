@@ -6,6 +6,7 @@
 ## [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide)
 
 * [Overview](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#overview)
+* [Getting Started](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#getting-started)
 * [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
 * [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
   * [Using RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
