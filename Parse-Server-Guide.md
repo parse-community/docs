@@ -1,5 +1,7 @@
 **The Parse hosted backend will be fully retired on January 28, 2017. If you are migrating an existing Parse app, please carefully read through this entire guide. You will need to go through the [migration guide](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App) or your app will stop working after the retirement date.**
 
+---
+
 * [Overview](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#overview)
 * [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
 * [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
