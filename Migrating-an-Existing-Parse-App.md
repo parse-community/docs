@@ -49,8 +49,16 @@ If you plan on hosting your production database in a different geographic region
 
 Once you have Mongo set up, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new Parse.com Dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.
 
-### What happens next?
+### Error Message
+* **The destination database was not empty.** The database you are migrating to is not empty. Please clean up and retry.
+* **The destination database was too small.** The database you are migrating to is too small to hold all your data. Add more space to your host or buy more space if you are using db service such as mLab and ObjectRocket.
+* **This migration was cancelled. You can try again from the app settings page.** The job got cancelled manually by the user.
+* **This migration was not finalized in time.** When a migration job is ready to be finalized, we will keep the db sync for 24 hours. If user doesn't take action to finalize the job within 24 hours, the job will be cancelled automatically.
+* **The mongo user provided is not authorized to do migration.** The user in the collection string doesn't have necessary access to complete the migration. 
+* **You must set failIndexKeyTooLong option.** You need to set the failIndexKeyTooLong to false to get the migration done.([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
+* **The job failed too many times and reached the max retry limit.** The job fail too many times and we consider it is not possible to be done. One possible reason can be your hardware cannot handle the migration load. If you have large collection(contain more than 1 million docs), please consider to upgrade your host hardware. During the migration the system throughput is much higher than normal, so it requires better hardware. You can resize your host after the migration is done
 
+### What happens next?
 ![Database Migration Phases](https://github.com/ParsePlatform/parse-server/blob/master/.github/MigrationPhases.png?raw=true)
 
 * **Copy Snapshot** The database migration tool first takes a snapshot of your existing data and transfers it to your Mongo database.
