@@ -51,12 +51,12 @@ Once you have Mongo set up, take note of the Mongo connection URL. Use the datab
 
 ### Error Message
 * **The destination database was not empty.** The database you are migrating to is not empty. Please clean up and retry.
-* **The destination database was too small.** The database you are migrating to is too small to hold all your data. Add more space to your host or buy more space if you are using db service such as mLab and ObjectRocket.
-* **This migration was cancelled. You can try again from the app settings page.** The job got cancelled manually by the user.
+* **The destination database was too small.** The database you are migrating to is too small to hold all of your data. Add more space to your host or buy more space if you are using db service such as mLab or ObjectRocket.
+* **This migration was cancelled. You can try again from the app settings page.** The job was cancelled manually by the user.
 * **This migration was not finalized in time.** When a migration job is ready to be finalized, we will keep the db sync for 24 hours. If user doesn't take action to finalize the job within 24 hours, the job will be cancelled automatically.
-* **The mongo user provided is not authorized to do migration.** The user in the collection string doesn't have necessary access to complete the migration. 
-* **You must set failIndexKeyTooLong option.** You need to set the failIndexKeyTooLong to false to get the migration done.([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
-* **The job failed too many times and reached the max retry limit.** The job fail too many times and we consider it is not possible to be done. One possible reason can be your hardware cannot handle the migration load. If you have large collection(contain more than 1 million docs), please consider to upgrade your host hardware. During the migration the system throughput is much higher than normal, so it requires better hardware. You can resize your host after the migration is done
+* **The mongo user provided is not authorized to do migration.** The user in the connection string doesn't have the necessary access to complete the migration. 
+* **You must set failIndexKeyTooLong option.** You need to set the failIndexKeyTooLong setting of your mongo server to false.([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
+* **The job failed too many times and reached the max retry limit.** The job failed several times and we gave up trying. One possible reason can be your hardware cannot handle the migration load. If you have large collections (containing more than 1 million objects), please consider upgrading your host hardware. During the migration the system throughput is much higher than normal, so it requires better hardware. You can resize your host after the migration is done
 
 ### What happens next?
 ![Database Migration Phases](https://github.com/ParsePlatform/parse-server/blob/master/.github/MigrationPhases.png?raw=true)
