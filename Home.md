@@ -32,7 +32,7 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Microsoft Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/) - Migration guide
 * [Urban Airship](https://www.urbanairship.com/parse-migration) - Push notification migration tool from Urban Airship
 * [docker image](https://hub.docker.com/r/instainer/parse-server) - A docker image for running parse-server quickly
-* [IBM Bluemix + Compose](https://developer.ibm.com/bluemix/2016/02/01/migrating-from-parse-to-bluemix/)
+* [IBM Bluemix](http://ibm.co/1Z00gMw) - Migrating your Parse apps to Bluemix on IBM Cloud
 * [Kontena](http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/) - How to install and run Parse Server
 * [Pivotal Web Services Parse Server](https://github.com/cf-platform-eng/pws-parse-server)
 * [parse-anywhere](https://github.com/flovilmart/parse-anywhere) - A module for emulating hosted cloud code behavior and modules
