@@ -1,10 +1,12 @@
+# Configuring your clients to receive Push Notifications
+
 The following will guide you through the necessary steps to configure your [iOS](#ios-apps) and [Android](#android-apps) client apps to receive push notifications from Parse Server. If you haven't yet, you will first need to prepare your APNS and GCM credentials as documented in [Step 1](https://github.com/ParsePlatform/parse-server/wiki/Push#1-prepare-apns-and-gcm-credentials) of the Push Notifications Quick Start.
 
-# iOS Apps
+## iOS Apps
 
 First you will need to set up your app to use Parse Server. Go through the [Parse iOS QuickStart](https://parse.com/apps/quickstart#parse_data/mobile/ios) first and come back here once your app is connected to Parse Server.
 
-## Register Device for Push Notifications
+### Register Device for Push Notifications
 
 Open up your `AppDelegate.swift`, `AppDelegate.m`, or `AppDelegate.cs` file and make your app register for remote notifications by adding the following in your `application:didFinishLaunchingWithOptions:` function:
 
@@ -102,7 +104,7 @@ public override void ReceivedRemoteNotification(UIApplication application,
 }
 ```
 
-### Compile and run!
+#### Compile and run!
 
 If you configured your app correctly, installation objects will automatically be saved to Parse Server when you run your app. You can run this curl command to verify:
 
@@ -113,13 +115,13 @@ curl -X GET \
   http://your_parse_server:1337/parse/installations
 ```
 
-### Proceed to [Step 4](https://github.com/ParsePlatform/parse-server/wiki/Push#4-send-push-notifications).
+#### Proceed to [Step 4](https://github.com/ParsePlatform/parse-server/wiki/Push#4-send-push-notifications).
 
-# Android apps
+## Android apps
 
 First you will need to set up your app to use Parse Server. Go through the [Parse Android QuickStart](https://parse.com/apps/quickstart#parse_data/mobile/android) first and come back here once your app is connected to Parse Server.
 
-## Configure Broadcast Receiver and Permissions
+### Configure Broadcast Receiver and Permissions
 
 Add the following service and broadcast receiver definitions to `AndroidManifest.xml` immediately before the *closing* `</application>` tag:
 
@@ -184,7 +186,7 @@ to match your app's package name + ".permission.C2D_MESSAGE".
 
 Change the `android:name` attribute in the last two lines of the snippet above to match your application's package name.
 
-## Register Device for Push Notifications
+### Register Device for Push Notifications
 
 Create an `Installation` object by adding the following to the `onCreate` method of your `Application` class:
 
@@ -214,7 +216,7 @@ class ParseApplication : Application {
 }
 ```
 
-### Compile and run!
+#### Compile and run!
 
 If you configured your app correctly, installation objects will automatically be saved to Parse Server when you run your app. You can run this curl command to verify:
 
@@ -225,4 +227,4 @@ curl -X GET \
   http://your_parse_server:1337/parse/installations
 ```
 
-### Proceed to [Step 4](https://github.com/ParsePlatform/parse-server/wiki/Push#4-send-push-notifications).
+#### Proceed to [Step 4](https://github.com/ParsePlatform/parse-server/wiki/Push#4-send-push-notifications).
