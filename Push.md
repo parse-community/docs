@@ -111,27 +111,12 @@ Here is the list of sending options we do not support yet:
   If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates.
 
 ### 3. Configure Client Apps
-  * For iOS, [configure an app which connects to Parse Server](http://parse.com/apps/quickstart#parse_data/mobile/ios).
-  * For Android, [do the same](http://parse.com/apps/quickstart#parse_data/mobile/android). After that, you should make code changes to your app so that it registers for GCM with both Parse's GCM sender ID and your app's GCM sender ID. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`. For example
 
-    ```java
-    <meta-data android:name="com.parse.push.gcm_sender_id"
-      android:value="id:YOUR_SENDER_ID" />;
-    ```
-    See our [Android push guide](https://parse.com/docs/android/guide#push-notifications-setting-up-push) for more details on this attribute.
-    Note that you cannot send GCM pushes to old versions of your app that do not contain the `com.parse.push.gcm_sender_id` attribute in your app manifest, since those versions of the app haven't registered for push using your GCM sender ID.
-
-  If you configured your app correctly, installation objects will automatically be saved to Parse Server when you run your app. You can run this curl command to verify:
-  ```curl
-  curl -X GET \
-    -H "X-Parse-Application-Id: you_app_id" \
-    -H "X-Parse-Master-Key: your_master_key" \
-    http://your_server_address/parse/installations
-  ```
+Configure an app which connects to Parse Server. We have provided a detailed [list of steps for iOS and Android clients](https://github.com/ParsePlatform/Parse-Server/wiki/Push-Configuring-Clients).
 
 ### 4. Send Push Notifications
 
-  Currently Parse Server only supports sending push notifications by your `masterKey`. The easiest way to do that is to curl:
+Currently Parse Server only supports sending push notifications by your `masterKey`. The easiest way to do that is to curl:
 
 ```curl
   curl -X POST \
@@ -163,21 +148,27 @@ Parse.Push.send({
 }, { useMasterKey: true });
 ```
 
-  After sending this to your Parse Server, you should see the push notifications show up on your devices.
+After sending this to your Parse Server, you should see the push notifications show up on your devices.
 
-  If your Parse Server logs, you can see something similar to
-  ```json
-  GCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
-  ```
-  ```json
-  APNS Connected
-  APNS Notification transmitted to:7a7d2864598e1f65e6e02135245b7daf8ea510514e6376f072dc29d53facaa41
-  ```
-  These logs mean that the GCM and APNS connections are working.
+**Note:** The iOS simulator cannot receive push notifications. You must run iOS apps on an iOS device.
+
+In your Parse Server logs, you can see something similar to
+
+```json
+GCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
+```
+
+```json
+APNS Connected
+APNS Notification transmitted to:7a7d2864598e1f65e6e02135245b7daf8ea510514e6376f072dc29d53facaa41
+```
+
+These logs mean that the GCM and APNS connections are working.
 
 # Push Adapter
 
 Parse Server provides a  `PushAdapter` which abstracts the way we actually send push notifications. The default implementation is `ParsePushAdapter`, which uses GCM for Android push and APNS for iOS push. However, if you want to use other push providers, you can implement your own `PushAdapter`. Your adapter needs to implement `send(data, installations)`, which is used for sending data to the installations. You can use `ParsePushAdapter` as a reference. After you implement your `PushAdapter`, you can pass that instance to Parse Server like this
+
 ```js
 var server = new ParseServer({
   databaseURI: '...',
