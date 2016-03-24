@@ -112,7 +112,7 @@ Here is the list of sending options we do not support yet:
 
 ### 3. Configure Client Apps
 
-Configure an app which connects to Parse Server. We have provided a detailed [list of steps for iOS and Android clients](https://github.com/ParsePlatform/Parse-Server/wiki/Push-Configuring-Clients).
+Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](https://github.com/ParsePlatform/Parse-Server/wiki/Push-Configuring-Clients).
 
 ### 4. Send Push Notifications
 
@@ -167,7 +167,7 @@ These logs mean that the GCM and APNS connections are working.
 
 # Push Adapter
 
-Parse Server provides a  `PushAdapter` which abstracts the way we actually send push notifications. The default implementation is `ParsePushAdapter`, which uses GCM for Android push and APNS for iOS push. However, if you want to use other push providers, you can implement your own `PushAdapter`. Your adapter needs to implement `send(data, installations)`, which is used for sending data to the installations. You can use `ParsePushAdapter` as a reference. After you implement your `PushAdapter`, you can pass that instance to Parse Server like this
+Parse Server provides a `PushAdapter` which abstracts the way we actually send push notifications. The default implementation is `ParsePushAdapter`, which uses GCM for Android push and APNS for iOS push. However, if you want to use other push providers, you can implement your own `PushAdapter`. Your adapter needs to implement `send(data, installations)`, which is used for sending data to the installations. You can use `ParsePushAdapter` as a reference. After you implement your `PushAdapter`, you can pass that instance to Parse Server like this
 
 ```js
 var server = new ParseServer({
