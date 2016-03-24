@@ -63,7 +63,7 @@ If you're running a standalone Parse Server, you can use the following environme
 | S3_BUCKET                   | The name of your S3 bucket. Needs to be globally unique in all of S3. | Required |
 | S3_REGION                   | The AWS region to connect to. | Optional. Default: 'us-east-1' |
 | S3_BUCKET_PREFIX            | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
-| S3_DIRECT_ACCESS            | Whether reads are going directly to S3 or proxied through your Parse Server. | Optional. Default: false |
+| S3_DIRECT_ACCESS            | Whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: false |
 
 #### Passing as options
 
@@ -104,7 +104,7 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 | options      | JavaScript object (map) that can contain: | |
 | region       | Key in `options`. Set the AWS region to connect to. | Optional. Default: 'us-east-1' |
 | bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: '' |
-| directAccess | Key in `options`. Controls whether reads are going directly to S3 or proxied through your Parse Server. | Optional. Default: false |
+| directAccess | Key in `options`. Controls whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: false |
 
 
 ## Configuring `GCSAdapter`
