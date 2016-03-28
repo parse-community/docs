@@ -5,11 +5,9 @@ For most apps, the migration process is non-trivial, and will require dedicated 
 * **April 28, 2016**: Data migrated to a self-hosted MongoDB (Step 1)
 * **July 28, 2016**: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
 
+Migrating the database can be done right away, and you can continue using the Parse.com dashboard to manage your app while you work on migrating your app to Parse Server. **We highly recommend migrating your database by April 28.**
+
 Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
-
-Migrating the database can be done right away, and you can continue using the Parse.com dashboard to manage your app while you work on migrating your app to Parse Server.
-
-**If you haven't migrated your database by April 28, we will assume your app is low priority, and we will de-prioritize its traffic to focus on production apps.**
 
 This migration guide assumes the use of Heroku and either [mLab](http://docs.mlab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse). These three services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use [any infrastructure provider](https://github.com/ParsePlatform/parse-server/wiki#community-links) that supports Node.js environments.
 
@@ -24,6 +22,12 @@ After completion, you will have the following:
 **We highly recommend that you first run through this guide with a development or test version of your app before working with a production app.**
 
 There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
+
+#### What happens if I don't migrate my data by April 28, 2016?
+
+April 28 marks three months since the shutdown was announced. Migrating your data is just the first step in the migration process. Our engineering team is placing higher priority on addressing [any issues that are raised](http://parse.com/help#report) by customers that initiate the database migration process before April 28. After that date, we will shift our resources to focus on providing support to developers migrating their apps to Parse Server.
+
+If an app has not had its database migrated by April 28, we will assume the owner does not plan to migrate the app or they do not consider the app to be important. Traffic to these apps may be de-prioritized as we shift our focus to production apps that are being migrated according to our recommended schedule.
 
 # Visual Overview
 
@@ -54,7 +58,7 @@ Once you have Mongo set up, take note of the Mongo connection URL. Use the datab
 * **The destination database was too small.** The database you are migrating to is too small to hold all of your data. Add more space to your host or buy more space if you are using db service such as mLab or ObjectRocket.
 * **This migration was cancelled. You can try again from the app settings page.** The job was cancelled manually by the user.
 * **This migration was not finalized in time.** When a migration job is ready to be finalized, we will keep the db sync for 24 hours. If user doesn't take action to finalize the job within 24 hours, the job will be cancelled automatically.
-* **The mongo user provided is not authorized to do migration.** The user in the connection string doesn't have the necessary access to complete the migration. 
+* **The mongo user provided is not authorized to do migration.** The user in the connection string doesn't have the necessary access to complete the migration.
 * **You must set failIndexKeyTooLong option.** You need to set the failIndexKeyTooLong setting of your mongo server to false.([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
 * **The job failed too many times and reached the max retry limit.** The job failed several times and we gave up trying. One possible reason can be your hardware cannot handle the migration load. If you have large collections (containing more than 1 million objects), please consider upgrading your host hardware. During the migration the system throughput is much higher than normal, so it requires better hardware. You can resize your host after the migration is done
 
