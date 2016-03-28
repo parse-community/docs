@@ -5,7 +5,7 @@ For most apps, the migration process is non-trivial, and will require dedicated 
 * **April 28, 2016**: Data migrated to a self-hosted MongoDB (Step 1)
 * **July 28, 2016**: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
 
-Migrating the database can be done right away, and you can continue using the Parse.com dashboard to manage your app while you work on migrating your app to Parse Server. **We highly recommend migrating your database by April 28.**
+Migrating the database can be done right away, and you can continue using the Parse.com dashboard to manage your app while you work on migrating your app to Parse Server. **We highly recommend [migrating your database by April 28](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#what-happens-if-i-dont-migrate-my-data-by-april-28-2016).**
 
 Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
 
