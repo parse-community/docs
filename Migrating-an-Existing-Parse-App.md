@@ -2,12 +2,10 @@
 
 For most apps, the migration process is non-trivial, and will require dedicated development time. We recommend the following schedule:
 
-* **April 28, 2016**: Data migrated to a self-hosted MongoDB (Step 1)
+* **[April 28, 2016](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#what-happens-if-i-dont-migrate-my-data-by-april-28-2016)**: Data migrated to a self-hosted MongoDB (Step 1)
 * **July 28, 2016**: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
 
-Migrating the database can be done right away, and you can continue using the Parse.com dashboard to manage your app while you work on migrating your app to Parse Server. **We highly recommend [migrating your database by April 28](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#what-happens-if-i-dont-migrate-my-data-by-april-28-2016).**
-
-Following this schedule will give you time to develop your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
+Following this schedule will give you time to migrate your data and deploy your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
 
 This migration guide assumes the use of Heroku and either [mLab](http://docs.mlab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse). These three services are easy to use, especially if you are new to deploying and managing your own backend stack. But, you can elect to use [any infrastructure provider](https://github.com/ParsePlatform/parse-server/wiki#community-links) that supports Node.js environments.
 
@@ -27,7 +25,7 @@ There are a few areas where Parse Server does not provide compatibility with the
 
 April 28 marks three months since the shutdown was announced. Migrating your data is just the first step in the migration process. Our engineering team is placing higher priority on addressing [any issues that are raised](http://parse.com/help#report) by customers that initiate the database migration process before April 28. After that date, we will shift our resources to focus on providing support to developers migrating their apps to Parse Server.
 
-If an app has not had its database migrated by April 28, we will assume the owner does not plan to migrate the app or they do not consider the app to be important. Traffic to these apps may be de-prioritized as we shift our focus to production apps that are being migrated according to our recommended schedule.
+If you do not migrate your database by April 28, we will assume you do not consider the app's migration to be a high priority. Traffic to your app may be de-prioritized as we shift our focus to serving production apps that are being migrated according to our recommended schedule.
 
 # Visual Overview
 
