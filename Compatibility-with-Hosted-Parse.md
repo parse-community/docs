@@ -23,10 +23,6 @@ Parse Server also uses at least version [1.7.0](https://github.com/ParsePlatform
 
 To make queries and writes as a specific user within Cloud Code, you need to pass the user's `sessionToken` as an option. The session token for the authenticated user making the request is available in `request.user.getSessionToken()`.
 
-## Config
-
-Parse Config is not supported. You can create config variables in Node that can be changed and deployed. Or, it would be relatively straightforward to create a Node version of Parse Config with a dashboard to change these variables without a deployment.
-
 ## Dashboard
 
 Parse has provided a separate [Parse Dashboard project](http://blog.parse.com/announcements/introducing-the-parse-server-dashboard/) which can be used to manage all of your Parse Server applications.
@@ -34,6 +30,14 @@ Parse has provided a separate [Parse Dashboard project](http://blog.parse.com/an
 ### Class Level Permissions
 
 Class-level permissions are supported in Parse Server, but they have always been configured using the dashboard on Parse.com. It is possible to modify these permissions without the dashboard. You'll see the format for class-level permissions in the SCHEMA collection when you migrate your database. There is also a `setPermissions` method on the `Schema` class, which you can see used in the unit-tests in `Schema.spec.js`.
+
+### Parse Config
+
+Parse Config is available in Parse Server and can be configured from your [Parse Dashboard](https://github.com/ParsePlatform/parse-dashboard).
+
+### Push Notification Console
+
+You can now [send push notifications using Parse Dashboard](http://blog.parse.com/announcements/push-and-config-come-to-the-parse-dashboard/).
 
 ## Files
 
@@ -54,10 +58,6 @@ Parse Server implements basic transactional pushes to iOS and Android devices us
 ### Client Push
 
 Hosted Parse applications could disable a security setting in order to allow clients to send push notifications. Parse Server does not allow clients to send push notifications as the `masterKey` must be used. Use Cloud Code or the REST API to send push notifications.
-
-### Push Dashboard
-
-The Push dashboard in the hosted Parse service is mainly used to create push campaigns. Parse Server only supports transactional push. You can implement a similar feature as part of a separate admin-focused dashboard.
 
 ### Android: Exporting GCM Registration IDs
 
