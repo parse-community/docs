@@ -42,3 +42,4 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Guide for deploying on Docker (French)](https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd)
 * [Adminca](http://adminca.com) - A third-party admin/data-browser for Parse apps.
 * [Back4app](http://blog.back4app.com/2016/03/01/quick-wizard-migration/) - A hosted solution for migrating your Parse app.
+* [Discussion: Using Parse Server in production](https://github.com/ParsePlatform/parse-server/issues/1106) - Originally opened in March 2016, this thread discusses various developers' experiences with using Parse Server in production.
