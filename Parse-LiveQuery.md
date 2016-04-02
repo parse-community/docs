@@ -11,6 +11,7 @@
   * [Scalability](#scalability)
   * [Security](#security)
 * [LiveQuery Clients](#livequery-clients)
+* [LiveQuery with NGINX](#livequery-with-nginx)
 
 # Overview
 
@@ -195,3 +196,7 @@ The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK 
 * [Parse JavaScript SDK](https://github.com/ParsePlatform/Parse-SDK-JS)
 * [Parse LiveQuery iOS / OS X](https://github.com/ParsePlatform/ParseLiveQuery-iOS-OSX)
 * Parse LiveQuery Android - _soon!_
+
+# LiveQuery With NGINX
+
+Please refer to the [NGINX documentation](https://www.nginx.com/blog/websocket-nginx/) in order to allow a proper handling of the LiveQuery server that relies on web sockets
