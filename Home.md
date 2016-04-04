@@ -36,8 +36,9 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Kontena](http://blog.kontena.io/how-to-install-and-run-private-parse-server-in-production/) - How to install and run Parse Server
 * [Pivotal Web Services Parse Server](https://github.com/cf-platform-eng/pws-parse-server)
 * [parse-anywhere](https://github.com/flovilmart/parse-anywhere) - A module for emulating hosted cloud code behavior and modules
+* [CleverTap](https://clevertap.com/parse/) - Migrating push notifications to CleverTap
 * [Pushwoosh](https://www.pushwoosh.com/parse/) - Push notification migration to Pushwoosh
-* [Pushwoosh Push Adapte on npm](https://www.npmjs.com/package/pushwoosh-parse-adapter) - Integrate Pushwoosh with Parse Server
+* [Pushwoosh Push Adapter on npm](https://www.npmjs.com/package/pushwoosh-parse-adapter) - Integrate Pushwoosh with Parse Server
 * [OneSignal](https://onesignal.com/parse) - Migration tool for Push Notifications to OneSignal
 * [Guide for deploying on Docker (French)](https://medium.com/@DidierFranc/parse-com-ferme-parse-s-ouvre-cd426118fbbd)
 * [Adminca](http://adminca.com) - A third-party admin/data-browser for Parse apps.
