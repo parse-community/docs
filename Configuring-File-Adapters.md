@@ -8,6 +8,8 @@ Parse Server allows developers to choose from several options when hosting files
 
 `GridStoreAdapter` is used by default and requires no setup, but if you're interested in using S3 or Google Cloud Storage, additional configuration information is available below.
 
+When using files on Parse, you will need to use the `publicServerURL` option in your Parse Server config. This is the URL that files will be accessed from, so it should be a URL that resolves to your Parse Server. Make sure to include your mount point in this URL.
+
 ## Configuring `S3Adapter`
 
 If you'd like to use Amazon S3, follow these instructions to configure Parse Server to use `S3Adapter`.
