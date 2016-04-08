@@ -1,6 +1,6 @@
 # Push Notifications
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart](/apps/quickstart_push) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push QuickStart](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start) to get our SDK up and running.
 
 ## Introduction
 
@@ -99,7 +99,7 @@ query.equalTo('injuryReports', true);
 Parse.Push.send({
   where: query, // Set our Installation query
   data: {
-    alert: "Willie Hayes injured by own pop fly." 
+    alert: "Willie Hayes injured by own pop fly."
   }
 }, {
   success: function() {
@@ -121,7 +121,7 @@ query.equalTo('scores', true);
 Parse.Push.send({
   where: query,
   data: {
-    alert: "Giants scored against the A's! It's now 2-2." 
+    alert: "Giants scored against the A's! It's now 2-2."
   }
 }, {
   success: function() {
@@ -148,7 +148,7 @@ pushQuery.matchesQuery('user', userQuery);
 Parse.Push.send({
   where: pushQuery,
   data: {
-    alert: "Free hotdogs at the Parse concession stand!" 
+    alert: "Free hotdogs at the Parse concession stand!"
   }
 }, {
   success: function() {
@@ -283,7 +283,7 @@ queryAndroid.equalTo('deviceType', 'android');
 Parse.Push.send({
   where: queryAndroid,
   data: {
-    alert: "Your suitcase has been filled with tiny robots!" 
+    alert: "Your suitcase has been filled with tiny robots!"
   }
 });
 
@@ -294,7 +294,7 @@ queryIOS.equalTo('deviceType', 'ios');
 Parse.Push.send({
   where: queryIOS,
   data: {
-    alert: "Your suitcase has been filled with tiny apples!" 
+    alert: "Your suitcase has been filled with tiny apples!"
   }
 });
 
@@ -305,7 +305,7 @@ queryWindows.equalTo('deviceType', 'winrt');
 Parse.Push.send({
   where: queryWindows,
   data: {
-    alert: "Your suitcase has been filled with tiny glass!" 
+    alert: "Your suitcase has been filled with tiny glass!"
   }
 });
 
@@ -316,7 +316,7 @@ queryWindowsPhone.equalTo('deviceType', 'winphone');
 Parse.Push.send({
   where: queryWindowsPhone,
   data: {
-    alert: "Your suitcase is very hip; very metro." 
+    alert: "Your suitcase is very hip; very metro."
   }
 });
 ```
@@ -334,7 +334,7 @@ query.equalTo('user_id', 'user_123');
 Parse.Push.send({
   where: query,
   data: {
-    alert: "You previously created a reminder for the game today" 
+    alert: "You previously created a reminder for the game today"
   },
   push_time: tomorrowDate
 }, {
