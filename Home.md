@@ -45,3 +45,4 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Back4app](http://blog.back4app.com/2016/03/01/quick-wizard-migration/) - A hosted solution for migrating your Parse app.
 * [Discussion: Using Parse Server in production](https://github.com/ParsePlatform/parse-server/issues/1106) - Originally opened in March 2016, this thread discusses various developers' experiences with using Parse Server in production.
 * [Discussion: How much does it cost to host Parse Server?](https://github.com/ParsePlatform/parse-server/issues/1174) - Also started in March 2016, in this thread the community discusses the costs associated with hosting your own Parse Server.
+* [Parse Open Source Community](http://parseopensource.github.io/) - An unofficial community site with links and a Slack channel.
