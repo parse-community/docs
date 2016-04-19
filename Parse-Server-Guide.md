@@ -313,3 +313,7 @@ Parse Server allows developers to choose from several options when hosting files
 # Using LiveQuery
 
 LiveQuery provides real-time subscriptions to Parse Queries. To learn more, check out the [LiveQuery guide](/ParsePlatform/parse-server/wiki/Parse-LiveQuery).
+
+# Migrating 
+
+The Parse hosted service will be retired on **January 28, 2017**. If you are planning to migrate an app, you need to begin work as soon as possible. Please visit our [Migration Guide](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App) to learn more.
