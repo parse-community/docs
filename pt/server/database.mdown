@@ -1,0 +1,30 @@
+# Database
+
+Parse Server utiliza [MongoDB](https://www.mongodb.org/) como banco de dados para a sua aplicação. Se você nunca utilizou o MongoDB antes, nós recomendamos fortemente que você se familiarize antes de continuar. 
+
+Os requisitos do Mongo para o Parse Server são:
+
+* Versão 2.6.X ou 3.0.X do MongoDB  
+* O parâmetro [failIndexKeyTooLong](https://docs.mongodb.org/manual/reference/parameters/#param.failIndexKeyTooLong) deve ser definido como `false`.
+* Uma conexão SSL é recomendada (mas não é obrigatória).
+* Nós recomendamos fortemente que os seus servidores MongoDB estejam hospedados na região US-East para uma latência mínima.
+
+Se essa é a sua primeira vez configurando uma instância MongoDB em produção, nós recomendamos utilizar o [MongoLab](http://www.mongolab.com), database-as-a-service que tem a opção de escalar, conforme necessário.
+
+Para um app em produção com tráfego não trivial, nós recomendamos a escolha do plano MongoLab [M1 plan](https://mongolab.com/plans/pricing/#dedicated-cluster-plans) ou superior, que dispõe de 40GB de espaço. Se você está migrando um aplicativo do Parse, uma boa regra é escolher uma instância 10x maior em espaço do que você está atualmente utilizando no Parse.
+
+Ao utilizar o MongoDB com o seu app Parse, existem algumas diferenças com o banco de dados do Parse:
+
+* Você mesmo que precisa gerenciar os indexes. O Parse adiciona automaticamente os indexes com base no fluxo de consulta de entrada.
+* Você precisa gerenciar o tamanho do seu banco de dados de acordo com o crescimento dos dados.
+
+## Why do I need to set failIndexKeyTooLong=false?
+
+MongoDB apenas permite index keys que são 1024 bytes ou menores. Se uma operação de escrita tentar armazenar um valor maior que 1024 bytes em um campo que foi indexado, irá falhar com um erro. Devido à forma como o Parse dinamicamente indexa as coleções com base no tráfego de consultas, foi inevitável ter indexado alguns campos com valores maiores do que 1024 bytes. Para evitar erros aleatórios de gravação, configuramos "failIndexKeyTooLong = false" na nossa base de dados, e aceitamos a gravação mesmo se o campo já estiver indexado. Um efeito colateral disso é que os dados com campos maiores do que 1024 bytes devem aparecer como "perdidos", dependendo de qual índice for selecionado pelo planejador de comandos do MongoDB.
+
+Ao migrar os seus dados você só precisa configurar esse parâmetro se os campos indexados forem maiores do que 1024 bytes * e * se as suas coleções forem maiores do que 1 milhão de documentos. Para aplicações menores, vamos limpar automaticamente os índices durante a migração. Aplicativos maiores devem seguir estes passos como uma boa prática:
+
+1. Configure o parâmetro `failIndexKeyTooLong=false` em seu banco de dados
+2. Migre todos os seus dados de acordo com o guia de [migração](https://parse.com/docs/server/guide#migrating).
+3. Verifique todos os índices existentes e os índices removidos para campos com dados maiores do que 1024 bytes. O número de campos e índices dependerá inteiramente da natureza do seu aplicativo e seus dados.
+4. Configure o parâmetro `failIndexKeyTooLong=true` em seu banco de dados.
