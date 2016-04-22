@@ -16,7 +16,7 @@ Hosted Parse applications can turn off client class creation in their settings. 
 
 You will likely need to make several changes to your Cloud Code to port it to Parse Server.
 
-## No current user
+### No current user
 
 Each Cloud Code request is now handled by the same instance of Parse Server, therefore there is no longer a concept of a "current user" constrained to each Cloud Code request. If your code uses `Parse.User.current()`, you should use `request.user` instead. If your Cloud function relies on queries and other operations being performed within the scope of the user making the Cloud Code request, you will need to pass the user's `sessionToken` as a parameter to the operation in question.
 
@@ -57,7 +57,7 @@ Parse.Cloud.define('getMessagesForUser', function(request, response) {
 });
 ```
 
-## Master key must be passed explicitly
+### Master key must be passed explicitly
 
 `Parse.Cloud.useMasterKey()` is not available in Parse Server Cloud Code. Instead, pass `useMasterKey: true` as an option to any operation that requires the use of the master key to bypass ACLs and/or CLPs.
 
@@ -76,7 +76,7 @@ Parse.Cloud.define('getTotalMessageCount', function(request, response) {
 });
 ```
 
-## Minimum JavaScript SDK version
+### Minimum JavaScript SDK version
 
 Parse Server also uses at least version [1.7.0](https://github.com/ParsePlatform/Parse-SDK-JS/releases) of the Parse SDK, which has some breaking changes from the previous versions. If your Parse.com Cloud Code uses a previous version of the SDK, you may need to update your cloud code. You can look up which version of the JavaScript SDK your Parse.com Cloud Code is using by running the following command inside your Cloud Code folder:
 
