@@ -9,7 +9,7 @@ Parse Server supports 3rd party authentication with
 
 Configuration options for these 3rd-party modules is done with the `oauth` option passed to Parse Server:
 
-```json
+```js
 {
   oauth: {
    twitter: {
@@ -27,7 +27,7 @@ Configuration options for these 3rd-party modules is done with the `oauth` optio
 
 It is possible to leverage the OAuth support with any 3rd party authentication that you bring in.
 
-```
+```js
 {
 
   oauth: {
