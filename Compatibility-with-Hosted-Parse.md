@@ -149,7 +149,7 @@ Parse Server only supports single app instances. There is ongoing work to make P
 
 ## Social Login
 
-Facebook, Twitter, and Anonymous logins are supported out of the box. Support for additional platforms may be configured via the [`oauth` configuration option](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#oauth).
+Facebook, Twitter, and Anonymous logins are supported out of the box. Support for additional platforms may be configured via the [`oauth` configuration option](https://github.com/ParsePlatform/parse-server/wiki/OAuth).
 
 ## Webhooks
 

@@ -105,7 +105,7 @@ The parameters are as follows:
 * `dotNetKey`: The .NET key for your app. (optional)
 * `push`: An object containing push configuration. See [Push](/ParsePlatform/parse-server/wiki/Push)
 * `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
-* `oauth`: Configure support for [3rd party authentication](#oauth).
+* `oauth`: Configure support for [3rd party authentication](/ParsePlatform/parse-server/wiki/OAuth).
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
@@ -126,59 +126,6 @@ app.listen(port, function() {
 ```
 
 And with that, you will have a Parse Server running on port 1337, serving the Parse API at `/parse`.
-
-## OAuth
-
-Parse Server supports 3rd party authentication with
-
-* Twitter
-* Meetup
-* LinkedIn
-* Google
-* Instagram
-* Facebook
-
-Configuration options for these 3rd-party modules is done with the `oauth` option passed to Parse Server:
-
-```
-{
-  oauth: {
-   twitter: {
-     consumer_key: "", // REQUIRED
-     consumer_secret: "" // REQUIRED
-   },
-   facebook: {
-     appIds: "FACEBOOK APP ID"
-   }
-  }
-
-}
-```
-
-### Custom authentication
-
-It is possible to leverage the OAuth support with any 3rd party authentication that you bring in.
-
-```
-{
-
-  oauth: {
-   my_custom_auth: {
-     module: "PATH_TO_MODULE" // OR object,
-     option1: "",
-     option2: "",
-   }
-  }
-}
-```
-
-On this module, you need to implement and export those two functions `validateAuthData(authData, options) {} ` and `validateAppId(appIds, authData) {}`.
-
-For more information about custom auth please see the examples:
-
-- [Facebook OAuth](https://github.com/ParsePlatform/parse-server/blob/master/src/authDataManager/facebook.js)
-- [Twitter OAuth](https://github.com/ParsePlatform/parse-server/blob/master/src/authDataManager/twitter.js)
-- [Instagram OAuth](https://github.com/ParsePlatform/parse-server/blob/master/src/authDataManager/instagram.js)
 
 # Database
 
@@ -314,6 +261,6 @@ Parse Server allows developers to choose from several options when hosting files
 
 LiveQuery provides real-time subscriptions to Parse Queries. To learn more, check out the [LiveQuery guide](/ParsePlatform/parse-server/wiki/Parse-LiveQuery).
 
-# Migrating 
+# Migrating
 
 The Parse hosted service will be retired on **January 28, 2017**. If you are planning to migrate an app, you need to begin work as soon as possible. Please visit our [Migration Guide](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App) to learn more.
