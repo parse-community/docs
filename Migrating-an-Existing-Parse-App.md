@@ -180,8 +180,7 @@ Go through your app settings panel and make sure to understand how these setting
 #### User Sessions
 
 * Require revocable sessions - This is required by Parse Server.
-* Expire inactive sessions - This is not yet available in Parse Server.
-* Revoke session on password change - This is not yet available in Parse Server.
+* Revoke session on password change - This is required by Parse Server.
 
 ### User Authentication
 
