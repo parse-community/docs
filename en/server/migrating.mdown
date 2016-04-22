@@ -185,7 +185,7 @@ This is always allowed in Parse Server.
 
 **Config**
 
-This is not supported. You can create config variables in Node that can be changed and deployed. Or, it would be relatively straightforward to create a Node version of Parse Config with a dashboard to change these variables without a deployment.
+While the Parse hosted Config can be changed via dashboard, with Parse Server an initial version of Parse Config is available via REST API. To add or update fields, you can call `/config` with `POST` with the desired keys and values, and to get the whole Config, just call a `GET` on the same `/config` endpoint of your app. Updating Config with Parse Server requires using the Master Key; otherwise, it will fail. For more information, check [the Pull Request that added it.](https://github.com/ParsePlatform/parse-server/pull/283)
 
 **Dashboard**
 
