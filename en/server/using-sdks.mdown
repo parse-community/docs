@@ -23,7 +23,7 @@ To use a Parse SDK with Parse Server, change the server URL to your Parse API UR
 Parse.initialize(new Parse.Configuration.Builder(myContext)
     .applicationId("YOUR_APP_ID")
     .clientKey("YOUR_APP_CLIENT_KEY")
-    .server("http://localhost:1337/parse")
+    .server("http://localhost:1337/parse/")
 
 
     ...
