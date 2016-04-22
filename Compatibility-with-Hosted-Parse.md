@@ -14,14 +14,76 @@ Hosted Parse applications can turn off client class creation in their settings. 
 
 ## Cloud Code
 
-There are two methods that are not directly supported in Cloud Code when using Parse Server:
+You will likely need to make several changes to your Cloud Code to port it to Parse Server.
 
-* `Parse.User.current()`: Use `request.user` instead.
-* `Parse.Cloud.useMasterKey()`: Pass `useMasterKey: true` as an option to each `Parse.Query`.
+## No current user
 
-Parse Server also uses at least version [1.7.0](https://github.com/ParsePlatform/Parse-SDK-JS/releases) of the Parse SDK, which has some breaking changes from the previous versions. If your Parse.com Cloud Code uses a previous version of the SDK, you may need to update your cloud code.
+Each Cloud Code request is now handled by the same instance of Parse Server, therefore there is no longer a concept of a "current user" constrained to each Cloud Code request. If your code uses `Parse.User.current()`, you should use `request.user` instead. If your Cloud function relies on queries and other operations being performed within the scope of the user making the Cloud Code request, you will need to pass the user's `sessionToken` as a parameter to the operation in question.
+
+Consider an messaging app where every `Message` object is set up with an ACL that only provides read-access to a limited set of users, say the author of the message and the recipient. To get all the messages sent to the current user you may have a Cloud function similar to this one:
+
+```js
+// Parse.com Cloud Code
+Parse.Cloud.define('getMessagesForUser', function(request, response) {
+  var user = Parse.User.current();
+
+  var query = new Parse.Query('Messages');
+  query.equalTo('recipient', user);
+  query.find()
+    .then(function(messages) {
+      response.success(messages);
+    });
+});
+```
+
+If this function is ported over to Parse Server without any modifications, you will first notice that your function is failing to run because `Parse.User.current()` is not recognized. If you replace `Parse.User.current()` with `request.user`, the function will run successfully but you may still find that it is not returning any messages at all. That is because `query.find()` is no longer running within the scope of `request.user` and therefore it will only return publicly-readable objects.
 
 To make queries and writes as a specific user within Cloud Code, you need to pass the user's `sessionToken` as an option. The session token for the authenticated user making the request is available in `request.user.getSessionToken()`.
+
+The ported Cloud function would now look like this:
+
+```js
+// Parse Server Cloud Code
+Parse.Cloud.define('getMessagesForUser', function(request, response) {
+  var user = request.user; // request.user replaces Parse.User.current()
+  var token = user.getSessionToken(); // get session token from request.user
+
+  var query = new Parse.Query('Messages');
+  query.equalTo('recipient', user);
+  query.find({ sessionToken: token }) // pass the session token to find()
+    .then(function(messages) {
+      response.success(messages);
+    });
+});
+```
+
+## Master key must be passed explicitly
+
+`Parse.Cloud.useMasterKey()` is not available in Parse Server Cloud Code. Instead, pass `useMasterKey: true` as an option to any operation that requires the use of the master key to bypass ACLs and/or CLPs.
+
+Consider you want to write a Cloud function that returns the total count of messages sent by all of your users. Since the objects in our `Message` class are using ACLs to restrict read access, you will need to use the master key to get the total count:
+
+```js
+Parse.Cloud.define('getTotalMessageCount', function(request, response) {
+
+  // Parse.Cloud.useMasterKey() <-- no longer available!
+
+  var query = new Parse.Query('Messages');
+  query.count({ useMasterKey: true }) // count() will use the master key to bypass ACLs
+    .then(function(count) {
+      response.success(count);
+    });
+});
+```
+
+## Minimum JavaScript SDK version
+
+Parse Server also uses at least version [1.7.0](https://github.com/ParsePlatform/Parse-SDK-JS/releases) of the Parse SDK, which has some breaking changes from the previous versions. If your Parse.com Cloud Code uses a previous version of the SDK, you may need to update your cloud code. You can look up which version of the JavaScript SDK your Parse.com Cloud Code is using by running the following command inside your Cloud Code folder:
+
+```
+$ parse jssdk
+Current JavaScript SDK version is 1.7.0
+```
 
 ## Dashboard
 
