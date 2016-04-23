@@ -1,8 +1,10 @@
 **The Parse hosted service will be retired on January 28, 2017. If you are planning to migrate an app, you need to begin work as soon as possible.**
 
-For most apps, the migration process is non-trivial, and will require dedicated development time. We recommend the following schedule:
+![Database Migration Timeline](images/ParseMigrationTimeline.png)
 
-* **[April 28, 2016](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#what-happens-if-i-dont-migrate-my-data-by-april-28-2016)**: Data migrated to a self-hosted MongoDB (Step 1)
+For most apps, the second phase of the migration process is non-trivial, and will require dedicated development time. We recommend the following schedule:
+
+* **April 28, 2016**: Data migrated to a self-hosted MongoDB (Step 1)
 * **July 28, 2016**: Finish setting up your self-hosted Parse Server and release a new app pointing to it (Steps 2-12)
 
 Following this schedule will give you time to migrate your data and deploy your own Parse Server, as well as train your development team to maintain and scale the service. It will also give your users enough time to update to the new version of your app.
@@ -13,25 +15,19 @@ After completion, you will have the following:
 
 * Parse Server running on your computer, allowing you to develop locally.
 * Parse Server running on Heroku or another infrastructure provider.
-* Your app’s data stored in MongoDB hosted on mLab or ObjectRocket.
-* Your app’s client-side code updated to point to the Parse Server instance on Heroku, ready to be released.
-* No dependency on api.parse.com for the new app client.
+* Your app's data stored in MongoDB hosted on mLab or ObjectRocket.
+* Your app's client-side code updated to point to your Parse Server instance, ready to be released.
+* No dependency on `api.parse.com` for the new app client.
 
 **We highly recommend that you first run through this guide with a development or test version of your app before working with a production app.**
 
 There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
 
-#### What happens if I don't migrate my data by April 28, 2016?
-
-April 28 marks three months since the shutdown was announced. Migrating your data is just the first step in the migration process. Our engineering team is placing higher priority on addressing [any issues that are raised](http://parse.com/help#report) by customers that initiate the database migration process before April 28. After that date, we will shift our resources to focus on providing support to developers migrating their apps to Parse Server.
-
-If you do not migrate your database by April 28, we will assume you do not consider the app's migration to be a high priority. Traffic to your app may be de-prioritized as we shift our focus to serving production apps that are being migrated according to our recommended schedule.
-
 # Visual Overview
 
 Here is a visual overview of the migration steps. Follow the detailed instructions after the diagram to migrate your app.
 
-![](https://parse.com/images/docs/server/migration.png)
+![Database Migration Steps](images/DatabaseMigrationSteps.png)
 
 # Migrating your Parse database
 
@@ -41,37 +37,54 @@ The first step is to migrate the data from your Parse hosted app to a self-hoste
 
 Set up a MongoDB instance that conforms to our [database specifications](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database). If this is your first time setting up a production MongoDB instance, we recommend using either mLab or ObjectRocket. These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
 
-* **Make sure to size your Mongo at least 10x.** Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 10X the current amount of data storage you are using (you can find this information in your hosted Parse app's Analytics overview page).
+Once you have Mongo set up, take note of the Mongo connection URL. Use the database migration tool to transfer your data. The database migration tool can be found in the [Parse.com Dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*.
 
-* **Set failIndexKeyTooLong=false.** You can configure it back to `true` after the migration is completed. ([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
+* **Make sure to size your MongoDB at least 3x.** Due to data being compressed in the hosted Parse database, make sure to size your Mongo at least 3X the current amount of data storage you are using (you can find this information in your hosted Parse app's Analytics overview page).
+
+* **Ensure the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/).** If the user in the connection string does not have admin privileges, you will need to set the `failIndexKeyTooLong` parameter to `false` yourself prior to the migration. You can configure it back to `true` after the migration is completed. ([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
 
 * **Latency between Parse and your self-hosted MongoDB should not exceed 20ms.** We recommend choosing either [mLab](http://docs.mLab.com/migrating-from-parse/) or [ObjectRocket](https://objectrocket.com/parse) for your hosted MongoDB as they both have datacenters in the US East geographic region.
 
-If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East. You should also plan to host your Parse Server in the same geographic region to minimize latency.
+  If you plan on hosting your production database in a different geographic region, you can do so after first migrating your data out of Parse and into the self-hosted MongoDB in US East. You should also plan to host your Parse Server in the same geographic region to minimize latency.
 
-Once you have Mongo set up, take note of the Mongo connection URL. Use the database migration tool to transfer your data (found in the [new Parse.com Dashboard](https://dashboard.parse.com/apps) under *App Settings* &rarr; *General* &rarr; *Migrate to external database*). Ensure that the user in the connection string has [admin privileges](https://docs.mongodb.org/manual/tutorial/manage-users-and-roles/), as the migration tool will set some parameters automatically during the process.
+* **Over-provision your database during the migration.** Make sure you're running on a good sized instance or plan. This usually means working with someone like mLab or Object Rocket and paying more for a high performance line. If your migration job takes to long to achieve sync, you're probably using insufficient hardware. Once you finalize the migration, you can trim down your data, drop duplicated indexes, and finally downsize your instance.
 
-### Error Message
-* **The destination database was not empty.** The database you are migrating to is not empty. Please clean up and retry.
-* **The destination database was too small.** The database you are migrating to is too small to hold all of your data. Add more space to your host or buy more space if you are using db service such as mLab or ObjectRocket.
-* **This migration was cancelled. You can try again from the app settings page.** The job was cancelled manually by the user.
-* **This migration was not finalized in time.** When a migration job is ready to be finalized, we will keep the db sync for 24 hours. If user doesn't take action to finalize the job within 24 hours, the job will be cancelled automatically.
-* **The mongo user provided is not authorized to do migration.** The user in the connection string doesn't have the necessary access to complete the migration.
-* **You must set failIndexKeyTooLong option.** You need to set the failIndexKeyTooLong setting of your mongo server to false.([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
-* **The job failed too many times and reached the max retry limit.** The job failed several times and we gave up trying. One possible reason can be your hardware cannot handle the migration load. If you have large collections (containing more than 1 million objects), please consider upgrading your host hardware. During the migration the system throughput is much higher than normal, so it requires better hardware. You can resize your host after the migration is done
+  Finding the right long term balance between price and performance will be left to you, but for migrating aim on the higher priced side for best performance. (This advice also applies to folks hosting on AWS, Digital Ocean, Heroku, or our other partners.)
 
 ### What happens next?
-![Database Migration Phases](https://github.com/ParsePlatform/parse-server/blob/master/.github/MigrationPhases.png?raw=true)
+![Database Migration Phases](images/DatabaseMigrationPhases.png)
 
 * **Copy Snapshot** The database migration tool first takes a snapshot of your existing data and transfers it to your Mongo database.
 * **Sync** Next, it will pause to allow manual verification, while continuing to keep things in sync with writes that are coming in from your live app. While you are in this state, your app continues to read and write from your Parse hosted database.
 * **Verify** Connect to your Mongo instance and browse through the collections in the newly created database. Check the collection counts and do a few spot checks to ensure that your data was migrated successfully.
 
-You may stop the migration and try again as many times as you need (until you click on _Finalize_). The tool will keep things in sync for up to 24 hours after the migration started. Once you're satisfied with the database migration, you can finalize the transfer in the migration UI and your app will be using the new MongoDB instance.
+You may stop the migration and try again as many times as you need (until you click on _Finalize_). The tool will keep things in sync for up to 24 hours after the migration started. You can go to *App Settings* &rarr; *General* &rarr; *Migrate to external database* and click on "Migrate" to start over after cleaning up your target database.
 
- At this point, your app is still hitting `api.parse.com`, but is using your MongoDB instance. You will need to administrate your database instance yourself, including maintaining indexes and scaling up.
+Once you're satisfied with the database migration, you can finalize the transfer in the migration UI and your app will be using the new MongoDB instance.
+
+At this point, your app is still hitting `api.parse.com`, but is using your MongoDB instance. You will need to administrate your database instance yourself, including maintaining indexes and scaling up.
 
 Note that you can elect to skip migrating your data and test the functionality of your Parse Server hosted app with a blank database. You can always migrate your data later.
+
+#### Troubleshooting common errors
+
+* **The destination database was not empty.** The database you are migrating to is not empty. Please clean up and retry.
+* **The destination database was too small.** The database you are migrating to is too small to hold all of your data. Add more space to your host or buy more space if you are using a service such as mLab or ObjectRocket.
+* **This migration was cancelled. You can try again from the app settings page.** The job was cancelled manually by the user.
+* **This migration was not finalized in time.** When a migration job is ready to be finalized, Parse will keep the database in sync for 24 hours. If you do not take any action to finalize the job within 24 hours, the job will be cancelled automatically.
+* **The mongo user provided is not authorized to do migration.** The user in the connection string doesn't have the necessary access to complete the migration.
+* **You must set failIndexKeyTooLong option.** You need to set the `failIndexKeyTooLong` setting of your mongo server to false.([Why?](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#why-do-i-need-to-set-failindexkeytoolongfalse))
+* **The job failed too many times and reached the max retry limit.** The job failed several times and we gave up trying. One possible reason can be your hardware cannot handle the migration load. If you have large collections (containing more than 1 million objects), please consider upgrading your host hardware. During the migration the system throughput is much higher than normal, so it requires better hardware. You can resize your host after the migration is done.
+
+If your database migration job does not reach the final verification step after several attempts, take note of your migration job id and [file a bug report](https://parse.com/help#report) with our team. Make sure to include as much detail upfront as possible:
+
+* Migration job id
+* MongoDB version
+* Storage engine
+* Hosting provider
+* Hardware details (CPU, RAM, available disk space)
+
+
 
 # Setting up Parse Server
 

@@ -13,7 +13,7 @@
 * [Keys](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#keys)
 * [Using Parse SDKs with Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server)
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#deploying-parse-server)
-* [Third Party Authentication](/ParsePlatform/parse-server/wiki/OAuth)
+* [Configuring Third Party Auth](/ParsePlatform/parse-server/wiki/OAuth)
 * [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Using LiveQuery](/ParsePlatform/parse-server/wiki/Parse-LiveQuery)

@@ -10,10 +10,12 @@
 * [Keys](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#keys)
 * [Using Parse SDKs with Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server)
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#deploying-parse-server)
+* [Configuring Third Party Authentication](/ParsePlatform/parse-server/wiki/OAuth)
 * [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Using LiveQuery](/ParsePlatform/parse-server/wiki/Parse-LiveQuery)
   * [LiveQuery Protocol](/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
+* [Migrating an Existing App](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
 
 # Overview
 
