@@ -21,8 +21,6 @@ After completion, you will have the following:
 
 **We highly recommend that you first run through this guide with a development or test version of your app before working with a production app.**
 
-There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
-
 # Visual Overview
 
 Here is a visual overview of the migration steps. Follow the detailed instructions after the diagram to migrate your app.
@@ -84,15 +82,15 @@ If your database migration job does not reach the final verification step after 
 * Hosting provider
 * Hardware details (CPU, RAM, available disk space)
 
-
-
 # Setting up Parse Server
+
+There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. Carefully read through the list of [compatibility issues with hosted Parse](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) before proceeding.
 
 ## 2. Set Up Local Parse Server
 
 Follow the instructions in the [Parse Server Sample App](https://github.com/ParsePlatform/parse-server-example) and use the Mongo connection string from Step 1.
 
-Go to the Security & Keys section of App Settings in your [Parse.com Dashboard](https://dashboard.parse.com) and take note of the File Key, Master Key, Client Key, JavaScript Key, and dotNETKey values. Pass that into the ParseServer constructor in `index.js`.
+Go to the Security & Keys section of App Settings in your [Parse.com Dashboard](https://dashboard.parse.com) and take note of the File Key and Master Key values. Pass that into the ParseServer constructor in `index.js`. You no longer need to use a client key with Parse Server.
 
 ### Verification
 
@@ -115,49 +113,7 @@ You now have a Parse Server running locally that is connected to the data in Mon
 
 ## 3. Cloud Code
 
-We will now migrate your existing Cloud Code to run in Parse Server. Copy your app’s Cloud Code to the parse-server/cloud directory, replacing the example main.js. You will need to replace any relative paths like ‘cloud/…’ to ‘./cloud’.
-
-Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
-
-#### App Links
-
-There is no direct replacement , but it is relatively easy to generate these tags yourself.
-
-#### Buffer
-
-This is included natively with Node. Remove any require('buffer') calls.
-
-#### Mailgun
-
-Use the official npm module: https://www.npmjs.com/package/mailgun-js
-
-#### Mandrill
-
-Use the official npm module: https://www.npmjs.com/package/mandrill-api
-
-#### Moment
-
-Use the official npm module: https://www.npmjs.com/package/moment
-
-#### Parse Image
-
-We recommend using another image manipulation library, like the [imagemagick wrapper module](https://www.npmjs.com/package/imagemagick). Alternatively, consider using a cloud-based image manipulation and management platform, such as [Cloudinary](https://www.npmjs.com/package/cloudinary).
-
-#### SendGrid
-
-Use the official npm module: https://www.npmjs.com/package/sendgrid
-
-#### Stripe
-
-Use the official npm module: https://www.npmjs.com/package/stripe
-
-#### Twilio
-
-Use the official npm module: https://www.npmjs.com/package/twilio
-
-#### Underscore
-
-Use the official npm module: https://www.npmjs.com/package/underscore
+We will now migrate your existing Cloud Code to run in Parse Server. Copy your app’s Cloud Code to the `parse-server/cloud` directory, replacing the example `main.js`. You will need to replace any relative paths like ‘cloud/…’ to ‘./cloud’. The `Parse.Cloud.useMasterKey()` method, `Parse.User.current()` method, and native [Parse.com Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server. See our [compatibility guide](/ParsePlatform/Parse-Server/wiki/Compatibility-with-Hosted-Parse#Cloud-Code) to see a list of workarounds.
 
 ### Verification
 
@@ -167,7 +123,7 @@ Because the Parse hosted Cloud Code isn’t running a full node environment, the
 
 ## 4. Hosting
 
-If you are using Parse Hosting, you can migrate all these web endpoints to the same Express app that is serving Parse Server. For example, you could mount Parse Server under /parse and your website at the root, like so:
+If you are using Parse Hosting, you can migrate all these web endpoints to the same Express app that is serving Parse Server. For example, you could mount Parse Server under `/parse` and your website at the root, like so:
 
 ```js
 var api = new ParseServer({ ... });
@@ -182,7 +138,7 @@ app.get('/about', aboutController.index);
 
 ## 5. Files
 
-When using Parse Server, any new file you create will be saved on [the data store you select through the files adapter](http://blog.parse.com/announcements/hosting-files-on-parse-server/) (MongoDB, S3, ...). However, when you migrate your application to your own MongoDB instance, your existing files are still in Parse's hosted service. As long as you specify the correct `fileKey`, Parse Server knows exactly how to access them, so they will keep working just fine.
+When using Parse Server, any new file you create will be saved on [the data store you select through the files adapter](http://blog.parse.com/announcements/hosting-files-on-parse-server/) (MongoDB, S3, ...). However, when you migrate your application to your own MongoDB instance, your existing files are still in Parse's hosted service. As long as you specify the correct `fileKey`, Parse Server knows exactly how to access them, so they will keep working just fine. Files uploaded by Parse Server clients are not yet accessible by Parse.com clients as of this writing.
 
 Parse's S3 bucket will be turned down on January 28th, 2017, which means those files will need to be migrated before that date. We have [a plan](https://github.com/ParsePlatform/parse-server/wiki/Files-Migration) and we're currently working on a set of tooling to help you migrate all the existing files referenced by your application to your own backing store. Stay tuned!
 
@@ -192,7 +148,7 @@ Go through your app settings panel and make sure to understand how these setting
 
 #### User Sessions
 
-* Require revocable sessions - This is required by Parse Server.
+* Require revocable sessions - This is required by Parse Server. If you are using legacy user sessions, you will need to migrate your user sessions prior to using Parse Server.
 * Revoke session on password change - This is required by Parse Server.
 
 ### User Authentication

@@ -85,6 +85,51 @@ $ parse jssdk
 Current JavaScript SDK version is 1.7.0
 ```
 
+### Cloud Modules
+
+Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
+
+#### App Links
+
+There is no direct replacement, but it is relatively easy to generate these tags yourself.
+
+#### Buffer
+
+This is included natively with Node. Remove any require('buffer') calls.
+
+#### Mailgun
+
+Use the official npm module: https://www.npmjs.com/package/mailgun-js
+
+#### Mandrill
+
+Use the official npm module: https://www.npmjs.com/package/mandrill-api
+
+#### Moment
+
+Use the official npm module: https://www.npmjs.com/package/moment
+
+#### Parse Image
+
+We recommend using another image manipulation library, like the [imagemagick wrapper module](https://www.npmjs.com/package/imagemagick). Alternatively, consider using a cloud-based image manipulation and management platform, such as [Cloudinary](https://www.npmjs.com/package/cloudinary).
+
+#### SendGrid
+
+Use the official npm module: https://www.npmjs.com/package/sendgrid
+
+#### Stripe
+
+Use the official npm module: https://www.npmjs.com/package/stripe
+
+#### Twilio
+
+Use the official npm module: https://www.npmjs.com/package/twilio
+
+#### Underscore
+
+Use the official npm module: https://www.npmjs.com/package/underscore
+
+
 ## Dashboard
 
 Parse has provided a separate [Parse Dashboard project](http://blog.parse.com/announcements/introducing-the-parse-server-dashboard/) which can be used to manage all of your Parse Server applications.
