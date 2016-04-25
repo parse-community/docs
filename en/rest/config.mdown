@@ -34,3 +34,36 @@ The response body is a JSON object containing all the configuration parameters i
   }
 }
 ```
+
+You can also update the config by sending a `PUT` request to config URL. Here is a simple example that will update the `Parse.Config`:
+
+```bash
+curl -X PUT \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -d "{\"params\":{\"winningNumber\":43}}"
+  https://api.parse.com/1/config
+```
+```js
+var request = require('request');
+return request({
+  method: 'PUT',
+  url: Parse.serverURL + '/config',
+  headers: {
+    'X-Parse-Application-Id': Parse.applicationId,
+    'X-Parse-Master-Key': Parse.masterKey
+  },
+  json: true, 
+  body: {
+    params: { winningNumber: 43 }
+  }
+})
+```
+
+The response body is a JSON object containing a simple boolean value in the `result` field.
+
+```json
+{
+  "result": true
+}
+```
