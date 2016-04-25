@@ -85,6 +85,10 @@ $ parse jssdk
 Current JavaScript SDK version is 1.7.0
 ```
 
+### Network requests
+
+As with Parse Cloud Code, you can use `Parse.Cloud.httpRequest` to make network requests on Parse Server. It's worth noting that in Parse Server you can use any npm module, therefore you may also install the ["request" module](https://www.npmjs.com/package/request) and use that directly instead.
+
 ### Cloud Modules
 
 Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
