@@ -6,7 +6,7 @@ No entanto, existem alguns casos onde é útil estar ciente como os dados são a
 
 ## Data Storage
 
-Internamente o Parse armazena os dados como JSON, então qualquer tipo de dado que possa ser convertido para JSON pode ser armazenado no Parse. Consulte a seção [Tipos de Dados em Objetos](#objects-data-types) deste guia para observar examplos específicos da plataforma.
+Internamente o Parse armazena os dados como JSON, então qualquer tipo de dado que possa ser convertido para JSON pode ser armazenado no Parse. Consulte a seção [Tipos de Dados em Objetos](#objects-data-types) deste guia para observar exemplos específicos da plataforma.
 
 Chaves incluíndo os caracteres `$` ou `.`, juntamente com a chave `__type`, são reservadas pelo framework para manipular tipos de dados adicionais, portanto não os use. Os nomes das chaves devem conter apenas números, letras, e sublinhado, e devem começar com uma letra. Os valores podem ser qualquer coisa que possa ser codificada em JSON.
 
@@ -34,7 +34,7 @@ O Data Browser também é um bom lugar para testar as validações presentes nas
 
 Você pode importar dados em seu app Parse usando arquivos CSV ou JSON. Para criar uma nova classe com dados de arquivos CSV ou JSON, vá ao Data Browser e clique no botão "Import" na coluna da esquerda.
 
-O formato JSON é um array de objetos em nosso formato REST ou um objeto JSON `results` que contém um array de objetos. Ele deve aderir ao [padrão JSON](http://json.org/). Um arquivo contendo objetos requlares pode ser semelhante a este:
+O formato JSON é um array de objetos em nosso formato REST ou um objeto JSON `results` que contém um array de objetos. Ele deve aderir ao [padrão JSON](http://json.org/). Um arquivo contendo objetos regulares pode ser semelhante a este:
 
 ```js
 { "results": [
@@ -49,7 +49,7 @@ O formato JSON é um array de objetos em nosso formato REST ou um objeto JSON `r
 }
 ```
 
-Objetos em ambos os casos devem conter chaves e valores que satisfaçam as seguintes condições:
+Os objetos em ambos os casos devem conter apenas chaves e valores que satisfaçam as seguintes condições:
 
 * Nomes de chaves devem conter apenas números, letras e sublinhado, e devem iniciar com uma letra.
 * Nenhum valor pode conter um caractere de nova linha '`\n`'.
@@ -80,7 +80,7 @@ Observe que os campos importados por CSV são limitados a `String`, `Boolean`, e
 
 ## Exporting your Data
 
-Você pode solicitar a exportação dos seus dados a qualquer momento a partir da página de configurações do seu app. A exportação dos dados roda em um processo secundário às consultas de produção, logo se o seu aplicativo ainda estiver respondendo as consultas, o trafégo de produção terá sempre uma prioridade mais alta, o que pode reduzir a velocidade de entrega dos seus dados exportados.
+Você pode solicitar a exportação dos seus dados a qualquer momento a partir da página de configuração do seu app. A exportação dos dados roda em um processo secundário às consultas de produção, logo se o seu aplicativo ainda estiver respondendo as consultas, o trafégo de produção terá sempre uma prioridade mais alta, o que pode reduzir a velocidade de entrega dos seus dados exportados.
 
 ### Export Formats
 

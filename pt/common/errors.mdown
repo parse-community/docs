@@ -1,0 +1,170 @@
+# Error Codes
+
+A lista a seguir contém todos os códigos de erro que podem retornados pela API do Parse. Você também pode se referir ao [RFC2616](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html) para uma lista de todos os códigos de erro http. Certifique-se de verificar a mensagem de erro para obter mais detalhes.
+
+## API Issues
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `UserInvalidLoginParams`	       |   101  | Parâmetros inválidos para login. Verifique a mensagem de erro para mais detalhes.                           |
+| `ObjectNotFound`	               |   101  | O objeto ou sessão especificados não existem ou não foram encontrados. Isso também pode indicar que você não possui as permissões necessárias para leitura e escrita neste objeto. Verifique a mensagem de erro para mais detalhes.                            |
+| `InvalidQuery`	                 |   102  | Existe um problema com os parâmetros utilizados para criar a consulta. Isto pode ser um campo com nome inválido ou um campo com tipo inválido na restrição da consulta. Verifique a mensagem de erro para mais detalhes.  |
+| `InvalidClassName`               |   103  | O nome da classe é inválido ou não existe. Nomes de classes são case-sensitive. Os nomes precisam iniciar com uma letra, e a-zA-Z0-9_ são os únicos caracteres aceitos. |
+| `MissingObjectId`	               |   104  | O id do objeto não foi especificado. |
+| `InvalidFieldName`	             |   105  | Nome inválido para o campo. As chaves são case-sensitive. Elas precisam iniciar com uma letra, e a-zA-Z0-9_ são os únicos caracteres aceitos. Alguns nomes de campo podem ser reservados. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidPointer`	               |   106  | Um ponteiro inválido foi utilizado. Isso pode acontecer normalmente caso você tenha modificado um cliente de SDK. |
+| `InvalidJSON`                    |   107  | JSON em formato incorreto. Isto indica que você fez algo incomum com o modo como os dados são codificados em JSON, ou a rede pode estar caindo frequentemente. Isso também pode indicar uma string utf-8 inválida ou o uso de múltiplos valores de codificação. Verifique a mensagem de erro para mais detalhes.  |
+| `CommandUnavailable`	           |   108  | O recurso que você tentou acessar está disponível apenas internamente para fins de teste. |
+| `NotInitialized`	               |   109  | Você precisa executar Parse.initialize antes de utilizar a biblioteca do Parse. Confira o guia rápido para a sua plataforma. |
+| `ObjectTooLarge`	               |   116  | O objeto é muito grande. %{ParseObject}s tem um tamanho máximo de 128 kilobytes. |
+| `ExceededConfigParamsError`      |   116  | Você atingiu o limite de parâmetros de 100 configuração. |
+| `InvalidLimitError`	             |   117  | Um valor inválido foi definido para o limit. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidSkipError`	             |   118  | Um valor inválido foi definido para o skip. Verifique a mensagem de erro para mais detalhes. |
+| `OperationForbidden`	           |   119  | A operação não é permitida para os clientes devido a permissões de nível de classe. Verifique a mensagem de erro para mais detalhes. |
+| `CacheMiss`	                     |   120  | O resultado não foi encontrado no cache. |
+| `InvalidNestedKey`	             |   121  | Uma chave inválida foi utilizada em um JSONObject aninhado. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidACL`	                   |   123  | Foi fornecido um ACL inválido. |
+| `InvalidEmailAddress`	           |   125  | Foi fornecido um endereço de email inválido. |
+| `DuplicateValue`	               |   137  | O valor já foi utilizado para um campo de valor único. |
+| `InvalidRoleName`	               |   139  | Nome da regra inválido. |
+| `ReservedValue`	                 |   139  | O valor do campo é reservado. |
+| `ExceededCollectionQuota`        |   140  | Você atingiu o número máximo de classes para o seu app. Por favor, remova algumas classes se você precisar adicionar novos elementos. |
+| `ScriptFailed`	                 |   141  | O script Cloud Code falhou. Normalmente é um erro JavaScript. Verifique a mensagem de erro para mais detalhes. |
+| `FunctionNotFound`	             |   141  | A função Cloud não foi encontrada. Verifique se a função Cloud está presente em seu script Cloud Code e se foi distribuida. |
+| `JobNotFound`	                   |   141  | O Background job não foi encontrado. Verifique se o job está presente em seu script Cloud Code e se foi distribuido. |
+| `SuccessErrorNotCalled`          |   141  | success/error não foi chamado. A função cloud irá retornar uma vez que response.success() ou response.error() sejam executados. Um background job também irá terminar a execução uma vez que status.success() ou status.error() sejam executados. Se a função ou job nunca executar os métodos success/error, este erro será retornado. Isto pode acontecer quando uma função uma resposta de erro corretamente, impedindo a execução da chamada do método success(). |
+| `MultupleSuccessErrorCalls`      |  141 | Não é possível executar success/error múltiplas vezes. A função cloud irá retornar uma vez que response.success() ou response.error() sejam executados. Um background job também irá terminar a execução uma vez que status.success() ou status.error() sejam executados. Se uma função ou background job executa os métodos success() e/ou error() mais de uma vez em uma única execução, este erro será retornado. |
+| `ValidationFailed`	             |  142 | A validação do Cloud Code falhou. |
+| `WebhookError`	                 |  143 | Erro no Webhook. |
+| `InvalidImageData`	             |  150 | Dados da imagem inválidos. |
+| `UnsavedFileError`	             |  151 | O arquivo não foi salvo. |
+| `InvalidPushTimeError`	         |  152 | Um horário inválido para o push foi especificado. |
+| `HostingError`                   |  158 | Erro no Hosting. |
+| `InvalidEventName`	             |  160 | O nome do evento é inválido. |
+| `ClassNotEmpty`       	         |  255 | A classe não está vazia, portando não pode ser removida. |
+| `AppNameInvalid`	               |  256 | Nome inválido para o App. |
+| `MissingAPIKeyError`	           |  902 | A requisição precisa informar uma chave de API.       |
+| `InvalidAPIKeyError`	           |  903 | A requisição  está utilizando uma chave de API inválida. |
+
+## Push related errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `IncorrectType`	                 |  111   | Um campo foi definido com um tipo incompatível. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidChannelName`	           |  112   | O nome do canal é inválido. O nome do canal é uma string vazia (canal de broadcast) ou contém apenas caracteres de a-zA-Z0-9_ characters e inicia com uma letra. |
+| `InvalidSubscriptionType`	       |  113   | Tipo de assinatura inválido. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidDeviceToken`	           |  114   | O device token fornecido é inválido. |
+| `PushMisconfigured`	             |  115   | O Push não está configurado corretamente para o seu app.  Verifique a mensagem de erro para mais detalhes. |
+| `PushWhereAndChannels`	         |  115   | Não é possível definir canais para query-targeted pushs. Você pode corrigir movendo os canais em suas restrições de consulta push. |
+| `PushWhereAndType`	             |  115   | Não é possível definir um tipo para query-targeted pushs. Você pode corrigir incorporando as restrições de tipo de dispositivo em sua consulta Push. |
+| `PushMissingData`	               |  115   | Push precisa de um campo 'data'. |
+| `PushMissingChannels`	           |  115   | A consulta push não especificou o campo 'channels'. Corrija ao passar o campo 'channels' ou o campo 'query'. |
+| `ClientPushDisabled`	           |  115   | Mensagens Push iniciadas nos clientes não estão autorizadas para o seu app. Verifique as configurações de notificação push do seu app. |
+| `RestPushDisabled`	             |  115   | Mensagens Push iniciadas pela API REST não estão autorizadas para o seu app. Verifique as configurações de notificação push do seu app. |
+| `ClientPushWithURI`	             |  115   | Mensagens push iniciadas nos clientes não podem utilizar a opção "uri". |
+| `PushQueryOrPayloadTooLarge`	   |  115   | Sua consulta push ou carga de dados estão muito grandes. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidExpirationError`	       |  138   | O valor de expiração é inválido. |
+| `MissingPushIdError`	           |  156   | Um push id está pendente. Deprecated. |
+| `MissingDeviceTypeError`         |  157   | O campo com o tipo do dispositivo está faltando. Deprecated. |
+
+## File related errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `InvalidFileName`	               |  122   | Um nome de arquivo inválido foi utilizado no %{ParseFile}. Um nome de arquivo válido precisa conter apenas caracteres de a-zA-Z0-9_. e ter entre 1 e 128 caracteres. |
+| `MissingContentType`	           |  126   | Tipo de conteúdo pendente. |
+| `MissingContentLength`	         |  127   | Tamanho do conteúdo pendente. |
+| `InvalidContentLength`	         |  128   | Tamanho do conteúdo inválido. |
+| `FileTooLarge`	                 |  129   | O tamanho do arquivo excede o valor máximo permitido. |
+| `FileSaveError`	                 |  130   | Erro ao salvar o arquivo. |
+| `FileDeleteError`	               |  131   | O arquivo não pode ser removido. |
+
+## Installation related errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `InvalidInstallationIdError`	   |  132   | Id de instalação inválido. |
+| `InvalidDeviceTypeError`         |  133   | Tipo de dispositivo inválido. |
+| `InvalidChannelsArrayError`	     |  134   | Valor do array de canais inválido. |
+| `MissingRequiredFieldError`	     |  135   | Campo obrigatório pendente. |
+| `ChangedImmutableFieldError`	   |  136   | Um valor imutável foi modificado. |
+
+## Purchase related errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `ReceiptMissing`	               |  143   | O recibo de pagamento do produto está pendente. |
+| `InvalidPurchaseReceipt`	       |  144   | O recibo de pagamento do produto não é válido. |
+| `PaymentDisabled`                |  145   | Pagamentos estão indiponíveis neste aparelho. |
+| `InvalidProductIdentifier`       |  146   | O identficador do produto é inválido. |
+| `ProductNotFoundInAppStore`	     |  147   | O produto não foi encontrado na App Store. |
+| `InvalidServerResponse`	         |  148   | A resposta do servidor Apple não é válida. |
+| `ProductDownloadFilesystemError` |  149   | Ocorreu uma falha ao baixar o arquivo devido a um erro do sistema. |
+
+## User related errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `UsernameMissing`	               |  200   | O nome de usuário está pendente ou não foi especificado. |
+| `PasswordMissing`           	   |  201   | A senha está pendente ou não foi especificada. |
+| `UsernameTaken`             	   |  202   | O nome de usuário já está sendo utilizado. |
+| `UserEmailTaken`	               |  203   | O endereço de email já está sendo utilizado. |
+| `UserEmailMissing`           	   |  204   | O email precisa ser especificado. |
+| `UserWithEmailNotFound`          |  205   | Não foi encontrado nenhum usuário com o email especificado. |
+| `SessionMissing`	               |  206   | Os dados do usuário não podem ser alterados sem uma sessão válida. |
+| `MustCreateUserThroughSignup`    |  207   | Um usuário só pode ser criado através do signup. |
+| `AccountAlreadyLinked`	         |  208   | A conta já está linkada com outro usuário. |
+| `InvalidSessionToken`	           |  209   | O token da sessão não é mais válido. O aplicativo precisa perguntar ao usuário para se autenticar novamente. |
+
+## Linked services errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `LinkedIdMissing`	               |  250   | Um usuário não pode ser linkado nesta conta porque o id da conta não foi encontrado. |
+| `InvalidLinkedSession`	         |  251   | O usuário com a conta linkada (e.g. Facebook or Twitter) está com uma sessão inválida. Verifique a mensagem de erro para mais detalhes. |
+| `InvalidGeneralAuthData`	       |  251   | Foram utilizados dados inválidos de autenticação. |
+| `BadAnonymousID`	               |  251   | O id anônimo não é um valor válido de UUID. |
+| `FacebookBadToken`	             |  251   | O token da sessão Facebook expirou ou está inválido. |
+| `FacebookBadID`	                 |  251   | Um usuário com a conta do Facebook tem uma sessão inválida. |
+| `FacebookWrongAppID`	           |  251   | O application id do Facebook foi rejeitado.  |
+| `TwitterVerificationFailed`	     |  251   | A verificação das credenciais do Twitter falhou. |
+| `TwitterWrongID`	               |  251   | Submitted Twitter id does not match the id associated with the submitted access token. |
+| `TwitterWrongScreenName`	       |  251   | Submitted Twitter handle does not match the handle associated with the submitted access token. |
+| `TwitterConnectFailure`	         |  251   | As credenciais do Twitter não puderem ser verificadas devido a um problema ao acessar as APIs do Twitter. |
+| `UnsupportedService`	           |  252   | Um serviço já linkada (e.g. Facebook or Twitter) não é suportado. Verifique a mensagem de erro para mais detalhes. |
+| `UsernameSigninDisabled`         |  252   | A autenticação por nome de usuário e senha não é permitida para o seu aplicativo. Verifique as configurações de autenticação. |
+| `AnonymousSigninDisabled`        |  252   | Usuários anônimos não são permitidos para este aplicativo. Verifique as configurações de autenticação. |
+| `FacebookSigninDisabled`         |  252   | Autenticação por Facebook não é permitida para este aplicativo. Verifique as configurações de autenticação. |
+| `TwitterSigninDisabled`          |  252   | Autenticação por Twitter não é permitida para este aplicativo. Verifique as configurações de autenticação. |
+| `InvalidAuthDataError`	         |  253   | Um valor inválido para authData foi informado. Verifique a mensagem de erro para mais detalhes. |
+| `LinkingNotSupportedError`       |  999   | Ainda não é possível linkar a sua conta com um serviço de autenticação externo utilizando signup_or_login. Utilize o update ao invés disso. |
+
+## Client-only errors
+
+| Nome                             | Código | Descrição                                                   |
+|----------------------------------|------|---------------------------------------------------------------|
+| `ConnectionFailed`	             |  100   | A conexão com os servidores Parse falhou.                   |
+| `AggregateError`                 |  600   | Ocorreram múltiplos erros. Os erros agregados possuem uma propriedade "errors", que é um array de objetos com mais detalhes sobre cada erro que ocorreu. |
+| `FileReadError `                 |  601   | Não foi possível ler o %{ParseFile} no cliente. |
+| `XDomainRequest`                 |  602   | O código erro real não está disponível porque nós tivemos que utilizar um objeto XDomainRequest para permitir chamadas CORS no Internet Explorer, que retira o corpo das respostas que tem um código de status non-2XX. |
+
+## Operational issues
+
+| Nome                             | Código | Descrição                                                     |
+|----------------------------------|--------|---------------------------------------------------------------|
+| `RequestTimeout`                 |  124   | A requisição estava lenta e expirou. Tipicamente isso indica que a requisição requer muito esforço para rodar. Você pode observar este comportamento quando uma função Cloud finalizar antes de expirar, ou quando a conexão `Parse.Cloud.httpRequest` expirar.  |
+| `InefficientQueryError`	         |  154   | A consulta foi rejeita pelo servidor. Consulte o guia de performance e o log da consulta. |
+| `RequestLimitExceeded`	         |  155   | O aplicativo excedeu o limite de requisições. Por favor, tente novamente ou aumente o limite de requisições no https://parse.com/account. Verifique a mensagem de erro para mais detalhes. |
+| `TemporaryRejectionError`	       |  159   | As requisições estão temporariamente rejeitadas pelo servidor. |
+
+Se as suas requisições forem rejeitas por um código de erro 155, seu aplicativo pode estar [excedendo o limite de requisições](/plans/faq#request-limit-exceeded). Você pode aprender mais lendo o FAQ sobre [como as requisições são calculadas](/plans/faq#how-are-requests-per-second-calculated). Se após um minuto ou ao [aumentar o limite de requisições](/plans/faq#increasing-request-limit) não resolver o problema, [por favor envie um relatório com mais detalhes sobre o bug](https://parse.com/help#report). Se as suas requisições ainda estão sendo rejeitas com um código de erro 159, [por favor envie um relatório com mais detalhes sobre o bug](https://parse.com/help#report) para mais instruções em como resolver o problema.
+
+## Other issues
+
+| Nome                             | Código | Descrição                                                       |
+|----------------------------------|--------|-----------------------------------------------------------------|
+| `OtherCause`	                   |   -1   | Um erro desconhecido ou não relacionado ao Parse ocorreu.       |
+| `InternalServerError`	           |    1   | Erro Interno do Servidor. Não há informações disponíveis.          |
+| `ServiceUnavailable`	           |    2   | O serviço está temporariamente indisponível.                    |
+| `ClientDisconnected`	           |    4   | Falha de conexão.                                               |
+ 
