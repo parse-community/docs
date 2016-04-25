@@ -93,45 +93,35 @@ As with Parse Cloud Code, you can use `Parse.Cloud.httpRequest` to make network 
 
 Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
 
-#### App Links
+* **App Links**:
+  There is no direct replacement, but it is relatively easy to generate these tags yourself.
 
-There is no direct replacement, but it is relatively easy to generate these tags yourself.
+* **Buffer**:
+  This is included natively with Node. Remove any `require('buffer')` calls.
 
-#### Buffer
+* **Mailgun**:
+  Use the official npm module: [mailgun-js](https://www.npmjs.com/package/mailgun-js).
 
-This is included natively with Node. Remove any `require('buffer')` calls.
+* **Mandrill**:
+  Use the official npm module, [mandrill-api](https://www.npmjs.com/package/mandrill-api).
 
-#### Mailgun
+* **Moment**:
+  Use the official npm module, [moment](https://www.npmjs.com/package/moment).
 
-Use the official npm module: [mailgun-js](https://www.npmjs.com/package/mailgun-js)
+* **Parse Image**:
+  We recommend using another image manipulation library, like the [imagemagick wrapper module](https://www.npmjs.com/package/imagemagick). Alternatively, consider using a cloud-based image manipulation and management platform, such as [Cloudinary](https://www.npmjs.com/package/cloudinary).
 
-#### Mandrill
+* **SendGrid**:
+  Use the official npm module, [sendgrid](https://www.npmjs.com/package/sendgrid).
 
-Use the official npm module: [mandrill-api](https://www.npmjs.com/package/mandrill-api)
+* **Stripe**:
+  Use the official npm module, [stripe](https://www.npmjs.com/package/stripe).
 
-#### Moment
+* **Twilio**:
+  Use the official npm module, [twilio](https://www.npmjs.com/package/twilio).
 
-Use the official npm module: [moment](https://www.npmjs.com/package/moment)
-
-#### Parse Image
-
-We recommend using another image manipulation library, like the [imagemagick wrapper module](https://www.npmjs.com/package/imagemagick). Alternatively, consider using a cloud-based image manipulation and management platform, such as [Cloudinary](https://www.npmjs.com/package/cloudinary).
-
-#### SendGrid
-
-Use the official npm module: [sendgrid](https://www.npmjs.com/package/sendgrid)
-
-#### Stripe
-
-Use the official npm module: [stripe](https://www.npmjs.com/package/stripe)
-
-#### Twilio
-
-Use the official npm module: [twilio](https://www.npmjs.com/package/twilio)
-
-#### Underscore
-
-Use the official npm module: [underscore](https://www.npmjs.com/package/underscore)
+* **Underscore**:
+  Use the official npm module, [underscore](https://www.npmjs.com/package/underscore).
 
 ## Dashboard
 
