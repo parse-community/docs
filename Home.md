@@ -30,6 +30,8 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Deploying Parse Server to Google App Engine](https://medium.com/@justinbeckwith/deploying-parse-server-to-google-app-engine-6bc0b7451d50)
 * [Run Parse-server on Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server)
 * [Microsoft Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/) - Migration guide
+* [Rackspace Cloud Servers](https://support.rackspace.com/how-to/migrating-from-parse-to-rackspace/) - Migrating to Rackspace cloud servers
+* [ObjectRocket](https://objectrocket.com/blog/mongodb/move-your-parse-data-to-objectrocket) - Migrating your database to ObjectRocket from Rackspace
 * [Urban Airship](https://www.urbanairship.com/parse-migration) - Push notification migration tool from Urban Airship
 * [docker image](https://hub.docker.com/r/instainer/parse-server) - A docker image for running parse-server quickly
 * [IBM Bluemix](http://ibm.co/1Z00gMw) - Migrating your Parse apps to Bluemix on IBM Cloud
