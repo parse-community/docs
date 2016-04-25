@@ -222,7 +222,7 @@ Parse.serverURL = 'http://localhost:1337/parse'
 ```csharp
 ParseClient.initialize(new ParseClient.Configuration {
     ApplicationId = "YOUR_APP_ID",
-    Server = "http://localhost:1337/parse"
+    Server = "http://localhost:1337/parse/"
 });
 ```
 
