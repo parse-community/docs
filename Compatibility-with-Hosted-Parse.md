@@ -99,19 +99,19 @@ There is no direct replacement, but it is relatively easy to generate these tags
 
 #### Buffer
 
-This is included natively with Node. Remove any require('buffer') calls.
+This is included natively with Node. Remove any `require('buffer')` calls.
 
 #### Mailgun
 
-Use the official npm module: https://www.npmjs.com/package/mailgun-js
+Use the official npm module: [mailgun-js](https://www.npmjs.com/package/mailgun-js)
 
 #### Mandrill
 
-Use the official npm module: https://www.npmjs.com/package/mandrill-api
+Use the official npm module: [mandrill-api](https://www.npmjs.com/package/mandrill-api)
 
 #### Moment
 
-Use the official npm module: https://www.npmjs.com/package/moment
+Use the official npm module: [moment](https://www.npmjs.com/package/moment)
 
 #### Parse Image
 
@@ -119,20 +119,19 @@ We recommend using another image manipulation library, like the [imagemagick wra
 
 #### SendGrid
 
-Use the official npm module: https://www.npmjs.com/package/sendgrid
+Use the official npm module: [sendgrid](https://www.npmjs.com/package/sendgrid)
 
 #### Stripe
 
-Use the official npm module: https://www.npmjs.com/package/stripe
+Use the official npm module: [stripe](https://www.npmjs.com/package/stripe)
 
 #### Twilio
 
-Use the official npm module: https://www.npmjs.com/package/twilio
+Use the official npm module: [twilio](https://www.npmjs.com/package/twilio)
 
 #### Underscore
 
-Use the official npm module: https://www.npmjs.com/package/underscore
-
+Use the official npm module: [underscore](https://www.npmjs.com/package/underscore)
 
 ## Dashboard
 
