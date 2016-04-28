@@ -49,6 +49,8 @@ Once you have Mongo set up, take note of the Mongo connection URL. Use the datab
 
   Finding the right long term balance between price and performance will be left to you, but for migrating aim on the higher priced side for best performance. (This advice also applies to folks hosting on AWS, Digital Ocean, Heroku, or our other partners.)
 
+Connections from Parse's database migration tool will use IP addresses in the following range: `54.85.224.0/20`
+
 ### What happens next?
 ![Database Migration Phases](images/DatabaseMigrationPhases.png)
 
