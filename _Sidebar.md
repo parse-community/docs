@@ -20,9 +20,9 @@
   * [LiveQuery Protocol](/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
 
 
-## [Migration Guide](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
+## [Migration Guide](https://parse.com/migration)
 
 * [Guidelines](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
-* [Migrating your Parse database](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#migrating-your-parse-database)
-* [Setting up Parse Server](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#setting-up-parse-server)
-* [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#deploying-parse-server)
+* [Migrating your Parse database](https://parse.com/migration#database)
+* [Setting up Parse Server](https://parse.com/migration#server)
+* [Deploying Parse Server](https://parse.com/migration#deploy)
