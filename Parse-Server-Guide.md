@@ -1,6 +1,6 @@
 # Migrating
 
-**The Parse hosted backend will be fully retired on January 28, 2017. If you are planning to migrate an app, you need to begin work as soon as possible. You will need to go through the [migration guide](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App) or your app will stop working after the retirement date.**
+**The Parse hosted backend will be fully retired on January 28, 2017. If you are planning to migrate an app, you need to begin work as soon as possible. You will need to go through the [migration guide](https://parse.com/migration) or your app will stop working after the retirement date.**
 
 ---
 
@@ -17,7 +17,7 @@
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Using LiveQuery](/ParsePlatform/parse-server/wiki/Parse-LiveQuery)
   * [LiveQuery Protocol](/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
-* [Migrating an Existing App](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
+* [Migrating an Existing App](https://parse.com/migration)
 
 # Overview
 
@@ -161,7 +161,7 @@ MongoDB only allows index keys that are 1024 bytes or smaller. If a write operat
 Customers migrating their data only need to configure this parameter if they have indexed fields larger than 1024 bytes in size *and* they have collections larger than 1 million documents. For smaller apps, we will automatically clean up offending indexes during the migration. Larger apps should follow these steps as a best practice:
 
 1. Configure `failIndexKeyTooLong=false` on the destination database
-2. Migrate all data per the [migration](https://parse.com/docs/server/guide#migrating) guide.
+2. Migrate all data per the [migration](https://parse.com/migration) guide.
 3. Evaluate all existing indexes and drop indexes for fields with data larger than 1024 bytes. The number of fields and indexes will depend entirely on the nature of your application and its data.
 4. Configure `failIndexKeyTooLong=true` on the database
 
