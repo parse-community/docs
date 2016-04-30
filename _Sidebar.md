@@ -22,7 +22,7 @@
 
 ## [Migration Guide](https://parse.com/migration)
 
-* [Guidelines](/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App)
+* [Guidelines](https://parse.com/migration#overview)
 * [Migrating your Parse database](https://parse.com/migration#database)
 * [Setting up Parse Server](https://parse.com/migration#server)
 * [Deploying Parse Server](https://parse.com/migration#deploy)

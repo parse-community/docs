@@ -114,7 +114,7 @@ storage:
   engine: rocksdb
 ```
 
-Next, some additional parameters. 
+Next, some additional parameters.
 
 ```
 # RockDB tuning parameters
@@ -195,7 +195,7 @@ More documentation on strata, including how to restore backups, can be found [he
 
 ### Moving your Parse app for the first time
 
-If your data is still hosted on Parse, then your job is really easy. Just follow the steps in our [migration guide](https://github.com/ParsePlatform/parse-server/wiki/Migrating-an-Existing-Parse-App#1-migrate-parse-db-to-self-hosted-mongodb) to move your data to your new MongoRocks replica set. We highly recommend that you take steps to secure your MongoDB installation with authentication and encryption. For a list of best security practices, see the [MongoDB Security Checklist](https://docs.mongodb.org/manual/administration/security-checklist/).
+If your data is still hosted on Parse, then your job is really easy. Just follow the steps in our [migration guide](https://parse.com/migration#database) to move your data to your new MongoRocks replica set. We highly recommend that you take steps to secure your MongoDB installation with authentication and encryption. For a list of best security practices, see the [MongoDB Security Checklist](https://docs.mongodb.org/manual/administration/security-checklist/).
 
 ### Upgrading an existing replica set to MongoRocks
 
