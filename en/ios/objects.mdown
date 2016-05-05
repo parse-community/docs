@@ -57,7 +57,7 @@ There are two things to note here. You didn't have to configure or set up a new 
 
 There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a `%{ParseObject}` until a save operation has completed.
 
-Note: You can use the `saveInBackgroundWithBlock` method to provide additional logic which will run after the save completes.
+Note: You can use the `saveInBackgroundWithBlock` method to provide additional logic to run after the save completes.
 
 ## Retrieving Objects
 
