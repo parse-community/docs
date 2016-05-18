@@ -1,0 +1,180 @@
+## Armazenamento de dados local
+
+O Android SDK do Parse fornece um armazenamento local de dados, que pode ser usado para armazenar e recuperar objetos `%{ParseObject}`, 
+mesmo quando a conexão com a internet não está disponível. Para habilitar a funcionalidade, basta chamar o método 
+`Parse.enableLocalDatastore()` antes da chamada do `initialize`.
+
+```java
+import com.parse.Parse;
+import android.app.Application;
+
+public class App extends Application {
+  @Override
+  public void onCreate() {
+    super.onCreate();
+
+    Parse.enableLocalDatastore(this);
+    Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+  }
+}
+```
+
+
+Existem alguns efeitos colaterais que você deve estar ciente no momento em que você permitir o armazenamento local. Quando ativado, haverá apenas uma instância de qualquer dado `%{ParseObject}`. Por exemplo, imagine que você tem uma instância da classe `"GameScore"` com um `objectId` de `xWMyZ4YEGZ` e então você faz uma consulta com o `%{ParseQuery}` para todas as instâncias de `GameScore` com aquele `objectId`. O resultado vai ser a mesma infância do objeto que você já tem na memória.
+
+Outro efeito colateral é que o usuário e a instalação atuais vão ser armazenados localmente, logo você pode persistir as alterações não salvas a esses objetos entre as execuções de seu aplicativo usando os métodos abaixo.
+
+Chamar o  método `saveEventually` em um `%{ParseObject}` fará com que o objeto fique preso no armazenamento local até que o salvamento seja concluído. Então, agora, se você alterar o `%{ParseUser}` atual e chamar `ParseUser.getCurrentUser().saveEventually()`, sua aplicação sempre vai notar as mudanças que você fez.
+
+## Fixando
+
+Você pode armazenar um `%{ParseObject}` no armazenamento de dados local, fixando-o. Fixar um `%{ParseObject}` é recursivo, portanto, quaisquer objetos que são apontados pelo que você está fixando também serão fixados. Quando um objeto é fixado, toda vez que você o atualiza buscando ou salvando dados novos, a cópia do armazenamento loca vai ser atualizada automaticamente. Você não precisa se preocupar com nada.
+
+```java
+ParseObject gameScore = new ParseObject("GameScore");
+gameScore.put("score", 1337);
+gameScore.put("playerName", "Sean Plott");
+gameScore.put("cheatMode", false);
+
+gameScore.pinInBackground();
+```
+
+Se você tem muitos objetos, você pode fixa-los de uma vez usando `pinAllInBackground`
+
+```java
+ParseObject.pinAllInBackground(listOfObjects);
+```
+
+## Recuperando objetos
+
+Armazenar objetos é legal, porém só é realmente útil se você puder recuperar-los de volta mais a frente. Recuperar objetos do armazenamento local funciona exatamente como recuperar um objeto da rede. A única diferença é chamar o método `fromLocalDatastore` para dizer ao `%{ParseQuery}` onde procurar pelos resultados.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.fromLocalDatastore();
+query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
+    public void done(ParseObject object, ParseException e) {
+        if (e == null) {
+            // object will be your game score
+        } else {
+            // something went wrong
+        }
+    }
+});
+```
+
+## Consultando
+
+Frequentemente você vai querer encontrar uma lista inteira de objetos que combinam com certos critérios, ao invés de obter um único objeto pelo id. Para fazer isso, você pode usar um [ParseQuery](#queries). Qualquer objeto `%{ParseQuery}` pode ser utilizado para armazenamento local como se fosse na rede. Os resultados vão incluir qualquer objeto que você fixou que corresponde com a consulta. As alterações não salvas que você fez em um objeto serão consideradas na avaliação da consulta. Assim, você pode encontrar um objeto local que corresponda, mesmo que nunca tenha sido retornado ao servidor, para esta consulta em particular.
+
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
+query.whereEqualTo("playerName", "Joe Bob");
+query.fromLocalDatastore();
+query.findInBackground(new FindCallback<ParseObject>() {
+    public void done(List<ParseObject> scoreList,
+                     ParseException e) {
+        if (e == null) {
+            Log.d("score", "Retrieved " + scoreList.size());
+        } else {
+            Log.d("score", "Error: " + e.getMessage());
+        }
+    }
+});
+```
+
+
+## Desafixar
+
+Quando você terminar com as alterações do objeto e não  precisar mais que ele esteja no armazenamento de dados local, você pode simplesmente removê-lo. Isto irá liberar espaço em disco no dispositivo e manter suas consultas sobre o armazenamento de dados local funcionando rapidamente.
+
+```java
+gameScore.unpinInBackground();
+```
+
+Também temos um método para desafixar vários objetos de uma vez só.
+
+```java
+ParseObject.unpinAllInBackground(listOfObjects);
+```
+
+
+## Fixando com etiquetas
+Fixar e desafixar objetos individualmente é como usar `malloc` e `free`. Isto é uma ferramenta muito poderosa, mas pode ser difícil gerenciar qual objeto foi armazenado em cenários complexos. Por exemplo, imagine se você está fazendo um jogo que tenha uma lista das melhores pontuações separadas por altas pontuações globais e pontuações dos seus amigos. Se um dos seus amigos acontece de ter uma pontuação global, você precisa ter certeza de não desafixa-los
+completamente quando você remove-lo das consultas que estão em cache. Para deixar esses cenários mais faceis, você também pode fixar com uma etiqueta. Etiquetas indicam um grupo de objetos que deveriam ser armazenados juntos.
+
+```java
+// Add several objects with a label.
+ParseObject.pinAllInBackground("MyScores", someGameScores);
+
+// Add another object with the same label.
+anotherGameScore.pinInBackground("MyScores");
+```
+
+Para desafixar todos os objetos com a mesma etiqueta na mesma hora, você pode passar a etiqueta para os métodos de desafixar. Isso evita que você tenha de controlar manualmente os objetos que estão em cada grupo.
+
+```java
+ParseObject.unpinAllInBackground("MyScores");
+```
+
+Todos os objetos permanecerão armazenados, desde que eles estejam fixados com uma etiqueta. Em outras palavras, se você fixar um objeto com duas etiquetas diferentes, e, em seguida, removê-lo com uma etiqueta, o objeto permanecerá no armazenamento de dados até que você também remova a outra etiqueta.
+
+## Resultados de Consulta em cache
+
+Fixar com etiquetas torna fácil armazenar os resultados da consulta em cache. Você pode usar uma etiqueta para fixar os resultados de cada consulta diferente. Para obter os novos resultados da rede, apenas faça uma consulta e atualize os objetos fixados.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.orderByDescending(“score”);
+
+// Query for new results from the network.
+query.findInBackground(new FindCallback<ParseObject>() {
+  public void done(final List<ParseObject> scores, ParseException e) {
+    // Remove the previously cached results.
+    ParseObject.unpinAllInBackground(“highScores”, new DeleteCallback() {
+    public void done(ParseException e) {
+      // Cache the new results.
+      ParseObject.pinAllInBackground(“highScores”, scores);
+    }
+  });
+  }
+});
+```
+
+Quando você quiser obter os resultados em cache para a consulta, você pode, então, executar a mesma consulta no armazenamento de dados local.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.orderByDescending(“score”);
+query.fromLocalDatastore();
+
+query.findInBackground(new FindCallback<ParseObject>() {
+  public void done(List<ParseObject> scores, ParseException e) {
+    // Yay! Cached scores!
+  }
+});
+```
+
+## Sincronizando alterações locais
+
+Uma vez que você salvou alguma mudança localmente, existem diferentes maneiras de você poder salvar essas mudanças no Parse através da rede. A maneira mais fácil de fazer isso é com `saveEventually`. Quando você chama `saveEventually` em um `%{ParseObject}`, este vai ser fixado até que possa estar salvo. O SDK vai garantir salvar o objeto na próxima vez que a rede estiver disponível.
+
+```java
+gameScore.saveEventually();
+```
+
+Se você gostaria de ter mais controle sobre a forma como os objetos são sincronizados, você pode mantê-los no armazenamento local até que você esteja pronto para salvar-los usando `saveInBackground`. Para gerenciar o conjunto de objetos que precisam ser salvos, você pode voltar a usar uma etiqueta. O método `fromPin` em `%{ParseQuery}`torna mais fácil buscar apenas os objetos que lhe interessam.
+
+```java
+ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+query.fromPin(“MyChanges”);
+query.findInBackground(new FindCallback<ParseObject>() {
+  public void done(List<ParseObject> scores, ParseException e) {
+    for (ParseObject score in scores) {
+      score.saveInBackground();
+      score.unpinInBackground(“MyChanges”);
+    }
+  }
+});
+```

@@ -1,0 +1,5 @@
+## Tratamento de erros
+
+Muitos dos métodos do `%{ParseObject}`, incluindo `save()`, `delete()` e `get()` irão lançar uma exceção `ParseException` quando ocorrer uma requisição inválida, como ao deletar ou editar um objeto que já não existe mais na nuvem, ou quando ocorrer uma falha na rede impedindo a comunicação com a nuvem. Você vai precisar tratar essas exceções e saber lidar com elas.
+
+Para mais detalhes, veja [Android API](/docs/android/api/).

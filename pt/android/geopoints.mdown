@@ -1,0 +1,57 @@
+#GeoPoints
+
+O Parse permite você associar as coordenadas (latitude e longitude) utilizando um objeto.
+Adicionar um `ParseGeoPoint` a um `%{ParseObject}` permite que você realize consultas para obter a proximidade de um objeto em relação a um ponto de referência. Isto permite você facilmente fazer coisas como descobrir o usuário mais próximo de outro usuário ou quais são os lugares mais próximos de um usuário.
+
+## ParseGeoPoint
+
+Para associar um ponto a um objeto você precisa primeiro criar um `ParseGeoPoint`. Por exemplo, para criar um ponto
+com latitude de 40.0 graus e -30.0 graus de longitude:
+
+```java
+ParseGeoPoint point = new ParseGeoPoint(40.0, -30.0);
+```
+
+Este ponto é então armazendo no objeto como qualquer outro campo.
+
+```java
+placeObject.put("location", point);
+```
+
+#Geo Queries
+
+Agora que você tem um grupo de objetos com coordenadas espaciais, seria bom descobrir quais objetos estão mais próximos
+de um ponto. Isto pode ser feito através da adição de outra restrição na `%{ParseQuery}` usando `whereNear`. Obter
+uma lista de 10 lugares que estão mais perto do usuário poderia ser algo como: 
+
+```java
+ParseGeoPoint userLocation = (ParseGeoPoint) userObject.get("location");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceObject");
+query.whereNear("location", userLocation);
+query.setLimit(10);
+query.findInBackground(new FindCallback<ParseObject>() { ... });
+```
+
+Neste ponto `nearPlaces` será um array de objetos ordenados pela distância (mais próximo ao mais distante) a partir de `userLocation`. Observe que se for aplicada uma restrição `orderByAscending()`/`orderByDescending()`, ela terá precedência sobre a ordem de distância.
+
+Para limitar os resultados usando distância, veja `whereWithinKilometers`, `whereWithinMiles` e `whereWithinRadians`.
+
+Também é possível consultar o conjunto de objetos que estão contidos dentro de uma área particular. Para encontrar os objetos 
+em uma caixa retangular delimitadora, adicione a restrição `whereWithinGeoBox` em sua `%{ParseQuery}`. 
+
+```java
+ParseGeoPoint southwestOfSF = new ParseGeoPoint(37.708813, -122.526398);
+ParseGeoPoint northeastOfSF = new ParseGeoPoint(37.822802, -122.373962);
+ParseQuery<ParseObject> query = ParseQuery.getQuery("PizzaPlaceObject");
+query.whereWithinGeoBox("location", southwestOfSF, northeastOfSF);
+query.findInBackground(new FindCallback<ParseObject>() { ... });
+```
+
+## Ressalvas
+
+No momento, existem alguns pontos para ficar atento:
+
+1. Cada classe 'ParseObject' só pode ter uma chave com um objeto ParseGeoPoint
+2. Usar o `whereNear` também vai limitar os resultados para menos de 100 milhas.
+3. Pontos não devem ser iguais ou maiores que os extremos das faixas. Latitude não deve ser -90.0 ou 90.0. 
+Longitude não deve ser -180.0 ou 180.0. Atribuir valores fora do limte para a latitude ou longitude resultará em erro.
