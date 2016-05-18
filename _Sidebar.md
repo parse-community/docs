@@ -10,7 +10,6 @@
 * [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
 * [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
   * [Using RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
-  * [Using WiredTiger](ParsePlatform/parse-server/wiki/WiredTiger)
 * [Keys](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#keys)
 * [Using Parse SDKs with Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server)
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#deploying-parse-server)
