@@ -4,7 +4,7 @@
 
 `PFConfig` is a way to configure your applications remotely by storing a single configuration object on Parse. It enables you to add things like feature gating or a simple "Message of the Day". To start using `PFConfig` you need to add a few key/value pairs (parameters) to your app on the Parse Config Dashboard.
 
-![](/images/docs/config_editor.png)
+![](https://parse.com/images/docs/config_editor.png)
 
 After that you will be able to fetch the `PFConfig` on the client, like in this example:
 

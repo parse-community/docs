@@ -1,3 +1,6 @@
+---
+---
+
   //==========================================//
  // Variables
 //==========================================//
@@ -328,7 +331,7 @@ nav{
             }
             @media screen and (max-width: $largeWidth) {
                 line-height: 72px;
-            } 
+            }
         }
         .hideOnMobile{
             @media screen and (max-width: $tinyWidth){
@@ -956,7 +959,7 @@ section{
             background: url("../img/arrowRight.svg") no-repeat center;
             background-size: 100% auto;
             opacity: 0.18;
-        } 
+        }
         &.expandableRepoLink{
             min-height: 40px;
             height: auto;
@@ -1214,10 +1217,3 @@ footer{
         }
     }
 }
-
-
-
-
-
-
-

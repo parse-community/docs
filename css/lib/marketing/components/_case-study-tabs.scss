@@ -1,0 +1,507 @@
+.case-study-tabs{
+    backface-visibility: hidden;
+    // transform: translateZ(0);
+
+    &__nav{
+        display:none;
+        padding-bottom: 30px;
+
+        ul {
+            margin:0;
+            padding:0;
+            list-style:none;
+            text-align: center;
+
+            li{ display: inline-block; }
+        }
+
+        @include break-min($break-tablet){
+            display:block;
+        }
+    }
+
+    &__trigger{
+        display:block;
+        opacity: 0.34;
+        width: 130px;
+        position: relative;
+
+        transition: opacity 200ms ease;
+
+        &:after{
+            display:none;
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -32px;
+            width: 0;
+            height: 0;
+
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 20px solid #f9f9f9;
+
+            transform: translateX(-50%);
+        }
+
+        .app-icon,
+        .app-title{ display:block; }
+
+        .app-icon{
+            width: 50px;
+            margin: 0 auto;
+        }
+
+        .app-title{
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        &:hover{
+            text-decoration:none;
+            opacity:1;
+        }
+        &.is-active{
+            opacity: 1;
+
+            &:after{ display:block; }
+
+            .app-icon{
+                width: 70px;
+            }
+            .app-title{
+                font-weight: $bold-weight;
+                color: $color-carib-green;
+            }
+        }
+    }
+
+    &__tabs{
+        position: relative;
+        background: #fafafa;
+
+        @include break-min($break-tablet){
+            height: 655px;
+        }
+    }
+
+    &__tab{
+        position:relative;
+        background: white url('') center center no-repeat;
+        background-size: cover;
+
+        &:before{
+            content: "";
+            display: block;
+            position: absolute;
+            left:0; top:0;
+            width: 100%; height:100%;
+            background: white;
+            opacity: 0.93;
+        }
+      &[data-customer-tab="oculus"]:before{
+        opacity: 0;
+      }
+        h5 + h3{
+            margin: 16px 0 12px;
+        }
+
+        .btn-group{
+            margin-top: 30px;
+
+            a{
+                padding-left: 20px;
+                padding-right: 20px;
+
+                @include break-min($break-tablet){
+                    & + a{
+                        margin-left: 16px;
+                    }
+                }
+            }
+        }
+
+        @include break-min($break-tablet){
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 0;
+            overflow:hidden;
+            opacity:0;
+            transition: opacity 250ms ease-in, height 1ms linear 251ms;
+
+            &.is-active{
+                height:100%;
+                opacity: 1;
+                transition: opacity 500ms ease-out 300ms, height 1ms linear;
+
+                .h5--green,
+                .h2--green,
+                p,
+                .btn-group,
+                .case-study-tabs__graphic--fb-android,
+                .case-study-tabs__graphic--fb-android .quote-circle,
+                .case-study-tabs__graphic--oculus,
+                .case-study-tabs__graphic--oculus .quote-circle,
+                .case-study-tabs__graphic--quip-iphone,
+                .case-study-tabs__graphic--quip-iphone .quote-circle,
+                .case-study-tabs__graphic--orbitz-iphone,
+                .case-study-tabs__graphic--orbitz-iphone .quote-circle,
+                .case-study-tabs__graphic--redbull-android,
+                .case-study-tabs__graphic--redbull-android .quote-circle,
+                .case-study-tabs__graphic--vevo-iphone,
+                .case-study-tabs__graphic--vevo-iphone .quote-circle{
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        }
+      @include break-max($break-desktop){
+                            &[data-customer-tab="oculus"]:before{
+                        opacity: .9;
+                      }
+      }
+    }
+
+    &__content{
+        position: relative;
+        max-width: $break-mobile-max;
+        margin: 0 auto;
+        padding: $container-padding-h-mobile;
+
+        @include break-min($break-tablet){
+            max-width: 1075px;
+            padding:0;
+
+            @include vertical-align();
+
+            $tab-text-base-delay: 500ms;
+            $tab-text-trans-duration: 250ms;
+            $tab-text-trans-easing: ease-out;
+            $tab-text-inter-delay: 125ms;
+            $transform-property: translateX(-40px);
+
+            .h5--green{
+                transition: all $tab-text-trans-duration ($tab-text-base-delay + ($tab-text-inter-delay * 0));
+                opacity: 0;
+                transform: $transform-property;
+            }
+            .h2--green{
+                transition: all $tab-text-trans-duration ($tab-text-base-delay + ($tab-text-inter-delay * 1));
+                opacity: 0;
+                transform: $transform-property;
+            }
+            p{
+                transition: all $tab-text-trans-duration ($tab-text-base-delay + ($tab-text-inter-delay * 2));
+                opacity: 0;
+                transform: $transform-property;
+            }
+            .btn-group{
+                transition: all $tab-text-trans-duration ($tab-text-base-delay + ($tab-text-inter-delay * 3));
+                opacity: 0;
+                transform: $transform-property;
+            }
+        }
+
+        @include break-min($break-desktop){
+            .copy-block{ max-width: 438px; }
+            .copy-block{ p{ max-width: 398px; margin-left:0; } }
+        }
+    }
+
+    &__graphic{
+
+        &--fb-android{
+            display: none;
+            position:absolute;
+            top: 38px;
+            left: 50%;
+            margin-left: -30px;
+
+            transition: all 350ms cubic-bezier(.66,.33,.45,1.08) 1100ms;
+            opacity: 0;
+            transform: translateY(80px);
+
+            .phone{
+                width: 430px;
+                height: 792px;
+                background: url(/assets/images/case-studies/android-facebook.png) left top no-repeat;
+                background-size: contain;
+            }
+            .quote-circle{
+                position:absolute;
+                left: 270px;
+                top: 56px;
+                backface-visibility: hidden;
+
+                transition: all 250ms $bezier-small-elastic 1350ms;
+                opacity: 0;
+                transform: scale(0.6);
+                // transform-origin: 150% 50%;
+            }
+
+            @include break-min($break-desktop){ display:block; }
+            @include break-min(1250px){
+                margin-left: -50px; 
+            }
+            @include break-min(1350px){
+                margin-left: -16px; 
+            }
+        }
+        &--oculus{
+            display: none;
+            position:absolute;
+            top: 38px;
+            left: 50%;
+            margin-left: -30px;
+
+            transition: all 350ms cubic-bezier(.66,.33,.45,1.08) 1100ms;
+            opacity: 0;
+            transform: translateY(80px);
+
+            .phone{
+                width: 430px;
+                height: 792px;
+                background: url(/assets/images/case-studies/android-facebook.png) left top no-repeat;
+                background-size: contain;
+            }
+            .quote-circle{
+                position:absolute;
+                left: 270px;
+                top: 56px;
+                backface-visibility: hidden;
+
+                transition: all 250ms $bezier-small-elastic 1350ms;
+                opacity: 0;
+                transform: scale(0.6);
+                // transform-origin: 150% 50%;
+              blockquote{
+                font-size: 2.04rem;
+              }
+            }
+
+            @include break-min($break-desktop){ display:block; }
+            @include break-min(1250px){
+                margin-left: -50px; 
+            }
+            @include break-min(1350px){
+                margin-left: -16px; 
+            }
+        }
+      &--quip-iphone{
+            display: none;
+            position:absolute;
+            top: 38px;
+            left: 50%;
+            margin-left: -30px;
+
+            transition: all 350ms cubic-bezier(.66,.33,.45,1.08) 1100ms;
+            opacity: 0;
+            transform: translateY(80px);
+
+            .phone{
+                width: 430px;
+                height: 792px;
+                background: url(/assets/images/case-studies/quip-iphone.png) left top no-repeat;
+                background-size: contain;
+            }
+            .quote-circle{
+                position:absolute;
+                left: 270px;
+                top: 56px;
+                backface-visibility: hidden;
+
+                transition: all 250ms $bezier-small-elastic 1350ms;
+                opacity: 0;
+                transform: scale(0.6);
+                // transform-origin: 150% 50%;
+                            blockquote{
+                font-size: 2.54rem;
+              }
+            }
+
+            @include break-min($break-desktop){ display:block; }
+            @include break-min(1250px){
+                margin-left: -50px; 
+            }
+            @include break-min(1350px){
+                margin-left: -16px; 
+            }
+        }
+        &--orbitz-iphone{
+            display: none;
+            position:absolute;
+            top: 38px;
+            left: 50%;
+            margin-left: -30px;
+
+            transition: all 350ms cubic-bezier(.66,.33,.45,1.08) 1100ms;
+            opacity: 0;
+            transform: translateY(80px);
+
+            .phone{
+                width: 430px;
+                height: 792px;
+                background: url(/assets/images/case-studies/orbitz-iphone.png) left top no-repeat;
+                background-size: contain;
+            }
+            .quote-circle{
+                position:absolute;
+                left: 270px;
+                top: 56px;
+                backface-visibility: hidden;
+
+                transition: all 250ms $bezier-small-elastic 1350ms;
+                opacity: 0;
+                transform: scale(0.6);
+                // transform-origin: 150% 50%;
+                blockquote{
+                font-size: 1.64rem;
+                  line-height: 21px;
+              }
+            }
+
+            @include break-min($break-desktop){ display:block; }
+            @include break-min(1250px){
+                margin-left: -50px; 
+            }
+            @include break-min(1350px){
+                margin-left: -16px; 
+            }
+        }
+        &--redbull-android{
+            display: none;
+            position:absolute;
+            top: 38px;
+            left: 50%;
+            margin-left: -30px;
+
+            transition: all 350ms cubic-bezier(.66,.33,.45,1.08) 1100ms;
+            opacity: 0;
+            transform: translateY(80px);
+
+            .phone{
+                width: 430px;
+                height: 792px;
+                background: url(/assets/images/case-studies/redbull-android.png) left top no-repeat;
+                background-size: contain;
+            }
+            .quote-circle{
+                position:absolute;
+                left: 270px;
+                top: 56px;
+                backface-visibility: hidden;
+
+                transition: all 250ms $bezier-small-elastic 1350ms;
+                opacity: 0;
+                transform: scale(0.6);
+                // transform-origin: 150% 50%;
+                 blockquote{
+                font-size: 1.84rem;
+              }
+            }
+
+            @include break-min($break-desktop){ display:block; }
+            @include break-min(1250px){
+                margin-left: -50px; 
+            }
+            @include break-min(1350px){
+                margin-left: -16px; 
+            }
+        } 
+        &--vevo-iphone{
+            display: none;
+            position:absolute;
+            top: 38px;
+            left: 50%;
+            margin-left: -30px;
+
+            transition: all 350ms cubic-bezier(.66,.33,.45,1.08) 1100ms;
+            opacity: 0;
+            transform: translateY(80px);
+
+            .phone{
+                width: 430px;
+                height: 792px;
+                background: url(/assets/images/case-studies/vevo-iphone.png) left top no-repeat;
+                background-size: contain;
+            }
+            .quote-circle{
+                position:absolute;
+                left: 270px;
+                top: 56px;
+                backface-visibility: hidden;
+
+                transition: all 250ms $bezier-small-elastic 1350ms;
+                opacity: 0;
+                transform: scale(0.6);
+                // transform-origin: 150% 50%;
+                 blockquote{
+                font-size: 1.84rem;
+              }
+            }
+
+            @include break-min($break-desktop){ display:block; }
+            @include break-min(1250px){
+                margin-left: -50px; 
+            }
+            @include break-min(1350px){
+                margin-left: -16px; 
+            }
+        } 
+    }
+
+    &__next,
+    &__prev{
+      display:none;
+      position: absolute;
+      top: 50%;
+      margin-top: -16px;
+      width: 32px; height: 32px;
+      border: 2px solid $color-carib-green;
+      border-radius: 50%;
+      transition: all 200ms ease;
+
+      &:before{
+        content: "";
+        position: absolute;
+        left:55%; top:50%;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 6.5px 0 6.5px 8px;
+        border-color: transparent transparent transparent $color-carib-green;
+        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+
+      &:hover{
+          transform: scale(1.5);
+      }
+
+      @include break-min($break-tablet){
+          display:block;
+      }
+
+        @include break-min($break-desktop){
+            top: 92%;
+        }
+        @include break-min(1300px){
+            top: 50%;
+        }
+    }
+    &__next{
+      right: 36px;
+    }
+    &__prev{
+      left: 36px;
+
+      &:before{
+        left: 45%;
+        border-width: 6.5px 8px 6.5px 0;
+        border-color: transparent $color-carib-green transparent transparent;
+        transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+}

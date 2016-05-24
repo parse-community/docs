@@ -23,3 +23,5 @@ support_url: https://www.parse.com/help
 # Build settings
 markdown: kramdown
 exclude: [ Gemfile, Gemfile.lock, README.md, config.codekit ]
+sass:
+    sass_dir: css

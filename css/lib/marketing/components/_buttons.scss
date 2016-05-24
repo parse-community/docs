@@ -1,0 +1,264 @@
+.btn{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    $btn-padding: 0 22px;
+    $btn-padding-outline: 0 22px;
+    $btn-radius: 4px;
+    $btn-font-size: 1.6rem;
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+
+    &s{
+        .btn + .btn{
+            margin-top: 1em;
+        }
+
+        &--center{ text-align: center; }
+
+        @include break-min($break-tablet){
+            .btn + .btn{
+                margin-top: 0;
+                margin-left: 0.8em;
+            }
+        }
+    }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    display:block;
+    font-family: $font-din;
+    font-size: $btn-font-size;
+
+    background: $color-parse-blue;
+    color: white;
+    text-align: center;
+    padding: $btn-padding;
+    border-radius: $btn-radius;
+    border:none;
+    outline:none;
+    height: 43px;
+    line-height: 41px;
+    display: inline-block;
+//    transition: background 250ms ease-in;
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    html.no-touch &:hover{
+//        transition: all 100ms ease-out;
+        text-decoration: none;
+        background: darken($color-parse-blue, 5%);
+    }
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+    &--block{ display:block; width: 100%; }
+
+    &--outline{
+        background:none;
+        color: $color-parse-blue;
+        border: 1px solid $color-parse-blue;
+        padding: $btn-padding-outline;
+
+        html.no-touch &:hover{
+          background: $color-parse-blue;
+          color:white;
+        }
+    }
+
+    &--inverse,
+    &--white{
+        background: white;
+        color: $color-parse-blue;
+
+        html.no-touch &:hover{ background: rgba(white, 0.9); }
+
+        &--outline{
+            padding: $btn-padding-outline;
+            background:none;
+            border: 1px solid white;
+
+            html.no-touch &:hover{
+              background: white;
+              color: $color-parse-blue;
+            }
+        }
+    }
+    &--disabled{
+        opacity: .2;
+        pointer-events: none;
+        cursor: default;
+//        html.no-touch &:hover{ background: rgba(white, 0.9); }
+
+        &--outline{
+            padding: $btn-padding-outline;
+            background:none;
+            border: 1px solid white;
+
+//            html.no-touch &:hover{
+//              background: white;
+//              color: $color-parse-blue;
+//            }
+        }
+    }
+    &--dark{
+        opacity: 0.5;
+        background: $color-ebony;
+        color: white;
+
+        &--outline{
+            opacity: 0.5;
+            background:none;
+            padding: $btn-padding-outline;
+            border: 1px solid $color-ebony;
+            color: $color-ebony;
+
+            html.no-touch &:hover{
+              background: $color-ebony;
+              color:white;
+            }
+        }
+    }
+
+    &--green{
+        background: $color-carib-green;
+
+        html.no-touch &:hover{ background: darken($color-carib-green, 5%); }
+
+        &--outline{
+            background:none;
+            padding: $btn-padding-outline;
+            border: 1px solid $color-carib-green;
+            color: $color-carib-green;
+
+            html.no-touch &:hover{
+              background: $color-carib-green;
+              color:white;
+            }
+        }
+    }
+
+    &--red{
+        background: $color-rad-red;
+
+        html.no-touch &:hover{ background: darken($color-rad-red, 5%); }
+
+        &--outline{
+            padding: $btn-padding-outline;
+            background: none;
+            color: $color-rad-red;
+            border: 1px solid $color-rad-red;
+
+            html.no-touch &:hover{
+              background: $color-rad-red;
+              color:white;
+            }
+        }
+    }
+
+    &--wide{
+        min-width: 231px;
+    }
+
+    &--small{
+        font-size: 1.4rem;
+        padding: 0 22px;
+    }
+
+    &--back{
+        position:relative;
+        padding-left: 40px;
+        padding-right: 16px;
+
+        &:before{
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 6px 8px 6px 0;
+            border-color: transparent rgba(#d8d8d8, 0.26) transparent transparent;
+            transform: translateY(-50%);
+        }
+    }
+
+    &--icon{
+        position: relative;
+        padding-right: 50px;
+
+        svg{
+            position: absolute;
+            right: 16px;
+            width: 24px;
+            height: 24px;
+            top: 50%;
+            transform: translateY(-54%);
+
+            fill: white;
+            opacity:0.5;
+        }
+    }
+
+}
+button.btn,
+input.btn{
+    @include break-max($break-tablet - 1){
+        width:100%;
+    }
+}
+
+
+.play-btn{
+    position: relative;
+    display: block;
+    width: 70px;
+    height: 70px;
+    background-color: white;
+    border-radius: 50%;
+
+    &:before{
+        content: "";
+        display: block;
+        position: absolute;
+        left: 50%; top:50%;
+
+        // http://apps.eky.hk/css-triangle-generator/
+        width: 0;
+        height: 0;
+        border-style: solid;
+
+        margin: -13.5px 0 0 -5.5px;
+        border-width: 13.5px 0 13.5px 17px;
+        border-color: transparent transparent transparent $color-parse-blue;
+
+        transition: border-left-color 150ms ease;
+    }
+
+    &:hover{
+        &:before{
+            border-left-color: $color-denim;
+        }
+    }
+
+    @include break-min($break-desktop){
+        width: 91px;
+        height: 91px;
+
+        &:before{
+            margin: -17.5px 0 0 -6.5px;
+            border-width: 17.5px 0 17.5px 22px;
+        }
+    }
+}

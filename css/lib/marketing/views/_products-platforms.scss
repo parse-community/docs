@@ -1,0 +1,142 @@
+.view--products-platforms{}
+
+.section-products-platforms{
+    &--core{
+        padding: 50px 0;
+        background-color: white;
+
+        .core--graphic{
+            width:100%;
+            max-width: 380px;
+            margin: 0 auto 2.5em;
+            display: block;
+        }
+
+        @include break-min($break-desktop){
+          padding:0;
+
+          .container{
+            max-width:1100px;
+            height: 535px;
+          }
+          .copy-block{
+            max-width: 386px;
+            @include vertical-align();
+
+            .h2{ margin-top:0; max-width: 340px; }
+          }
+          .core--graphic{
+            max-width: none;
+            width: 474px;
+            left:48%;
+            top: 42px;
+            margin:0 0 0 30px;
+            position: absolute;
+          }
+        }
+    }
+
+    &--push{
+        background-color: $color-vista-white;
+        padding: 50px 0;
+
+        .push--graphic{
+          width:100%;
+          max-width: 420px;
+          margin: 0 auto 2.5em;
+          display: block;
+        }
+
+        @include break-min($break-desktop){
+          padding:0;
+
+          .container{
+            @include clearfix();
+            max-width:1100px;
+            height: 535px;
+          }
+
+          .copy-block{ 
+            float:right;
+            max-width: 386px;
+            @include vertical-align();
+            
+            .h2{ margin-top:0; max-width: 323px; }
+          }
+
+          .push--graphic{
+            max-width: none;
+            margin:0;
+
+            width: 673px;
+            top: 57px;
+            position: absolute;
+            right: 50%;
+          }
+        }
+    }
+
+    &--analytics{
+        overflow:hidden;
+        background-color: #f3f3f7;
+        padding: 50px 0;
+
+        .analytics--graphic{
+            width:100%;
+            max-width: 420px;
+            margin: 0 auto 2.5em;
+            display: block;
+        }
+
+        @include break-min($break-desktop){
+           padding:0;
+
+           .container{
+             max-width:1100px;
+             height: 535px;
+           }
+           .copy-block{
+             max-width: 386px;
+             @include vertical-align();
+
+             .h2{ margin-top:0; max-width: 340px; }
+           } 
+          .analytics--graphic{
+            max-width: none;
+            margin:0;
+
+            width: 575px;
+            top: 52px;
+            position: absolute;
+            left:50%;
+          }
+        }
+    }
+    &--platforms{
+        padding: 40px 0;
+        .copy-block{
+            margin-bottom: 50px;
+        }
+
+        @include break-min($break-tablet){
+            padding: 75px 0;
+
+            .container{
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+        @include break-min($break-desktop){
+            padding: 80px 0 110px;
+
+            .container{
+                padding-left: $container-padding-h-desktop;
+                padding-right: $container-padding-h-desktop;
+                max-width: 1400px;
+            }
+            .copy-block{
+                margin-bottom: 110px;
+            }
+        }
+    }
+}

@@ -1,0 +1,251 @@
+// pricing page
+
+.view--pricing{
+
+}
+.section-pricing--cards{
+    background: $color-parse-blue;
+    padding-bottom:40px;
+
+    .pricing-cards{
+        position:relative;
+        margin-top: -22px;
+        z-index:1;
+    }
+    .pricing-cta{
+        text-align: center;
+        max-width: 570px;
+        margin: 0 auto;
+
+        .btn{
+            margin-top: 20px;
+        }
+    }
+
+    @include break-min($break-tablet){
+        padding-bottom: 68px;
+
+        .pricing-cta{
+            margin-top: 60px;
+        }
+    }
+
+    @include break-min($break-desktop){
+        .pricing-cards.container{
+            max-width: 1160px;
+        }
+
+        .pricing-cta .btn{ min-width: 230px; }
+    }
+}
+
+.section-pricing--requests {
+    overflow:hidden;
+    position:relative;
+    padding: 350px 0 30px;
+
+    @include break-min($break-tablet){
+      padding-bottom: 50px;
+    }
+
+    @include break-min($break-desktop){
+      padding:0;
+      height: 620px;
+    }
+
+    .container{
+        @include break-min($break-desktop){
+            max-width: 1100px;
+            @include vertical-align();
+
+            .h2{ margin-top:0; }
+        }
+    }
+    .request-simulator{
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%) scale(0.6);
+        width: 442px;
+        height: 442px;
+        display: block;
+
+        @include break-min($break-desktop){
+            top: 50px;
+            transform:none;
+            height: 516px;
+            margin-left:68px;
+        }
+
+        .requests{
+            width: 442px;
+            height: 442px;
+            border-radius: 221px;
+            background: rgba($color-mischka, 0.05);
+            .request-circle{
+                    background-color: white;
+                    border-radius: 50%;
+                    position: absolute;
+                    opacity: 0;
+                    transform-origin: 50% 50%;
+                &.shadow{
+                    background-color: darken($color-parse-blue, 10%);
+                }
+                    }
+            &:after{
+                display: block;
+                content: '';
+                border: 1px solid rgba(255,255,255,0.23);
+                width: 400px;
+                height: 400px;
+                position: absolute;
+                border-radius: 50%;
+                top: 20px;
+                left: 20px;
+            }
+        }
+        .controls{
+          @include break-max($break-desktop - 1){
+            display:none;
+          }
+            ul{
+                list-style: none;
+                width: 440px;
+                padding: 0;
+                text-align: center;
+                margin-top: 30px;
+                margin-bottom: -2px;
+                position: relative;
+                li{
+                    display: inline-block;
+                    font-family: $font-din;
+                    font-size: 1.6rem;
+                    color: white;
+                    opacity: 0.5;
+                    width: 50px;
+                    height: 22px;
+                    line-height: 22px;
+                    text-align: center;
+                    margin: 0 12px;
+                    position: relative;
+                    z-index: 1;
+                    cursor: pointer;
+                    transition: color .1s linear;
+                    &:hover{
+                        opacity: 1;
+                    }
+                    &.active{
+//                        background: white;
+                        color: darken($color-parse-blue, 3%);
+                        opacity: 1;
+                        border-radius: 4px;
+                    }
+                }
+                &:after{
+                    display: block;
+                    content: '';
+                    background: white;
+                    border-radius: 4px;
+                    width: 52px;
+                    height: 22px;
+                    position: absolute;
+                    top: 0;
+                    transition: all .2s cubic-bezier(0.86, 0, 0.07, 1);
+                }
+                &.active{
+                    &-one:after{
+                         left: 47px;
+                    }
+                    &-two:after{
+                         left: 120px;
+                    }
+                    &-three:after{
+                         left: 194px;
+                    }
+                    &-four:after{
+                         left: 268px;
+                    }
+                    &-five:after{
+                         left: 342px;
+                    }
+                }
+            }
+            h4{
+                font-family: $font-din;
+                font-size: 1.4rem;
+                color: #1280C4;
+                letter-spacing: 2.6px;
+                text-align: center;
+            }
+        }
+    }
+
+}
+
+.section-pricing--growth {
+    // min-height: 750px;
+    overflow: hidden;
+    padding: 300px 0 40px;
+    position: relative;
+
+    .growth-app{
+        display: block;
+        position: absolute;
+        min-width: 750px;
+        min-height: 750px;
+        width: 100%;
+        height: 100%;
+//        border-radius: 50%;
+//        background-color: red;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+
+        svg{
+            width: 100%;
+            height: 100%;
+        }
+        &:after{
+            display: block;
+            content: 'YOUR AWESOME APP';
+            width: 60px;
+            height: 40px;
+            position: absolute;
+            top: 140px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 10px;
+            color: $color-parse-blue;
+            font-family: $font-din;
+            letter-spacing: 1.6px;
+        }
+    }
+
+    .pricing-faq{
+        text-align: center;
+        margin-top: 2em;
+
+        p { color: $color-parse-blue; margin-bottom: 0.6em; }
+        .btn{ width: 227px; margin-left: auto; margin-right: auto; }
+    }
+
+    @include break-min($break-tablet){
+        padding-bottom: 50px;
+
+        .growth-app{
+            &:after{ top: 132px; }
+        }
+
+      .container{
+        p{ max-width: 495px; }
+      }
+    }
+
+    @include break-min($break-desktop){
+        .growth-app{
+            &:after{ top: 138px; }
+        }
+        .pricing-faq{ margin-top: 6.5em; }
+    }
+}

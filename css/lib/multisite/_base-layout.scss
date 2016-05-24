@@ -1,0 +1,208 @@
+
+* {
+	// sticky footer necessity
+	margin: 0;
+	// a better box model
+	box-sizing: border-box;
+	// better text rendering
+	@include optimized-font-rendering();
+	// silly touch highlight
+	@include no-touch-highlight();
+}
+
+html, body {
+	height: 100%;
+	font-size: $font-size-html;
+	// @include break-min($break-desktop){
+	// 	font-size: $font-size-html-desktop;
+	// }
+}
+
+body{
+	font-family: $font-stack-default;
+	font-size: $font-size-body-mobile;
+	min-width: $break-mobile;
+	background: $color-bg-body;
+	color: $color-text-body;
+
+
+	&.is-locked{
+		overflow:hidden;
+	}
+
+
+	@include break-min($break-tablet){
+		// font-size: $font-size-body-tablet;
+	}
+	@include break-min($break-desktop){
+		font-size: $font-size-body-desktop;
+	}
+
+	@include break-max($break-switch-navs - 1){
+		&.menu-overflow{
+			.site__wrapper{
+				overflow:hidden;
+			}
+		}
+		&.show-menu{
+			// position:fixed;
+			// height:100%;
+			// width:100%;
+			// overflow:hidden;
+
+			.js__menu-hitbox{
+				display:block;
+			}
+			.site__content,
+			.site__header--clone{
+				transform: translate( $menu-mobile-width, 0 );
+				transform: translate3d( $menu-mobile-width, 0, 0 );
+			}
+			.legal-section__nav--clone{
+				transform: translate( $menu-mobile-width, 100% );
+				transform: translate3d( $menu-mobile-width, 100%, 0 );
+			}
+		}
+	}
+
+	@include break-max($break-mini-mobile-menu - 1){
+		&.show-menu{
+			.site__content,
+			.site__header--clone{
+				transform: translate( $menu-mobile-width-small, 0 );
+				transform: translate3d( $menu-mobile-width-small, 0, 0 );
+			}
+			.legal-section__nav--clone{
+				transform: translate( $menu-mobile-width-small, 100% );
+				transform: translate3d( $menu-mobile-width-small, 100%, 0 );
+			}
+		}
+	}
+}
+
+.site__menu{
+    // transform: translateX(-$menu-mobile-width);
+    transition: left 600ms $bezier-blog-menu;
+
+    left: -$menu-mobile-width;
+    top:0;
+    position: absolute;
+    width: $menu-mobile-width;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    backface-visibility: hidden;
+    -webkit-overflow-scrolling: touch;
+
+    color: white;
+
+    @include gradient-vertical($menu-mobile-bg-from, $menu-mobile-bg-to);
+
+    @include break-max($break-mini-mobile-menu - 1){
+        // transform: translateX(-$menu-mobile-width-small);
+        left: -$menu-mobile-width-small;
+        width: $menu-mobile-width-small;
+    }
+
+    @include break-min($break-switch-navs){
+        display:none !important;
+    }
+}
+
+.js__menu-hitbox{
+    display:none;
+    position: absolute;
+    left:0; top:0;
+    width: 100%; height: 100%;
+}
+
+.site__wrapper{
+	min-height: 100%;
+    height: auto;
+    position: relative;
+}
+
+.site__content{
+	position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+	transition: $menu-mobile-transition;
+}
+
+.content__wrapper{
+	position:relative;
+	min-height: 100%;
+	margin-bottom: ($stickyfooter-height-mobile) * -1;
+	color: $color-text-content;
+	background: $color-bg-content;
+
+	&:after{
+		content: "";
+  		display: block;
+  		height: $stickyfooter-height-mobile;
+	}
+
+	@include break-min($break-switch-footers){
+		margin-bottom: ($stickyfooter-height-tablet) * -1;
+
+		&:after{ height: $stickyfooter-height-tablet; }
+	}
+    @include break-min($break-switch-navs){
+        top: 0 !important; // in case menu is open with offset;
+    }
+}
+
+.site__footer{
+	position: relative;
+	height: $stickyfooter-height-mobile;
+	background: $color-bg-footer;
+	color: $color-text-footer;
+
+	transition: $menu-mobile-transition;
+
+	@include break-min($break-switch-footers){
+		height: $stickyfooter-height-tablet;
+	}
+
+    @include break-min($break-switch-navs){
+        top: 0 !important; // in case menu is open with offset;
+    }
+}
+
+.container{
+	position:relative;
+	margin:0 auto;
+  	min-width: $break-mobile;
+	max-width: $break-mobile-max;
+	padding: $container-padding-mobile;
+
+	@include break-min($break-tablet){
+		padding: $container-padding-tablet;
+		max-width: $break-tablet-max;
+	}
+	@include break-min($break-desktop){
+		padding: $container-padding-desktop;
+		max-width: $break-desktop-max;
+	}
+}
+
+// ============================================================================
+//   Assigns z-indexes to global elements by Array index
+//   --------
+//   See _variables.scss to edit array or disable this.
+// ============================================================================
+
+@if $generate-layerz{
+	// @debug "Generating layer z-indexes enabled. This generates z-indexes based on array index (i * 10, for usage see _scaffolding.scss, to enable/disable see _variables.scss).";
+
+	@each $layer in $layerz {
+	    $i: index($layerz, $layer);
+	    #{$layer} {
+	        z-index: $i * 100;
+	    }
+	}
+
+}

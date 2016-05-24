@@ -1,0 +1,14 @@
+.view--platforms{
+
+  figure.inline-graphic{
+    margin-top: 2.4em;
+
+    @include break-min($break-tablet){
+      margin-top: 0;
+    }
+    @include break-min($break-desktop){
+      padding: 0 50px;
+    }
+  }
+
+}

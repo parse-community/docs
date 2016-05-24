@@ -1,0 +1,222 @@
+
+.platforms-graphic{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    position:relative;
+    min-height: 415px;
+    overflow:hidden;
+    margin-bottom: 1.4em;
+
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__bg-layer,
+    &__svg-mask,
+    &__icon-overlays{
+        max-width: none;
+        width: 415px;
+        height: 415px;
+        position: absolute;
+        top:0;
+        left: 50%;
+        transform: translateX(-50% );
+    }
+
+    &__bg-layer{
+        background: url(/assets/images/home/devices_mobile.png) center center no-repeat;
+        background-size: contain;
+    }
+
+    &__svg-mask{
+        display:none;
+        overflow: hidden;
+
+        &__mask{
+            content: "";
+            display:block;
+            position: absolute;
+            left:-300px; top:-800px;
+            width: 3000px; height: 3000px;
+            // background: radial-gradient(ellipse at top left, rgba(93,182,240,1) 0%,rgba(22,156,238,1) 44%,rgba(17,125,191,1) 100%);
+            background: $color-parse-blue;
+            transform-origin: 0 0;
+            transform: scale(0);
+            opacity: 0;
+            // transition: all 500ms linear;
+            border-radius: 50%;
+            filter: blur(50px);
+        }
+    }
+
+    &__icon-overlays{ display:none; }
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    // &.animate-in{
+    //     .platforms-graphic__svg-mask:before{
+    //         transform: scale(1);
+    //         filter: blur(50px);
+    //     }
+    // }
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-desktop){
+        min-height: 1124px;
+        width: 100%;
+        position: absolute;
+        margin-bottom:0;
+
+        &__bg-layer,
+        &__icon-overlays{
+            margin-left: -203px;
+            width: 1600px;
+            height: 1124px;
+        }
+
+        &__bg-layer{
+            background: url(/assets/images/home/devices.png) center center no-repeat;
+            background-size: contain;
+        }
+
+        &__svg-mask{
+            display:block;
+            width: 1529px;
+            height: 952px;
+            margin-left: -181.5px;
+            margin-top: 24px;
+
+            #deviceScreens path{ opacity: 0; }
+        }
+
+        &__icon-overlays{
+            display:block;
+            margin-left: -273px;
+        }
+
+        &__icon-overlay{
+
+            display:block;
+            position:absolute;
+            left:0; top:0;
+            width: 100px; height: 100px;
+            transform: scale(0);
+
+            &:before{
+                // 145 x 65
+                content: "";
+                display:block;
+                position: absolute;
+                left: 50%; top:50%;
+                width: 87px; height: 39px;
+                background: url(/assets/images/home/cloudcat.png) left top no-repeat;
+                background-size: 100% auto;
+                transform: translate(-50%,-50%);
+            }
+            &.watch, &.wear{
+                &:before{ width: 43.5px; height: 19.5px; }
+            }
+            &.arduino{
+                &:before{ width: 14.5px; height: 6.5px; }
+            }
+
+            &.mac{
+                left: 130px;
+                top: 24px;
+                width: 1033px;
+                height: 176px;
+
+                &:before{
+                    transform-origin: 0 50%;
+                    transform: translate(-50%,-50%) rotateX(68deg);
+                }
+            }
+            &.mini{
+                left: 309px;
+                top: 374px;
+                width: 222px;
+                height: 296px;
+            }
+            &.arduino{
+                left: 629px;
+                top: 393px;
+                width: 35px;
+                height: 39px;
+            }
+            &.watch{
+                left: 754px;
+                top: 374px;
+                width: 54px;
+                height: 68px;
+                border-radius: 4px;
+            }
+            &.wear{
+                left: 850px;
+                top: 368px;
+                width: 75px;
+                height: 75px;
+                border-radius: 50%;
+            }
+            &.droid-1{
+                left: 983px;
+                top: 360px;
+                width: 161px;
+                height: 287px;
+            }
+            &.ipad{
+                left: 607px;
+                top: 574px;
+                width: 283px;
+                height: 382px;
+            }
+            &.iphone{
+                left: 973px;
+                top: 759px;
+                width: 114px;
+                height: 205px;
+            }
+            &.droid-2{
+                left: 1147px;
+                top: 739px;
+                width: 123px;
+                height: 229px;
+            }
+            &.droid-3{
+                left: 1333px;
+                top: 745px;
+                width: 118px;
+                height: 210px;
+            }
+            &.droid-4{
+                left: 1511px;
+                top: 721px;
+                width: 144px;
+                height: 254px;
+            }
+
+        }
+    }
+
+    @include break-min(1260px){
+        &__svg-mask{ margin-left: -111px; }
+        &__bg-layer{ margin-left: -133px; }
+        &__icon-overlays{ margin-left: -203px; }
+    }
+
+}

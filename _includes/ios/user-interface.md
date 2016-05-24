@@ -31,7 +31,7 @@ self.presentViewController(logInController, animated:true, completion: nil)
 
 ### Configuring the Log In Elements
 
-![](/images/docs/login_diagram.png)
+![](https://parse.com/images/docs/login_diagram.png)
 
 `PFLogInViewController` can be configured to provide a variety of log in options. By default, `PFLogInViewController` presents the following UI:
 
@@ -240,7 +240,7 @@ That is all you need to do to get a functional sign up screen.
 
 ### Configuring the Sign Up Elements
 
-![](/images/docs/signup_diagram.png)
+![](https://parse.com/images/docs/signup_diagram.png)
 
 `PFSignUpViewController` can be configured to provide a variety of sign up options. By default, it presents the following UI:
 
@@ -485,7 +485,7 @@ The easiest way to understand this class is with an example. This subclass of `P
 ```
 ```swift
 class SimpleTableViewController : PFQueryTableViewController {
-    
+
     override init(style: UITableViewStyle, className: String?) {
         super.init(style: style, className: className)
         parseClassName = "Todo"
@@ -501,36 +501,36 @@ class SimpleTableViewController : PFQueryTableViewController {
         paginationEnabled = true
         objectsPerPage = 25
     }
-    
+
     override func queryForTable() -> PFQuery {
         let query = PFQuery(className: self.parseClassName!)
-        
+
         // If no objects are loaded in memory, we look to the cache first to fill the table
         // and then subsequently do a query against the network.
         if self.objects!.count == 0 {
             query.cachePolicy = .CacheThenNetwork
         }
-        
+
         query.orderByDescending("createdAt")
-        
+
         return query
     }
-    
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
         let cellIdentifier = "cell"
-        
+
         var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? PFTableViewCell
         if cell == nil {
             cell = PFTableViewCell(style: .Subtitle, reuseIdentifier: cellIdentifier)
         }
-        
+
         // Configure the cell to show todo item with a priority at the bottom
-        if let object = object { 
+        if let object = object {
             cell!.textLabel?.text = object["text"] as? String
             let priority = object["priority"] as? String
             cell!.detailTextLabel?.text = "Priority \(priority)"
         }
-        
+
         return cell
     }
 }

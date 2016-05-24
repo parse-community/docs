@@ -1,75 +1,61 @@
-<!doctype html>
-<html class="no-js" lang="">
+---
+layout: default
+---
 
-    {% include head.html %}
+<body class="pure p_docs p_docs_show_guide user_logged_in" style="position: relative;">
+  <div class="site__wrapper">
+    <div class="site__content">
 
-    <body>
+      {% include menu.html %}
+      <!-- old menu was here, blocks/menu -->
+      <div class="content__wrapper">
+        {% include header.html %}
+      <!-- old header would go here, blocks/header -->
 
-        {% include nav.html %}
+        <aside class="hero hero--docs">
+          <div class="grid-container">
+            <div class="col-md--6 col-lg--9">
+                <p class="h1 h1--white" data-ignore-from-select>
+                    <span>{{ page.platform_pretty }} <em>Guide</em></span>
 
-        <!-- .docs_header -->
-        <aside class="hero hero--docs {{ page.platform }}_docs_header">
-            <div class="grid-container">
+                    <a href="/Docs" class="btn btn--back">
+                        <span class="hide-mobile">Browse all platforms</span>
+                        <span class="show-mobile">Browse</span>
+                    </a>
 
-                <div class="col-md--6 col-lg--9">
-                    <h1 class="h1 h1--white" data-ignore-from-select>
-                        <span>{{ page.platform }} <em>Guide</em></span>
-
-                        <a href="/docs/" class="btn btn--back">
-                            <span class="hide-mobile">Browse all platforms</span>
-                            <span class="show-mobile">Browse</span>
-                        </a>
-
-                        <svg class="icon icon-{{ page.platform }}"><use xlink:href="/assets/symbols.svg#{{ page.platform }}"></use></svg>
-                    </h1>
-                </div>
+                    <svg class="icon icon-{{ page.platform }}"><use xlink:href="/assets/symbols.svg#{{ page.platform }}"></use></svg>
+                </p>
             </div>
-        </aside><!-- .docs_header -->
+          </div>
+        </aside><!-- .hero -->
 
-        <div class="wrapper">
-            <div class="container">
+        <div class="guide" data-nav-waypoint>
 
-              <div class="guide" data-nav-waypoint>
+          <div class="grid-container">
+            <div class="col-md--6 col-lg--9">
 
-                <div id='mobile_toc'>
-                  <select>
-                  </select>
-                  <i class="icon_triangleDown"></i>
-                </div>
-
-                <div class="grid-container">
-
-                  <div class="col-md--6 col-lg--9">
-
-                    <div class="guide_content">
-
-                      <div id="toc">
-                        <div class="top_links">
-                          <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
-                          <a href="https://parse.com/docs/{{ page.platform }}/api/">API Reference<i class="icon_minimize"></i></a>
-                        </div>
-                      </div>
-
-                      <div class="wysiwyg-content">
-                        {{ content }}
-
-                        <!-- TODO: replace ruby code here that adds helpful_box -->
-                      </div>
-
-                    </div>
-
+              <div class="guide_content">
+                <div id="toc">
+                  <div class="top_links">
+                    {% if page.quickstart %}
+                      <a href="{{ page.quickstart }}">Quickstart<i class="icon_minimize"></i></a>
+                    {% endif %}
+                    {% if page.api_reference %}
+                      <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
+                    {% endif %}
                   </div>
-
                 </div>
 
+                <div class="wysiwyg-content">
+                  {{ content }}
+                </div>
               </div>
 
-
-
-              <!-- TODO: footer has some js rendering of a React component: App.Views.Docs.Main -->
+          		<!-- footer goes here -->
             </div>
-
-            {% include footer.html %}
-        </div>
-    </body>
-</html>
+          </div><!-- end content grid col -->
+        </div><!-- end .guide > .grid-container -->
+        </div><!-- /.content__wrapper -->
+    </div><!-- /.site__content -->
+  </div><!-- /.site__wrapper -->
+</body>

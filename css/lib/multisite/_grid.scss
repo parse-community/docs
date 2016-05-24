@@ -1,0 +1,77 @@
+
+@if $create-grid{
+
+    .grid-container{
+        @include clearfix();
+        
+        position:relative;
+        min-width: $break-mobile;
+        max-width: $break-mobile-max;
+        padding-left: $grid-gutters-mobile;
+        padding-right: $grid-gutters-mobile;
+        margin-left: auto;
+        margin-right: auto;
+        
+        @include break-min($break-tablet){
+            max-width: $break-tablet-max;
+            padding-left: ($grid-gutters-tablet/2);
+            padding-right: ($grid-gutters-tablet/2);
+        }
+        @include break-min($break-desktop){
+            max-width: $break-desktop-max-grid;
+            padding-left: ($grid-gutters-desktop/2);
+            padding-right: ($grid-gutters-desktop/2);
+        }
+    }
+
+    @for $i from 1 to ($grid-cols-desktop + 1){
+        .col--#{$i}{
+            float:left;
+            width: ( 100% / $grid-cols-desktop ) * $i;
+            padding: 0 $grid-gutters;
+        }
+        .offset--#{$i}{
+            margin-left: ( 100% / $grid-cols-desktop ) * $i;
+        }
+    }
+    // @include break-max($break-tablet - 1){
+    //     @for $i from 1 to ($grid-cols-mobile + 1){
+    //         .col-sm--#{$i}{
+    //             float:left;
+    //             width: ( 100% / $grid-cols-mobile ) * $i;
+    //             padding-left: ($grid-gutters-mobile / 2);
+    //             padding-right: ($grid-gutters-mobile / 2);
+    //         }
+    //         .offset-sm--#{$i}{
+    //             margin-left: ( 100% / $grid-cols-mobile ) * $i;
+    //         }
+    //     }    
+    // }
+    @media (min-width: $break-tablet) and (max-width: $break-desktop - 1) {
+        @for $i from 1 to ($grid-cols-tablet + 1){
+            .col-md--#{$i}{
+                float:left;
+                width: ( 100% / $grid-cols-tablet ) * $i;
+                padding-left: ($grid-gutters-tablet / 2);
+                padding-right: ($grid-gutters-tablet / 2);
+            }
+            .offset-md--#{$i}{
+                margin-left: ( 100% / $grid-cols-tablet ) * $i;
+            }
+        }
+    }
+    @include break-min($break-desktop){
+        @for $i from 1 to ($grid-cols-desktop + 1){
+            .col-lg--#{$i}{
+                float:left;
+                width: ( 100% / $grid-cols-desktop ) * $i;
+                // padding: 0 $grid-gutters-desktop;
+                padding-left: ($grid-gutters-desktop/2);
+                padding-right: ($grid-gutters-desktop/2);
+            }
+            .offset-lg--#{$i}{
+                margin-left: ( 100% / $grid-cols-desktop ) * $i;
+            }
+        }    
+    }
+}

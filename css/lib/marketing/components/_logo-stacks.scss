@@ -1,0 +1,129 @@
+// logo stacks (as seen on products > mobile page, and styleguide)
+
+.logo-stack{
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+    &s{
+        @include clearfix();
+    }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+    @include clearfix();
+    padding: 28px 0;
+    border-top: 1px solid rgba(#d8d8d8, 0.4);
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+        padding: 28px 48px;
+        border-top:none;
+        border-right: 1px solid rgba(#d8d8d8, 0.4);
+        float:left;
+        width: 50%;
+
+        &:nth-child(2n){ border-right:none; }
+    }
+    
+    @include break-min(1110px){
+        width: (100%/3);
+
+        &:nth-child(2n){ border-right: 1px solid rgba(#d8d8d8, 0.4); }
+        &:nth-child(3n){ border-right:none; }
+    }
+
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+    
+    &__icon{
+        position: relative;
+        background-color: $color-carib-green;
+        width: 93px;
+        height: 93px;
+        border-radius: 4px;
+        float:left;
+        margin-right:16px;
+
+        .icon{ 
+            display:block;
+            fill: white; 
+            width: 100%;
+            height: auto;
+            max-width: 55px;
+            max-height: 55px;
+            margin:0 auto;
+
+            position: relative;
+            top:50%;
+            transform: translateY(-50%);
+            transition: all 250ms $bezier-medium-elastic;
+        }
+    }
+
+    &__heading{
+        margin: 0 0 2px;
+    }
+
+    &__list{
+        list-style: none;
+        padding:0;
+        margin:0; 
+        font-family: $font-din;
+
+        a{ 
+            font-size: 1.5rem;
+            color: $color-carib-green; 
+        }
+    }
+
+    &__link{
+
+        & + &{ margin-top: 0px; }
+    }
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+    &:hover{
+        .logo-stack__{
+            &icon{
+                .icon{ 
+                    transform: translateY(-50%) scale(1.15) translateZ(0); 
+                }
+            }
+        }
+    }
+
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+    
+    &--blue{
+        .logo-stack__{
+            &icon{ background-color: $color-parse-blue; }
+            &list{ a{ color: $color-parse-blue; } }
+        }
+    }
+    &--red{
+        .logo-stack__{
+            &icon{ background-color: $color-rad-red; }
+            &list{ a{ color: $color-rad-red; } }
+        }
+    }
+    &--purple{
+        .logo-stack__{
+            &icon{ background-color: $color-martinique; }
+            &list{ a{ color: $color-martinique; } }
+        }
+    }
+}

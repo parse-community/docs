@@ -45,6 +45,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `AppNameInvalid`	               |  256 | App name is invalid. |
 | `MissingAPIKeyError`	           |  902 | The request is missing an API key.       |
 | `InvalidAPIKeyError`	           |  903 | The request is using an invalid API key. |
+{: .docs_table}
 
 ## Push related errors
 
@@ -66,6 +67,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `InvalidExpirationError`	       |  138 | Invalid expiration value. |
 | `MissingPushIdError`	           |  156 | A push id is missing. Deprecated. |
 | `MissingDeviceTypeError`         |  157 | The device type field is missing. Deprecated. |
+{: .docs_table}
 
 ## File related errors
 
@@ -78,6 +80,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `FileTooLarge`	                 |  129 | File size exceeds maximum allowed. |
 | `FileSaveError`	                 |  130 | Error saving a file. |
 | `FileDeleteError`	               |  131 | File could not be deleted. |
+{: .docs_table}
 
 ## Installation related errors
 
@@ -88,6 +91,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `InvalidChannelsArrayError`	     |  134 | Invalid channels array value. |
 | `MissingRequiredFieldError`	     |  135 | Required field is missing. |
 | `ChangedImmutableFieldError`	   |  136 | An immutable field was changed. |
+{: .docs_table}
 
 ## Purchase related errors
 
@@ -100,6 +104,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `ProductNotFoundInAppStore`	     |  147 | The product is not found in the App Store. |
 | `InvalidServerResponse`	         |  148 | The Apple server response is not valid. |
 | `ProductDownloadFilesystemError` |  149 | The product fails to download due to file system error. |
+{: .docs_table}
 
 ## User related errors
 
@@ -115,6 +120,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `MustCreateUserThroughSignup`    |  207 | A user can only be created through signup. |
 | `AccountAlreadyLinked`	         |  208 | An account being linked is already linked to another user. |
 | `InvalidSessionToken`	           |  209 | The device's session token is no longer valid. The application should ask the user to log in again. |
+{: .docs_table}
 
 ## Linked services errors
 
@@ -138,6 +144,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `TwitterSigninDisabled`          |  252 | Authentication by Twitter is not supported for this application. Check your Parse app's authentication settings. |
 | `InvalidAuthDataError`	         |  253 | An invalid authData value was passed. Check error message for more details. |
 | `LinkingNotSupportedError`       |  999 | Linking to an external account not supported yet with signup_or_login. Use update instead. |
+{: .docs_table}
 
 ## Client-only errors
 
@@ -147,6 +154,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `AggregateError`                 |  600 | There were multiple errors. Aggregate errors have an "errors" property, which is an array of error objects with more detail about each error that occurred. |
 | `FileReadError `                 |  601 | Unable to read input for a %{ParseFile} on the client. |
 | `XDomainRequest`                 |  602 | A real error code is unavailable because we had to use an XDomainRequest object to allow CORS requests in Internet Explorer, which strips the body from HTTP responses that have a non-2XX status code. |
+{: .docs_table}
 
 ## Operational issues
 
@@ -157,6 +165,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `RequestLimitExceeded`	         |  155 | This application has exceeded its request limit. Please retry in one minute or raise your request limit at https://parse.com/account. Check error message for more details. |
 | `TemporaryRejectionError`	       |  159 | An application's requests are temporary rejected by the server. |
 | `DatabaseNotMigratedError`       |  428 | You should migrate your database as soon as possible. |
+{: .docs_table}
 
 If your requests are rejected with a 155 error code, your application may be [exceeding its request limit](/plans/faq#request-limit-exceeded). You can learn more about [how the request limit is calculated in the Pricing FAQ](/plans/faq#how-are-requests-per-second-calculated). If waiting one minute or [increasing the request limit](/plans/faq#increasing-request-limit) does not resolve the issue, [please file a bug report](https://parse.com/help#report). If your requests are being rejected with a 159 error code, [please file a bug report](https://parse.com/help#report) for further instructions on how to resolve the issue. If your requests are rejected with a 428 error code, please [migrate your database](https://parse.com/migration) as soon as possible.
 
@@ -168,3 +177,4 @@ If your requests are rejected with a 155 error code, your application may be [ex
 | `InternalServerError`	           |    1 | Internal server error. No information available.                |
 | `ServiceUnavailable`	           |    2 | The service is currently unavailable.                           |
 | `ClientDisconnected`	           |    4 | Connection failure.                                             |
+{: .docs_table}

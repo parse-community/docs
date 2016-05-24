@@ -1,0 +1,95 @@
+.photo-panel{
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    position: relative;
+    background: $color-ebony url('') center center no-repeat;
+    background-size: cover;
+
+    &:before{
+        display: block;
+        content: "";
+        position: absolute;
+        left: 0; top:0;
+        width: 100%; height: 100%;
+        background-color: rgba($color-parse-blue,0.6);
+        background-position: left bottom;
+        background-repeat: repeat-x;
+    }
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    .grid-container{ height: 400px; }
+
+    // &__copy{
+    //     h2{
+    //         margin: 0.4em 0;
+    //     }
+    // }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-max($break-tablet - 1){
+        &__copy{
+            @include vertical-align();
+
+            text-align: center;
+            margin: 0 auto;
+            max-width: 340px;
+        }
+    }
+
+    @include break-min($break-tablet){
+        .grid-container{
+            height: 730px;
+        }
+
+        &__copy{
+            position: absolute;
+            left:0; bottom: 60px;
+            text-align: left;
+            max-width: none;
+        }
+    }
+
+    @include break-min($break-desktop){
+
+        // html.no-touch &{ background-attachment: fixed; }
+
+        .grid-container{ height: 1000px; }
+
+        &__copy{ bottom: 90px; }
+    }
+
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+    &--green{
+        &:before{
+            background-image: url(/assets/images/photo-panels/gradient_green.png);
+            background-size: auto 100%;
+        }
+        @include break-min($break-tablet){
+            &:before{ background-color: transparent; }
+        }
+    }
+    &--pink{
+        &:before{
+            background-image: url(/assets/images/photo-panels/gradient_pink.png);
+            background-size: auto 100%;
+        }
+        @include break-min($break-tablet){
+            &:before{ background-color: transparent; }
+        }
+    }
+
+}

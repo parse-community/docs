@@ -1,0 +1,148 @@
+.header-hamburger{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    // hamburger variables IN
+
+    $hh-lines-tops-duration-in:                 250ms;
+    $hh-lines-tops-delay-in:                    0ms;
+    $hh-lines-tops-easing-in:                   ease-out;
+
+    $hh-lines-widths-duration-in:               250ms;
+    $hh-lines-widths-delay-in:                  $hh-lines-tops-duration-in;
+    $hh-lines-widths-easing-in:                 ease-out;
+
+    $hh-arrowheads-transforms-duration-in:      200ms;
+    $hh-arrowheads-transforms-delay-in:         ( $hh-lines-widths-duration-in + $hh-lines-widths-delay-in ) + 50;
+    $hh-arrowheads-transforms-easing-in:        $bezier-sweaty-elastic;
+
+    // hamburger variables OUT
+
+    $hh-arrowheads-transforms-duration-out:     200ms;
+    $hh-arrowheads-transforms-delay-out:        0ms;
+    $hh-arrowheads-transforms-easing-out:       $bezier-sweaty-elastic;
+
+    $hh-lines-widths-duration-out:              250ms;
+    $hh-lines-widths-delay-out:                 $hh-arrowheads-transforms-duration-out;
+    $hh-lines-widths-easing-out:                $bezier-small-elastic;
+
+    $hh-lines-tops-duration-out:                250ms;
+    $hh-lines-tops-delay-out:                   ( $hh-lines-widths-duration-out + $hh-lines-widths-delay-out );
+    $hh-lines-tops-easing-out:                  $bezier-small-elastic;
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+    
+    display:block;
+    position: absolute;
+    width: $header-hamburger-width; 
+    height: $header-hamburger-height;
+    top: 50%;
+    left: $container-padding-h-mobile;
+    // margin: (($header-hamburger-height/2)*-1) 0 0 0;
+    transform: translate( 0, -50% );
+    // transform: translate3d( 0, -50%, 0 );
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__wrap{
+        display:block;
+        position: absolute;
+        left: 50%; top:50%;
+        // margin: ((22px/2)*-1) 0 0 ((34px/2)*-1);
+        transform: translate( -50%, -50% );
+        // transform: translate3d( -50%, -50%, 0 );
+        width: 34px;
+        height: 22px;
+        // outline:1px solid rgba(255,0,0,0.24);
+    }
+
+    &__line--top,
+    &__line--middle,
+    &__line--bottom,
+    &__line--arrow-top,
+    &__line--arrow-bottom{
+        display:block;
+        height: $header-hamburger-line-height;
+        background: $color-comet;
+        position: absolute;
+        left: 0; top:0;
+    }
+
+    &__line--top,
+    &__line--middle,
+    &__line--bottom{
+        transition: width $hh-lines-widths-duration-out $hh-lines-widths-easing-out $hh-lines-widths-delay-out,
+                    top $hh-lines-tops-duration-out $hh-lines-tops-easing-out $hh-lines-tops-delay-out;
+    }
+
+    &__line--top{
+        width: 34px;
+        top:0;
+    }
+    &__line--middle{
+        width: 27px;
+        top: 8px;
+    }
+    &__line--bottom{
+        width: 17px;
+        top: 16px;
+    }
+
+    &__line--arrow-top,
+    &__line--arrow-bottom{
+        top:8px;
+        width: 10px;
+        left: 10px;
+        background: $color-comet;
+        transition: transform $hh-arrowheads-transforms-duration-out $hh-arrowheads-transforms-easing-out $hh-arrowheads-transforms-delay-out;
+        transform-origin: 80% 50%;
+    }
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+    
+    body.show-menu &{
+        &__line--top,
+        &__line--middle,
+        &__line--bottom{
+            top:8px;
+            width: 17px;
+            transition: width $hh-lines-widths-duration-in $hh-lines-widths-easing-in $hh-lines-widths-delay-in,
+                    top $hh-lines-tops-duration-in $hh-lines-tops-easing-in $hh-lines-tops-delay-in;
+        }
+        &__line--arrow-top,
+        &__line--arrow-bottom{
+            transition: transform $hh-arrowheads-transforms-duration-in $hh-arrowheads-transforms-easing-in $hh-arrowheads-transforms-delay-in;
+        }
+        &__line--arrow-top{
+            transform: rotate(45deg);
+        }
+        &__line--arrow-bottom{
+            transform: rotate(-45deg);
+        }
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+        left: $container-padding-h-tablet;
+    }
+    @include break-min($break-desktop){
+        left: $container-padding-h-desktop;
+    }
+    @include break-min($break-switch-navs){
+        display: none !important;
+    }
+
+}

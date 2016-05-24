@@ -1,0 +1,59 @@
+// divider ctas
+
+.divider-cta{
+
+  background-color: #f4f4f7;
+  padding: 13px 0 12px;
+  text-align: center;
+
+  p{
+    margin:0;
+    font-family: $font-alright; font-weight: $light-weight;
+
+    .icon{
+      width:20px;
+      height:19px;
+      vertical-align: middle;
+      fill: $color-parse-blue;
+      margin-right:5px;
+
+      @include break-max($break-tablet - 1){
+        margin: 0 auto 0.4em;
+        display:block;
+      }
+    }
+
+    a{
+      font-family: $font-alright; 
+      font-weight: $bold-weight;
+
+      @include break-max($break-tablet - 1){
+        margin: 0.3em auto 0;
+        display: block;
+      }
+    }
+  }
+
+  &--blue,
+  &--green,
+  &--red{
+    p{
+      color: white;
+
+      .icon{ fill:white; }
+
+      a{ color: white; }
+    }
+  }
+
+  &--blue{
+    background-color: $color-parse-blue;
+  }
+  &--green{
+    background-color: $color-carib-green;
+  }
+  &--red{
+    background-color: $color-rad-red;
+  }
+
+}

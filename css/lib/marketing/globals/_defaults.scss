@@ -1,0 +1,47 @@
+// additional defaults not provided in normalize
+
+
+main{ display:block; }
+
+
+// Links
+
+a{ 
+    text-decoration:none; 
+    color:inherit; 
+
+    &:hover{ text-decoration:underline; }
+}
+
+a:active, 
+a:focus{ 
+    outline:none; 
+}
+
+
+
+// Responsive Images
+
+img{ 
+    width:auto; 
+    height:auto; 
+    max-width:100%; 
+}
+
+/*
+ * Let's target IE to respect aspect ratios and sizes for img tags containing SVG files
+ * https://css-tricks.com/scale-svg/
+ *
+ * [1] IE9
+ * [2] IE10+
+ */
+/* 1 */
+.lte-ie9 img[src*=".svg"] {
+  width: 100%; 
+}
+/* 2 */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  img[src*=".svg"] {
+    width: 100%; 
+  }
+}

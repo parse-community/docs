@@ -11,6 +11,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#objects-updating-objects)      |
 | `/1/classes/<className>`            | GET       | [Queries](#queries)                                |
 | `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#objects-deleting-objects)      |
+{: .docs_table}
 
 ## Users
 
@@ -25,6 +26,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/users`                | GET       | [Querying Users](#users-querying)                                  |
 | `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting-users)                            |
 | `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-requesting-a-password-reset)  |
+{: .docs_table}
 
 ## Sessions
 
@@ -37,6 +39,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/sessions`             | GET       | [Querying Sessions](#sessions-querying-sessions) |
 | `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#sessions-deleting-sessions) |
 | `/1/sessions/me`          | PUT       | [Pairing with Installation](#sessions-pairing-session-with-installation) |
+{: .docs_table}
 
 ## Roles
 
@@ -46,12 +49,14 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/roles/<objectId>` | GET       | [Retrieving Roles](#roles-retrieving-roles) |
 | `/1/roles/<objectId>` | PUT       | [Updating Roles](#roles-updating-roles)     |
 | `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#roles-deleting-roles)     |
+{: .docs_table}
 
 ## Files
 
 | URL                   | HTTP Verb | Functionality                             |
 |-----------------------|-----------|-------------------------------------------|
 | `/1/files/<fileName>` | POST      | [Uploading Files](#files-uploading-files) |
+{: .docs_table}
 
 ## Analytics
 
@@ -59,12 +64,14 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 |-------------------------|-----------|-------------------------------------------------|
 | `/1/events/AppOpened`   | POST      | [Analytics](#analytics-app-open-analytics)      |
 | `/1/events/<eventName>` | POST      | [Custom Analytics](#analytics-custom-analytics) |
+{: .docs_table}
 
 ## Push Notifications
 
 | URL       | HTTP Verb | Functionality                |
 |-----------|-----------|------------------------------|
 | `/1/push` | POST      | [Push Notifications](#push-notifications)  |
+{: .docs_table}
 
 ## Installations
 
@@ -75,13 +82,15 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/installations/<objectId>` | PUT       | [Updating Installations](#push-notifications-updating-installations)        |
 | `/1/installations`            | GET       | [Querying Installations](#push-notifications-querying-installations)        |
 | `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#push-notifications-deleting-installations)        |
+{: .docs_table}
 
 ## Cloud Functions
 
 | URL                   | HTTP Verb | Functionality                                             |
 |-----------------------|-----------|-----------------------------------------------------------|
-| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloud-code-cloud-functions)    | 
+| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloud-code-cloud-functions)    |
 | `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#cloud-code-background-jobs) |
+{: .docs_table}
 
 ## Schemas
 
@@ -92,6 +101,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/schemas/<className>`| POST      | [Create Schema](#schema-adding-a-schema)                  |
 | `/1/schemas/<className>`| PUT       | [Modify Schema](#schema-modifying-the-schema)             |
 | `/1/schemas/<className>`| DELETE    | [Delete Schema](#schema-removing-a-schema)                |
+{: .docs_table}
 
 ## Apps
 
@@ -101,6 +111,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/apps/<applicationId>`| GET       | [Fetch App](#apps-fetching-apps)                          |
 | `/1/apps/<applicationId>`| POST      | [Create App](#apps-creating-apps)                         |
 | `/1/apps/<applicationId>`| PUT       | [Modify App](#apps-updating-apps)                         |
+{: .docs_table}
 
 ## Function Hooks
 
@@ -110,6 +121,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/hooks/functions/`               | POST      | [Create Cloud Function](#hooks-create-function-webhook) |
 | `/1/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#hooks-edit-function-webhook)     |
 | `/1/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#hooks-delete-function-webhook) |
+{: .docs_table}
 
 ## Trigger Hooks
 
@@ -119,6 +131,7 @@ All API access is over HTTPS, and accessed via the `https://api.parse.com` domai
 | `/1/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#hooks-create-trigger-webhook)   |
 | `/1/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#hooks-edit-trigger-webhook)       |
 | `/1/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#hooks-delete-trigger-webhook)   |
+{: .docs_table}
 
 ## Request Format
 
@@ -152,7 +165,7 @@ Whether a request succeeded is indicated by the HTTP status code. A 2xx status c
 
 ## Calling from Client Apps
 
-You should not use the REST API Key in client apps (i.e. code you distribute to your customers). If the Parse SDK is available for your client platform, we recommend using our SDK instead of the REST API. If you must call the REST API directly from the client, you should use the corresponding client-side Parse key for that plaform (e.g. Client Key for iOS/Android, or .NET Key for Windows/Xamarin/Unity). 
+You should not use the REST API Key in client apps (i.e. code you distribute to your customers). If the Parse SDK is available for your client platform, we recommend using our SDK instead of the REST API. If you must call the REST API directly from the client, you should use the corresponding client-side Parse key for that plaform (e.g. Client Key for iOS/Android, or .NET Key for Windows/Xamarin/Unity).
 
 If there is no Parse SDK for your client platform, please use your app's Client Key to call the REST API. Requests made with the Client Key, JavaScript Key, or Windows Key are restricted by client-side app settings that you configure in your Parse.com app dashboard. These settings make your app more secure. For example, we recommend that all production apps turn off the "Client Push Enabled" setting to prevent push notifications from being sent from any device using the Client Key, JavaScript Key, or .NET Key, but not the REST API Key. Therefore, if you plan on registering installations to enable Push Notifications for your app, you should not distribute any app code with the REST API key embedded in it.
 

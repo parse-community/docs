@@ -1,0 +1,89 @@
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+.prism-theme--okaidia {
+  /* Code blocks */
+  /* Inline code */ }
+  .prism-theme--okaidia code[class*="language-"],
+  .prism-theme--okaidia pre[class*="language-"] {
+    color: #f8f8f2;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    direction: ltr;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    line-height: 1.5;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none; }
+  .prism-theme--okaidia pre[class*="language-"] {
+    padding: 1em;
+    margin: .5em 0;
+    overflow: auto;
+    border-radius: 0.3em; }
+  .prism-theme--okaidia :not(pre) > code[class*="language-"],
+  .prism-theme--okaidia pre[class*="language-"] {
+    background: #272822; }
+  .prism-theme--okaidia :not(pre) > code[class*="language-"] {
+    padding: .1em;
+    border-radius: .3em; }
+  .prism-theme--okaidia .token.comment,
+  .prism-theme--okaidia .token.prolog,
+  .prism-theme--okaidia .token.doctype,
+  .prism-theme--okaidia .token.cdata {
+    color: slategray; }
+  .prism-theme--okaidia .token.punctuation {
+    color: #f8f8f2; }
+  .prism-theme--okaidia .namespace {
+    opacity: .7; }
+  .prism-theme--okaidia .token.property,
+  .prism-theme--okaidia .token.tag,
+  .prism-theme--okaidia .token.constant,
+  .prism-theme--okaidia .token.symbol,
+  .prism-theme--okaidia .token.deleted {
+    color: #f92672; }
+  .prism-theme--okaidia .token.boolean,
+  .prism-theme--okaidia .token.number {
+    color: #ae81ff; }
+  .prism-theme--okaidia .token.selector,
+  .prism-theme--okaidia .token.attr-name,
+  .prism-theme--okaidia .token.string,
+  .prism-theme--okaidia .token.char,
+  .prism-theme--okaidia .token.builtin,
+  .prism-theme--okaidia .token.inserted {
+    color: #a6e22e; }
+  .prism-theme--okaidia .token.operator,
+  .prism-theme--okaidia .token.entity,
+  .prism-theme--okaidia .token.url,
+  .prism-theme--okaidia .language-css .token.string,
+  .prism-theme--okaidia .style .token.string,
+  .prism-theme--okaidia .token.variable {
+    color: #f8f8f2; }
+  .prism-theme--okaidia .token.atrule,
+  .prism-theme--okaidia .token.attr-value,
+  .prism-theme--okaidia .token.function {
+    color: #e6db74; }
+  .prism-theme--okaidia .token.keyword {
+    color: #66d9ef; }
+  .prism-theme--okaidia .token.regex,
+  .prism-theme--okaidia .token.important {
+    color: #fd971f; }
+  .prism-theme--okaidia .token.important,
+  .prism-theme--okaidia .token.bold {
+    font-weight: bold; }
+  .prism-theme--okaidia .token.italic {
+    font-style: italic; }
+  .prism-theme--okaidia .token.entity {
+    cursor: help; }
+  .prism-theme--okaidia .token.operator {
+    background:none; }
+
+/*# sourceMappingURL=custom_prism-okaidia.css.map */

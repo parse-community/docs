@@ -1,0 +1,244 @@
+.view--platform-mobile{}
+
+.section-platform-mobile--data{
+    padding: 40px 0 130px;
+
+    .copy-block--triplet{ margin-top: 40px; }
+    .copy-block--triplet + .btn-group{ margin-top: 0.5em; }
+
+    .grid-container:first-child{
+      .h5{ margin-top:0; }
+      .h2{ margin: 0.5em 0; }
+    }
+
+    @include break-min($break-tablet){
+      padding: 140px 0 56px;
+
+      figure.inline-graphic{ padding:0; }
+      .copy-block--triplet{ margin-top: 5em; }
+      .copy-block--triplet + .btn-group{ margin-top: -0.7em; }
+    }
+}
+
+.section-platform-mobile--push{
+    position: relative;
+    background-color: $color-foam;
+    padding: 66px 0 40px;
+
+    .btn{ margin-top: 2em; }
+
+    .col-lg--3{
+      .h5{ margin-top:0; }
+      .h5 + .h2{ margin: 0.4em 0; }
+      .hr{ margin: 1.9em 0; }
+      .h6{ margin-bottom:0; }
+      .h6 + p{ margin-top: 1em; }
+      p + .btn{ margin-top: 1.5em; }
+    }
+
+    @include break-min($break-tablet){
+      padding: 66px 0 82px;
+
+      .mobile-graphic--push{
+        margin-right: 50px;
+      }
+    }
+
+    @include break-min($break-desktop){
+      padding-bottom: 50px;
+
+      .mobile-graphic--push{
+        margin-right: -100px;
+      }
+
+      .btn{ margin-top: 0.7em; }
+    }
+}
+
+.section-platform-mobile--analytics{
+    padding: 40px 0;
+
+    .grid-container:first-child{
+      .h5{ margin-top:0; }
+      .h2{ margin: 0.5em 0; }
+    }
+
+    .copy-block--triplet{ margin-top: 40px; }
+    .btn{ margin-top: -0.7em; }
+
+    @include break-min($break-tablet){
+      padding: 84px 0 70px;
+
+      .copy-block--triplet{ margin-top: 80px; }
+    }
+
+    @include break-min($break-desktop){
+      .grid-container:first-child{
+        height: 366px;
+
+        .col-lg--3{ @include vertical-align(); }
+        figure{
+          img{ max-width: 587px; }
+        }
+      }
+      .btn{ margin-top: 0.7em; }
+    }
+}
+
+
+.mobile-graphic--push{
+
+    position:absolute;
+    right:50%;
+    bottom:0;
+    width:733px;
+    height:740px;
+
+    .push-tower{
+        position:absolute;
+        right:13px; bottom:0;
+        width: 625px;
+        height: 649px;
+
+        &__base{ }
+        &__signal{
+            backface-visibility: hidden;
+        }
+        &__signal--inner{
+            opacity: 0.8;
+            animation: anim_tower-signal--inner 4s infinite;
+        }
+        &__signal--middle{
+            opacity: 0.3;
+            animation: anim_tower-signal--middle 4s infinite;
+        }
+        &__signal--outer{
+            opacity: 0.1;
+            animation: anim_tower-signal--outer 4s infinite;
+        }
+    }
+
+    .push-handset{
+        display:none;
+        position: absolute;
+        width: 158px;
+        height: 271px;
+
+        @include break-min($break-tablet){
+            display:block;
+        }
+
+        &__phone{}
+        &__notification{
+            display:block;
+            width: auto;
+            height:auto;
+            position:absolute;
+            left:50%; top:50%;
+            transform: translate(-50%, -50%);
+            background-color: $color-parse-blue;
+            border-radius: 2px;
+            padding: 10px 20px;
+            font-family: $font-din;
+            font-size: 1.3rem;
+            text-align: center;
+            color: white;
+            max-width: 60%;
+        }
+
+        &--1{
+          left:10%;
+          top: -2%; // was 0
+          width: 49px;
+          height: 94px;
+
+          animation: anim_phone-float-1 5s infinite;
+          animation-timing-function: ease-in-out;
+        }
+        &--2{
+          left:0;
+          top:23%;
+          transform: translateY(-50%);
+          width: 66px;
+          height: 124px;
+
+          animation: anim_phone-float-2 4s 240ms infinite;
+          animation-timing-function: ease-in-out;
+        }
+        &--3{
+          left:10%;
+          top:53%;
+          width: 56px;
+          height: 102px;
+
+          animation: anim_phone-float-3 4.9s 150ms infinite;
+          animation-timing-function: ease-in-out;
+        }
+        &--4{
+          right:10%;
+          top: -2%; // was 0
+          width: 46px;
+          height: 93px;
+
+          animation: anim_phone-float-4 3s 300ms infinite;
+          animation-timing-function: ease-in-out;
+        }
+        &--5{
+          right:0;
+          top:22%;
+          transform: translateY(-50%);
+          width: 62px;
+          height: 125px;
+
+          animation: anim_phone-float-5 4.7s 125ms infinite;
+          animation-timing-function: ease-in-out;
+        }
+        &--6{
+          right:10%;
+          top:52%;
+          width: 53px;
+          height:95px;
+
+          animation: anim_phone-float-6 4s 50ms infinite;
+          animation-timing-function: ease-in-out;
+        }
+
+    }
+
+    @include break-max($break-tablet - 1){
+        right:0;
+        width: 100%;
+        height: 160px;
+        position: relative;
+        margin-bottom: 2em;
+
+        .push-tower{
+          position: absolute;
+          right: 50%;
+          bottom: 0;
+          width: 300px;
+          height: 312px;
+          transform: translateX(50%);
+        }
+    }
+}
+
+.section-platform-mobile--sdks{
+  padding-top: 40px;
+  padding-bottom: 10px;
+
+  .copy-block{ margin-bottom:3em; }
+
+  @include break-min($break-tablet){
+    padding-top: 60px;
+    padding-bottom: 60px;
+
+    .copy-block{ margin-bottom: 4em; }
+  }
+  @include break-min($break-desktop){
+    padding-top: 100px;
+    padding-bottom: 130px;
+
+    .copy-block{ margin-bottom:6em; }
+  }
+}

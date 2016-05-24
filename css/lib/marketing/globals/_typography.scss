@@ -1,0 +1,414 @@
+// Type styles
+
+p,
+.p,
+[class^="p--"],
+[class*=" p--"]{
+    color: $color-comet;
+    font-size: $para-size;
+    line-height: $para-lineheight;
+
+    a{ color: $color-parse-blue; }
+
+    @include break-min($break-switch-fonts){
+        font-size: $para-size-large;
+    }
+}
+.p{
+    &--white{
+        color:white;
+    }
+    &--translucent{
+        color:white;
+        opacity: 0.29;
+    }
+    &--medium{
+        font-size: 1.4rem;
+    }
+    &--small{
+        font-size: 1.2rem;
+        color: #595959;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+    margin: 1em 0;
+}
+
+// [class^="h1--"],
+// [class*=" h1--"]
+.h1{
+    color: $h1-color;
+    font-family: $h1-family;
+    font-size: $h1-size;
+    letter-spacing: $h1-spacing;
+    line-height: $h1-lineheight;
+    font-weight: $h1-weight;
+
+    @include break-min($break-switch-fonts){
+        font-size: $h1-size-large;
+        letter-spacing: $h1-spacing-large;
+    }
+
+    &--purple{
+        color: $color-comet;
+    }
+    &--white{
+        color: white;
+    }
+    &--green{
+        color: $color-carib-green;
+    }
+    &--home{
+        color: $color-comet;
+        font-size: 2.7rem;
+        line-height: 1.1;
+        font-weight: $regular-weight;
+
+        @include break-min($break-switch-fonts){ font-size: 4.6rem; }
+    }
+}
+
+
+.h2{
+    font-size: $h2-size;
+    font-weight: $h2-weight;
+    line-height: $h2-lineheight;
+    letter-spacing: $h2-spacing;
+    margin-top: $h2-margin-top;
+    margin-bottom: $h2-margin-bottom;
+
+    @include break-min($break-switch-fonts){
+        font-size: $h2-size-large;
+    }
+
+
+    &--green{
+        color: $color-carib-green;
+    }
+    &--red{
+        color: $color-rad-red;
+    }
+    &--white{
+        color: white;
+    }
+    &--blue{
+        color: $color-parse-blue;
+    }
+    &--strong{
+        font-family: $font-alright;
+        font-weight: $bold-weight;
+        &-blue{
+            font-family: $font-alright;
+            font-weight: $bold-weight;
+            color: $color-parse-blue;
+        }
+    }
+}
+
+.h3{
+    font-size: $h3-size;
+    font-family: $h3-family;
+    font-weight: $h3-weight;
+    letter-spacing: $h3-spacing;
+
+    @include break-min($break-switch-fonts){
+        font-size: $h3-size-large;
+        letter-spacing: $h3-spacing-large;
+    }
+
+    &--white{
+        color:white;
+    }
+    &--blue{
+        color: $color-parse-blue;
+    }
+    &--green{
+        color: $color-carib-green;
+    }
+    &--list{
+        font-size: 2.4rem;
+        margin: 0.25em 0;
+        color: $color-parse-blue;
+
+        & + p{
+            margin:0;
+        }
+    }
+}
+
+.h4{
+    @include h4();
+}
+
+.h4{
+    &--translucent{
+        opacity: 0.39;
+    }
+}
+
+.h5{
+    @include h5();
+}
+
+.h5{
+    &--white{
+        color: white;
+        &:before{ background: white; }
+    }
+    &--red{
+        color: $color-rad-red;
+        &:before{ background: $color-rad-red; }
+    }
+    &--green{
+        color: $color-carib-green;
+        &:before{ background: $color-carib-green; }
+    }
+    &--blue{
+        color: $color-parse-blue;
+        &:before{ background: $color-parse-blue; }
+    }
+}
+
+.h6{
+    font-size: $h6-size;
+    letter-spacing: $h6-spacing;
+    line-height: $h6-lineheight;
+    font-weight: $h6-weight;
+
+    @include break-min($break-switch-fonts){
+      font-size: $h6-size-large;
+    }
+
+    &--red{
+        color: $color-rad-red;
+    }
+    &--green{
+        color: $color-carib-green;
+    }
+    &--blue{
+        color: $color-parse-blue;
+    }
+}
+
+.h7{
+    @include h7();
+}
+
+.h-tagline{
+    font-family: $font-din;
+    font-size: 1.2rem;
+    line-height: 1.0833333333;
+}
+
+hr,
+.hr{
+    display:block;
+    width: 100%;
+    height:1px;
+    background: $color-parse-blue;
+    border: none;
+    outline: none;
+    margin: 2em 0;
+    padding:0;
+}
+.hr{
+    &--gray{
+        background: $color-mischka;
+    }
+    &--green{
+        background: $color-carib-green;
+    }
+    &--red{
+        background: $color-rad-red;
+    }
+}
+
+.copy-block{
+    text-align: center;
+    max-width: 640px; // was 634
+    margin-left: auto;
+    margin-right: auto;
+
+    p{
+        max-width: 582px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .h5{ margin-top: 0; }
+    // .h2{
+    //     // margin: 0.6em 0 0.2em;
+    //     margin-top: 0.5em;
+    //     margin-bottom: 0.2em;
+    // }
+    .h1{ 
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    // .btn{
+    // margin-top: 0.5em;
+    // }
+    // @include break-min($break-desktop){}
+
+    .btns{
+        margin-top: 2em;
+    }
+}
+.copy-block{
+    // &--home,
+    &--left{
+        // &--compact{
+        //     h3 + h2{
+        //         margin-top: 20px;
+        //         margin-bottom: 8px;
+        //     }
+        //     h2 + p{
+        //         margin-top: 8px;
+        //     }
+        //     p + a{
+        //         margin-top:22px;
+        //     }
+        // }
+        @include break-min($break-desktop){
+            margin-left:0;
+            text-align: left;
+            max-width: 398px;
+        }
+    }
+
+    &--triplet{
+
+        position:relative;
+        padding-top: 42px;
+        padding-bottom: 30px;
+
+        &:before{
+            content: "";
+            display: block !important;
+            position: absolute;
+            left: $grid-gutters-mobile;
+            right: $grid-gutters-mobile;
+            top:0;
+            height: 1px;
+            background-color: $color-carib-green;
+        }
+
+        & > div + div{
+            margin-top:40px;
+        }
+
+        .h6{
+            color: $color-carib-green;
+            margin:0;
+
+            & + p{
+                margin-top: 1em;
+            }
+        }
+        p{ font-size: 1.4rem; }
+
+        @include break-min($break-tablet){
+            &:before{
+                left: $grid-gutters-tablet;
+                right: $grid-gutters-tablet;
+            }
+
+            & > div + div{
+                margin-top:0;
+            }
+        }
+        @include break-min($break-desktop){
+            &:before{
+                left: $grid-gutters-desktop;
+                right: $grid-gutters-desktop;
+            }
+        }
+    }
+    &--triplet-blue{
+        &:before{ background-color: $color-parse-blue; }
+        .h6{ color: $color-parse-blue; }
+    }
+    &--triplet-red{
+        &:before{ background-color: $color-rad-red; }
+        .h6{ color: $color-rad-red; }
+    }
+}
+
+.quote-circle{
+    width: 346px;
+    height: 346px;
+    background: rgba($color-comet, 0.96);
+    border-radius: 50%;
+    text-align: center;
+    color: white;
+
+    &__content{
+        @include vertical-align();
+    }
+    blockquote{
+        font-family: $font-alright; font-weight: $light-weight;
+        font-size: 3.04rem;
+        letter-spacing: -0.1rem;
+        width: 80%;
+        max-width: 274px;
+        margin:0 auto; // 27px
+        padding: 27px 0;
+
+        &:before{
+            content: "";
+            position: absolute;
+            left: 50%; bottom: 100%;
+            width: 34px; height: 34px;
+            border: 2px solid white;
+            border-radius: 50%;
+            margin-left: -17px;
+            background: url(/assets/svgs/quotes.svg) 45% center no-repeat;
+        }
+    }
+    cite{
+        position: absolute;
+        top: 100%;
+        width:100%;
+        padding: 0 20%;
+        font-size: 1.76rem;
+        display:block;
+        margin: 0 auto;
+        font-style:normal;
+        font-family: $font-alright; font-weight: $bold-weight;
+
+        .title{
+            display:block;
+            text-transform: uppercase;
+            font-family: $font-din;
+            font-size: 1rem;
+            letter-spacing: 0.087rem;
+            margin-top: 4px;
+        }
+    }
+}
+
+
+.shout-quote{
+    text-align: center;
+    font-family: $font-alright; font-weight: $light-weight;
+    color: $color-parse-blue;
+    font-size: 3rem;
+    line-height: 1.36;
+    letter-spacing: -1.78px;
+    margin: 1em auto;
+    max-width: 1080px;
+
+    @include break-min(375px){
+        font-size: 3.3rem;
+    }
+    @include break-min($break-switch-fonts){
+        font-size: 5.6rem;
+        line-height: 1.5;
+    }
+}

@@ -1,0 +1,223 @@
+.pricing-graphic{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    $pricing-graphic_margin: 50px 0 60px;
+    $pricing-graphic_padding: 26px;
+    $pricing-graphic_height: 304px;
+
+    $server-activity-top-offset: 8.5%;
+    $server-activity-top-offset-large: 7.1%;
+    $server-activity-right-offset: 24.4%;
+    $server-activity-row-height: 7.525%;
+    $server-activity-row-height-large: 7.75%;
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    position: relative;
+    min-height: $pricing-graphic_height + ($pricing-graphic_padding * 2);
+    padding: $pricing-graphic_padding;
+    margin: $pricing-graphic_margin;
+    // overflow:hidden;
+    background: rgba(#000, 0.07);
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__bg-layer{
+        position:absolute;
+        top: $pricing-graphic_padding;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 437px;
+        height: $pricing-graphic_height;
+        max-width:none;
+        background: url(/assets/images/home/server-requests_mobile.png) center center no-repeat;
+        background-size: contain;
+        margin-left: 2px;
+
+        .request-dots{
+            position: absolute;
+            left: 27.2%; top:43.1%;
+            width: 44.3%;
+            height: 11%;
+            overflow:hidden;
+
+            .dot-matrix{
+                position:absolute;
+                left: 0;
+                top: 9px;
+                width: 806px;
+                height: 48px;
+                background: url('data:image/svg+xml;utf8,<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 56 47" enable-background="new 0 0 56 47" xml:space="preserve"><circle fill="#169CEE" cx="13.5" cy="4.5" r="4.5"/><circle fill="#00DB7C" cx="32.5" cy="4.5" r="4.5"/><circle fill="#FF395E" cx="51.5" cy="4.5" r="4.5"/><circle fill="#FF395E" cx="13.5" cy="23.5" r="4.5"/><circle fill="#169CEE" cx="32.5" cy="23.5" r="4.5"/><circle fill="#00DB7C" cx="51.5" cy="23.5" r="4.5"/><circle fill="#169CEE" cx="13.5" cy="42.5" r="4.5"/><circle fill="#00DB7C" cx="32.5" cy="42.5" r="4.5"/><circle fill="#FF395E" cx="51.5" cy="42.5" r="4.5"/></svg>') 0 0 repeat-x;
+                background-size: auto 24px;
+                backface-visibility: hidden;
+//                animation: anim_request-dots 1.3s infinite linear;
+                transform: translateZ(0);
+            }
+
+
+        }
+
+        .server-activity{
+
+            display:block;
+            position:absolute;
+            right: $server-activity-right-offset;
+            top: $server-activity-top-offset;
+            width: 4px; height: 4px;
+            background-color: $color-bright-gray;
+            border-radius: 50%;
+            transition: 100ms background-color linear;
+
+            &.is-active{
+                background-color: $color-vista-white;
+            }
+
+            @for $i from 0 through 11 {
+                &-#{$i+1}{
+                    top: $server-activity-top-offset + ($server-activity-row-height * $i);
+                    // animation: anim_server-activity 1s random(10)+s infinite;
+                }
+            }
+        }
+    }
+
+    &__heading,
+    &__copy{
+        position:absolute;
+        color:white;
+        margin:0;
+        width: 168px;
+        left:50%;
+        transform: translateX(-50%);
+        line-height: 1.2;
+    }
+
+    &__heading{
+        font-size: 14px;
+        top: 102px;
+        font-family: $font-alright; font-weight: $medium-weight;
+
+        .icon{
+            fill: white;
+            width: 14px;
+            height:20px;
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    &__copy{
+        bottom: 86px;
+        font-size: 12px;
+    }
+
+    &__your-app,
+    &__our-servers{
+        display:none;
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-desktop){
+        background:none;
+        position:absolute;
+        top: 156px;
+        width: 100%;
+        height: 632px;
+        padding:0;
+        margin: 0 0 0 40px;
+
+        &__bg-layer{
+            top:0;
+            width: 896px;
+            height: 607px;
+            margin-left: 320px;
+
+            background-image: url(/assets/images/home/server-requests.png);
+
+            .server-activity{
+                width: 8px; height:8px;
+                top: $server-activity-top-offset-large;
+
+                @for $i from 0 through 11 {
+                    &-#{$i+1}{
+                        top: $server-activity-top-offset-large + ($server-activity-row-height-large * $i);
+                        // animation: anim_server-activity 1s random(10)+s infinite;
+                    }
+                }
+            }
+
+            .request-dots{
+                top:47%;
+                .dot-matrix{
+                    width: 1613px;
+                    background-size: auto 46px;
+                }
+            }
+        }
+
+        &__heading,
+        &__copy{
+            margin-left:310px;
+        }
+
+        &__heading{
+            width: 292px;
+            font-size: 2.2rem;
+            top: 198px;
+        }
+        &__copy{
+            width: 310px;
+            font-size: 1.4rem;
+            bottom: 226px;
+        }
+
+        &__your-app,
+        &__our-servers{
+            position: absolute;
+            left: 50%;
+            top:0;
+            display:block;
+            font-size: 1.4rem;
+            color: white;
+            height: 17px;
+        }
+        &__your-app{
+            width: 222px;
+            margin-left: -104px;
+            top: 64px;
+        }
+        &__our-servers{
+            display:none;
+            text-align: left;
+            width: 245px;
+            margin-left: 520px;
+            top: -30px;
+        }
+    }
+
+    @include break-min(1240px){
+        margin-left: 0;
+
+        &__our-servers{
+            display: block;
+        }
+    }
+
+    @include break-min(1520px){
+        &__our-servers{
+            text-align: center;
+        }
+    }
+
+}

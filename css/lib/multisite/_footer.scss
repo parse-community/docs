@@ -1,0 +1,174 @@
+
+.footer{
+
+    &__main{
+        padding: $footer-padding;
+        background: $color-bg-footer-main;
+    }
+
+    &__list{
+        margin:0;
+        padding:0;
+        list-style:none;
+
+        li{ padding: 6px 0; }
+        a{
+            // display:block;
+            position:relative;
+            font-family: $font-alright;
+            font-size: 1.8rem;
+            color: white;
+            text-decoration: none !important;
+
+            // &:before{
+            //     display:block;
+            //     content: "";
+            //     position: absolute;
+            //     left:0;
+            //     bottom: -3px;
+            //     height: 1px;
+            //     width: 100%;
+            //     background: $color-dolphin;
+            //     opacity:0;
+            //     transition: all 400ms ease;
+            //     transform: translateY(5px);
+            // }
+
+            &:hover{
+                text-decoration:none;
+
+                // &:before{
+                //     transition: all 200ms $bezier-sweaty-elastic;
+                //     transform: translateY(0);
+                //     background: $color-comet;
+                //     opacity:1;
+                // }
+            }
+
+        }
+    }
+
+    &__quicklinks{
+        @include clearfix();
+        margin-bottom: 42px;
+
+        .footer__list{
+            float: left;
+            width: 50%;
+        }
+    }
+
+    &__support-socials{
+        margin-bottom:30px;
+    }
+
+    &__support{
+        margin-bottom: 26px;
+    }
+    &__socials{
+        a {
+            display:inline-block;
+             & + a{
+               margin-left: 10px;
+               @media (min-width: $break-tablet) and (max-width: $break-tablet-max){
+                 margin-left: 3px;
+               }
+             }
+        }
+
+        .icon{
+            fill: white;
+            width: 30px;
+            height: 20px;
+        }
+    }
+
+    &__newsletter{
+        h3 + p{ font-size: 1.6rem; }
+
+        .field-group{ margin-bottom: 2.2rem; }
+    }
+
+    &__epilogue{
+        background: #0E1B24;
+        text-align: center;
+        color: $color-parse-blue;
+        padding: 16px 0;
+
+        span{
+            @include h7();
+            font-weight: 700;
+            display: block;
+            background: url(/assets/images/epilogue-build-together.png) center center no-repeat;
+            background-size: auto 100%;
+            width: 175px;
+            margin:0 auto;
+            padding: 13px 0;
+        }
+    }
+
+    &__heading{
+        @include h4();
+        opacity: 0.29;
+    }
+
+    &__para{
+        &--white{
+            color:white;
+        }
+        &--small{
+            font-size: 1.2rem;
+            color: #595959;
+        }
+    }
+
+
+    @include break-min($break-switch-footers){
+        &__main{
+            padding: $footer-padding-desktop;
+            .container{
+                @include clearfix();
+            }
+        }
+        &__quicklinks{
+            float:left;
+            margin-bottom:0;
+            width: $footer-link-cols-width-tablet;
+        }
+        &__newsletter{
+            float:left;
+            width: $footer-newsletter-col-width-tablet;
+            border-left: 1px solid $color-ebony-lighter;
+            border-right: 1px solid $color-ebony-lighter;
+            text-align: center;
+            padding: 0 25px;
+
+            .field-group{ margin: 3.6rem 0 2.2rem; }
+        }
+        &__support-socials{
+            float:right;
+            width: $footer-link-cols-width-tablet;
+            text-align: right;
+            margin-bottom:0;
+        }
+    }
+    @include break-min($break-desktop){
+        &__main{
+            .container{
+                max-width: $footer-maxwidth-desktop + ($container-padding-h-desktop * 2);
+            }
+        }
+        &__quicklinks,
+        &__support-socials{
+            padding-top:5px;
+            width: 26%;
+        }
+        &__newsletter{
+            width: 48%;
+            padding: 5px 76px 12px;
+
+            h3 + p{ font-size: 1.8rem; }
+        }
+    }
+
+}

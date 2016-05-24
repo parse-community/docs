@@ -1,0 +1,97 @@
+.stat-block{
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+    
+    &s{
+        @include clearfix();
+        
+        background-color: $color-vista-white;
+        padding: 0;
+    }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+    
+    text-align: center;
+    border-top: 1px solid $color-mischka;
+    padding: 40px 0;
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &:first-child{ 
+        border-top: none;
+        border-left: none;
+    }
+
+    &__value,
+    &__label{
+        display:block;
+    }
+
+    &__value{ 
+        position: relative;
+        font-family: $font-din;
+        font-size: 6.3rem;
+        color: $color-comet;
+        line-height: 1;
+        margin-bottom: 0;
+
+        &__hint{
+            display:block;
+            margin-bottom: 1em;
+
+            font-size: 1.2rem;
+            font-family: $font-alright;
+            font-style: italic;
+            color: rgba($color-comet, 0.22);
+        }
+    }
+
+    &__label{
+        font-family: $font-alright;
+        color: $color-parse-blue;
+        font-size: 2.8rem;
+        line-height: 1.21;
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+        &s{ padding: 50px 0; }
+
+        height: 168px;
+        float:left;
+        width: (100%/3);
+        border-top: none;
+        border-left: 1px solid $color-mischka;
+        padding: 0 15px;
+
+        &__content{
+            @include vertical-align();
+        }
+
+        &__value{
+            margin-bottom: 0.5em;
+
+            &__hint{
+                position: absolute;
+                bottom: -16px;
+                width: 100%;
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    @include break-min($break-desktop){
+        &s{ padding: 80px 0; }
+    }
+
+}

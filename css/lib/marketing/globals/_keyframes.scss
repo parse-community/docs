@@ -1,0 +1,87 @@
+@keyframes anim_server-activity {
+  0%, 20%   { background: $color-vista-white; }
+  10%  { background: $color-comet; }
+}
+@keyframes anim_scroll-hint {
+  0%, 20%   { transform: translateY(0); }
+  10%  { transform: translateY(15px); }
+}
+@keyframes anim_request-dots {
+  0%      { background-position: 104% 0; }
+  100%    { background-position: 0 0; }
+}
+
+@keyframes anim_tower-signal--inner{
+    0%{ opacity: 0; }
+    10%{ opacity: 0; }
+    15%,80%{ opacity: 1; }
+    // 15%,70%{ opacity: 1; }
+    100%{ opacity: 0; }
+}
+@keyframes anim_tower-signal--middle{
+    0%{ opacity: 0; }
+    13%{ opacity: 0; }
+    18%,76%{ opacity: 0.7; }
+    // 18%,70%{ opacity: 1; }
+    100%{ opacity: 0; }
+}
+@keyframes anim_tower-signal--outer{
+  0%{ opacity: 0; }
+  15%{ opacity: 0; }
+  20%,72%{ opacity: 0.4; }
+  // 20%,70%{ opacity: 1; }
+  100%{ opacity: 0; }
+}
+@keyframes anim_push-message-1{
+    0%, 66%, 100%{
+      opacity:0;
+      transform: translate(-50%, 50%);
+    }
+    6%,60%{
+      opacity:1;
+      transform: translate(-50%, -50%);
+    }
+}
+@keyframes anim_phone-float-1{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-7px); }
+}
+@keyframes anim_phone-float-2{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-5px); }
+}
+@keyframes anim_phone-float-3{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-4px); }
+}
+@keyframes anim_phone-float-4{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-5px); }
+}
+@keyframes anim_phone-float-5{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-8px); }
+}
+@keyframes anim_phone-float-6{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-4px); }
+}
+
+
+
+@keyframes bubble_float_1{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-7px); }
+}
+@keyframes bubble_float_2{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-5px); }
+}
+@keyframes bubble_float_3{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-4px); }
+}
+@keyframes bubble_float_4{
+    0%,100%{ transform: translate(0,0); }
+    50%{ transform: translate(0,-5px); }
+}

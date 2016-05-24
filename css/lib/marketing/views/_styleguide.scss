@@ -1,0 +1,67 @@
+// view-styleguide
+
+.section-styleguide{
+
+    &--icons{
+        line-height: 3;
+        .icon + .icon{ margin-left: 10px; }
+    }
+
+    &--type{
+
+        &__hgroup{
+
+            // @include break-min($break-tablet){
+            //     &s{ 
+            //         @include clearfix();
+            //     }
+                
+            //     width: 49%;
+
+            //     & + &{ }
+            // }
+        }
+    }
+}
+
+.section-styleguide--grid{
+    .grid-container{
+        & + .grid-container{ margin-top: 20px; }
+    }
+    
+    [class^="col-"],
+    [class*=" col-"]{
+        height: 70px; 
+        line-height: 50px;
+        background-color: rgba($color-parse-blue, 0.25);
+        color: $color-parse-blue;
+        font-weight: $bold-weight;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        &.is-nested{
+            background-color: white;
+        }
+
+        [class^="col-"],
+        [class*=" col-"]{
+            color: $color-parse-blue;
+            height: 50px;
+            line-height: 30px;
+            
+            & + [class^="col-"],
+            & + [class*=" col-"]{
+                border-left: 2px solid rgba($color-parse-blue, 0.25);    
+            }
+        }
+
+        @include break-min($break-tablet){
+            & + [class^="col-"],
+            & + [class*=" col-"]{
+                border-left: 2px solid white;
+            }
+
+        }
+    }
+}

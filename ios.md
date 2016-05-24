@@ -2,10 +2,11 @@
 title: iOS Developers Guide | Parse
 permalink: /ios/guide/
 layout: guide
-platform: iOS
+platform: ios
+platform_pretty: iOS
+quickstart: https://parse.com/apps/quickstart
+api_reference: https://parse.com/docs/ios/api/
 ---
-
-iOS Guide
 
 {% include ios/getting-started.md %}
 {% include ios/objects.md %}
