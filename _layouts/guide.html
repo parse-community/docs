@@ -23,7 +23,7 @@ layout: default
                         <span class="show-mobile">Browse</span>
                     </a>
 
-                    <svg class="icon icon-{{ page.platform }}"><use xlink:href="/assets/symbols.svg#{{ page.platform }}"></use></svg>
+                    <svg class="icon icon-{{ page.platform }}"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#{{ page.platform }}"></use></svg>
                 </p>
             </div>
           </div>
@@ -35,27 +35,13 @@ layout: default
             <div class="col-md--6 col-lg--9">
 
               <div class="guide_content">
-                <div id="toc">
-                  <div class="top_links">
-                    {% if page.quickstart %}
-                      <a href="{{ page.quickstart }}">Quickstart<i class="icon_minimize"></i></a>
-                    {% endif %}
-                    {% if page.api_reference %}
-                      <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
-                    {% endif %}
-                  </div>
-                </div>
-
-                <div class="wysiwyg-content">
-                  {{ content }}
-                </div>
+                {{ content }}
               </div>
-
           		<!-- footer goes here -->
             </div>
           </div><!-- end content grid col -->
         </div><!-- end .guide > .grid-container -->
-        </div><!-- /.content__wrapper -->
+      </div><!-- /.content__wrapper -->
     </div><!-- /.site__content -->
   </div><!-- /.site__wrapper -->
 </body>

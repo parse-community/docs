@@ -85,7 +85,6 @@
 
             > ul{
                 margin: 5px 0 7px;
-                display:none;
                 padding-left:10px;
                 border-left: 2px solid #F3F3F5;
 
@@ -98,7 +97,6 @@
                     }
 
                     > ul{
-                        display:none;
                         margin: 10px 0;
                         background-color: #F3F3F5;
                         border-radius: 4px;
@@ -138,7 +136,6 @@
 #mobile_toc{
 
     position: relative;
-    display:none;
 
     &.is-fixed{
       width: 100%;

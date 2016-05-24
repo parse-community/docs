@@ -10,7 +10,7 @@ name: Parse Open Source Docs
 title: Parse Docs
 email: community@parse.com
 description: The open source GitHub page for the Parse platform.
-baseurl: "" # the subpath of your site, e.g. /blog
+baseurl: /Docs # the subpath of your site, e.g. /blog
 url: "https://parseplatform.github.io/Docs" # the base hostname & protocol for your site
 repository: parseplatform/Docs
 facebook_username: parseit
@@ -22,6 +22,6 @@ support_url: https://www.parse.com/help
 
 # Build settings
 markdown: kramdown
-exclude: [ Gemfile, Gemfile.lock, README.md, config.codekit ]
+exclude: [ Gemfile, Gemfile.lock, README.md, config.codekit, webpack.config.js ]
 sass:
     sass_dir: css
