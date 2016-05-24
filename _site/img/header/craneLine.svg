@@ -1,0 +1,14 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="-159 -584 880 1280" style="enable-background:new -159 -584 880 1280;" xml:space="preserve">
+	<style>
+		.st1{fill:#0E69A1;}
+		.st16{fill:none;stroke:#169CEE;stroke-width:8;stroke-miterlimit:10;}
+	</style>
+	<g class="craneMoving st15">
+		<g class="craneLine">
+			<g class="craneLineInner">
+				<line class="st16" x1="259.4" y1="544.6" x2="259.4" y2="103.1"/>
+				<circle class="st1" cx="259.4" cy="544.6" r="9"/>
+			</g>
+		</g>
+	</g>
+</svg>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="-159 -584 880 1280" style="enable-background:new -159 -584 880 1280;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#169CEE;}
+	.st1{fill:#0E69A1;}
+	.st2{fill:#555574;}
+	.st3{fill:#3A3A59;}
+	.st4{fill:#EF3F61;}
+	.st5{fill:none;stroke:#3A3A59;stroke-width:8;stroke-miterlimit:10;}
+	.st6{fill:none;stroke:#0E69A1;stroke-width:8;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#0E69A1;stroke-width:8;stroke-miterlimit:10;}
+	.st8{fill:none;stroke:#3A3A59;stroke-width:12;stroke-miterlimit:10;}
+	.st9{fill:none;stroke:#3A3A59;stroke-width:12;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;}
+	.st10{fill:#4BBC6E;}
+	.st11{opacity:0.3;fill:#FFFFFF;enable-background:new    ;}
+	.st12{fill:none;stroke:#0E69A1;stroke-width:8;stroke-linecap:round;stroke-miterlimit:10;}
+	.st13{fill:#DB3B61;}
+	.st14{fill:#FFFFFF;}
+	.st15{clip-path:url(#SVGID_2_);}
+	.st16{fill:none;stroke:#169CEE;stroke-width:8;stroke-miterlimit:10;}
+	.st17{fill:#464661;stroke:#3A3A59;stroke-width:8;stroke-miterlimit:10;}
+</style>
+<g id="left">
+	<g id="phone1Background">
+		<g>
+			<rect x="406.9" y="456.6" class="st0" width="240" height="240"/>
+			<polygon class="st1" points="420.3,677.3 500.3,538.8 580.3,677.3 			"/>
+			<polygon class="st1" points="511.6,677.3 564.9,585 618.3,677.3 			"/>
+			<circle class="st1" cx="596.1" cy="507.4" r="24.1"/>
+		</g>
+		<g>
+			<rect x="575.1" y="552.3" class="st2" width="144" height="144"/>
+			<rect x="584.1" y="562.3" class="st0" width="125" height="46"/>
+			<rect x="616.1" y="616.3" class="st0" width="83" height="8"/>
+			<rect x="584.1" y="680.3" class="st0" width="91" height="8"/>
+			<rect x="584.1" y="664.3" class="st0" width="96" height="8"/>
+			<rect x="584.1" y="648.3" class="st0" width="110" height="8"/>
+			<rect x="616.1" y="632.3" class="st0" width="70" height="8"/>
+			<rect x="584.1" y="616.3" class="st0" width="24" height="24"/>
+		</g>
+		<path class="st3" d="M278.7,660.6V335c0-19.9,16.1-36,36-36h123.6c19.9,0,36,16.1,36,36v325.6c0,19.9-16.1,36-36,36H314.7
+			C294.8,696.6,278.7,680.5,278.7,660.6z"/>
+		<circle class="st4" cx="376.6" cy="674.8" r="12"/>
+	</g>
+	<g id="crane">
+		<line class="st5" x1="54.9" y1="-18.4" x2="474.9" y2="60.1"/>
+		<polyline class="st6" points="476.3,59.5 425.3,82.2 374.4,55.8 323.4,82.2 272.5,54 221.5,82.2 170.5,51.3 119.6,82.2 		"/>
+		<line class="st5" x1="-152" y1="56.7" x2="54.9" y2="-18.4"/>
+		<polyline class="st6" points="-154.6,54 -103.6,82.2 -52.7,51.3 -1.7,82.2 		"/>
+		<rect x="-158.6" y="82.2" class="st1" width="639.1" height="22.2"/>
+		<polygon class="st1" points="89.5,454.8 89.5,291 84,291 84,104 29.4,104 29.4,291 24,291 24,454.8 18.5,454.8 18.5,616.6 
+			94.9,616.6 94.9,454.8 		"/>
+		<polygon class="st0" points="206.5,651.6 164.1,651.6 164.1,610.3 -44.9,610.3 -44.9,651.6 -84.7,651.6 -84.7,697.2 -44.9,697.2 
+			-44.9,697.3 164.1,697.3 164.1,697.2 206.5,697.2 		"/>
+		<line class="st6" x1="-1.7" y1="50.4" x2="119.6" y2="48.5"/>
+		<polygon class="st6" points="-52.7,51.3 -1.7,49.4 -1.7,100.4 -52.7,100.4 		"/>
+		<polygon class="st6" points="-103.6,53.1 -52.7,51.3 -52.7,100.4 -103.6,100.4 		"/>
+		<polygon class="st6" points="-154.6,54 -103.6,53.1 -103.6,100.4 -154.6,100.4 		"/>
+		<polygon class="st6" points="170.5,51.3 119.6,49.4 119.6,100.4 170.5,100.4 		"/>
+		<polygon class="st6" points="221.5,53.1 170.5,51.3 170.5,100.4 221.5,100.4 		"/>
+		<polygon class="st6" points="272.5,54 221.5,53.1 221.5,100.4 272.5,100.4 		"/>
+		<polygon class="st6" points="323.4,54.9 272.5,54 272.5,100.4 323.4,100.4 		"/>
+		<polygon class="st6" points="374.4,55.8 323.4,54.9 323.4,100.4 374.4,100.4 		"/>
+		<polygon class="st6" points="425.3,57.6 374.4,55.8 374.4,100.4 425.3,100.4 		"/>
+		<polygon class="st6" points="476.3,59.5 425.3,57.6 425.3,100.4 476.3,100.4 		"/>
+		<polygon class="st7" points="54.9,-8.3 25.8,59 84,59 		"/>
+		<line class="st5" x1="471.6" y1="96.8" x2="-152" y2="96.8"/>
+		<polygon class="st6" points="54.9,47.4 65,15 44.8,15 		"/>
+		<g>
+			<line class="st8" x1="-44.9" y1="610.1" x2="164.1" y2="610.1"/>
+			<polyline class="st9" points="158.1,609.1 158.1,577.1 -38.9,577.1 -38.9,609.1 			"/>
+			<line class="st8" x1="-14.9" y1="610.1" x2="-14.9" y2="577.1"/>
+			<path class="st8" d="M4,577.1"/>
+			<path class="st8" d="M4,609.8"/>
+			<line class="st8" x1="14.1" y1="610.1" x2="14.1" y2="577.1"/>
+			<line class="st8" x1="43.1" y1="610.1" x2="43.1" y2="577.1"/>
+			<line class="st8" x1="72.1" y1="610.1" x2="72.1" y2="577.1"/>
+			<line class="st8" x1="101.1" y1="610.1" x2="101.1" y2="577.1"/>
+			<line class="st8" x1="129.1" y1="610.1" x2="129.1" y2="577.1"/>
+			<path class="st8" d="M-133,658.8"/>
+			<path class="st8" d="M-133,697.2"/>
+			<path class="st8" d="M-11.8,585.6"/>
+		</g>
+		<polygon class="st0" points="115.4,28.9 132.5,78.9 119.5,104 -5.4,104 -5.4,45.4 50.8,45.4 67,28.3 		"/>
+		<polygon class="st10" points="109,35.7 123.6,79.4 71.6,79.4 71.6,35.1 		"/>
+		<rect x="1.9" y="66.7" class="st2" width="32.8" height="3.6"/>
+		<rect x="1.9" y="77.6" class="st2" width="32.8" height="3.6"/>
+		<rect x="1.9" y="55.8" class="st2" width="32.8" height="3.6"/>
+		<polygon class="st11" points="109,35.7 123.6,79.4 71.6,79.4 71.6,73.1 		"/>
+		<line class="st12" x1="54.9" y1="-8.3" x2="54.9" y2="-22.8"/>
+	</g>
+	<g id="phone1Screen">
+		<rect id="phone1Screen_1_" x="288.3" y="345" class="st2" width="177.1" height="310.1"/>
+		<g id="apps">
+			<rect x="300.5" y="357.2" class="st13" width="152" height="152"/>
+			<rect x="300.5" y="573" class="st13" width="152" height="13"/>
+			<rect x="300.5" y="596" class="st13" width="152" height="13"/>
+			<rect x="300.5" y="619.6" class="st13" width="152" height="13"/>
+			<path class="st13" d="M412.7,563h35.8c2.2,0,4-1.8,4-4v-35.8c0-2.2-1.8-4-4-4h-35.8c-2.2,0-4,1.8-4,4V559
+				C408.7,561.2,410.5,563,412.7,563z"/>
+			<path class="st13" d="M358.6,563h35.8c2.2,0,4-1.8,4-4v-35.8c0-2.2-1.8-4-4-4h-35.8c-2.2,0-4,1.8-4,4V559
+				C354.6,561.2,356.4,563,358.6,563z"/>
+			<path class="st13" d="M304.5,563h35.8c2.2,0,4-1.8,4-4v-35.8c0-2.2-1.8-4-4-4h-35.8c-2.2,0-4,1.8-4,4V559
+				C300.5,561.2,302.3,563,304.5,563z"/>
+		</g>
+	</g>
+	<g id="video">
+		<rect x="183.7" y="544.6" class="st13" width="152" height="152"/>
+		<polygon class="st14" points="233.4,591.3 285.3,621.3 233.4,651.2 		"/>
+	</g>
+	<g id="craneLine">
+		<g>
+			<defs>
+				<rect id="SVGID_1_" x="221.5" y="100.4" width="76.4" height="453.2"/>
+			</defs>
+			<clipPath id="SVGID_2_">
+				<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+			</clipPath>
+			<g id="craneLineInner" class="st15">
+				<line class="st16" x1="259.4" y1="544.6" x2="259.4" y2="103.1"/>
+				<circle class="st1" cx="259.4" cy="544.6" r="9"/>
+			</g>
+		</g>
+	</g>
+	<circle id="cranePivot" class="st17" cx="259.4" cy="96.8" r="9"/>
+</g>
+</svg>

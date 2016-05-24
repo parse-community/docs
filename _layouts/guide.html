@@ -1,0 +1,75 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+    {% include head.html %}
+
+    <body>
+
+        {% include nav.html %}
+
+        <!-- .docs_header -->
+        <aside class="hero hero--docs {{ page.platform }}_docs_header">
+            <div class="grid-container">
+
+                <div class="col-md--6 col-lg--9">
+                    <h1 class="h1 h1--white" data-ignore-from-select>
+                        <span>{{ page.platform }} <em>Guide</em></span>
+
+                        <a href="/docs/" class="btn btn--back">
+                            <span class="hide-mobile">Browse all platforms</span>
+                            <span class="show-mobile">Browse</span>
+                        </a>
+
+                        <svg class="icon icon-{{ page.platform }}"><use xlink:href="/assets/symbols.svg#{{ page.platform }}"></use></svg>
+                    </h1>
+                </div>
+            </div>
+        </aside><!-- .docs_header -->
+
+        <div class="wrapper">
+            <div class="container">
+
+              <div class="guide" data-nav-waypoint>
+
+                <div id='mobile_toc'>
+                  <select>
+                  </select>
+                  <i class="icon_triangleDown"></i>
+                </div>
+
+                <div class="grid-container">
+
+                  <div class="col-md--6 col-lg--9">
+
+                    <div class="guide_content">
+
+                      <div id="toc">
+                        <div class="top_links">
+                          <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
+                          <a href="https://parse.com/docs/{{ page.platform }}/api/">API Reference<i class="icon_minimize"></i></a>
+                        </div>
+                      </div>
+
+                      <div class="wysiwyg-content">
+                        {{ content }}
+
+                        <!-- TODO: replace ruby code here that adds helpful_box -->
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+
+
+              <!-- TODO: footer has some js rendering of a React component: App.Views.Docs.Main -->
+            </div>
+
+            {% include footer.html %}
+        </div>
+    </body>
+</html>
