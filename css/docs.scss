@@ -23,6 +23,9 @@
 @import "lib/multisite/variables";
 @import "lib/multisite/mixins";
 
+// These have to be defined in the top SCSS as Liquid tags require YAML frontmatter, and using frontmatter in an imported file will confuse the sass compiler.
+$svg-plus: "{{ /assets/svgs/plus.svg | prepend: site.baseurl }}";
+
 // ============================================================================
 //   Cross-Browser Normalize
 // ============================================================================
@@ -69,7 +72,6 @@
 @import "lib/marketing/components/forms";
 @import "lib/marketing/components/banner-ctas";
 
-@import "lib/docs/components/hljs"; // syntax-highliter
 @import "lib/docs/components/live-toc";
 @import "lib/docs/components/docs-platform";
 @import "lib/marketing/components/logo-stacks";

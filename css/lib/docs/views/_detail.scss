@@ -125,8 +125,6 @@
                     position: absolute;
                     left: $tip-padding-left; top:0;
                     width: 29px; height: 18px;
-                    background: url(/assets/images/icons/blue-book.png) left top no-repeat;
-                    background-size: 100% auto;
                 }
 
                 .tip__title{ color: $color-parse-blue; }
@@ -136,8 +134,6 @@
             > div {
                 &:before{
                     width: 18px; height: 16px;
-                    background-image: url(/assets/images/icons/red-warning.png);
-
                 }
                 .tip__title{ color: $color-rad-red; }
 

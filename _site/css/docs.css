@@ -729,30 +729,12 @@ input[type="text"]:focus::placeholder { color: rgba(102, 99, 122, 0.2); }
 .banner-cta--tall .h2 { color: white; }
 .banner-cta--gray { background-color: #f5f5f8; }
 
-/*
-
-Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmail.com>
-Hacked style by hello@danny.codes
-
-*/
-.p_docs pre code.hljs { display: block; overflow-x: auto; padding: 1.5em; background: #110D11; color: #ddd; -webkit-text-size-adjust: none; line-height: 1.8; /* Solarized Green */ /* Solarized Cyan */ /* Solarized Blue */ /* Solarized Yellow */ /* Solarized Orange */ /* Solarized Red */ /* Solarized Violet */ }
-.p_docs pre code.hljs.has_toggles { padding-bottom: 0; }
-.p_docs pre code.hljs .hljs-comment, .p_docs pre code.hljs .diff .hljs-header, .p_docs pre code.hljs .hljs-doctype, .p_docs pre code.hljs .hljs-pi, .p_docs pre code.hljs .lisp .hljs-string, .p_docs pre code.hljs .hljs-javadoc { opacity: 0.4; }
-.p_docs pre code.hljs .hljs-keyword, .p_docs pre code.hljs .hljs-winutils, .p_docs pre code.hljs .method, .p_docs pre code.hljs .hljs-addition, .p_docs pre code.hljs .css .hljs-tag, .p_docs pre code.hljs .hljs-request, .p_docs pre code.hljs .hljs-status, .p_docs pre code.hljs .nginx .hljs-title { color: #66d9ef; }
-.p_docs pre code.hljs .hljs-number, .p_docs pre code.hljs .hljs-command, .p_docs pre code.hljs .hljs-string, .p_docs pre code.hljs .hljs-tag .hljs-value, .p_docs pre code.hljs .hljs-rules .hljs-value, .p_docs pre code.hljs .hljs-phpdoc, .p_docs pre code.hljs .hljs-dartdoc, .p_docs pre code.hljs .tex .hljs-formula, .p_docs pre code.hljs .hljs-regexp, .p_docs pre code.hljs .hljs-hexcolor, .p_docs pre code.hljs .hljs-link_url { color: #a6e22e; }
-.p_docs pre code.hljs .hljs-title, .p_docs pre code.hljs .hljs-localvars, .p_docs pre code.hljs .hljs-chunk, .p_docs pre code.hljs .hljs-decorator, .p_docs pre code.hljs .hljs-built_in, .p_docs pre code.hljs .hljs-identifier, .p_docs pre code.hljs .vhdl .hljs-literal, .p_docs pre code.hljs .hljs-id, .p_docs pre code.hljs .css .hljs-function { color: #e6db74; }
-.p_docs pre code.hljs .hljs-attribute, .p_docs pre code.hljs .hljs-variable, .p_docs pre code.hljs .lisp .hljs-body, .p_docs pre code.hljs .smalltalk .hljs-number, .p_docs pre code.hljs .hljs-constant, .p_docs pre code.hljs .hljs-class .hljs-title, .p_docs pre code.hljs .hljs-parent, .p_docs pre code.hljs .hljs-type, .p_docs pre code.hljs .hljs-link_reference { color: #e6db74; }
-.p_docs pre code.hljs .hljs-preprocessor, .p_docs pre code.hljs .hljs-preprocessor .hljs-keyword, .p_docs pre code.hljs .hljs-pragma, .p_docs pre code.hljs .hljs-shebang, .p_docs pre code.hljs .hljs-symbol, .p_docs pre code.hljs .hljs-symbol .hljs-string, .p_docs pre code.hljs .diff .hljs-change, .p_docs pre code.hljs .hljs-special, .p_docs pre code.hljs .hljs-attr_selector, .p_docs pre code.hljs .hljs-subst, .p_docs pre code.hljs .hljs-cdata, .p_docs pre code.hljs .css .hljs-pseudo, .p_docs pre code.hljs .hljs-header { color: #E55300; }
-.p_docs pre code.hljs .hljs-deletion, .p_docs pre code.hljs .hljs-important { color: #f92672; }
-.p_docs pre code.hljs .hljs-link_label { color: #ae81ff; }
-.p_docs pre code.hljs .tex .hljs-formula { background: #eee8d5; }
-
 #toc { display: none; position: absolute; left: 0; top: 0; padding-top: 45px; padding-bottom: 45px; width: 174px; transition: padding-top 200ms ease-in; }
 #toc a { display: block; }
 #toc.is-fixed { padding-top: 80px; position: fixed; height: 100%; overflow: auto; }
 #toc .top_links { margin-bottom: 15px; }
 #toc .top_links a { display: block; padding: 3px 0; font-family: "webfont_alright"; font-weight: 300; font-size: 1.6rem; color: #8F8F8F; }
-#toc .top_links a:after { content: ""; display: inline-block; margin-left: 5px; width: 15px; height: 13px; background: url("/assets/images/icons/blue-external.png") center center no-repeat; background-size: 100% auto; }
+#toc .top_links a:after { content: ""; display: inline-block; margin-left: 5px; width: 15px; height: 13px; }
 #toc .ui_live_toc { padding: 0; margin: 0; list-style: none; font-family: "webfont_alright"; font-weight: 300; font-size: 1.6rem; text-transform: capitalize; }
 #toc .ui_live_toc ul { padding: 0; margin: 0; list-style: none; }
 #toc .ui_live_toc .ui_live_toc_major_list:empty { display: none !important; }
@@ -864,9 +846,9 @@ html.no-touch .docs-platform .btn:hover { background-color: #169CEE; color: whit
 .p_docs .guide_content .tip > div ul li:last-child { margin-bottom: 0; }
 .p_docs .guide_content .tip > div .tip__title { display: block; color: #66637A; font-family: "webfont_din-regular"; font-size: 1rem; margin: 0 0 1em; letter-spacing: 0.2rem; text-transform: uppercase; }
 .p_docs .guide_content .tip.info > div, .p_docs .guide_content .tip.warning > div { padding-top: 30px; }
-.p_docs .guide_content .tip.info > div:before, .p_docs .guide_content .tip.warning > div:before { content: ""; position: absolute; left: 20px; top: 0; width: 29px; height: 18px; background: url(/assets/images/icons/blue-book.png) left top no-repeat; background-size: 100% auto; }
+.p_docs .guide_content .tip.info > div:before, .p_docs .guide_content .tip.warning > div:before { content: ""; position: absolute; left: 20px; top: 0; width: 29px; height: 18px; }
 .p_docs .guide_content .tip.info > div .tip__title, .p_docs .guide_content .tip.warning > div .tip__title { color: #169CEE; }
-.p_docs .guide_content .tip.warning > div:before { width: 18px; height: 16px; background-image: url(/assets/images/icons/red-warning.png); }
+.p_docs .guide_content .tip.warning > div:before { width: 18px; height: 16px; }
 .p_docs .guide_content .tip.warning > div .tip__title { color: #FF395E; }
 .p_docs .guide_content .tip.warning > div a { color: #FF395E; }
 @media (min-width: 1104px) { .p_docs .guide_content .tip { margin: 0; }
@@ -1228,7 +1210,7 @@ html.no-touch .hide-touch { display: block; }
 .wysiwyg-content a:not(.btn) code { font-weight: 700; color: #169CEE; }
 .wysiwyg-content ul, .wysiwyg-content ol { padding: 0; margin: 2em 0 2em 1em; list-style: none; }
 .wysiwyg-content ul li, .wysiwyg-content ol li { margin: 0.9em 0; padding: 0 0 0 25px; position: relative; line-height: 1.4; }
-.wysiwyg-content ul li:before, .wysiwyg-content ol li:before { display: block; content: ""; position: absolute; left: 0; top: 3px; width: 15px; height: 11px; background: url(/assets/svgs/plus.svg) left top no-repeat; background-size: 9px auto; }
+.wysiwyg-content ul li:before, .wysiwyg-content ol li:before { display: block; content: ""; position: absolute; left: 0; top: 3px; width: 15px; height: 11px; background: url("/Docs") left top no-repeat; background-size: 9px auto; }
 @media (min-width: 760px) { .wysiwyg-content ul, .wysiwyg-content ol { max-width: 480px; }
   .wysiwyg-content ul li, .wysiwyg-content ol li { padding-left: 30px; }
   .wysiwyg-content ul li:before, .wysiwyg-content ol li:before { background-size: 11px auto; top: 4px; } }
@@ -1240,7 +1222,7 @@ html.no-touch .hide-touch { display: block; }
 .wysiwyg-content p code, .wysiwyg-content ul code, .wysiwyg-content ol code { color: #3B2C48; background: #FDFAFB; border: 1px solid #E0E0EA; padding: 0.1rem 0.2rem; font-family: "webfont_input", Monaco, monospace; font-weight: 400; font-size: 1.4rem; border-radius: 0.2rem; letter-spacing: -1px; word-wrap: break-word; }
 .wysiwyg-content p code a, .wysiwyg-content ul code a, .wysiwyg-content ol code a { color: #169CEE; font-weight: 700; }
 @media (min-width: 760px) { .wysiwyg-content p code, .wysiwyg-content ul code, .wysiwyg-content ol code { border-radius: 0.3rem; font-size: 1.6rem; padding: 0.1rem 0.3rem; } }
-.wysiwyg-content pre { font-family: "webfont_input", Monaco, monospace; background-color: #FDFAFB !important; color: #66637A; font-size: 1.3rem; border-radius: 4px; word-wrap: normal; margin: 2em -20px !important; overflow: auto; }
+.wysiwyg-content pre { font-family: "webfont_input", Monaco, monospace; background-color: #F0F0F0 !important; color: #66637A; font-size: 1.3rem; border-radius: 4px; word-wrap: normal; margin: 2em -20px !important; overflow: auto; }
 .wysiwyg-content pre.line-numbers { padding-left: 58px; }
 .wysiwyg-content pre.line-numbers:before { content: ""; position: absolute; left: 0; top: 0; background: #F0EDEE; width: 40px; height: 100%; }
 .wysiwyg-content pre.line-numbers, .wysiwyg-content pre.line-numbers .line-numbers-rows span:before { line-height: 1.75; }

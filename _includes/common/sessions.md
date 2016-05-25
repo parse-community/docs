@@ -34,7 +34,7 @@ With revocable sessions, your current session token could become invalid if its 
 
 To handle this error, we recommend writing a global utility function that is called by all of your Parse request error callbacks. You can then handle the "invalid session token" error in this global function. You should prompt the user to login again so that they can obtain a new session token. This code could look like this:
 
-```common-objc
+```objc
 @interface ParseErrorHandlingController : NSObject
 
 + (void)handleParseError:(NSError *)error;
@@ -92,7 +92,9 @@ To handle this error, we recommend writing a global utility function that is cal
   }
 }];
 ```
-```common-swift
+{: .common-lang}
+
+```swift
 class ParseErrorHandlingController {
   class func handleParseError(error: NSError) {
     if error.domain != PFParseErrorDomain {
@@ -143,7 +145,9 @@ query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!
   }
 }
 ```
-```common-java
+{: .common-lang}
+
+```java
 public class ParseErrorHandler {
   public static void handleParseError(ParseException e) {
     switch (e.getCode()) {
@@ -185,7 +189,9 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-```common-js
+{: .common-lang}
+
+```js
 function handleParseError(err) {
   switch (err.code) {
     case Parse.Error.INVALID_SESSION_TOKEN:
@@ -205,7 +211,9 @@ query.find().then(function() {
   handleParseError(err);
 });
 ```
-```common-csharp
+{: .common-lang}
+
+```csharp
 public class ParseErrorHandler {
   public static void HandleParseError(ParseException e) {
     switch (e.Code) {
@@ -240,7 +248,9 @@ query.FindAsync().ContinueWith(t => {
   }
 });
 ```
-```common-php
+{: .common-lang}
+
+```php
 public class ParseErrorHandler {
   public static handleParseError(ParseException $e) {
     $code = $e->getCode();
@@ -263,12 +273,17 @@ try {
   ParseErrorHandler::handleParseError($e)
 }
 ```
-```common-bash
+{: .common-lang}
+
+```bash
 // No command line example
 ```
-```common-cpp
+{: .common-lang}
+
+```cpp
 // No C++ example
 ```
+{: .common-lang}
 
 ## Security
 

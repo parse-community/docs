@@ -6,9 +6,9 @@ Storing data on Parse is built around the `%{ParseObject}`. Each `%{ParseObject}
 
 For example, let's say you're tracking high scores for a game. A single `%{ParseObject}` could contain:
 
-```js
+~~~ js
 score: 1337, playerName: "Sean Plott", cheatMode: false
-```
+~~~
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
 
@@ -18,7 +18,7 @@ Each `%{ParseObject}` has a class name that you can use to distinguish different
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `NSMutableDictionary`, plus the `saveInBackground` method:
 
-```objc
+~~~ objc
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
 gameScore[@"score"] = @1337;
 gameScore[@"playerName"] = @"Sean Plott";
@@ -30,8 +30,9 @@ gameScore[@"cheatMode"] = @NO;
     // There was a problem, check error.description
   }
 }];
-```
-```swift
+~~~
+
+~~~ swift
 var gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
@@ -44,7 +45,7 @@ gameScore.saveInBackgroundWithBlock {
     // There was a problem, check error.description
   }
 }
-```
+~~~
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
