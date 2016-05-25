@@ -128,7 +128,6 @@
     </div>
 </aside>
 
-      <!-- old menu was here, blocks/menu -->
       <div class="content__wrapper">
         <header class="site__header site__header--white">
     <div class="container">
@@ -198,7 +197,6 @@
     </div><!-- container -->
 </header>
 
-      <!-- old header would go here, blocks/header -->
 
         <aside class="hero hero--docs">
           <div class="grid-container">
@@ -223,321 +221,361 @@
             <div class="col-md--6 col-lg--9">
 
               <div class="guide_content">
-                <div id="toc">
-  <div class="top_links">
-  
-    <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
-  
-  
-    <a href="https://parse.com/docs/ios/api/">API Reference<i class="icon_minimize"></i></a>
-  
+                <div id="toc" style="overflow-y: scroll; height: 100%;">
+                  <div class="top_links">
+                  
+                    <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
+                  
+                  
+                    <a href="https://parse.com/docs/ios/api/">API Reference<i class="icon_minimize"></i></a>
+                  
 
-    <ul class="ui_live_toc">
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#getting-started">Getting Started</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#objects">Objects</a>
-        <ul class="ui_live_toc_major_list">
-        
-          <li data-name="The PFObject" class="ui_live_toc_major">
-            <a href="#the-pfobject">The PFObject</a>
-          </li>
-        
-          <li data-name="Saving Objects" class="ui_live_toc_major">
-            <a href="#saving-objects">Saving Objects</a>
-          </li>
-        
-          <li data-name="Retrieving Objects" class="ui_live_toc_major">
-            <a href="#retrieving-objects">Retrieving Objects</a>
-          </li>
-        
-          <li data-name="The Local Datastore" class="ui_live_toc_major">
-            <a href="#the-local-datastore">The Local Datastore</a>
-          </li>
-        
-          <li data-name="Saving Objects Offline" class="ui_live_toc_major">
-            <a href="#saving-objects-offline">Saving Objects Offline</a>
-          </li>
-        
-          <li data-name="Updating Objects" class="ui_live_toc_major">
-            <a href="#updating-objects">Updating Objects</a>
-          </li>
-        
-          <li data-name="Deleting Objects" class="ui_live_toc_major">
-            <a href="#deleting-objects">Deleting Objects</a>
-          </li>
-        
-          <li data-name="Relational Data" class="ui_live_toc_major">
-            <a href="#relational-data">Relational Data</a>
-          </li>
-        
-          <li data-name="Data Types" class="ui_live_toc_major">
-            <a href="#data-types">Data Types</a>
-          </li>
-        
-          <li data-name="Subclasses" class="ui_live_toc_major">
-            <a href="#subclasses">Subclasses</a>
-          </li>
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#queries">Queries</a>
-        <ul class="ui_live_toc_major_list">
-        
-          <li data-name="Basic Queries" class="ui_live_toc_major">
-            <a href="#basic-queries">Basic Queries</a>
-          </li>
-        
-          <li data-name="Specifying Constraints with NSPredicate" class="ui_live_toc_major">
-            <a href="#specifying-constraints-with-nspredicate">Specifying Constraints with NSPredicate</a>
-          </li>
-        
-          <li data-name="Query Constraints" class="ui_live_toc_major">
-            <a href="#query-constraints">Query Constraints</a>
-          </li>
-        
-          <li data-name="Queries on Array Values" class="ui_live_toc_major">
-            <a href="#queries-on-array-values">Queries on Array Values</a>
-          </li>
-        
-          <li data-name="Queries On String Values" class="ui_live_toc_major">
-            <a href="#queries-on-string-values">Queries On String Values</a>
-          </li>
-        
-          <li data-name="Relational Queries" class="ui_live_toc_major">
-            <a href="#relational-queries">Relational Queries</a>
-          </li>
-        
-          <li data-name="Querying The Local Datastore" class="ui_live_toc_major">
-            <a href="#querying-the-local-datastore">Querying The Local Datastore</a>
-          </li>
-        
-          <li data-name="Caching Queries" class="ui_live_toc_major">
-            <a href="#caching-queries">Caching Queries</a>
-          </li>
-        
-          <li data-name="Counting Objects" class="ui_live_toc_major">
-            <a href="#counting-objects">Counting Objects</a>
-          </li>
-        
-          <li data-name="Compound Queries" class="ui_live_toc_major">
-            <a href="#compound-queries">Compound Queries</a>
-          </li>
-        
-          <li data-name="Subclass Queries" class="ui_live_toc_major">
-            <a href="#subclass-queries">Subclass Queries</a>
-          </li>
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#users">Users</a>
-        <ul class="ui_live_toc_major_list">
-        
-          <li data-name="Properties" class="ui_live_toc_major">
-            <a href="#properties">Properties</a>
-          </li>
-        
-          <li data-name="Signing Up" class="ui_live_toc_major">
-            <a href="#signing-up">Signing Up</a>
-          </li>
-        
-          <li data-name="Logging In" class="ui_live_toc_major">
-            <a href="#logging-in">Logging In</a>
-          </li>
-        
-          <li data-name="Verifying Emails" class="ui_live_toc_major">
-            <a href="#verifying-emails">Verifying Emails</a>
-          </li>
-        
-          <li data-name="Current User" class="ui_live_toc_major">
-            <a href="#current-user">Current User</a>
-          </li>
-        
-          <li data-name="Anonymous Users" class="ui_live_toc_major">
-            <a href="#anonymous-users">Anonymous Users</a>
-          </li>
-        
-          <li data-name="Setting The Current User" class="ui_live_toc_major">
-            <a href="#setting-the-current-user">Setting The Current User</a>
-          </li>
-        
-          <li data-name="Security For User Objects" class="ui_live_toc_major">
-            <a href="#security-for-user-objects">Security For User Objects</a>
-          </li>
-        
-          <li data-name="Resetting Passwords" class="ui_live_toc_major">
-            <a href="#resetting-passwords">Resetting Passwords</a>
-          </li>
-        
-          <li data-name="Querying" class="ui_live_toc_major">
-            <a href="#querying">Querying</a>
-          </li>
-        
-          <li data-name="Associations" class="ui_live_toc_major">
-            <a href="#associations">Associations</a>
-          </li>
-        
-          <li data-name="Facebook Users" class="ui_live_toc_major">
-            <a href="#facebook-users">Facebook Users</a>
-          </li>
-        
-          <li data-name="Twitter Users" class="ui_live_toc_major">
-            <a href="#twitter-users">Twitter Users</a>
-          </li>
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#sessions">Sessions</a>
-        <ul class="ui_live_toc_major_list">
-        
-          <li data-name="Properties" class="ui_live_toc_major">
-            <a href="#properties">Properties</a>
-          </li>
-        
-          <li data-name="Handling Invalid Session Token Error" class="ui_live_toc_major">
-            <a href="#handling-invalid-session-token-error">Handling Invalid Session Token Error</a>
-          </li>
-        
-          <li data-name="Security" class="ui_live_toc_major">
-            <a href="#security">Security</a>
-          </li>
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#roles">Roles</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#files">Files</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#geopoints">GeoPoints</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#local-datastore">Local Datastore</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#extensions">Extensions</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#push-notifications">Push Notifications</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#config">Config</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#analytics">Analytics</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#user-interface">User Interface</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#in-app-purchases">In-App Purchases</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#data">Data</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#relations">Relations</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#handling-errors">Handling Errors</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#security">Security</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#performance">Performance</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-      <li data-name="" class="ui_live_toc_main">
-        <a href="#errors">Errors</a>
-        <ul class="ui_live_toc_major_list">
-        
-        </ul>
-      </li>
-    
-    </ul>
+                    <ul class="ui_live_toc">
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#getting-started">Getting Started</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#objects">Objects</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="The PFObject" class="ui_live_toc_major">
+                            <a href="#the-pfobject">The PFObject</a>
+                          </li>
+                        
+                          <li data-name="Saving Objects" class="ui_live_toc_major">
+                            <a href="#saving-objects">Saving Objects</a>
+                          </li>
+                        
+                          <li data-name="Retrieving Objects" class="ui_live_toc_major">
+                            <a href="#retrieving-objects">Retrieving Objects</a>
+                          </li>
+                        
+                          <li data-name="The Local Datastore" class="ui_live_toc_major">
+                            <a href="#the-local-datastore">The Local Datastore</a>
+                          </li>
+                        
+                          <li data-name="Saving Objects Offline" class="ui_live_toc_major">
+                            <a href="#saving-objects-offline">Saving Objects Offline</a>
+                          </li>
+                        
+                          <li data-name="Updating Objects" class="ui_live_toc_major">
+                            <a href="#updating-objects">Updating Objects</a>
+                          </li>
+                        
+                          <li data-name="Deleting Objects" class="ui_live_toc_major">
+                            <a href="#deleting-objects">Deleting Objects</a>
+                          </li>
+                        
+                          <li data-name="Relational Data" class="ui_live_toc_major">
+                            <a href="#relational-data">Relational Data</a>
+                          </li>
+                        
+                          <li data-name="Data Types" class="ui_live_toc_major">
+                            <a href="#data-types">Data Types</a>
+                          </li>
+                        
+                          <li data-name="Subclasses" class="ui_live_toc_major">
+                            <a href="#subclasses">Subclasses</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#queries">Queries</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="Basic Queries" class="ui_live_toc_major">
+                            <a href="#basic-queries">Basic Queries</a>
+                          </li>
+                        
+                          <li data-name="Specifying Constraints with NSPredicate" class="ui_live_toc_major">
+                            <a href="#specifying-constraints-with-nspredicate">Specifying Constraints with NSPredicate</a>
+                          </li>
+                        
+                          <li data-name="Query Constraints" class="ui_live_toc_major">
+                            <a href="#query-constraints">Query Constraints</a>
+                          </li>
+                        
+                          <li data-name="Queries On Array Values" class="ui_live_toc_major">
+                            <a href="#queries-on-array-values">Queries On Array Values</a>
+                          </li>
+                        
+                          <li data-name="Queries On String Values" class="ui_live_toc_major">
+                            <a href="#queries-on-string-values">Queries On String Values</a>
+                          </li>
+                        
+                          <li data-name="Relational Queries" class="ui_live_toc_major">
+                            <a href="#relational-queries">Relational Queries</a>
+                          </li>
+                        
+                          <li data-name="Querying The Local Datastore" class="ui_live_toc_major">
+                            <a href="#querying-the-local-datastore">Querying The Local Datastore</a>
+                          </li>
+                        
+                          <li data-name="Caching Queries" class="ui_live_toc_major">
+                            <a href="#caching-queries">Caching Queries</a>
+                          </li>
+                        
+                          <li data-name="Counting Objects" class="ui_live_toc_major">
+                            <a href="#counting-objects">Counting Objects</a>
+                          </li>
+                        
+                          <li data-name="Compound Queries" class="ui_live_toc_major">
+                            <a href="#compound-queries">Compound Queries</a>
+                          </li>
+                        
+                          <li data-name="Subclass Queries" class="ui_live_toc_major">
+                            <a href="#subclass-queries">Subclass Queries</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#users">Users</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="Properties" class="ui_live_toc_major">
+                            <a href="#properties">Properties</a>
+                          </li>
+                        
+                          <li data-name="Signing Up" class="ui_live_toc_major">
+                            <a href="#signing-up">Signing Up</a>
+                          </li>
+                        
+                          <li data-name="Logging In" class="ui_live_toc_major">
+                            <a href="#logging-in">Logging In</a>
+                          </li>
+                        
+                          <li data-name="Verifying Emails" class="ui_live_toc_major">
+                            <a href="#verifying-emails">Verifying Emails</a>
+                          </li>
+                        
+                          <li data-name="Current User" class="ui_live_toc_major">
+                            <a href="#current-user">Current User</a>
+                          </li>
+                        
+                          <li data-name="Anonymous Users" class="ui_live_toc_major">
+                            <a href="#anonymous-users">Anonymous Users</a>
+                          </li>
+                        
+                          <li data-name="Setting The Current User" class="ui_live_toc_major">
+                            <a href="#setting-the-current-user">Setting The Current User</a>
+                          </li>
+                        
+                          <li data-name="Security For User Objects" class="ui_live_toc_major">
+                            <a href="#security-for-user-objects">Security For User Objects</a>
+                          </li>
+                        
+                          <li data-name="Resetting Passwords" class="ui_live_toc_major">
+                            <a href="#resetting-passwords">Resetting Passwords</a>
+                          </li>
+                        
+                          <li data-name="Querying" class="ui_live_toc_major">
+                            <a href="#querying">Querying</a>
+                          </li>
+                        
+                          <li data-name="Associations" class="ui_live_toc_major">
+                            <a href="#associations">Associations</a>
+                          </li>
+                        
+                          <li data-name="Facebook Users" class="ui_live_toc_major">
+                            <a href="#facebook-users">Facebook Users</a>
+                          </li>
+                        
+                          <li data-name="Twitter Users" class="ui_live_toc_major">
+                            <a href="#twitter-users">Twitter Users</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#sessions">Sessions</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="Properties" class="ui_live_toc_major">
+                            <a href="#properties">Properties</a>
+                          </li>
+                        
+                          <li data-name="Handling Invalid Session Token Error" class="ui_live_toc_major">
+                            <a href="#handling-invalid-session-token-error">Handling Invalid Session Token Error</a>
+                          </li>
+                        
+                          <li data-name="Security" class="ui_live_toc_major">
+                            <a href="#security">Security</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#roles">Roles</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="Properties" class="ui_live_toc_major">
+                            <a href="#properties">Properties</a>
+                          </li>
+                        
+                          <li data-name="Security For Role Objects" class="ui_live_toc_major">
+                            <a href="#security-for-role-objects">Security For Role Objects</a>
+                          </li>
+                        
+                          <li data-name="Security For Others Objects" class="ui_live_toc_major">
+                            <a href="#security-for-others-objects">Security For Others Objects</a>
+                          </li>
+                        
+                          <li data-name="Role Hierarchy" class="ui_live_toc_major">
+                            <a href="#role-hierarchy">Role Hierarchy</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#files">Files</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="The PFFile" class="ui_live_toc_major">
+                            <a href="#the-pffile">The PFFile</a>
+                          </li>
+                        
+                          <li data-name="Images" class="ui_live_toc_major">
+                            <a href="#images">Images</a>
+                          </li>
+                        
+                          <li data-name="Progress" class="ui_live_toc_major">
+                            <a href="#progress">Progress</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#geopoints">GeoPoints</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                          <li data-name="PFGeoPoint" class="ui_live_toc_major">
+                            <a href="#pfgeopoint">PFGeoPoint</a>
+                          </li>
+                        
+                          <li data-name="Geo Queries" class="ui_live_toc_major">
+                            <a href="#geo-queries">Geo Queries</a>
+                          </li>
+                        
+                          <li data-name="Caveats" class="ui_live_toc_major">
+                            <a href="#caveats">Caveats</a>
+                          </li>
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#local-datastore">Local Datastore</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#extensions">Extensions</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#push-notifications">Push Notifications</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#config">Config</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#analytics">Analytics</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#user-interface">User Interface</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#in-app-purchases">In-App Purchases</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#data">Data</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#relations">Relations</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#handling-errors">Handling Errors</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#security">Security</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#performance">Performance</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                      <li data-name="" class="ui_live_toc_main">
+                        <a href="#errors">Errors</a>
+                        <ul class="ui_live_toc_major_list">
+                        
+                        </ul>
+                      </li>
+                    
+                    </ul>
 
-  </div>
-</div>
+                  </div>
+                </div>
 
-<div class="wysiwyg-content">
-  
-    
-    <h1 id="getting-started">Getting Started</h1>
+                <div class="wysiwyg-content">
+                  
+                    
+                    <h1 id="getting-started">Getting Started</h1>
 
 <p>If you haven’t installed the SDK yet, please <a href="/apps/quickstart#parse_data/mobile/ios/native/new">head over to the QuickStart guide</a> to get our SDK up and running in Xcode. Note that we support iOS 7.0 and higher. You can also check out our <a href="/docs/ios/api">iOS API Reference</a> and <a href="/docs/osx/api">OS X API Reference</a> for more detailed information about our SDK.</p>
 
@@ -546,16 +584,16 @@
 <p>On Parse, you create an App for each of your mobile applications. Each App has its own application id and client key that you apply to your SDK install. Your account on Parse can accommodate multiple Apps. This is useful even if you have one application, since you can deploy different versions for test and production.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="objects">Objects</h1>
+                  
+                    
+                    <h1 id="objects">Objects</h1>
 
 <h2 id="the-pfobject">The PFObject</h2>
 
@@ -1284,16 +1322,16 @@
 <p>You should create new objects with the <code class="highlighter-rouge">object</code> class method. This constructs an autoreleased instance of your type and correctly handles further subclassing. To create a reference to an existing object, use <code class="highlighter-rouge">objectWithoutDataWithObjectId:</code>.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="queries">Queries</h1>
+                  
+                    
+                    <h1 id="queries">Queries</h1>
 
 <p>We’ve already seen how a <code class="highlighter-rouge">%{ParseQuery}</code> with <code class="highlighter-rouge">getObjectInBackgroundWithId:block:</code> can retrieve a single <code class="highlighter-rouge">%{ParseObject}</code> from Parse. There are many other ways to retrieve data with <code class="highlighter-rouge">%{ParseQuery}</code> - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.</p>
 
@@ -2219,16 +2257,16 @@ PFQuery.clearAllCachedResults()
 </div>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="users">Users</h1>
+                  
+                    
+                    <h1 id="users">Users</h1>
 
 <p>At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called <code class="highlighter-rouge">%{ParseUser}</code> that automatically handles much of the functionality required for user account management.</p>
 
@@ -3124,28 +3162,28 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 </div>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    
+                  
+                    
+                    
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="roles">Roles</h1>
+                  
+                    
+                    <h1 id="roles">Roles</h1>
 
 <p>As your app grows in scope and user-base, you may find yourself needing more coarse-grained control over access to pieces of your data than user-linked ACLs can provide. To address this requirement, Parse supports a form of <a href="http://en.wikipedia.org/wiki/Role-based_access_control">Role-based Access Control</a>. Roles provide a logical way of grouping users with common access privileges to your Parse data. Roles are named objects that contain users and other roles.  Any permission granted to a role is implicitly granted to its users as well as to the users of any roles that it contains.</p>
 
@@ -3290,16 +3328,16 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 </div>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="files">Files</h1>
+                  
+                    
+                    <h1 id="files">Files</h1>
 
 <h2 id="the-pffile">The PFFile</h2>
 
@@ -3444,16 +3482,16 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 <p>If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app’s Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="geopoints">GeoPoints</h1>
+                  
+                    
+                    <h1 id="geopoints">GeoPoints</h1>
 
 <p>Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a <code class="highlighter-rouge">PFGeoPoint</code> to a <code class="highlighter-rouge">%{ParseObject}</code> allows queries to take into account the proximity of an object to a reference point. This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.</p>
 
@@ -3574,16 +3612,16 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 </ol>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="local-datastore">Local Datastore</h1>
+                  
+                    
+                    <h1 id="local-datastore">Local Datastore</h1>
 
 <p>The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve <code class="highlighter-rouge">%{ParseObject}</code>s, even when the network is unavailable. To enable this functionality, add <code class="highlighter-rouge">libsqlite3.dylib</code> and call <code class="highlighter-rouge">[Parse enableLocalDatastore]</code> before your call to <code class="highlighter-rouge">setApplicationId:clientKey:</code>.</p>
 
@@ -3888,16 +3926,16 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 </div>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="app-extensions">App Extensions</h1>
+                  
+                    
+                    <h1 id="app-extensions">App Extensions</h1>
 
 <p>Local data sharing in Parse SDKs allows you do share persistent local data between your main application and extensions that it contains, including Keyboard, Share/Today/Photo/Action extensions and Document Providers.</p>
 
@@ -3980,16 +4018,16 @@ we will not move the shared container’s data back into the main app’s sandbo
 For more about the app/extension shared container, please see Apple’s <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW6">documentation</a>.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="push-notifications">Push Notifications</h1>
+                  
+                    
+                    <h1 id="push-notifications">Push Notifications</h1>
 
 <p>Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.</p>
 
@@ -4933,16 +4971,16 @@ https://api.parse.com/1/installations
 <p>When using <code class="highlighter-rouge">content-available</code> to send silent push notifications, keep in mind that APNS may throttle push notifications sent to the same device token within a short period of time.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="config">Config</h1>
+                  
+                    
+                    <h1 id="config">Config</h1>
 
 <h2 id="parse-config">Parse Config</h2>
 
@@ -5056,16 +5094,16 @@ https://api.parse.com/1/installations
 <p>We currently allow up to <strong>100</strong> parameters in your config and a total size of <strong>128KB</strong> across all parameters.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <p>–
+                  
+                    
+                    <p>–
 title: Analytics
 permalink: /analy
 –</p>
@@ -5146,16 +5184,16 @@ permalink: /analy
 <p>Note that Parse currently only stores the first eight dimension pairs per call to <code class="highlighter-rouge">trackEvent:dimensions:</code>.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="user-interface">User Interface</h1>
+                  
+                    
+                    <h1 id="user-interface">User Interface</h1>
 
 <p>At the end of the day, users of your app are going to be interacting with UIKit components.</p>
 
@@ -5889,16 +5927,16 @@ permalink: /analy
 <p>The string is now customized.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="in-app-purchases">In-App Purchases</h1>
+                  
+                    
+                    <h1 id="in-app-purchases">In-App Purchases</h1>
 
 <p>Parse provides a set of APIs for working with in-app purchases. Parse makes it easier to work with <code class="highlighter-rouge">StoreKit</code> and facilitates delivery of downloadable content with receipt verification in the cloud. Receipt verification is a mechanism that allows you to restrict downloads to only those users that have paid accordingly.</p>
 
@@ -6059,40 +6097,40 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
 <p>Note that in order to use this class, you must enter all product information in the <code class="highlighter-rouge">Product</code> class via the data browser.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    
+                  
+                    
+                    
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    
+                  
+                    
+                    
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    <h1 id="handling-errors">Handling Errors</h1>
+                  
+                    
+                    <h1 id="handling-errors">Handling Errors</h1>
 
 <p>Parse has a few simple patterns for surfacing errors and handling them in your code.</p>
 
@@ -6235,51 +6273,51 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
 <p>For a list of all possible <code class="highlighter-rouge">NSError</code> types, scroll down to <a href="#errors">Error Codes</a>, or see the <code class="highlighter-rouge">PFErrorCode</code> section of the <a href="/docs/ios/api/Constants/PFErrorCode.html">iOS API</a> or <a href="/docs/osx/api/Constants/PFErrorCode.html">OS X API</a>.</p>
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    
+                  
+                    
+                    
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    
+                  
+                    
+                    
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-    
-    
+                  
+                    
+                    
 
 
-    
+                    
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/ios">Edit this section.</a></span>
-	<hr />
+	<span>Want to contribute to this doc? <a href="https://github.com/ParsePlatform/Docs/tree/gh-pages/iOS">Edit this section.</a></span>
+	<hr/>
 </div>
 
-  
-</div>
+                  
+                </div>
 
               </div>
           		<!-- footer goes here -->
@@ -6289,6 +6327,27 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
       </div><!-- /.content__wrapper -->
     </div><!-- /.site__content -->
   </div><!-- /.site__wrapper -->
+
+  <script type="text/javascript">
+    window.onscroll = function() {
+      var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+      var windowWidth = window.innerWidth || document.body.clientWidth;
+      console.log(windowWidth);
+      var toc = document.getElementById('toc');
+      if (scrollPos > 250) {
+        if (windowWidth > 1104) {
+          toc.style.position = 'fixed';
+          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 230 + 'px';
+        } else if (windowWidth > 760) {
+          toc.style.position = 'fixed';
+          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 130 + 'px';
+        }
+      } else {
+        toc.style.position = 'absolute';
+        toc.style.left = '0';
+      }
+    }
+  </script>
 </body>
 
 </html>

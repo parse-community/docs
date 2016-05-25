@@ -7,23 +7,21 @@ layout: default
     <div class="site__content">
 
       {% include menu.html %}
-      <!-- old menu was here, blocks/menu -->
       <div class="content__wrapper">
         {% include header.html %}
-      <!-- old header would go here, blocks/header -->
 
         <aside class="hero hero--docs">
           <div class="grid-container">
             <div class="col-md--6 col-lg--9">
                 <p class="h1 h1--white" data-ignore-from-select>
-                    <span>{{ page.platform_pretty }} <em>Guide</em></span>
+                    <span>{{ page.platform }} <em>Guide</em></span>
 
                     <a href="/Docs" class="btn btn--back">
                         <span class="hide-mobile">Browse all platforms</span>
                         <span class="show-mobile">Browse</span>
                     </a>
 
-                    <svg class="icon icon-{{ page.platform }}"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#{{ page.platform }}"></use></svg>
+                    <svg class="icon icon-{{ page.platform | downcase }}"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#{{ page.platform | downcase }}"></use></svg>
                 </p>
             </div>
           </div>
@@ -35,7 +33,42 @@ layout: default
             <div class="col-md--6 col-lg--9">
 
               <div class="guide_content">
-                {{ content }}
+                <div id="toc" style="overflow-y: scroll; height: 100%;">
+                  <div class="top_links">
+                  {% if page.quickstart %}
+                    <a href="{{ page.quickstart }}">Quickstart<i class="icon_minimize"></i></a>
+                  {% endif %}
+                  {% if page.api_reference %}
+                    <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
+                  {% endif %}
+
+                    <ul class="ui_live_toc">
+                    {% for section in page.sections %}
+                      <li data-name="{{ section.source }}" class="ui_live_toc_main">
+                        <a href="#{{ section.title | downcase | replace: " ", "-" }}">{{ section.title }}</a>
+                        <ul class="ui_live_toc_major_list">
+                        {% for subsection in section.sections %}
+                          <li data-name="{{ subsection.title }}" class="ui_live_toc_major">
+                            <a href="#{{ subsection.title | downcase | replace: " ", "-" }}">{{ subsection.title }}</a>
+                          </li>
+                        {% endfor %}
+                        </ul>
+                      </li>
+                    {% endfor %}
+                    </ul>
+
+                  </div>
+                </div>
+
+                <div class="wysiwyg-content">
+                  {% for section in page.sections %}
+                    {% capture section_include %}{% if section.common }{% include common/{{ section.title | downcase | replace: " ", "-" }}.md %}{% else %}{% include {{ page.platform | downcase }}/{{ section.title | downcase | replace: " ", "-" }}.md %}{% endif %}{% endcapture %}
+                    {{ section_include | markdownify }}
+
+                    {% include helpful_box.html %}
+                  {% endfor %}
+                </div>
+
               </div>
           		<!-- footer goes here -->
             </div>
@@ -44,4 +77,25 @@ layout: default
       </div><!-- /.content__wrapper -->
     </div><!-- /.site__content -->
   </div><!-- /.site__wrapper -->
+
+  <script type="text/javascript">
+    window.onscroll = function() {
+      var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+      var windowWidth = window.innerWidth || document.body.clientWidth;
+      console.log(windowWidth);
+      var toc = document.getElementById('toc');
+      if (scrollPos > 250) {
+        if (windowWidth > 1104) {
+          toc.style.position = 'fixed';
+          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 230 + 'px';
+        } else if (windowWidth > 760) {
+          toc.style.position = 'fixed';
+          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 130 + 'px';
+        }
+      } else {
+        toc.style.position = 'absolute';
+        toc.style.left = '0';
+      }
+    }
+  </script>
 </body>
