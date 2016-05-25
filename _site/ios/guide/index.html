@@ -41,8 +41,6 @@
 
       <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
 
-
-
   <!--[if lt IE 8]>
       <link rel="stylesheet" type="text/css" href="/stylesheets/ie7.css" />
   <![endif]-->
@@ -6328,26 +6326,7 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
     </div><!-- /.site__content -->
   </div><!-- /.site__wrapper -->
 
-  <script type="text/javascript">
-    window.onscroll = function() {
-      var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
-      var windowWidth = window.innerWidth || document.body.clientWidth;
-      console.log(windowWidth);
-      var toc = document.getElementById('toc');
-      if (scrollPos > 250) {
-        if (windowWidth > 1104) {
-          toc.style.position = 'fixed';
-          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 230 + 'px';
-        } else if (windowWidth > 760) {
-          toc.style.position = 'fixed';
-          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 130 + 'px';
-        }
-      } else {
-        toc.style.position = 'absolute';
-        toc.style.left = '0';
-      }
-    }
-  </script>
+  <script src="/Docs/assets/js/bundle.js"></script>
 </body>
 
 </html>

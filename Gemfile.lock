@@ -120,6 +120,7 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
+  jekyll (>= 3.1.6)
 
 BUNDLED WITH
    1.12.4

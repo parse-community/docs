@@ -1,0 +1,32 @@
+{
+  "name": "parsedocs",
+  "version": "0.0.1",
+  "description": "A static site that serves Parse's documentation using Jekyll on GitHub Pages. Work in progress.",
+  "main": "_app/main.js",
+  "scripts": {
+    "start": "npm run dev",
+    "jekyll": "bundle exec jekyll serve",
+    "dev-webpack": "webpack --watch",
+    "webpack": "webpack -p",
+    "dev": "npm run dev-webpack & npm run jekyll",
+    "prod": "npm run webpack & npm run jekyll",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ParsePlatform/Docs.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/ParsePlatform/Docs/issues"
+  },
+  "homepage": "https://github.com/ParsePlatform/Docs#readme",
+  "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "webpack": "^1.13.1"
+  }
+}
