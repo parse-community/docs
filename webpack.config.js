@@ -19,9 +19,18 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.json']
+    extensions: ['', '.js', '.json'],
+    alias: {
+        jquery: "jquery/src/jquery"
+    }
   },
+
   plugins: [
-    new webpack.BannerPlugin("---\n---\n\n", { raw: true })
+    new webpack.BannerPlugin("---\n---\n\n", { raw: true }),
+    new webpack.ProvidePlugin({
+      "_": "underscore",
+      $: "jquery",
+      jQuery: "jquery"
+    })
   ]
 };

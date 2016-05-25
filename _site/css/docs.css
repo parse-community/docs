@@ -757,16 +757,16 @@ Hacked style by hello@danny.codes
 #toc .ui_live_toc ul { padding: 0; margin: 0; list-style: none; }
 #toc .ui_live_toc .ui_live_toc_major_list:empty { display: none !important; }
 #toc .ui_live_toc > li > a { padding: 3px 0; color: #66637A; }
-#toc .ui_live_toc > li > ul { margin: 5px 0 7px; padding-left: 10px; border-left: 2px solid #F3F3F5; }
+#toc .ui_live_toc > li > ul { margin: 5px 0 7px; display: none; padding-left: 10px; border-left: 2px solid #F3F3F5; }
 #toc .ui_live_toc > li > ul > li > a { color: #8F8F8F; font-size: 1.4rem; padding: 3px 0; }
-#toc .ui_live_toc > li > ul > li > ul { margin: 10px 0; background-color: #F3F3F5; border-radius: 4px; padding: 8px; }
+#toc .ui_live_toc > li > ul > li > ul { display: none; margin: 10px 0; background-color: #F3F3F5; border-radius: 4px; padding: 8px; }
 #toc .ui_live_toc > li > ul > li > ul:empty { display: none; }
 #toc .ui_live_toc > li > ul > li > ul > li > a { font-size: 1.2rem; padding: 1px 0; }
 #toc .ui_live_toc > li.selected > a, #toc .ui_live_toc > li .selected > a { font-weight: 700; color: #169CEE; }
 #toc .ui_live_toc > li.selected > ul, #toc .ui_live_toc > li .selected > ul { display: block; }
 @media (min-width: 760px) { #toc { display: block; } }
 
-#mobile_toc { position: relative; }
+#mobile_toc { position: relative; display: none; }
 #mobile_toc.is-fixed { width: 100%; min-width: 320px; opacity: 0; }
 #mobile_toc:after { content: ""; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-style: solid; border-width: 12px 7.5px 0 7.5px; border-color: #E0E0EA transparent transparent transparent; }
 #mobile_toc select { appearance: none; width: 100%; border: 0; height: 50px; text-align: center; background-color: #FDFAFB; outline: 0; font-size: 1.8rem; font-family: "webfont_alright"; font-weight: 700; color: #169CEE; padding-left: 20px; padding-right: 50px; border-radius: 0; border-bottom: 2px solid #E0E0EA; }

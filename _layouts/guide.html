@@ -41,28 +41,12 @@ layout: default
                   {% if page.api_reference %}
                     <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
                   {% endif %}
-
-                    <ul class="ui_live_toc">
-                    {% for section in page.sections %}
-                      <li data-name="{{ section.source }}" class="ui_live_toc_main">
-                        <a href="#{{ section.title | downcase | replace: " ", "-" }}">{{ section.title }}</a>
-                        <ul class="ui_live_toc_major_list">
-                        {% for subsection in section.sections %}
-                          <li data-name="{{ subsection.title }}" class="ui_live_toc_major">
-                            <a href="#{{ subsection.title | downcase | replace: " ", "-" }}">{{ subsection.title }}</a>
-                          </li>
-                        {% endfor %}
-                        </ul>
-                      </li>
-                    {% endfor %}
-                    </ul>
-
                   </div>
                 </div>
 
                 <div class="wysiwyg-content">
                   {% for section in page.sections %}
-                    {% capture section_include %}{% if section.common }{% include common/{{ section.title | downcase | replace: " ", "-" }}.md %}{% else %}{% include {{ page.platform | downcase }}/{{ section.title | downcase | replace: " ", "-" }}.md %}{% endif %}{% endcapture %}
+                    {% capture section_include %}{% include {{ section }} %}{% endcapture %}
                     {{ section_include | markdownify }}
 
                     {% include helpful_box.html %}
