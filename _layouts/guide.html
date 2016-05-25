@@ -79,7 +79,7 @@ layout: default
   </div><!-- /.site__wrapper -->
 
   <script type="text/javascript">
-    window.onscroll = function() {
+    window.onscroll = window.onresize = function() {
       var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
       var windowWidth = window.innerWidth || document.body.clientWidth;
       console.log(windowWidth);
@@ -90,7 +90,7 @@ layout: default
           toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 230 + 'px';
         } else if (windowWidth > 760) {
           toc.style.position = 'fixed';
-          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 130 + 'px';
+          toc.style.left = document.getElementById('getting-started').getBoundingClientRect().left - 210 + 'px';
         }
       } else {
         toc.style.position = 'absolute';
