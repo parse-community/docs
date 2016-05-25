@@ -11,7 +11,7 @@ The general pattern is to create a `%{ParseQuery}`, constraints to it, and then 
 For example, to retrieve scores with a particular `playerName`, use a "where" clause to constrain the value for a key.
 
 ```csharp
-var query = ParseObject.GetQuery("GameScore")
+var query = ParseQuery<GameScore>() //Make the same change everywhere in this doc
     .WhereEqualTo("playerName", "Dan Stemkoski");
 query.FindAsync().ContinueWith(t =>
 {
