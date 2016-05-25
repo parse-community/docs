@@ -24,6 +24,6 @@ npm start
 - [x] Generate TOC automatically using JavaScript, as we did in original site using live_toc.js
 - [x] Autoexpand TOC as the user scrolls down, also implemented in original site.
 - [ ] Can we split out `_app/main.js` into the original `core.js` and `live_toc.js` components?
-- [ ] Implement HighlightJS for code syntax highlighting.
+- [x] Implement HighlightJS for code syntax highlighting.
 - [ ] Handle common lang blocks.
 - [ ] Tokenize using tokens.json (replaces %{ParseFile} with PFFile when iOS guide is visible, ParseFile when Android file is visible )

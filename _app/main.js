@@ -1,3 +1,13 @@
+// application.js
+// Setup empty objects for organizational purposes.
+// These objects will be common to both the website and the mobile website.
+var App = {};
+App.Models = {};
+App.Models.Docs = {};
+App.Models.Apps = {};
+App.Collections = {};
+App.Views = {};
+
 // Sticky TOC
 (function() {
   window.onscroll = window.onresize = function() {
@@ -484,10 +494,383 @@
 
 })(UI, _);
 
-var scrollContent = document.getElementsByTagName('body')[0];
+// docs_apps_list.js
+(function(UI, _) {
+	if (!UI) {
+		return;
+	}
 
-new UI.LiveTOC({
-    parent: document.getElementById('toc'),
-    scrollContent: scrollContent,
-    content: document.getElementsByClassName('guide_content')[0]
+	if (!App.Views.Docs) {
+		App.Views.Docs = {};
+	}
+
+	var AppsList = App.Views.Docs.AppsList = function(options) {
+		this.appsJson = options.appsJson;
+		this.render();
+	};
+
+	AppsList.prototype = {
+		render: function() {
+			if (_.size(appsJson) === 0) {
+				return;
+			}
+
+			this.ddCounter = 0;
+			this.firstKey = this.appsJson[0].name;
+			this.appValues = {};
+			this.appsJson.forEach(function(a) {
+				this.appValues[a.name] = {
+					applicationId: a.key,
+					restKey: a.rest_api_key,
+					masterKey: a.push_key,
+					clientKey: a.secret
+				};
+			}.bind(this));
+			this.appOptions = this.appsJson.map(function(a) {
+				return a.name;
+			});
+
+			$('code.hljs').each(function(i, el) {
+				var match = el.innerHTML.match(/APPLICATION_ID|REST_API_KEY|MASTER_KEY|CLIENT_KEY/);
+				if (match !== null) {
+					var app = this.appValues[this.firstKey];
+					el.innerHTML = el.innerHTML
+						.replace('${APPLICATION_ID}',
+							'<span class="application_id">' + app.applicationId + '</span>')
+						.replace('${REST_API_KEY}',
+							'<span class="rest_key">' + app.restKey + '</span>')
+						.replace('${MASTER_KEY}',
+							'<span class="master_key">' + app.masterKey + '</span>')
+						.replace('${CLIENT_KEY}',
+							'<span class="client_key">' + app.clientKey + '</span>');
+					new UI.Dropdown({
+						optionSet: this.appOptions,
+						name: 'dropdown' + this.ddCounter++,
+						parent: el.parentElement,
+						onChange: this.handleDropdownChange.bind(this)
+					});
+					UI.addClass(el, 'has_toggles');
+				}
+			}.bind(this));
+		},
+
+		handleDropdownChange: function(val, dd) {
+			var app = this.appValues[val];
+			var code = dd.parentElement.querySelector('.hljs');
+
+			$(code).find('.application_id').html(app.applicationId);
+			$(code).find('.rest_key').html(app.restKey);
+			$(code).find('.master_key').html(app.masterKey);
+			$(code).find('.client_key').html(app.clientKey);
+		}
+	};
+
+	_.extend(AppsList.prototype, UI.ComponentProto);
+
+})(UI, _);
+
+// docs_toggle.js
+(function(UI, _) {
+	if (!UI) {
+		return;
+	}
+
+	if (!App.Views.Docs) {
+		App.Views.Docs = {};
+	}
+
+	var Toggle = App.Views.Docs.Toggle = function(options) {
+		this.parent = options.parent;
+		this.opt1 = options.opt1;
+		this.opt2 = options.opt2;
+		this.label1 = options.label1;
+		this.label2 = options.label2;
+		this.onChange = options.onChange;
+		this.render();
+	};
+
+	Toggle.prototype = {
+		render: function() {
+			var opt1Els = this.parent.getElementsByClassName('hljs ' + this.opt1);
+			for (var i = 0; i < opt1Els.length; i++) {
+				UI.addClass(opt1Els[i], 'has_toggles');
+				opt1Els[i].appendChild(this.renderToggle(true));
+			}
+
+			var opt2Els = this.parent.getElementsByClassName('hljs ' + this.opt2);
+			for (i = 0; i < opt2Els.length; i++) {
+				UI.addClass(opt2Els[i], 'has_toggles');
+				opt2Els[i].appendChild(this.renderToggle(false));
+			}
+
+			$('.' + this.opt2 + '-toggle').on('click', this.showOpt2.bind(this));
+			$('.' + this.opt1 + '-toggle').on('click', this.showOpt1.bind(this));
+			this.toggleOpt(true);
+		},
+
+		renderToggle: function(selectOpt1) {
+			var toggle = UI.tag('div', { className: 'toggles' }, [
+				UI.tag('div', { className: 'toggle-item' }, [
+					UI.tag('a', { className: this.opt1 + '-toggle', href: '#' }, this.label1)
+				]),
+				UI.tag('div', { className: 'toggle-item' }, [
+					UI.tag('a', { className: this.opt2 + '-toggle', href: '#' }, this.label2)
+				]),
+			]);
+
+			if (selectOpt1 === true) {
+				UI.addClass(toggle.childNodes[0], 'selected');
+			} else {
+				UI.addClass(toggle.childNodes[1], 'selected');
+			}
+
+			return toggle;
+		},
+
+		showOpt1: function(e) {
+			e.preventDefault();
+
+			// make sure it's the right toggle
+			if ($(e.target).parent().hasClass('selected')) {
+				return false;
+			}
+
+			var $pre = $(e.target).closest('pre');
+			var distance = $(window).scrollTop() - $pre[0].offsetTop;
+
+
+			// flash the border
+			var $code = $pre.prev().children('code');
+			$code.addClass('code_flash');
+			setTimeout(function(){
+				$code.removeClass('code_flash');
+			}, 2000);
+
+			// scroll to the code block
+			var el = $pre.prev()[0];
+			this.toggleOpt(true);
+			$(window).scrollTop(el.offsetTop + distance);
+		},
+
+		showOpt2: function(e) {
+			e.preventDefault();
+
+			// make sure it's the right toggle
+			if ($(e.target).parent().hasClass('selected')) {
+				return false;
+			}
+
+			var $pre = $(e.target).closest('pre');
+			var distance = $(window).scrollTop() - $pre[0].offsetTop;
+
+			// flash the border
+			var $code = $pre.next().children('code');
+			$code.addClass('code_flash');
+			setTimeout(function(){
+				$code.removeClass('code_flash');
+			}, 2000);
+
+			// scroll to the code block
+			var el = $pre.next()[0];
+			this.toggleOpt(false);
+			$(window).scrollTop(el.offsetTop + distance);
+		},
+
+		toggleOpt: function(showOpt1) {
+			if (showOpt1 === true) {
+				$('.hljs.' + this.opt2).parent().hide();
+				$('.hljs.' + this.opt1).parent().show();
+			} else {
+				$('.hljs.' + this.opt2).parent().show();
+				$('.hljs.' + this.opt1).parent().hide();
+			}
+			this.onChange();
+		}
+	};
+
+	_.extend(Toggle.prototype, UI.ComponentProto);
+
+})(UI, _);
+
+// docs.js
+(function(UI, _) {
+	if (!UI) {
+		return;
+	}
+
+	if (!App.Views.Docs) {
+		App.Views.Docs = {};
+	}
+
+	var Docs = App.Views.Docs.Main = function(options) {
+		this.platform = options.platform;
+		this.language = options.language;
+		this.render();
+	};
+
+	Docs.prototype = {
+		render: function() {
+			// create the TOC
+			this.scrollContent = document.getElementsByTagName('body')[0];
+			this.toc = new UI.LiveTOC({
+				parent: document.getElementById('toc'),
+				scrollContent: this.scrollContent,
+				content: document.getElementsByClassName('guide_content')[0]
+			});
+
+			// deal with common-lang-blocks
+			this.toggleCommonLangBlocks();
+
+			// add toggles to code blocks if necessary
+			if (this.platform === "ios" || this.platform === "osx") {
+				new App.Views.Docs.Toggle({
+					parent: this.scrollContent,
+					opt1: 'objc',
+					opt2: 'swift',
+					label1: 'Objective-C',
+					label2: 'Swift',
+					onChange: this.handleToggleChange.bind(this)
+				});
+			} else if (this.platform === "rest" || this.platform === "embedded_c"  || this.platform === "arduino") {
+				new App.Views.Docs.AppsList({
+					appsJson: appsJson
+				});
+
+				new App.Views.Docs.Toggle({
+					parent: this.scrollContent,
+					opt1: 'bash',
+					opt2: 'python',
+					label1: 'cURL',
+					label2: 'Python',
+					onChange: this.handleToggleChange.bind(this)
+				});
+			}
+
+			this.mobileToc = document.getElementById('mobile_toc').getElementsByTagName('select')[0];
+			this.renderMobileTOC();
+
+			// add click handlers for all the "was this helpful" buttons
+			$('.yes_button, .no_button').on('click', this.handleHelpfulClick.bind(this));
+
+			// move the TOC with the content. Since it's fixed, we can't just do it in css :(
+			$(window).on('resize', _.throttle(this.handleWindowResize.bind(this), 300));
+			this.handleWindowResize();
+			// calculate final position of headers for the TOC once
+			// the DOM is loaded (including images)
+			$(window).on('load', function() {
+				this.toc.updateHeights();
+
+				// handle making the TOC sticky
+				document.addEventListener('scroll', this.handleScroll.bind(this));
+			}.bind(this));
+		},
+
+		renderMobileTOC: function() {
+			var h1s = this.scrollContent.getElementsByTagName('h1');
+			for (var i = 0; i < h1s.length; i++) {
+				// var anchor = h1s[i].getElementsByTagName('a')[0];
+				this.mobileToc.appendChild(UI.tag('option', { 'data-anchor': h1s[i].id }, [ h1s[i].textContent ]));
+			}
+			this.mobileToc.addEventListener('change', this.handleSelectChange.bind(this));
+			this.mobileToc.getElementsByTagName('option')[0].setAttribute('selected', true);
+		},
+
+		// in "common" sections, there's a code block for every platform,
+		// this hides all but the current one
+		toggleCommonLangBlocks: function() {
+			$('.common-lang-block').hide();
+			switch (this.platform) {
+				case 'ios':
+					$('.common-lang-block.objc').show();
+					$('.common-lang-block.swift').show();
+					break;
+				case 'osx':
+					$('.common-lang-block.objc').show();
+					$('.common-lang-block.swift').show();
+					break;
+				case 'android':
+					$('.common-lang-block.java').show();
+					break;
+				case 'js':
+					$('.common-lang-block.js').show();
+					break;
+				case 'dotnet':
+					$('.common-lang-block.csharp').show();
+					break;
+				case 'unity':
+					$('.common-lang-block.csharp').show();
+					break;
+				case 'php':
+					$('.common-lang-block.php').show();
+					break;
+				case 'rest':
+					$('.common-lang-block.bash').show();
+					$('.common-lang-block.python').show();
+					break;
+				case 'cloudcode':
+					$('.common-lang-block.js').show();
+					break;
+				case 'arduino':
+					$('.common-lang-block.cpp').show();
+					break;
+				default:
+					$('.common-lang-block.js').show();
+			}
+		},
+
+		// makes the TOC sticky when the user scrolls past a point
+		handleScroll: function() {
+			var fromTop = $(window).scrollTop();
+			var toc = document.getElementById('toc');
+			var mobileToc = document.getElementById('mobile_toc');
+
+			if (fromTop >= 250) {
+				if (!UI.hasClass(toc, 'sticky')) {
+					UI.addClass(toc, 'sticky');
+					UI.addClass(mobileToc, 'sticky');
+				}
+			} else {
+				if (UI.hasClass(toc, 'sticky')) {
+					UI.removeClass(toc, 'sticky');
+					UI.removeClass(mobileToc, 'sticky');
+				}
+			}
+		},
+
+		// we recalculate the header heights for the TOC
+		// highlighting when the height of the content changes
+		handleToggleChange: function() {
+			this.toc.updateHeights();
+		},
+
+		handleHelpfulClick: function(e) {
+			ParseDotCom.Analytics.track("docs_helpful", {
+				section: e.target.getAttribute('data-section'),
+				language: this.language,
+				platform: this.platform,
+				helpful: UI.hasClass(e.target, 'yes_button').toString()
+			});
+			$vote = $(e.target.parentElement);
+			$vote.children().hide();
+			$vote.find('.thanks').show();
+			return false;
+		},
+
+		handleSelectChange: function(e) {
+			location.href = this.mobileToc.selectedOptions[0].getAttribute('data-anchor');
+		},
+
+		handleWindowResize: function(e) {
+			this.toc.parent.style.left = $(".guide").css("margin-left");
+			this.toc.updateHeights();
+		}
+	};
+
+	_.extend(Docs.prototype, UI.ComponentProto);
+
+})(UI, _);
+
+new App.Views.Docs.Main({
+  language: 'en',
+  platform: 'ios'
 });
