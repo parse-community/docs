@@ -31,7 +31,7 @@ self.presentViewController(logInController, animated:true, completion: nil)
 
 ### Configuring the Log In Elements
 
-![](https://parse.com/images/docs/login_diagram.png)
+![]({{ '/assets/images/login_diagram.png' | prepend: site.baseurl }})
 
 `PFLogInViewController` can be configured to provide a variety of log in options. By default, `PFLogInViewController` presents the following UI:
 
@@ -240,7 +240,7 @@ That is all you need to do to get a functional sign up screen.
 
 ### Configuring the Sign Up Elements
 
-![](https://parse.com/images/docs/signup_diagram.png)
+![]({{ '/assets/images/signup_diagram.png' | prepend: site.baseurl }})
 
 `PFSignUpViewController` can be configured to provide a variety of sign up options. By default, it presents the following UI:
 

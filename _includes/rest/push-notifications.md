@@ -328,7 +328,7 @@ print result
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
 
-![](/images/docs/installation_channel.png)
+![]({{ '/assets/images/installation_channel.png' | prepend: site.baseurl }})
 
 To unsubscribe from a channel you would need to update the `channels` array and remove the unsubscribed channel.
 

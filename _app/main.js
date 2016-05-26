@@ -494,81 +494,6 @@ App.Views = {};
 
 })(UI, _);
 
-// docs_apps_list.js
-(function(UI, _) {
-	if (!UI) {
-		return;
-	}
-
-	if (!App.Views.Docs) {
-		App.Views.Docs = {};
-	}
-
-	var AppsList = App.Views.Docs.AppsList = function(options) {
-		this.appsJson = options.appsJson;
-		this.render();
-	};
-
-	AppsList.prototype = {
-		render: function() {
-			if (_.size(appsJson) === 0) {
-				return;
-			}
-
-			this.ddCounter = 0;
-			this.firstKey = this.appsJson[0].name;
-			this.appValues = {};
-			this.appsJson.forEach(function(a) {
-				this.appValues[a.name] = {
-					applicationId: a.key,
-					restKey: a.rest_api_key,
-					masterKey: a.push_key,
-					clientKey: a.secret
-				};
-			}.bind(this));
-			this.appOptions = this.appsJson.map(function(a) {
-				return a.name;
-			});
-
-			$('code.hljs').each(function(i, el) {
-				var match = el.innerHTML.match(/APPLICATION_ID|REST_API_KEY|MASTER_KEY|CLIENT_KEY/);
-				if (match !== null) {
-					var app = this.appValues[this.firstKey];
-					el.innerHTML = el.innerHTML
-						.replace('${APPLICATION_ID}',
-							'<span class="application_id">' + app.applicationId + '</span>')
-						.replace('${REST_API_KEY}',
-							'<span class="rest_key">' + app.restKey + '</span>')
-						.replace('${MASTER_KEY}',
-							'<span class="master_key">' + app.masterKey + '</span>')
-						.replace('${CLIENT_KEY}',
-							'<span class="client_key">' + app.clientKey + '</span>');
-					new UI.Dropdown({
-						optionSet: this.appOptions,
-						name: 'dropdown' + this.ddCounter++,
-						parent: el.parentElement,
-						onChange: this.handleDropdownChange.bind(this)
-					});
-					UI.addClass(el, 'has_toggles');
-				}
-			}.bind(this));
-		},
-
-		handleDropdownChange: function(val, dd) {
-			var app = this.appValues[val];
-			var code = dd.parentElement.querySelector('.hljs');
-
-			$(code).find('.application_id').html(app.applicationId);
-			$(code).find('.rest_key').html(app.restKey);
-			$(code).find('.master_key').html(app.masterKey);
-			$(code).find('.client_key').html(app.clientKey);
-		}
-	};
-
-	_.extend(AppsList.prototype, UI.ComponentProto);
-
-})(UI, _);
-
 // docs_toggle.js
 (function(UI, _) {
 	if (!UI) {
@@ -732,10 +657,6 @@ App.Views = {};
 					onChange: this.handleToggleChange.bind(this)
 				});
 			} else if (this.platform === "rest" || this.platform === "embedded_c"  || this.platform === "arduino") {
-				new App.Views.Docs.AppsList({
-					appsJson: appsJson
-				});
-
 				new App.Views.Docs.Toggle({
 					parent: this.scrollContent,
 					opt1: 'bash',
@@ -773,7 +694,6 @@ App.Views = {};
 		// this hides all but the current one
 		toggleCommonLangBlocks: function() {
 			$('.common-lang-block').hide();
-      console.log('this platform is ' + this.platform)
 			switch (this.platform) {
 				case 'ios':
 					$('.common-lang-block.objc').show();

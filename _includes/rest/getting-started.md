@@ -1,4 +1,4 @@
-<!-- # Getting Started -->
+# Getting Started
 
 The REST API lets you interact with Parse from anything that can send an HTTP request. There are many things you can do with the REST API. For example:
 
@@ -7,4 +7,3 @@ The REST API lets you interact with Parse from anything that can send an HTTP re
 *   You can upload large amounts of data that will later be consumed in a mobile app.
 *   You can download recent data to run your own custom analytics.
 *   Applications written in any programming language can interact with data on Parse.
-*   You can export all of your data if you no longer want to use Parse.

@@ -2,7 +2,7 @@
 
 `Parse Config` is a way to configure your applications remotely by storing a single configuration object on Parse. It enables you to add things like feature gating or a simple "Message of the day". To start using `Parse Config` you need to add a few key/value pairs (parameters) to your app on the Parse Config Dashboard.
 
-![](/images/docs/config_editor.png)
+![]({{ '/assets/images/config_editor.png' | prepend: site.baseurl }})
 
 After that you will be able to fetch the config on the client by sending a `GET` request to config URL. Here is a simple example that will fetch the `Parse.Config`:
 
@@ -53,7 +53,7 @@ return request({
     'X-Parse-Application-Id': Parse.applicationId,
     'X-Parse-Master-Key': Parse.masterKey
   },
-  json: true, 
+  json: true,
   body: {
     params: { winningNumber: 43 }
   }

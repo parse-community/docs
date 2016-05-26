@@ -3,7 +3,7 @@
   <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-  <title>iOS Developers Guide | Parse</title>
+  <title>Android Developers Guide | Parse</title>
 
   <link rel="apple-touch-icon" sizes="57x57" href="https://parse.com/apple-touch-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="114x114" href="https://parse.com/apple-touch-icon-114x114.png">
@@ -177,7 +177,7 @@
 </header>
 
 
-        <aside class="hero hero--docs">
+        <aside class="hero hero--docs android_docs_header">
           <div class="grid-container">
             <div class="col-md--6 col-lg--9">
                 <p class="h1 h1--white" data-ignore-from-select>
@@ -2581,7 +2581,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined  <a href="http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/">on our blog</a>.  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.</p>
 
-<p><img src="/assets/images/client_push_settings.png" alt="" /></p>
+<p><img src="/Docs/assets/images/client_push_settings.png" alt="" /></p>
 
 <p>You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.</p>
 
@@ -2604,7 +2604,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>Once subscribed to the “Giants” channel, your <code class="highlighter-rouge">Installation</code> object should have an updated <code class="highlighter-rouge">channels</code> field.</p>
 
-<p><img src="/assets/images/installation_channel.png" alt="" /></p>
+<p><img src="/Docs/assets/images/installation_channel.png" alt="" /></p>
 
 <p>Unsubscribing from a channel is just as easy:</p>
 
@@ -2902,15 +2902,15 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>For each push campaign sent through the Parse web push console, you can allocate a subset of your devices to be in the experiment’s test audience, which Parse will automatically split into two equally-sized experiment groups. For each experiment group, you can specify a different push message. The remaining devices will be saved so that you can send the winning message to them later. Parse will randomly assign devices to each group to minimize the chance for a test to affect another test’s results (although we still don’t recommend running multiple A/B tests over the same devices on the same day).</p>
 
-<p><img src="/assets/images/experiment_enable.png" alt="" /></p>
+<p><img src="/Docs/assets/images/experiment_enable.png" alt="" /></p>
 
 <p>After you send the push, you can come back to the push console to see in real time which version resulted in more push opens, along with other metrics such as statistical confidence interval. It’s normal for the number of recipients in each group to be slightly different because some devices that we had originally allocated to that experiment group may have uninstalled the app. It’s also possible for the  random group assignment to be slightly uneven when the test audience size is small. Since we calculate open rate separately for each group based on recipient count, this should not significantly affect your experiment results.</p>
 
-<p><img src="/assets/images/experiment_results.png" alt="" /></p>
+<p><img src="/Docs/assets/images/experiment_results.png" alt="" /></p>
 
 <p>If you are happy with the way one message performed, you can send that to the rest of your app’s devices (i.e. the “Launch Group”). This step only applies to A/B tests where you vary the message.</p>
 
-<p><img src="/assets/images/experiment_launch.png" alt="" /></p>
+<p><img src="/Docs/assets/images/experiment_launch.png" alt="" /></p>
 
 <p>Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with <a href="#push-notifications-tracking-pushes-and-app-opens">push open tracking</a>.</p>
 
@@ -3058,7 +3058,7 @@ https://api.parse.com/1/installations
 
 <p><code class="highlighter-rouge">ParseConfig</code> is a way to configure your applications remotely by storing a single configuration object on Parse. It enables you to add things like feature gating or a simple “Message of the Day”. To start using <code class="highlighter-rouge">ParseConfig</code> you need to add a few key/value pairs (parameters) to your app on the Parse Config Dashboard.</p>
 
-<p><img src="/images/docs/config_editor.png" alt="" /></p>
+<p><img src="/Docs/assets/images/config_editor.png" alt="" /></p>
 
 <p>After that you will be able to fetch the <code class="highlighter-rouge">ParseConfig</code> on the client, like in this example:</p>
 
@@ -3212,7 +3212,7 @@ https://api.parse.com/1/installations
 
 <p>This library contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.</p>
 
-<p><img src="/images/docs/android_login/all_screens.png" alt="" /></p>
+<p><img src="/Docs/assets/images/all_screens.png" alt="" /></p>
 
 <h2 id="login-library-api">Login Library API</h2>
 
@@ -3250,7 +3250,7 @@ The user will also see helpful toast messages if they provide invalid input (e.g
 
 <p>We’ve provided a sample app, <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginSampleBasic</a> for this use case.  This sample app is a simple profile viewer.  If you are not logged in, <code class="highlighter-rouge">SampleProfileActivity</code> prompts you to log in.  Clicking on the login button in <code class="highlighter-rouge">SampleProfileActivity</code> launches the <code class="highlighter-rouge">ParseLoginActivity</code>, which prompts the user for login credentials.  If the user successfully logs in, <code class="highlighter-rouge">ParseLoginActivity</code> will automatically finish itself and return <code class="highlighter-rouge">RESULT_OK</code>.  Then, <code class="highlighter-rouge">SampleProfileActivity</code> will display the user’s name and a logout button.</p>
 
-<p><img src="/images/docs/android_login/basic_login.png" alt="" /></p>
+<p><img src="/Docs/assets/images/basic_login.png" alt="" /></p>
 
 <p>This basic integration case works well if your caller activity is designed to function regardless of whether there is a valid current user.  For example, a restaurant reviews app may allow the user to browse restaurants even when the user is not logged in.  If the user does log in, the app could provide a more personalized experience on that same screen.</p>
 
@@ -3269,13 +3269,13 @@ The user will also see helpful toast messages if they provide invalid input (e.g
 
 <p>We’ve provided another sample app, <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginSampleWithDispatchActivity</a> for this use case.  The <code class="highlighter-rouge">SampleProfileActivity</code> in this app cannot function without a logged-in user, so it is protected by <code class="highlighter-rouge">SampleDispatchActivity</code>.</p>
 
-<p><img src="/images/docs/android_login/login_with_dispatch.png" alt="" /></p>
+<p><img src="/Docs/assets/images/login_with_dispatch.png" alt="" /></p>
 
 <p>The dispatch activity does not necessarily need to be the first activity at app launch.  You can launch the dispatch activity from any activity.  When your protected activity finishes, the dispatch activity will automatically forward the result code to your caller activity.</p>
 
 <p>Let’s revisit the restaurant reviews app again.  You might have a comment activity that requires a user.  You can protect this activity behind a dispatch activity.  The main restaurant listing activity (supports either user or no user), can launch the dispatch activity when the user presses the comment button.  If no user is logged in, the dispatch activity will start <code class="highlighter-rouge">ParseLoginActivity</code> to obtain a ParseUser.  If the user refuses to log in, they will be gracefully taken back to the restaurant listings activity.  In the restaurant listings activity, you can always call <code class="highlighter-rouge">ParseUser.getCurrentUser()</code> to determine whether the user logged in.</p>
 
-<p><img src="/images/docs/android_login/restaurants_app.png" alt="" /></p>
+<p><img src="/Docs/assets/images/restaurants_app.png" alt="" /></p>
 
 <h2 id="customizing-the-login-library">Customizing the Login Library</h2>
 
@@ -3534,7 +3534,6 @@ The user will also see helpful toast messages if they provide invalid input (e.g
 <h2 id="auto-loading-of-data">Auto-loading of Data</h2>
 
 <p>When the <code class="highlighter-rouge">AdapterView</code> that your <code class="highlighter-rouge">ParseQueryAdapter</code> is set on is attached to a window, the <code class="highlighter-rouge">ParseQueryAdapter</code>’s <code class="highlighter-rouge">loadObjects()</code> method is automatically called, triggering the fetching of the first page of results. To disable this behavior (perhaps to delay the fetching of data, or run some custom logic ahead of time), just call <code class="highlighter-rouge">setAutoload(false)</code> and call <code class="highlighter-rouge">loadObjects()</code> manually if autoload is disabled.</p>
-
 
 
                     
@@ -5114,7 +5113,7 @@ $books = $bookQuery-&gt;find();
 
 <p>As a start, you can configure your application so that clients cannot create new classes on Parse. This is done from the Settings tab on the Data Browser. Scroll down to the <strong>App Permissions</strong> section and turn off <strong>Allow client class creation</strong>. Once enabled, classes may only be created from the Data Browser. This will prevent attackers from filling your database with unlimited, arbitrary new classes.</p>
 
-<p><img src="/Docs" alt="" /></p>
+<p><img src="/Docs/assets/images/client_class_creation.png" alt="" /></p>
 
 <h3 id="configuring-class-level-permissions">Configuring Class-Level Permissions</h3>
 
