@@ -1,13 +1,3 @@
-// application.js
-// Setup empty objects for organizational purposes.
-// These objects will be common to both the website and the mobile website.
-var App = {};
-App.Models = {};
-App.Models.Docs = {};
-App.Models.Apps = {};
-App.Collections = {};
-App.Views = {};
-
 // Sticky TOC
 (function() {
   window.onscroll = window.onresize = function() {
@@ -28,6 +18,16 @@ App.Views = {};
     }
   }
 })();
+
+// application.js
+// Setup empty objects for organizational purposes.
+// These objects will be common to both the website and the mobile website.
+var App = {};
+App.Models = {};
+App.Models.Docs = {};
+App.Models.Apps = {};
+App.Collections = {};
+App.Views = {};
 
 // core.js
 (function() {
@@ -749,9 +749,6 @@ App.Views = {};
 			this.mobileToc = document.getElementById('mobile_toc').getElementsByTagName('select')[0];
 			this.renderMobileTOC();
 
-			// add click handlers for all the "was this helpful" buttons
-			$('.yes_button, .no_button').on('click', this.handleHelpfulClick.bind(this));
-
 			// move the TOC with the content. Since it's fixed, we can't just do it in css :(
 			$(window).on('resize', _.throttle(this.handleWindowResize.bind(this), 300));
 			this.handleWindowResize();
@@ -759,9 +756,6 @@ App.Views = {};
 			// the DOM is loaded (including images)
 			$(window).on('load', function() {
 				this.toc.updateHeights();
-
-				// handle making the TOC sticky
-				document.addEventListener('scroll', this.handleScroll.bind(this));
 			}.bind(this));
 		},
 
@@ -779,6 +773,7 @@ App.Views = {};
 		// this hides all but the current one
 		toggleCommonLangBlocks: function() {
 			$('.common-lang-block').hide();
+      console.log('this platform is ' + this.platform)
 			switch (this.platform) {
 				case 'ios':
 					$('.common-lang-block.objc').show();
@@ -818,42 +813,10 @@ App.Views = {};
 			}
 		},
 
-		// makes the TOC sticky when the user scrolls past a point
-		handleScroll: function() {
-			var fromTop = $(window).scrollTop();
-			var toc = document.getElementById('toc');
-			var mobileToc = document.getElementById('mobile_toc');
-
-			if (fromTop >= 250) {
-				if (!UI.hasClass(toc, 'sticky')) {
-					UI.addClass(toc, 'sticky');
-					UI.addClass(mobileToc, 'sticky');
-				}
-			} else {
-				if (UI.hasClass(toc, 'sticky')) {
-					UI.removeClass(toc, 'sticky');
-					UI.removeClass(mobileToc, 'sticky');
-				}
-			}
-		},
-
 		// we recalculate the header heights for the TOC
 		// highlighting when the height of the content changes
 		handleToggleChange: function() {
 			this.toc.updateHeights();
-		},
-
-		handleHelpfulClick: function(e) {
-			ParseDotCom.Analytics.track("docs_helpful", {
-				section: e.target.getAttribute('data-section'),
-				language: this.language,
-				platform: this.platform,
-				helpful: UI.hasClass(e.target, 'yes_button').toString()
-			});
-			$vote = $(e.target.parentElement);
-			$vote.children().hide();
-			$vote.find('.thanks').show();
-			return false;
 		},
 
 		handleSelectChange: function(e) {
@@ -870,7 +833,10 @@ App.Views = {};
 
 })(UI, _);
 
-new App.Views.Docs.Main({
-  language: 'en',
-  platform: 'ios'
-});
+var platform = window.location.pathname.split('/')[2];
+if (platform) {
+  new App.Views.Docs.Main({
+    language: 'en',
+    platform: platform
+  });
+}

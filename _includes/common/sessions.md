@@ -92,7 +92,7 @@ To handle this error, we recommend writing a global utility function that is cal
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 class ParseErrorHandlingController {
@@ -145,7 +145,7 @@ query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 public class ParseErrorHandler {
@@ -189,7 +189,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```js
 function handleParseError(err) {
@@ -211,7 +211,7 @@ query.find().then(function() {
   handleParseError(err);
 });
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```csharp
 public class ParseErrorHandler {
@@ -248,7 +248,7 @@ query.FindAsync().ContinueWith(t => {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```php
 public class ParseErrorHandler {
@@ -273,17 +273,17 @@ try {
   ParseErrorHandler::handleParseError($e)
 }
 ```
-{: .common-lang}
+{: .common-lang-block .php }
 
 ```bash
 // No command line example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 ## Security
 

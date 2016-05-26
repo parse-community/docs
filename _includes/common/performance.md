@@ -53,7 +53,7 @@ query.equalTo("score", 50);
 query.containedIn("playerName",
     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -61,21 +61,21 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"playerName"
     containedIn:@[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"]];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.whereEqualTo("score", 50);
 query.whereContainedIn("playerName", Arrays.asList("Jonathan Walsh", "Dario Wunsch", "Shawn Simon"));
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
@@ -83,17 +83,17 @@ var query = new ParseObject.GetQuery("GameScore")
     .WhereEqualTo("score", 50)
     .WhereContainedIn("playerName", names);
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 Creating an index query based on the score field would yield a smaller search space in general than creating one on the playerName field.
 
@@ -102,37 +102,37 @@ When examining data types, booleans have a very low entropy and and do not make 
 ```js
 query.equalTo("cheatMode", false);
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 [query whereKey:@"cheatMode" equalTo:@NO];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("cheatMode", equalTo: false)
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereEqualTo("cheatMode", false);
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereEqualTo("cheatMode", false);
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 The two possible values for `"cheatMode"` are `true` and `false`. If an index was added on this field it would be of little use because it's likely that 50% of the records will have to be looked at to return query results.
 
@@ -173,7 +173,7 @@ query.find().then(function(results) {
   // Retrieved scores successfully
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -184,7 +184,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("GameScore")
@@ -196,7 +196,7 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -210,24 +210,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var results = await ParseObject.GetQuery("GameScore")
     .WhereNotEqualTo("playerName", "Michael Yabuti")
     .FindAsync();
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 This query can't take advantage of indexes. The database has to look at all the objects in the `"GameScore"` class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.
 
@@ -239,79 +239,79 @@ For example if the User class has a column called state which has values “Sign
 var query = new Parse.Query(Parse.User);
 query.notEqualTo("state", "Invited");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notEqualTo:@"Invited"];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 query.whereNotEqualTo("state", "Invited");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var query = ParseUser.Query
     .WhereNotEqualTo("state", "Invited");
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 It would be faster to use the “Contained In” condition when setting up the query:
 
 ```js
 query.containedIn("state", ["SignedUp", "Verified"]);
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 [query whereKey:@"state"
     containedIn:@[@"SignedUp", @"Verified"]];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereContainedIn("state", new[] { "SignedUp", "Verified" });
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 Sometimes, you may have to completely rewrite your query. Going back to the `"GameScore"` example, let's say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player's high score and then using the following query:
 
@@ -324,7 +324,7 @@ query.find().then(function(results) {
   // Retrieved scores successfully
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -336,7 +336,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("GameScore")
@@ -349,7 +349,7 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -364,7 +364,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 // Previously retrieved highScore for Michael Yabuti
@@ -372,17 +372,17 @@ var results = await ParseObject.GetQuery("GameScore")
     .WhereGreaterThan("score", highScore)
     .FindAsync();
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 The new query you use depends on your use case. This may sometimes mean a redesign of your data model.
 
@@ -394,78 +394,78 @@ Similar to “Not Equal To”, the “Not Contained In” query constraint can't
 var query = new Parse.Query(Parse.User);
 query.notContainedIn("state", ["Invited", "Blocked"];
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notContainedIn:@[@"Invited", @"Blocked"]];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 var query = PFUser.query()
 query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 query.whereNotContainedIn("state", Arrays.asList("Invited", "Blocked"));
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var query = ParseUser.Query
     .WhereNotContainedIn("state", new[] { "Invited", "Blocked" });
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 Using a complimentary “Contained In” query constraint will always be faster:
 
 ```js
 query.containedIn("state", ["SignedUp", "Verified"]);
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 [query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereContainedIn("state", new[] { "SignedUp", "Verified"});
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
 
@@ -478,111 +478,111 @@ You should avoid using regular expression constraints that don't use indexes. Fo
 ```js
 query.matches("playerName", "Michael", “i”);
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 [query whereKey:@"playerName" matchesRegex:@"Michael" modifiers:@"i"];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereMatches("playerName", "Michael", "i");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereMatches("playerName", "Michael", "i")
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 The following query, while case sensitive, looks for any occurrence of the string in the field and cannot be indexed:
 
 ```js
 query.contains("playerName", "Michael");
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 [query whereKey:@"playerName" containsString:@"Michael"];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("playerName", containsString: "Michael")
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereContains("playerName", "Michael");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereContains("playerName", "Michael")
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 These queries are both slow. In fact, the `matches` and `contains` query constraints are not covered in our querying guides on purpose and we do not recommend using them. Depending on your use case, you should switch to using the following constraint that uses an index, such as:
 
 ```js
 query.startsWith("playerName", "Michael");
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 [query whereKey:@"playerName" hasPrefix:@"Michael"];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("playerName", hasPrefix: "Michael")
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereStartsWith("playerName", "Michael");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereStartsWith("playerName", "Michael")
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.
 
@@ -591,37 +591,37 @@ As a best practice, when you use regular expression constraints, you'll want to 
 ```js
 query.matches("playerName", "^Michael");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 [query whereKey:@"playerName" matchesRegex:@"^Michael"];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.whereKey("playerName", matchesRegex: "^Michael")
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.whereMatches("playerName", "^Michael");
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.WhereMatches("playerName", "^Michael")
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.
 
@@ -634,37 +634,37 @@ You can limit the number of query results returned. The limit is 100 by default 
 ```js
 query.limit(10); // limit to at most 10 results
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 query.limit = 10; // limit to at most 10 results
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 query.limit = 10 // limit to at most 10 results
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 query.setLimit(10); // limit to at most 10 results
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 query.Limit(10); // limit to at most 10 results
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 If you're issuing queries on GeoPoints, make sure you specify a reasonable radius:
 
@@ -675,7 +675,7 @@ query.find().then(function(placesObjects) {
   // Get a list of objects within 10 miles of a user's location
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"Place"];
@@ -686,7 +686,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Place"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("Place")
@@ -698,7 +698,7 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Place");
@@ -712,24 +712,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var results = await ParseObject.GetQuery("GameScore")
     .WhereWithinDistance("location", userGeoPoint, ParseGeoDistance.FromMiles(10.0))
     .FindAsync();
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 You can further limit the fields returned by calling select:
 
@@ -741,7 +741,7 @@ query.find().then(function(results) {
   // each of results will only have the selected fields available.
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -752,7 +752,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("GameScore")
@@ -764,7 +764,7 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -778,7 +778,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var results = await ParseObject.GetQuery("GameScore")
@@ -786,17 +786,17 @@ var results = await ParseObject.GetQuery("GameScore")
      .FindAsync();
 // each of results will only have the selected fields available.
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 ## Client-side Caching
 
@@ -836,7 +836,7 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
   // ratings is 4.5
 });
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 [PFCloud callFunctionInBackground:@"averageStars"
@@ -847,7 +847,7 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The Matrix"]) {
@@ -857,7 +857,7 @@ PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The 
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 HashMap<String, String> params = new HashMap();
@@ -871,7 +871,7 @@ ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 IDictionary<string, object> dictionary = new Dictionary<string, object>
@@ -884,17 +884,17 @@ ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t =
   // result is 4.5
 });
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.
 
@@ -913,7 +913,7 @@ query.count().then(function(count) {
   // Request succeeded
 });
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
@@ -925,7 +925,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("Review")
@@ -938,7 +938,7 @@ query.countObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
@@ -953,7 +953,7 @@ query.countInBackground(new CountCallback() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var count = await ParseObject.GetQuery("Review")
@@ -961,17 +961,17 @@ var count = await ParseObject.GetQuery("Review")
     .WhereEqualTo("movie", movieId)
     .CountAsync();
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the `count()` operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie's review count field. This can be done in an `afterSave` handler:
 
@@ -1003,7 +1003,7 @@ query.find().then(function(results) {
   // Request failed
 });
 ```
-{: .common-lang}
+{: .common-lang-block .js }
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
@@ -1013,7 +1013,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("Movie")
@@ -1024,7 +1024,7 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Movie");
@@ -1037,24 +1037,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var results = await ParseObject.GetQuery("Movie")
     .FindAsync();
 // Results include the reviews count field
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an `afterSave` or `afterDelete` Cloud Code handler. The approach you choose depends on your use case.
 
@@ -1099,7 +1099,7 @@ query.find().then(function(results) {
   // Request failed
 });
 ```
-{: .common-lang}
+{: .common-lang-block-js}
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"Post"];
@@ -1110,7 +1110,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Post"];
   }
 }];
 ```
-{: .common-lang}
+{: .common-lang-block .objc }
 
 ```swift
 let query = PFQuery.queryWithClassName("Post")
@@ -1122,7 +1122,7 @@ query.findObjectsInBackgroundWithBlock {
   }
 }
 ```
-{: .common-lang}
+{: .common-lang-block .swift }
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
@@ -1136,24 +1136,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
   }
 });
 ```
-{: .common-lang}
+{: .common-lang-block .java }
 
 ```csharp
 var results = await ParseObject.GetQuery("Post")
     .WhereContainsAll("hashtags", new[] { "#parse", "#ftw" })
     .FindAsync();
 ```
-{: .common-lang}
+{: .common-lang-block .csharp }
 
 ```bash
 # No REST API example
 ```
-{: .common-lang}
+{: .common-lang-block .bash }
 
 ```cpp
 // No C++ example
 ```
-{: .common-lang}
+{: .common-lang-block .cpp }
 
 ## Limits and Other Considerations
 
