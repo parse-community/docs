@@ -1,14 +1,14 @@
 # Users
 
-At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `%{ParseUser}` that automatically handles much of the functionality required for user account management.
+At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `ParseUser` that automatically handles much of the functionality required for user account management.
 
 With this class, you'll be able to add user account functionality in your app.
 
-`%{ParseUser}` is a subclass of the `%{ParseObject}`, and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `%{ParseObject}` also exist in `%{ParseUser}`. The difference is that `%{ParseUser}` has some special additions specific to user accounts.
+`ParseUser` is a subclass of the `ParseObject`, and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `ParseObject` also exist in `ParseUser`. The difference is that `ParseUser` has some special additions specific to user accounts.
 
 ## Properties
 
-`%{ParseUser}` has several properties that set it apart from `%{ParseObject}`:
+`ParseUser` has several properties that set it apart from `ParseObject`:
 
 *   username: The username for the user (required).
 *   password: The password for the user (required on signup).
@@ -43,13 +43,13 @@ user.signUpInBackground(new SignUpCallback() {
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
-Note that we used the `signUpInBackground` method, not the `saveInBackground` method. New `%{ParseUser}`s should always be created using the `signUpInBackground` (or `signUp`) method. Subsequent updates to a user can be done by calling `save`.
+Note that we used the `signUpInBackground` method, not the `saveInBackground` method. New `ParseUser`s should always be created using the `signUpInBackground` (or `signUp`) method. Subsequent updates to a user can be done by calling `save`.
 
 The `signUpInBackground` method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our [API docs](/docs/android/).
 
 If a signup isn't successful, you should read the error object that is returned. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.
 
-You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property &mdash; `%{ParseUser}` will work as normal. We'll go over how this is handled in the reset password section.
+You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property &mdash; `ParseUser` will work as normal. We'll go over how this is handled in the reset password section.
 
 ## Logging In
 
@@ -69,13 +69,13 @@ ParseUser.logInInBackground("Jerry", "showmethemoney", new LogInCallback() {
 
 ## Verifying Emails
 
-Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `%{ParseUser}` object. When a `%{ParseUser}`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
+Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `ParseUser` object. When a `ParseUser`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
 
 There are three `emailVerified` states to consider:
 
 1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `ParseUsers` can never have a `true` value when the user account is first created.
-2.  `false` - at the time the `%{ParseUser}` object was last fetched, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `fetch()` on the `%{ParseUser}`.
-3.  _missing_ - the `%{ParseUser}` was created when email verification was off or the `%{ParseUser}` does not have an `email`.
+2.  `false` - at the time the `ParseUser` object was last fetched, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `fetch()` on the `ParseUser`.
+3.  _missing_ - the `ParseUser` was created when email verification was off or the `ParseUser` does not have an `email`.
 
 ## Current User
 
@@ -103,7 +103,7 @@ ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
 
 Being able to associate data and objects with individual users is highly valuable, but sometimes you want to be able to do this without forcing a user to specify a username and password.
 
-An anonymous user is a user that can be created without a username and password but still has all of the same capabilities as any other `%{ParseUser}`. After logging out, an anonymous user is abandoned, and its data is no longer accessible.
+An anonymous user is a user that can be created without a username and password but still has all of the same capabilities as any other `ParseUser`. After logging out, an anonymous user is abandoned, and its data is no longer accessible.
 
 You can create an anonymous user using `ParseAnonymousUtils`:
 
@@ -156,9 +156,9 @@ ParseUser.becomeInBackground("session-token-here", new LogInCallback() {
 
 ## Security For User Objects
 
-The `%{ParseUser}` class is secured by default. Data stored in a `%{ParseUser}` can only be modified by that user. By default, the data can still be read by any client. Thus, some `%{ParseUser}` objects are authenticated and can be modified, whereas others are read-only.
+The `ParseUser` class is secured by default. Data stored in a `ParseUser` can only be modified by that user. By default, the data can still be read by any client. Thus, some `ParseUser` objects are authenticated and can be modified, whereas others are read-only.
 
-Specifically, you are not able to invoke any of the `save` or `delete` type methods unless the `%{ParseUser}` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
+Specifically, you are not able to invoke any of the `save` or `delete` type methods unless the `ParseUser` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
 
 The following illustrates this security policy:
 
@@ -179,15 +179,15 @@ query.getInBackground(user.getObjectId(), new GetCallback<ParseUser>() {
 });
 ```
 
-The `%{ParseUser}` obtained from `getCurrentUser()` will always be authenticated.
+The `ParseUser` obtained from `getCurrentUser()` will always be authenticated.
 
-If you need to check if a `%{ParseUser}` is authenticated, you can invoke the `isAuthenticated()` method. You do not need to check `isAuthenticated()` with `%{ParseUser}` objects that are obtained via an authenticated method.
+If you need to check if a `ParseUser` is authenticated, you can invoke the `isAuthenticated()` method. You do not need to check `isAuthenticated()` with `ParseUser` objects that are obtained via an authenticated method.
 
 ## Security for Other Objects
 
-The same security model that applies to the `%{ParseUser}` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
+The same security model that applies to the `ParseUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
 
-The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `%{ParseUser}`. Then, `new ParseACL(user)` generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
+The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, `new ParseACL(user)` generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
 ```java
 ParseObject privateNote = new ParseObject("Note");
@@ -301,11 +301,11 @@ query.findInBackground(new FindCallback<ParseUser>() {
 });
 ```
 
-In addition, you can use `get` to get a `%{ParseUser}` by id.
+In addition, you can use `get` to get a `ParseUser` by id.
 
 ## Associations
 
-Associations involving a `%{ParseUser}` work right of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
+Associations involving a `ParseUser` work right of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
 ```java
 ParseUser user = ParseUser.getCurrentUser();
@@ -325,9 +325,9 @@ query.findInBackground(new FindCallback<ParseObject>() { ... });
 
 ## Facebook Users
 
-Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the `%{ParseUser}` class to make linking your users to their Facebook identities easy.
+Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the `ParseUser` class to make linking your users to their Facebook identities easy.
 
-Using our Facebook integration, you can associate an authenticated Facebook user with a `%{ParseUser}`. With just a few lines of code, you'll be able to provide a "Log in with Facebook" option in your app, and be able to save their data to Parse.
+Using our Facebook integration, you can associate an authenticated Facebook user with a `ParseUser`. With just a few lines of code, you'll be able to provide a "Log in with Facebook" option in your app, and be able to save their data to Parse.
 
 **Note:** Parse is compatible with both Facebook SDK 3.x and 4.x for Android. These instructions are for Facebook SDK 4.x.
 
@@ -359,7 +359,7 @@ If your `Activity` is already using `onActivityResult()`, you can avoid `request
 
 If you encounter any issues that are Facebook-related, a good resource is the [official Facebook SDK for Android page](https://developers.facebook.com/android/).
 
-There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `%{ParseUser}`, or (2) linking Facebook to an existing `%{ParseUser}`.
+There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `ParseUser`, or (2) linking Facebook to an existing `ParseUser`.
 
 <div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
@@ -367,7 +367,7 @@ There are two main ways to use Facebook with your Parse users: (1) logging in as
 
 ### Login &amp; Signup
 
-`ParseFacebookUtils` provides a way to allow your `%{ParseUser}`s to log in or sign up through Facebook. This is generally accomplished using the `logInWithReadPermissionsInBackground(String, Collection<String>)` method:
+`ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is generally accomplished using the `logInWithReadPermissionsInBackground(String, Collection<String>)` method:
 
 ```java
 ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback() {
@@ -388,17 +388,17 @@ When this code is run, the following happens:
 
 1.  The user is shown the Facebook login dialog or a prompt generated by the Facebook app.
 2.  The user authenticates via Facebook, and your app receives a callback.
-3.  Our SDK receives the user's Facebook access data and saves it to a `%{ParseUser}`. If no `%{ParseUser}` exists with the same Facebook ID, then a new `%{ParseUser}` is created.
+3.  Our SDK receives the user's Facebook access data and saves it to a `ParseUser`. If no `ParseUser` exists with the same Facebook ID, then a new `ParseUser` is created.
 4.  Your `LogInCallback` is called with the user.
 5.  The current user reference will be updated to this user.
 
 In order to display the Facebook login dialogs and activities, the current `Activity` must be provided (often, the current activity is `this` when calling `logInWithReadPermissionsInBackground()` from within the `Activity`) as we have done above.
 
-`%{ParseUser}` integration doesn't require any permissions to work out of the box (i.e. `null` is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#fbusers-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+`ParseUser` integration doesn't require any permissions to work out of the box (i.e. `null` is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#fbusers-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 ### Facebook Linking
 
-If you want to associate an existing `%{ParseUser}` to a Facebook account, you can link it like so:
+If you want to associate an existing `ParseUser` to a Facebook account, you can link it like so:
 
 ```java
 if (!ParseFacebookUtils.isLinked(user)) {
@@ -413,7 +413,7 @@ if (!ParseFacebookUtils.isLinked(user)) {
 }
 ```
 
-The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `%{ParseUser}` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
+The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `ParseUser` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
 If you want to unlink Facebook from a user, simply do this:
 
@@ -432,7 +432,7 @@ ParseFacebookUtils.unlinkInBackground(user, new SaveCallback() {
 
 As of v3.0 of the Facebook SDK, read and publish permissions must be requested separately. To request additional permissions, you may call `ParseFacebookUtils.linkWithReadPermissionsInBackground()` or `ParseFacebookUtils.linkWithPublishPermissionsInBackground()`. For more information about requesting new permissions, please see [Facebook's API documentation for these functions](https://developers.facebook.com/docs/facebook-login/android/permissions).
 
-After successfully retrieving new permissions, please call `ParseFacebookUtilities.linkInBackground(ParseUser, AccessToken)`, which will save any changes to the session token back to the `%{ParseUser}` and ensure that this session data follows the user wherever it logs in.
+After successfully retrieving new permissions, please call `ParseFacebookUtilities.linkInBackground(ParseUser, AccessToken)`, which will save any changes to the session token back to the `ParseUser` and ensure that this session data follows the user wherever it logs in.
 
 ### Facebook SDK and Parse
 
@@ -443,7 +443,7 @@ To access the user's `AccessToken` you can simply call `AccessToken.getCurrentAc
 
 ## Twitter Users
 
-As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your `%{ParseUser}`s. With just a few lines of code, you'll be able to provide a "log in with Twitter" option in your app, and be able to save their data to Parse.
+As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your `ParseUser`s. With just a few lines of code, you'll be able to provide a "log in with Twitter" option in your app, and be able to save their data to Parse.
 
 ### Setup
 
@@ -461,11 +461,11 @@ ParseTwitterUtils.initialize("YOUR CONSUMER KEY", "YOUR CONSUMER SECRET");
 
 If you encounter any issues that are Twitter-related, a good resource is the [official Twitter documentation](https://dev.twitter.com/docs).
 
-There are two main ways to use Twitter with your Parse users: (1) logging in as a Twitter user and creating a `%{ParseUser}`, or (2) linking Twitter to an existing `%{ParseUser}`.
+There are two main ways to use Twitter with your Parse users: (1) logging in as a Twitter user and creating a `ParseUser`, or (2) linking Twitter to an existing `ParseUser`.
 
 ### Login &amp; Signup
 
-`ParseTwitterUtils` provides a way to allow your `%{ParseUser}`s to log in or sign up through Twitter. This is accomplished using the `logIn()` method:
+`ParseTwitterUtils` provides a way to allow your `ParseUser`s to log in or sign up through Twitter. This is accomplished using the `logIn()` method:
 
 ```java
 ParseTwitterUtils.logIn(this, new LogInCallback() {
@@ -486,14 +486,14 @@ When this code is run, the following happens:
 
 1.  The user is shown the Twitter login dialog.
 2.  The user authenticates via Twitter, and your app receives a callback.
-3.  Our SDK receives the Twitter data and saves it to a `%{ParseUser}`. If it's a new user based on the Twitter handle, then that user is created.
+3.  Our SDK receives the Twitter data and saves it to a `ParseUser`. If it's a new user based on the Twitter handle, then that user is created.
 4.  Your `LogInCallback` is called with the user.
 
 In order to display the Twitter login dialogs and activities, the current `Context` must be provided (often, the current context is `this` when calling `logIn()` from within the `Activity`) as we have done above.
 
 ### Twitter Linking
 
-If you want to associate an existing `%{ParseUser}` with a Twitter account, you can link it like so:
+If you want to associate an existing `ParseUser` with a Twitter account, you can link it like so:
 
 ```java
 if (!ParseTwitterUtils.isLinked(user)) {
@@ -508,7 +508,7 @@ if (!ParseTwitterUtils.isLinked(user)) {
 }
 ```
 
-The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `%{ParseUser}` is updated with the Twitter information. Future logins via Twitter will now log the user into their existing account.
+The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `ParseUser` is updated with the Twitter information. Future logins via Twitter will now log the user into their existing account.
 
 If you want to unlink Twitter from a user, simply do this:
 
@@ -525,7 +525,7 @@ ParseTwitterUtils.unlinkInBackground(user, new SaveCallback() {
 
 ### Twitter API Calls
 
-Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/docs/api) when your app has a Twitter-linked `%{ParseUser}`.  To make a request through our API, you can use the `Twitter` singleton provided by `ParseTwitterUtils`:
+Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/docs/api) when your app has a Twitter-linked `ParseUser`.  To make a request through our API, you can use the `Twitter` singleton provided by `ParseTwitterUtils`:
 
 ```java
 HttpClient client = new DefaultHttpClient();

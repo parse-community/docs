@@ -10,10 +10,10 @@ To learn more on how to install it - follow the instructions on the official [Gi
 
 ## PFLogInViewController
 
-If you are using Parse to manage users in your mobile app, you are already familiar with the `%{ParseUser}` class. At some point in your app, you might want to present a screen to log in your `%{ParseUser}`. `ParseUI` provides a view controller that does exactly this:
+If you are using Parse to manage users in your mobile app, you are already familiar with the `PFUser` class. At some point in your app, you might want to present a screen to log in your `PFUser`. `ParseUI` provides a view controller that does exactly this:
 
 <div class='tip info'><div>
-  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `%{ParseUser}`.
+  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `PFUser`.
 </div></div>
 
 You use the `PFLogInViewController` class by instantiating it and presenting it modally:
@@ -95,7 +95,7 @@ self.presentViewController(logInController, animated:true, completion:nil)
 
 ### Responding to Log In Success, Failure or Cancellation
 
-When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `%{ParseUser}`.
+When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `PFUser`.
 
 ```objc
 - (void)logInViewController:(PFLogInViewController *)controller
@@ -270,7 +270,7 @@ Essentially, you use the bitwise or operator (`|`) to chain up all the options y
 
 ### Responding to Sign Up Success, Failure or Cancellation
 
-When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `%{ParseUser}`.
+When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `PFUser`.
 
 ```objc
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
@@ -404,7 +404,7 @@ The `PFSignUpViewController` is written to be resolution-independent, meaning it
 
 ## PFQueryTableViewController
 
-Data oriented iOS applications are mostly a collection of `UITableViewController`s and corresponding `UITableView`s. When using Parse, each cell of a `UITableView` typically represents data from a `%{ParseObject}`. `PFQueryTableViewController` is a sub-class of `UITableViewController` that provides a layer of abstraction that lets you easily display data from one of your Parse classes.
+Data oriented iOS applications are mostly a collection of `UITableViewController`s and corresponding `UITableView`s. When using Parse, each cell of a `UITableView` typically represents data from a `PFObject`. `PFQueryTableViewController` is a sub-class of `UITableViewController` that provides a layer of abstraction that lets you easily display data from one of your Parse classes.
 
 <div class='tip info'><div>
   Watch a [tutorial on using PFQueryTableViewController](/tutorials/parse-query-table) to display objects from a `Todo` class in your Parse application.
@@ -415,12 +415,12 @@ You use `PFQueryTableViewController` much like how you would use `UITableViewCon
 1.  Make a subclass of `PFQueryTableViewController` and customize it. Use the [template file](https://gist.github.com/ba03c1a550f14f88f95d) as a starting point.
 2.  It automatically sets itself as the delegate and datasource.
 3.  Set the `parseClassName` instance variable to specify which Parse class should be queried for data.
-4.  Override the `queryForTable` method to construct a custom `%{ParseQuery}` that should be used to get objects for the table.
-5.  Override the `tableView:cellForRowAtIndexPath:object:` method to return a custom cell tailored for each `%{ParseObject}`.
+4.  Override the `queryForTable` method to construct a custom `PFQuery` that should be used to get objects for the table.
+5.  Override the `tableView:cellForRowAtIndexPath:object:` method to return a custom cell tailored for each `PFObject`.
 6.  Implement your custom cell class; makes sure it inherits from `PFTableViewCell` class.
-7.  When the view loads, the class automatically grabs the `%{ParseObject}`s via the constructed query and loads it into the table. It even includes pagination and pull-to-refresh out of the box.
+7.  When the view loads, the class automatically grabs the `PFObject`s via the constructed query and loads it into the table. It even includes pagination and pull-to-refresh out of the box.
 
-The class allows you to think about a one-to-one mapping between a `%{ParseObject}` and a `UITableViewCell`, rather than having to juggle index paths. You also get the following features out of the box:
+The class allows you to think about a one-to-one mapping between a `PFObject` and a `UITableViewCell`, rather than having to juggle index paths. You also get the following features out of the box:
 
 *   Pagination with a cell that can be tapped to load the next page.
 *   Pull-to-refresh table view header.
@@ -546,7 +546,7 @@ A good starting point to learn more is to look at the [API for the class](/image
 
 ### Loading Remote Images in Cells
 
-`PFQueryTableViewController` makes it simple to display remote images stored in the Parse Cloud as `%{ParseFile}`s. All you need to do is to override `tableView:cellForRowAtIndexPath:object:` and return a `PFTableViewCell` with its `imageView`'s `file` property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the `image` property of the `imageView`.
+`PFQueryTableViewController` makes it simple to display remote images stored in the Parse Cloud as `PFFile`s. All you need to do is to override `tableView:cellForRowAtIndexPath:object:` and return a `PFTableViewCell` with its `imageView`'s `file` property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the `image` property of the `imageView`.
 
 ```objc
 @implementation SimpleTableViewController
@@ -586,17 +586,17 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
 
 <img src="https://parse.com/images/docs/images_table.png" style="max-width:200px"/>
 
-This table shows a list of cute animal photos which are stored in the Parse Cloud, as `%{ParseFile}`s. "placeholder.jpg" is an image included in the application bundle which is shown before the animal photos are downloaded.
+This table shows a list of cute animal photos which are stored in the Parse Cloud, as `PFFile`s. "placeholder.jpg" is an image included in the application bundle which is shown before the animal photos are downloaded.
 
 The images are downloaded on demand. As you scroll through the table, the images in the currently visible cells are downloaded. This just-in-time behavior is desirable because not only does it conserve bandwidth, it also ensures timely display of visible images. If a more aggressive loading behavior is desired, you can use the `loadInBackground` method on `imageView` to download the image.
 
 ### Customizing the Query
 
-The default query is set to get objects from your class ordered by descending `createdAt`. To customize, simply override the `queryForTable` method to return your own `%{ParseQuery}`. The table will use this query when getting objects to display.
+The default query is set to get objects from your class ordered by descending `createdAt`. To customize, simply override the `queryForTable` method to return your own `PFQuery`. The table will use this query when getting objects to display.
 
 ### Customizing the Cells
 
-To customize the look of your table, override `tableView:cellForRowAtIndexPath:object:` to return a customized cell. Notice that this method is similar to the typical table data source method, but it includes the `%{ParseObject}` directly as a parameter.
+To customize the look of your table, override `tableView:cellForRowAtIndexPath:object:` to return a customized cell. Notice that this method is similar to the typical table data source method, but it includes the `PFObject` directly as a parameter.
 
 You should no longer override `tableView:cellForRowAtIndexPath:`.
 
@@ -634,7 +634,7 @@ When the user is offline or a Parse error was generated from a query, an alert c
 
 ## PFImageView
 
-Many apps need to display images stored in the Parse Cloud as `%{ParseFile}`s. However, to load remote images with the built-in `UIImageView` involves writing many lines of boilerplate code. `PFImageView` simplifies this task:
+Many apps need to display images stored in the Parse Cloud as `PFFile`s. However, to load remote images with the built-in `UIImageView` involves writing many lines of boilerplate code. `PFImageView` simplifies this task:
 
 ```objc
 PFImageView *imageView = [[PFImageView alloc] init];
@@ -655,7 +655,7 @@ If assigned to, the `image` property is used to display a placeholder before the
 
 ## PFTableViewCell
 
-Many apps need to display table view cells which contain images stored in the Parse Cloud as `%{ParseFile}`s. However, to load remote images with the built-in `UITableViewCell` involves writing many lines of boilerplate code. `PFTableViewCell` simplifies this task by exposing an `imageView` property of the type `PFImageView` that supports remote image loading:
+Many apps need to display table view cells which contain images stored in the Parse Cloud as `PFFile`s. However, to load remote images with the built-in `UITableViewCell` involves writing many lines of boilerplate code. `PFTableViewCell` simplifies this task by exposing an `imageView` property of the type `PFImageView` that supports remote image loading:
 
 ```objc
 @implementation SimpleTableViewController
@@ -695,7 +695,7 @@ func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexP
 }
 ```
 
-Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `%{ParseFile}`.
+Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFile`.
 
 Although it can be used independently, `PFTableViewCell` really shines when used in `PFQueryTableViewController`. `PFQueryTableViewController` knows about `PFTableViewCell` and loads the images automatically. This behavior is discussed in detail in the documentation for `PFQueryTableViewController`.
 

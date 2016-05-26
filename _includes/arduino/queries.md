@@ -1,10 +1,10 @@
 # Queries
 
-We've already seen how a`ParseObjectGet` with an`objectId` can retrieve a single object from Parse. There are many other ways to retrieve data with`%{ParseQuery}` -- you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
+We've already seen how a `ParseObjectGet` with an `objectId` can retrieve a single object from Parse. There are many other ways to retrieve data with `ParseQuery` -- you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
 
 ## Basic Queries
 
-The general pattern is to create a`%{ParseQuery}`, put conditions on it, and then retrieve objects from the response. For example, to retrieve temperature data at a particular temperature, use the`whereEqualToInt` function to constrain the value for a key.
+The general pattern is to create a `ParseQuery`, put conditions on it, and then retrieve objects from the response. For example, to retrieve temperature data at a particular temperature, use the`whereEqualToInt` function to constrain the value for a key.
 
 ```cpp
 ParseQuery query;
@@ -42,7 +42,7 @@ You can limit the number of results by setting a limit. By default, results are 
 query.setLimit(10);
 ```
 
-You can skip the first results by setting`skip`. This can be useful for pagination:
+You can skip the first results by setting `skip`. This can be useful for pagination:
 
 ```cpp
 query.setSkip(10);
@@ -80,4 +80,4 @@ You can restrict the fields returned by calling setKeys with a list of keys as a
 query.setKeys("temperature");
 ```
 
-This is useful if the object has fields which are not required by the device. Since the Arduino is a constrained environment, we recommend using a combination of`setKeys` and`setLimit` to reduce processing and memory overhead.
+This is useful if the object has fields which are not required by the device. Since the Arduino is a constrained environment, we recommend using a combination of `setKeys` and`setLimit` to reduce processing and memory overhead.

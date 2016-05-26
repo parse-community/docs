@@ -239,9 +239,9 @@
 
 <h2 id="the-pfobject">The PFObject</h2>
 
-<p>Storing data on Parse is built around the <code class="highlighter-rouge">%{ParseObject}</code>. Each <code class="highlighter-rouge">%{ParseObject}</code> contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don’t need to specify ahead of time what keys exist on each <code class="highlighter-rouge">%{ParseObject}</code>. You simply set whatever key-value pairs you want, and our backend will store it.</p>
+<p>Storing data on Parse is built around the <code class="highlighter-rouge">PFObject</code>. Each <code class="highlighter-rouge">PFObject</code> contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don’t need to specify ahead of time what keys exist on each <code class="highlighter-rouge">PFObject</code>. You simply set whatever key-value pairs you want, and our backend will store it.</p>
 
-<p>For example, let’s say you’re tracking high scores for a game. A single <code class="highlighter-rouge">%{ParseObject}</code> could contain:</p>
+<p>For example, let’s say you’re tracking high scores for a game. A single <code class="highlighter-rouge">PFObject</code> could contain:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">score</span><span class="err">:</span> <span class="mi">1337</span><span class="p">,</span> <span class="nx">playerName</span><span class="err">:</span> <span class="s2">"Sean Plott"</span><span class="p">,</span> <span class="nx">cheatMode</span><span class="err">:</span> <span class="kc">false</span>
 </code></pre>
@@ -249,7 +249,7 @@
 
 <p>Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.</p>
 
-<p>Each <code class="highlighter-rouge">%{ParseObject}</code> has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a <code class="highlighter-rouge">GameScore</code>. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.</p>
+<p>Each <code class="highlighter-rouge">PFObject</code> has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a <code class="highlighter-rouge">GameScore</code>. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.</p>
 
 <h2 id="saving-objects">Saving Objects</h2>
 
@@ -293,13 +293,13 @@
 
 <p>There are two things to note here. You didn’t have to configure or set up a new Class called <code class="highlighter-rouge">GameScore</code> before running this code. Your Parse app lazily creates this Class for you when it first encounters it.</p>
 
-<p>There are also a few fields you don’t need to specify that are provided as a convenience. <code class="highlighter-rouge">objectId</code> is a unique identifier for each saved object. <code class="highlighter-rouge">createdAt</code> and <code class="highlighter-rouge">updatedAt</code> represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don’t exist on a <code class="highlighter-rouge">%{ParseObject}</code> until a save operation has completed.</p>
+<p>There are also a few fields you don’t need to specify that are provided as a convenience. <code class="highlighter-rouge">objectId</code> is a unique identifier for each saved object. <code class="highlighter-rouge">createdAt</code> and <code class="highlighter-rouge">updatedAt</code> represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don’t exist on a <code class="highlighter-rouge">PFObject</code> until a save operation has completed.</p>
 
 <p>Note: You can use the <code class="highlighter-rouge">saveInBackgroundWithBlock</code> method to provide additional logic to run after the save completes.</p>
 
 <h2 id="retrieving-objects">Retrieving Objects</h2>
 
-<p>Saving data to the cloud is fun, but it’s even more fun to get that data out again. If you have the <code class="highlighter-rouge">objectId</code>, you can retrieve the whole <code class="highlighter-rouge">%{ParseObject}</code> using a <code class="highlighter-rouge">%{ParseQuery}</code>.  This is an asynchronous method, with variations for using either blocks or callback methods:</p>
+<p>Saving data to the cloud is fun, but it’s even more fun to get that data out again. If you have the <code class="highlighter-rouge">objectId</code>, you can retrieve the whole <code class="highlighter-rouge">PFObject</code> using a <code class="highlighter-rouge">PFQuery</code>.  This is an asynchronous method, with variations for using either blocks or callback methods:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">query</span> <span class="nf">getObjectInBackgroundWithId</span><span class="p">:</span><span class="s">@"xWMyZ4YEGZ"</span> <span class="nf">block</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">PFObject</span> <span class="o">*</span><span class="n">gameScore</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -323,7 +323,7 @@
 </code></pre>
 </div>
 
-<p>To get the values out of the <code class="highlighter-rouge">%{ParseObject}</code>, you can use either the <code class="highlighter-rouge">objectForKey:</code> method or the <code class="highlighter-rouge">[]</code> subscripting operator:</p>
+<p>To get the values out of the <code class="highlighter-rouge">PFObject</code>, you can use either the <code class="highlighter-rouge">objectForKey:</code> method or the <code class="highlighter-rouge">[]</code> subscripting operator:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">score</span> <span class="o">=</span> <span class="p">[[</span><span class="n">gameScore</span> <span class="nf">objectForKey</span><span class="p">:</span><span class="s">@"score"</span><span class="p">]</span> <span class="nf">intValue</span><span class="p">];</span>
 <span class="n">NSString</span> <span class="o">*</span><span class="n">playerName</span> <span class="o">=</span> <span class="n">gameScore</span><span class="p">[</span><span class="s">@"playerName"</span><span class="p">];</span>
@@ -384,7 +384,7 @@
 
 <h3 id="retrieving-objects-from-the-local-datastore">Retrieving Objects from the Local Datastore</h3>
 
-<p>Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a <code class="highlighter-rouge">%{ParseQuery}</code> just like you would while on the network, but using the <code class="highlighter-rouge">fromLocalDatastore</code> method to tell it where to get the data.</p>
+<p>Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a <code class="highlighter-rouge">PFQuery</code> just like you would while on the network, but using the <code class="highlighter-rouge">fromLocalDatastore</code> method to tell it where to get the data.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">query</span> <span class="nf">fromLocalDatastore</span><span class="p">];</span>
@@ -475,7 +475,7 @@
 
 <h2 id="updating-objects">Updating Objects</h2>
 
-<p>Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the <code class="highlighter-rouge">objectId</code>, you can retrieve the <code class="highlighter-rouge">%{ParseObject}</code> using a <code class="highlighter-rouge">%{ParseQuery}</code> and update its data:</p>
+<p>Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the <code class="highlighter-rouge">objectId</code>, you can retrieve the <code class="highlighter-rouge">PFObject</code> using a <code class="highlighter-rouge">PFQuery</code> and update its data:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 
@@ -592,7 +592,7 @@
 
 <h2 id="relational-data">Relational Data</h2>
 
-<p>Objects can have relationships with other objects. To model this behavior, any <code class="highlighter-rouge">%{ParseObject}</code> can be used as a value in other <code class="highlighter-rouge">%{ParseObject}</code>s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.</p>
+<p>Objects can have relationships with other objects. To model this behavior, any <code class="highlighter-rouge">PFObject</code> can be used as a value in other <code class="highlighter-rouge">PFObject</code>s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.</p>
 
 <p>For example, each <code class="highlighter-rouge">Comment</code> in a blogging app might correspond to one <code class="highlighter-rouge">Post</code>. To create a new <code class="highlighter-rouge">Post</code> with a single <code class="highlighter-rouge">Comment</code>, you could write:</p>
 
@@ -640,7 +640,7 @@
 </code></pre>
 </div>
 
-<p>By default, when fetching an object, related <code class="highlighter-rouge">%{ParseObject}</code>s are not fetched.  These objects’ values cannot be retrieved until they have been fetched like so:</p>
+<p>By default, when fetching an object, related <code class="highlighter-rouge">PFObject</code>s are not fetched.  These objects’ values cannot be retrieved until they have been fetched like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFObject</span> <span class="o">*</span><span class="n">post</span> <span class="o">=</span> <span class="n">fetchedComment</span><span class="p">[</span><span class="s">@"parent"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">post</span> <span class="nf">fetchIfNeededInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">PFObject</span> <span class="o">*</span><span class="n">post</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -658,7 +658,7 @@
 </code></pre>
 </div>
 
-<p>You can also model a many-to-many relation using the <code class="highlighter-rouge">PFRelation</code> object.  This works similar to an <code class="highlighter-rouge">NSArray</code> of <code class="highlighter-rouge">PFObjects</code>, except that you don’t need to download all the Objects in a relation at once.  This allows <code class="highlighter-rouge">PFRelation</code> to scale to many more objects than the <code class="highlighter-rouge">NSArray</code> of <code class="highlighter-rouge">%{ParseObject}</code> approach.  For example, a <code class="highlighter-rouge">User</code> may have many <code class="highlighter-rouge">Post</code>s that they might like.  In this case, you can store the set of <code class="highlighter-rouge">Post</code>s that a <code class="highlighter-rouge">User</code> likes using <code class="highlighter-rouge">relationForKey:</code>.  In order to add a post to the list, the code would look something like:</p>
+<p>You can also model a many-to-many relation using the <code class="highlighter-rouge">PFRelation</code> object.  This works similar to an <code class="highlighter-rouge">NSArray</code> of <code class="highlighter-rouge">PFObjects</code>, except that you don’t need to download all the Objects in a relation at once.  This allows <code class="highlighter-rouge">PFRelation</code> to scale to many more objects than the <code class="highlighter-rouge">NSArray</code> of <code class="highlighter-rouge">PFObject</code> approach.  For example, a <code class="highlighter-rouge">User</code> may have many <code class="highlighter-rouge">Post</code>s that they might like.  In this case, you can store the set of <code class="highlighter-rouge">Post</code>s that a <code class="highlighter-rouge">User</code> likes using <code class="highlighter-rouge">relationForKey:</code>.  In order to add a post to the list, the code would look something like:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFUser</span> <span class="o">*</span><span class="n">user</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFUser</span> <span class="nf">currentUser</span><span class="p">];</span>
 <span class="n">PFRelation</span> <span class="o">*</span><span class="n">relation</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span> <span class="nf">relationForKey</span><span class="p">:</span><span class="s">@"likes"</span><span class="p">];</span>
@@ -695,7 +695,7 @@
 </code></pre>
 </div>
 
-<p>By default, the list of objects in this relation are not downloaded.  You can get the list of <code class="highlighter-rouge">Post</code>s by using calling <code class="highlighter-rouge">findObjectsInBackgroundWithBlock:</code> on the <code class="highlighter-rouge">%{ParseQuery}</code> returned by <code class="highlighter-rouge">query</code>.  The code would look like:</p>
+<p>By default, the list of objects in this relation are not downloaded.  You can get the list of <code class="highlighter-rouge">Post</code>s by using calling <code class="highlighter-rouge">findObjectsInBackgroundWithBlock:</code> on the <code class="highlighter-rouge">PFQuery</code> returned by <code class="highlighter-rouge">query</code>.  The code would look like:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[[</span><span class="n">relation</span> <span class="nf">query</span><span class="p">]</span> <span class="nf">findObjectsInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">objects</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -717,7 +717,7 @@
 </code></pre>
 </div>
 
-<p>If you want only a subset of the <code class="highlighter-rouge">Post</code>s you can add extra constraints to the <code class="highlighter-rouge">%{ParseQuery}</code> returned by <code class="highlighter-rouge">query</code> like this:</p>
+<p>If you want only a subset of the <code class="highlighter-rouge">Post</code>s you can add extra constraints to the <code class="highlighter-rouge">PFQuery</code> returned by <code class="highlighter-rouge">query</code> like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">relation</span> <span class="nf">query</span><span class="p">];</span>
 <span class="c1">// Add other query constraints.
@@ -728,23 +728,23 @@
 </code></pre>
 </div>
 
-<p>For more details on <code class="highlighter-rouge">%{ParseQuery}</code> please look at the query portion of this guide.  A <code class="highlighter-rouge">PFRelation</code> behaves similar to an <code class="highlighter-rouge">NSArray</code> of <code class="highlighter-rouge">%{ParseObject}</code>, so any queries you can do on arrays of objects (other than <code class="highlighter-rouge">includeKey:</code>) you can do on <code class="highlighter-rouge">PFRelation</code>.</p>
+<p>For more details on <code class="highlighter-rouge">PFQuery</code> please look at the query portion of this guide.  A <code class="highlighter-rouge">PFRelation</code> behaves similar to an <code class="highlighter-rouge">NSArray</code> of <code class="highlighter-rouge">PFObject</code>, so any queries you can do on arrays of objects (other than <code class="highlighter-rouge">includeKey:</code>) you can do on <code class="highlighter-rouge">PFRelation</code>.</p>
 
 <h2 id="data-types">Data Types</h2>
 
-<p>So far we’ve used values with type <code class="highlighter-rouge">%{string}</code>, <code class="highlighter-rouge">%{integer}</code>, and <code class="highlighter-rouge">%{ParseObject}</code>. Parse also supports <code class="highlighter-rouge">%{date}</code>, <code class="highlighter-rouge">%{map}</code>, <code class="highlighter-rouge">%{array}</code>, and <code class="highlighter-rouge">%{null}</code>. You can nest <code class="highlighter-rouge">%{map}</code> and <code class="highlighter-rouge">%{array}</code> objects to store more structured data within a single <code class="highlighter-rouge">%{ParseObject}</code>. Overall, the following types are allowed for each field in your object:</p>
+<p>So far we’ve used values with type <code class="highlighter-rouge">NSString</code>, <code class="highlighter-rouge">NSNumber</code>, and <code class="highlighter-rouge">PFObject</code>. Parse also supports <code class="highlighter-rouge">NSDate</code>, <code class="highlighter-rouge">NSObject</code>, <code class="highlighter-rouge">NSArray</code>, and <code class="highlighter-rouge">NSNull</code>. You can nest <code class="highlighter-rouge">NSObject</code> and <code class="highlighter-rouge">NSArray</code> objects to store more structured data within a single <code class="highlighter-rouge">PFObject</code>. Overall, the following types are allowed for each field in your object:</p>
 
 <ul>
-  <li>String =&gt; <code class="highlighter-rouge">%{string}</code></li>
-  <li>Number =&gt; <code class="highlighter-rouge">%{integer}</code></li>
-  <li>Bool =&gt; <code class="highlighter-rouge">%{bool}</code></li>
-  <li>Array =&gt; <code class="highlighter-rouge">%{array}</code></li>
-  <li>Object =&gt; <code class="highlighter-rouge">%{map}</code></li>
-  <li>Date =&gt; <code class="highlighter-rouge">%{date}</code></li>
-  <li>File =&gt; <code class="highlighter-rouge">%{ParseFile}</code></li>
-  <li>Pointer =&gt; other <code class="highlighter-rouge">%{ParseObject}</code></li>
-  <li>Relation =&gt; <code class="highlighter-rouge">%{ParseRelation}</code></li>
-  <li>Null =&gt; <code class="highlighter-rouge">%{null}</code></li>
+  <li>String =&gt; <code class="highlighter-rouge">NSString</code></li>
+  <li>Number =&gt; <code class="highlighter-rouge">NSNumber</code></li>
+  <li>Bool =&gt; <code class="highlighter-rouge">NSNumber</code></li>
+  <li>Array =&gt; <code class="highlighter-rouge">NSArray</code></li>
+  <li>Object =&gt; <code class="highlighter-rouge">NSObject</code></li>
+  <li>Date =&gt; <code class="highlighter-rouge">NSDate</code></li>
+  <li>File =&gt; <code class="highlighter-rouge">PFFile</code></li>
+  <li>Pointer =&gt; other <code class="highlighter-rouge">PFObject</code></li>
+  <li>Relation =&gt; <code class="highlighter-rouge">PFRelation</code></li>
+  <li>Null =&gt; <code class="highlighter-rouge">NSNull</code></li>
 </ul>
 
 <p>Some examples:</p>
@@ -792,13 +792,13 @@
 </code></pre>
 </div>
 
-<p>We do not recommend storing large pieces of binary data like images or documents on <code class="highlighter-rouge">%{ParseObject}</code>. <code class="highlighter-rouge">%{ParseObject}</code>s should not exceed 128 kilobytes in size. We recommend you use <code class="highlighter-rouge">%{ParseFile}</code>s to store images, documents, and other types of files. You can do so by instantiating a <code class="highlighter-rouge">%{ParseFile}</code> object and setting it on a field. See <a href="#files">Files</a> for more details.</p>
+<p>We do not recommend storing large pieces of binary data like images or documents on <code class="highlighter-rouge">PFObject</code>. <code class="highlighter-rouge">PFObject</code>s should not exceed 128 kilobytes in size. We recommend you use <code class="highlighter-rouge">PFFile</code>s to store images, documents, and other types of files. You can do so by instantiating a <code class="highlighter-rouge">PFFile</code> object and setting it on a field. See <a href="#files">Files</a> for more details.</p>
 
 <p>For more information about how Parse handles data, check out our documentation on <a href="#data">Data</a>.</p>
 
 <h2 id="subclasses">Subclasses</h2>
 
-<p>Parse is designed to get you up and running as quickly as possible. You can access all of your data using the <code class="highlighter-rouge">%{ParseObject}</code> class and access any field with <code class="highlighter-rouge">objectForKey:</code> or the <code class="highlighter-rouge">[]</code> subscripting operator. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:</p>
+<p>Parse is designed to get you up and running as quickly as possible. You can access all of your data using the <code class="highlighter-rouge">PFObject</code> class and access any field with <code class="highlighter-rouge">objectForKey:</code> or the <code class="highlighter-rouge">[]</code> subscripting operator. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFObject</span> <span class="o">*</span><span class="n">shield</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFObject</span> <span class="nf">objectWithClassName</span><span class="p">:</span><span class="s">@"Armor"</span><span class="p">];</span>
 <span class="n">shield</span><span class="p">[</span><span class="s">@"displayName"</span><span class="p">]</span> <span class="o">=</span> <span class="s">@"Wooden Shield"</span><span class="p">;</span>
@@ -830,7 +830,7 @@
 
 <h3 id="subclassing-pfobject">Subclassing PFObject</h3>
 
-<p>To create a <code class="highlighter-rouge">%{ParseObject}</code> subclass:</p>
+<p>To create a <code class="highlighter-rouge">PFObject</code> subclass:</p>
 
 <ol>
   <li>Declare a subclass which conforms to the <code class="highlighter-rouge">PFSubclassing</code> protocol.</li>
@@ -843,7 +843,7 @@
 
 <p>Please note that the <code class="highlighter-rouge">initialize</code> method is not called until the class receives its first message, meaning that you need to call any instance or class method on your subclass before it will be registered with Parse SDK.</p>
 
-<p>The following code sucessfully declares, implements, and registers the <code class="highlighter-rouge">Armor</code> subclass of <code class="highlighter-rouge">%{ParseObject}</code>:</p>
+<p>The following code sucessfully declares, implements, and registers the <code class="highlighter-rouge">Armor</code> subclass of <code class="highlighter-rouge">PFObject</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Armor.h
 </span><span class="k">@interface</span> <span class="nc">Armor</span> <span class="p">:</span> <span class="nc">PFObject</span><span class="o">&lt;</span><span class="n">PFSubclassing</span><span class="o">&gt;</span>
@@ -892,9 +892,9 @@
 
 <h3 id="properties--methods">Properties &amp; Methods</h3>
 
-<p>Adding custom properties and methods to your <code class="highlighter-rouge">%{ParseObject}</code> subclass helps encapsulate logic about the class. With <code class="highlighter-rouge">PFSubclassing</code>, you can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.</p>
+<p>Adding custom properties and methods to your <code class="highlighter-rouge">PFObject</code> subclass helps encapsulate logic about the class. With <code class="highlighter-rouge">PFSubclassing</code>, you can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.</p>
 
-<p><code class="highlighter-rouge">%{ParseObject}</code> supports dynamic synthesizers just like <code class="highlighter-rouge">NSManagedObject</code>. Declare a property as you normally would, but use <code class="highlighter-rouge">@dynamic</code> rather than <code class="highlighter-rouge">@synthesize</code> in your .m file. The following example creates a <code class="highlighter-rouge">displayName</code> property in the <code class="highlighter-rouge">Armor</code> class:</p>
+<p><code class="highlighter-rouge">PFObject</code> supports dynamic synthesizers just like <code class="highlighter-rouge">NSManagedObject</code>. Declare a property as you normally would, but use <code class="highlighter-rouge">@dynamic</code> rather than <code class="highlighter-rouge">@synthesize</code> in your .m file. The following example creates a <code class="highlighter-rouge">displayName</code> property in the <code class="highlighter-rouge">Armor</code> class:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Armor.h
 </span><span class="k">@interface</span> <span class="nc">Armor</span> <span class="p">:</span> <span class="nc">PFObject</span><span class="o">&lt;</span><span class="n">PFSubclassing</span><span class="o">&gt;</span>
@@ -976,13 +976,13 @@
                     
                     <h1 id="queries">Queries</h1>
 
-<p>We’ve already seen how a <code class="highlighter-rouge">%{ParseQuery}</code> with <code class="highlighter-rouge">getObjectInBackgroundWithId:block:</code> can retrieve a single <code class="highlighter-rouge">%{ParseObject}</code> from Parse. There are many other ways to retrieve data with <code class="highlighter-rouge">%{ParseQuery}</code> - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.</p>
+<p>We’ve already seen how a <code class="highlighter-rouge">PFQuery</code> with <code class="highlighter-rouge">getObjectInBackgroundWithId:block:</code> can retrieve a single <code class="highlighter-rouge">PFObject</code> from Parse. There are many other ways to retrieve data with <code class="highlighter-rouge">PFQuery</code> - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.</p>
 
 <h2 id="basic-queries">Basic Queries</h2>
 
-<p>In many cases, <code class="highlighter-rouge">getObjectInBackgroundWithId:block:</code> isn’t powerful enough to specify which objects you want to retrieve. The <code class="highlighter-rouge">%{ParseQuery}</code> offers different ways to retrieve a list of objects rather than just a single object.</p>
+<p>In many cases, <code class="highlighter-rouge">getObjectInBackgroundWithId:block:</code> isn’t powerful enough to specify which objects you want to retrieve. The <code class="highlighter-rouge">PFQuery</code> offers different ways to retrieve a list of objects rather than just a single object.</p>
 
-<p>The general pattern is to create a <code class="highlighter-rouge">%{ParseQuery}</code>, put conditions on it, and then retrieve a <code class="highlighter-rouge">NSArray</code> of matching <code class="highlighter-rouge">%{ParseObject}</code>s using either <code class="highlighter-rouge">findObjectsInBackgroundWithBlock:</code> or <code class="highlighter-rouge">findObjectsInBackgroundWithTarget:selector:</code>. For example, to retrieve scores with a particular <code class="highlighter-rouge">playerName</code>, use the <code class="highlighter-rouge">whereKey:equalTo:</code> method to constrain the value for a key.</p>
+<p>The general pattern is to create a <code class="highlighter-rouge">PFQuery</code>, put conditions on it, and then retrieve a <code class="highlighter-rouge">NSArray</code> of matching <code class="highlighter-rouge">PFObject</code>s using either <code class="highlighter-rouge">findObjectsInBackgroundWithBlock:</code> or <code class="highlighter-rouge">findObjectsInBackgroundWithTarget:selector:</code>. For example, to retrieve scores with a particular <code class="highlighter-rouge">playerName</code>, use the <code class="highlighter-rouge">whereKey:equalTo:</code> method to constrain the value for a key.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">query</span> <span class="nf">whereKey</span><span class="p">:</span><span class="s">@"playerName"</span> <span class="nf">equalTo</span><span class="p">:</span><span class="s">@"Dan Stemkoski"</span><span class="p">];</span>
@@ -1053,7 +1053,7 @@
 
 <h2 id="specifying-constraints-with-nspredicate">Specifying Constraints with NSPredicate</h2>
 
-<p>To get the most out of <code class="highlighter-rouge">%{ParseQuery}</code> we recommend using its methods listed below to add constraints. However, if you prefer using <code class="highlighter-rouge">NSPredicate</code>, a subset of the constraints can be specified by providing an <code class="highlighter-rouge">NSPredicate</code> when creating your <code class="highlighter-rouge">%{ParseQuery}</code>.</p>
+<p>To get the most out of <code class="highlighter-rouge">PFQuery</code> we recommend using its methods listed below to add constraints. However, if you prefer using <code class="highlighter-rouge">NSPredicate</code>, a subset of the constraints can be specified by providing an <code class="highlighter-rouge">NSPredicate</code> when creating your <code class="highlighter-rouge">PFQuery</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">NSPredicate</span> <span class="o">*</span><span class="n">predicate</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSPredicate</span> <span class="nf">predicateWithFormat</span><span class="p">:</span><span class="s">@"playerName = 'Dan Stemkosk'"</span><span class="p">];</span>
 <span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span> <span class="nf">predicate</span><span class="p">:</span><span class="n">predicate</span><span class="p">];</span>
@@ -1086,7 +1086,7 @@
 
 <h2 id="query-constraints">Query Constraints</h2>
 
-<p>There are several ways to put constraints on the objects found by a <code class="highlighter-rouge">%{ParseQuery}</code>. You can filter out objects with a particular key-value pair with <code class="highlighter-rouge">whereKey:notEqualTo</code>:</p>
+<p>There are several ways to put constraints on the objects found by a <code class="highlighter-rouge">PFQuery</code>. You can filter out objects with a particular key-value pair with <code class="highlighter-rouge">whereKey:notEqualTo</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Using PFQuery
 </span><span class="p">[</span><span class="n">query</span> <span class="nf">whereKey</span><span class="p">:</span><span class="s">@"playerName"</span> <span class="nf">notEqualTo</span><span class="p">:</span><span class="s">@"Michael Yabuti"</span><span class="p">];</span>
@@ -1487,7 +1487,7 @@ If you're trying to implement a generic search feature, we recommend taking a lo
 
 <h2 id="relational-queries">Relational Queries</h2>
 
-<p>There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular <code class="highlighter-rouge">%{ParseObject}</code>, you can use <code class="highlighter-rouge">whereKey:equalTo:</code> just like for other data types. For example, if each <code class="highlighter-rouge">Comment</code> has a <code class="highlighter-rouge">Post</code> object in its <code class="highlighter-rouge">post</code> field, you can fetch comments for a particular <code class="highlighter-rouge">Post</code>:</p>
+<p>There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular <code class="highlighter-rouge">PFObject</code>, you can use <code class="highlighter-rouge">whereKey:equalTo:</code> just like for other data types. For example, if each <code class="highlighter-rouge">Comment</code> has a <code class="highlighter-rouge">Post</code> object in its <code class="highlighter-rouge">post</code> field, you can fetch comments for a particular <code class="highlighter-rouge">Post</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Assume PFObject *myPost was previously created.
 // Using PFQuery
@@ -1545,7 +1545,7 @@ If you're trying to implement a generic search feature, we recommend taking a lo
 </code></pre>
 </div>
 
-<p>If you want to retrieve objects where a field contains a <code class="highlighter-rouge">%{ParseObject}</code> that match a different query, you can use <code class="highlighter-rouge">whereKey:matchesQuery</code>. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:</p>
+<p>If you want to retrieve objects where a field contains a <code class="highlighter-rouge">PFObject</code> that match a different query, you can use <code class="highlighter-rouge">whereKey:matchesQuery</code>. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Using PFQuery
 </span><span class="n">PFQuery</span> <span class="o">*</span><span class="n">innerQuery</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"Post"</span><span class="p">];</span>
@@ -1592,7 +1592,7 @@ If you're trying to implement a generic search feature, we recommend taking a lo
 </code></pre>
 </div>
 
-<p>If you want to retrieve objects where a field contains a <code class="highlighter-rouge">%{ParseObject}</code> that does not match a different query, you can use <code class="highlighter-rouge">whereKey:doesNotMatchQuery</code>.  In order to find comments for posts without images, you can do:</p>
+<p>If you want to retrieve objects where a field contains a <code class="highlighter-rouge">PFObject</code> that does not match a different query, you can use <code class="highlighter-rouge">whereKey:doesNotMatchQuery</code>.  In order to find comments for posts without images, you can do:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Using PFQuery
 </span><span class="n">PFQuery</span> <span class="o">*</span><span class="n">innerQuery</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"Post"</span><span class="p">];</span>
@@ -1869,7 +1869,7 @@ PFQuery.clearAllCachedResults()
 </code></pre>
 </div>
 
-<p>You can add additional constraints to the newly created <code class="highlighter-rouge">%{ParseQuery}</code> that act as an ‘and’ operator.</p>
+<p>You can add additional constraints to the newly created <code class="highlighter-rouge">PFQuery</code> that act as an ‘and’ operator.</p>
 
 <p>Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. <code class="highlighter-rouge">nearGeoPoint</code>, <code class="highlighter-rouge">withinGeoBox...:</code>, <code class="highlighter-rouge">limit</code>, <code class="highlighter-rouge">skip</code>, <code class="highlighter-rouge">orderBy...:</code>, <code class="highlighter-rouge">includeKey:</code>) in the subqueries of the compound query.</p>
 
@@ -1911,15 +1911,15 @@ PFQuery.clearAllCachedResults()
                     
                     <h1 id="users">Users</h1>
 
-<p>At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called <code class="highlighter-rouge">%{ParseUser}</code> that automatically handles much of the functionality required for user account management.</p>
+<p>At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called <code class="highlighter-rouge">PFUser</code> that automatically handles much of the functionality required for user account management.</p>
 
 <p>With this class, you’ll be able to add user account functionality in your app.</p>
 
-<p><code class="highlighter-rouge">%{ParseUser}</code> is a subclass of <code class="highlighter-rouge">%{ParseObject}</code> and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on <code class="highlighter-rouge">%{ParseObject}</code> also exist in <code class="highlighter-rouge">%{ParseUser}</code>. The difference is that PFUser has some special additions specific to user accounts.</p>
+<p><code class="highlighter-rouge">PFUser</code> is a subclass of <code class="highlighter-rouge">PFObject</code> and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on <code class="highlighter-rouge">PFObject</code> also exist in <code class="highlighter-rouge">PFUser</code>. The difference is that PFUser has some special additions specific to user accounts.</p>
 
 <h2 id="properties">Properties</h2>
 
-<p><code class="highlighter-rouge">%{ParseUser}</code> has several properties that set it apart from <code class="highlighter-rouge">%{ParseObject}</code>:</p>
+<p><code class="highlighter-rouge">PFUser</code> has several properties that set it apart from <code class="highlighter-rouge">PFObject</code>:</p>
 
 <ul>
   <li><strong>username</strong>: The username for the user (required).</li>
@@ -1973,13 +1973,13 @@ PFQuery.clearAllCachedResults()
 
 <p>This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.</p>
 
-<p>Note that we used the <code class="highlighter-rouge">signUp</code> method, not the <code class="highlighter-rouge">save</code> method. New <code class="highlighter-rouge">%{ParseUser}</code>s should always be created using the <code class="highlighter-rouge">signUp</code> method. Subsequent updates to a user can be done by calling <code class="highlighter-rouge">save</code>.</p>
+<p>Note that we used the <code class="highlighter-rouge">signUp</code> method, not the <code class="highlighter-rouge">save</code> method. New <code class="highlighter-rouge">PFUser</code>s should always be created using the <code class="highlighter-rouge">signUp</code> method. Subsequent updates to a user can be done by calling <code class="highlighter-rouge">save</code>.</p>
 
 <p>The <code class="highlighter-rouge">signUp</code> method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our <a href="/docs/ios/">API docs</a>.</p>
 
 <p>If a signup isn’t successful, you should read the error object that is returned. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.</p>
 
-<p>You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property — <code class="highlighter-rouge">%{ParseUser}</code> will work as normal. We’ll go over how this is handled in the reset password section.</p>
+<p>You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in the username property — <code class="highlighter-rouge">PFUser</code> will work as normal. We’ll go over how this is handled in the reset password section.</p>
 
 <h2 id="logging-in">Logging In</h2>
 
@@ -2008,14 +2008,14 @@ PFQuery.clearAllCachedResults()
 
 <h2 id="verifying-emails">Verifying Emails</h2>
 
-<p>Enabling email verification in an application’s settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the <code class="highlighter-rouge">emailVerified</code> key to the <code class="highlighter-rouge">%{ParseUser}</code> object. When a <code class="highlighter-rouge">%{ParseUser}</code>’s <code class="highlighter-rouge">email</code> is set or modified, <code class="highlighter-rouge">emailVerified</code> is set to <code class="highlighter-rouge">false</code>. Parse then emails the user a link which will set <code class="highlighter-rouge">emailVerified</code> to <code class="highlighter-rouge">true</code>.</p>
+<p>Enabling email verification in an application’s settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the <code class="highlighter-rouge">emailVerified</code> key to the <code class="highlighter-rouge">PFUser</code> object. When a <code class="highlighter-rouge">PFUser</code>’s <code class="highlighter-rouge">email</code> is set or modified, <code class="highlighter-rouge">emailVerified</code> is set to <code class="highlighter-rouge">false</code>. Parse then emails the user a link which will set <code class="highlighter-rouge">emailVerified</code> to <code class="highlighter-rouge">true</code>.</p>
 
 <p>There are three <code class="highlighter-rouge">emailVerified</code> states to consider:</p>
 
 <ol>
   <li><code class="highlighter-rouge">true</code> - the user confirmed his or her email address by clicking on the link Parse emailed them. <code class="highlighter-rouge">PFUsers</code> can never have a <code class="highlighter-rouge">true</code> value when the user account is first created.</li>
-  <li><code class="highlighter-rouge">false</code> - at the time the <code class="highlighter-rouge">%{ParseUser}</code> object was last refreshed, the user had not confirmed his or her email address. If <code class="highlighter-rouge">emailVerified</code> is <code class="highlighter-rouge">false</code>, consider calling <code class="highlighter-rouge">refresh:</code> on the <code class="highlighter-rouge">%{ParseUser}</code>.</li>
-  <li><strong>missing</strong> - the <code class="highlighter-rouge">%{ParseUser}</code> was created when email verification was off or the <code class="highlighter-rouge">%{ParseUser}</code> does not have an <code class="highlighter-rouge">email</code>.</li>
+  <li><code class="highlighter-rouge">false</code> - at the time the <code class="highlighter-rouge">PFUser</code> object was last refreshed, the user had not confirmed his or her email address. If <code class="highlighter-rouge">emailVerified</code> is <code class="highlighter-rouge">false</code>, consider calling <code class="highlighter-rouge">refresh:</code> on the <code class="highlighter-rouge">PFUser</code>.</li>
+  <li><strong>missing</strong> - the <code class="highlighter-rouge">PFUser</code> was created when email verification was off or the <code class="highlighter-rouge">PFUser</code> does not have an <code class="highlighter-rouge">email</code>.</li>
 </ol>
 
 <h2 id="current-user">Current User</h2>
@@ -2056,7 +2056,7 @@ PFQuery.clearAllCachedResults()
 
 <p>Being able to associate data and objects with individual users is highly valuable, but sometimes you want to be able to do this without forcing a user to specify a username and password.</p>
 
-<p>An anonymous user is a user that can be created without a username and password but still has all of the same capabilities as any other <code class="highlighter-rouge">%{ParseUser}</code>. After logging out, an anonymous user is abandoned, and its data is no longer accessible.</p>
+<p>An anonymous user is a user that can be created without a username and password but still has all of the same capabilities as any other <code class="highlighter-rouge">PFUser</code>. After logging out, an anonymous user is abandoned, and its data is no longer accessible.</p>
 
 <p>You can create an anonymous user using <code class="highlighter-rouge">PFAnonymousUtils</code>:</p>
 
@@ -2136,9 +2136,9 @@ PFQuery.clearAllCachedResults()
 
 <h2 id="security-for-user-objects">Security For User Objects</h2>
 
-<p>The <code class="highlighter-rouge">%{ParseUser}</code> class is secured by default. Data stored in a <code class="highlighter-rouge">%{ParseUser}</code> can only be modified by that user. By default, the data can still be read by any client. Thus, some <code class="highlighter-rouge">%{ParseUser}</code> objects are authenticated and can be modified, whereas others are read-only.</p>
+<p>The <code class="highlighter-rouge">PFUser</code> class is secured by default. Data stored in a <code class="highlighter-rouge">PFUser</code> can only be modified by that user. By default, the data can still be read by any client. Thus, some <code class="highlighter-rouge">PFUser</code> objects are authenticated and can be modified, whereas others are read-only.</p>
 
-<p>Specifically, you are not able to invoke any of the <code class="highlighter-rouge">save</code> or <code class="highlighter-rouge">delete</code> methods unless the <code class="highlighter-rouge">%{ParseUser}</code> was obtained using an authenticated method, like <code class="highlighter-rouge">logIn</code> or <code class="highlighter-rouge">signUp</code>. This ensures that only the user can alter their own data.</p>
+<p>Specifically, you are not able to invoke any of the <code class="highlighter-rouge">save</code> or <code class="highlighter-rouge">delete</code> methods unless the <code class="highlighter-rouge">PFUser</code> was obtained using an authenticated method, like <code class="highlighter-rouge">logIn</code> or <code class="highlighter-rouge">signUp</code>. This ensures that only the user can alter their own data.</p>
 
 <p>The following illustrates this security policy:</p>
 
@@ -2171,15 +2171,15 @@ PFQuery.clearAllCachedResults()
 </code></pre>
 </div>
 
-<p>The <code class="highlighter-rouge">%{ParseUser}</code> obtained from <code class="highlighter-rouge">currentUser</code> will always be authenticated.</p>
+<p>The <code class="highlighter-rouge">PFUser</code> obtained from <code class="highlighter-rouge">currentUser</code> will always be authenticated.</p>
 
-<p>If you need to check if a <code class="highlighter-rouge">%{ParseUser}</code> is authenticated, you can invoke the <code class="highlighter-rouge">isAuthenticated</code> method. You do not need to check <code class="highlighter-rouge">isAuthenticated</code> with <code class="highlighter-rouge">%{ParseUser}</code> objects that are obtained via an authenticated method.</p>
+<p>If you need to check if a <code class="highlighter-rouge">PFUser</code> is authenticated, you can invoke the <code class="highlighter-rouge">isAuthenticated</code> method. You do not need to check <code class="highlighter-rouge">isAuthenticated</code> with <code class="highlighter-rouge">PFUser</code> objects that are obtained via an authenticated method.</p>
 
 <h2 id="security-for-other-objects">Security For Other Objects</h2>
 
-<p>The same security model that applies to the <code class="highlighter-rouge">%{ParseUser}</code> can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an <a href="http://en.wikipedia.org/wiki/Access_control_list">access control list</a>, implemented by the <code class="highlighter-rouge">PFACL</code> class.</p>
+<p>The same security model that applies to the <code class="highlighter-rouge">PFUser</code> can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an <a href="http://en.wikipedia.org/wiki/Access_control_list">access control list</a>, implemented by the <code class="highlighter-rouge">PFACL</code> class.</p>
 
-<p>The simplest way to use a <code class="highlighter-rouge">PFACL</code> is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in <code class="highlighter-rouge">%{ParseUser}</code>. Then, the <code class="highlighter-rouge">ACLWithUser</code> method generates a <code class="highlighter-rouge">PFACL</code> that limits access to that user. An object’s ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:</p>
+<p>The simplest way to use a <code class="highlighter-rouge">PFACL</code> is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in <code class="highlighter-rouge">PFUser</code>. Then, the <code class="highlighter-rouge">ACLWithUser</code> method generates a <code class="highlighter-rouge">PFACL</code> that limits access to that user. An object’s ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFObject</span> <span class="o">*</span><span class="n">privateNote</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFObject</span> <span class="nf">objectWithClassName</span><span class="p">:</span><span class="s">@"Note"</span><span class="p">];</span>
 <span class="n">privateNote</span><span class="p">[</span><span class="s">@"content"</span><span class="p">]</span> <span class="o">=</span> <span class="s">@"This note is private!"</span><span class="p">;</span>
@@ -2327,11 +2327,11 @@ PFQuery.clearAllCachedResults()
 </code></pre>
 </div>
 
-<p>In addition, you can use <code class="highlighter-rouge">getUserObjectWithId:objectId</code> to get a <code class="highlighter-rouge">%{ParseUser}</code> by id.</p>
+<p>In addition, you can use <code class="highlighter-rouge">getUserObjectWithId:objectId</code> to get a <code class="highlighter-rouge">PFUser</code> by id.</p>
 
 <h2 id="associations">Associations</h2>
 
-<p>Associations involving a <code class="highlighter-rouge">%{ParseUser}</code> work right out of the box. For example, let’s say you’re making a blogging app. To store a new post for a user and retrieve all their posts:</p>
+<p>Associations involving a <code class="highlighter-rouge">PFUser</code> work right out of the box. For example, let’s say you’re making a blogging app. To store a new post for a user and retrieve all their posts:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFUser</span> <span class="o">*</span><span class="n">user</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFUser</span> <span class="nf">currentUser</span><span class="p">];</span>
 
@@ -2361,13 +2361,13 @@ PFQuery.clearAllCachedResults()
 
 <h2 id="facebook-users">Facebook Users</h2>
 
-<p>Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the <code class="highlighter-rouge">%{ParseUser}</code> class to make linking your users to their Facebook identities easy.</p>
+<p>Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the <code class="highlighter-rouge">PFUser</code> class to make linking your users to their Facebook identities easy.</p>
 
 <div class="tip info"><div>
   Learn how to use Parse with the Facebook API to create a profile viewer application. The [Integrating Facebook in iOS tutorial](/tutorials/integrating-facebook-in-ios) will teach you how to create and login `PFUsers` through Facebook and make queries to the Facebook Graph API.
 </div></div>
 
-<p>Using our Facebook integration, you can associate an authenticated Facebook user with a <code class="highlighter-rouge">%{ParseUser}</code>. With just a few lines of code, you’ll be able to provide a “log in with Facebook” option in your app, and be able to save the user’s data to Parse.</p>
+<p>Using our Facebook integration, you can associate an authenticated Facebook user with a <code class="highlighter-rouge">PFUser</code>. With just a few lines of code, you’ll be able to provide a “log in with Facebook” option in your app, and be able to save the user’s data to Parse.</p>
 
 <p><strong>Note:</strong> Parse SDK is compatible both with Facebook SDK 3.x and 4.x for iOS. These instructions are for Facebook SDK 4.x.</p>
 
@@ -2444,7 +2444,7 @@ PFQuery.clearAllCachedResults()
 </code></pre>
 </div>
 
-<p>There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a <code class="highlighter-rouge">%{ParseUser}</code>, or (2) linking Facebook to an existing <code class="highlighter-rouge">%{ParseUser}</code>.</p>
+<p>There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a <code class="highlighter-rouge">PFUser</code>, or (2) linking Facebook to an existing <code class="highlighter-rouge">PFUser</code>.</p>
 
 <div class="tip info"><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
@@ -2452,7 +2452,7 @@ PFQuery.clearAllCachedResults()
 
 <h3 id="log-in--sign-up">Log In &amp; Sign Up</h3>
 
-<p><code class="highlighter-rouge">%{ParseUser}</code> provides a way to allow your users to log in or sign up through Facebook. This is done by using the <code class="highlighter-rouge">logInInBackgroundWithReadPermissions</code> method like so:</p>
+<p><code class="highlighter-rouge">PFUser</code> provides a way to allow your users to log in or sign up through Facebook. This is done by using the <code class="highlighter-rouge">logInInBackgroundWithReadPermissions</code> method like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">PFFacebookUtils</span> <span class="nf">logInInBackgroundWithReadPermissions</span><span class="p">:</span><span class="n">permissions</span> <span class="nf">block</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">PFUser</span> <span class="o">*</span><span class="n">user</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">user</span><span class="p">)</span> <span class="p">{</span>
@@ -2485,12 +2485,12 @@ PFQuery.clearAllCachedResults()
 <ol>
   <li>The user is shown the Facebook login dialog.</li>
   <li>The user authenticates via Facebook, and your app receives a callback using <code class="highlighter-rouge">handleOpenURL</code>.</li>
-  <li>Our SDK receives the user’s Facebook access data and saves it to a <code class="highlighter-rouge">%{ParseUser}</code>. If no <code class="highlighter-rouge">%{ParseUser}</code> exists with the same Facebook ID, then a new <code class="highlighter-rouge">%{ParseUser}</code> is created.</li>
+  <li>Our SDK receives the user’s Facebook access data and saves it to a <code class="highlighter-rouge">PFUser</code>. If no <code class="highlighter-rouge">PFUser</code> exists with the same Facebook ID, then a new <code class="highlighter-rouge">PFUser</code> is created.</li>
   <li>Your code block is called with the user.</li>
   <li>The current user reference will be updated to this user.</li>
 </ol>
 
-<p>The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The <code class="highlighter-rouge">%{ParseUser}</code> integration doesn’t require any permissions to work out of the box. <a href="https://developers.facebook.com/docs/reference/api/permissions/">Read more permissions on Facebook’s developer guide.</a></p>
+<p>The permissions argument is an array of strings that specifies what permissions your app requires from the Facebook user. These permissions must only include read permissions. The <code class="highlighter-rouge">PFUser</code> integration doesn’t require any permissions to work out of the box. <a href="https://developers.facebook.com/docs/reference/api/permissions/">Read more permissions on Facebook’s developer guide.</a></p>
 
 <p>To acquire publishing permissions for a user so that your app can, for example, post status updates on their behalf, you must call <code class="highlighter-rouge">[PFFacebookUtils logInInBackgroundWithPublishPermissions:]</code>:</p>
 
@@ -2514,7 +2514,7 @@ PFQuery.clearAllCachedResults()
 
 <h3 id="linking">Linking</h3>
 
-<p>If you want to associate an existing <code class="highlighter-rouge">%{ParseUser}</code> to a Facebook account, you can link it like so:</p>
+<p>If you want to associate an existing <code class="highlighter-rouge">PFUser</code> to a Facebook account, you can link it like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">PFFacebookUtils</span> <span class="nf">isLinkedWithUser</span><span class="p">:</span><span class="n">user</span><span class="p">])</span> <span class="p">{</span>
   <span class="p">[</span><span class="n">PFFacebookUtils</span> <span class="nf">linkUserInBackground</span><span class="p">:</span><span class="n">user</span> <span class="nf">withReadPermissions</span><span class="p">:</span><span class="nb">nil</span> <span class="nf">block</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">succeeded</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -2536,7 +2536,7 @@ PFQuery.clearAllCachedResults()
 </code></pre>
 </div>
 
-<p>The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing <code class="highlighter-rouge">%{ParseUser}</code> is updated with the Facebook information. Future logins via Facebook will now log in the user to their existing account.</p>
+<p>The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing <code class="highlighter-rouge">PFUser</code> is updated with the Facebook information. Future logins via Facebook will now log in the user to their existing account.</p>
 
 <p>If you want to unlink Facebook from a user, simply do this:</p>
 
@@ -2558,7 +2558,7 @@ PFQuery.clearAllCachedResults()
 
 <h3 id="log-in--link-via-token">Log In / Link via Token</h3>
 
-<p>In the previous sections, you’ve seen how <code class="highlighter-rouge">PFFacebookUtils</code> can be used to log in with the Facebook SDK and create a <code class="highlighter-rouge">%{ParseUser}</code> or link with existing ones. If you have already integrated the Facebook SDK and have a <code class="highlighter-rouge">FBSDKAccessToken</code>, there is an option to directly log in or link the users like this:</p>
+<p>In the previous sections, you’ve seen how <code class="highlighter-rouge">PFFacebookUtils</code> can be used to log in with the Facebook SDK and create a <code class="highlighter-rouge">PFUser</code> or link with existing ones. If you have already integrated the Facebook SDK and have a <code class="highlighter-rouge">FBSDKAccessToken</code>, there is an option to directly log in or link the users like this:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">FBSDKAccessToken</span> <span class="o">*</span><span class="n">accessToken</span> <span class="o">=</span> <span class="p">...;</span> <span class="c1">// Use existing access token.
 </span>
@@ -2669,7 +2669,7 @@ PFQuery.clearAllCachedResults()
 
 <h2 id="twitter-users">Twitter Users</h2>
 
-<p>As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your <code class="highlighter-rouge">%{ParseUser}</code>s. With just a few lines of code, you’ll be able to provide a “log in with Twitter” option in your app, and be able to save their data to Parse.</p>
+<p>As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your <code class="highlighter-rouge">PFUser</code>s. With just a few lines of code, you’ll be able to provide a “log in with Twitter” option in your app, and be able to save their data to Parse.</p>
 
 <h3 id="setup-1">Setup</h3>
 
@@ -2692,11 +2692,11 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 
 <p>If you encounter any issues that are Twitter-related, a good resource is the <a href="https://dev.twitter.com/docs">official Twitter documentation</a>.</p>
 
-<p>There are two main ways to use Twitter with your Parse users: (1) logging in as a Twitter user and creating a <code class="highlighter-rouge">%{ParseUser}</code>, or (2) linking Twitter to an existing <code class="highlighter-rouge">%{ParseUser}</code>.</p>
+<p>There are two main ways to use Twitter with your Parse users: (1) logging in as a Twitter user and creating a <code class="highlighter-rouge">PFUser</code>, or (2) linking Twitter to an existing <code class="highlighter-rouge">PFUser</code>.</p>
 
 <h3 id="login--signup">Login &amp; Signup</h3>
 
-<p><code class="highlighter-rouge">PFTwitterUtils</code> provides a way to allow your <code class="highlighter-rouge">%{ParseUser}</code>s to log in or sign up through Twitter. This is accomplished using the <code class="highlighter-rouge">logInWithBlock</code> or <code class="highlighter-rouge">logInWithTarget</code> messages:</p>
+<p><code class="highlighter-rouge">PFTwitterUtils</code> provides a way to allow your <code class="highlighter-rouge">PFUser</code>s to log in or sign up through Twitter. This is accomplished using the <code class="highlighter-rouge">logInWithBlock</code> or <code class="highlighter-rouge">logInWithTarget</code> messages:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">PFTwitterUtils</span> <span class="nf">logInWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">PFUser</span> <span class="o">*</span><span class="n">user</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">user</span><span class="p">)</span> <span class="p">{</span>
@@ -2730,13 +2730,13 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 <ol>
   <li>The user is shown the Twitter login dialog.</li>
   <li>The user authenticates via Twitter, and your app receives a callback.</li>
-  <li>Our SDK receives the Twitter data and saves it to a <code class="highlighter-rouge">%{ParseUser}</code>. If it’s a new user based on the Twitter handle, then that user is created.</li>
+  <li>Our SDK receives the Twitter data and saves it to a <code class="highlighter-rouge">PFUser</code>. If it’s a new user based on the Twitter handle, then that user is created.</li>
   <li>Your <code class="highlighter-rouge">block</code> is called with the user.</li>
 </ol>
 
 <h3 id="twitter-linking">Twitter Linking</h3>
 
-<p>If you want to associate an existing <code class="highlighter-rouge">%{ParseUser}</code> with a Twitter account, you can link it like so:</p>
+<p>If you want to associate an existing <code class="highlighter-rouge">PFUser</code> with a Twitter account, you can link it like so:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">[</span><span class="n">PFTwitterUtils</span> <span class="nf">isLinkedWithUser</span><span class="p">:</span><span class="n">user</span><span class="p">])</span> <span class="p">{</span>
     <span class="p">[</span><span class="n">PFTwitterUtils</span> <span class="nf">linkUser</span><span class="p">:</span><span class="n">user</span> <span class="nf">block</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">BOOL</span> <span class="n">succeeded</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -2758,7 +2758,7 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 </code></pre>
 </div>
 
-<p>The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing <code class="highlighter-rouge">%{ParseUser}</code> is updated with the Twitter information. Future logins via Twitter will now log the user into their existing account.</p>
+<p>The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing <code class="highlighter-rouge">PFUser</code> is updated with the Twitter information. Future logins via Twitter will now log the user into their existing account.</p>
 
 <p>If you want to unlink Twitter from a user, simply do this:</p>
 
@@ -2780,7 +2780,7 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
 
 <h3 id="twitter-api-calls">Twitter API Calls</h3>
 
-<p>Our SDK provides a straightforward way to sign your API HTTP requests to the <a href="https://dev.twitter.com/docs/api">Twitter REST API</a> when your app has a Twitter-linked <code class="highlighter-rouge">%{ParseUser}</code>.  To make a request through our API, you can use the <code class="highlighter-rouge">PF_Twitter</code> singleton provided by <code class="highlighter-rouge">PFTwitterUtils</code>:</p>
+<p>Our SDK provides a straightforward way to sign your API HTTP requests to the <a href="https://dev.twitter.com/docs/api">Twitter REST API</a> when your app has a Twitter-linked <code class="highlighter-rouge">PFUser</code>.  To make a request through our API, you can use the <code class="highlighter-rouge">PF_Twitter</code> singleton provided by <code class="highlighter-rouge">PFTwitterUtils</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">NSURL</span> <span class="o">*</span><span class="n">verify</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="s">@"https://api.twitter.com/1.1/account/verify_credentials.json"</span><span class="p">];</span>
 <span class="n">NSMutableURLRequest</span> <span class="o">*</span><span class="n">request</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:</span><span class="n">verify</span><span class="p">];</span>
@@ -2816,45 +2816,45 @@ PFTwitterUtils.initializeWithConsumerKey("YOUR CONSUMER KEY",  consumerSecret:"Y
                     
                     <h1 id="sessions">Sessions</h1>
 
-<p>Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct <code class="highlighter-rouge">%{ParseSession}</code> object for each user-installation pair; if a user issues a login request from a device they’re already logged into, that user’s previous <code class="highlighter-rouge">%{ParseSession}</code> object for that Installation is automatically deleted. <code class="highlighter-rouge">%{ParseSession}</code> objects are stored on Parse in the Session class, and you can view them on the Parse.com Data Browser. We provide a set of APIs to manage <code class="highlighter-rouge">%{ParseSession}</code> objects in your app.</p>
+<p>Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct <code class="highlighter-rouge">Session</code> object for each user-installation pair; if a user issues a login request from a device they’re already logged into, that user’s previous <code class="highlighter-rouge">Session</code> object for that Installation is automatically deleted. <code class="highlighter-rouge">Session</code> objects are stored on Parse in the Session class, and you can view them on the Parse.com Data Browser. We provide a set of APIs to manage <code class="highlighter-rouge">Session</code> objects in your app.</p>
 
 <div class="tip info"><div>
   Session APIs are only available in apps with revocable sessions enabled. Parse apps created after March 25, 2015 have this enabled by default ("Require Revocable Sessions" toggle in your Parse.com app settings page). If you have an existing app, you can upgrade to revocable sessions by following the [Session Migration Tutorial](https://www.parse.com/tutorials/session-migration-tutorial).
 </div></div>
 
-<p><code class="highlighter-rouge">%{ParseSession}</code> is a subclass of <code class="highlighter-rouge">%{ParseObject}</code>, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because the Parse Cloud automatically creates sessions when you log in or sign up users, you should not manually create <code class="highlighter-rouge">%{ParseSession}</code> objects unless you are building a “Parse for IoT” app (e.g. Arduino or Embedded C). Deleting a <code class="highlighter-rouge">%{ParseSession}</code> will log the user out of the device that is currently using this session’s token.</p>
+<p><code class="highlighter-rouge">Session</code> is a subclass of a Parse <code class="highlighter-rouge">Object</code>, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because the Parse Cloud automatically creates sessions when you log in or sign up users, you should not manually create <code class="highlighter-rouge">Session</code> objects unless you are building a “Parse for IoT” app (e.g. Arduino or Embedded C). Deleting a <code class="highlighter-rouge">Session</code> will log the user out of the device that is currently using this session’s token.</p>
 
-<p>Unlike other Parse objects, the <code class="highlighter-rouge">%{ParseSession}</code> class does not have Cloud Code triggers. So you cannot register a <code class="highlighter-rouge">beforeSave</code> or <code class="highlighter-rouge">afterSave</code> handler for the Session class.</p>
+<p>Unlike other Parse objects, the <code class="highlighter-rouge">Session</code> class does not have Cloud Code triggers. So you cannot register a <code class="highlighter-rouge">beforeSave</code> or <code class="highlighter-rouge">afterSave</code> handler for the Session class.</p>
 
 <h2 id="properties">Properties</h2>
 
-<p>The <code class="highlighter-rouge">%{ParseSession}</code> object has these special fields:</p>
+<p>The <code class="highlighter-rouge">Session</code> object has these special fields:</p>
 
 <ul>
-  <li><code class="highlighter-rouge">sessionToken</code> (readonly): String token for authentication on Parse API requests. In the response of <code class="highlighter-rouge">%{ParseSession}</code> queries, only your current <code class="highlighter-rouge">%{ParseSession}</code> object will contain a session token.</li>
-  <li><code class="highlighter-rouge">user</code>: (readonly) Pointer to the <code class="highlighter-rouge">%{ParseUser}</code> object that this session is for.</li>
+  <li><code class="highlighter-rouge">sessionToken</code> (readonly): String token for authentication on Parse API requests. In the response of <code class="highlighter-rouge">Session</code> queries, only your current <code class="highlighter-rouge">Session</code> object will contain a session token.</li>
+  <li><code class="highlighter-rouge">user</code>: (readonly) Pointer to the <code class="highlighter-rouge">User</code> object that this session is for.</li>
   <li><code class="highlighter-rouge">createdWith</code> (readonly): Information about how this session was created (e.g. <code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="nt">"action"</span><span class="p">:</span><span class="w"> </span><span class="s2">"login"</span><span class="p">,</span><span class="w"> </span><span class="nt">"authProvider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"password"</span><span class="p">}</span></code>).
     <ul>
-      <li><code class="highlighter-rouge">action</code> could have values: <code class="highlighter-rouge">login</code>, <code class="highlighter-rouge">signup</code>, <code class="highlighter-rouge">create</code>, or <code class="highlighter-rouge">upgrade</code>. The <code class="highlighter-rouge">create</code> action is when the developer manually creates the session by saving a <code class="highlighter-rouge">%{ParseSession}</code> object.  The <code class="highlighter-rouge">upgrade</code> action is when the user is upgraded to revocable session from a legacy session token.</li>
+      <li><code class="highlighter-rouge">action</code> could have values: <code class="highlighter-rouge">login</code>, <code class="highlighter-rouge">signup</code>, <code class="highlighter-rouge">create</code>, or <code class="highlighter-rouge">upgrade</code>. The <code class="highlighter-rouge">create</code> action is when the developer manually creates the session by saving a <code class="highlighter-rouge">Session</code> object.  The <code class="highlighter-rouge">upgrade</code> action is when the user is upgraded to revocable session from a legacy session token.</li>
       <li><code class="highlighter-rouge">authProvider</code> could have values: <code class="highlighter-rouge">password</code>, <code class="highlighter-rouge">anonymous</code>, <code class="highlighter-rouge">facebook</code>, or <code class="highlighter-rouge">twitter</code>.</li>
     </ul>
   </li>
   <li><code class="highlighter-rouge">restricted</code> (readonly): Boolean for whether this session is restricted.
     <ul>
-      <li>Restricted sessions do not have write permissions on <code class="highlighter-rouge">%{ParseUser}</code>, <code class="highlighter-rouge">%{ParseSession}</code>, and <code class="highlighter-rouge">%{ParseRole}</code> classes on Parse. Restricted sessions also cannot read unrestricted sessions.</li>
-      <li>All sessions that the Parse Cloud automatically creates during user login/signup will be unrestricted. All sessions that the developer manually creates by saving a new <code class="highlighter-rouge">%{ParseSession}</code> object from the client (only needed for “Parse for IoT” apps) will be restricted.</li>
+      <li>Restricted sessions do not have write permissions on <code class="highlighter-rouge">User</code>, <code class="highlighter-rouge">Session</code>, and <code class="highlighter-rouge">Role</code> classes on Parse. Restricted sessions also cannot read unrestricted sessions.</li>
+      <li>All sessions that the Parse Cloud automatically creates during user login/signup will be unrestricted. All sessions that the developer manually creates by saving a new <code class="highlighter-rouge">Session</code> object from the client (only needed for “Parse for IoT” apps) will be restricted.</li>
     </ul>
   </li>
-  <li><code class="highlighter-rouge">expiresAt</code> (readonly): Approximate UTC date when this <code class="highlighter-rouge">%{ParseSession}</code> object will be automatically deleted. You can configure session expiration settings (either 1-year inactivity expiration or no expiration) in your app’s Parse.com dashboard settings page.</li>
-  <li><code class="highlighter-rouge">installationId</code> (can be set only once): String referring to the <code class="highlighter-rouge">%{ParseInstallation}</code> where the session is logged in from. For Parse SDKs, this field will be automatically set when users log in or sign up.
-All special fields except <code class="highlighter-rouge">installationId</code> can only be set automatically by the Parse Cloud. You can add custom fields onto <code class="highlighter-rouge">%{ParseSession}</code> objects, but please keep in mind that any logged-in device (with session token) can read other sessions that belong to the same user (unless you disable Class-Level Permissions, see below).</li>
+  <li><code class="highlighter-rouge">expiresAt</code> (readonly): Approximate UTC date when this <code class="highlighter-rouge">Session</code> object will be automatically deleted. You can configure session expiration settings (either 1-year inactivity expiration or no expiration) in your app’s Parse.com dashboard settings page.</li>
+  <li><code class="highlighter-rouge">installationId</code> (can be set only once): String referring to the <code class="highlighter-rouge">Installation</code> where the session is logged in from. For Parse SDKs, this field will be automatically set when users log in or sign up.
+All special fields except <code class="highlighter-rouge">installationId</code> can only be set automatically by the Parse Cloud. You can add custom fields onto <code class="highlighter-rouge">Session</code> objects, but please keep in mind that any logged-in device (with session token) can read other sessions that belong to the same user (unless you disable Class-Level Permissions, see below).</li>
 </ul>
 
 <h2 id="handling-invalid-session-token-error">Handling Invalid Session Token Error</h2>
 
 <p>Apps created before March 25, 2015 use legacy session tokens until you migrate them to use the new revocable sessions. On API requests with legacy tokens, if the token is invalid (e.g. User object was deleted), then the request is executed as a non-logged in user and no error was returned. On API requests with revocable session tokens, an invalid session token will always fail with the “invalid session token” error. This new behavior lets you know when you need to ask the user to log in again.</p>
 
-<p>With revocable sessions, your current session token could become invalid if its corresponding <code class="highlighter-rouge">%{ParseSession}</code> object is deleted from the Parse Cloud. This could happen if you implement a Session Manager UI that lets users log out of other devices, or if you manually delete the session via Cloud Code, REST API, or Data Browser. Sessions could also be deleted due to automatic expiration (if configured in app settings). When a device’s session token no longer corresponds to a <code class="highlighter-rouge">%{ParseSession}</code> object on the Parse Cloud, all API requests from that device will fail with “Error 209: invalid session token”.</p>
+<p>With revocable sessions, your current session token could become invalid if its corresponding <code class="highlighter-rouge">Session</code> object is deleted from the Parse Cloud. This could happen if you implement a Session Manager UI that lets users log out of other devices, or if you manually delete the session via Cloud Code, REST API, or Data Browser. Sessions could also be deleted due to automatic expiration (if configured in app settings). When a device’s session token no longer corresponds to a <code class="highlighter-rouge">Session</code> object on the Parse Cloud, all API requests from that device will fail with “Error 209: invalid session token”.</p>
 
 <p>To handle this error, we recommend writing a global utility function that is called by all of your Parse request error callbacks. You can then handle the “invalid session token” error in this global function. You should prompt the user to login again so that they can obtain a new session token. This code could look like this:</p>
 
@@ -3103,15 +3103,15 @@ try {
 
 <h2 id="security">Security</h2>
 
-<p><code class="highlighter-rouge">%{ParseSession}</code> objects can only be accessed by the user specified in the user field. All <code class="highlighter-rouge">%{ParseSession}</code> objects have an ACL that is read and write by that user only. You cannot change this ACL. This means querying for sessions will only return objects that match the current logged-in user.</p>
+<p><code class="highlighter-rouge">Session</code> objects can only be accessed by the user specified in the user field. All <code class="highlighter-rouge">Session</code> objects have an ACL that is read and write by that user only. You cannot change this ACL. This means querying for sessions will only return objects that match the current logged-in user.</p>
 
-<p>When you log in a user via <code class="highlighter-rouge">%{ParseUser.logInInBackground()}</code>, Parse will automatically create a new unrestricted <code class="highlighter-rouge">%{ParseSession}</code> object in the Parse Cloud. Same for signups and Facebook/Twitter logins.</p>
+<p>When you log in a user via a <code class="highlighter-rouge">User</code> login method, Parse will automatically create a new unrestricted <code class="highlighter-rouge">Session</code> object in the Parse Cloud. Same for signups and Facebook/Twitter logins.</p>
 
-<p>Session objects manually created from client SDKs (by creating an instance of <code class="highlighter-rouge">%{ParseSession}</code>, and saving it) are always restricted. You cannot manually create an unrestricted sessions using the object creation API.</p>
+<p>Session objects manually created from client SDKs (by creating an instance of <code class="highlighter-rouge">Session</code>, and saving it) are always restricted. You cannot manually create an unrestricted sessions using the object creation API.</p>
 
-<p>Restricted sessions are prohibited from creating, modifying, or deleting any data in the <code class="highlighter-rouge">%{ParseUser}</code>, <code class="highlighter-rouge">%{ParseSession}</code>, and <code class="highlighter-rouge">%{ParseRole}</code> classes. Restricted session also cannot read unrestricted sessions. Restricted Sessions are useful for “Parse for IoT” devices (e.g Arduino or Embedded C) that may run in a less-trusted physical environment than mobile apps. However, please keep in mind that restricted sessions can still read data on <code class="highlighter-rouge">%{ParseUser}</code>, <code class="highlighter-rouge">%{ParseSession}</code>, and <code class="highlighter-rouge">%{ParseRole}</code> classes, and can read/write data in any other class just like a normal session. So it is still important for IoT devices to be in a safe physical environment and ideally use encrypted storage to store the session token.</p>
+<p>Restricted sessions are prohibited from creating, modifying, or deleting any data in the <code class="highlighter-rouge">User</code>, <code class="highlighter-rouge">Session</code>, and <code class="highlighter-rouge">Role</code> classes. Restricted session also cannot read unrestricted sessions. Restricted Sessions are useful for “Parse for IoT” devices (e.g Arduino or Embedded C) that may run in a less-trusted physical environment than mobile apps. However, please keep in mind that restricted sessions can still read data on <code class="highlighter-rouge">User</code>, <code class="highlighter-rouge">Session</code>, and <code class="highlighter-rouge">Role</code> classes, and can read/write data in any other class just like a normal session. So it is still important for IoT devices to be in a safe physical environment and ideally use encrypted storage to store the session token.</p>
 
-<p>If you want to prevent restricted Sessions from modifying classes other than <code class="highlighter-rouge">%{ParseUser}</code>, <code class="highlighter-rouge">%{ParseSession}</code>, or <code class="highlighter-rouge">%{ParseRole}</code>, you can write a Cloud Code <code class="highlighter-rouge">beforeSave</code> handler for that class:</p>
+<p>If you want to prevent restricted Sessions from modifying classes other than <code class="highlighter-rouge">User</code>, <code class="highlighter-rouge">Session</code>, or <code class="highlighter-rouge">Role</code>, you can write a Cloud Code <code class="highlighter-rouge">beforeSave</code> handler for that class:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">beforeSave</span><span class="p">(</span><span class="s2">"MyClass"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">Parse</span><span class="p">.</span><span class="nx">Session</span><span class="p">.</span><span class="nx">current</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">session</span><span class="p">)</span> <span class="p">{</span>
@@ -3123,7 +3123,7 @@ try {
 <span class="p">});</span>
 </code></pre>
 </div>
-<p>You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the <code class="highlighter-rouge">%{ParseSession}</code> API, but do not restrict Parse Cloud’s automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:</p>
+<p>You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the <code class="highlighter-rouge">Session</code> API, but do not restrict Parse Cloud’s automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:</p>
 
 <ul>
   <li><strong>Find</strong>, <strong>Delete</strong> — Useful for building a UI screen that allows users to see their active session on all devices, and log out of sessions on other devices. If your app does not have this feature, you should disable these permissions.</li>
@@ -3147,11 +3147,11 @@ try {
 
 <p>For example, in your application with curated content, you may have a number of users that are considered “Moderators” and can modify and delete content created by other users.  You may also have a set of users that are “Administrators” and are allowed all of the same privileges as Moderators, but can also modify the global settings for the application. By adding users to these roles, you can ensure that new users can be made moderators or administrators, without having to manually grant permission to every resource for each user.</p>
 
-<p>We provide a specialized class called <code class="highlighter-rouge">%{ParseRole}</code> that represents these role objects in your client code.  <code class="highlighter-rouge">%{ParseRole}</code> is a subclass of <code class="highlighter-rouge">%{ParseObject}</code>, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on <code class="highlighter-rouge">%{ParseObject}</code> also exist on <code class="highlighter-rouge">%{ParseRole}</code>.  The difference is that <code class="highlighter-rouge">%{ParseRole}</code> has some additions specific to management of roles.</p>
+<p>We provide a specialized class called <code class="highlighter-rouge">PFRole</code> that represents these role objects in your client code.  <code class="highlighter-rouge">PFRole</code> is a subclass of <code class="highlighter-rouge">PFObject</code>, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on <code class="highlighter-rouge">PFObject</code> also exist on <code class="highlighter-rouge">PFRole</code>.  The difference is that <code class="highlighter-rouge">PFRole</code> has some additions specific to management of roles.</p>
 
 <h2 id="properties">Properties</h2>
 
-<p><code class="highlighter-rouge">%{ParseRole}</code> has several properties that set it apart from <code class="highlighter-rouge">%{ParseObject}</code>:</p>
+<p><code class="highlighter-rouge">PFRole</code> has several properties that set it apart from <code class="highlighter-rouge">PFObject</code>:</p>
 
 <ul>
   <li>name: The name for the role.  This value is required, and can only be set once as a role is being created.  The name must consist of alphanumeric characters, spaces, -, or _.  This name will be used to identify the Role without needing its objectId.</li>
@@ -3161,9 +3161,9 @@ try {
 
 <h2 id="security-for-role-objects">Security for Role Objects</h2>
 
-<p>The <code class="highlighter-rouge">%{ParseRole}</code> uses the same security scheme (ACLs) as all other objects on Parse, except that it requires an ACL to be set explicitly. Generally, only users with greatly elevated privileges (e.g. a master user or Administrator) should be able to create or modify a Role, so you should define its ACLs accordingly.  Remember, if you give write-access to a <code class="highlighter-rouge">%{ParseRole}</code> to a user, that user can add other users to the role, or even delete the role altogether.</p>
+<p>The <code class="highlighter-rouge">PFRole</code> uses the same security scheme (ACLs) as all other objects on Parse, except that it requires an ACL to be set explicitly. Generally, only users with greatly elevated privileges (e.g. a master user or Administrator) should be able to create or modify a Role, so you should define its ACLs accordingly.  Remember, if you give write-access to a <code class="highlighter-rouge">PFRole</code> to a user, that user can add other users to the role, or even delete the role altogether.</p>
 
-<p>To create a new <code class="highlighter-rouge">%{ParseRole}</code>, you would write:</p>
+<p>To create a new <code class="highlighter-rouge">PFRole</code>, you would write:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 </span><span class="n">PFACL</span> <span class="o">*</span><span class="n">roleACL</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFACL</span> <span class="nf">ACL</span><span class="p">];</span>
@@ -3180,7 +3180,7 @@ try {
 </code></pre>
 </div>
 
-<p>You can add users and roles that should inherit your new role’s permissions through the “users” and “roles” relations on <code class="highlighter-rouge">%{ParseRole}</code>:</p>
+<p>You can add users and roles that should inherit your new role’s permissions through the “users” and “roles” relations on <code class="highlighter-rouge">PFRole</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFRole</span> <span class="o">*</span><span class="n">role</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFRole</span> <span class="nf">roleWithName</span><span class="p">:</span><span class="n">roleName</span> <span class="nf">acl</span><span class="p">:</span><span class="n">roleACL</span><span class="p">];</span>
 <span class="k">for</span> <span class="p">(</span><span class="n">PFUser</span> <span class="o">*</span><span class="n">user</span> <span class="k">in</span> <span class="n">usersToAddToRole</span><span class="p">)</span> <span class="p">{</span>
@@ -3207,9 +3207,9 @@ try {
 
 <h2 id="security-for-other-objects">Security for Other Objects</h2>
 
-<p>Now that you have created a set of roles for use in your application, you can use them with ACLs to define the privileges that their users will receive. Each <code class="highlighter-rouge">%{ParseObject}</code> can specify a <code class="highlighter-rouge">PFACL</code>, which provides an access control list that indicates which users and roles should be granted read or write access to the object.</p>
+<p>Now that you have created a set of roles for use in your application, you can use them with ACLs to define the privileges that their users will receive. Each <code class="highlighter-rouge">PFObject</code> can specify a <code class="highlighter-rouge">PFACL</code>, which provides an access control list that indicates which users and roles should be granted read or write access to the object.</p>
 
-<p>Giving a role read or write permission to an object is straightforward.  You can either use the <code class="highlighter-rouge">%{ParseRole}</code>:</p>
+<p>Giving a role read or write permission to an object is straightforward.  You can either use the <code class="highlighter-rouge">PFRole</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFRole</span> <span class="o">*</span><span class="n">moderators</span> <span class="o">=</span> <span class="cm">/* Query for some PFRole */</span><span class="p">;</span>
 <span class="n">PFObject</span> <span class="o">*</span><span class="n">wallPost</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFObject</span> <span class="nf">objectWithClassName</span><span class="p">:</span><span class="s">@"WallPost"</span><span class="p">];</span>
@@ -3299,13 +3299,13 @@ try {
 
 <h2 id="the-pffile">The PFFile</h2>
 
-<p><code class="highlighter-rouge">%{ParseFile}</code> lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular <code class="highlighter-rouge">%{ParseObject}</code>. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).</p>
+<p><code class="highlighter-rouge">PFFile</code> lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular <code class="highlighter-rouge">PFObject</code>. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).</p>
 
 <div class="tip info"><div>
   Learn how to make an app that allows the user to take photos and upload it directly to Parse in our [Saving Images tutorial](/tutorials/saving-images).
 </div></div>
 
-<p>Getting started with <code class="highlighter-rouge">%{ParseFile}</code> is easy. First, you’ll need to have the data in <code class="highlighter-rouge">NSData</code> form and then create a <code class="highlighter-rouge">%{ParseFile}</code> with it. In this example, we’ll just use a string:</p>
+<p>Getting started with <code class="highlighter-rouge">PFFile</code> is easy. First, you’ll need to have the data in <code class="highlighter-rouge">NSData</code> form and then create a <code class="highlighter-rouge">PFFile</code> with it. In this example, we’ll just use a string:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s">@"Working at Parse is great!"</span> <span class="nf">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
 <span class="n">PFFile</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFFile</span> <span class="nf">fileWithName</span><span class="p">:</span><span class="s">@"resume.txt"</span> <span class="nf">data</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
@@ -3324,7 +3324,7 @@ try {
   <li>It’s important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you’re storing PNG images, make sure your filename ends with <code class="highlighter-rouge">.png</code>.</li>
 </ul>
 
-<p>Next you’ll want to save the file up to the cloud. As with <code class="highlighter-rouge">%{ParseObject}</code>, there are many variants of the <code class="highlighter-rouge">save</code> method you can use depending on what sort of callback and error handling suits you.</p>
+<p>Next you’ll want to save the file up to the cloud. As with <code class="highlighter-rouge">PFObject</code>, there are many variants of the <code class="highlighter-rouge">save</code> method you can use depending on what sort of callback and error handling suits you.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">file</span> <span class="nf">saveInBackground</span><span class="p">];</span>
 </code></pre>
@@ -3333,7 +3333,7 @@ try {
 </code></pre>
 </div>
 
-<p>Finally, after the save completes, you can associate a <code class="highlighter-rouge">%{ParseFile}</code> onto a <code class="highlighter-rouge">%{ParseObject}</code> just like any other piece of data:</p>
+<p>Finally, after the save completes, you can associate a <code class="highlighter-rouge">PFFile</code> onto a <code class="highlighter-rouge">PFObject</code> just like any other piece of data:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFObject</span> <span class="o">*</span><span class="n">jobApplication</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFObject</span> <span class="nf">objectWithClassName</span><span class="p">:</span><span class="s">@"JobApplication"</span><span class="p">]</span>
 <span class="n">jobApplication</span><span class="p">[</span><span class="s">@"applicantName"</span><span class="p">]</span> <span class="o">=</span> <span class="s">@"Joe Smith"</span><span class="p">;</span>
@@ -3348,7 +3348,7 @@ try {
 </code></pre>
 </div>
 
-<p>Retrieving it back involves calling one of the <code class="highlighter-rouge">getData</code> variants on the <code class="highlighter-rouge">%{ParseFile}</code>. Here we retrieve the resume file off another JobApplication object:</p>
+<p>Retrieving it back involves calling one of the <code class="highlighter-rouge">getData</code> variants on the <code class="highlighter-rouge">PFFile</code>. Here we retrieve the resume file off another JobApplication object:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFFile</span> <span class="o">*</span><span class="n">applicantResume</span> <span class="o">=</span> <span class="n">anotherApplication</span><span class="p">[</span><span class="s">@"applicantResumeFile"</span><span class="p">];</span>
 <span class="n">NSData</span> <span class="o">*</span><span class="n">resumeData</span> <span class="o">=</span> <span class="p">[</span><span class="n">applicantResume</span> <span class="nf">getData</span><span class="p">];</span>
@@ -3359,11 +3359,11 @@ try {
 </code></pre>
 </div>
 
-<p>Just like on <code class="highlighter-rouge">%{ParseObject}</code>, you will most likely want to use the background version of <code class="highlighter-rouge">getData</code>.</p>
+<p>Just like on <code class="highlighter-rouge">PFObject</code>, you will most likely want to use the background version of <code class="highlighter-rouge">getData</code>.</p>
 
 <h2 id="images">Images</h2>
 
-<p>You can easily store images by converting them to <code class="highlighter-rouge">NSData</code> and then using <code class="highlighter-rouge">%{ParseFile}</code>. Suppose you have a <code class="highlighter-rouge">UIImage</code> named <code class="highlighter-rouge">image</code> that you want to save as a <code class="highlighter-rouge">%{ParseFile}</code>:</p>
+<p>You can easily store images by converting them to <code class="highlighter-rouge">NSData</code> and then using <code class="highlighter-rouge">PFFile</code>. Suppose you have a <code class="highlighter-rouge">UIImage</code> named <code class="highlighter-rouge">image</code> that you want to save as a <code class="highlighter-rouge">PFFile</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">NSData</span> <span class="o">*</span><span class="n">imageData</span> <span class="o">=</span> <span class="n">UIImagePNGRepresentation</span><span class="p">(</span><span class="n">image</span><span class="p">);</span>
 <span class="n">PFFile</span> <span class="o">*</span><span class="n">imageFile</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFFile</span> <span class="nf">fileWithName</span><span class="p">:</span><span class="s">@"image.png"</span> <span class="nf">data</span><span class="p">:</span><span class="n">imageData</span><span class="p">];</span>
@@ -3384,9 +3384,9 @@ try {
 </code></pre>
 </div>
 
-<p>Your <code class="highlighter-rouge">%{ParseFile}</code> will be uploaded as part of the save operation on the <code class="highlighter-rouge">userPhoto</code> object. It’s also possible to track a <code class="highlighter-rouge">%{ParseFile}</code>’s <a href="#files-progress">upload and download progress</a>.</p>
+<p>Your <code class="highlighter-rouge">PFFile</code> will be uploaded as part of the save operation on the <code class="highlighter-rouge">userPhoto</code> object. It’s also possible to track a <code class="highlighter-rouge">PFFile</code>’s <a href="#files-progress">upload and download progress</a>.</p>
 
-<p>Retrieving the image back involves calling one of the <code class="highlighter-rouge">getData</code> variants on the <code class="highlighter-rouge">%{ParseFile}</code>. Here we retrieve the image file off another <code class="highlighter-rouge">UserPhoto</code> named <code class="highlighter-rouge">anotherPhoto</code>:</p>
+<p>Retrieving the image back involves calling one of the <code class="highlighter-rouge">getData</code> variants on the <code class="highlighter-rouge">PFFile</code>. Here we retrieve the image file off another <code class="highlighter-rouge">UserPhoto</code> named <code class="highlighter-rouge">anotherPhoto</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFFile</span> <span class="o">*</span><span class="n">userImageFile</span> <span class="o">=</span> <span class="n">anotherPhoto</span><span class="p">[</span><span class="s">@"imageFile"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">userImageFile</span> <span class="nf">getDataInBackgroundWithBlock</span><span class="p">:</span><span class="o">^</span><span class="p">(</span><span class="n">NSData</span> <span class="o">*</span><span class="n">imageData</span><span class="p">,</span> <span class="n">NSError</span> <span class="o">*</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
@@ -3411,7 +3411,7 @@ try {
 
 <h2 id="progress">Progress</h2>
 
-<p>It’s easy to get the progress of both uploads and downloads using <code class="highlighter-rouge">%{ParseFile}</code> using <code class="highlighter-rouge">saveInBackgroundWithBlock:progressBlock:</code> and <code class="highlighter-rouge">getDataInBackgroundWithBlock:progressBlock:</code> respectively. For example:</p>
+<p>It’s easy to get the progress of both uploads and downloads using <code class="highlighter-rouge">PFFile</code> using <code class="highlighter-rouge">saveInBackgroundWithBlock:progressBlock:</code> and <code class="highlighter-rouge">getDataInBackgroundWithBlock:progressBlock:</code> respectively. For example:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">NSData</span> <span class="o">*</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="s">@"Working at Parse is great!"</span> <span class="nf">dataUsingEncoding</span><span class="p">:</span><span class="n">NSUTF8StringEncoding</span><span class="p">];</span>
 <span class="n">PFFile</span> <span class="o">*</span><span class="n">file</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFFile</span> <span class="nf">fileWithName</span><span class="p">:</span><span class="s">@"resume.txt"</span> <span class="nf">data</span><span class="p">:</span><span class="n">data</span><span class="p">];</span>
@@ -3451,10 +3451,10 @@ try {
                     
                     <h1 id="geopoints">GeoPoints</h1>
 
-<p>Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a <code class="highlighter-rouge">PFGeoPoint</code> to a <code class="highlighter-rouge">%{ParseObject}</code> allows queries to take into account the proximity of an object to a reference point. This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.</p>
+<p>Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a <code class="highlighter-rouge">PFGeoPoint</code> to a <code class="highlighter-rouge">PFObject</code> allows queries to take into account the proximity of an object to a reference point. This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.</p>
 
 <div class="tip info"><div>
-  Explore the use of `PFGeoPoints` and `%{ParseUser}` in a real application with our [Anywall tutorial](/tutorials/anywall). You'll learn everything from implementing a basic user management workflow to tracking GPS location with Core Location.
+  Explore the use of `PFGeoPoints` and `PFUser` in a real application with our [Anywall tutorial](/tutorials/anywall). You'll learn everything from implementing a basic user management workflow to tracking GPS location with Core Location.
 </div></div>
 
 <h2 id="pfgeopoint">PFGeoPoint</h2>
@@ -3511,7 +3511,7 @@ try {
 
 <h2 id="geo-queries">Geo Queries</h2>
 
-<p>Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to <code class="highlighter-rouge">%{ParseQuery}</code> using <code class="highlighter-rouge">whereKey:nearGeoPoint:</code>. Getting a list of ten places that are closest to a user may look something like:</p>
+<p>Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to <code class="highlighter-rouge">PFQuery</code> using <code class="highlighter-rouge">whereKey:nearGeoPoint:</code>. Getting a list of ten places that are closest to a user may look something like:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// User's location
 </span><span class="n">PFGeoPoint</span> <span class="o">*</span><span class="n">userGeoPoint</span> <span class="o">=</span> <span class="n">userObject</span><span class="p">[</span><span class="s">@"location"</span><span class="p">];</span>
@@ -3542,7 +3542,7 @@ try {
 
 <p>To limit the results using distance check out <code class="highlighter-rouge">whereKey:nearGeoPoint:withinMiles</code>, <code class="highlighter-rouge">whereKey:nearGeoPoint:withinKilometers</code>, and <code class="highlighter-rouge">whereKey:nearGeoPoint:withinRadians</code>.</p>
 
-<p>It’s also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the <code class="highlighter-rouge">whereKey:withinGeoBoxFromSouthwest:toNortheast:</code> restriction to your <code class="highlighter-rouge">%{ParseQuery}</code>.</p>
+<p>It’s also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the <code class="highlighter-rouge">whereKey:withinGeoBoxFromSouthwest:toNortheast:</code> restriction to your <code class="highlighter-rouge">PFQuery</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFGeoPoint</span> <span class="o">*</span><span class="n">swOfSF</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFGeoPoint</span> <span class="nf">geoPointWithLatitude</span><span class="p">:</span><span class="mi">37</span><span class="p">.</span><span class="mi">708813</span> <span class="nf">longitude</span><span class="p">:</span><span class="o">-</span><span class="mi">122</span><span class="p">.</span><span class="mi">526398</span><span class="p">];</span>
 <span class="n">PFGeoPoint</span> <span class="o">*</span><span class="n">neOfSF</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFGeoPoint</span> <span class="nf">geoPointWithLatitude</span><span class="p">:</span><span class="mi">37</span><span class="p">.</span><span class="mi">822802</span> <span class="nf">longitude</span><span class="p">:</span><span class="o">-</span><span class="mi">122</span><span class="p">.</span><span class="mi">373962</span><span class="p">];</span>
@@ -3564,7 +3564,7 @@ try {
 <p>At the moment there are a couple of things to watch out for:</p>
 
 <ol>
-  <li>Each <code class="highlighter-rouge">%{ParseObject}</code> class may only have one key with a <code class="highlighter-rouge">PFGeoPoint</code> object.</li>
+  <li>Each <code class="highlighter-rouge">PFObject</code> class may only have one key with a <code class="highlighter-rouge">PFGeoPoint</code> object.</li>
   <li>Using the <code class="highlighter-rouge">nearGeoPoint</code> constraint will also limit results to within 100 miles.</li>
   <li>Points should not equal or exceed the extreme ends of the ranges. Latitude should not be -90.0 or 90.0. Longitude should not be -180.0 or 180.0. Attempting to set latitude or longitude out of bounds will cause an error.</li>
 </ol>
@@ -3581,7 +3581,7 @@ try {
                     
                     <h1 id="local-datastore">Local Datastore</h1>
 
-<p>The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve <code class="highlighter-rouge">%{ParseObject}</code>s, even when the network is unavailable. To enable this functionality, add <code class="highlighter-rouge">libsqlite3.dylib</code> and call <code class="highlighter-rouge">[Parse enableLocalDatastore]</code> before your call to <code class="highlighter-rouge">setApplicationId:clientKey:</code>.</p>
+<p>The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve <code class="highlighter-rouge">PFObject</code>s, even when the network is unavailable. To enable this functionality, add <code class="highlighter-rouge">libsqlite3.dylib</code> and call <code class="highlighter-rouge">[Parse enableLocalDatastore]</code> before your call to <code class="highlighter-rouge">setApplicationId:clientKey:</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">AppDelegate</span>
 
@@ -3604,15 +3604,15 @@ try {
 </code></pre>
 </div>
 
-<p>There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given <code class="highlighter-rouge">%{ParseObject}</code>. For example, imagine you have an instance of the <code class="highlighter-rouge">"GameScore"</code> class with an <code class="highlighter-rouge">objectId</code> of <code class="highlighter-rouge">"xWMyZ4YEGZ"</code>, and then you issue a <code class="highlighter-rouge">%{ParseQuery}</code> for all instances of <code class="highlighter-rouge">"GameScore"</code> with that <code class="highlighter-rouge">objectId</code>. The result will be the same instance of the object you already have in memory.</p>
+<p>There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given <code class="highlighter-rouge">PFObject</code>. For example, imagine you have an instance of the <code class="highlighter-rouge">"GameScore"</code> class with an <code class="highlighter-rouge">objectId</code> of <code class="highlighter-rouge">"xWMyZ4YEGZ"</code>, and then you issue a <code class="highlighter-rouge">PFQuery</code> for all instances of <code class="highlighter-rouge">"GameScore"</code> with that <code class="highlighter-rouge">objectId</code>. The result will be the same instance of the object you already have in memory.</p>
 
 <p>Another side effect is that the current user and current installation will be stored in the local datastore, so you can persist unsaved changes to these objects between runs of your app using the methods below.</p>
 
-<p>Calling the <code class="highlighter-rouge">saveEventually</code> method on a <code class="highlighter-rouge">%{ParseObject}</code> will cause the object to be pinned in the local datastore until the save completes. So now, if you change the current <code class="highlighter-rouge">%{ParseUser}</code> and call <code class="highlighter-rouge">[[PFUser currentUser] saveEventually]</code>, your app will always see the changes that you have made.</p>
+<p>Calling the <code class="highlighter-rouge">saveEventually</code> method on a <code class="highlighter-rouge">PFObject</code> will cause the object to be pinned in the local datastore until the save completes. So now, if you change the current <code class="highlighter-rouge">PFUser</code> and call <code class="highlighter-rouge">[[PFUser currentUser] saveEventually]</code>, your app will always see the changes that you have made.</p>
 
 <h2 id="pinning">Pinning</h2>
 
-<p>You can store a <code class="highlighter-rouge">%{ParseObject}</code> in the local datastore by pinning it. Pinning a <code class="highlighter-rouge">%{ParseObject}</code> is recursive, just like saving, so any objects that are pointed to by the one you are pinning will also be pinned. When an object is pinned, every time you update it by fetching or saving new data, the copy in the local datastore will be updated automatically. You don’t need to worry about it at all.</p>
+<p>You can store a <code class="highlighter-rouge">PFObject</code> in the local datastore by pinning it. Pinning a <code class="highlighter-rouge">PFObject</code> is recursive, just like saving, so any objects that are pointed to by the one you are pinning will also be pinned. When an object is pinned, every time you update it by fetching or saving new data, the copy in the local datastore will be updated automatically. You don’t need to worry about it at all.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFObject</span> <span class="o">*</span><span class="n">gameScore</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFObject</span> <span class="nf">objectWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="n">gameScore</span><span class="p">[</span><span class="s">@"score"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">@1337</span><span class="p">;</span>
@@ -3640,7 +3640,7 @@ try {
 
 <h2 id="retrieving-objects">Retrieving Objects</h2>
 
-<p>Storing objects is great, but it’s only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the <code class="highlighter-rouge">fromLocalDatastore</code> method to tell the <code class="highlighter-rouge">%{ParseQuery}</code> where to look for its results.</p>
+<p>Storing objects is great, but it’s only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the <code class="highlighter-rouge">fromLocalDatastore</code> method to tell the <code class="highlighter-rouge">PFQuery</code> where to look for its results.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">query</span> <span class="nf">fromLocalDatastore</span><span class="p">];</span>
@@ -3672,7 +3672,7 @@ try {
 
 <h2 id="querying">Querying</h2>
 
-<p>Often, you’ll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a <a href="#queries">PFQuery</a>. Any <code class="highlighter-rouge">%{ParseQuery}</code> can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.</p>
+<p>Often, you’ll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a <a href="#queries">PFQuery</a>. Any <code class="highlighter-rouge">PFQuery</code> can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">query</span> <span class="nf">fromLocalDatastore</span><span class="p">];</span>
@@ -3843,7 +3843,7 @@ try {
 
 <h2 id="syncing-local-changes">Syncing Local Changes</h2>
 
-<p>Once you’ve saved some changes locally, there are a few different ways you can save those changes back to Parse over the network. The easiest way to do this is with <code class="highlighter-rouge">saveEventually</code>. When you call <code class="highlighter-rouge">saveEventually</code> on a <code class="highlighter-rouge">%{ParseObject}</code>, it will be pinned until it can be saved. The SDK will make sure to save the object the next time the network is available.</p>
+<p>Once you’ve saved some changes locally, there are a few different ways you can save those changes back to Parse over the network. The easiest way to do this is with <code class="highlighter-rouge">saveEventually</code>. When you call <code class="highlighter-rouge">saveEventually</code> on a <code class="highlighter-rouge">PFObject</code>, it will be pinned until it can be saved. The SDK will make sure to save the object the next time the network is available.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="n">gameScore</span> <span class="nf">saveEventually</span><span class="p">];</span>
 </code></pre>
@@ -3852,7 +3852,7 @@ try {
 </code></pre>
 </div>
 
-<p>If you’d like to have more control over the way objects are synced, you can keep them in the local datastore until you are ready to save them yourself using <code class="highlighter-rouge">saveInBackground</code>. To manage the set of objects that need to be saved, you can again use a label. The <code class="highlighter-rouge">fromPinWithName:</code> method on <code class="highlighter-rouge">%{ParseQuery}</code> makes it easy to fetch just the objects you care about.</p>
+<p>If you’d like to have more control over the way objects are synced, you can keep them in the local datastore until you are ready to save them yourself using <code class="highlighter-rouge">saveInBackground</code>. To manage the set of objects that need to be saved, you can again use a label. The <code class="highlighter-rouge">fromPinWithName:</code> method on <code class="highlighter-rouge">PFQuery</code> makes it easy to fetch just the objects you care about.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFQuery</span> <span class="o">*</span><span class="n">query</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFQuery</span> <span class="nf">queryWithClassName</span><span class="p">:</span><span class="s">@"GameScore"</span><span class="p">];</span>
 <span class="p">[</span><span class="n">query</span> <span class="nf">fromPinWithName</span><span class="p">:</span><span class="s">@"MyChanges"</span><span class="p">];</span>
@@ -3970,7 +3970,7 @@ Please note, that App Group identifier and Keychain Group should be the same bet
 
 <p>After all these steps are done, you are all set and all data will be shared between your app and any app extension that the app contains.</p>
 
-<p>If you have an existing app using the Parse SDK, when users upgrade to your latest app version (with data sharing enabled), the Parse SDK will automatically move the main app’s local persistent data (Local Datastore, current <code class="highlighter-rouge">%{ParseUser}</code>, current <code class="highlighter-rouge">%{ParseInstallation}</code>, etc) from the app’s sandbox container to the shared container.
+<p>If you have an existing app using the Parse SDK, when users upgrade to your latest app version (with data sharing enabled), the Parse SDK will automatically move the main app’s local persistent data (Local Datastore, current <code class="highlighter-rouge">PFUser</code>, current <code class="highlighter-rouge">PFInstallation</code>, etc) from the app’s sandbox container to the shared container.
 This migration is irreversible; if you later release another app version with data sharing disabled,
 we will not move the shared container’s data back into the main app’s sandbox container.
 For more about the app/extension shared container, please see Apple’s <a href="https://developer.apple.com/library/ios/documentation/General/Conceptual/ExtensibilityPG/ExtensionScenarios.html#//apple_ref/doc/uid/TP40014214-CH21-SW6">documentation</a>.</p>
@@ -3997,9 +3997,9 @@ For more about the app/extension shared container, please see Apple’s <a href=
 
 <h2 id="installations">Installations</h2>
 
-<p>Every Parse application installed on a device registered for push notifications has an associated %{ParseInstallation} object. The %{ParseInstallation} object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the %{ParseInstallation} object is also required for tracking push-related app open events.</p>
+<p>Every Parse application installed on a device registered for push notifications has an associated PFInstallation object. The PFInstallation object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the PFInstallation object is also required for tracking push-related app open events.</p>
 
-<p>In iOS or OS X, <code class="highlighter-rouge">Installation</code> objects are available through the <code class="highlighter-rouge">%{ParseInstallation}</code> class, a subclass of <code class="highlighter-rouge">%{ParseObject}</code>. It uses the <a href="#objects">same API</a> for storing and retrieving data. To access the current <code class="highlighter-rouge">Installation</code> object from your app, use the <code class="highlighter-rouge">[PFInstallation currentInstallation]</code> method. The first time you save a <code class="highlighter-rouge">%{ParseInstallation}</code>, Parse will add it to your <code class="highlighter-rouge">Installation</code> class, and it will be available for targeting push notifications as long as its <code class="highlighter-rouge">deviceToken</code> field is set.</p>
+<p>In iOS or OS X, <code class="highlighter-rouge">Installation</code> objects are available through the <code class="highlighter-rouge">PFInstallation</code> class, a subclass of <code class="highlighter-rouge">PFObject</code>. It uses the <a href="#objects">same API</a> for storing and retrieving data. To access the current <code class="highlighter-rouge">Installation</code> object from your app, use the <code class="highlighter-rouge">[PFInstallation currentInstallation]</code> method. The first time you save a <code class="highlighter-rouge">PFInstallation</code>, Parse will add it to your <code class="highlighter-rouge">Installation</code> class, and it will be available for targeting push notifications as long as its <code class="highlighter-rouge">deviceToken</code> field is set.</p>
 
 <p>First, make your app register for remote notifications by adding the following in your <code class="highlighter-rouge">application:didFinishLaunchingWithOptions:</code> method (if you haven’t already):</p>
 
@@ -4017,7 +4017,7 @@ For more about the app/extension shared container, please see Apple’s <a href=
 </code></pre>
 </div>
 
-<p>We will then update our <code class="highlighter-rouge">%{ParseInstallation}</code> with the <code class="highlighter-rouge">deviceToken</code> once the device is registered for push notifications:</p>
+<p>We will then update our <code class="highlighter-rouge">PFInstallation</code> with the <code class="highlighter-rouge">deviceToken</code> once the device is registered for push notifications:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">application</span><span class="p">:(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="nv">application</span> <span class="nf">didRegisterForRemoteNotificationsWithDeviceToken</span><span class="p">:(</span><span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">deviceToken</span> <span class="p">{</span>
   <span class="c1">// Store the deviceToken in the current Installation and save it to Parse
@@ -4036,26 +4036,26 @@ For more about the app/extension shared container, please see Apple’s <a href=
 </code></pre>
 </div>
 
-<p>While it is possible to modify a <code class="highlighter-rouge">%{ParseInstallation}</code> just like you would a <code class="highlighter-rouge">%{ParseObject}</code>, there are several special fields that help manage and target devices.</p>
+<p>While it is possible to modify a <code class="highlighter-rouge">PFInstallation</code> just like you would a <code class="highlighter-rouge">PFObject</code>, there are several special fields that help manage and target devices.</p>
 
 <ul>
   <li><strong><code class="highlighter-rouge">channels</code></strong>: An array of the channels to which a device is currently subscribed.</li>
-  <li><strong><code class="highlighter-rouge">badge</code></strong>: The current value of the icon badge for iOS/OS X apps. Changing this value on the <code class="highlighter-rouge">%{ParseInstallation}</code> will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.</li>
+  <li><strong><code class="highlighter-rouge">badge</code></strong>: The current value of the icon badge for iOS/OS X apps. Changing this value on the <code class="highlighter-rouge">PFInstallation</code> will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.</li>
   <li><strong><code class="highlighter-rouge">installationId</code></strong>: Unique Id for the device used by Parse <em>(readonly)</em>.</li>
   <li><strong><code class="highlighter-rouge">deviceType</code></strong>: The type of device, “ios”, “osx”, “android”, “winrt”, “winphone”, “dotnet”, or “embedded”. On iOS and OS X devices, this field will be set to “ios” and “osx”, respectively <em>(readonly)</em>.</li>
   <li><strong><code class="highlighter-rouge">deviceToken</code></strong>: The Apple generated token used for iOS/OS X devices. On Android devices, this is the token used by GCM to keep track of registration ID <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">appName</code></strong>: The display name of the client application to which this installation belongs. In iOS/OS X, this value is obtained from <code class="highlighter-rouge">kCFBundleNameKey</code>. This value is synchronized every time an <code class="highlighter-rouge">%{ParseInstallation}</code> object is saved from the device <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">appVersion</code></strong>: The version string of the client application to which this installation belongs. In iOS/OS X, this value is obtained from <code class="highlighter-rouge">kCFBundleVersionKey</code>. This value is synchronized every time an <code class="highlighter-rouge">%{ParseInstallation}</code> object is saved from the device <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">appIdentifier</code></strong>: A unique identifier for this installation’s client application. In iOS/OS X, this value is obtained from <code class="highlighter-rouge">kCFBundleIdentifierKey</code>. This value is synchronized every time an <code class="highlighter-rouge">%{ParseInstallation}</code> object is saved from the device <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">parseVersion</code></strong>: The version of the Parse SDK which this installation uses. This value is synchronized every time an <code class="highlighter-rouge">%{ParseInstallation}</code> object is saved from the device <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">timeZone</code></strong>: The current time zone where the target device is located. This value is synchronized every time an <code class="highlighter-rouge">%{ParseInstallation}</code> object is saved from the device <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">localeIdentifier</code></strong>: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as “en”) as defined by <a href="http://en.wikipedia.org/wiki/ISO_639-1">ISO 639-1</a>. The country codes are two-letter uppercase ISO country codes (such as “US”) as defined by <a href="&quot;http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3&quot;">ISO 3166-1</a>. This value is synchronized every time an <code class="highlighter-rouge">%{ParseInstallation}</code> object is saved from the device <em>(readonly)</em>.</li>
+  <li><strong><code class="highlighter-rouge">appName</code></strong>: The display name of the client application to which this installation belongs. In iOS/OS X, this value is obtained from <code class="highlighter-rouge">kCFBundleNameKey</code>. This value is synchronized every time a <code class="highlighter-rouge">PFInstallation</code> object is saved from the device <em>(readonly)</em>.</li>
+  <li><strong><code class="highlighter-rouge">appVersion</code></strong>: The version string of the client application to which this installation belongs. In iOS/OS X, this value is obtained from <code class="highlighter-rouge">kCFBundleVersionKey</code>. This value is synchronized every time a <code class="highlighter-rouge">PFInstallation</code> object is saved from the device <em>(readonly)</em>.</li>
+  <li><strong><code class="highlighter-rouge">appIdentifier</code></strong>: A unique identifier for this installation’s client application. In iOS/OS X, this value is obtained from <code class="highlighter-rouge">kCFBundleIdentifierKey</code>. This value is synchronized every time a <code class="highlighter-rouge">PFInstallation</code> object is saved from the device <em>(readonly)</em>.</li>
+  <li><strong><code class="highlighter-rouge">parseVersion</code></strong>: The version of the Parse SDK which this installation uses. This value is synchronized every time a <code class="highlighter-rouge">PFInstallation</code> object is saved from the device <em>(readonly)</em>.</li>
+  <li><strong><code class="highlighter-rouge">timeZone</code></strong>: The current time zone where the target device is located. This value is synchronized every time a <code class="highlighter-rouge">PFInstallation</code> object is saved from the device <em>(readonly)</em>.</li>
+  <li><strong><code class="highlighter-rouge">localeIdentifier</code></strong>: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as “en”) as defined by <a href="http://en.wikipedia.org/wiki/ISO_639-1">ISO 639-1</a>. The country codes are two-letter uppercase ISO country codes (such as “US”) as defined by <a href="&quot;http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3&quot;">ISO 3166-1</a>. This value is synchronized every time a <code class="highlighter-rouge">PFInstallation</code> object is saved from the device <em>(readonly)</em>.</li>
   <li><strong><code class="highlighter-rouge">pushType</code></strong>: This field is reserved for directing Parse to the push delivery network to be used for Android devices. This parameter is not supported in iOS/OS X devices <em>(readonly)</em>.</li>
-  <li><strong><code class="highlighter-rouge">GCMSenderId</code></strong>: This field only has meaning for Android <code class="highlighter-rouge">%{ParseInstallation}</code>s that use the GCM push type. This parameter is not supported in iOS/OS X devices.</li>
+  <li><strong><code class="highlighter-rouge">GCMSenderId</code></strong>: This field only has meaning for Android <code class="highlighter-rouge">PFInstallation</code>s that use the GCM push type. This parameter is not supported in iOS/OS X devices.</li>
   <li><strong><code class="highlighter-rouge">channelUris</code></strong>: The Microsoft-generated push URIs for Windows devices <em>(readonly)</em>.</li>
 </ul>
 
-<p>The Parse SDK will avoid making unnecessary requests. If a <code class="highlighter-rouge">%{ParseInstallation}</code> is saved on the device, a request to the Parse servers will only be made if one of the <code class="highlighter-rouge">%{ParseInstallation}</code>’s fields has been explicitly updated.</p>
+<p>The Parse SDK will avoid making unnecessary requests. If a <code class="highlighter-rouge">PFInstallation</code> is saved on the device, a request to the Parse servers will only be made if one of the <code class="highlighter-rouge">PFInstallation</code>’s fields has been explicitly updated.</p>
 
 <h2 id="sending-pushes">Sending Pushes</h2>
 
@@ -4077,7 +4077,7 @@ For more about the app/extension shared container, please see Apple’s <a href=
 
 <p>A channel is identified by a string that starts with a letter and consists of alphanumeric characters, underscores, and dashes. It doesn’t need to be explicitly created before it can be used and each <code class="highlighter-rouge">Installation</code> can subscribe to any number of channels at a time.</p>
 
-<p>Adding a channel subscription can be done using the <code class="highlighter-rouge">addUniqueObject:</code> method in <code class="highlighter-rouge">%{ParseObject}</code>. For example, in a baseball score app, we could do:</p>
+<p>Adding a channel subscription can be done using the <code class="highlighter-rouge">addUniqueObject:</code> method in <code class="highlighter-rouge">PFObject</code>. For example, in a baseball score app, we could do:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// When users indicate they are Giants fans, we subscribe them to that channel.
 </span><span class="n">PFInstallation</span> <span class="o">*</span><span class="n">currentInstallation</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFInstallation</span> <span class="nf">currentInstallation</span><span class="p">];</span>
@@ -4166,7 +4166,7 @@ For more about the app/extension shared container, please see Apple’s <a href=
 
 <p>While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your <code class="highlighter-rouge">Installation</code> objects using the <a href="#queries">querying API</a> and to send them a push.</p>
 
-<p>Since <code class="highlighter-rouge">%{ParseInstallation}</code> is a subclass of <code class="highlighter-rouge">%{ParseObject}</code>, you can save any data you want and even create relationships between <code class="highlighter-rouge">Installation</code> objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.</p>
+<p>Since <code class="highlighter-rouge">PFInstallation</code> is a subclass of <code class="highlighter-rouge">PFObject</code>, you can save any data you want and even create relationships between <code class="highlighter-rouge">Installation</code> objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.</p>
 
 <h4 id="saving-installation-data">Saving Installation Data</h4>
 
@@ -4189,7 +4189,7 @@ For more about the app/extension shared container, please see Apple’s <a href=
 </code></pre>
 </div>
 
-<p>You can even create relationships between your <code class="highlighter-rouge">Installation</code> objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the <code class="highlighter-rouge">%{ParseInstallation}</code>.</p>
+<p>You can even create relationships between your <code class="highlighter-rouge">Installation</code> objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the <code class="highlighter-rouge">PFInstallation</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Associate the device with a user
 </span><span class="n">PFInstallation</span> <span class="o">*</span><span class="n">installation</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFInstallation</span> <span class="nf">currentInstallation</span><span class="p">];</span>
@@ -4206,7 +4206,7 @@ For more about the app/extension shared container, please see Apple’s <a href=
 
 <h4 id="sending-pushes-to-queries">Sending Pushes to Queries</h4>
 
-<p>Once you have your data stored on your <code class="highlighter-rouge">Installation</code> objects, you can use a <code class="highlighter-rouge">%{ParseQuery}</code> to target a subset of these devices. <code class="highlighter-rouge">Installation</code> queries work just like any other <a href="#queries">Parse query</a>, but we use the special static method <code class="highlighter-rouge">[PFInstallation query]</code> to create it. We set this query on our <code class="highlighter-rouge">PFPush</code> object, before sending the notification.</p>
+<p>Once you have your data stored on your <code class="highlighter-rouge">Installation</code> objects, you can use a <code class="highlighter-rouge">PFQuery</code> to target a subset of these devices. <code class="highlighter-rouge">Installation</code> queries work just like any other <a href="#queries">Parse query</a>, but we use the special static method <code class="highlighter-rouge">[PFInstallation query]</code> to create it. We set this query on our <code class="highlighter-rouge">PFPush</code> object, before sending the notification.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c1">// Create our Installation query
 </span><span class="n">PFQuery</span> <span class="o">*</span><span class="n">pushQuery</span> <span class="o">=</span> <span class="p">[</span><span class="n">PFInstallation</span> <span class="nf">query</span><span class="p">];</span>
@@ -5037,7 +5037,7 @@ https://api.parse.com/1/installations
 
 <h2 id="parameters">Parameters</h2>
 
-<p><code class="highlighter-rouge">PFConfig</code>  supports most of the data types supported by <code class="highlighter-rouge">%{ParseObject}</code>:</p>
+<p><code class="highlighter-rouge">PFConfig</code>  supports most of the data types supported by <code class="highlighter-rouge">PFObject</code>:</p>
 
 <ul>
   <li>NSString</li>
@@ -5163,10 +5163,10 @@ permalink: /analy
 
 <h2 id="pfloginviewcontroller">PFLogInViewController</h2>
 
-<p>If you are using Parse to manage users in your mobile app, you are already familiar with the <code class="highlighter-rouge">%{ParseUser}</code> class. At some point in your app, you might want to present a screen to log in your <code class="highlighter-rouge">%{ParseUser}</code>. <code class="highlighter-rouge">ParseUI</code> provides a view controller that does exactly this:</p>
+<p>If you are using Parse to manage users in your mobile app, you are already familiar with the <code class="highlighter-rouge">PFUser</code> class. At some point in your app, you might want to present a screen to log in your <code class="highlighter-rouge">PFUser</code>. <code class="highlighter-rouge">ParseUI</code> provides a view controller that does exactly this:</p>
 
 <div class="tip info"><div>
-  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `%{ParseUser}`.
+  Watch a  [tutorial on using the login and signup views](/tutorials/login-and-signup-views), which provide a set of built-in views ready to be customized and dropped into your app that uses `PFUser`.
 </div></div>
 
 <p>You use the <code class="highlighter-rouge">PFLogInViewController</code> class by instantiating it and presenting it modally:</p>
@@ -5252,7 +5252,7 @@ permalink: /analy
 
 <h3 id="responding-to-log-in-success-failure-or-cancellation">Responding to Log In Success, Failure or Cancellation</h3>
 
-<p>When the user signs in or cancels, the <code class="highlighter-rouge">PFLogInViewController</code> notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss <code class="highlighter-rouge">PFLogInViewController</code>. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the <code class="highlighter-rouge">%{ParseUser}</code>.</p>
+<p>When the user signs in or cancels, the <code class="highlighter-rouge">PFLogInViewController</code> notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss <code class="highlighter-rouge">PFLogInViewController</code>. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the <code class="highlighter-rouge">PFUser</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">logInViewController</span><span class="p">:(</span><span class="n">PFLogInViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">controller</span>
                <span class="nf">didLogInUser</span><span class="p">:(</span><span class="n">PFUser</span> <span class="o">*</span><span class="p">)</span><span class="nv">user</span> <span class="p">{</span>
@@ -5429,7 +5429,7 @@ permalink: /analy
 
 <h3 id="responding-to-sign-up-success-failure-or-cancellation">Responding to Sign Up Success, Failure or Cancellation</h3>
 
-<p>When the user signs up or cancels, the <code class="highlighter-rouge">PFSignUpViewController</code> notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss <code class="highlighter-rouge">PFSignUpViewController</code>. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the <code class="highlighter-rouge">%{ParseUser}</code>.</p>
+<p>When the user signs up or cancels, the <code class="highlighter-rouge">PFSignUpViewController</code> notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss <code class="highlighter-rouge">PFSignUpViewController</code>. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the <code class="highlighter-rouge">PFUser</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">signUpViewController</span><span class="p">:(</span><span class="n">PFSignUpViewController</span> <span class="o">*</span><span class="p">)</span><span class="nv">signUpController</span> <span class="nf">didSignUpUser</span><span class="p">:(</span><span class="n">PFUser</span> <span class="o">*</span><span class="p">)</span><span class="nv">user</span> <span class="p">{</span>
     <span class="p">[</span><span class="n">self</span> <span class="nf">dismissViewControllerAnimated</span><span class="p">:</span><span class="nb">YES</span> <span class="nf">completion</span><span class="p">:</span><span class="nb">nil</span><span class="p">];</span>
@@ -5563,7 +5563,7 @@ permalink: /analy
 
 <h2 id="pfquerytableviewcontroller">PFQueryTableViewController</h2>
 
-<p>Data oriented iOS applications are mostly a collection of <code class="highlighter-rouge">UITableViewController</code>s and corresponding <code class="highlighter-rouge">UITableView</code>s. When using Parse, each cell of a <code class="highlighter-rouge">UITableView</code> typically represents data from a <code class="highlighter-rouge">%{ParseObject}</code>. <code class="highlighter-rouge">PFQueryTableViewController</code> is a sub-class of <code class="highlighter-rouge">UITableViewController</code> that provides a layer of abstraction that lets you easily display data from one of your Parse classes.</p>
+<p>Data oriented iOS applications are mostly a collection of <code class="highlighter-rouge">UITableViewController</code>s and corresponding <code class="highlighter-rouge">UITableView</code>s. When using Parse, each cell of a <code class="highlighter-rouge">UITableView</code> typically represents data from a <code class="highlighter-rouge">PFObject</code>. <code class="highlighter-rouge">PFQueryTableViewController</code> is a sub-class of <code class="highlighter-rouge">UITableViewController</code> that provides a layer of abstraction that lets you easily display data from one of your Parse classes.</p>
 
 <div class="tip info"><div>
   Watch a [tutorial on using PFQueryTableViewController](/tutorials/parse-query-table) to display objects from a `Todo` class in your Parse application.
@@ -5575,13 +5575,13 @@ permalink: /analy
   <li>Make a subclass of <code class="highlighter-rouge">PFQueryTableViewController</code> and customize it. Use the <a href="https://gist.github.com/ba03c1a550f14f88f95d">template file</a> as a starting point.</li>
   <li>It automatically sets itself as the delegate and datasource.</li>
   <li>Set the <code class="highlighter-rouge">parseClassName</code> instance variable to specify which Parse class should be queried for data.</li>
-  <li>Override the <code class="highlighter-rouge">queryForTable</code> method to construct a custom <code class="highlighter-rouge">%{ParseQuery}</code> that should be used to get objects for the table.</li>
-  <li>Override the <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:object:</code> method to return a custom cell tailored for each <code class="highlighter-rouge">%{ParseObject}</code>.</li>
+  <li>Override the <code class="highlighter-rouge">queryForTable</code> method to construct a custom <code class="highlighter-rouge">PFQuery</code> that should be used to get objects for the table.</li>
+  <li>Override the <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:object:</code> method to return a custom cell tailored for each <code class="highlighter-rouge">PFObject</code>.</li>
   <li>Implement your custom cell class; makes sure it inherits from <code class="highlighter-rouge">PFTableViewCell</code> class.</li>
-  <li>When the view loads, the class automatically grabs the <code class="highlighter-rouge">%{ParseObject}</code>s via the constructed query and loads it into the table. It even includes pagination and pull-to-refresh out of the box.</li>
+  <li>When the view loads, the class automatically grabs the <code class="highlighter-rouge">PFObject</code>s via the constructed query and loads it into the table. It even includes pagination and pull-to-refresh out of the box.</li>
 </ol>
 
-<p>The class allows you to think about a one-to-one mapping between a <code class="highlighter-rouge">%{ParseObject}</code> and a <code class="highlighter-rouge">UITableViewCell</code>, rather than having to juggle index paths. You also get the following features out of the box:</p>
+<p>The class allows you to think about a one-to-one mapping between a <code class="highlighter-rouge">PFObject</code> and a <code class="highlighter-rouge">UITableViewCell</code>, rather than having to juggle index paths. You also get the following features out of the box:</p>
 
 <ul>
   <li>Pagination with a cell that can be tapped to load the next page.</li>
@@ -5709,7 +5709,7 @@ permalink: /analy
 
 <h3 id="loading-remote-images-in-cells">Loading Remote Images in Cells</h3>
 
-<p><code class="highlighter-rouge">PFQueryTableViewController</code> makes it simple to display remote images stored in the Parse Cloud as <code class="highlighter-rouge">%{ParseFile}</code>s. All you need to do is to override <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:object:</code> and return a <code class="highlighter-rouge">PFTableViewCell</code> with its <code class="highlighter-rouge">imageView</code>’s <code class="highlighter-rouge">file</code> property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the <code class="highlighter-rouge">image</code> property of the <code class="highlighter-rouge">imageView</code>.</p>
+<p><code class="highlighter-rouge">PFQueryTableViewController</code> makes it simple to display remote images stored in the Parse Cloud as <code class="highlighter-rouge">PFFile</code>s. All you need to do is to override <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:object:</code> and return a <code class="highlighter-rouge">PFTableViewCell</code> with its <code class="highlighter-rouge">imageView</code>’s <code class="highlighter-rouge">file</code> property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the <code class="highlighter-rouge">image</code> property of the <code class="highlighter-rouge">imageView</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">SimpleTableViewController</span>
 
@@ -5749,17 +5749,17 @@ permalink: /analy
 
 <p><img src="https://parse.com/images/docs/images_table.png" style="max-width:200px" /></p>
 
-<p>This table shows a list of cute animal photos which are stored in the Parse Cloud, as <code class="highlighter-rouge">%{ParseFile}</code>s. “placeholder.jpg” is an image included in the application bundle which is shown before the animal photos are downloaded.</p>
+<p>This table shows a list of cute animal photos which are stored in the Parse Cloud, as <code class="highlighter-rouge">PFFile</code>s. “placeholder.jpg” is an image included in the application bundle which is shown before the animal photos are downloaded.</p>
 
 <p>The images are downloaded on demand. As you scroll through the table, the images in the currently visible cells are downloaded. This just-in-time behavior is desirable because not only does it conserve bandwidth, it also ensures timely display of visible images. If a more aggressive loading behavior is desired, you can use the <code class="highlighter-rouge">loadInBackground</code> method on <code class="highlighter-rouge">imageView</code> to download the image.</p>
 
 <h3 id="customizing-the-query">Customizing the Query</h3>
 
-<p>The default query is set to get objects from your class ordered by descending <code class="highlighter-rouge">createdAt</code>. To customize, simply override the <code class="highlighter-rouge">queryForTable</code> method to return your own <code class="highlighter-rouge">%{ParseQuery}</code>. The table will use this query when getting objects to display.</p>
+<p>The default query is set to get objects from your class ordered by descending <code class="highlighter-rouge">createdAt</code>. To customize, simply override the <code class="highlighter-rouge">queryForTable</code> method to return your own <code class="highlighter-rouge">PFQuery</code>. The table will use this query when getting objects to display.</p>
 
 <h3 id="customizing-the-cells">Customizing the Cells</h3>
 
-<p>To customize the look of your table, override <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:object:</code> to return a customized cell. Notice that this method is similar to the typical table data source method, but it includes the <code class="highlighter-rouge">%{ParseObject}</code> directly as a parameter.</p>
+<p>To customize the look of your table, override <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:object:</code> to return a customized cell. Notice that this method is similar to the typical table data source method, but it includes the <code class="highlighter-rouge">PFObject</code> directly as a parameter.</p>
 
 <p>You should no longer override <code class="highlighter-rouge">tableView:cellForRowAtIndexPath:</code>.</p>
 
@@ -5797,7 +5797,7 @@ permalink: /analy
 
 <h2 id="pfimageview">PFImageView</h2>
 
-<p>Many apps need to display images stored in the Parse Cloud as <code class="highlighter-rouge">%{ParseFile}</code>s. However, to load remote images with the built-in <code class="highlighter-rouge">UIImageView</code> involves writing many lines of boilerplate code. <code class="highlighter-rouge">PFImageView</code> simplifies this task:</p>
+<p>Many apps need to display images stored in the Parse Cloud as <code class="highlighter-rouge">PFFile</code>s. However, to load remote images with the built-in <code class="highlighter-rouge">UIImageView</code> involves writing many lines of boilerplate code. <code class="highlighter-rouge">PFImageView</code> simplifies this task:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">PFImageView</span> <span class="o">*</span><span class="n">imageView</span> <span class="o">=</span> <span class="p">[[</span><span class="n">PFImageView</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
 <span class="n">imageView</span><span class="p">.</span><span class="n">image</span> <span class="o">=</span> <span class="p">[</span><span class="n">UIImage</span> <span class="nf">imageNamed</span><span class="p">:</span><span class="s">@"..."</span><span class="p">];</span> <span class="c1">// placeholder image
@@ -5818,7 +5818,7 @@ permalink: /analy
 
 <h2 id="pftableviewcell">PFTableViewCell</h2>
 
-<p>Many apps need to display table view cells which contain images stored in the Parse Cloud as <code class="highlighter-rouge">%{ParseFile}</code>s. However, to load remote images with the built-in <code class="highlighter-rouge">UITableViewCell</code> involves writing many lines of boilerplate code. <code class="highlighter-rouge">PFTableViewCell</code> simplifies this task by exposing an <code class="highlighter-rouge">imageView</code> property of the type <code class="highlighter-rouge">PFImageView</code> that supports remote image loading:</p>
+<p>Many apps need to display table view cells which contain images stored in the Parse Cloud as <code class="highlighter-rouge">PFFile</code>s. However, to load remote images with the built-in <code class="highlighter-rouge">UITableViewCell</code> involves writing many lines of boilerplate code. <code class="highlighter-rouge">PFTableViewCell</code> simplifies this task by exposing an <code class="highlighter-rouge">imageView</code> property of the type <code class="highlighter-rouge">PFImageView</code> that supports remote image loading:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">@implementation</span> <span class="nc">SimpleTableViewController</span>
 
@@ -5858,7 +5858,7 @@ permalink: /analy
 </code></pre>
 </div>
 
-<p>Like <code class="highlighter-rouge">UITableViewCell</code>, <code class="highlighter-rouge">PFTableViewCell</code> supports the default layout styles. Unlike <code class="highlighter-rouge">UITableViewCell</code>, <code class="highlighter-rouge">PFTableViewCell</code>’s <code class="highlighter-rouge">imageView</code> property is of the type <code class="highlighter-rouge">PFImageView</code>, which supports downloading remote images in <code class="highlighter-rouge">%{ParseFile}</code>.</p>
+<p>Like <code class="highlighter-rouge">UITableViewCell</code>, <code class="highlighter-rouge">PFTableViewCell</code> supports the default layout styles. Unlike <code class="highlighter-rouge">UITableViewCell</code>, <code class="highlighter-rouge">PFTableViewCell</code>’s <code class="highlighter-rouge">imageView</code> property is of the type <code class="highlighter-rouge">PFImageView</code>, which supports downloading remote images in <code class="highlighter-rouge">PFFile</code>.</p>
 
 <p>Although it can be used independently, <code class="highlighter-rouge">PFTableViewCell</code> really shines when used in <code class="highlighter-rouge">PFQueryTableViewController</code>. <code class="highlighter-rouge">PFQueryTableViewController</code> knows about <code class="highlighter-rouge">PFTableViewCell</code> and loads the images automatically. This behavior is discussed in detail in the documentation for <code class="highlighter-rouge">PFQueryTableViewController</code>.</p>
 
@@ -6030,7 +6030,7 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
 
 <h2 id="querying-product-information">Querying Product Information</h2>
 
-<p>You can query the product objects created in the data browser using <code class="highlighter-rouge">PFProduct</code>. Like <code class="highlighter-rouge">%{ParseUser}</code> or <code class="highlighter-rouge">%{ParseRole}</code>, <code class="highlighter-rouge">PFProduct</code> is a subclass of <code class="highlighter-rouge">%{ParseObject}</code> that contains convenience accessors to various product-specific properties.</p>
+<p>You can query the product objects created in the data browser using <code class="highlighter-rouge">PFProduct</code>. Like <code class="highlighter-rouge">PFUser</code> or <code class="highlighter-rouge">PFRole</code>, <code class="highlighter-rouge">PFProduct</code> is a subclass of <code class="highlighter-rouge">PFObject</code> that contains convenience accessors to various product-specific properties.</p>
 
 <p>For example, here’s a simple query to get a product:</p>
 
@@ -6066,7 +6066,7 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
                     
                     <h1 id="data">Data</h1>
 
-<p>We’ve designed the Parse SDKs so that you typically don’t need to worry about how data is saved while using the client SDKs. Simply add data to the <code class="highlighter-rouge">%{ParseObject}</code>, and it’ll be saved correctly.</p>
+<p>We’ve designed the Parse SDKs so that you typically don’t need to worry about how data is saved while using the client SDKs. Simply add data to the Parse <code class="highlighter-rouge">Object</code>, and it’ll be saved correctly.</p>
 
 <p>Nevertheless, there are some cases where it’s useful to be aware of how data is stored on the Parse platform.</p>
 
@@ -6080,7 +6080,7 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
 
 <p>When a class is initially created, it doesn’t have an inherent schema defined. This means that for the first object, it could have any types of fields you want.</p>
 
-<p>However, after a field has been set at least once, that field is locked into the particular type that was saved. For example, if a <code class="highlighter-rouge">%{ParseUser}</code> object is saved with field <code class="highlighter-rouge">name</code> of type <code class="highlighter-rouge">String</code>, that field will be restricted to the <code class="highlighter-rouge">String</code> type only (the server will return an error if you try to save anything else).</p>
+<p>However, after a field has been set at least once, that field is locked into the particular type that was saved. For example, if a <code class="highlighter-rouge">User</code> object is saved with field <code class="highlighter-rouge">name</code> of type <code class="highlighter-rouge">String</code>, that field will be restricted to the <code class="highlighter-rouge">String</code> type only (the server will return an error if you try to save anything else).</p>
 
 <p>One special case is that any field can be set to <code class="highlighter-rouge">null</code>, no matter what type it is.</p>
 
@@ -6133,7 +6133,7 @@ PFPurchase.buyProduct("Pro") {(error: NSError?) -&gt; Void in
 
 <p>In addition to the exposed fields, objects in the Parse User class can also have the <code class="highlighter-rouge">bcryptPassword</code> field set. The value of this field is a <code class="highlighter-rouge">String</code> that is the bcrypt hashed password + salt in the modular crypt format described in this <a href="http://stackoverflow.com/a/5882472/1351961">StackOverflow answer</a>. Most OpenSSL based bcrypt implementations should have built-in methods to produce these strings.</p>
 
-<p>A file containing a <code class="highlighter-rouge">%{ParseUser}</code> object could look like:</p>
+<p>A file containing a <code class="highlighter-rouge">User</code> object could look like:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="p">{</span> <span class="s2">"results"</span><span class="err">:</span>
   <span class="p">[{</span>
@@ -7682,7 +7682,7 @@ $books = $bookQuery-&gt;find();
 </code></pre>
 </div>
 
-<p>When the callback expects a <code class="highlighter-rouge">NSNumber</code>, its <code class="highlighter-rouge">boolValue</code> tells you whether the operation succeeded or not. For example, this is how you might implement the callback for <code class="highlighter-rouge">%{ParseObject}</code>’s <code class="highlighter-rouge">saveInBackgroundWithTarget:selector:</code> method:</p>
+<p>When the callback expects a <code class="highlighter-rouge">NSNumber</code>, its <code class="highlighter-rouge">boolValue</code> tells you whether the operation succeeded or not. For example, this is how you might implement the callback for <code class="highlighter-rouge">PFObject</code>’s <code class="highlighter-rouge">saveInBackgroundWithTarget:selector:</code> method:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">callbackForSave</span><span class="p">:(</span><span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">result</span> <span class="nf">error</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span> <span class="p">{</span>
     <span class="k">if</span> <span class="p">([</span><span class="n">result</span> <span class="nf">boolValue</span><span class="p">])</span> <span class="p">{</span>
@@ -9465,7 +9465,7 @@ $acl-&gt;setRoleWriteAccessWithName("admins", true);
     <tr>
       <td><code class="highlighter-rouge">ObjectTooLarge</code></td>
       <td>116</td>
-      <td>The object is too large. %{ParseObject}s have a max size of 128 kilobytes.</td>
+      <td>The object is too large. Parse Objectss have a max size of 128 kilobytes.</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">ExceededConfigParamsError</code></td>
@@ -9718,7 +9718,7 @@ $acl-&gt;setRoleWriteAccessWithName("admins", true);
     <tr>
       <td><code class="highlighter-rouge">InvalidFileName</code></td>
       <td>122</td>
-      <td>An invalid filename was used for %{ParseFile}. A valid file name contains only a-zA-Z0-9_. characters and is between 1 and 128 characters.</td>
+      <td>An invalid filename was used for Parse File. A valid file name contains only a-zA-Z0-9_. characters and is between 1 and 128 characters.</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">MissingContentType</code></td>
@@ -10033,7 +10033,7 @@ $acl-&gt;setRoleWriteAccessWithName("admins", true);
     <tr>
       <td><code class="highlighter-rouge">FileReadError </code></td>
       <td>601</td>
-      <td>Unable to read input for a %{ParseFile} on the client.</td>
+      <td>Unable to read input for a Parse File on the client.</td>
     </tr>
     <tr>
       <td><code class="highlighter-rouge">XDomainRequest</code></td>

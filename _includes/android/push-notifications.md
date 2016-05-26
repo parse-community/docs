@@ -16,7 +16,7 @@ When sending pushes to Android devices with GCM, there are several pieces of inf
 *   **Sender ID**: The GCM sender ID is a public number that identifies the sender of a push notification.
 *   **API key**: The GCM API key is a server secret that allows a server to send pushes to a registration ID on behalf of a particular sender ID.
 
-The Parse Android SDK chooses a reasonable default configuration so that you do not have to worry about GCM registration ids, sender ids, or API keys. In particular, the SDK will automatically register your app for push at startup time using Parse's sender ID (1076345567071) and will store the resulting registration ID in the `deviceToken` field of the app's current `%{ParseInstallation}`.
+The Parse Android SDK chooses a reasonable default configuration so that you do not have to worry about GCM registration ids, sender ids, or API keys. In particular, the SDK will automatically register your app for push at startup time using Parse's sender ID (1076345567071) and will store the resulting registration ID in the `deviceToken` field of the app's current `ParseInstallation`.
 
 However, as an advanced feature for developers that want to send pushes from multiple push providers, Parse allows you to optionally register your app for pushes with additional GCM sender IDs. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`:
 
@@ -38,31 +38,31 @@ If you want to register your app with multiple additional sender IDs, then the `
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-In Android, `Installation` objects are available through the `%{ParseInstallation}` class, a subclass of `%{ParseObject}`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your Android app, use the `ParseInstallation.getCurrentInstallation()` method. The first time you save a `%{ParseInstallation}`, Parse will add it to your `Installation` class and it will be available for targeting push notifications.
+In Android, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your Android app, use the `ParseInstallation.getCurrentInstallation()` method. The first time you save a `ParseInstallation`, Parse will add it to your `Installation` class and it will be available for targeting push notifications.
 
 ```java
 // Save the current Installation to Parse.
 ParseInstallation.getCurrentInstallation().saveInBackground();
 ```
 
-While it is possible to modify a `%{ParseInstallation}` just like you would a `%{ParseObject}`, there are several special fields that help manage and target devices.
+While it is possible to modify a `ParseInstallation` just like you would a `ParseObject`, there are several special fields that help manage and target devices.
 
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
 *   **`installationId`**: Unique Id for the device used by Parse _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "osx", "android", "winrt", "winphone", "dotnet", or "embedded". On Android devices, this field will be set to "android" _(readonly)_.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via GCM, this field will be marked "gcm". If Google Play Services is not available, it will be blank _(readonly)_.
-*   **`GCMSenderId`**: This field only has meaning for Android `%{ParseInstallation}`s that use the GCM push type. It is reserved for directing Parse to send pushes to this installation with an alternate GCM sender ID. This field should generally not be set unless you are uploading installation data from another push provider. If you set this field, then you must set the GCM API key corresponding to this GCM sender ID in your Parse application's push settings.
+*   **`GCMSenderId`**: This field only has meaning for Android `ParseInstallation`s that use the GCM push type. It is reserved for directing Parse to send pushes to this installation with an alternate GCM sender ID. This field should generally not be set unless you are uploading installation data from another push provider. If you set this field, then you must set the GCM API key corresponding to this GCM sender ID in your Parse application's push settings.
 *   **`deviceToken`**: The token used by GCM to keep track of registration ID. On iOS devices, this is the Apple generated token _(readonly)_.
-*   **`appName`**: The display name of the client application to which this installation belongs. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device  _(readonly)_.
-*   **`appVersion`**: The version string of the client application to which this installation belongs. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device  _(readonly)_.
-*   **`parseVersion`**: The version of the Parse SDK which this installation uses. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device  _(readonly)_.
-*   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
+*   **`appName`**: The display name of the client application to which this installation belongs. This value is synchronized every time a `ParseInstallation` object is saved from the device  _(readonly)_.
+*   **`appVersion`**: The version string of the client application to which this installation belongs. This value is synchronized every time a `ParseInstallation` object is saved from the device  _(readonly)_.
+*   **`parseVersion`**: The version of the Parse SDK which this installation uses. This value is synchronized every time a `ParseInstallation` object is saved from the device  _(readonly)_.
+*   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time a `ParseInstallation` object is saved from the device _(readonly)_.
+*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time a `ParseInstallation` object is saved from the device _(readonly)_.
 *   **`badge`**: The current value of the icon badge for iOS apps. Changes to this value on the server will be used for future badge-increment push notifications.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices _(readonly)_.
 *   **`appIdentifier`**: A unique identifier for this installation's client application. This parameter is not supported in Android _(readonly)_.
 
-The Parse Android SDK will avoid making unnecessary requests. If a `%{ParseInstallation}` is saved on the device, a request to the Parse servers will only be made if one of the `%{ParseInstallation}`'s fields has been explicitly updated.
+The Parse Android SDK will avoid making unnecessary requests. If a `ParseInstallation` is saved on the device, a request to the Parse servers will only be made if one of the `ParseInstallation`'s fields has been explicitly updated.
 
 ## Sending Pushes
 
@@ -140,11 +140,11 @@ push.sendInBackground();
 
 While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
-Since `%{ParseInstallation}` is a subclass of `%{ParseObject}`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
+Since `ParseInstallation` is a subclass of `ParseObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-Storing data on an `%{ParseInstallation}` object is just as easy as storing [any other data](#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
+Storing data on a `ParseInstallation` object is just as easy as storing [any other data](#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
 ```java
 // Store app language and version
@@ -155,7 +155,7 @@ installation.put("injuryReports",true);
 installation.saveInBackground();
 ```
 
-You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a `%{ParseInstallation}` with a particular user, for example, you can simply store the current user on the `%{ParseInstallation}`.
+You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a `ParseInstallation` with a particular user, for example, you can simply store the current user on the `ParseInstallation`.
 
 ```java
 // Associate the device with a user
@@ -166,7 +166,7 @@ installation.saveInBackground();
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `%{ParseInstallation}` objects, you can use a `%{ParseQuery}` to target a subset of these devices. `%{ParseInstallation}` queries work just like any other [Parse query](#queries), but we use the special static method `ParseInstallation.getQuery()` to create it. We set this query on our `ParsePush` object, before sending the notification.
+Once you have your data stored on your `ParseInstallation` objects, you can use a `ParseQuery` to target a subset of these devices. `ParseInstallation` queries work just like any other [Parse query](#queries), but we use the special static method `ParseInstallation.getQuery()` to create it. We set this query on our `ParsePush` object, before sending the notification.
 
 ```java
 // Create our Installation query
@@ -195,7 +195,7 @@ push.setMessage("Giants scored against the A's! It's now 2-2.");
 push.sendInBackground();
 ```
 
-If we store relationships to other objects in our `%{ParseInstallation}` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
+If we store relationships to other objects in our `ParseInstallation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
 ```java
 // Find users near a given location
@@ -468,13 +468,13 @@ Please note that SDKs that use a Client Key, such as the Android SDK, can only s
 
 You have confirmed that the push notification is making it to your push logs. Now what? The next step is to verify if your push notification targeting is correct. Say, if you're debugging why notifications are not reaching a specific device, it's important to make sure that this device is actually included in the targeting of this push notification. You can't deliver something that is not addressed correctly.
 
-In order to do this, you'll have to confirm that the device's `%{ParseInstallation}` object is included in your push notification targeting criteria. This is quite straightforward if you're using channels: all you need to verify is that your device's `%{ParseInstallation}` is subscribed to the channel by checking the channels array. If you're using advanced targeting, e.g. you're using a push query with constraints, you'll have to work a bit more to determine if your targeting is on point.
+In order to do this, you'll have to confirm that the device's `ParseInstallation` object is included in your push notification targeting criteria. This is quite straightforward if you're using channels: all you need to verify is that your device's `ParseInstallation` is subscribed to the channel by checking the channels array. If you're using advanced targeting, e.g. you're using a push query with constraints, you'll have to work a bit more to determine if your targeting is on point.
 
 Basically, you will need to run the same push query you're using for your targeting, and verify that your installation of interest is included in the result set. As you can only query the installation class programmatically using the Master Key, you will need to use one of the Master Key capable SDKs (JavaScript SDK, .NET) or the REST API. Ideally, you would use the same SDK that you're currently using to send the push notifications.
 
 #### Debugging using the REST API
 
-The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](/docs/rest#queries-constraints) over `%{ParseInstallation}`s would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](/docs/rest#queries-constraints) over `ParseInstallation`s would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
 ```bash
 # Query over installations
@@ -514,7 +514,7 @@ If everything looks great so far, but push notifications are not showing up on y
 *   Make sure you are using the correct `packageName` in your `AndroidManifest.xml`.
 *   Make sure you have the correct permissions listed in your `AndroidManifest.xml` file, as outlined in the [Android Push Quickstart](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start). If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct `android:name` property and the proper intent filters.
 *   Make sure you've used the correct App ID and client key, and that `Parse.initialize()` is being called. `Parse.initialize()` lets the service know which application it is listening for; this code must be in your `Application.onCreate` rather than `Activity.onCreate` for a particular `Activity`, so that any activation technique will know how to use Parse.
-*   Check that the push registration call is being called successfully. Your device must successfully register a %{ParseInstallation} object with a valid GCM Registration id in the "deviceToken" field, if using GCM.
+*   Check that the push registration call is being called successfully. Your device must successfully register a ParseInstallation object with a valid GCM Registration id in the "deviceToken" field, if using GCM.
 *   Check that the device is set to accept push notifications from your app.
 *   Note that, by design, force-killed apps will not be able to receive push notifications. Launch the app again to reenable push notifications.
 *   Check the number of subscribers in your Parse Push Console. Does it match the expected number of subscribers? Your push might be targeted incorrectly.

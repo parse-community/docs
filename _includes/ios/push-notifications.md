@@ -10,9 +10,9 @@ If you want to start using push, start by completing the [Push Notifications Qui
 
 ## Installations
 
-Every Parse application installed on a device registered for push notifications has an associated %{ParseInstallation} object. The %{ParseInstallation} object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the %{ParseInstallation} object is also required for tracking push-related app open events.
+Every Parse application installed on a device registered for push notifications has an associated PFInstallation object. The PFInstallation object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the PFInstallation object is also required for tracking push-related app open events.
 
-In iOS or OS X, `Installation` objects are available through the `%{ParseInstallation}` class, a subclass of `%{ParseObject}`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your app, use the `[PFInstallation currentInstallation]` method. The first time you save a `%{ParseInstallation}`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
+In iOS or OS X, `Installation` objects are available through the `PFInstallation` class, a subclass of `PFObject`. It uses the [same API](#objects) for storing and retrieving data. To access the current `Installation` object from your app, use the `[PFInstallation currentInstallation]` method. The first time you save a `PFInstallation`, Parse will add it to your `Installation` class, and it will be available for targeting push notifications as long as its `deviceToken` field is set.
 
 First, make your app register for remote notifications by adding the following in your `application:didFinishLaunchingWithOptions:` method (if you haven't already):
 
@@ -30,7 +30,7 @@ application.registerUserNotificationSettings(settings)
 application.registerForRemoteNotifications()
 ```
 
-We will then update our `%{ParseInstallation}` with the `deviceToken` once the device is registered for push notifications:
+We will then update our `PFInstallation` with the `deviceToken` once the device is registered for push notifications:
 
 ```objc
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -49,24 +49,24 @@ func application(application: UIApplication, didRegisterForRemoteNotificationsWi
 }
 ```
 
-While it is possible to modify a `%{ParseInstallation}` just like you would a `%{ParseObject}`, there are several special fields that help manage and target devices.
+While it is possible to modify a `PFInstallation` just like you would a `PFObject`, there are several special fields that help manage and target devices.
 
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
-*   **`badge`**: The current value of the icon badge for iOS/OS X apps. Changing this value on the `%{ParseInstallation}` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
+*   **`badge`**: The current value of the icon badge for iOS/OS X apps. Changing this value on the `PFInstallation` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
 *   **`installationId`**: Unique Id for the device used by Parse _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "osx", "android", "winrt", "winphone", "dotnet", or "embedded". On iOS and OS X devices, this field will be set to "ios" and "osx", respectively _(readonly)_.
 *   **`deviceToken`**: The Apple generated token used for iOS/OS X devices. On Android devices, this is the token used by GCM to keep track of registration ID _(readonly)_.
-*   **`appName`**: The display name of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleNameKey`. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`appVersion`**: The version string of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleVersionKey`. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`appIdentifier`**: A unique identifier for this installation's client application. In iOS/OS X, this value is obtained from `kCFBundleIdentifierKey`. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`parseVersion`**: The version of the Parse SDK which this installation uses. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
-*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time an `%{ParseInstallation}` object is saved from the device _(readonly)_.
+*   **`appName`**: The display name of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleNameKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
+*   **`appVersion`**: The version string of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleVersionKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
+*   **`appIdentifier`**: A unique identifier for this installation's client application. In iOS/OS X, this value is obtained from `kCFBundleIdentifierKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
+*   **`parseVersion`**: The version of the Parse SDK which this installation uses. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
+*   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
+*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used for Android devices. This parameter is not supported in iOS/OS X devices _(readonly)_.
-*   **`GCMSenderId`**: This field only has meaning for Android `%{ParseInstallation}`s that use the GCM push type. This parameter is not supported in iOS/OS X devices.
+*   **`GCMSenderId`**: This field only has meaning for Android `PFInstallation`s that use the GCM push type. This parameter is not supported in iOS/OS X devices.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices _(readonly)_.
 
-The Parse SDK will avoid making unnecessary requests. If a `%{ParseInstallation}` is saved on the device, a request to the Parse servers will only be made if one of the `%{ParseInstallation}`'s fields has been explicitly updated.
+The Parse SDK will avoid making unnecessary requests. If a `PFInstallation` is saved on the device, a request to the Parse servers will only be made if one of the `PFInstallation`'s fields has been explicitly updated.
 
 ## Sending Pushes
 
@@ -88,7 +88,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 A channel is identified by a string that starts with a letter and consists of alphanumeric characters, underscores, and dashes. It doesn't need to be explicitly created before it can be used and each `Installation` can subscribe to any number of channels at a time.
 
-Adding a channel subscription can be done using the `addUniqueObject:` method in `%{ParseObject}`. For example, in a baseball score app, we could do:
+Adding a channel subscription can be done using the `addUniqueObject:` method in `PFObject`. For example, in a baseball score app, we could do:
 
 ```objc
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -177,7 +177,7 @@ push.sendPushInBackground()
 
 While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](#queries) and to send them a push.
 
-Since `%{ParseInstallation}` is a subclass of `%{ParseObject}`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
+Since `PFInstallation` is a subclass of `PFObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
@@ -200,7 +200,7 @@ installation["injuryReports"] = true
 installation.saveInBackground()
 ```
 
-You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the `%{ParseInstallation}`.
+You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate a PFInstallation with a particular user, for example, you can simply store the current user on the `PFInstallation`.
 
 ```objc
 // Associate the device with a user
@@ -217,7 +217,7 @@ installation.saveInBackground()
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `%{ParseQuery}` to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries), but we use the special static method `[PFInstallation query]` to create it. We set this query on our `PFPush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `PFQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries), but we use the special static method `[PFInstallation query]` to create it. We set this query on our `PFPush` object, before sending the notification.
 
 ```objc
 // Create our Installation query

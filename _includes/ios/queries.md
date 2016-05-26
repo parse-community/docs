@@ -1,12 +1,12 @@
 # Queries
 
-We've already seen how a `%{ParseQuery}` with `getObjectInBackgroundWithId:block:` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `%{ParseQuery}` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
+We've already seen how a `PFQuery` with `getObjectInBackgroundWithId:block:` can retrieve a single `PFObject` from Parse. There are many other ways to retrieve data with `PFQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
 
 ## Basic Queries
 
-In many cases, `getObjectInBackgroundWithId:block:` isn't powerful enough to specify which objects you want to retrieve. The `%{ParseQuery}` offers different ways to retrieve a list of objects rather than just a single object.
+In many cases, `getObjectInBackgroundWithId:block:` isn't powerful enough to specify which objects you want to retrieve. The `PFQuery` offers different ways to retrieve a list of objects rather than just a single object.
 
-The general pattern is to create a `%{ParseQuery}`, put conditions on it, and then retrieve a `NSArray` of matching `%{ParseObject}`s using either `findObjectsInBackgroundWithBlock:` or `findObjectsInBackgroundWithTarget:selector:`. For example, to retrieve scores with a particular `playerName`, use the `whereKey:equalTo:` method to constrain the value for a key.
+The general pattern is to create a `PFQuery`, put conditions on it, and then retrieve a `NSArray` of matching `PFObject`s using either `findObjectsInBackgroundWithBlock:` or `findObjectsInBackgroundWithTarget:selector:`. For example, to retrieve scores with a particular `playerName`, use the `whereKey:equalTo:` method to constrain the value for a key.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -77,7 +77,7 @@ let scoreArray = query.findObjects()
 
 ## Specifying Constraints with NSPredicate
 
-To get the most out of `%{ParseQuery}` we recommend using its methods listed below to add constraints. However, if you prefer using `NSPredicate`, a subset of the constraints can be specified by providing an `NSPredicate` when creating your `%{ParseQuery}`.
+To get the most out of `PFQuery` we recommend using its methods listed below to add constraints. However, if you prefer using `NSPredicate`, a subset of the constraints can be specified by providing an `NSPredicate` when creating your `PFQuery`.
 
 ```objc
 NSPredicate *predicate = [NSPredicate predicateWithFormat:@"playerName = 'Dan Stemkosk'"];
@@ -106,7 +106,7 @@ The following types of predicates are **not** supported:
 
 ## Query Constraints
 
-There are several ways to put constraints on the objects found by a `%{ParseQuery}`. You can filter out objects with a particular key-value pair with `whereKey:notEqualTo`:
+There are several ways to put constraints on the objects found by a `PFQuery`. You can filter out objects with a particular key-value pair with `whereKey:notEqualTo`:
 
 ```objc
 // Using PFQuery
@@ -508,7 +508,7 @@ Queries that have regular expression constraints are very expensive. Refer to th
 
 ## Relational Queries
 
-There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `%{ParseObject}`, you can use `whereKey:equalTo:` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `PFObject`, you can use `whereKey:equalTo:` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
 ```objc
 // Assume PFObject *myPost was previously created.
@@ -566,7 +566,7 @@ query.whereKey("post", equalTo: PFObject(withoutDataWithClassName: "Post", objec
 NSPredicate(format: "post = %@", PFObject(withoutDataWithClassName: "Post", objectId: "1zEcyElZ80"))
 ```
 
-If you want to retrieve objects where a field contains a `%{ParseObject}` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
+If you want to retrieve objects where a field contains a `PFObject` that match a different query, you can use `whereKey:matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
 
 ```objc
 // Using PFQuery
@@ -613,7 +613,7 @@ query.findObjectsInBackgroundWithBlock {
 }
 ```
 
-If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
+If you want to retrieve objects where a field contains a `PFObject` that does not match a different query, you can use `whereKey:doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
 ```objc
 // Using PFQuery
@@ -886,7 +886,7 @@ query.findObjectsInBackgroundWithBlock {
 }
 ```
 
-You can add additional constraints to the newly created `%{ParseQuery}` that act as an 'and' operator.
+You can add additional constraints to the newly created `PFQuery` that act as an 'and' operator.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `nearGeoPoint`, `withinGeoBox...:`, `limit`, `skip`, `orderBy...:`, `includeKey:`) in the subqueries of the compound query.
 

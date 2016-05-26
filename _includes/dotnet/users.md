@@ -1,20 +1,20 @@
 # Users
 
-At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `%{ParseUser}` that automatically handles much of the functionality required for user account management.
+At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. We provide a specialized user class called `ParseUser` that automatically handles much of the functionality required for user account management.
 
 With this class, you'll be able to add user account functionality in your app.
 
-`%{ParseUser}` is a subclass of `%{ParseObject}` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `%{ParseObject}` also exist in `%{ParseUser}`. The difference is that ParseUser has some special additions specific to user accounts.
+`ParseUser` is a subclass of `ParseObject` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `ParseObject` also exist in `ParseUser`. The difference is that ParseUser has some special additions specific to user accounts.
 
 ## Properties
 
-`%{ParseUser}` has several properties that set it apart from `%{ParseObject}`:
+`ParseUser` has several properties that set it apart from `ParseObject`:
 
 *   `Username`: The username for the user (required).
 *   `Password`: The password for the user (required on signup).
 *   `Email`: The email address for the user (optional).
 
-We'll go through each of these in detail as we run through the various use cases for users. Keep in mind that if you set `Username` and `Email` through these properties, you do not need to set it using the indexer on `%{ParseObject}` &mdash; this is set for you automatically.
+We'll go through each of these in detail as we run through the various use cases for users. Keep in mind that if you set `Username` and `Email` through these properties, you do not need to set it using the indexer on `ParseObject` &mdash; this is set for you automatically.
 
 ## Signing Up
 
@@ -39,11 +39,11 @@ public async void SignUpButton_Click(object sender, RoutedEventArgs e)
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
-Note that we used the `SignUpAsync` method, not the `SaveAsync` method. New `%{ParseUser}`s should always be created using the `SignUpAsync` method. Subsequent updates to a user can be done by calling `SaveAsync`.
+Note that we used the `SignUpAsync` method, not the `SaveAsync` method. New `ParseUser`s should always be created using the `SignUpAsync` method. Subsequent updates to a user can be done by calling `SaveAsync`.
 
 If a signup isn't successful, you should catch the exception thrown by the `SignUpAsync`. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.
 
-You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in both the `Username` and `Email` properties &mdash; `%{ParseObject}` will work as normal. We'll go over how this is handled in the reset password section.
+You are free to use an email address as the username. Simply ask your users to enter their email, but fill it in both the `Username` and `Email` properties &mdash; `ParseObject` will work as normal. We'll go over how this is handled in the reset password section.
 
 ## Logging In
 
@@ -63,13 +63,13 @@ catch (Exception e)
 
 ## Verifying Emails
 
-Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `%{ParseUser}` object. When a `%{ParseUser}`'s `Email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
+Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `ParseUser` object. When a `ParseUser`'s `Email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
 
 There are three `emailVerified` states to consider:
 
-1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `%{ParseUser}`s can never have a `true` value when the user account is first created.
-2.  `false` - at the time the `%{ParseUser}` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `FetchAsync` on the `%{ParseUser}`.
-3.  _missing_ - the `%{ParseUser}` was created when email verification was off or the `%{ParseUser}` does not have an `email`.
+1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `ParseUser`s can never have a `true` value when the user account is first created.
+2.  `false` - at the time the `ParseUser` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `FetchAsync` on the `ParseUser`.
+3.  _missing_ - the `ParseUser` was created when email verification was off or the `ParseUser` does not have an `email`.
 
 ## Current User
 
@@ -113,9 +113,9 @@ catch (Exception e)
 
 ## Security For User Objects
 
-The `%{ParseUser}` class is secured by default. Data stored in a `%{ParseUser}` can only be modified by that user. By default, the data can still be read by any client. Thus, some `%{ParseUser}` objects are authenticated and can be modified, whereas others are read-only.
+The `ParseUser` class is secured by default. Data stored in a `ParseUser` can only be modified by that user. By default, the data can still be read by any client. Thus, some `ParseUser` objects are authenticated and can be modified, whereas others are read-only.
 
-Specifically, you are not able to invoke the `SaveAsync` or `DeleteAsync` methods unless the `%{ParseUser}` was obtained using an authenticated method, like `LogInAsync` or `SignUpAsync`. This ensures that only the user can alter their own data.
+Specifically, you are not able to invoke the `SaveAsync` or `DeleteAsync` methods unless the `ParseUser` was obtained using an authenticated method, like `LogInAsync` or `SignUpAsync`. This ensures that only the user can alter their own data.
 
 The following illustrates this security policy:
 
@@ -134,15 +134,15 @@ user.Username = "another_username";
 await user.SaveAsync();
 ```
 
-The `%{ParseUser}` obtained from `Current` will always be authenticated.
+The `ParseUser` obtained from `Current` will always be authenticated.
 
-If you need to check if a `%{ParseUser}` is authenticated, you can check the `IsAuthenticated` property. You do not need to check `IsAuthenticated` with `%{ParseUser}` objects that are obtained via an authenticated method.
+If you need to check if a `ParseUser` is authenticated, you can check the `IsAuthenticated` property. You do not need to check `IsAuthenticated` with `ParseUser` objects that are obtained via an authenticated method.
 
 ## Security For Other Objects
 
-The same security model that applies to the `%{ParseUser}` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
+The same security model that applies to the `ParseUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
 
-The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `%{ParseUser}`. Then, the `ParseACL` constructor generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
+The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, the `ParseACL` constructor generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
 ```csharp
 var privateNote = new ParseObject("Note");
@@ -222,11 +222,11 @@ var women = await ParseUser.Query
     .FindAsync();
 ```
 
-In addition, you can use `GetAsync` to get a `%{ParseUser}` by id.
+In addition, you can use `GetAsync` to get a `ParseUser` by id.
 
 ## Associations
 
-Associations involving a `%{ParseUser}` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
+Associations involving a `ParseUser` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
 ```csharp
 // Make a new post
@@ -261,9 +261,9 @@ var usersPosts = await ParseObject.GetQuery("Post")
 
 ## Facebook Users
 
-Parse provides an easy way to integrate Facebook with your application. The `ParseFacebookUtils` class integrates with `%{ParseUser}` to make linking your users to their Facebook identities easy.
+Parse provides an easy way to integrate Facebook with your application. The `ParseFacebookUtils` class integrates with `ParseUser` to make linking your users to their Facebook identities easy.
 
-Using our Facebook integration, you can associate an authenticated Facebook user with a `%{ParseUser}`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save their data to Parse.
+Using our Facebook integration, you can associate an authenticated Facebook user with a `ParseUser`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save their data to Parse.
 
 ### Setup
 
@@ -282,7 +282,7 @@ public App()
 }
 ```
 
-There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `%{ParseUser}`, or (2) linking Facebook to an existing `%{ParseUser}`.
+There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `ParseUser`, or (2) linking Facebook to an existing `ParseUser`.
 
 <div class='tip info'><div>
 It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use [Microsoft's Facebook SDK](http://www.csharpsdk.org).
@@ -290,7 +290,7 @@ It is up to you to record any data that you need from the Facebook user after th
 
 ### Login & Signup
 
-`ParseFacebookUtils` provides a way to allow your `%{ParseUser}`s to log in or sign up through Facebook. This is accomplished using the `LogInAsync()` method. To display Facebook's web browser OAuth flow to your users, you'll need to pass `LogInAsync` a web browser control (which you'll usually define in XAML) and dismiss it when you've completed login:
+`ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is accomplished using the `LogInAsync()` method. To display Facebook's web browser OAuth flow to your users, you'll need to pass `LogInAsync` a web browser control (which you'll usually define in XAML) and dismiss it when you've completed login:
 
 ```csharp
 // Make your browser control visible
@@ -302,7 +302,7 @@ When this code is run, the following happens:
 
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback.
-3.  Our SDK receives the user's Facebook access data and saves it to a `%{ParseUser}`. If no `%{ParseUser}` exists with the same Facebook ID, then a new `%{ParseUser}` is created.
+3.  Our SDK receives the user's Facebook access data and saves it to a `ParseUser`. If no `ParseUser` exists with the same Facebook ID, then a new `ParseUser` is created.
 4.  The awaited `Task` completes and your code continues executing.
 5.  The current user reference will be updated to this user.
 
@@ -323,11 +323,11 @@ catch
 // Hide your browser control
 ```
 
-`%{ParseUser}` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+`ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 ### Linking
 
-If you want to associate an existing `%{ParseUser}` with a Facebook account, you can link it like so:
+If you want to associate an existing `ParseUser` with a Facebook account, you can link it like so:
 
 ```csharp
 if (!ParseFacebookUtils.IsLinked(user))
@@ -346,7 +346,7 @@ if (!ParseFacebookUtils.IsLinked(user))
 }
 ```
 
-The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `%{ParseUser}` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
+The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `ParseUser` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
 If you want to unlink a Facebook account from a user, simply do this:
 

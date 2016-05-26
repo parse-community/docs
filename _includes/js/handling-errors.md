@@ -1,6 +1,6 @@
 # Error Handling
 
-Most Parse JavaScript functions report their success or failure using an object with callbacks, similar to a Backbone "options" object.  The two primary callbacks used are `success` and `error`.  `success` is called whenever an operation completes without errors.  Generally, its parameter will be either the `%{ParseObject}` in the case of `save` or `get`, or an array of `%{ParseObject}` for `find`.
+Most Parse JavaScript functions report their success or failure using an object with callbacks, similar to a Backbone "options" object.  The two primary callbacks used are `success` and `error`.  `success` is called whenever an operation completes without errors.  Generally, its parameter will be either the `Parse.Object` in the case of `save` or `get`, or an array of `Parse.Object` for `find`.
 
 `error` is called for any kind of error that occurs when interacting with the Parse Cloud over the network. These errors are either related to problems connecting to the cloud or problems performing the requested operation. Let's take a look at another example.  In the code below, we try to fetch an object with a non-existent `objectId`. The Parse Cloud will return an error - so here's how to handle it properly in your callback:
 
@@ -42,6 +42,6 @@ query.get("thisObjectIdDoesntExist", {
 });
 ```
 
-For methods like `save` and `signUp` that affect a particular `%{ParseObject}`, the first argument to the error function will be the object itself, and the second will be the `Parse.Error` object.  This is for compatibility with Backbone-type frameworks.
+For methods like `save` and `signUp` that affect a particular `Parse.Object`, the first argument to the error function will be the object itself, and the second will be the `Parse.Error` object.  This is for compatibility with Backbone-type frameworks.
 
 For a list of all possible `Parse.Error` codes, scroll down to [Error Codes](#errors), or see the `Parse.Error` section of the  [JavaScript API `Parse.Error`](/docs/js/api/symbols/Parse.Error.html).

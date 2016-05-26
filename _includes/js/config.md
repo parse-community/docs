@@ -60,7 +60,7 @@ var refreshConfig = function() {
 
 ## Parameters
 
-`ParseConfig`  supports most of the data types supported by `%{ParseObject}`:
+`ParseConfig`  supports most of the data types supported by `Parse.Object`:
 
 *   string
 *   number

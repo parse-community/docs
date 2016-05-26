@@ -614,9 +614,9 @@ The `Pointer` type is used when mobile code sets a `%{ParseObject}` as the value
 }
 ```
 
-Note that the bult-in User, Role, and Installation classes are prefixed by an underscore. For example, pointers to user objects have a `className` of `_User`. Prefixing with an underscore is forbidden for developer-defined classes and signifies the class is a special built-in.
+Note that the built-in `User`, `Role`, and `Installation` classes are prefixed by an underscore. For example, pointers to user objects have a `className` of `_User`. Prefixing with an underscore is forbidden for developer-defined classes as it signifies the class is a special built-in.
 
-The `Relation` type is used for many-to-many relations when the mobile uses `PFRelation` or `%{ParseRelation}` as a value.  It has a `className` that is the class name of the target objects.
+The `Relation` type is used for many-to-many relations. It has a `className` that is the class name of the target objects.
 
 ```json
 {

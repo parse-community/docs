@@ -2,9 +2,9 @@
 
 ## The PFObject
 
-Storing data on Parse is built around the `%{ParseObject}`. Each `%{ParseObject}` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `%{ParseObject}`. You simply set whatever key-value pairs you want, and our backend will store it.
+Storing data on Parse is built around the `PFObject`. Each `PFObject` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `PFObject`. You simply set whatever key-value pairs you want, and our backend will store it.
 
-For example, let's say you're tracking high scores for a game. A single `%{ParseObject}` could contain:
+For example, let's say you're tracking high scores for a game. A single `PFObject` could contain:
 
 ~~~ js
 score: 1337, playerName: "Sean Plott", cheatMode: false
@@ -12,7 +12,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
 
-Each `%{ParseObject}` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
+Each `PFObject` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
 ## Saving Objects
 
@@ -56,13 +56,13 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a `%{ParseObject}` until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a `PFObject` until a save operation has completed.
 
 Note: You can use the `saveInBackgroundWithBlock` method to provide additional logic to run after the save completes.
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `%{ParseObject}` using a `%{ParseQuery}`.  This is an asynchronous method, with variations for using either blocks or callback methods:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `PFObject` using a `PFQuery`.  This is an asynchronous method, with variations for using either blocks or callback methods:
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -86,7 +86,7 @@ query.getObjectInBackgroundWithId("xWMyZEGZ") {
 }
 ```
 
-To get the values out of the `%{ParseObject}`, you can use either the `objectForKey:` method or the `[]` subscripting operator:
+To get the values out of the `PFObject`, you can use either the `objectForKey:` method or the `[]` subscripting operator:
 
 ```objc
 int score = [[gameScore objectForKey:@"score"] intValue];
@@ -147,7 +147,7 @@ As with saving, this recursively stores every object and file that `gameScore` p
 
 ### Retrieving Objects from the Local Datastore
 
-Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a `%{ParseQuery}` just like you would while on the network, but using the `fromLocalDatastore` method to tell it where to get the data.
+Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a `PFQuery` just like you would while on the network, but using the `fromLocalDatastore` method to tell it where to get the data.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -238,7 +238,7 @@ gameScore.saveEventually()
 
 ## Updating Objects
 
-Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the `objectId`, you can retrieve the `%{ParseObject}` using a `%{ParseQuery}` and update its data:
+Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the `objectId`, you can retrieve the `PFObject` using a `PFQuery` and update its data:
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -353,7 +353,7 @@ gameScore.saveInBackground()
 
 ## Relational Data
 
-Objects can have relationships with other objects. To model this behavior, any `%{ParseObject}` can be used as a value in other `%{ParseObject}`s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.
+Objects can have relationships with other objects. To model this behavior, any `PFObject` can be used as a value in other `PFObject`s. Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency.
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 
@@ -401,7 +401,7 @@ myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId
 myComment["parent"] = PFObject(withoutDataWithClassName:"Post", objectId:"1zEcyElZ80")
 ```
 
-By default, when fetching an object, related `%{ParseObject}`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
+By default, when fetching an object, related `PFObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
 ```objc
 PFObject *post = fetchedComment[@"parent"];
@@ -419,7 +419,7 @@ post.fetchIfNeededInBackgroundWithBlock {
 }
 ```
 
-You can also model a many-to-many relation using the `PFRelation` object.  This works similar to an `NSArray` of `PFObjects`, except that you don't need to download all the Objects in a relation at once.  This allows `PFRelation` to scale to many more objects than the `NSArray` of `%{ParseObject}` approach.  For example, a `User` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `User` likes using `relationForKey:`.  In order to add a post to the list, the code would look something like:
+You can also model a many-to-many relation using the `PFRelation` object.  This works similar to an `NSArray` of `PFObjects`, except that you don't need to download all the Objects in a relation at once.  This allows `PFRelation` to scale to many more objects than the `NSArray` of `PFObject` approach.  For example, a `User` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `User` likes using `relationForKey:`.  In order to add a post to the list, the code would look something like:
 
 ```objc
 PFUser *user = [PFUser currentUser];
@@ -456,7 +456,7 @@ You can remove a post from the `PFRelation` with something like:
 relation.removeObject(post)
 ```
 
-By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by using calling `findObjectsInBackgroundWithBlock:` on the `%{ParseQuery}` returned by `query`.  The code would look like:
+By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by using calling `findObjectsInBackgroundWithBlock:` on the `PFQuery` returned by `query`.  The code would look like:
 
 ```objc
 [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -478,7 +478,7 @@ relation.query().findObjectsInBackgroundWithBlock {
 }
 ```
 
-If you want only a subset of the `Post`s you can add extra constraints to the `%{ParseQuery}` returned by `query` like this:
+If you want only a subset of the `Post`s you can add extra constraints to the `PFQuery` returned by `query` like this:
 
 ```objc
 PFQuery *query = [relation query];
@@ -489,22 +489,22 @@ var query = relation.query()
 // Add other query constraints.
 ```
 
-For more details on `%{ParseQuery}` please look at the query portion of this guide.  A `PFRelation` behaves similar to an `NSArray` of `%{ParseObject}`, so any queries you can do on arrays of objects (other than `includeKey:`) you can do on `PFRelation`.
+For more details on `PFQuery` please look at the query portion of this guide.  A `PFRelation` behaves similar to an `NSArray` of `PFObject`, so any queries you can do on arrays of objects (other than `includeKey:`) you can do on `PFRelation`.
 
 ## Data Types
 
-So far we've used values with type `%{string}`, `%{integer}`, and `%{ParseObject}`. Parse also supports `%{date}`, `%{map}`, `%{array}`, and `%{null}`. You can nest `%{map}` and `%{array}` objects to store more structured data within a single `%{ParseObject}`. Overall, the following types are allowed for each field in your object:
+So far we've used values with type `NSString`, `NSNumber`, and `PFObject`. Parse also supports `NSDate`, `NSObject`, `NSArray`, and `NSNull`. You can nest `NSObject` and `NSArray` objects to store more structured data within a single `PFObject`. Overall, the following types are allowed for each field in your object:
 
-* String => `%{string}`
-* Number => `%{integer}`
-* Bool => `%{bool}`
-* Array => `%{array}`
-* Object => `%{map}`
-* Date => `%{date}`
-* File => `%{ParseFile}`
-* Pointer => other `%{ParseObject}`
-* Relation => `%{ParseRelation}`
-* Null => `%{null}`
+* String => `NSString`
+* Number => `NSNumber`
+* Bool => `NSNumber`
+* Array => `NSArray`
+* Object => `NSObject`
+* Date => `NSDate`
+* File => `PFFile`
+* Pointer => other `PFObject`
+* Relation => `PFRelation`
+* Null => `NSNull`
 
 Some examples:
 
@@ -551,13 +551,13 @@ bigObject["myPointerKey"] = pointer // shows up as Pointer <MyClassName> in the 
 bigObject.saveInBackground()
 ```
 
-We do not recommend storing large pieces of binary data like images or documents on `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `%{ParseFile}`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `PFObject`. `PFObject`s should not exceed 128 kilobytes in size. We recommend you use `PFFile`s to store images, documents, and other types of files. You can do so by instantiating a `PFFile` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
 ## Subclasses
 
-Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `%{ParseObject}` class and access any field with `objectForKey:` or the `[]` subscripting operator. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:
+Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `PFObject` class and access any field with `objectForKey:` or the `[]` subscripting operator. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:
 
 ```objc
 PFObject *shield = [PFObject objectWithClassName:@"Armor"];
@@ -589,7 +589,7 @@ shield.rupees = 50
 
 ### Subclassing PFObject
 
-To create a `%{ParseObject}` subclass:
+To create a `PFObject` subclass:
 
 1.  Declare a subclass which conforms to the `PFSubclassing` protocol.
 2.  Implement the class method `parseClassName`. This is the string you would pass to `initWithClassName:` and makes all future class name references unnecessary.
@@ -600,7 +600,7 @@ An easy way to do this is with your class' [+load](https://developer.apple.com/l
 
 Please note that the `initialize` method is not called until the class receives its first message, meaning that you need to call any instance or class method on your subclass before it will be registered with Parse SDK.
 
-The following code sucessfully declares, implements, and registers the `Armor` subclass of `%{ParseObject}`:
+The following code sucessfully declares, implements, and registers the `Armor` subclass of `PFObject`:
 
 ```objc
 // Armor.h
@@ -649,9 +649,9 @@ class Armor : PFObject, PFSubclassing {
 
 ### Properties & Methods
 
-Adding custom properties and methods to your `%{ParseObject}` subclass helps encapsulate logic about the class. With `PFSubclassing`, you can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
+Adding custom properties and methods to your `PFObject` subclass helps encapsulate logic about the class. With `PFSubclassing`, you can keep all your logic about a subject in one place rather than using separate classes for business logic and storage/transmission logic.
 
-`%{ParseObject}` supports dynamic synthesizers just like `NSManagedObject`. Declare a property as you normally would, but use `@dynamic` rather than `@synthesize` in your .m file. The following example creates a `displayName` property in the `Armor` class:
+`PFObject` supports dynamic synthesizers just like `NSManagedObject`. Declare a property as you normally would, but use `@dynamic` rather than `@synthesize` in your .m file. The following example creates a `displayName` property in the `Armor` class:
 
 ```objc
 // Armor.h

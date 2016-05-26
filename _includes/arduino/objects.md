@@ -82,22 +82,21 @@ del.send();
 
 ## Data Types
 
-So far we've used values with type `%{string}`, `%{double}`, and `%{bool}`. The Parse Arduino SDK also supports `%{ParseGeoPoint}`s (latitude and longitude). In addition, you can set values on objects via JSON and be able to represent Arrays, Objects, Dates, and more. Read more about representing these types as JSON in the [REST API guide](/docs/rest#objects-types).
+So far we've used values with type `string`, `double`, and `bool`. The Parse Arduino SDK also supports `GeoPoint`s (latitude and longitude). In addition, you can set values on objects via JSON and be able to represent Arrays, Objects, Dates, and more. Read more about representing these types as JSON in the [REST API guide](/docs/rest#objects-types).
 
 Overall, the following types are allowed for each field in your object:
 
-* String => `%{string}`
-* Number => `%{integer}`, `%{double}`
-* Boolean => `%{bool}`
-* Array => `%{array}`
-* Object => `%{map}`
-* Date => `%{date}`
-* File => `%{ParseFile}`
-* Pointer => other `%{ParseObject}`
-* Relation => `%{ParseRelation}`
-* Null => `%{null}`
+* String => `string`
+* Number => `integer`, `double`
+* Boolean => `bool`
+* Array => `JSON Array`
+* Object => `JSON Object`
+* Date => `JSON Date`
+* File => `ParseFile`
+* Pointer => other `ParseObject`
+* Relation => `ParseRelation`
 
-The type `%{map}` simply denotes that each value can be composed of nested objects that are JSON-encodable. Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself.
+The type `JSON Object` simply denotes that each value can be composed of nested objects that are JSON-encodable. Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself.
 
 Some examples:
 
@@ -113,6 +112,6 @@ create.addJSONValue("emptyField", "null");
 create.send();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents in a `%{ParseObject}`. `%{ParseObject}`s should not exceed 128 kilobytes in size. We recommend you use `%{ParseFile}`s to store images, documents, and other types of files. You can do so by instantiating a `%{ParseFile}` object and setting it on a field. See the [Files section in the REST documentation](/docs/rest#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents in a `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See the [Files section in the REST documentation](/docs/rest#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](/docs/rest#data).

@@ -1,6 +1,6 @@
 # Local Datastore
 
-The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `%{ParseObject}`s, even when the network is unavailable. To enable this functionality, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` before your call to `setApplicationId:clientKey:`.
+The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `PFObject`s, even when the network is unavailable. To enable this functionality, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` before your call to `setApplicationId:clientKey:`.
 
 ```objc
 @implementation AppDelegate
@@ -23,15 +23,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 ```
 
-There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `%{ParseObject}`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `%{ParseQuery}` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
+There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `PFObject`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `PFQuery` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
 
 Another side effect is that the current user and current installation will be stored in the local datastore, so you can persist unsaved changes to these objects between runs of your app using the methods below.
 
-Calling the `saveEventually` method on a `%{ParseObject}` will cause the object to be pinned in the local datastore until the save completes. So now, if you change the current `%{ParseUser}` and call `[[PFUser currentUser] saveEventually]`, your app will always see the changes that you have made.
+Calling the `saveEventually` method on a `PFObject` will cause the object to be pinned in the local datastore until the save completes. So now, if you change the current `PFUser` and call `[[PFUser currentUser] saveEventually]`, your app will always see the changes that you have made.
 
 ## Pinning
 
-You can store a `%{ParseObject}` in the local datastore by pinning it. Pinning a `%{ParseObject}` is recursive, just like saving, so any objects that are pointed to by the one you are pinning will also be pinned. When an object is pinned, every time you update it by fetching or saving new data, the copy in the local datastore will be updated automatically. You don't need to worry about it at all.
+You can store a `PFObject` in the local datastore by pinning it. Pinning a `PFObject` is recursive, just like saving, so any objects that are pointed to by the one you are pinning will also be pinned. When an object is pinned, every time you update it by fetching or saving new data, the copy in the local datastore will be updated automatically. You don't need to worry about it at all.
 
 ```objc
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
@@ -59,7 +59,7 @@ PFObject.pinAllInBackground(listOfObjects)
 
 ## Retrieving Objects
 
-Storing objects is great, but it's only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the `fromLocalDatastore` method to tell the `%{ParseQuery}` where to look for its results.
+Storing objects is great, but it's only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the `fromLocalDatastore` method to tell the `PFQuery` where to look for its results.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -91,7 +91,7 @@ query.getObjectInBackgroundWithId("xWMyZ4YE").continueWithBlock {
 
 ## Querying
 
-Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [PFQuery](#queries). Any `%{ParseQuery}` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
+Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [PFQuery](#queries). Any `PFQuery` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -263,7 +263,7 @@ query.findObjectsInBackground().continueWithBlock({
 
 ## Syncing Local Changes
 
-Once you've saved some changes locally, there are a few different ways you can save those changes back to Parse over the network. The easiest way to do this is with `saveEventually`. When you call `saveEventually` on a `%{ParseObject}`, it will be pinned until it can be saved. The SDK will make sure to save the object the next time the network is available.
+Once you've saved some changes locally, there are a few different ways you can save those changes back to Parse over the network. The easiest way to do this is with `saveEventually`. When you call `saveEventually` on a `PFObject`, it will be pinned until it can be saved. The SDK will make sure to save the object the next time the network is available.
 
 ```objc
 [gameScore saveEventually];
@@ -272,7 +272,7 @@ Once you've saved some changes locally, there are a few different ways you can s
 gameScore.saveEventually()
 ```
 
-If you'd like to have more control over the way objects are synced, you can keep them in the local datastore until you are ready to save them yourself using `saveInBackground`. To manage the set of objects that need to be saved, you can again use a label. The `fromPinWithName:` method on `%{ParseQuery}` makes it easy to fetch just the objects you care about.
+If you'd like to have more control over the way objects are synced, you can keep them in the local datastore until you are ready to save them yourself using `saveInBackground`. To manage the set of objects that need to be saved, you can again use a label. The `fromPinWithName:` method on `PFQuery` makes it easy to fetch just the objects you care about.
 
 ```objc
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];

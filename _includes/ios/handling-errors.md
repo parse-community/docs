@@ -102,7 +102,7 @@ func callbackForGet(result: PFObject?, error: NSError?) -> Void {
 }
 ```
 
-When the callback expects a `NSNumber`, its `boolValue` tells you whether the operation succeeded or not. For example, this is how you might implement the callback for `%{ParseObject}`'s `saveInBackgroundWithTarget:selector:` method:
+When the callback expects a `NSNumber`, its `boolValue` tells you whether the operation succeeded or not. For example, this is how you might implement the callback for `PFObject`'s `saveInBackgroundWithTarget:selector:` method:
 
 ```objc
 - (void)callbackForSave:(NSNumber *)result error:(NSError *)error {

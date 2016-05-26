@@ -1,9 +1,9 @@
 # GeoPoints
 
-Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a `PFGeoPoint` to a `%{ParseObject}` allows queries to take into account the proximity of an object to a reference point. This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.
+Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a `PFGeoPoint` to a `PFObject` allows queries to take into account the proximity of an object to a reference point. This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.
 
 <div class='tip info'><div>
-  Explore the use of `PFGeoPoints` and `%{ParseUser}` in a real application with our [Anywall tutorial](/tutorials/anywall). You'll learn everything from implementing a basic user management workflow to tracking GPS location with Core Location.
+  Explore the use of `PFGeoPoints` and `PFUser` in a real application with our [Anywall tutorial](/tutorials/anywall). You'll learn everything from implementing a basic user management workflow to tracking GPS location with Core Location.
 </div></div>
 
 ## PFGeoPoint
@@ -58,7 +58,7 @@ For those who choose to use `CLLocationManager` directly, we also provide a `+ge
 
 ## Geo Queries
 
-Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to `%{ParseQuery}` using `whereKey:nearGeoPoint:`. Getting a list of ten places that are closest to a user may look something like:
+Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to `PFQuery` using `whereKey:nearGeoPoint:`. Getting a list of ten places that are closest to a user may look something like:
 
 ```objc
 // User's location
@@ -89,7 +89,7 @@ placesObjects = query.findObjects()
 
  To limit the results using distance check out `whereKey:nearGeoPoint:withinMiles`, `whereKey:nearGeoPoint:withinKilometers`, and `whereKey:nearGeoPoint:withinRadians`.
 
-It's also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the `whereKey:withinGeoBoxFromSouthwest:toNortheast:` restriction to your `%{ParseQuery}`.
+It's also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the `whereKey:withinGeoBoxFromSouthwest:toNortheast:` restriction to your `PFQuery`.
 
 ```objc
 PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];
@@ -110,6 +110,6 @@ var pizzaPlacesInSF = query.findObjects()
 
 At the moment there are a couple of things to watch out for:
 
-1.  Each `%{ParseObject}` class may only have one key with a `PFGeoPoint` object.
+1.  Each `PFObject` class may only have one key with a `PFGeoPoint` object.
 2.  Using the `nearGeoPoint` constraint will also limit results to within 100 miles.
 3.  Points should not equal or exceed the extreme ends of the ranges. Latitude should not be -90.0 or 90.0. Longitude should not be -180.0 or 180.0. Attempting to set latitude or longitude out of bounds will cause an error.

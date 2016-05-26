@@ -1,12 +1,12 @@
 # Queries
 
-We've already seen how a `%{ParseQuery}` with `getInBackground` can retrieve a single `%{ParseObject}` from Parse. There are many other ways to retrieve data with `%{ParseQuery}` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
+We've already seen how a `ParseQuery` with `getInBackground` can retrieve a single `ParseObject` from Parse. There are many other ways to retrieve data with `ParseQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, cache queries automatically to avoid writing that code yourself, and more.
 
 ## Basic Queries
 
-In many cases, `getInBackground` isn't powerful enough to specify which objects you want to retrieve. The `%{ParseQuery}` offers different ways to retrieve a list of objects rather than just a single object.
+In many cases, `getInBackground` isn't powerful enough to specify which objects you want to retrieve. The `ParseQuery` offers different ways to retrieve a list of objects rather than just a single object.
 
-The general pattern is to create a `%{ParseQuery}`, put conditions on it, and then retrieve a `List` of matching `%{ParseObject}`s using the `findInBackground` method with a `FindCallback`. For example, to retrieve scores with a particular `playerName`, use the `whereEqualTo` method to constrain the value for a key:
+The general pattern is to create a `ParseQuery`, put conditions on it, and then retrieve a `List` of matching `ParseObject`s using the `findInBackground` method with a `FindCallback`. For example, to retrieve scores with a particular `playerName`, use the `whereEqualTo` method to constrain the value for a key:
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -26,7 +26,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 ## Query Constraints
 
-There are several ways to put constraints on the objects found by a `%{ParseQuery}`. You can filter out objects with a particular key-value pair with `whereNotEqualTo`:
+There are several ways to put constraints on the objects found by a `ParseQuery`. You can filter out objects with a particular key-value pair with `whereNotEqualTo`:
 
 ```java
 query.whereNotEqualTo("playerName", "Michael Yabuti");
@@ -213,7 +213,7 @@ Queries that have regular expression constraints are very expensive. Refer to th
 
 ## Relational Queries
 
-There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `%{ParseObject}`, you can use `whereEqualTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `ParseObject`, you can use `whereEqualTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
 ```java
 // Assume ParseObject myPost was previously created.
@@ -227,7 +227,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-If you want to retrieve objects where a field contains a `%{ParseObject}` that matches a different query, you can use `whereMatchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
+If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `whereMatchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -241,7 +241,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-If you want to retrieve objects where a field contains a `%{ParseObject}` that does not match a different query, you can use `whereDoesNotMatchQuery`. In order to find comments for posts without images, you can do:
+If you want to retrieve objects where a field contains a `ParseObject` that does not match a different query, you can use `whereDoesNotMatchQuery`. In order to find comments for posts without images, you can do:
 
 ```java
 ParseQuery<ParseObject> innerQuery = ParseQuery.getQuery("Post");
@@ -342,7 +342,7 @@ query.findInBackground(new FindCallback<ParseObject>() {
 
 Now when you do any query with `fromLocalDatastore`, these objects will be included in the results if they still match the query.
 
-If you aren't using the local datastore, you can use the per-query cache for `%{ParseQuery}` instead. The default query behavior doesn't use the cache, but you can enable caching with `setCachePolicy`. For example, to try the network and then fall back to cached data if the network is not available:
+If you aren't using the local datastore, you can use the per-query cache for `ParseQuery` instead. The default query behavior doesn't use the cache, but you can enable caching with `setCachePolicy`. For example, to try the network and then fall back to cached data if the network is not available:
 
 ```java
 query.setCachePolicy(ParseQuery.CachePolicy.NETWORK_ELSE_CACHE);
@@ -431,6 +431,6 @@ mainQuery.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-You can add additional constraints to the newly created `%{ParseQuery}` that act as an 'and' operator.
+You can add additional constraints to the newly created `ParseQuery` that act as an 'and' operator.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `whereNear`, `withinGeoBox`, `setLimit`, `skip`, `orderBy...`, `include`) in the subqueries of the compound query.

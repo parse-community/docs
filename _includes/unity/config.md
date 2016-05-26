@@ -71,7 +71,7 @@ public class Helper
 
 ## Parameters
 
-`ParseConfig`  supports most of the data types supported by `%{ParseObject}`:
+`ParseConfig`  supports most of the data types supported by `ParseObject`:
 
 *   string
 *   bool/int/double/long

@@ -11,7 +11,7 @@ sections:
 - "rest/objects.md"
 - "rest/queries.md"
 - "rest/users.md"
-- "common/sessions.md"
+- "rest/sessions.md"
 - "rest/roles.md"
 - "rest/files.md"
 - "rest/geopoints.md"
@@ -22,10 +22,6 @@ sections:
 - "rest/schemas.md"
 - "rest/apps.md"
 - "rest/hooks.md"
-- "common/data.md"
-- "common/relations.md"
-- "common/security.md"
-- "common/performance.md"
 - "common/errors.md"
 
 ---

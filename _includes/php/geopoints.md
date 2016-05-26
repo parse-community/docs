@@ -1,6 +1,6 @@
 # GeoPoints
 
-Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a `ParseGeoPoint` to a `%{ParseObject}` allows queries to take into account the proximity of an object to a reference point.  This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.
+Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a `ParseGeoPoint` to a `ParseObject` allows queries to take into account the proximity of an object to a reference point.  This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.
 
 ## ParseGeoPoint
 
@@ -20,7 +20,7 @@ Note: Currently only one key in a class may be a `ParseGeoPoint`.
 
 ## Geo Queries
 
-Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `%{ParseQuery}` using `near`.  Getting an array of ten places that are closest to a user may look something like:
+Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `ParseQuery` using `near`.  Getting an array of ten places that are closest to a user may look something like:
 
 ```php
 // User's location
@@ -39,7 +39,7 @@ At this point `$placesObjects` will be an array of objects ordered by distance (
 
 To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`.
 
-It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `%{ParseQuery}`.
+It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `ParseQuery`.
 
 ```php
 $southwestOfSF = new ParseGeoPoint(37.708813, -122.526398);

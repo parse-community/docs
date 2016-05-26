@@ -2,13 +2,13 @@
 
 ## The PFFile
 
-`%{ParseFile}` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `%{ParseObject}`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
+`PFFile` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `PFObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
 
 <div class='tip info'><div>
   Learn how to make an app that allows the user to take photos and upload it directly to Parse in our [Saving Images tutorial](/tutorials/saving-images).
 </div></div>
 
-Getting started with `%{ParseFile}` is easy. First, you'll need to have the data in `NSData` form and then create a `%{ParseFile}` with it. In this example, we'll just use a string:
+Getting started with `PFFile` is easy. First, you'll need to have the data in `NSData` form and then create a `PFFile` with it. In this example, we'll just use a string:
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
@@ -25,7 +25,7 @@ Notice in this example that we give the file a name of `resume.txt`. There's two
 *   You don't need to worry about filename collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `resume.txt`.
 *   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your filename ends with `.png`.
 
-Next you'll want to save the file up to the cloud. As with `%{ParseObject}`, there are many variants of the `save` method you can use depending on what sort of callback and error handling suits you.
+Next you'll want to save the file up to the cloud. As with `PFObject`, there are many variants of the `save` method you can use depending on what sort of callback and error handling suits you.
 
 ```objc
 [file saveInBackground];
@@ -34,7 +34,7 @@ Next you'll want to save the file up to the cloud. As with `%{ParseObject}`, the
 file.saveInBackground()
 ```
 
-Finally, after the save completes, you can associate a `%{ParseFile}` onto a `%{ParseObject}` just like any other piece of data:
+Finally, after the save completes, you can associate a `PFFile` onto a `PFObject` just like any other piece of data:
 
 ```objc
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"]
@@ -49,7 +49,7 @@ jobApplication["applicantResumeFile"] = file
 jobApplication.saveInBackground()
 ```
 
-Retrieving it back involves calling one of the `getData` variants on the `%{ParseFile}`. Here we retrieve the resume file off another JobApplication object:
+Retrieving it back involves calling one of the `getData` variants on the `PFFile`. Here we retrieve the resume file off another JobApplication object:
 
 ```objc
 PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
@@ -60,11 +60,11 @@ let applicantResume = annotherApplication["applicationResumeFile"] as PFFile
 let resumeData = applicantResume.getData()
 ```
 
-Just like on `%{ParseObject}`, you will most likely want to use the background version of `getData`.
+Just like on `PFObject`, you will most likely want to use the background version of `getData`.
 
 ## Images
 
-You can easily store images by converting them to `NSData` and then using `%{ParseFile}`. Suppose you have a `UIImage` named `image` that you want to save as a `%{ParseFile}`:
+You can easily store images by converting them to `NSData` and then using `PFFile`. Suppose you have a `UIImage` named `image` that you want to save as a `PFFile`:
 
 ```objc
 NSData *imageData = UIImagePNGRepresentation(image);
@@ -85,9 +85,9 @@ userPhoto["imageFile"] = imageFile
 userPhoto.saveInBackground()
 ```
 
-Your `%{ParseFile}` will be uploaded as part of the save operation on the `userPhoto` object. It's also possible to track a `%{ParseFile}`'s [upload and download progress](#files-progress).
+Your `PFFile` will be uploaded as part of the save operation on the `userPhoto` object. It's also possible to track a `PFFile`'s [upload and download progress](#files-progress).
 
-Retrieving the image back involves calling one of the `getData` variants on the `%{ParseFile}`. Here we retrieve the image file off another `UserPhoto` named `anotherPhoto`:
+Retrieving the image back involves calling one of the `getData` variants on the `PFFile`. Here we retrieve the image file off another `UserPhoto` named `anotherPhoto`:
 
 ```objc
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
@@ -112,7 +112,7 @@ userImageFile.getDataInBackgroundWithBlock {
 
 ## Progress
 
-It's easy to get the progress of both uploads and downloads using `%{ParseFile}` using `saveInBackgroundWithBlock:progressBlock:` and `getDataInBackgroundWithBlock:progressBlock:` respectively. For example:
+It's easy to get the progress of both uploads and downloads using `PFFile` using `saveInBackgroundWithBlock:progressBlock:` and `getDataInBackgroundWithBlock:progressBlock:` respectively. For example:
 
 ```objc
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];

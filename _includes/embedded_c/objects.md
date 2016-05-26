@@ -16,19 +16,4 @@ Each object has a class name that you can use to distinguish different sorts of 
 
 ## Data Types
 
-So far we've used values with type `%{double}` and `%{bool}`. The Parse REST API also supports `%{string}`s, `%{array}`s, `%{date}`s, and more. Read more about representing these types as JSON in the [REST API Guide](/docs/rest#objects-data-types).
-
-Overall, the following types are allowed for each field in your object:
-
-* String => `%{string}`
-* Number => `%{integer}`, `%{double}`
-* Boolean => `%{bool}`
-* Array => `%{array}`
-* Object => `%{map}`
-* Date => `%{date}`
-* File => `%{ParseFile}`
-* Pointer => other `%{ParseObject}`
-* Relation => `%{ParseRelation}`
-* Null => `%{null}`
-
-The type `%{map}` simply denotes that each value can be composed of nested objects that are JSON-encodable. Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself.
+So far we've used values with type `double` and `bool`. The Parse REST API also supports strings, arrays, dates, and more. Read more about representing these and other types as JSON in the [REST API Guide](/docs/rest#objects-data-types).

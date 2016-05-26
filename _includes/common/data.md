@@ -1,6 +1,6 @@
 # Data
 
-We've designed the Parse SDKs so that you typically don't need to worry about how data is saved while using the client SDKs. Simply add data to the `%{ParseObject}`, and it'll be saved correctly.
+We've designed the Parse SDKs so that you typically don't need to worry about how data is saved while using the client SDKs. Simply add data to the Parse `Object`, and it'll be saved correctly.
 
 Nevertheless, there are some cases where it's useful to be aware of how data is stored on the Parse platform.
 
@@ -14,7 +14,7 @@ Keys including the characters `$` or `.`, along with the key `__type` key, are r
 
 When a class is initially created, it doesn't have an inherent schema defined. This means that for the first object, it could have any types of fields you want.
 
-However, after a field has been set at least once, that field is locked into the particular type that was saved. For example, if a `%{ParseUser}` object is saved with field `name` of type `String`, that field will be restricted to the `String` type only (the server will return an error if you try to save anything else).
+However, after a field has been set at least once, that field is locked into the particular type that was saved. For example, if a `User` object is saved with field `name` of type `String`, that field will be restricted to the `String` type only (the server will return an error if you try to save anything else).
 
 One special case is that any field can be set to `null`, no matter what type it is.
 
@@ -61,7 +61,7 @@ Normally, when objects are saved to Parse, they are automatically assigned a uni
 
 In addition to the exposed fields, objects in the Parse User class can also have the `bcryptPassword` field set. The value of this field is a `String` that is the bcrypt hashed password + salt in the modular crypt format described in this [StackOverflow answer](http://stackoverflow.com/a/5882472/1351961). Most OpenSSL based bcrypt implementations should have built-in methods to produce these strings.
 
-A file containing a `%{ParseUser}` object could look like:
+A file containing a `User` object could look like:
 
 ```js
 { "results":
