@@ -520,7 +520,7 @@ print result
 ## Queries on String Values
 
 <div class='tip info'><div>
- If you're trying to implement a generic search feature, we recommend taking a look at this blog post: [Implementing Scalable Search on a NoSQL Backend](http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/).
+ If you're trying to implement a generic search feature, we recommend taking a look at this blog post: <a href="http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/">Implementing Scalable Search on a NoSQL Backend</a>.
 </div></div>
 
 Use the `$regex` operator to restrict to string values that match a regular expression. Most regular expression queries in Parse are heavily throttled due to performance considerations. Use case sensitive, anchored queries where possible. Similar to a MySQL LIKE operator, anchored queries are indexed so they are efficient for large datasets. For example:

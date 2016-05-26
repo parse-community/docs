@@ -9,12 +9,12 @@ create test apps to run in automated tests, and in combination with the schema
 API can be used to programmatically replicate your existing app into a test app.
 
 Authentication for the apps endpoint is done a little differently than the rest
-of the REST API. Instead of authenticating with one of your app's keys, you must use your account's login info. 
-The `X-Parse-Email` header identifies which account you are using, 
+of the REST API. Instead of authenticating with one of your app's keys, you must use your account's login info.
+The `X-Parse-Email` header identifies which account you are using,
 and the `X-Parse-Password` header authenticates the endpoint.
 If your account has no password set, because you used Facebook, GitHub, or Google
 to log in, then go to [your account page](https://www.parse.com/account/edit) to
-set a password. 
+set a password.
 Alternatively, you can also generate a Parse [account key](https://parse.com/docs/js/guide#command-line-account-keys)
 and use the header `X-Parse-Account-Key` instead.
 
