@@ -68,6 +68,7 @@ Here is the list of sending options we do not support yet:
       },
       ios: {
         pfx: '/file/path/to/XXX.p12',
+        passphrase: '', // optional password to your p12/PFX
         bundleId: '',
         production: false
       }
@@ -83,6 +84,7 @@ Here is the list of sending options we do not support yet:
     },
     ios: {
       pfx: '', // The filename of private key and certificate in PFX or PKCS12 format from disk  
+      passphrase: '', // optional password to your p12
       cert: '', // If not using the .p12 format, the path to the certificate PEM to load from disk
       key: '', // If not using the .p12 format, the path to the private key PEM to load from disk
       bundleId: '', // The bundle identifier associate with your app
