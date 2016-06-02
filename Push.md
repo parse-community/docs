@@ -220,3 +220,9 @@ The current solution provides a good starting point for push notifications. We h
 * Support job queue and benchmarking
 
 If you're interested in any of these features, don't hesitate to jump in and send a PR to the repo. We would love to work with you!
+
+# Notes
+
+## Silent Notifications
+
+If you have migrated from Parse.com Push and you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) and not "1". This value will be explicitly checked.
