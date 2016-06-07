@@ -6,6 +6,7 @@
 ## [Parse Server Guide](/ParsePlatform/parse-server/wiki/Parse-Server-Guide)
 
 * [Overview](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#overview)
+  * [Compatibility with Parse.com apps](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse)
 * [Getting Started](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#getting-started)
 * [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
 * [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
