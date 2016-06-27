@@ -39,6 +39,7 @@ First you will create a bucket in S3 to hold these files.
                     "s3:*"
                 ],
                 "Resource": [
+                    "arn:aws:s3:::BUCKET_NAME",
                     "arn:aws:s3:::BUCKET_NAME/*"
                 ]
             }
