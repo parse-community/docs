@@ -76,3 +76,32 @@ var moderators = /* Your "Moderators" role */;
 moderators.getRoles().add(administrators);
 moderators.save();
 ```
+
+##Updating User Role on afterSave
+
+You can use the 'afterSave' Trigger function on a Parse.User object to automatically set a Role to it.
+For example let's say we have a Role which name is "member" and we want to put our users in this role after they sign up.
+You can do it like:
+
+```js
+Parse.Cloud.afterSave(Parse.User, function(request, response) {
+    // Use MK to have access to read and write.
+    Parse.Cloud.useMasterKey();
+    
+    var user = request.user;
+    
+    // Set ACL so only the user himself can see his own data.
+    user.setACL(new Parse.ACL(user));
+    user.save();
+    
+    // Add user to a role, in our case we have an already created role called "member"
+    var roleQuery = new Parse.Query(Parse.Role);
+    roleQuery.equalTo("name", "member"); 
+    roleQuery.first().then(function(role) {
+    role.getUsers().add(user); //Add the user to this role.
+    
+    return role.save(); //Save
+    
+    });
+});
+```
