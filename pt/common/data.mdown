@@ -1,0 +1,97 @@
+# Data
+
+Nós projetamos os SDKs do Parse para que você não precise se preocupar sobre como os dados são salvos enquanto estiver utilizando os SDKs de cada plataforma. Basta adicionar dados a um `%{ParseObject}`, e eles serão salvos corretamente.
+
+No entanto, existem alguns casos onde é útil estar ciente como os dados são armazenados na plataforma Parse.
+
+## Data Storage
+
+Internamente o Parse armazena os dados como JSON, então qualquer tipo de dado que possa ser convertido para JSON pode ser armazenado no Parse. Consulte a seção [Tipos de Dados em Objetos](#objects-data-types) deste guia para observar exemplos específicos da plataforma.
+
+Chaves incluíndo os caracteres `$` ou `.`, juntamente com a chave `__type`, são reservadas pelo framework para manipular tipos de dados adicionais, portanto não os use. Os nomes das chaves devem conter apenas números, letras, e sublinhado, e devem começar com uma letra. Os valores podem ser qualquer coisa que possa ser codificada em JSON.
+
+## Data Type Lock-in
+
+Quando uma classe é inicialmente criada, ela não possui nenhum esquema definido. Isso significa que para o primeiro objeto, a classe pode assumir quaisquer tipos de campos que você desejar.
+
+No entanto, depois que um campo for definido por pelo menos uma única vez, este campo estará bloqueado para o tipo que ele foi salvo. Por exemplo, se um objeto `%{ParseUser}` é salvo com um campo `name` do tipo `String`, este campo será restrito apenas para o tipo `String` (o servidor irá retornar um erro se você tentar salvar qualquer coisa diferente).  
+
+Um caso especial é que qualquer campo pode ser definido como `null`, não importando o seu tipo.
+
+## The Data Browser
+
+O Data Browser é uma interface web onde você pode atualizar e criar objetos em cada um dos seus aplicativos. Através dele você pode observar os valores brutos do JSON que são salvos e representam cada objeto em sua classe. 
+
+Ao utilizar a interface, tenha em mente o seguinte:
+
+* Os campos `objectId`, `createdAt`, `updatedAt` não podem ser editados (estes são definidos automaticamente).
+* O valor "(empty)" indica que o campo ainda não foi definido para este objeto em particular (diferente de `null`).
+* Você pode remover o valor do campo ao pressionar a tecla Delete enquanto o valor estiver selecionado.
+
+O Data Browser também é um bom lugar para testar as validações presentes nas funções de Cloud Code (como `beforeSave`). Estas funções são executadas assim que um valor é atualizado ou um objeto é removido do Data Browser, assim como seriam se os valores fossem atualizados ou removidos através do código cliente.
+
+## Importing Data
+
+Você pode importar dados em seu app Parse usando arquivos CSV ou JSON. Para criar uma nova classe com dados de arquivos CSV ou JSON, vá ao Data Browser e clique no botão "Import" na coluna da esquerda.
+
+O formato JSON é um array de objetos em nosso formato REST ou um objeto JSON `results` que contém um array de objetos. Ele deve aderir ao [padrão JSON](http://json.org/). Um arquivo contendo objetos regulares pode ser semelhante a este:
+
+```js
+{ "results": [
+  {
+    "score": 1337,
+    "playerName": "Sean Plott",
+    "cheatMode": false,
+    "createdAt": "2012-07-11T20:56:12.347Z",
+    "updatedAt": "2012-07-11T20:56:12.347Z",
+    "objectId": "fchpZwSuGG"
+  }]
+}
+```
+
+Os objetos em ambos os casos devem conter apenas chaves e valores que satisfaçam as seguintes condições:
+
+* Nomes de chaves devem conter apenas números, letras e sublinhado, e devem iniciar com uma letra.
+* Nenhum valor pode conter um caractere de nova linha '`\n`'.
+
+Normalmente, quando objetos são armazenados no Parse, eles são automaticamente relacionados a um código de identificação única através do campo `objectId`, e também dos campos `createdAt` e `updatedAt` que representam o momento que os objetos foram criados e modificados no Parse Cloud. Estes campos podem ser definidos manualmente quando forem importados do JSON. Tenha em mente o seguinte:
+
+* Utilize uma string alphanúmerica de 10 caracteres como valor para o seu campo `objectId`.
+* Utilize o timestamp UTC no formato ISO 8601 ao definir um valor para os campos `createdAt` e `updatedAt`.
+
+Além dos campos expostos acima, os objetos da classe Parse User podem assumir o tipo `bcryptPassword`. O valor deste campo é uma `String` que é uma senha bcrypt hashed + salt no formato modular crypt descrito nesta [resposta do StackOverflow](http://stackoverflow.com/a/5882472/1351961). A maioria das implementações OpenSSL baseadas em bcrypt possuem métodos próprios para produzir essas strings.
+
+Um arquivo contendo um objeto `%{ParseUser}` é semelhante ao exemplo abaixo:
+
+```js
+{ "results":
+  [{
+    "username": "cooldude",
+    "createdAt": "1983-09-13T22:42:30.548Z",
+    "updatedAt": "2015-09-04T10:12:42.137Z",
+    "objectId": "ttttSEpfXm",
+    "sessionToken": "dfwfq3dh0zwe5y2sqv514p4ib",
+    "bcryptPassword": "$2a$10$ICV5UeEf3lICfnE9W9pN9.O9Ved/ozNo7G83Qbdk5rmyvY8l16MIK"
+  }]
+}
+```
+
+Observe que os campos importados por CSV são limitados a `String`, `Boolean`, e `Number`.
+
+## Exporting your Data
+
+Você pode solicitar a exportação dos seus dados a qualquer momento a partir da página de configuração do seu app. A exportação dos dados roda em um processo secundário às consultas de produção, logo se o seu aplicativo ainda estiver respondendo as consultas, o trafégo de produção terá sempre uma prioridade mais alta, o que pode reduzir a velocidade de entrega dos seus dados exportados.
+
+### Export Formats
+
+Cada coleção será exportada no mesmo formato JSON utilizado na nossa API REST e entregue em único arquivo compactado.  Como os dados são armazenados internamente como JSON, isso nos permite garantir que a exportação é correspondente à forma como os dados são salvos no Parse. Outros formatos como CSV não conseguem representar, sem perda de informações, todos os tipos de dados suportados pelo Parse. Se você pretende trabalhar com os seus dados em formato CSV, você pode utilizar qualquer um dos conversores JSON-to-CSV amplamente disponíveis na web.
+
+### Offline Analysis
+
+Para analisar os seus dados em modo offline, nós recomendamos a utilização de caminhos alternativos para acessar os seus dados sem a necessidade de extrair a coleção inteira. Por exemplo, você pode tentar exportar apenas os dados que foram modificados desde a última exportação. Aqui estão algumas maneiras de conseguir isso:
+
+* Utilize o SDK JavaScript em um app node. `Parse.Query.each()` lhe permitirá extrair cada objeto que corresponde a uma consulta. Você pode usar as restrições de dados para garantir que a consulta corresponde apenas aos dados que foram atualizados desde a última vez que você executou a aplicação. Seu aplicativo Node pode escrever esses dados em disco para análise offline.
+
+* Utilize a API REST em um script. Você pode executar consultas na sua classe e utilizar skip/limit para paginar os resultados, que podem então ser gravados em disco para análise offline. Você pode usar novamente as restrições de dados para certificar-se apenas que dados recém-atualizados sejam extraídos.
+
+* Se as duas opções acima não atendem as suas expectativas, você pode tentar utilizar o Data Browser para exportar os dados seletivamente. Utilize o ícone do funil para criar filtros específicos para os dados que você precisa exportar, como os objetos recém atualizados. Uma vez que os filtros sejam exportados, clique no ícone Export data no canto superior direito do seu Data Browser. Esse tipo de exportação incluirá apenas os objetos que correspondem aos seus critérios. 

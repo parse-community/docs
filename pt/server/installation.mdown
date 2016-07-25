@@ -1,0 +1,53 @@
+# Usage
+
+Parse Server se destina a ser montado sobre um app [Express](http://expressjs.com/). Express é um framework web para  Node.js. A forma mais rápida é clonando o repositório do [Parse Server](https://github.com/ParsePlatform/parse-server), que em sua raiz contém um aplicativo Express com a API do Parse.
+
+O construtor retorna um objeto de API em conformidade com um [Middleware Express](http://expressjs.com/en/api.html#app.use). Este objeto fornece endpoints REST para o seu app Parse. Crie uma instância da seguinte forma:
+
+```js
+var api = new ParseServer({
+  databaseURI: 'mongodb://your.mongo.uri',
+  cloud: './cloud/main.js',
+  appId: 'myAppId',
+  fileKey: 'myFileKey',
+  masterKey: 'mySecretMasterKey',
+  clientKey: 'myClientKey',
+  restAPIKey: 'myRESTAPIKey',
+  javascriptKey: 'myJavascriptKey',
+  dotNetKey: 'myDotNetKey',
+});
+```
+
+Os parâmetros são definidos abaixo:
+
+* databaseURI: string de conexão URI para o seu banco de dados MongoDB.
+* cloud: caminho para o código Cloud do seu app
+* appId: Um identificador único
+* fileKey: Uma chave que especifica o prefixo utilizado para armazenamento de arquivos. (apenas necessário para arquivos antigos no Amazon S3)
+* masterKey: Uma chave que substitui todas as permissões. Mantenha em segredo.
+* clientKey: Uma chave cliente
+* restAPIKey: Uma chave para a API REST
+* javascriptKey: Uma chave JavaScript
+* dotNetKey: Uma chave .NET
+
+O objeto Parse Server foi desenvolvimento para ser passado diretamente para o `app.use`, que vai montar a sua API Parse no caminho especificado no seu app Express:
+
+```js
+var express = require('express');
+var ParseServer = require('parse-server').ParseServer;
+
+var app = express();
+var api = new ParseServer({ ... });
+
+// Fornece a API no prefixo de URL /parse
+app.use('/parse', api);
+
+var port = 1337;
+app.listen(port, function() {
+  console.log('parse-server-example running on port ' + port + '.');
+});
+```
+
+E com isso, você terá o seu Parse Server rodando na porta 1337, fornecendo a API do Parse no caminho `/parse`.
+
+A maneira mais fácil de começar com o Parse Server é utilizando o [exemplo de projeto Express na raiz do seu repositório Parse Server](https://www.github.com/ParsePlatform/parse-server) que contém tudo que você precisa depois de definir alguns parâmetros.

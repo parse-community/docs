@@ -1,0 +1,12 @@
+# Deploying to Heroku and MongoLab
+
+Heroku e MongoLab fornecem uma maneira fácil de distribuir o Parse Server, especialmente se você é novo gerenciando a sua própria infraestrutura de backend.
+
+Aqui estão os passos:
+
+1. Crie um repositório para o seu aplicativo Express com o middleware Parse Server (você pode utilizar o nosso [projeto template](https://github.com/ParsePlatform/parse-server-example), ou iniciar o seu próprio).
+2. Crie uma conta no Heroku (caso você ainda não tenha uma) e utilize o Heroku Toolbelt para se autenticar e preparar um novo app no mesmo diretório do seu aplicativo Express. Dê uma olhada no guia do Heroku [Introdução ao Node.js](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) para mais detalhes.
+3. Utilize o addon do MongoLab: `heroku addons:create mongolab:sandbox` (ou, você pode criar a sua instância do Mongo  diretamente com o MongoLab ou por conta própria)
+4. Utilize o heroku config e observe a URI fornecida pelo MongoLab na variável MONGOLAB_URI
+5. Copie a URI e defina como uma nova variável de configuração: heroku config:set `DATABASE_URI=mongodb://...`
+6. Distribua: `git push heroku master`

@@ -1,0 +1,80 @@
+#Configuração 
+
+## Configuração do Parse
+
+`ParseConfig` é a maneira de configurar sua aplicação remotamente, armazenando um único objeto de configuração do Parse. Ele permite que você adicione
+em sua aplicação algo como uma simples 'Mensagem do Dia'. Para começar usando o `ParseConfig`, você precisa
+adicionar alguns parâmetros (chave/valor) em sua aplicação através da Dashboard.
+
+Depois disso, você vai estar apto a utilizar o `ParseConfig` nos clientes, conforme exemplo:
+
+```java
+ParseConfig.getInBackground(new ConfigCallback() {
+  @Override
+  public void done(ParseConfig config, ParseException e) {
+    int number = config.getInt("winningNumber");
+    Log.d("TAG", String.format("Yay! The number is %d!", number));
+  }
+});
+```
+
+## Recuperando configuração
+
+`ParseConfig` é construído para ser tão robusto e confiável quanto possível, mesmo com péssimas conexões a internet. Um mecanismo de Caching é usado por padrão para garantir que a última configuração obtida com sucesso esteja sempre disponível. No exemplo abaixo, usamos `getInBackground` para recuperar a versão mais recente da configuração no servidor, e se a busca falhar nós podemos simplesmente voltar para a versão que tínhamos obtido com sucesso antes, via `getCurrentConfig`.
+
+```java
+Log.d("TAG", "Getting the latest config...");
+ParseConfig.getInBackground(new ConfigCallback() {
+  @Override
+  public void done(ParseConfig config, ParseException e) {
+    if (e == null) {
+      Log.d("TAG", "Yay! Config was fetched from the server.");
+    } else {
+      Log.e("TAG", "Failed to fetch. Using Cached Config.");
+      config = ParseConfig.getCurrentConfig();
+    }
+
+    // Get the message from config or fallback to default value
+    String welcomeMessage = config.getString("welcomeMessage", "Welcome!");
+    Log.d("TAG", String.format("Welcome Messsage From Config = %s", welcomeMessage));
+  }
+});
+```
+
+## Configuração atual
+
+Toda instância `ParseConfig` que você obter será sempre imutável. Quando você recuperar um novo `ParseConfig` através da internet, não haverá nenhuma modificação da instância `ParseConfig` existente, porém será criada uma nova instância que será disponibilizada através de `ParseConfig.getCurrentConfig()`. Portanto, você pode passar com segurança um objeto `ParseConfig` que este não será modificado.
+
+Pode ser problemático recuperar a configuração do servidor toda vez que você quiser utilizá-lo. Você pode evitar isto utilizando o `getCurrentConfig` do objeto armazenado em cache e buscar a configuração apenas uma vez.
+
+```java
+class Helper {
+  private static final long configRefreshInterval = 12 * 60 * 60 * 1000;
+  private static long lastFetchedTime;
+
+  // Fetches the config at most once every 12 hours per app runtime
+  public static void refreshConfig() {
+    long currentTime = System.currentTimeMillis();
+    if (currentTime - lastFetchedTime > configRefreshInterval) {
+      lastFetchedTime = currentTime;
+      ParseConfig.getInBackground();
+    }
+  }
+}
+```
+
+## Parâmetros
+
+`ParseConfig` suporta muitos dos tipos de dados suportados pelo `%{ParseObject}` : 
+
+*   String
+*   Numbers (boolean/int/double/long)
+*   Date
+*   ParseFile
+*   ParseGeoPoint
+*   List
+*   Map
+
+Atualmente, permitimos até **100** parâmetros e um tamanho total de **128KB** em todos os parâmetros.
+
+

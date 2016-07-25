@@ -1,0 +1,27 @@
+# Overview
+
+**O serviço de backend do Parse será totalmente descontinuado em 28 de Janeiro de 2017. Se você estiver migrando um app do Parse, leia atentamente a este guia. Você terá que passar pelo [guia de migração](#migrating) ou o seu app vai parar de funcionar depois da data acima.**
+
+Parse Server é uma versão open source do backend do Parse que pode ser implantado em qualquer infraestrutura que rode o Node.js. Você pode encontrar o código fonte no [repositório do Github](https://www.github.com/ParsePlatform/parse-server).
+
+* Parse Server não é depedente do backend do Parse.com.
+* Parse Server utiliza o MongoDB diretamente, e não é dependente do banco de dados do Parse.com.
+* Você pode migrar o seu app para a sua própria infraestrutura.
+* Você pode desenvolver e testar os seus apps em localhost utilizando o Node.
+
+## Prerequisites
+
+* Node 4.3
+* Versão 2.6.X ou 3.0.X do MongoDB
+* Python 2.x (Para usuários do Windows, 2.7.1 é a versão obrigatória)
+* Para distribuição, um provedor de infraestrutura como o Heroku ou o AWS
+
+## Installation
+
+Começe a utilizar o Parse Server através do módulo npm:
+
+```bash
+npm install -g parse-server
+```
+
+Ou, você pode especificar o parse-server em seu arquivo packages.json.

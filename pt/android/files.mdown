@@ -1,0 +1,73 @@
+#Arquivos
+
+## ParseFile
+
+`%{ParseFile}` permite que sua aplicação armazene arquivos na nuvem que poderiam ser muito grandes ou pesados para caber em um `%{ParseObject}`. O caso mais comum de uso é o armazenamento de imagens, mas você também pode armazenar documentos, videos, músicas e qualquer outro dado binário (até 10 megabytes).
+
+Começar a usar o `%{ParseFile}` é fácil. Primeiro, você vai precisar dos dados no formato de um array de bytes `byte[]` e em seguida criamos um `%{ParseFile}` com ele. Neste exemplo, nós vamos apenas utilizar uma string :
+
+```java
+byte[] data = "Working at Parse is great!".getBytes();
+ParseFile file = new ParseFile("resume.txt", data);
+```
+
+Observe que neste exemplo nós nomeamos o arquivo de `resume.txt`. Existem duas coisas a notar aqui:
+
+* Você não precisa se preocupar com as colisões de nome de arquivo. Cada upload de arquivo recebe um único identificador, então não há problema com o upload de vários arquivos com o nome `resume.txt`.
+
+* É importante dar um nome ao arquivo que tem uma extensão. Isto permite que o Parse descubra o tipo do arquivo e o manipule adequadamente. Então, se você está armazenando uma imagem PNG, tenha certeza de que o nome do seu arquivo terminará com `.png`.
+
+Em seguida você vai querer salvar um arquivo na nuvem. Semelhante ao objeto `%{ParseObject}`, existem várias variantes do método `save` que você pode utilizar dependendo do retorno da chamada (callback) e tratamento de erro que você escolher.
+
+```java
+file.saveInBackground();
+```
+
+Finalmente, depois de salvar, você pode associar um `%{ParseFile}` a um `%{ParseObject}` como qualquer outro tipo de dado.
+
+```java
+ParseObject jobApplication = new ParseObject("JobApplication");
+jobApplication.put("applicantName", "Joe Smith");
+jobApplication.put("applicantResumeFile", file);
+jobApplication.saveInBackground();
+```
+
+Recuperar o arquivo envolve chamar um dos métodos `getData` variantes do `%{ParseObject}`. Aqui nós recuperamos o arquivo de outro objeto JobApplication:
+
+```java
+ParseFile applicantResume = (ParseFile)anotherApplication.get("applicantResumeFile");
+applicantResume.getDataInBackground(new GetDataCallback() {
+  public void done(byte[] data, ParseException e) {
+    if (e == null) {
+      // data has the bytes for the resume
+    } else {
+      // something went wrong
+    }
+  }
+});
+```
+
+Como no `%{ParseObject}`, você vai querer usar principalmente a versão em background de `getData`.
+
+## Progresso 
+
+É fácil recuperar o progresso de uploads e downloads do ParseFile passando o ProgressCallBack para `saveInBackground` e `getDataInBackground`. Por exemplo:
+
+```java 
+byte[] data = "Working at Parse is great!".getBytes();
+ParseFile file = new ParseFile("resume.txt", data);
+
+file.saveInBackground(new SaveCallback() {
+  public void done(ParseException e) {
+    // Handle success or failure here ...
+  }
+}, new ProgressCallback() {
+  public void done(Integer percentDone) {
+    // Update your progress spinner here. percentDone will be between 0 and 100.
+  }
+});
+```
+
+Você pode deletar arquivos que são referenciados por objetos usando o [REST API](/docs/rest/guide/#files-deleting-files). Você vai precisar fornecer a chave mestra, a fim de ser autorizado a excluir um arquivo.
+
+Se seus arquivos não são referenciados por algum outro objeto em sua aplicação, não será possível excluí-lo através da API REST. Você poder solicitar uma limpeza de arquivos que não estão sendo utilizados em sua aplicação na página de configuração do aplicativo. Tenha em mente que isso pode interromper a funcionalidade que dependia de acesso a arquivos não referenciados através da sua propriedade URL. Arquivos que estão atualmente associados com um objeto não serão afetados. 

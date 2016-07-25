@@ -1,0 +1,10 @@
+## Começando
+
+Se você ainda não instalou o SDK, por favor consule o nosso [Guia de Como Começar](/apps/quickstart#parse_data/mobile/android/native/new) para obter nosso SDK e deixar funcionando no Android Studio. Observe que nós damos suporte ao Android 2.3 ou qualquer outra versão mais atualizada. Você também pode conferir nossa API REFERENCE [API Reference](/docs/android/api/) para mais informações detalhadas do nosso SDK.
+
+A plataforma do Parse disponibiliza uma completa solução backend para sua aplicação mobile. Nosso objetivo é eliminar totalmente a necessidade de escrever código de servidor ou manutenção de servidores. Se você  é familiar com frameworks web como Rub on Rails, nós seguimos os mesmos princípios e aplicamos em nossa plataforma. Em particular, nosso SDK está pronto para ser usado precisando apenas de uma configuração mínima.
+
+No Parse, você pode criar um App para cada aplicação mobile. Cada App tem sua própria identificação e chave do cliente que
+você pode aplicar em sua instalação do SDK. Sua conta no Parse pode acomodar vários Apps. Isto é muito útil, mesmo se você
+tem uma aplicação, desde que você possa implantar diferentes versões para teste e produção.  
+ 

@@ -1,0 +1,6 @@
+# Keys
+
+O Parse Server não exige o uso de chaves no lado do cliente. Isso inclui as chaves client, JavaScript, .NET, e REST. 
+O Application ID é suficiente para garantir a segurança do seu app.
+
+No entanto, você tem a opção de especificar qualquer uma dessas quatro chaves na inicialização. Ao fazê-lo, o Parse Server irá impor que qualquer cliente tenha as chaves equivalentes. Este comportamento é consistente com o Parse.
