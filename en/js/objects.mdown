@@ -279,6 +279,7 @@ myObject.unset("playerName");
 // If the object's field is an array, call save() after every unset() operation.
 myObject.save();
 ```
+Please note that use set(null) to delete an object is not recommended
 
 Please note that use of object.set(null) to remove a field from an object is not recommended and will result in unexpected functionality.
 
