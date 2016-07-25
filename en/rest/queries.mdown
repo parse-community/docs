@@ -468,13 +468,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
-  --data-urlencode 'where={"arrayKey":2}' \
+  --data-urlencode 'whereKey={"arrayKey":2}' \
   https://api.parse.com/1/classes/RandomObject
 ```
 ```python
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.urlencode({"whereKey":json.dumps({
        "arrayKey": 2
      })})
 connection.connect()
@@ -493,13 +493,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
-  --data-urlencode 'where={"arrayKey":{"$all":[2,3,4]}}' \
+  --data-urlencode 'whereKey={"arrayKey":{"$all":[2,3,4]}}' \
   https://api.parse.com/1/classes/RandomObject
 ```
 ```python
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.urlencode({"whereKey":json.dumps({
        "arrayKey": {
          "$all": [
            2,
