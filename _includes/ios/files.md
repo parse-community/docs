@@ -10,15 +10,15 @@
 
 Getting started with `PFFile` is easy. First, you'll need to have the data in `NSData` form and then create a `PFFile` with it. In this example, we'll just use a string:
 
-```objc
+<pre><code class="objectivec">
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
 PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 let str = "Working at Parse is great!"
 let data = str.dataUsingEncoding(NSUTF8StringEncoding)
 let file = PFFile(name:"resume.txt", data:data)
-```
+</code></pre>
 
 Notice in this example that we give the file a name of `resume.txt`. There's two things to note here:
 
@@ -27,38 +27,38 @@ Notice in this example that we give the file a name of `resume.txt`. There's two
 
 Next you'll want to save the file up to the cloud. As with `PFObject`, there are many variants of the `save` method you can use depending on what sort of callback and error handling suits you.
 
-```objc
+<pre><code class="objectivec">
 [file saveInBackground];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 file.saveInBackground()
-```
+</code></pre>
 
 Finally, after the save completes, you can associate a `PFFile` onto a `PFObject` just like any other piece of data:
 
-```objc
+<pre><code class="objectivec">
 PFObject *jobApplication = [PFObject objectWithClassName:@"JobApplication"]
 jobApplication[@"applicantName"] = @"Joe Smith";
 jobApplication[@"applicantResumeFile"] = file;
 [jobApplication saveInBackground];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 var jobApplication = PFObject(className:"JobApplication")
 jobApplication["applicantName"] = "Joe Smith"
 jobApplication["applicantResumeFile"] = file
 jobApplication.saveInBackground()
-```
+</code></pre>
 
 Retrieving it back involves calling one of the `getData` variants on the `PFFile`. Here we retrieve the resume file off another JobApplication object:
 
-```objc
+<pre><code class="objectivec">
 PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
 NSData *resumeData = [applicantResume getData];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 let applicantResume = annotherApplication["applicationResumeFile"] as PFFile
 let resumeData = applicantResume.getData()
-```
+</code></pre>
 
 Just like on `PFObject`, you will most likely want to use the background version of `getData`.
 
@@ -66,7 +66,7 @@ Just like on `PFObject`, you will most likely want to use the background version
 
 You can easily store images by converting them to `NSData` and then using `PFFile`. Suppose you have a `UIImage` named `image` that you want to save as a `PFFile`:
 
-```objc
+<pre><code class="objectivec">
 NSData *imageData = UIImagePNGRepresentation(image);
 PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
 
@@ -74,8 +74,8 @@ PFObject *userPhoto = [PFObject objectWithClassName:@"UserPhoto"];
 userPhoto[@"imageName"] = @"My trip to Hawaii!";
 userPhoto[@"imageFile"] = imageFile;
 [userPhoto saveInBackground];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 let imageData = UIImagePNGRepresentation(image)
 let imageFile = PFFile(name:"image.png", data:imageData)
 
@@ -83,21 +83,21 @@ var userPhoto = PFObject(className:"UserPhoto")
 userPhoto["imageName"] = "My trip to Hawaii!"
 userPhoto["imageFile"] = imageFile
 userPhoto.saveInBackground()
-```
+</code></pre>
 
 Your `PFFile` will be uploaded as part of the save operation on the `userPhoto` object. It's also possible to track a `PFFile`'s [upload and download progress](#files-progress).
 
 Retrieving the image back involves calling one of the `getData` variants on the `PFFile`. Here we retrieve the image file off another `UserPhoto` named `anotherPhoto`:
 
-```objc
+<pre><code class="objectivec">
 PFFile *userImageFile = anotherPhoto[@"imageFile"];
 [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
     if (!error) {
         UIImage *image = [UIImage imageWithData:imageData];
     }
 }];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 let userImageFile = anotherPhoto["imageFile"] as PFFile
 userImageFile.getDataInBackgroundWithBlock {
   (imageData: NSData?, error: NSError?) -> Void in
@@ -108,13 +108,13 @@ userImageFile.getDataInBackgroundWithBlock {
   }
 }
 
-```
+</code></pre>
 
 ## Progress
 
 It's easy to get the progress of both uploads and downloads using `PFFile` using `saveInBackgroundWithBlock:progressBlock:` and `getDataInBackgroundWithBlock:progressBlock:` respectively. For example:
 
-```objc
+<pre><code class="objectivec">
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
 PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -122,8 +122,8 @@ PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
 } progressBlock:^(int percentDone) {
   // Update your progress spinner here. percentDone will be between 0 and 100.
 }];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 let str = "Working at Parse is great!"
 let data = str.dataUsingEncoding(NSUTF8StringEncoding)
 let file = PFFile(name:"resume.txt", data:data)
@@ -134,7 +134,7 @@ file.saveInBackgroundWithBlock({
   (percentDone: Int32) -> Void in
   // Update your progress spinner here. percentDone will be between 0 and 100.
 })
-```
+</code></pre>
 
 You can delete files that are referenced by objects using the [REST API](/docs/rest/guide#files-deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 

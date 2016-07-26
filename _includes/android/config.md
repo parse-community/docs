@@ -8,7 +8,7 @@
 
 After that you will be able to fetch the `ParseConfig` on the client, like in this example:
 
-```java
+<pre><code class="java">
 ParseConfig.getInBackground(new ConfigCallback() {
   @Override
   public void done(ParseConfig config, ParseException e) {
@@ -16,13 +16,13 @@ ParseConfig.getInBackground(new ConfigCallback() {
     Log.d("TAG", String.format("Yay! The number is %d!", number));
   }
 });
-```
+</code></pre>
 
 ## Retrieving Config
 
 `ParseConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `getInBackground` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `getCurrentConfig`.
 
-```java
+<pre><code class="java">
 Log.d("TAG", "Getting the latest config...");
 ParseConfig.getInBackground(new ConfigCallback() {
   @Override
@@ -39,7 +39,7 @@ ParseConfig.getInBackground(new ConfigCallback() {
     Log.d("TAG", String.format("Welcome Messsage From Config = %s", welcomeMessage));
   }
 });
-```
+</code></pre>
 
 ## Current Config
 
@@ -47,7 +47,7 @@ Every `ParseConfig` instance that you get is always immutable. When you retrieve
 
 It might be troublesome to retrieve the config from the server every time you want to use it. You can avoid this by simply using the cached `getCurrentConfig` object and fetching the config only once in a while.
 
-```java
+<pre><code class="java">
 class Helper {
   private static final long configRefreshInterval = 12 * 60 * 60 * 1000;
   private static long lastFetchedTime;
@@ -61,7 +61,7 @@ class Helper {
     }
   }
 }
-```
+</code></pre>
 
 ## Parameters
 

@@ -46,92 +46,92 @@ The order of a query constraint's usefulness is:
 
 Take a look at the following query to retrieve GameScore objects:
 
-```js
+<pre><code class="javascript">
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.equalTo("score", 50);
 query.containedIn("playerName",
     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"score" equalTo:@50];
 [query whereKey:@"playerName"
     containedIn:@[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"]];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.whereEqualTo("score", 50);
 query.whereContainedIn("playerName", Arrays.asList("Jonathan Walsh", "Dario Wunsch", "Shawn Simon"));
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = new ParseObject.GetQuery("GameScore")
     .WhereEqualTo("score", 50)
     .WhereContainedIn("playerName", names);
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Creating an index query based on the score field would yield a smaller search space in general than creating one on the playerName field.
 
 When examining data types, booleans have a very low entropy and and do not make good indexes. Take the following query constraint:
 
-```js
+<pre><code class="javascript">
 query.equalTo("cheatMode", false);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"cheatMode" equalTo:@NO];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("cheatMode", equalTo: false)
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereEqualTo("cheatMode", false);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereEqualTo("cheatMode", false);
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 The two possible values for `"cheatMode"` are `true` and `false`. If an index was added on this field it would be of little use because it's likely that 50% of the records will have to be looked at to return query results.
@@ -165,17 +165,17 @@ Additionally, the following queries under certain scenarios may result in slow q
 
 For example, let's say you're tracking high scores for a game in a GameScore class. Now say you want to retrieve the scores for all players except a certain one. You could create this query:
 
-```js
+<pre><code class="javascript">
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.notEqualTo("playerName", "Michael Yabuti");
 query.find().then(function(results) {
   // Retrieved scores successfully
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -183,10 +183,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("playerName", notEqualTo: "Michael Yabuti")
 query.findObjectsInBackgroundWithBlock {
@@ -195,10 +195,10 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.whereNotEqualTo("playerName", "Michael Yabuti");
 query.findInBackground(new FindCallback<ParseObject>() {
@@ -209,24 +209,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var results = await ParseObject.GetQuery("GameScore")
     .WhereNotEqualTo("playerName", "Michael Yabuti")
     .FindAsync();
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 This query can't take advantage of indexes. The database has to look at all the objects in the `"GameScore"` class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.
@@ -235,87 +235,87 @@ Luckily, most of the time a “Not Equal To” query condition can be rewritten 
 
 For example if the User class has a column called state which has values “SignedUp”, “Verified”, and “Invited”, the slow way to find all users who have used the app at least once would be to run the query:
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(Parse.User);
 query.notEqualTo("state", "Invited");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notEqualTo:@"Invited"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 query.whereNotEqualTo("state", "Invited");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var query = ParseUser.Query
     .WhereNotEqualTo("state", "Invited");
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 It would be faster to use the “Contained In” condition when setting up the query:
 
-```js
+<pre><code class="javascript">
 query.containedIn("state", ["SignedUp", "Verified"]);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"state"
     containedIn:@[@"SignedUp", @"Verified"]];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereContainedIn("state", new[] { "SignedUp", "Verified" });
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Sometimes, you may have to completely rewrite your query. Going back to the `"GameScore"` example, let's say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player's high score and then using the following query:
 
-```js
+<pre><code class="javascript">
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 // Previously retrieved highScore for Michael Yabuti
@@ -323,10 +323,10 @@ query.greaterThan("score", highScore);
 query.find().then(function(results) {
   // Retrieved scores successfully
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // Previously retrieved highScore for Michael Yabuti
 [query whereKey:@"score" greaterThan:highScore];
@@ -335,10 +335,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 // Previously retrieved highScore for Michael Yabuti
 query.whereKey("score", greaterThan: highScore)
@@ -348,10 +348,10 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 // Previously retrieved highScore for Michael Yabuti
 query.whereGreaterThan("score", highScore);
@@ -363,25 +363,25 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 // Previously retrieved highScore for Michael Yabuti
 var results = await ParseObject.GetQuery("GameScore")
     .WhereGreaterThan("score", highScore)
     .FindAsync();
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 The new query you use depends on your use case. This may sometimes mean a redesign of your data model.
@@ -390,81 +390,81 @@ The new query you use depends on your use case. This may sometimes mean a redesi
 
 Similar to “Not Equal To”, the “Not Contained In” query constraint can't use an index. You should try and use the complementary “Contained In” constraint. Building on the User example, if the state column had one more value, “Blocked”, to represent blocked users, a slow query to find active users would be:
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(Parse.User);
 query.notContainedIn("state", ["Invited", "Blocked"];
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notContainedIn:@[@"Invited", @"Blocked"]];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 var query = PFUser.query()
 query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class);
 query.whereNotContainedIn("state", Arrays.asList("Invited", "Blocked"));
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var query = ParseUser.Query
     .WhereNotContainedIn("state", new[] { "Invited", "Blocked" });
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Using a complimentary “Contained In” query constraint will always be faster:
 
-```js
+<pre><code class="javascript">
 query.containedIn("state", ["SignedUp", "Verified"]);
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereContainedIn("state", new[] { "SignedUp", "Verified"});
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
@@ -475,152 +475,152 @@ Most regular expression queries in Parse are heavily throttled due to performanc
 
 You should avoid using regular expression constraints that don't use indexes. For example, the following query looks for data with a given string in the `"playerName"` field. The string search is case insensitive and therefore cannot be indexed:
 
-```js
+<pre><code class="javascript">
 query.matches("playerName", "Michael", “i”);
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"Michael" modifiers:@"i"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereMatches("playerName", "Michael", "i");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereMatches("playerName", "Michael", "i")
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 The following query, while case sensitive, looks for any occurrence of the string in the field and cannot be indexed:
 
-```js
+<pre><code class="javascript">
 query.contains("playerName", "Michael");
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"playerName" containsString:@"Michael"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("playerName", containsString: "Michael")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereContains("playerName", "Michael");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereContains("playerName", "Michael")
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 These queries are both slow. In fact, the `matches` and `contains` query constraints are not covered in our querying guides on purpose and we do not recommend using them. Depending on your use case, you should switch to using the following constraint that uses an index, such as:
 
-```js
+<pre><code class="javascript">
 query.startsWith("playerName", "Michael");
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"playerName" hasPrefix:@"Michael"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("playerName", hasPrefix: "Michael")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereStartsWith("playerName", "Michael");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereStartsWith("playerName", "Michael")
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.
 
 As a best practice, when you use regular expression constraints, you'll want to ensure that other constraints in the query reduce the result set to the order of hundreds of objects to make the query efficient. If you must use the `matches` or `contains` constraints for legacy reasons, then use case sensitive, anchored queries where possible, for example:
 
-```js
+<pre><code class="javascript">
 query.matches("playerName", "^Michael");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"^Michael"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.whereKey("playerName", matchesRegex: "^Michael")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.whereMatches("playerName", "^Michael");
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.WhereMatches("playerName", "^Michael")
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.
@@ -631,53 +631,53 @@ Writing restrictive queries allows you to return only the data that the client n
 
 You can limit the number of query results returned. The limit is 100 by default but anything from 1 to 1000 is a valid limit:
 
-```js
+<pre><code class="javascript">
 query.limit(10); // limit to at most 10 results
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 query.limit = 10; // limit to at most 10 results
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 query.limit = 10 // limit to at most 10 results
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 query.setLimit(10); // limit to at most 10 results
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 query.Limit(10); // limit to at most 10 results
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 If you're issuing queries on GeoPoints, make sure you specify a reasonable radius:
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(PlaceObject);
 query.withinMiles("location", userGeoPoint, 10.0);
 query.find().then(function(placesObjects) {
   // Get a list of objects within 10 miles of a user's location
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Place"];
 [query whereKey:@"location" nearGeoPoint:userGeoPoint withinMiles:10.0];
 [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
@@ -685,10 +685,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Place"];
     // List of objects within 10 miles of a user's location
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("Place")
 query.whereKey("location", nearGeoPoint: userGeoPoint, withinMiles: 10.0)
 query.findObjectsInBackgroundWithBlock {
@@ -697,10 +697,10 @@ query.findObjectsInBackgroundWithBlock {
     // List of places within 10 miles of a user's location
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Place");
 query.whereWithinMiles("location", userGeoPoint, 10.0);
 query.findInBackground(new FindCallback<ParseObject>() {
@@ -711,39 +711,39 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var results = await ParseObject.GetQuery("GameScore")
     .WhereWithinDistance("location", userGeoPoint, ParseGeoDistance.FromMiles(10.0))
     .FindAsync();
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 You can further limit the fields returned by calling select:
 
-```js
+<pre><code class="javascript">
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.select("score", "playerName");
 query.find().then(function(results) {
   // each of results will only have the selected fields available.
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query selectKeys:@[@"score", @"playerName"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -751,10 +751,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // each of results will only have the selected fields available.
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.selectKeys(["score", "playerName"])
 query.findObjectsInBackgroundWithBlock {
@@ -763,10 +763,10 @@ query.findObjectsInBackgroundWithBlock {
     // each of results will only have the selected fields available.
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.selectKeys(Arrays.asList("score", "playerName"));
 query.findInBackground(new FindCallback<ParseObject>() {
@@ -777,25 +777,25 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var results = await ParseObject.GetQuery("GameScore")
      .Select(new[] { "score", "playerName" })
      .FindAsync();
 // each of results will only have the selected fields available.
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 ## Client-side Caching
@@ -810,7 +810,7 @@ You can use this to off load processing to the Parse servers thus increasing you
 
 We saw examples of limiting the data returned by writing restrictive queries. You can also use [Cloud Functions](/docs/cloudcode/guide#cloud-code-cloud-functions) to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie's average rating:
 
-```js
+<pre><code class="javascript">
 Parse.Cloud.define("averageStars", function(request, response) {
   var Review = Parse.Object.extend("Review");
   var query = new Parse.Query(Review);
@@ -825,20 +825,20 @@ Parse.Cloud.define("averageStars", function(request, response) {
     response.error("movie lookup failed");
   });
 });
-```
+</code></pre>
 
 You could have ran a query on the Review class on the client, returned only the stars field data and computed the result on the client. As the number of reviews for a movie increases you can see that the data being returned to the device using this methodology also increases. Implementing the functionality through a Cloud Function returns the one result if successful.
 
 As you look at optimizing your queries, you'll find that you may have to change the queries - sometimes even after you've shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use [Cloud Functions](/docs/cloudcode/guide#cloud-code-cloud-functions). Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:
 
-```command-js
+</code></pre>command-js
 Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings) {
   // ratings is 4.5
 });
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 [PFCloud callFunctionInBackground:@"averageStars"
                   withParameters:@{@"movie": @"The Matrix"}
                            block:^(NSNumber *ratings, NSError *error) {
@@ -846,20 +846,20 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
     // ratings is 4.5
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The Matrix"]) {
   (ratings, error) in
   if !error {
     // ratings is 4.5
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 HashMap<String, String> params = new HashMap();
 params.put("movie", "The Matrix");
 ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback<Float>() {
@@ -870,10 +870,10 @@ ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 IDictionary<string, object> dictionary = new Dictionary<string, object>
 {
     { "movie", "The Matrix" }
@@ -883,17 +883,17 @@ ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t =
   var result = t.Result;
   // result is 4.5
 });
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.
@@ -904,7 +904,7 @@ For classes with over 1,000 objects, count operations are limited by timeouts. T
 
 Suppose you are displaying movie information in your app and your data model consists of a Movie class and a Review class that contains a pointer to the corresponding movie. You might want to display the review count for each movie on the top-level navigation screen using a query like this:
 
-```js
+<pre><code class="javascript">
 var Review = Parse.Object.extend("Review");
 var query = new Parse.Query("Review");
 // movieId corresponds to a given movie's id
@@ -912,10 +912,10 @@ query.equalTo(“movie”, movieId);
 query.count().then(function(count) {
   // Request succeeded
 });
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 // movieId corresponds to a given movie's id
 [query whereKey:@"movie" equalTo:movieId];
@@ -924,10 +924,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     // Request succeeded
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("Review")
 // movieId corresponds to a given movie's id
 query.whereKey("movie", equalTo: movieId)
@@ -937,10 +937,10 @@ query.countObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Review");
 // movieId corresponds to a given movie's id
 query.whereEqualTo("movie", movieId);
@@ -952,30 +952,30 @@ query.countInBackground(new CountCallback() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var count = await ParseObject.GetQuery("Review")
 // movieId corresponds to a given movie's id
     .WhereEqualTo("movie", movieId)
     .CountAsync();
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the `count()` operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie's review count field. This can be done in an `afterSave` handler:
 
-```js
+<pre><code class="javascript">
 Parse.Cloud.afterSave("Review", function(request) {
   // Get the movie id for the Review
   var movieId = request.object.get("movie").id;
@@ -990,11 +990,11 @@ Parse.Cloud.afterSave("Review", function(request) {
     throw "Got an error " + error.code + " : " + error.message;
   });
 });
-```
+</code></pre>
 
 Your new optimized query would not need to look at the Review class to get the review count:
 
-```js
+<pre><code class="javascript">
 var Movie = Parse.Object.extend("Movie");
 var query = new Parse.Query(Movie);
 query.find().then(function(results) {
@@ -1002,20 +1002,20 @@ query.find().then(function(results) {
 }, function(error) {
   // Request failed
 });
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
   if (!error) {
     // Results include the reviews count field
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("Movie")
 query.findObjectsInBackgroundWithBlock {
   (objects, error) in
@@ -1023,10 +1023,10 @@ query.findObjectsInBackgroundWithBlock {
     // Results include the reviews count field
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Movie");
 query.findInBackground(new FindCallback<ParseObject>() {
   @Override
@@ -1036,24 +1036,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var results = await ParseObject.GetQuery("Movie")
     .FindAsync();
 // Results include the reviews count field
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an `afterSave` or `afterDelete` Cloud Code handler. The approach you choose depends on your use case.
@@ -1066,7 +1066,7 @@ Simplistic search algorithms simply scan through all the class data and executes
 
 Let's walk through an example of how you could build an efficient search. You can apply the concepts you learn in this example to your use case. Say your app has users making posts, and you want to be able to search those posts for hashtags or particular keywords. You’ll want to pre-process your posts and save the list of hashtags and words into array fields. You can do this processing either in your app before saving the posts, or you can use a Cloud Code `beforeSave` hook to do this on the fly:
 
-```js
+<pre><code class="javascript">
 var _ = require("underscore");
 Parse.Cloud.beforeSave("Post", function(request, response) {
   var post = request.object;
@@ -1083,13 +1083,13 @@ Parse.Cloud.beforeSave("Post", function(request, response) {
   post.set("hashtags", hashtags);
   response.success();
 });
-```
+</code></pre>
 
 This saves your words and hashtags in array fields, which MongoDB will store with a multi-key index. There are some important things to notice about this. First of all it’s converting all words to lower case so that we can look them up with lower case queries, and get case insensitive matching. Secondly, it’s filtering out common words like ‘the’, ‘in’, and ‘and’ which will occur in a lot of posts, to additionally reduce useless scanning of the index when executing the queries.
 
 Once you've got the keywords set up, you can efficiently look them up using “All” constraint on your query:
 
-```js
+<pre><code class="javascript">
 var Post = Parse.Object.extend("Post");
 var query = new Parse.Query(Post);
 query.containsAll("hashtags", [“#parse”, “#ftw”]);
@@ -1098,10 +1098,10 @@ query.find().then(function(results) {
 }, function(error) {
   // Request failed
 });
-```
+</code></pre>
 {: .common-lang-block-js}
 
-```objc
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Post"];
 [query whereKey:@"hashtags" containsAllObjectsInArray:@[@"#parse", @"#ftw"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -1109,10 +1109,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     // Request succeeded
   }
 }];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let query = PFQuery.queryWithClassName("Post")
 query.whereKey("hashtags", containsAllObjectsInArray: ["#parse", "#ftw"])
 query.findObjectsInBackgroundWithBlock {
@@ -1121,10 +1121,10 @@ query.findObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseQuery<ParseObject> query = ParseQuery.getQuery("Post");
 query.whereContainsAll("hashtags", Arrays.asList("#parse", "#ftw"));
 query.findInBackground(new FindCallback<ParseObject>() {
@@ -1135,24 +1135,24 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```csharp
+<pre><code class="cs">
 var results = await ParseObject.GetQuery("Post")
     .WhereContainsAll("hashtags", new[] { "#parse", "#ftw" })
     .FindAsync();
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```bash
+<pre><code class="bash">
 # No REST API example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 ## Limits and Other Considerations

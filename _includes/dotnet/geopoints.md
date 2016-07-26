@@ -6,13 +6,13 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you first need to create a `ParseGeoPoint`.  For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:
 
-```csharp
+```cs
 var point = new ParseGeoPoint(40.0, -30.0);
 ```
 
 This point is then stored in the object as a regular field.
 
-```csharp
+```cs
 placeObject["location"] = point;
 ```
 
@@ -22,7 +22,7 @@ Note: Currently only one key in a class may be a `ParseGeoPoint`.
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to a `ParseQuery` using `WhereNear`.  Getting a list of ten places that are closest to a user may look something like:
 
-```csharp
+```cs
 // User's location
 var userGeoPoint = ParseUser.CurrentUser.Get<ParseGeoPoint>("location");
 // Create a query for places
@@ -41,7 +41,7 @@ To limit the results using distance check out `WhereWithinDistance`,.
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `WhereWithinGeoBox` restriction to your `ParseQuery`.
 
-```csharp
+```cs
 var swOfSF = new ParseGeoPoint(37.708813, -122.526398);
 var neOfSF = new ParseGeoPoint(37.822802, -122.373962);
 var query = ParseObject.GetQuery("PizzaPlaceObject")
@@ -53,7 +53,7 @@ var pizzaPlacesInSF = await query.FindAsync();
 
 Parse makes it easy to find the distance between two GeoPoints and query based upon that distance. For example, to get a distance in kilometers between two points, you can use the `DistanceTo` method:
 
-```csharp
+```cs
 ParseGeoPoint p1 = /* Some location */;
 ParseGeoPoint p2 = /* Some other location */;
 double distanceInKm = p1.DistanceTo(p2).Kilometers;
@@ -61,7 +61,7 @@ double distanceInKm = p1.DistanceTo(p2).Kilometers;
 
 You can also query for `ParseObject`s within a radius using a `ParseGeoDistance`. For example, to find all places within 5 miles of a user, you would use the `WhereWithinDistance` method:
 
-```csharp
+```cs
 ParseGeoPoint userGeoPoint = ParseUser.CurrentUser.Get<ParseGeoPoint>("location");
 ParseQuery<ParseObject> query = ParseObject.GetQuery("PlaceObject")
     .WhereWithinDistance("location", userGeoPoint, ParseGeoDistance.FromMiles(5));

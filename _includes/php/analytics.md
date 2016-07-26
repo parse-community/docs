@@ -10,7 +10,7 @@ While this section will cover different ways to instrument your app to best take
 
 Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
 
-```php
+<pre><code class="php">
 // Define ranges to bucket data points into meaningful segments
 $dimensions = [
   "priceRange" => '1000-1500', 
@@ -19,13 +19,13 @@ $dimensions = [
 ];
 // Send the dimensions to Parse along with the 'search' event
 ParseAnalytics::track('search', $dimensions);
-```
+</code></pre>
 
 `ParseAnalytics` can even be used as a lightweight error tracker &mdash; simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
-```php
+<pre><code class="php">
 $codeString = '' + $error->getCode();
 ParseAnalytics::track('error', ["code" => codeString]);
-```
+</code></pre>
 
 Note that Parse currently only stores the first eight dimension pairsper call to `ParseAnalytics::track()`.

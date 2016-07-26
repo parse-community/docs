@@ -20,17 +20,17 @@ The `ParseRole` uses the same security scheme (ACLs) as all other objects on Par
 
 To create a new `ParseRole`, you would write:
 
-```php
+<pre><code class="php">
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 $roleACL = new ParseACL();
 $roleACL->setPublicReadAccess(true);
 $role = ParseRole::createRole("Administrator", $roleACL);
 $role->save();
-```
+</code></pre>
 
 You can add users and roles that should inherit your new role's permissions through the "users" and "roles" relations on `ParseRole`:
 
-```php
+<pre><code class="php">
 $role = ParseRole::createRole($roleName, $roleACL);
 for ($i = 0; $i < count($usersToAddToRole); $i++) {
   $role->getUsers()->add($usersToAddToRole[$i]);
@@ -39,7 +39,7 @@ for ($i = 0; $i < count($rolesToAddToRole); $i++) {
   $role->getRoles()->add($rolesToAddToRole[$i]);
 }
 $role->save();
-```
+</code></pre>
 
 Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
@@ -49,24 +49,24 @@ Now that you have created a set of roles for use in your application, you can us
 
 Giving a role read or write permission to an object is straightforward.  You can either use the `ParseRole`:
 
-```php
+<pre><code class="php">
 $moderators = /* Query for some ParseRole */;
 $wallPost = new ParseObject("WallPost");
 $postACL = new ParseACL();
 $postACL->setRoleWriteAccess($moderators, true);
 $wallPost->setACL($postACL);
 $wallPost->save();
-```
+</code></pre>
 
 You can avoid querying for a role by specifying its name for the ACL:
 
-```php
+<pre><code class="php">
 $wallPost = new ParseObject("WallPost");
 $postACL = new ParseACL();
 $postACL->setRoleWriteAccessWithName("Moderators", true);
 $wallPost->setACL($postACL);
 $wallPost->save();
-```
+</code></pre>
 
 ## Role Hierarchy
 
@@ -74,9 +74,9 @@ As described above, one role can contain another, establishing a parent-child re
 
 These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators", like this:
 
-```php
+<pre><code class="php">
 $administrators = /* Your "Administrators" role */;
 $moderators = /* Your "Moderators" role */;
 $moderators->getRoles()->add($administrators);
 $moderators->save();
-```
+</code></pre>

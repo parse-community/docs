@@ -4,16 +4,16 @@ Parse has a few simple patterns for surfacing errors and handling them in your c
 
 There are two types of errors you may encounter. The first is those dealing with logic errors in the way you're using the SDK. These types of errors result in general `Exception` being raised. For an example take a look at the following code:
 
-```csharp
+<pre><code class="cs">
 var user = new ParseUser();
 user.SignUpAsync();
-```
+</code></pre>
 
 This will throw an `InvalidOperationException` because `SignUpAsync` was called without first setting the required properties (`Username` and `Password`).
 
 The second type of error is one that occurs when interacting with the Parse Cloud over the network. These errors are either related to problems connecting to the cloud or problems performing the requested operation. For example, an error may result from an existing user trying to sign up. Here's how you could handle this error as well as the previous SDK logic errors:
 
-```csharp
+<pre><code class="cs">
 try
 {
     user.SignUpAsync().ContinueWith(t => {
@@ -35,7 +35,7 @@ catch (InvalidOperationException e)
     // e.Message will contain the specific error
     // ex: "Cannot sign up user with an empty name."
 }
-```
+</code></pre>
 
 At the moment there are a couple of things to watch out for:
 
@@ -44,13 +44,13 @@ At the moment there are a couple of things to watch out for:
 
 Let's take a look at another error handling example:
 
-```csharp
+<pre><code class="cs">
 ParseObject.GetQuery("Note").GetAsync("thisObjectIdDoesntExist");
-```
+</code></pre>
 
 In the above code, we try to fetch an object with a non-existent `ObjectId`. The Parse Cloud will return an error -- so here's how to handle it properly:
 
-```csharp
+<pre><code class="cs">
 ParseObject.GetQuery("Note").GetAsync(someObjectId).ContinueWith(t =>
 {
     if (t.IsFaulted)
@@ -62,6 +62,6 @@ ParseObject.GetQuery("Note").GetAsync(someObjectId).ContinueWith(t =>
         // Everything went fine!
     }
 })
-```
+</code></pre>
 
-For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API](/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm).
+For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API](https://parse.com/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm).

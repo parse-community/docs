@@ -143,9 +143,9 @@ In the examples that follow, the keys for your app are included in the command. 
 
 You may also authenticate your REST API requests using basic HTTP authentication. For example, to retrieve an object you could set the URL using your Parse credentials in the following format:
 
-```json
+<pre><code class="json">
 https://myAppID:javascript-key=myJavaScriptKey@api.parse.com/1/classes/GameScore/Ed1nuqPvcm
-```
+</code></pre>
 
 For JavaScript usage, the Parse Cloud supports [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), so that you can use these headers in conjunction with XMLHttpRequest.
 
@@ -156,12 +156,12 @@ The response format for all requests is a JSON object.
 
 Whether a request succeeded is indicated by the HTTP status code. A 2xx status code indicates success, whereas a 4xx status code indicates failure. When a request fails, the response body is still JSON, but always contains the fields `code` and `error` which you can inspect to use for debugging. For example, trying to save an object with invalid keys will return the message:
 
-```json
+<pre><code class="json">
 {
   "code": 105,
   "error": "invalid field name: bl!ng"
 }
-```
+</code></pre>
 
 ## Calling from Client Apps
 

@@ -8,7 +8,7 @@
 
 After that you will be able to fetch the `ParseConfig` on the client, like in this example:
 
-```csharp
+```cs
 ParseConfig config = null;
 try {
   config = await ParseConfig.GetAsync();
@@ -21,7 +21,7 @@ try {
 
 `ParseConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `GetAsync` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `CurrentConfig`.
 
-```csharp
+```cs
 ParseConfig config = null;
 try {
   config = await ParseConfig.GetAsync();
@@ -47,7 +47,7 @@ Every `ParseConfig` instance that you get is always immutable. When you retrieve
 
 It might be troublesome to retrieve the config from the server every time you want to use it. You can avoid this by simply using the cached `CurrentConfig` object and fetching the config only once in a while.
 
-```csharp
+```cs
 public class Helper
 {
   private static TimeSpan configRefreshInterval = TimeSpan.FromHours(12);

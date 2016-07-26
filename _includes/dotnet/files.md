@@ -6,7 +6,7 @@
 
 Getting started with `ParseFile` is easy. First, you'll need to have the data in `byte[]` or `Stream` form and then create a `ParseFile` with it. In this example, we'll just use a string:
 
-```csharp
+```cs
 byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
 ParseFile file = new ParseFile("resume.txt", data);
 ```
@@ -18,13 +18,13 @@ Notice in this example that we give the file a name of `resume.txt`. There's two
 
 Next you'll want to save the file up to the cloud. As with `ParseObject`, you can call `SaveAsync` to save the file to Parse.
 
-```csharp
+```cs
 await file.SaveAsync();
 ```
 
 Finally, after the save completes, you can assign a `ParseFile` into a `ParseObject` just like any other piece of data:
 
-```csharp
+```cs
 var jobApplication = new ParseObject("JobApplication");
 jobApplication["applicantName"] = "Joe Smith";
 jobApplication["applicantResumeFile"] = file;
@@ -33,7 +33,7 @@ await jobApplication.SaveAsync();
 
 Retrieving it back involves downloading the resource at the `ParseFile`'s `Url`. Here we retrieve the resume file off another JobApplication object:
 
-```csharp
+```cs
 var applicantResumeFile = anotherApplication.Get<ParseFile>("applicantResumeFile");
 string resumeText = await new HttpClient().GetStringAsync(applicantResumeFile.Url);
 ```
@@ -42,7 +42,7 @@ string resumeText = await new HttpClient().GetStringAsync(applicantResumeFile.Ur
 
 It's easy to get the progress of `ParseFile` uploads by passing a `Progress` object to `SaveAsync`. For example:
 
-```csharp
+```cs
 byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
 ParseFile file = new ParseFile("resume.txt", data);
 

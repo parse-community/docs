@@ -6,10 +6,10 @@
 
 Getting started with `ParseFile` is easy. First, you'll need to have the data in `byte[]` form and then create a `ParseFile` with it. In this example, we'll just use a string:
 
-```java
+<pre><code class="java">
 byte[] data = "Working at Parse is great!".getBytes();
 ParseFile file = new ParseFile("resume.txt", data);
-```
+</code></pre>
 
 Notice in this example that we give the file a name of `resume.txt`. There's two things to note here:
 
@@ -18,22 +18,22 @@ Notice in this example that we give the file a name of `resume.txt`. There's two
 
 Next you'll want to save the file up to the cloud. As with `ParseObject`, there are many variants of the `save` method you can use depending on what sort of callback and error handling suits you.
 
-```java
+<pre><code class="java">
 file.saveInBackground();
-```
+</code></pre>
 
 Finally, after the save completes, you can associate a `ParseFile` onto a `ParseObject` just like any other piece of data:
 
-```java
+<pre><code class="java">
 ParseObject jobApplication = new ParseObject("JobApplication");
 jobApplication.put("applicantName", "Joe Smith");
 jobApplication.put("applicantResumeFile", file);
 jobApplication.saveInBackground();
-```
+</code></pre>
 
 Retrieving it back involves calling one of the `getData` variants on the `ParseObject`. Here we retrieve the resume file off another JobApplication object:
 
-```java
+<pre><code class="java">
 ParseFile applicantResume = (ParseFile)anotherApplication.get("applicantResumeFile");
 applicantResume.getDataInBackground(new GetDataCallback() {
   public void done(byte[] data, ParseException e) {
@@ -44,7 +44,7 @@ applicantResume.getDataInBackground(new GetDataCallback() {
     }
   }
 });
-```
+</code></pre>
 
 Just like on `ParseObject`, you will most likely want to use the background version of `getData`.
 
@@ -52,7 +52,7 @@ Just like on `ParseObject`, you will most likely want to use the background vers
 
 It's easy to get the progress of both uploads and downloads using ParseFile by passing a ProgressCallback to `saveInBackground` and `getDataInBackground`. For example:
 
-```java
+<pre><code class="java">
 byte[] data = "Working at Parse is great!".getBytes();
 ParseFile file = new ParseFile("resume.txt", data);
 
@@ -65,7 +65,7 @@ file.saveInBackground(new SaveCallback() {
     // Update your progress spinner here. percentDone will be between 0 and 100.
   }
 });
-```
+</code></pre>
 
 You can delete files that are referenced by objects using the [REST API](/docs/rest/guide/#files-deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 

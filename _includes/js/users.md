@@ -20,7 +20,7 @@ We'll go through each of these in detail as we run through the various use cases
 
 The first thing your app will do is probably ask the user to sign up. The following code illustrates a typical sign up:
 
-```js
+<pre><code class="javascript">
 var user = new Parse.User();
 user.set("username", "my name");
 user.set("password", "my pass");
@@ -38,7 +38,7 @@ user.signUp(null, {
     alert("Error: " + error.code + " " + error.message);
   }
 });
-```
+</code></pre>
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
@@ -52,7 +52,7 @@ You are free to use an email address as the username. Simply ask your users to e
 
 Of course, after you allow users to sign up, you need to let them log in to their account in the future. To do this, you can use the class method `logIn`.
 
-```js
+<pre><code class="javascript">
 Parse.User.logIn("myname", "mypass", {
   success: function(user) {
     // Do stuff after successful login.
@@ -61,7 +61,7 @@ Parse.User.logIn("myname", "mypass", {
     // The login failed. Check error to see why.
   }
 });
-```
+</code></pre>
 
 ## Verifying Emails
 
@@ -79,34 +79,34 @@ It would be bothersome if the user had to log in every time they open your app. 
 
 Whenever you use any signup or login methods, the user is cached in localStorage. You can treat this cache as a session, and automatically assume the user is logged in:
 
-```js
+<pre><code class="javascript">
 var currentUser = Parse.User.current();
 if (currentUser) {
     // do stuff with the user
 } else {
     // show the signup or login page
 }
-```
+</code></pre>
 
 You can clear the current user by logging them out:
 
-```js
+<pre><code class="javascript">
 Parse.User.logOut().then(() => {
   var currentUser = Parse.User.current();  // this will now be null
 });
-```
+</code></pre>
 
 ## Setting the Current User
 
 If you’ve created your own authentication routines, or otherwise logged in a user on the server side, you can now pass the session token to the client and use the `become` method. This method will ensure the session token is valid before setting the current user.
 
-```js
+<pre><code class="javascript">
 Parse.User.become("session-token-here").then(function (user) {
   // The current user is now set to user.
 }, function (error) {
   // The token could not be validated.
 });
-```
+</code></pre>
 
 ## Security For User Objects
 
@@ -116,7 +116,7 @@ Specifically, you are not able to invoke any of the `save` or `delete` methods u
 
 The following illustrates this security policy:
 
-```js
+<pre><code class="javascript">
 var user = Parse.User.logIn("my_username", "my_password", {
   success: function(user) {
     user.set("username", "my_new_username");  // attempt to change username
@@ -141,7 +141,7 @@ var user = Parse.User.logIn("my_username", "my_password", {
   }
 });
 
-```
+</code></pre>
 
 The `Parse.User` obtained from `Parse.User.current()` will always be authenticated.
 
@@ -153,19 +153,19 @@ The same security model that applies to the `Parse.User` can be applied to other
 
 The simplest way to use a `Parse.ACL` is to specify that an object may only be read or written by a single user. This is done by initializing a Parse.ACL with a `Parse.User`: `new Parse.ACL(user)` generates a `Parse.ACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
-```js
+<pre><code class="javascript">
 var Note = Parse.Object.extend("Note");
 var privateNote = new Note();
 privateNote.set("content", "This note is private!");
 privateNote.setACL(new Parse.ACL(Parse.User.current()));
 privateNote.save();
-```
+</code></pre>
 
 This note will then only be accessible to the current user, although it will be accessible to any device where that user is signed in. This functionality is useful for applications where you want to enable access to user data across multiple devices, like a personal todo list.
 
 Permissions can also be granted on a per-user basis. You can add permissions individually to a `Parse.ACL` using `setReadAccess` and `setWriteAccess`. For example, let's say you have a message that will be sent to a group of several users, where each of them have the rights to read and delete that message:
 
-```js
+<pre><code class="javascript">
 var Message = Parse.Object.extend("Message");
 var groupMessage = new Message();
 var groupACL = new Parse.ACL();
@@ -178,17 +178,17 @@ for (var i = 0; i < userList.length; i++) {
 
 groupMessage.setACL(groupACL);
 groupMessage.save();
-```
+</code></pre>
 
 You can also grant permissions to all users at once using `setPublicReadAccess` and `setPublicWriteAccess`. This allows patterns like posting comments on a message board. For example, to create a post that can only be edited by its author, but can be read by anyone:
 
-```js
+<pre><code class="javascript">
 var publicPost = new Post();
 var postACL = new Parse.ACL(Parse.User.current());
 postACL.setPublicReadAccess(true);
 publicPost.setACL(postACL);
 publicPost.save();
-```
+</code></pre>
 
 Operations that are forbidden, such as deleting an object that you do not have write access to, result in a `Parse.Error.OBJECT_NOT_FOUND` error code. For security purposes, this prevents clients from distinguishing which object ids exist but are secured, versus which object ids do not exist at all.
 
@@ -198,7 +198,7 @@ It's a fact that as soon as you introduce passwords into a system, users will fo
 
 To kick off the password reset flow, ask the user for their email address, and call:
 
-```js
+<pre><code class="javascript">
 Parse.User.requestPasswordReset("email@example.com", {
   success: function() {
   // Password reset request was sent successfully
@@ -208,7 +208,7 @@ Parse.User.requestPasswordReset("email@example.com", {
     alert("Error: " + error.code + " " + error.message);
   }
 });
-```
+</code></pre>
 
 This will attempt to match the given email with the user's email or username field, and will send them a password reset email. By doing this, you can opt to have users use their email as their username, or you can collect it separately and store it in the email field.
 
@@ -225,7 +225,7 @@ Note that the messaging in this flow will reference your app by the name that yo
 
 To query for users, you can simple create a new `Parse.Query` for `Parse.User`s:
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(Parse.User);
 query.equalTo("gender", "female");  // find all the women
 query.find({
@@ -233,13 +233,13 @@ query.find({
     // Do stuff
   }
 });
-```
+</code></pre>
 
 ## Associations
 
 Associations involving a `Parse.User` work right of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
-```js
+<pre><code class="javascript">
 var user = Parse.User.current();
 
 // Make a new post
@@ -260,7 +260,7 @@ post.save(null, {
     });
   }
 });
-```
+</code></pre>
 
 ## Facebook Users
 
@@ -278,7 +278,7 @@ To start using Facebook with Parse, you need to:
 3.  Follow [these instructions](https://developers.facebook.com/docs/javascript/quickstart/) for loading the Facebook JavaScript SDK into your application.
 4.  Replace your call to `FB.init()` with a call to `Parse.FacebookUtils.init()`. For example, if you load the Facebook JavaScript SDK asynchronously, your `fbAsyncInit` function will look like this:
 
-```js
+<pre><code class="javascript">
 <script>
   // Initialize Parse
   Parse.initialize("$PARSE_APPLICATION_ID", "$PARSE_JAVASCRIPT_KEY");
@@ -303,7 +303,7 @@ To start using Facebook with Parse, you need to:
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 </script>
-```
+</code></pre>
 
 The function assigned to `fbAsyncInit` is run as soon as the Facebook JavaScript SDK has completed loading. Any code that you want to run after the Facebook JavaScript SDK is loaded should be placed within this function and after the call to `Parse.FacebookUtils.init()`.
 
@@ -317,7 +317,7 @@ There are two main ways to use Facebook with your Parse users: (1) logging in as
 
 `Parse.FacebookUtils` provides a way to allow your `Parse.User`s to log in or sign up through Facebook. This is accomplished using the `logIn()` method:
 
-```js
+<pre><code class="javascript">
 Parse.FacebookUtils.logIn(null, {
   success: function(user) {
     if (!user.existed()) {
@@ -330,7 +330,7 @@ Parse.FacebookUtils.logIn(null, {
     alert("User cancelled the Facebook login or did not fully authorize.");
   }
 });
-```
+</code></pre>
 
 When this code is run, the following happens:
 
@@ -341,7 +341,7 @@ When this code is run, the following happens:
 
 You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
 
-```js
+<pre><code class="javascript">
 Parse.FacebookUtils.logIn("user_likes,email", {
   success: function(user) {
     // Handle successful login
@@ -350,7 +350,7 @@ Parse.FacebookUtils.logIn("user_likes,email", {
     // Handle errors and cancellation
   }
 });
-```
+</code></pre>
 
 `Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
@@ -363,7 +363,7 @@ Parse.FacebookUtils.logIn("user_likes,email", {
 
 If you want to associate an existing `Parse.User` to a Facebook account, you can link it like so:
 
-```js
+<pre><code class="javascript">
 if (!Parse.FacebookUtils.isLinked(user)) {
   Parse.FacebookUtils.link(user, null, {
     success: function(user) {
@@ -374,19 +374,19 @@ if (!Parse.FacebookUtils.isLinked(user)) {
     }
   });
 }
-```
+</code></pre>
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `Parse.User` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
 If you want to unlink Facebook from a user, simply do this:
 
-```js
+<pre><code class="javascript">
 Parse.FacebookUtils.unlink(user, {
   success: function(user) {
     alert("The user is no longer associated with their Facebook account.");
   }
 });
-```
+</code></pre>
 
 ### Facebook SDK and Parse
 

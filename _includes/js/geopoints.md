@@ -6,15 +6,15 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you first need to create a `Parse.GeoPoint`.  For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:
 
-```js
+<pre><code class="javascript">
 var point = new Parse.GeoPoint({latitude: 40.0, longitude: -30.0});
-```
+</code></pre>
 
 This point is then stored in the object as a regular field.
 
-```js
+<pre><code class="javascript">
 placeObject.set("location", point);
-```
+</code></pre>
 
 Note: Currently only one key in a class may be a `Parse.GeoPoint`.
 
@@ -22,7 +22,7 @@ Note: Currently only one key in a class may be a `Parse.GeoPoint`.
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `Parse.Query` using `near`.  Getting a list of ten places that are closest to a user may look something like:
 
-```js
+<pre><code class="javascript">
 // User's location
 var userGeoPoint = userObject.get("location");
 // Create a query for places
@@ -36,7 +36,7 @@ query.find({
   success: function(placesObjects) {
   }
 });
-```
+</code></pre>
 
  At this point `placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `userGeoPoint`. Note that if an additional `ascending()`/`descending()` order-by constraint is applied, it will take precedence over the distance ordering.
 
@@ -44,7 +44,7 @@ To limit the results using distance, check out `withinMiles`, `withinKilometers`
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `Parse.Query`.
 
-```js
+<pre><code class="javascript">
 var southwestOfSF = new Parse.GeoPoint(37.708813, -122.526398);
 var northeastOfSF = new Parse.GeoPoint(37.822802, -122.373962);
 
@@ -55,7 +55,7 @@ query.find({
     ...
   }
 });
-```
+</code></pre>
 
 ## Caveats
 

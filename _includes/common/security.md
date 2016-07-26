@@ -74,274 +74,274 @@ The easiest way to control who can access which data is through access control l
 
 Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse's [automatic anonymous users](/docs/ios/guide#users-anonymous-users) functionality. To set an ACL on the current user's data to not be publicly readable, all you have to do is:
 
-```objc
+<pre><code class="objectivec">
 PFUser *user = [PFUser currentUser];
 user.ACL = [PFACL ACLWithUser:user];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 if let user = PFUser.currentUser() {
     user.ACL = PFACL(user: user)
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseUser user = ParseUser.getCurrentUser();
 user.setACL(new ParseACL(user));
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```js
+<pre><code class="javascript">
 var user = Parse.User.current();
 user.setACL(new Parse.ACL(user));
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```csharp
+<pre><code class="cs">
 var user = ParseUser.CurrentUser;
 user.ACL = new ParseACL(user);
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```php
+<pre><code class="php">
 $user = ParseUser::getCurrentUser();
 $user->setACL(new ParseACL($user))
-```
+</code></pre>
 {: .common-lang-block .php }
 
-```bash
+<pre><code class="bash">
 # No command line example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Most apps should do this. If you store any sensitive user data, such as email addresses or phone numbers, you need to set an ACL like this so that the user's private information isn't visible to other users. If an object doesn't have an ACL, it's readable and writeable by everyone. The only exception is the `_User` class. We never allow users to write each other's data, but they can read it by default. (If you as the developer need to update other `_User` objects, remember that your master key can provide the power to do this.)
 
 To make it super easy to create user-private ACLs for every object, we have a way to set a default ACL that will be used for every new object you create:
 
-```objc
+<pre><code class="objectivec">
 [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseACL.setDefaultACL(new ParseACL(), true);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```js
+<pre><code class="javascript">
 // not available in the JavaScript SDK
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```csharp
+<pre><code class="cs">
 // not available in the .NET SDK
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```php
+<pre><code class="php">
 ParseACL::setDefaultACL(new ParseACL(), true);
-```
+</code></pre>
 {: .common-lang-block .php }
 
-```bash
+<pre><code class="bash">
 # No command line example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 If you want the user to have some data that is public and some that is private, it's best to have two separate objects. You can add a pointer to the private data from the public one.
 
-```objc
+<pre><code class="objectivec">
 PFObject *privateData = [PFObject objectWithClassName:@"PrivateUserData"];
 privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 [privateData setObject:@"555-5309" forKey:@"phoneNumber"];
 
 [[PFUser currentUser] setObject:privateData forKey:@"privateData"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 if let currentUser = PFUser.currentUser() {
     let privateData = PFObject(className: "PrivateUserData")
     privateData.ACL = PFACL(user: currentUser)
     privateData.setObject("555-5309", forKey: "phoneNumber")
     currentUser.setObject(privateData, forKey: "privateData")
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseObject privateData = new ParseObject("PrivateUserData");
 privateData.setACL(new ParseACL(ParseUser.getCurrentUser()));
 privateData.put("phoneNumber", "555-5309");
 
 ParseUser.getCurrentUser().put("privateData", privateData);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```js
+<pre><code class="javascript">
 var privateData = Parse.Object.extend("PrivateUserData");
 privateData.setACL(new Parse.ACL(Parse.User.current()));
 privateData.set("phoneNumber", "555-5309");
 
 Parse.User.current().set("privateData", privateData);
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```csharp
+<pre><code class="cs">
 var privateData = new ParseObject("PrivateUserData");
 privateData.ACL = new ParseACL(ParseUser.CurrentUser);
 privateData["phoneNumber"] = "555-5309";
 
 ParseUser.CurrentUser["privateData"] =  privateData;
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```php
+<pre><code class="php">
 $privateData = ParseObject::create("PrivateUserData");
 $privateData->setACL(new ParseACL(ParseUser::getCurrentUser()));
 $privateData->set("phoneNumber", "555-5309");
 
 ParseUser::getCurrentUser()->set("privateData", $privateData);
-```
+</code></pre>
 {: .common-lang-block .php }
 
-```bash
+<pre><code class="bash">
 # No command line example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Of course, you can set different read and write permissions on an object. For example, this is how you would create an ACL for a public post by a user, where anyone can read it:
 
-```objc
+<pre><code class="objectivec">
 PFACL *acl = [PFACL ACL];
 [acl setPublicReadAccess:true];
 [acl setWriteAccess:true forUser:[PFUser currentUser]];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let acl = PFACL()
 acl.setPublicReadAccess(true)
 if let currentUser = PFUser.currentUser() {
     acl.setWriteAccess(true, forUser: currentUser)
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 ParseACL acl = new ParseACL();
 acl.setPublicReadAccess(true);
 acl.setWriteAccess(ParseUser.getCurrentUser(), true);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```js
+<pre><code class="javascript">
 var acl = new Parse.ACL();
 acl.setPublicReadAccess(true);
 acl.setWriteAccess(Parse.User.current().id, true);
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```csharp
+<pre><code class="cs">
 var acl = new ParseACL();
 acl.PublicReadAccess = true;
 acl.SetRoleWriteAccess(ParseUser.CurrentUser.ObjectId, true);
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```php
+<pre><code class="php">
 $acl = new ParseACL();
 $acl->setPublicReadAccess(true);
 $acl->setWriteAccess(ParseUser::getCurrentUser(), true);
-```
+</code></pre>
 {: .common-lang-block .php }
 
-```bash
+<pre><code class="bash">
 # No command line example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
 
-```objc
+<pre><code class="objectivec">
 // Assuming you've already created a role called "admins"...
 PFACL *acl = [PFACL ACL];
 [acl setPublicReadAccess:true];
 [acl setWriteAccess:true forRoleWithName:@"admins"];
-```
+</code></pre>
 {: .common-lang-block .objc }
 
-```swift
+<pre><code class="swift">
 let acl = PFACL()
 acl.setPublicReadAccess(true)
 acl.setWriteAccess(true, forRoleWithName: "admins")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
-```java
+<pre><code class="java">
 // Assuming you've already created a role called "admins"...
 ParseACL acl = new ParseACL();
 acl.setPublicReadAccess(true);
 acl.setRoleWriteAccess("admins", true);
-```
+</code></pre>
 {: .common-lang-block .java }
 
-```js
+<pre><code class="javascript">
 var acl = new Parse.ACL();
 acl.setPublicReadAccess(true);
 acl.setRoleWriteAccess("admins", true);
-```
+</code></pre>
 {: .common-lang-block .js }
 
-```csharp
+<pre><code class="cs">
 var acl = new ParseACL();
 acl.PublicReadAccess = true;
 acl.SetRoleWriteAccess("admins", true);
-```
+</code></pre>
 {: .common-lang-block .csharp }
 
-```php
+<pre><code class="php">
 $acl = new ParseACL();
 $acl->setPublicReadAccess(true);
 $acl->setRoleWriteAccessWithName("admins", true);
-```
+</code></pre>
 {: .common-lang-block .php }
 
-```bash
+<pre><code class="bash">
 # No command line example
-```
+</code></pre>
 {: .common-lang-block .bash }
 
-```cpp
+<pre><code class="cpp">
 // No C++ example
-```
+</code></pre>
 {: .common-lang-block .cpp }
 
 Of course, this snippet assumes you've already created a role named "admins". This is often reasonable when you have a small set of special roles set up while developing your app. Roles can also be created and updated on the fly — for example, adding new friends to a "friendOf___" role after each connection is made.
@@ -356,21 +356,21 @@ All this is just the beginning. Applications can enforce all sorts of complex ac
 
 For the curious, here's the format for an ACL that restricts read and write permissions to the owner (whose `objectId` is identified by `"aSaMpLeUsErId"`) and enables other users to read the object:
 
-```json
+<pre><code class="json">
 {
     "*": { "read":true },
     "aSaMpLeUsErId": { "read" :true, "write": true }
 }
-```
+</code></pre>
 
 And here's another example of the format of an ACL that uses a Role:
 
-```json
+<pre><code class="json">
 {
     "role:RoleName": { "read": true },
     "aSaMpLeUsErId": { "read": true, "write": true }
 }
-```
+</code></pre>
 
 ### Pointer Permissions
 
@@ -380,7 +380,7 @@ Given that objects often already have pointers to the user(s) that should have p
 
 Pointer permissions are like virtual ACLs. They don't appear in the ACL column, buf if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
 
-```
+</code></pre>
 {
     "<SENDER_USER_ID>": {
         "read": true,
@@ -390,7 +390,7 @@ Pointer permissions are like virtual ACLs. They don't appear in the ACL column, 
         "read": true
     }
 }
-```
+</code></pre>
 
 Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don't have many ACLs set. Fortunately, it's easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.
 
@@ -445,7 +445,7 @@ One particularly common use case for Cloud Code is preventing invalid data from 
 
 To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger](https://parse.com/docs/cloudcode/guide#cloud-code-beforesave-triggers) to make sure every user has an email address set:
 
-```js
+<pre><code class="javascript">
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
   var user = request.object;
   if (!user.get("email")) {
@@ -454,7 +454,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
     response.success();
   }
 });
-```
+</code></pre>
 
 Our [Cloud Code guide](https://parse.com/docs/cloudcode/guide#cloud-code) provides instructions on how to upload this trigger to our servers.
 
@@ -479,17 +479,17 @@ Say you want to allow a user to "like" a `Post` object without giving them full 
 
 The master key should be used carefully. When invoked, the master key is in effect for the duration of the Cloud Code function in which it is called:
 
-```js
+<pre><code class="javascript">
 Parse.Cloud.define("like", function(request, response) {
   Parse.Cloud.useMasterKey();
   // Everything after this point will bypass ACLs and other security
   // even if I do things besides just updating a Post object.
 });
-```
+</code></pre>
 
 A more prudent way to use the master key would be to pass it as a parameter on a per-function basis. For example, instead of the above, set `useMasterKey` to `true` in each individual API function:
 
-```js
+<pre><code class="javascript">
 Parse.Cloud.define("like", function(request, response) {
   var post = new Parse.Object("Post");
   post.id = request.params.postId;
@@ -502,7 +502,7 @@ Parse.Cloud.define("like", function(request, response) {
     response.error(error);
   });
 });
-```
+</code></pre>
 
 One very common use case for Cloud Code is sending push notifications to particular users. In general, clients can't be trusted to send push notifications directly, because they could modify the alert text, or push to people they shouldn't be able to. Your app's settings will allow you to set whether "client push" is enabled or not; we recommend that you make sure it's disabled. Instead, you should write Cloud Code functions that validate the data to be pushed and sent before sending a push.
 

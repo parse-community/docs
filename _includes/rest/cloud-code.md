@@ -4,15 +4,15 @@
 
 Cloud Functions can be called using the REST API. For example, to call the Cloud Function named `hello`:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{}' \
   https://api.parse.com/1/functions/hello
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -24,7 +24,7 @@ connection.request('POST', '/1/functions/hello', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ##  Background Jobs
 
@@ -34,15 +34,15 @@ Similarly, you can trigger a background job from the REST API. For example, to t
   Take a look at the [Cloud Code Guide](/docs/cloudcode/guide#cloud-code-cloud-functions) to learn more about Cloud Functions and Background Jobs.
 </div></div>
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"plan":"paid"}' \
   https://api.parse.com/1/jobs/userMigration
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -55,4 +55,4 @@ connection.request('POST', '/1/jobs/userMigration', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>

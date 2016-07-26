@@ -8,25 +8,25 @@
 
 After that you will be able to fetch the `PFConfig` on the client, like in this example:
 
-```objc
+<pre><code class="objectivec">
 [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
   NSNumber *number = config[@"winningNumber"];
   NSLog(@"Yay! The number is %@!", [number stringValue]);
 }];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 PFConfig.getConfigInBackgroundWithBlock {
   (config: PFConfig?, error: NSError?) -> Void in
   let number = config?["winningNumber"] as? Int
   print("Yay! The number is \(number)!")
 }
-```
+</code></pre>
 
 ## Retrieving Config
 
 `PFConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `getConfigInBackgroundWithBlock` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `currentConfig`.
 
-```objc
+<pre><code class="objectivec">
 NSLog(@"Getting the latest config...");
 [PFConfig getConfigInBackgroundWithBlock:^(PFConfig *config, NSError *error) {
   if (!error) {
@@ -43,8 +43,8 @@ NSLog(@"Getting the latest config...");
   }
   NSLog(@"Welcome Messsage = %@", welcomeMessage);
 }];
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 print("Getting the latest config...");
 PFConfig.getConfigInBackgroundWithBlock {
   (var config: PFConfig?, error: NSError?) -> Void in
@@ -63,7 +63,7 @@ PFConfig.getConfigInBackgroundWithBlock {
     welcomeMessage = "Welcome!";
   }
 };
-```
+</code></pre>
 
 ## Current Config
 
@@ -71,7 +71,7 @@ Every `PFConfig` instance that you get is always immutable. When you retrieve a 
 
 It might be troublesome to retrieve the config from the server every time you want to use it. You can avoid this by simply using the cached `currentConfig` object and fetching the config only once in a while.
 
-```objc
+<pre><code class="objectivec">
 // Fetches the config at most once every 12 hours per app runtime
 const NSTimeInterval configRefreshInterval = 12.0 * 60.0 * 60.0;
 static NSDate *lastFetchedDate;
@@ -80,8 +80,8 @@ if (lastFetchedDate == nil ||
   [PFConfig getConfigInBackgroundWithBlock:nil];
   lastFetchedDate = [NSDate date];
 }
-```
-```swift
+</code></pre>
+<pre><code class="swift">
 // Fetches the config at most once every 12 hours per app runtime
 let configRefreshInterval: NSTimeInterval  = 12.0 * 60.0 * 60.0
 struct DateSingleton {
@@ -93,7 +93,7 @@ if date == nil ||
   PFConfig.getConfigInBackgroundWithBlock(nil);
   DateSingleton.lastFetchedDate = NSDate();
 }
-```
+</code></pre>
 
 
 ## Parameters

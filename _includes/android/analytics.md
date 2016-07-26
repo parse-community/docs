@@ -10,9 +10,9 @@ Without having to implement any client-side logic, you can view real-time graphs
 
 Our initial analytics hook allows you to track your application being launched. By adding the following line to the `onCreate` method of your main `Activity`, you'll begin to collect data on when and how often your application is opened.
 
-```java
+<pre><code class="java">
 ParseAnalytics.trackAppOpenedInBackground(getIntent());
-```
+</code></pre>
 
 Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
 
@@ -24,7 +24,7 @@ Further analytics are available around push notification delivery and open rates
 
 Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
 
-```java
+<pre><code class="java">
 Map<String, String> dimensions = new HashMap<String, String>();
 // Define ranges to bucket data points into meaningful segments
 dimensions.put("priceRange", "1000-1500");
@@ -34,15 +34,15 @@ dimensions.put("source", "craigslist");
 dimensions.put("dayType", "weekday");
 // Send the dimensions to Parse along with the 'search' event
 ParseAnalytics.trackEvent("search", dimensions);
-```
+</code></pre>
 
 `ParseAnalytics` can even be used as a lightweight error tracker &mdash; simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
-```java
+<pre><code class="java">
 Map<String, String> dimensions = new HashMap<String, String>();
 dimensions.put('code', Integer.toString(error.getCode()));
 ParseAnalytics.trackEvent('error', dimensions);
-```
+</code></pre>
 
 Note that Parse currently only stores the first eight dimension pairs per call to `ParseAnalytics.trackEvent()`.
 

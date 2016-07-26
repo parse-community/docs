@@ -27,38 +27,38 @@ These are the generic concepts encapsulating both use cases:
 `Cloud Trigger` is either a `cloud code trigger` or a `trigger webhook`.
 
 A function webhook has a name and a url. Hence, its JSON response looks like:
-```json
+<pre><code class="json">
 {"functionName": "foo", "url": "https://api.example.com/foo"}
-```
+</code></pre>
 
 JSON reponse for a cloud code function just contains the function name.
-```json
+<pre><code class="json">
 {"functionName": "foo"}
-```
+</code></pre>
 
 A trigger webhook belongs to a class, has a trigger name and a url. Hence, its JSON response looks like:
-```json
+<pre><code class="json">
 {"className": "score", "triggerName": "beforeSave", "url": "https://api.example.com/score/beforeSave"}
-```
+</code></pre>
 
 JSON response for a cloud code trigger contains the class name and the trigger name.
-```json
+<pre><code class="json">
 {"className": "score", "triggerName": "beforeSave"}
-```
+</code></pre>
 Note that trigger name can only be one of `beforeSave`, `afterSave`, `beforeDelete` and `afterDelete`.
 
 
 ## Fetch functions
 To fetch the list of all cloud functions you deployed or created, use:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/hooks/functions
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -69,10 +69,10 @@ connection.request('GET', '/1/hooks/functions', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output is a json object with one key: "results" whose value is a list of cloud functions.
-```json
+<pre><code class="json">
 {
   "results": [
     { "functionName": "sendMessage", "url": "https://api.example.com/sendMessage" },
@@ -81,18 +81,18 @@ The output is a json object with one key: "results" whose value is a list of clo
     { "functionName": "bar" }
   ]
 }
-```
+</code></pre>
 
 To fetch a single cloud function with a given name, use:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/hooks/functions/sendMessage
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -103,29 +103,29 @@ connection.request('GET', '/1/hooks/functions/sendMessage', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output is a json object with one key: "results" whose value is a list of cloud functions with the given name.
 
-```json
+<pre><code class="json">
 {
   "results": [
     { "functionName": "sendMessage", "url": "https://api.example.com/sendMessage" },
     { "functionName": "sendMessage" }
   ]
 }
-```
+</code></pre>
 
 ## Fetch triggers
 To fetch the list of all cloud triggers you deployed or created, use:
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/hooks/triggers
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -136,10 +136,10 @@ connection.request('GET', '/1/hooks/triggers', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output is a json object with one key: "results" whose value is a list of cloud triggers.
-```json
+<pre><code class="json">
 {
   "results": [
     { "className": "Scores", "triggerName": "beforeSave" },
@@ -156,17 +156,17 @@ The output is a json object with one key: "results" whose value is a list of clo
     { "className": "Tournament", "triggerName": "beforeDelete" }
   ]
 }
-```
+</code></pre>
 
 To fetch a single cloud trigger, use:
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/hooks/triggers/Scores/beforeSave
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -177,13 +177,13 @@ connection.request('GET', '/1/hooks/triggers/Scores/beforeSave', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The path looks like `/hooks/triggers/className/triggerName` where `triggerName`
 can be one of `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`.
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "results": [
     { "className": "Scores", "triggerName": "beforeSave" },
@@ -194,7 +194,7 @@ The output may look like this:
     }
   ]
 }
-```
+</code></pre>
 
 The output is a json object with one key: "results" whose value is a list of all
 cloud triggers with given name for a given class.
@@ -205,21 +205,21 @@ and perform a `parse deploy` the usual way.
 
 ## Create function webhook
 To create a new function webhook post to `/1/hooks/functions` with payload in the format
-```bash
+<pre><code class="bash">
 {"functionName" : x, "url" : y}
-```
+</code></pre>
 
 Post example,
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"functionName":"baz","url":"https://api.example.com/baz"}' \
   https://api.parse.com/1/hooks/functions
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -232,27 +232,27 @@ connection.request('POST', '/1/hooks/functions', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {"functionName": "baz", "url": "https://api.example.com/baz"}'
-```
+</code></pre>
 
 It returns the function name and url of the created webhook.
 
 If you try to create a function webhook and a cloud code function with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
 For example,
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"functionName":"bar","url":"https://api.example.com/bar"}' \
   https://api.parse.com/1/hooks/functions
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -265,36 +265,36 @@ connection.request('POST', '/1/hooks/functions', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "functionName": "bar",
   "url": "https://api.example.com/bar",
   "warning": "a cloudcode function with name: bar already exists"
 }
-```
+</code></pre>
 
 ## Create trigger webhook
 To create a new function webhook post to `/1/hooks/triggers` with payload in the format
-```bash
+<pre><code class="bash">
 {"className": x, "triggerName": y, "url": z}
-```
-```python
+</code></pre>
+<pre><code class="python">
 {"className": x, "triggerName": y, "url": z}
-```
+</code></pre>
 
 Post example,
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"className": "Game", "triggerName": "beforeSave", "url": "https://api.example.com/Game/beforeSave"}' \
 https://api.parse.com/1/hooks/triggers
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -307,31 +307,31 @@ connection.request('POST', '/1/hooks/triggers', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "className": "Game",
   "triggerName": "beforeSave",
   "url": "https://api.example.com/Game/beforeSave"
 }
-```
+</code></pre>
 
 It returns the class name, trigger name and url of the created trigger webhook.
 
 If you try to create a trigger webhook and a cloud code trigger with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
 For example,
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"className": "Tournament", "triggerName": "beforeDelete", "url": "https://api.example.com/Scores/beforeDelete"}' \
 https://api.parse.com/1/hooks/triggers
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -344,31 +344,31 @@ connection.request('POST', '/1/hooks/triggers', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "className": "Tournament",
   "triggerName": "beforeDelete",
   "url": "https://api.example.com/Tournament/beforeDelete",
   "warning": "beforeDelete trigger already defined for class Tournament in cloud code"
 }
-```
+</code></pre>
 
 ## Edit function webhook
 To edit the url of a function webhook that was already created use the put method.
 
 Put example,
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://api.example.com/_baz"}' \
   https://api.parse.com/1/hooks/functions/baz
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -381,27 +381,27 @@ connection.request('PUT', '/1/hooks/functions/baz', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {"functionName": "baz", "url": "https://api.example.com/baz"}'
-```
+</code></pre>
 
 It returns the function name and url of the modified webhook.
 
 If you try to update a function webhook and a cloud code function with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
 For example,
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://api.example.com/_bar"}' \
   https://api.parse.com/1/hooks/functions/bar
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -414,29 +414,29 @@ connection.request('PUT', '/1/hooks/functions/bar', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "functionName": "bar",
   "url": "https://api.example.com/_bar",
   "warning": "a cloudcode function with name: bar already exists"
 }
-```
+</code></pre>
 
 ## Edit trigger webhook
 To edit the url of a trigger webhook that was already crated use the put method.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://api.example.com/Game/_beforeSave"}' \
 https://api.parse.com/1/hooks/triggers/Game/beforeSave
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -449,31 +449,31 @@ connection.request('PUT', '/1/hooks/triggers/Game/beforeSave', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "className": "Game",
   "triggerName": "beforeSave",
   "url": "https://api.example.com/Game/_beforeSave"
 }
-```
+</code></pre>
 
 It returns the class name, trigger name and url of the modified trigger webhook.
 
 If you try to update a trigger webhook and a cloud code trigger with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
 For example,
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://api.example.com/Scores/beforeDelete"}' \
 https://api.parse.com/1/hooks/triggers/Tournament/beforeDelete
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -486,30 +486,30 @@ connection.request('PUT', '/1/hooks/triggers/Tournament/beforeDelete', json.dump
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "className": "Tournament",
   "triggerName": "beforeDelete",
   "url": "https://api.example.com/Tournament/beforeDelete",
   "warning": "beforeDelete trigger already defined for class Tournament in cloud code"
 }
-```
+</code></pre>
 
 ## Delete function webhook
 To delete a function webhook use the put method.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"__op": "Delete"}' \
 https://api.parse.com/1/hooks/functions/foo
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -522,25 +522,25 @@ connection.request('PUT', '/1/hooks/functions/foo', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {}
-```
+</code></pre>
 
 If a cloud code function with the same name already exists then it is returned as the result.
 Since the overriding webhook was just deleted, this cloud code function will be run the next time sendMessage is called.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
 https://api.parse.com/1/hooks/functions/sendMessage
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -553,25 +553,25 @@ connection.request('PUT', '/1/hooks/functions/sendMessage', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 { "functionName": "sendMessage" }
-```
+</code></pre>
 
 ## Delete trigger webhook
 To delete a trigger webhook use the put method.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
 https://api.parse.com/1/hooks/triggers/Game/beforeSave
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -584,25 +584,25 @@ connection.request('PUT', '/1/hooks/triggers/Game/beforeSave', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {}
-```
+</code></pre>
 
 If a cloud code trigger with the same name already exists then the it is returned as the result.
 Since the overriding webhook was just deleted, this cloud code trigger will be run the next time a Tournament object is saved.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
 https://api.parse.com/1/hooks/triggers/Tournament/beforeDelete
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -615,12 +615,12 @@ connection.request('PUT', '/1/hooks/triggers/Tournament/beforeDelete', json.dump
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The output may look like this:
-```json
+<pre><code class="json">
 {
   "className": "Tournament",
   "triggerName": "beforeDelete"
 }
-```
+</code></pre>

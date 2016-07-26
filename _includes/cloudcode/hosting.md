@@ -69,7 +69,7 @@ If you visit your hosted site over HTTPS using your custom domain, you might see
 
 You can use Cloud Code and Express to build multi-page dynamic web apps. With the [Express](http://expressjs.com/) framework, you have many powerful tools at your fingertips, such as request routing, cookie handling, and template rendering. With [Cloud Code](#cloud-code), you have access to functionality such as interacting with Parse data and [sending HTTP requests](#cloud-code-advanced-networking).
 
-Express can help you get your app up and running quickly, but if you prefer a lower-level [Node.js](http://nodejs.org/)-like HTTP interface, we have that too. For more details, please see our [HTTP interface API docs](/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest). If you choose to use Express or Node.js, you'll first need to delete `public/index.html` so that requests can get through to your custom handler functions.
+Express can help you get your app up and running quickly, but if you prefer a lower-level [Node.js](http://nodejs.org/)-like HTTP interface, we have that too. For more details, please see our [HTTP interface API docs](https://parse.com/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest). If you choose to use Express or Node.js, you'll first need to delete `public/index.html` so that requests can get through to your custom handler functions.
 
 In this guide, we'll focus on building web apps with the Express API.
 
@@ -97,7 +97,7 @@ This command creates the following directory structure inside your cloud folder.
 
 Next, you need to add the following line at the top of your `main.js`. This makes sure that the code in `app.js` is loaded.
 
-```js
+```javascript
 require('cloud/app.js');
 ```
 
@@ -111,7 +111,7 @@ The top-level entry point for an Express app is `app.js`, where the app is initi
 
 In your sample app, `app.js` should look like this:
 
-```js
+```javascript
 // These two lines are required to initialize Express.
 var express = require('express');
 var app = express();
@@ -139,7 +139,7 @@ The sample app also has a `cloud/views` folder, containing an EJS template file 
 
 Let's look at a simple request handler that reads the request text, and responds with a message including the request text.
 
-```js
+```javascript
 app.post('/echo', function(req, res) {
   res.set('Content-Type', 'text/plain');
   res.send('echoing: ' + req.body.message);
@@ -183,13 +183,13 @@ In addition to the Express-provided middleware listed above, we've provided the 
 This middleware only works when your app is accessed through an HTTPS connection. You can use the `parseExpressHttpsRedirect()` middleware to force all requests to your website to be HTTPS.
 
 By default, we do not fetch the current user object. This means although `Parse.User.current()` will be defined, you will not be able to
-retrieve user object fields until you call `Parse.User.current().fetch()`. Fetching the user is not always necessary. When you query for other objects, [Parse.ACL](/docs/js/api/classes/Parse.ACL.html) will work correctly even without fetching the user object. You can override this
+retrieve user object fields until you call `Parse.User.current().fetch()`. Fetching the user is not always necessary. When you query for other objects, [Parse.ACL](https://parse.com/docs/js/api/classes/Parse.ACL.html) will work correctly even without fetching the user object. You can override this
 option and always fetch the user, but please be aware that always fetching the user will result in one extra Parse API request during each Express
 request. Therefore we recommend that you leave this option as false, and only fetch the current user when you need to.
 
 Here is some example code from an app that has Note objects with ACLs:
 
-```js
+```javascript
   var express = require('express');
   var parseExpressHttpsRedirect = require('parse-express-https-redirect');
   var parseExpressCookieSession = require('parse-express-cookie-session');
@@ -266,7 +266,7 @@ Here is some example code from an app that has Note objects with ACLs:
 
 The corresponding `login.ejs` could look like:
 
-```js
+```javascript
   <html>
     <head></head>
     <body>
@@ -285,13 +285,13 @@ The corresponding `login.ejs` could look like:
 
 `parseExpressHttpsRedirect` is an Express middleware for redirecting the user to the HTTPS endpoint with the same URL. To use this middleware, you must require it from your JavaScript file:
 
-```js
+```javascript
 var parseExpressHttpsRedirect = require('parse-express-https-redirect');
 ```
 
 Then you can use the middleware to redirect all requests to HTTPS.
 
-```js
+```javascript
 app.use(parseExpressHttpsRedirect());
 ```
 
@@ -301,7 +301,7 @@ You should place this middleware as early as possible in the global app configur
 
 `parseExpressRawBody` is an Express middleware for parsing the request body into a byte [Buffer](#cloud-code-modules-buffer). To use this middleware, you must require it from your JavaScript file:
 
-```js
+```javascript
 var parseExpressRawBody = require('parse-express-raw-body');
 ```
 
@@ -311,7 +311,7 @@ You can use this as a fallback if <a href="http://expressjs.com/en/3x/api.html#b
 
 If you need the string representation of the request body, you can access it at `req.body.toString()`.
 
-```js
+```javascript
   var express = require('express');
   var parseExpressRawBody = require('parse-express-raw-body');
   var app = express();
@@ -366,7 +366,7 @@ html
 
 You can find more information about the syntax for each template engine at the homepages for [EJS](https://github.com/visionmedia/ejs) and [Jade](https://github.com/visionmedia/jade).
 
-You render templates by calling [`res.render()`](/docs/js/api/symbols/express.Response.html#render). The first argument is the template file name. If it does not have a file extension, Express will look for the file with the extension matching your app's template engine setting. The second argument is a JSON object that contains all the variables in the template and their corresponding values.  Each variable in the template serves as a placeholder, and is replaced by its actual value when you render the template.
+You render templates by calling [`res.render()`](https://parse.com/docs/js/api/symbols/express.Response.html#render). The first argument is the template file name. If it does not have a file extension, Express will look for the file with the extension matching your app's template engine setting. The second argument is a JSON object that contains all the variables in the template and their corresponding values.  Each variable in the template serves as a placeholder, and is replaced by its actual value when you render the template.
 
 ### Getting User Input
 
@@ -413,7 +413,7 @@ html
 
 Then, we need to add a request handler for the HTTP post request in `app.js`.
 
-```js
+```javascript
 app.post('/hello', function(req, res) {
   res.render('hello', { message: req.body.message });
 });
@@ -452,7 +452,7 @@ If you are using Express with static content, we recommend the following directo
 
 If you want to log a message to the log files displayed by `parse log`, you can use `console.log`, `console.error`, or `console.warn`.  Both `console.error` and `console.warn` will write to the error log.
 
-```js
+```javascript
 app.post('/hello', function(req, res) {
   console.log("New message: " + req.body.message);
   res.render('hello', { message: req.body.message });

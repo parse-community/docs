@@ -518,14 +518,18 @@ App.Views = {};
 		render: function() {
 			var opt1Els = this.parent.getElementsByClassName('hljs ' + this.opt1);
 			for (var i = 0; i < opt1Els.length; i++) {
-				UI.addClass(opt1Els[i], 'has_toggles');
-				opt1Els[i].appendChild(this.renderToggle(true));
+        if (opt1Els[i].parentElement.parentElement.getAttribute("class").indexOf("common-lang-block")===-1) {
+          UI.addClass(opt1Els[i], 'has_toggles');
+  				opt1Els[i].appendChild(this.renderToggle(true));
+        }
 			}
 
 			var opt2Els = this.parent.getElementsByClassName('hljs ' + this.opt2);
 			for (i = 0; i < opt2Els.length; i++) {
-				UI.addClass(opt2Els[i], 'has_toggles');
-				opt2Els[i].appendChild(this.renderToggle(false));
+        if (opt2Els[i].parentElement.parentElement.getAttribute("class").indexOf("common-lang-block")===-1) {
+          UI.addClass(opt2Els[i], 'has_toggles');
+  				opt2Els[i].appendChild(this.renderToggle(false));
+        }
 			}
 
 			$('.' + this.opt2 + '-toggle').on('click', this.showOpt2.bind(this));
@@ -647,16 +651,16 @@ App.Views = {};
 			this.toggleCommonLangBlocks();
 
 			// add toggles to code blocks if necessary
-			if (this.platform === "ios" || this.platform === "osx") {
+			if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
 				new App.Views.Docs.Toggle({
 					parent: this.scrollContent,
-					opt1: 'objc',
-					opt2: 'swift',
+					opt1: 'objectivec', // was objc
+					opt2: 'swift', // was swift
 					label1: 'Objective-C',
 					label2: 'Swift',
 					onChange: this.handleToggleChange.bind(this)
 				});
-			} else if (this.platform === "rest" || this.platform === "embedded_c"  || this.platform === "arduino") {
+			} else if (this.platform === "rest") {
 				new App.Views.Docs.Toggle({
 					parent: this.scrollContent,
 					opt1: 'bash',
@@ -752,6 +756,10 @@ App.Views = {};
 	_.extend(Docs.prototype, UI.ComponentProto);
 
 })(UI, _);
+
+$('pre code').each(function(i, block) {
+  hljs.highlightBlock(block);
+});
 
 var platform = window.location.pathname.split('/')[2];
 if (platform) {

@@ -59,16 +59,17 @@ you can test that it works, with the printed curl command.
 
 Next, you might want to deploy this code with:
 
-	parse deploy
+parse deploy
 
 Once deployed you can test that it works by running:
+
 curl -X POST \
  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
  -H "Content-Type: application/json" \
  -d '{}' \
  https://api.parse.com/1/functions/hello
- ```
+```
 
 ## Setting up Cloud Code
 
@@ -110,7 +111,7 @@ curl -X POST \
  -H "Content-Type: application/json" \
  -d "{}" \
  https://api.parse.com/1/functions/hello
- ```
+```
 
 Note: This flow assumes that you already set up [account keys](#command-line-account-keys).
 See also [multiple account keys](#command-line-multiple-account-keys), if you are developing on apps belonging to different Parse accounts.
@@ -198,7 +199,7 @@ It will have an exit code of 0 on success and a non-zero exit code when the depl
 
 Following ancient tradition, let's see how to run the simplest possible function in the cloud. If you take a look at `cloud/main.js`, you'll see an example function that just returns a string:
 
-```js
+```javascript
 Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
@@ -222,7 +223,7 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
   }
 });
 ```
-```objc
+```objectivec
 // iOS, OS X, tvOS, watchOS SDK: Objective-C
 [PFCloud callFunctionInBackground:@"hello"
                    withParameters:@{}
@@ -243,14 +244,14 @@ PFCloud.callFunctionInBackground("hello", withParameters: nil) {
 // PHP SDK
 $result = ParseCloud::run("hello", []);
 ```
-```csharp
+```cs
 // .NET SDK
 ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
   var result = t.Result;
 // result is "Hello world!"
 });
 ```
-```js
+```javascript
 // JavaScript SDK
 Parse.Cloud.run('hello', {}).then(function(result) {
   // result is 'Hello world!'

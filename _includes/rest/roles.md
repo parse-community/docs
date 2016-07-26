@@ -18,7 +18,7 @@ Creating a new role differs from creating a generic object in that the `name` fi
 
 To create a new role, send a POST request to the roles root:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -32,8 +32,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/roles
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -51,11 +51,11 @@ connection.request('POST', '/1/roles', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 You can create a role with child roles or users by adding existing objects to the `roles` and `users` [relations](#objects-updating):
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -89,8 +89,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/roles
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -128,35 +128,35 @@ connection.request('POST', '/1/roles', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 When the creation is successful, the HTTP response is a `201 Created` and the Location header contains the object URL for the new object:
 
-```js
+<pre><code class="javascript">
 Status: 201 Created
 Location: https://api.parse.com/1/roles/mrmBZvsErB
-```
+</code></pre>
 
 The response body is a JSON object containing the `objectId` and `createdAt` timestamp of the newly-created object:
 
-```json
+<pre><code class="json">
 {
   "createdAt": "2012-04-28T17:41:09.106Z",
   "objectId": "mrmBZvsErB"
 }
-```
+</code></pre>
 
 ## Retrieving Roles
 
 You can also retrieve the contents of a role object by sending a GET request to the URL returned in the location header when it was created.  For example, to retrieve the role created above:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   https://api.parse.com/1/roles/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -166,11 +166,11 @@ connection.request('GET', '/1/roles/mrmBZvsErB', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The response body is a JSON object containing all of the fields on the role:
 
-```json
+<pre><code class="json">
 {
   "createdAt": "2012-04-28T17:41:09.106Z",
   "objectId": "mrmBZvsErB",
@@ -185,7 +185,7 @@ The response body is a JSON object containing all of the fields on the role:
   },
   "name": "Moderators"
 }
-```
+</code></pre>
 
 Note that the `users` and `roles` relations will not be visible in this JSON.  Instead, you must [query](#queries-relational) for the roles and users that belong to a given role using the `$relatedTo` operator.
 
@@ -196,7 +196,7 @@ Updating a role generally works like [updating any other object](#objects-updati
 
 For example, we can add two users to the "Moderators" role created above like so:
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -219,8 +219,8 @@ curl -X PUT \
         }
       }' \
   https://api.parse.com/1/roles/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -247,11 +247,11 @@ connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Similarly, we can remove a child role from the "Moderators" role created above like so:
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -269,8 +269,8 @@ curl -X PUT \
         }
       }' \
   https://api.parse.com/1/roles/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -292,7 +292,7 @@ connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Note that we've included the master key in the query above because the "Moderators" role has an ACL that restricts modification by the public.
 
@@ -301,13 +301,13 @@ Note that we've included the master key in the query above because the "Moderato
 
 To delete a role from the Parse Cloud, send a DELETE request to its URL.  For example:
 
-```bash
+<pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   https://api.parse.com/1/roles/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -317,18 +317,18 @@ connection.request('DELETE', '/1/roles/mrmBZvsErB', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Again, we pass the master key in order to bypass the ACL on the role itself.  Alternatively, we could pass an X-Parse-Session-Token for a user that has write access to the Role object (e.g. an Administrator).  For example:
 
-```bash
+<pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im" \
   https://api.parse.com/1/roles/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -339,7 +339,7 @@ connection.request('DELETE', '/1/roles/mrmBZvsErB', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Security
 
@@ -348,7 +348,7 @@ In addition to per-user permissions [as described above](#users-security), you c
 
 For example, to restrict an object to be readable by anyone in the "Members" role and writable by its creator and anyone in the "Moderators" role, you would specify an ACL like this:
 
-```json
+<pre><code class="json">
 {
   "8TOXdXf3tz": {
     "write": true
@@ -360,7 +360,7 @@ For example, to restrict an object to be readable by anyone in the "Members" rol
     "write": true
   }
 }
-```
+</code></pre>
 
 You are not required to specify read permissions for the user or the "Moderators" role if the user and role are already children of the "Members" role, since they will inherit read permissions granted to "Members".
 
@@ -371,7 +371,7 @@ As described above, one role can contain another, establishing a parent-child re
 
 These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators" by adding the "Administrators" role to the `roles` relation on your "Moderators" object like this:
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -389,8 +389,8 @@ curl -X PUT \
         }
       }' \
   https://api.parse.com/1/roles/<ModeratorsRoleObjectId>
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -412,4 +412,4 @@ connection.request('PUT', '/1/roles/<ModeratorsRoleObjectId>', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>

@@ -2,11 +2,11 @@
 
 ## Networking
 
-Cloud Code allows sending HTTP requests to any HTTP Server using [`Parse.Cloud.httpRequest`](/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest).  This function takes an options object to configure the call.  There is a limit of 8 concurrent `httpRequest`s per Cloud Code request, and additional requests will be queued up.
+Cloud Code allows sending HTTP requests to any HTTP Server using [`Parse.Cloud.httpRequest`](https://parse.com/docs/js/api/classes/Parse.Cloud.html#methods_httpRequest).  This function takes an options object to configure the call.  There is a limit of 8 concurrent `httpRequest`s per Cloud Code request, and additional requests will be queued up.
 
 A simple GET request would look like:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   url: 'http://www.parse.com/'
 }).then(function(httpResponse) {
@@ -22,7 +22,7 @@ Parse.Cloud.httpRequest({
 
 A GET request that specifies the port number would look like:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   url: 'http://www.parse.com:8080/'
 }).then(function(httpResponse) {
@@ -38,7 +38,7 @@ Valid port numbers are 80, 443, and all numbers from 1025 through 65535.
 
 You can specify query parameters to append to the end of the url by setting `params` on the options object.  You can either pass a JSON object of key value pairs like:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   url: 'http://www.google.com/search',
   params: {
@@ -53,7 +53,7 @@ Parse.Cloud.httpRequest({
 
 or as a raw `String` like this:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   url: 'http://www.google.com/search',
   params: 'q=Sean Plott'
@@ -68,7 +68,7 @@ Parse.Cloud.httpRequest({
 
 You can send HTTP Headers by setting the `header` attribute of the options object.  Let's say you want set the Content-Type of the request, you can do:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   url: 'http://www.example.com/',
   headers: {
@@ -86,7 +86,7 @@ Parse.Cloud.httpRequest({
 
 You can send a post request by setting the `method` attribute of the options object.  The body of the POST can be set using the `body`. A simple example would be:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   method: 'POST',
   url: 'http://www.example.com/create_post',
@@ -103,7 +103,7 @@ Parse.Cloud.httpRequest({
 
 This will send a post to `http://www.example.com/create_post` with body that is the url form encoded `body` attribute.  If you want the body to be JSON encoded, you can instead do:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   method: 'POST',
   url: 'http://www.example.com/create_post',
@@ -128,7 +128,7 @@ To ensure that your HTTP request body is encoded correctly, please always includ
 
 By default, `Parse.Cloud.httpRequest` does not follow redirects caused by HTTP 3xx response codes. You can use the `followRedirects` option to change this behavior to follow redirects:
 
-```js
+```javascript
 Parse.Cloud.httpRequest({
   url: 'http://www.example.com/',
   followRedirects: true
@@ -148,7 +148,7 @@ The response object passed into the `success` and `error` will contain:
 * **`buffer`** - The raw byte representation of the response body.
 * **`text`** - The raw response body.
 * **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
-* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/classes/Parse.Cloud.HTTPResponse.html) objects.
+* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](https://parse.com/docs/js/api/classes/Parse.Cloud.HTTPResponse.html) objects.
 
 ## Modules
 
@@ -158,7 +158,7 @@ The response object passed into the `success` and `error` will contain:
 
 Cloud Code supports breaking up JavaScript code into modules. You can check out [this tutorial](/tutorials/integrating-with-third-party-services) for an in depth look at creating your own. In order to avoid unwanted side effects from loading modules, Cloud Code's modules work similarly to CommonJS modules. When a module is loaded, the JavaScript file is loaded, the source executed and the global `module.exports` object is returned. For example, if `cloud/name.js` has the following source:
 
-```js
+```javascript
 var coolNames = ['Ralph', 'Skippy', 'Chip', 'Ned', 'Scooter'];
 module.exports.isACoolName = function(name) {
   return coolNames.indexOf(name) !== -1;
@@ -167,7 +167,7 @@ module.exports.isACoolName = function(name) {
 
 and `cloud/main.js` contains:
 
-```js
+```javascript
 var name = require('cloud/name.js');
 name.isACoolName('Fred'); // returns false
 name.isACoolName('Skippy'); // returns true;
@@ -620,7 +620,7 @@ There are a few constraints that you need to keep in mind when using Background 
 
 Writing a Background Job is similar to writing a Cloud function. Say you want to run a user migration job after adding a `plan` field to the `Parse.User` object. Your code would look like this:
 
-```js
+```javascript
 Parse.Cloud.job("userMigration", function(request, status) {
   // Set up to modify user data
   Parse.Cloud.useMasterKey();

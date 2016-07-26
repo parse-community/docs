@@ -15,14 +15,14 @@ To fetch the Schema for all the classes of your app, run:
 Note: `createdAt` and `updatedAt` are of type `Date` but they are represented
 as strings in object representation. This is a special case for the Parse API.
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/schemas
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -33,11 +33,11 @@ connection.request('GET', '/1/schemas', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The response body is JSON containing all the schema information of the app.
 
-```json
+<pre><code class="json">
 {
   "results": [
     {
@@ -66,18 +66,18 @@ The response body is JSON containing all the schema information of the app.
     ...
   ]
 }
-```
+</code></pre>
 
 To fetch schema of a single class, run:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/schemas/Game
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -88,14 +88,14 @@ connection.request('GET', '/1/schemas/Game', "", {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Adding a schema 
 
 When you add a new schema to your app, it creates an empty class with the provided
 fields and some default fields applicable to the class. To add the schema, run:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -110,8 +110,8 @@ curl -X POST \
       }
     }' \
   https://api.parse.com/1/schemas/City
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -124,13 +124,13 @@ connection.request('POST', '/1/schemas/Game', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Modifying the schema
 
 You can add or delete columns to a schema. To do so, run:
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -145,8 +145,8 @@ curl -X PUT \
       }
     }' \
   https://api.parse.com/1/schemas/City
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -159,11 +159,11 @@ connection.request('PUT', '/1/schemas/City', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 To delete a particular field, you need to use `{"__op" : "Delete" }`
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -178,8 +178,8 @@ curl -X PUT \
       }
     }' \
   https://api.parse.com/1/schemas/City
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -192,21 +192,21 @@ connection.request('PUT', '/1/schemas/Game', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Removing a schema 
 
 You can only remove a schema from your app if it is empty (has 0 objects). 
 To do that, run:
 
-```bash
+<pre><code class="bash">
 curl -X DELETE\
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/schemas/City
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -217,4 +217,4 @@ connection.request('PUT', '/1/schemas/City', "", {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>

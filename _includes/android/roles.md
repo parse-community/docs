@@ -20,17 +20,17 @@ The `ParseRole` uses the same security scheme (ACLs) as all other objects on Par
 
 To create a new `ParseRole`, you would write:
 
-```java
+<pre><code class="java">
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 ParseACL roleACL = new ParseACL();
 roleACL.setPublicReadAccess(true);
 ParseRole role = new ParseRole("Administrator", roleACL);
 role.saveInBackground();
-```
+</code></pre>
 
 You can add users and roles that should inherit your new role's permissions through the "users" and "roles" relations on `ParseRole`:
 
-```java
+<pre><code class="java">
 ParseRole role = new ParseRole(roleName, roleACL);
 for (ParseUser user : usersToAddToRole) {
   role.getUsers().add(user)
@@ -39,7 +39,7 @@ for (ParseRole childRole : rolesToAddToRole) {
   role.getRoles().add(childRole);
 }
 role.saveInBackground();
-```
+</code></pre>
 
 Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
@@ -49,28 +49,28 @@ Now that you have created a set of roles for use in your application, you can us
 
 Giving a role read or write permission to an object is straightforward.  You can either use the `ParseRole`:
 
-```java
+<pre><code class="java">
 ParseRole moderators = /* Query for some ParseRole */;
 ParseObject wallPost = new ParseObject("WallPost");
 ParseACL postACL = new ParseACL();
 postACL.setRoleWriteAccess(moderators);
 wallPost.setACL(postACL);
 wallPost.saveInBackground();
-```
+</code></pre>
 
 You can avoid querying for a role by specifying its name for the ACL:
 
-```java
+<pre><code class="java">
 ParseObject wallPost = new ParseObject("WallPost");
 ParseACL postACL = new ParseACL();
 postACL.setRoleWriteAccess("Moderators", true);
 wallPost.setACL(postACL);
 wallPost.save();
-```
+</code></pre>
 
 Role-based `ParseACL`s can also be used when specifying default ACLs for your application, making it easy to protect your users' data while granting access to users with additional privileges.  For example, a moderated forum application might specify a default ACL like this:
 
-```java
+<pre><code class="java">
 ParseACL defaultACL = new ParseACL();
 // Everybody can read objects created by this user
 defaultACL.setPublicReadAccess(true);
@@ -78,7 +78,7 @@ defaultACL.setPublicReadAccess(true);
 defaultACL.setRoleWriteAccess("Moderators");
 // And the user can read and modify its own objects
 ParseACL.setDefaultACL(defaultACL, true);
-```
+</code></pre>
 
 ## Role Hierarchy
 
@@ -86,9 +86,9 @@ As described above, one role can contain another, establishing a parent-child re
 
 These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators", like this:
 
-```java
+<pre><code class="java">
 ParseRole administrators = /* Your "Administrators" role */;
 ParseRole moderators = /* Your "Moderators" role */;
 moderators.getRoles().add(administrators);
 moderators.saveInBackground();
-```
+</code></pre>

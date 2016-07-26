@@ -2,10 +2,6 @@
 
 Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct `Session` object for each user-installation pair; if a user issues a login request from a device they're already logged into, that user's previous `Session` object for that Installation is automatically deleted. `Session` objects are stored on Parse in the Session class, and you can view them on the Parse.com Data Browser. We provide a set of APIs to manage `Session` objects in your app.
 
-<div class='tip info'><div>
-  Session APIs are only available in apps with revocable sessions enabled. Parse apps created after March 25, 2015 have this enabled by default ("Require Revocable Sessions" toggle in your Parse.com app settings page). If you have an existing app, you can upgrade to revocable sessions by following the [Session Migration Tutorial](https://www.parse.com/tutorials/session-migration-tutorial).
-</div></div>
-
 `Session` is a subclass of a Parse `Object`, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because the Parse Cloud automatically creates sessions when you log in or sign up users, you should not manually create `Session` objects unless you are building a "Parse for IoT" app (e.g. Arduino or Embedded C). Deleting a `Session` will log the user out of the device that is currently using this session's token.
 
 Unlike other Parse objects, the `Session` class does not have Cloud Code triggers. So you cannot register a `beforeSave` or `afterSave` handler for the Session class.
@@ -28,13 +24,14 @@ All special fields except `installationId` can only be set automatically by the 
 
 ## Handling Invalid Session Token Error
 
-Apps created before March 25, 2015 use legacy session tokens until you migrate them to use the new revocable sessions. On API requests with legacy tokens, if the token is invalid (e.g. User object was deleted), then the request is executed as a non-logged in user and no error was returned. On API requests with revocable session tokens, an invalid session token will always fail with the "invalid session token" error. This new behavior lets you know when you need to ask the user to log in again.
+Apps created on Parse.com before March 25, 2015 use legacy session tokens until you [migrate them to use the new revocable sessions](https://www.parse.com/tutorials/session-migration-tutorial). On API requests with legacy tokens, if the token is invalid (e.g. User object was deleted), then the request is executed as a non-logged in user and no error was returned. On API requests with revocable session tokens, an invalid session token will always fail with the "invalid session token" error. This new behavior lets you know when you need to ask the user to log in again.
 
 With revocable sessions, your current session token could become invalid if its corresponding `Session` object is deleted from the Parse Cloud. This could happen if you implement a Session Manager UI that lets users log out of other devices, or if you manually delete the session via Cloud Code, REST API, or Data Browser. Sessions could also be deleted due to automatic expiration (if configured in app settings). When a device's session token no longer corresponds to a `Session` object on the Parse Cloud, all API requests from that device will fail with “Error 209: invalid session token”.
 
 To handle this error, we recommend writing a global utility function that is called by all of your Parse request error callbacks. You can then handle the "invalid session token" error in this global function. You should prompt the user to login again so that they can obtain a new session token. This code could look like this:
 
-```objc
+```
+// Objective-C
 @interface ParseErrorHandlingController : NSObject
 
 + (void)handleParseError:(NSError *)error;
@@ -94,7 +91,8 @@ To handle this error, we recommend writing a global utility function that is cal
 ```
 {: .common-lang-block .objc }
 
-```swift
+```
+// Swift
 class ParseErrorHandlingController {
   class func handleParseError(error: NSError) {
     if error.domain != PFParseErrorDomain {
@@ -297,7 +295,7 @@ Restricted sessions are prohibited from creating, modifying, or deleting any dat
 
 If you want to prevent restricted Sessions from modifying classes other than `User`, `Session`, or `Role`, you can write a Cloud Code `beforeSave` handler for that class:
 
-```js
+<pre><code class="javascript">
 Parse.Cloud.beforeSave("MyClass", function(request, response) {
   Parse.Session.current().then(function(session) {
     if (session.get('restricted')) {
@@ -306,7 +304,7 @@ Parse.Cloud.beforeSave("MyClass", function(request, response) {
     response.success();
   });
 });
-```
+</code></pre>
 You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the `Session` API, but do not restrict Parse Cloud's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:
 
 * **Find**, **Delete** — Useful for building a UI screen that allows users to see their active session on all devices, and log out of sessions on other devices. If your app does not have this feature, you should disable these permissions.

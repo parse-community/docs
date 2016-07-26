@@ -22,7 +22,7 @@ The `ParseRole` uses the same security scheme (ACLs) as all other objects on Par
 
 To create a new `ParseRole`, you would write:
 
-```csharp
+```cs
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 var roleACL = new ParseACL()
 roleACL.PublicReadAccess = true;
@@ -32,7 +32,7 @@ await role.SaveAsync();
 
 You can add users and roles that should inherit your new role's permissions through the "users" and "roles" relations on `ParseRole`:
 
-```csharp
+```cs
 var role = new ParseRole(roleName, roleACL);
 foreach (ParseUser user in usersToAddToRole)
 {
@@ -54,7 +54,7 @@ Now that you have created a set of roles for use in your application, you can us
 
 Giving a role read or write permission to an object is straightforward.  You can either use the `ParseRole`:
 
-```csharp
+```cs
 var moderators = await (from role in ParseRole.Query
                         where role.Name == "Moderators"
                         select role).FirstAsync();
@@ -67,7 +67,7 @@ await wallPost.SaveAsync();
 
 You can avoid querying for a role by specifying its name for the ACL:
 
-```csharp
+```cs
 var wallPost = new ParseObject("WallPost");
 var postACL = new ParseACL();
 postACL.SetRoleWriteAccess("Moderators", true);
@@ -82,7 +82,7 @@ As described above, one role can contain another, establishing a parent-child re
 
 These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators", like this:
 
-```csharp
+```cs
 ParseRole administrators = /* Your "Administrators" role */;
 ParseRole moderators = /* Your "Moderators" role */;
 moderators.Roles.Add(administrators);

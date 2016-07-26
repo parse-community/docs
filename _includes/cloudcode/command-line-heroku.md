@@ -258,7 +258,7 @@ It will have an exit code of 0 on success and a non-zero exit code when the depl
 
 Following ancient tradition, let's see how to run the simplest possible function in the cloud. If you take a look at `cloud/main.js`, you'll see an example function that just returns a string:
 
-```js
+```javascript
 Parse.Cloud.define("hello", function(request, response) {
   response.success("Hello world!");
 });
@@ -282,7 +282,7 @@ ParseCloud.callFunctionInBackground("hello", new HashMap<String, Object>(), new 
   }
 });
 ```
-```objc
+```objectivec
 // iOS, OS X, tvOS, watchOS SDK: Objective-C
 [PFCloud callFunctionInBackground:@"hello"
                    withParameters:@{}
@@ -303,14 +303,14 @@ PFCloud.callFunctionInBackground("hello", withParameters: nil) {
 // PHP SDK
 $result = ParseCloud::run("hello", []);
 ```
-```csharp
+```cs
 // .NET SDK
 ParseCloud.CallFunctionAsync<IDictionary<string, object>>("hello", new Dictionary<string, object>()).ContinueWith(t => {
   var result = t.Result;
 // result is "Hello world!"
 });
 ```
-```js
+```javascript
 // JavaScript SDK
 Parse.Cloud.run('hello', {}, {
   success: function(result) {

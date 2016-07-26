@@ -6,7 +6,7 @@ Storing data on Parse is built around the `ParseObject`. Each `ParseObject` cont
 
 For example, let's say you're tracking high scores for a game. A single `ParseObject` could contain:
 
-```js
+```javascript
 score: 1337, playerName: "Sean Plott", cheatMode: false
 ```
 
@@ -19,7 +19,7 @@ Each `ParseObject` has a class name that you can use to distinguish different so
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to an `IDictionary<string, object>`, plus the `SaveAsync` method:
 
-```csharp
+```cs
 ParseObject gameScore = new ParseObject("GameScore");
 gameScore["score"] = 1337;
 gameScore["playerName"] = "Sean Plott";
@@ -28,7 +28,7 @@ await gameScore.SaveAsync();
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
-```js
+```javascript
 objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 ```
@@ -54,7 +54,7 @@ So far we've used values with type `string` and `int` assigned to fields of a `P
 
 Some examples:
 
-```csharp
+```cs
 int number = 42;
 string str = "the number is " + number;
 DateTime date = DateTime.Now;
@@ -82,14 +82,14 @@ For more information about how Parse handles data, check out our documentation o
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `ObjectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
 
-```csharp
+```cs
 ParseQuery<ParseObject> query = ParseObject.GetQuery("GameScore");
 ParseObject gameScore = await query.GetAsync("xWMyZ4YEGZ");
 ```
 
 To get the values out of the `ParseObject`, use the `Get<T>` method.
 
-```csharp
+```cs
 int score = gameScore.Get<int>("score");
 string playerName = gameScore.Get<string>("playerName");
 bool cheatMode = gameScore.Get<bool>("cheatMode");
@@ -97,7 +97,7 @@ bool cheatMode = gameScore.Get<bool>("cheatMode");
 
 The three special values are provided as properties:
 
-```csharp
+```cs
 string objectId = gameScore.ObjectId;
 DateTime? updatedAt = gameScore.UpdatedAt;
 DateTime? createdAt = gameScore.CreatedAt;
@@ -105,7 +105,7 @@ DateTime? createdAt = gameScore.CreatedAt;
 
 If you need to get an object's latest data from Parse, you can call the `FetchAsync` method like so:
 
-```csharp
+```cs
 await myObject.FetchAsync();
 ```
 
@@ -113,7 +113,7 @@ await myObject.FetchAsync();
 
 Updating an object is simple. Just set some new data on it and call one of the save methods. For example:
 
-```csharp
+```cs
 // Create the object.
 var gameScore = new ParseObject("GameScore")
 {
@@ -139,7 +139,7 @@ The above example contains a common use case. The "score" field is a counter tha
 
 To help with storing counter-type data, Parse provides methods that atomically increment (or decrement) any number field. So, the same update can be rewritten as:
 
-```csharp
+```cs
 gameScore.Increment("score");
 await gameScore.SaveAsync();
 ```
@@ -156,7 +156,7 @@ To help with storing list data, there are three operations that can be used to a
 
 For example, we can add items to the set-like "skills" field like so:
 
-```csharp
+```cs
 gameScore.AddRangeUniqueToList("skills", new[] { "flying", "kungfu" });
 await gameScore.SaveAsync();
 ```
@@ -167,13 +167,13 @@ Note that it is not currently possible to atomically add and remove items from a
 
 To delete an object from the cloud:
 
-```csharp
+```cs
 await myObject.DeleteAsync();
 ```
 
 You can delete a single field from an object with the `Remove` method:
 
-```csharp
+```cs
 // After this, the playerName field will be empty
 myObject.Remove("playerName");
 
@@ -187,7 +187,7 @@ Objects can have relationships with other objects. To model one-to-many relation
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 
-```csharp
+```cs
 // Create the post
 var myPost = new ParseObject("Post")
 {
@@ -210,20 +210,20 @@ await myComment.SaveAsync();
 
 You can also link objects using just their `ObjectId`s like so:
 
-```csharp
+```cs
 myComment["parent"] = ParseObject.CreateWithoutData("Post", "1zEcyElZ80");
 ```
 
 By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
-```csharp
+```cs
 ParseObject post = fetchedComment.Get<ParseObject>("parent");
 await post.FetchIfNeededAsync();
 ```
 
 For a many-to-many relationship, use the `ParseRelation` object.  This works similar to a `List<ParseObject>`, except that you don't need to download all the objects in a relation at once.  This allows `ParseRelation` to scale to many more objects than the `List<ParseObject>` approach.  For example, a `ParseUser` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `ParseUser` likes using `GetRelation`.  In order to add a post to the list, the code would look something like:
 
-```csharp
+```cs
 var user = ParseUser.CurrentUser;
 var relation = user.GetRelation<ParseObject>("likes");
 relation.Add(post);
@@ -232,19 +232,19 @@ await user.SaveAsync();
 
 You can remove a post from the `ParseRelation` with something like:
 
-```csharp
+```cs
 relation.Remove(post);
 ```
 
 By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by using calling `FindAsync` on the `ParseQuery` returned by `Query`.  The code would look like:
 
-```csharp
+```cs
 IEnumerable<ParseObject> relatedObjects = await relation.Query.FindAsync();
 ```
 
 If you want only a subset of the `Post`s you can add extra constraints to the `ParseQuery` returned by `Query` like this:
 
-```csharp
+```cs
 var query = from post in relation.Query
             where post.CreatedAt > DateTime.Now - TimeSpan.FromDays(10)
                   // alternatively, add any other query constraints
@@ -264,7 +264,7 @@ For more details on `ParseQuery` please look at the [query](#queries) portion of
 
 Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `ParseObject` class and access any field with `Get<T>()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, type-safety, and support for IntelliSense. Subclassing is completely optional, but can transform this code:
 
-```csharp
+```cs
 // Using dictionary-initialization syntax:
 var shield = new ParseObject("Armor")
 {
@@ -281,7 +281,7 @@ shield["rupees"] = 500;
 
 Into this:
 
-```csharp
+```cs
 // Using object-initialization syntax:
 var shield = new Armor
 {
@@ -305,7 +305,7 @@ To create a `ParseObject` subclass:
 3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
 4.  Call `ParseObject.RegisterSubclass<YourClass>()` in your code before calling `ParseClient.Initialize()`. The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
 
-```csharp
+```cs
 // Armor.cs
 using Parse;
 
@@ -333,7 +333,7 @@ Adding methods and properties to your `ParseObject` subclass helps encapsulate l
 
 You can add properties for the fields of your `ParseObject` easily. Declare the getter and setter for the field as you normally would, but implement them in terms of `GetProperty<T>()` and `SetProperty<T>()`. Finally, add a `ParseFieldName` attribute to the property to fully integrate the property with Parse, enabling functionality like LINQ support and automatically raising `INotifyPropertyChanged` notifications. The following example creates a `displayName` field in the `Armor` class:
 
-```csharp
+```cs
 // Armor.cs
 [ParseClassName("Armor")]
 public class Armor : ParseObject
@@ -351,7 +351,7 @@ You can now access the displayName field using `armor.DisplayName` and assign to
 
 `ParseRelation`-typed properties can also be easily defined using `GetRelationProperty<T>`.  For example:
 
-```csharp
+```cs
 // Armor.cs
 [ParseClassName("Armor")]
 public class Armor : ParseObject
@@ -366,7 +366,7 @@ public class Armor : ParseObject
 
 If you need more complicated logic than simple field access, you can declare your own methods as well:
 
-```csharp
+```cs
 public void TakeDamage(int amount) {
   // Decrease the armor's durability and determine whether it has broken
   this.Increment("durability", -amount);
@@ -382,7 +382,7 @@ You should create new instances of your subclasses using the constructors you ha
 
 To create a reference to an existing object, use `ParseObject.CreateWithoutData<T>()`:
 
-```csharp
+```cs
 var armorReference = ParseObject.CreateWithoutData<Armor>(armor.ObjectId);
 ```
 
@@ -390,7 +390,7 @@ var armorReference = ParseObject.CreateWithoutData<Armor>(armor.ObjectId);
 
 You can get a query for objects of a particular subclass using the generic `ParseQuery<T>` class. The following example queries for armors that the user can afford:
 
-```csharp
+```cs
 var query = from armor in new ParseQuery<Armor>()
             where armor.Rupees <= ((Player)ParseUser.CurrentUser).Rupees
             select armor;

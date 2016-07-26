@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ParsePlatform/Docs.git"
+    "url": "git+https://github.com/ParsePlatform/docs.git"
   },
   "author": "",
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/ParsePlatform/Docs/issues"
+    "url": "https://github.com/ParsePlatform/docs/issues"
   },
-  "homepage": "https://github.com/ParsePlatform/Docs#readme",
+  "homepage": "https://github.com/ParsePlatform/docs#readme",
   "devDependencies": {
     "babel-core": "^6.9.0",
     "babel-loader": "^6.2.4",

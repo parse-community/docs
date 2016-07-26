@@ -20,7 +20,7 @@ We'll go through each of these in detail as we run through the various use cases
 
 The first thing your app will do is probably ask the user to sign up. The following code illustrates a typical sign up:
 
-```csharp
+```cs
 public async void SignUpButton_Click(object sender, RoutedEventArgs e)
 {
     var user = new ParseUser()
@@ -49,7 +49,7 @@ You are free to use an email address as the username. Simply ask your users to e
 
 Of course, after you allow users to sign up, you need to let them log in to their account in the future. To do this, you can use the class method `LogInAsync`.
 
-```csharp
+```cs
 try
 {
     await ParseUser.LogInAsync("myname", "mypass");
@@ -77,7 +77,7 @@ It would be bothersome if the user had to log in every time they open your app. 
 
 Whenever you use any signup or login methods, the user is cached on disk. You can treat this cache as a session, and automatically assume the user is logged in:
 
-```csharp
+```cs
 if (ParseUser.CurrentUser != null)
 {
     // do stuff with the user
@@ -90,7 +90,7 @@ else
 
 You can clear the current user by logging them out:
 
-```csharp
+```cs
 ParseUser.LogOut();
 var currentUser = ParseUser.CurrentUser; // this will now be null
 ```
@@ -99,7 +99,7 @@ var currentUser = ParseUser.CurrentUser; // this will now be null
 
 If you’ve created your own authentication routines, or otherwise logged in a user on the server side, you can now pass the session token to the client and use the `become` method. This method will ensure the session token is valid before setting the current user.
 
-```csharp
+```cs
 try
 {
   await ParseUser.becomeAsync("session-token-here");
@@ -119,7 +119,7 @@ Specifically, you are not able to invoke the `SaveAsync` or `DeleteAsync` method
 
 The following illustrates this security policy:
 
-```csharp
+```cs
 var user = await ParseUser.LogInAsync("my_username", "my_password");
 user.Username = "my_new_username"; // attempt to change username
 await user.SaveAsync(); // This succeeds, since this user was
@@ -144,7 +144,7 @@ The same security model that applies to the `ParseUser` can be applied to other 
 
 The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, the `ParseACL` constructor generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
-```csharp
+```cs
 var privateNote = new ParseObject("Note");
 privateNote["content"] = "This note is private!";
 privateNote.ACL = new ParseACL(ParseUser.CurrentUser);
@@ -155,7 +155,7 @@ This note will then only be accessible to the current user, although it will be 
 
 Permissions can also be granted on a per-user basis. You can add permissions individually to a `ParseACL` using `SetReadAccess` and `SetWriteAccess`. For example, let's say you have a message that will be sent to a group of several users, where each of them have the rights to read and delete that message:
 
-```csharp
+```cs
 var groupMessage = new ParseObject("Message");
 var groupACL = new ParseACL();
 
@@ -173,7 +173,7 @@ await groupMessage.SaveAsync();
 
 You can also grant permissions to all users at once using the `PublicReadAccess` and `PublicWriteAccess` properties. This allows patterns like posting comments on a message board. For example, to create a post that can only be edited by its author, but can be read by anyone:
 
-```csharp
+```cs
 var publicPost = new ParseObject("Post");
 var postACL = new ParseACL(ParseUser.CurrentUser)
 {
@@ -192,7 +192,7 @@ As soon as you introduce passwords into a system, users will forget them. In suc
 
 To kick off the password reset flow, ask the user for their email address, and call:
 
-```csharp
+```cs
 await ParseUser.RequestPasswordResetAsync("email@example.com");
 ```
 
@@ -211,7 +211,7 @@ Note that the messaging in this flow will reference your app by the name that yo
 
 To query for users, you need to use the special user query:
 
-```csharp
+```cs
 var women = await (from user in ParseUser.Query
                    where user.Get<string>("gender") == "female"
                    select user).FindAsync();
@@ -228,7 +228,7 @@ In addition, you can use `GetAsync` to get a `ParseUser` by id.
 
 Associations involving a `ParseUser` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
-```csharp
+```cs
 // Make a new post
 var post = new ParseObject("Post")
 {
@@ -272,7 +272,8 @@ To start using Facebook with Parse, you need to:
 1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already. In the "Advanced" tab of your app's settings page, Make sure that your app's "App Type" (in the "Authentication" section) is set to "Native/Desktop".
 2.  Add your application's Facebook Application ID on your Parse application's settings page.
 3.  In your `Application` constructor, call `ParseFacebookUtils.Initialize()` with your Facebook App ID:
-```csharp
+
+```cs
 public App()
 {
     // App.xaml initialization
@@ -292,7 +293,7 @@ It is up to you to record any data that you need from the Facebook user after th
 
 `ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is accomplished using the `LogInAsync()` method. To display Facebook's web browser OAuth flow to your users, you'll need to pass `LogInAsync` a web browser control (which you'll usually define in XAML) and dismiss it when you've completed login:
 
-```csharp
+```cs
 // Make your browser control visible
 ParseUser user = await ParseFacebookUtils.LogInAsync(browser, null);
 // Hide your browser control
@@ -308,7 +309,7 @@ When this code is run, the following happens:
 
 You may optionally provide a list of strings that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
 
-```csharp
+```cs
 // Make your browser control visible
 try
 {
@@ -329,7 +330,7 @@ catch
 
 If you want to associate an existing `ParseUser` with a Facebook account, you can link it like so:
 
-```csharp
+```cs
 if (!ParseFacebookUtils.IsLinked(user))
 {
     // Make your browser control visible
@@ -350,7 +351,7 @@ The steps that happen when linking are very similar to log in. The difference is
 
 If you want to unlink a Facebook account from a user, simply do this:
 
-```csharp
+```cs
 await ParseFacebookUtils.UnlinkAsync(user);
 ```
 
@@ -361,13 +362,17 @@ WinRT lets you implement single sign-on with Facebook using its `[WebAuthenticat
 
 Parse supports single sign-on with Facebook using this mechanism. Adding it to your app requires just two steps:
 
-1.  Add your app's Package Security Identifier to your Facebook App settings page under "Windows Store ID".  You can easily get this ID by calling:
-```csharp
+* Add your app's Package Security Identifier to your Facebook App settings page under "Windows Store ID".  You can easily get this ID by calling:
+
+```cs
 WebAuthenticationBroker.GetCurrentApplicationCallbackUri().AbsoluteUri
 ```
+
     The identifier is everything after `"ms-app://"`.
-2.  Instead of showing and hiding a browser control as described above, use the simpler `ParseFacebookUtils` APIs that take only a list of permissions:
-```csharp
+
+* Instead of showing and hiding a browser control as described above, use the simpler `ParseFacebookUtils` APIs that take only a list of permissions:
+
+```cs
 // Log into Facebook using Single Sign-on
 ParseUser user = await ParseFacebookUtils.LogInAsync(permissions);
 
@@ -381,16 +386,21 @@ The Facebook app for Windows Phone makes signing into apps with Facebook easy fo
 
 Parse supports single sign-on using this mechanism. To add support to your app:
 
-1.  You will need to locate your app's product ID. During development, you can find this in your app's WMAppManifest.xml. When you submit your app to the store for the first time, your app will be assigned a new product ID, which you'll need to add to your app as described below. Whenever you use your product ID while following this guide, you should remove any of the following characters: `'-'`, `'{'`, `'}'`.
-2.  You will need to configure your WMAppManifest.xml file [as described here](http://msdn.microsoft.com/en-us/library/windowsphone/develop/jj206987(v=vs.105).aspx#BKMK_URIassociations) to have your app handle URIs with the following protocol:
-```csharp
+* You will need to locate your app's product ID. During development, you can find this in your app's WMAppManifest.xml. When you submit your app to the store for the first time, your app will be assigned a new product ID, which you'll need to add to your app as described below. Whenever you use your product ID while following this guide, you should remove any of the following characters: `'-'`, `'{'`, `'}'`.
+
+* You will need to configure your WMAppManifest.xml file [as described here](http://msdn.microsoft.com/en-us/library/windowsphone/develop/jj206987(v=vs.105).aspx#BKMK_URIassociations) to have your app handle URIs with the following protocol:
+
+```cs
 <Protocol Name="msft-{ProductId}"
           NavUriFragment="encodedLaunchUri=%s"
           TaskID="_default" />
 ```
-3.  Add your product ID to your Facebook app settings page under "Windows Phone Store ID".
-4.  Add the following code to your application's App.xaml.cs in the `InitializePhoneApplication()` method:
-```csharp
+
+* Add your product ID to your Facebook app settings page under "Windows Phone Store ID".
+
+* Add the following code to your application's App.xaml.cs in the `InitializePhoneApplication()` method:
+
+```cs
 RootFrame.Navigating += async (sender, e) =>
 {
     if (ParseFacebookUtils.IsLogInRedirect(e.Uri))
@@ -407,9 +417,10 @@ RootFrame.Navigating += async (sender, e) =>
     }
 };
 ```
-5.  To initiate Facebook a Facebook login (and switch to the Facebook app), add the following code:
 
-```csharp
+* To initiate Facebook a Facebook login (and switch to the Facebook app), add the following code:
+
+```cs
 ParseFacebookUtils.BeginLogin(permissions);
 ```
 
@@ -419,7 +430,7 @@ Microsoft provides an open-source SDK for making Graph API requests to Facebook.
 
 To use the Facebook SDK to fetch information about the current user, for example, you would install it using NuGet and then write code similar to this:
 
-```csharp
+```cs
 var fb = new FacebookClient();
 fb.AccessToken = ParseFacebookUtils.AccessToken;
 var me = await fb.GetTaskAsync("me");

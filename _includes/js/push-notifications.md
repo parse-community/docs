@@ -61,7 +61,7 @@ The JavaScript SDK does not currently support subscribing iOS and Android device
 
 With the JavaScript SDK, the following code can be used to alert all subscribers of the "Giants" and "Mets" channels about the results of the game. This will display a notification center alert to iOS users and a system tray notification to Android users.
 
-```js
+<pre><code class="javascript">
 Parse.Push.send({
   channels: [ "Giants", "Mets" ],
   data: {
@@ -75,7 +75,7 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 
 ### Using Advanced Targeting
@@ -92,7 +92,7 @@ The JavaScript SDK does not currently support modifying `Installation` objects. 
 
 Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query](#queries).
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(Parse.Installation);
 query.equalTo('injuryReports', true);
 
@@ -109,11 +109,11 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 We can even use channels with our query. To send a push to all subscribers of the "Giants" channel but filtered by those who want score update, we can do the following:
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(Parse.Installation);
 query.equalTo('channels', 'Giants'); // Set our channel
 query.equalTo('scores', true);
@@ -131,11 +131,11 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
- ```js
+ <pre><code class="javascript">
 // Find users near a given location
 var userQuery = new Parse.Query(Parse.User);
 userQuery.withinMiles("location", stadiumLocation, 1.0);
@@ -158,7 +158,7 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 ## Sending Options
 
@@ -178,7 +178,7 @@ If you want to send more than just a message, you can set other fields in the `d
 
 For example, to send a notification that increases the current badge number by 1 and plays a custom sound for iOS devices, and displays a particular title for Android users, you can do the following:
 
-```js
+<pre><code class="javascript">
 Parse.Push.send({
   channels: [ "Mets" ],
   data: {
@@ -195,11 +195,11 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS](/docs/ios/guide#push-notifications-scheduling-pushes) and [Android](/docs/android/guide#push-notifications-scheduling-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
-```js
+<pre><code class="javascript">
 var query = new Parse.Query(Parse.Installation);
 query.equalTo('channels', 'Indians');
 query.equalTo('injuryReports', true);
@@ -220,7 +220,7 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 ### Setting an Expiration Date
 
@@ -228,7 +228,7 @@ When a user's device is turned off or not connected to the internet, push notifi
 
 There are two parameters provided by Parse to allow setting an expiration date for your notification. The first is `expiration_time` which takes a `Date` specifying when Parse should stop trying to send the notification. To expire the notification exactly 1 week from now, you can use the following:
 
-```js
+<pre><code class="javascript">
 var oneWeekAway = new Date(...);
 
 Parse.Push.send({
@@ -245,11 +245,11 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications](#push-notifications-scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
 
-```js
+<pre><code class="javascript">
 var oneDayAway = new Date(...);
 var sixDaysAwayEpoch = (new Date(...)).getTime();
 
@@ -267,7 +267,7 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 ### Targeting by Platform
 
@@ -275,7 +275,7 @@ If you build a cross platform app, it is possible you may only want to target iO
 
 The following examples would send a different notification to Android and iOS users.
 
-```js
+<pre><code class="javascript">
 // Notification for Android users
 var queryAndroid = new Parse.Query(Parse.Installation);
 queryAndroid.equalTo('deviceType', 'android');
@@ -319,13 +319,13 @@ Parse.Push.send({
     alert: "Your suitcase is very hip; very metro."
   }
 });
-```
+</code></pre>
 
 ## Scheduling Pushes
 
 You can schedule a push in advance by specifying a `push_time`. For example, if a user schedules a game reminder for a game tomorrow at noon UTC, you can schedule the push notification by sending:
 
-```js
+<pre><code class="javascript">
 var tomorrowDate = new Date(...);
 
 var query = new Parse.Query(Parse.Installation);
@@ -345,7 +345,7 @@ Parse.Push.send({
     // Handle error
   }
 });
-```
+</code></pre>
 
 If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted. This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
 

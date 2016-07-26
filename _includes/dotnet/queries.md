@@ -10,7 +10,7 @@ The general pattern is to create a `ParseQuery`, constraints to it, and then ret
 
 For example, to retrieve scores with a particular `playerName`, use a "where" clause to constrain the value for a key.
 
-```csharp
+```cs
 var query = from gameScore in ParseObject.GetQuery("GameScore")
             where gameScore.Get<string>("playerName") == "Dan Stemkoski"
             select gameScore;
@@ -26,7 +26,7 @@ IEnumerable<ParseObject> results = await query.FindAsync();
 
 There are several ways to put constraints on the objects found by a `ParseQuery`. You can filter out objects with a particular key-value pair with a LINQ `where ... != ...` clause or a call to `WhereNotEqualTo`:
 
-```csharp
+```cs
 var query = from gameScore in ParseObject.GetQuery("GameScore")
             where gameScore.Get<string>("playerName") != "Michael Yabuti"
             select gameScore;
@@ -38,7 +38,7 @@ var query = ParseObject.GetQuery("GameScore")
 
 You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
 
-```csharp
+```cs
 // The following queries are equivalent:
 var query1 = from gameScore in ParseObject.GetQuery("GameScore")
              where !gameScore.Get<string>("playerName").Equals("Michael Yabuti")
@@ -58,13 +58,13 @@ var query = ParseObject.GetQuery("GameScore")
 
 You can limit the number of results by calling `Limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
 
-```csharp
+```cs
 query = query.Limit(10); // limit to at most 10 results
 ```
 
 If you want exactly one result, a more convenient alternative may be to use `FirstAsync` or `FirstOrDefaultAsync` instead of using `FindAsync`.
 
-```csharp
+```cs
 var query = from gameScore in ParseObject.GetQuery("GameScore")
             where gameScore.Get<string>("playerEmail") == "dstemkoski@example.com"
             select gameScore;
@@ -78,13 +78,13 @@ ParseObject obj = await query.FirstAsync();
 
 You can skip the first results by calling `Skip`. This can be useful for pagination:
 
-```csharp
+```cs
 query = query.Skip(10); // skip the first 10 results
 ```
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
 
-```csharp
+```cs
 // Sorts the results in ascending order by score and descending order by playerName
 var query = from gameScore in ParseObject.GetQuery("GameScore")
             orderby gameScore.Get<int>("score") descending, gameScore.Get<string>("playerName")
@@ -99,7 +99,7 @@ var query = ParseObject.GetQuery("GameScore")
 
 For sortable types, you can also use comparisons in queries:
 
-```csharp
+```cs
 // Restricts to wins < 50
 query = from gameScore in query
         where gameScore.Get<int>("wins") < 50
@@ -136,7 +136,7 @@ query = query.WhereGreaterThanOrEqualTo("wins", 50);
 
 If you want to retrieve objects matching several different values, you can use `WhereContainedIn` or a `Contains` LINQ query, providing an list of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
 
-```csharp
+```cs
 // Finds scores from any of Jonathan, Dario, or Shawn
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = from gameScore in ParseObject.GetQuery("GameScore")
@@ -152,7 +152,7 @@ var query = ParseObject.GetQuery("GameScore")
 
 If you want to retrieve objects that do not match any of several values you can use `WhereNotContainedIn` or a `!Contains` LINQ query, providing an list of acceptable values. For example, if you want to retrieve scores from players besides those in a list:
 
-```csharp
+```cs
 // Finds scores from any of Jonathan, Dario, or Shawn
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = from gameScore in ParseObject.GetQuery("GameScore")
@@ -168,7 +168,7 @@ var query = ParseObject.GetQuery("GameScore")
 
 If you want to retrieve objects that have a particular key set, you can use `WhereExists` or an `ContainsKey` LINQ query. Conversely, if you want to retrieve objects without a particular key set, you can use `WhereDoesNotExist` or an `!ContainsKey` LINQ query.
 
-```csharp
+```cs
 // Finds objects that have the score set
 var query = from gameScore in ParseObject.GetQuery("GameScore")
             where gameScore.ContainsKey("score")
@@ -191,7 +191,7 @@ var query = ParseObject.GetQuery("GameScore")
 
 You can use the `WhereMatchesKeyInQuery` method or a `join` LINQ query to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
 
-```csharp
+```cs
 var teamQuery = from team in ParseObject.GetQuery("Team")
                 where team.Get<double>("winPct") > 0.5
                 select team;
@@ -214,7 +214,7 @@ IEnumerable<ParseUser> results = await userQuery.FindAsync();
 
 For keys with an array type, you can find objects where the key's array value contains 2 by:
 
- ```csharp
+ ```cs
 // Find objects where the list in listKey contains 2.
 var query = from obj in ParseObject.GetQuery("MyClass")
             where obj.Get<IList<int>>("listKey").Contains(2)
@@ -234,7 +234,7 @@ var query = ParseObject.GetQuery("MyClass")
 
 Use `WhereStartsWith` or a `StartsWith` LINQ query to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
 
-```csharp
+```cs
 // Finds barbecue sauces that start with "Big Daddy's".
 var query = from sauce in ParseObject.GetQuery("BarbecueSauce")
             where sauce.Get<string>("name").StartsWith("Big Daddy's")
@@ -255,7 +255,7 @@ Queries that have regular expression constraints are very expensive. Refer to th
 
 There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `ParseObject`, you can use `WhereEqualTo` or a `==` LINQ query just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
-```csharp
+```cs
 // Assume ParseObject myPost was previously created.
 var query = from comment in ParseObject.GetQuery("Comment")
             where comment["post"] == myPost
@@ -275,7 +275,7 @@ var comments = await query.FindAsync();
 
 You can also do relational queries by `ObjectId`:
 
-```csharp
+```cs
 var query = from comment in ParseObject.GetQuery("Comment")
             where comment["post"] == ParseObject.CreateWithoutData("Post", "1zEcyElZ80")
             select comment;
@@ -287,7 +287,7 @@ var query = ParseObject.GetQuery("Comment")
 
 If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `WhereMatchesQuery` or a `join` LINQ query. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
 
-```csharp
+```cs
 var imagePosts = from post in ParseObject.GetQuery("Post")
                  where post.ContainsKey("image")
                  select post;
@@ -310,7 +310,7 @@ var comments = await query.FindAsync();
 
 If you want to retrieve objects where a field contains a `ParseObject` that does not match a different query, you can use `WhereDoesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
-```csharp
+```cs
 var imagePosts = from post in ParseObject.GetQuery("Post")
                  where post.ContainsKey("image")
                  select post;
@@ -332,7 +332,7 @@ var comments = await query.FindAsync();
 
 In some situations, you want to return multiple types of related objects in one query. You can do this with the `Include` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
 
-```csharp
+```cs
 // Retrieve the most recent comments
 var query = from comment in ParseObject.GetQuery("Comment")
                                        // Only retrieve the last 10 comments
@@ -380,7 +380,7 @@ foreach (var comment in comments)
 
 You can also do multi level includes using dot notation.  If you wanted to include the post for a comment and the post's author as well you can do:
 
-```csharp
+```cs
 query = query.Include("post.author");
 ```
 
@@ -392,7 +392,7 @@ Caveat: Count queries are rate limited to a maximum of 160 requests per minute. 
 
 If you just need to count how many objects match a query, but you do not need to retrieve the objects that match, you can use `CountAsync` instead of `FindAsync`. For example, to count how many games have been played by a particular player:
 
-```csharp
+```cs
 var query = from gameScore in ParseObject.GetQuery("GameScore")
             where gameScore["playerName"] == "Sean Plott"
             select gameScore;
@@ -409,7 +409,7 @@ var count = await query.CountAsync();
 
 If you want to find objects that match one of several queries, you can use the `Or` method.  For instance, if you want to find players with either have a lot of wins or a few wins, you can do:
 
-```csharp
+```cs
 var lotsOfWins = from player in ParseObject.GetQuery("Player")
                  where player.Get<int>("wins") > 150
                  select player;

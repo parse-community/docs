@@ -6,7 +6,7 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you will need to embed a `GeoPoint` data type into your object.  This is done by using a JSON object with `__type` set to the string `GeoPoint` and numeric values being set for the `latitude` and `longitude` keys.  For example, to create an object containing a point under the "location" key with a latitude of 40.0 degrees and -30.0 degrees longitude:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -19,8 +19,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/classes/PlaceObject
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -37,13 +37,13 @@ connection.request('POST', '/1/classes/PlaceObject', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Geo Queries
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by using a `GeoPoint` data type with query on the field using `$nearSphere`.  Getting a list of ten places that are closest to a user may look something like:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -59,8 +59,8 @@ curl -X GET \
         }
       }' \
   https://api.parse.com/1/classes/PlaceObject
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 params = urllib.urlencode({"limit":10,"where":json.dumps({
@@ -79,11 +79,11 @@ connection.request('GET', '/1/classes/PlaceObject?%s' % params, '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 This will return a list of results ordered by distance from 30.0 latitude and -20.0 longitude. The first result will be the nearest object. (Note that if an explicit `order` parameter is supplied, it will take precedence over the distance ordering.) For example, here are two results returned for the above query: 
 
-```json
+<pre><code class="json">
 {
   "results": [
     {
@@ -108,11 +108,11 @@ This will return a list of results ordered by distance from 30.0 latitude and -2
     }
   ]
 }
-```
+</code></pre>
 
 To limit the search to a maximum distance add a `$maxDistanceInMiles` (for miles), `$maxDistanceInKilometers` (for kms), or `$maxDistanceInRadians` (for radian angle), term to the key constraint.  For example, the following limits the radius to 10 miles:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -128,8 +128,8 @@ curl -X GET \
         }
       }' \
   https://api.parse.com/1/classes/PlaceObject
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 params = urllib.urlencode({"where":json.dumps({
@@ -149,11 +149,11 @@ connection.request('GET', '/1/classes/PlaceObject?%s' % params, '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add a clause to the key constraint with the format `{"$within": {"$box": {[southwestGeoPoint, northeastGeoPoint]}}}`.
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -177,8 +177,8 @@ curl -X GET \
         }
       }' \
   https://api.parse.com/1/classes/PizzaPlaceObject
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 params = urllib.urlencode({"where":json.dumps({
@@ -206,7 +206,7 @@ connection.request('GET', '/1/classes/PizzaPlaceObject?%s' % params, '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Caveats
 

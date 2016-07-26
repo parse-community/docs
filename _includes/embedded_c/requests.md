@@ -8,7 +8,7 @@ char data[] = "{ \"temperature\": 165 }"; parseSendRequest(client, "POST", "/1/c
 
 For some requests you will be interested in data returned for the request. In such a case you need to setup a callback and pass it to `parseSendRequest`.
 
-```
+```cpp
 void mySaveCallback(ParseClient client, int error, int httpStatus, const char* httpResponseBody) {
 	if (error == 0 && httpResponseBody != NULL) {
 		// httpResponseBody holds the response to the request

@@ -162,12 +162,10 @@ The following is a list of all the error codes that can be returned by the Parse
 |----------------------------------|------|---------------------------------------------------------------|
 | `RequestTimeout`                 |  124 | The request was slow and timed out. Typically this indicates that the request is too expensive to run. You may see this when a Cloud function did not finish before timing out, or when a `Parse.Cloud.httpRequest` connection times out.  |
 | `InefficientQueryError`	         |  154 | An inefficient query was rejected by the server. Refer to the Performance Guide and slow query log. |
-| `RequestLimitExceeded`	         |  155 | This application has exceeded its request limit. Please retry in one minute or raise your request limit at https://parse.com/account. Check error message for more details. |
-| `TemporaryRejectionError`	       |  159 | An application's requests are temporary rejected by the server. |
-| `DatabaseNotMigratedError`       |  428 | You should migrate your database as soon as possible. |
+| `RequestLimitExceeded`	         |  155 | This application has exceeded its request limit (legacy Parse.com apps only). |
+| `TemporaryRejectionError`	       |  159 | An application's requests are temporary rejected by the server (legacy Parse.com apps only). |
+| `DatabaseNotMigratedError`       |  428 | You should migrate your database as soon as possible (legacy Parse.com apps only). |
 {: .docs_table}
-
-If your requests are rejected with a 155 error code, your application may be [exceeding its request limit](/plans/faq#request-limit-exceeded). You can learn more about [how the request limit is calculated in the Pricing FAQ](/plans/faq#how-are-requests-per-second-calculated). If waiting one minute or [increasing the request limit](/plans/faq#increasing-request-limit) does not resolve the issue, [please file a bug report](https://parse.com/help#report). If your requests are being rejected with a 159 error code, [please file a bug report](https://parse.com/help#report) for further instructions on how to resolve the issue. If your requests are rejected with a 428 error code, please [migrate your database](https://parse.com/migration) as soon as possible.
 
 ## Other issues
 

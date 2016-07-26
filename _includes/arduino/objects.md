@@ -6,7 +6,7 @@ Storing data on Parse is built around the Parse Object. Each Parse Object contai
 
 For example, let's say you're tracking data for your smart toaster. A single Parse Object could contain:
 
-```js
+```javascript
 temperature: 175.0, leverDown: true
 ```
 
@@ -35,7 +35,7 @@ response.close(); // Free the resource
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
-```js
+```javascript
 	objectId: "xWMyZ4YEGZ", temperature: 175.0, leverDown: true, createdAt: "2011-06-10T18:33:42Z", updatedAt: "2011-06-10T18:33:42Z"
 ```
 

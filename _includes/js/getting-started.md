@@ -1,6 +1,6 @@
 # Getting Started
 
-If you haven't set up your project yet, please [head over to the QuickStart guide](/apps/quickstart#js/native/blank) to get up and running. You can also check out our [API Reference](/docs/js/api/) for more detailed information about our SDK.
+If you haven't set up your project yet, please [head over to the QuickStart guide]({{ page.quickstart }}#js/native/blank) to get up and running. You can also check out our [API Reference](https://parse.com/docs/js/api/) for more detailed information about our SDK.
 
 The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.</p>
 

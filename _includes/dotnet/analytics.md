@@ -10,7 +10,7 @@ Without having to implement any client-side logic, you can view real-time graphs
 
 Our initial analytics hook allows you to track your application being launched. By adding the following line to your Launching event handler, you'll be able to collect data on when and how often your application is opened.
 
-```csharp
+```cs
 ParseAnalytics.TrackAppOpenedAsync();
 ```
 
@@ -25,7 +25,7 @@ Further analytics are available around push notification delivery and open rates
 
 Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
 
-```csharp
+```cs
 var dimensions = new Dictionary<string, string> {
   // Define ranges to bucket data points into meaningful segments
   { "priceRange", "1000-1500" },
@@ -40,7 +40,7 @@ ParseAnalytics.TrackEventAsync("search", dimensions);
 
 `ParseAnalytics` can even be used as a lightweight error tracker &mdash; simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
-```csharp
+```cs
 var errDimensions = new Dictionary<string, string> {
   { "code", Convert.ToString(error.Code) }
 };

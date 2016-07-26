@@ -8,14 +8,14 @@ Without having to implement any client-side logic, you can view real-time graphs
 
 The current server time will be used for all analytics requests. To explicitly set the time associated with a given event, an optional `at` parameter can be provided in ISO 8601 format.
 
-```json
+<pre><code class="json">
 -d '{
     "at": {
       "__type": "Date",
       "iso": "2015-03-01T15:59:11-07:00"
     }
   }
-```
+</code></pre>
 
 ## App-Open Analytics
 
@@ -23,7 +23,7 @@ Our analytics hook allows you to track your application being launched. By makin
 
 In the example below, the `at` parameter is optional. If omitted, the current server time will be used instead.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -31,8 +31,8 @@ curl -X POST \
   -d '{
       }' \
   https://api.parse.com/1/events/AppOpened
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -44,7 +44,7 @@ connection.request('POST', '/1/events/AppOpened', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
 
@@ -55,7 +55,7 @@ Parse Analytics also allows you to track free-form events, with a handful of str
 
 Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -68,8 +68,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/events/Search
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -86,11 +86,11 @@ connection.request('POST', '/1/events/Search', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Parse Analytics can even be used as a lightweight error tracker — simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -101,8 +101,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/events/Error
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -117,6 +117,6 @@ connection.request('POST', '/1/events/Error', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Note that Parse currently only stores the first eight dimension pairs per call to `/1/events/<eventName>`.

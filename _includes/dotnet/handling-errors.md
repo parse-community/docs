@@ -4,7 +4,7 @@ Parse has a few simple patterns for surfacing errors and handling them in your c
 
 There are two types of errors you may encounter. The first is those dealing with logic errors in the way you're using the SDK. These types of errors result in general `Exception` being raised. For an example take a look at the following code:
 
-```csharp
+```cs
 var user = new ParseUser();
 await user.SignUpAsync();
 ```
@@ -13,13 +13,13 @@ This will throw an `InvalidOperationException` because `SignUpAsync` was called 
 
 The second type of error is one that occurs when interacting with the Parse Cloud over the network. These errors are either related to problems connecting to the cloud or problems performing the requested operation. Let's take a look at another example:
 
-```csharp
+```cs
 await ParseObject.GetQuery("Note").GetAsync("thisObjectIdDoesntExist");
 ```
 
 In the above code, we try to fetch an object with a non-existent `ObjectId`. The Parse Cloud will return an error -- so here's how to handle it properly:
 
-```csharp
+```cs
 try
 {
     await ParseObject.GetQuery("Note").GetAsync(someObjectId);
@@ -40,4 +40,4 @@ catch (ParseException e)
 
 By default, all connections have a timeout of 10 seconds, so tasks will not hang indefinitely.
 
-For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API](/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm).
+For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API](https://parse.com/docs/dotnet/api/html/T_Parse_ParseException_ErrorCode.htm).

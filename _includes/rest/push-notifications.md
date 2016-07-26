@@ -28,7 +28,7 @@ Most of the time, installation data is modified by push-related methods in the c
 
 Creating an installation object is similar to creating a generic object, but the special installation fields listed above must pass validation. For example, if you have a device token provided by the Apple Push Notification service and would like to subscribe it to the broadcast channel `""`, you can use the following command:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -41,8 +41,8 @@ curl -X POST \
         ]
       }' \
   https://api.parse.com/1/installations
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -59,23 +59,23 @@ connection.request('POST', '/1/installations', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new installation:
 
-```js
+<pre><code class="javascript">
 Status: 201 Created
 Location: https://api.parse.com/1/installations/mrmBZvsErB
-```
+</code></pre>
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created installation:
 
-```json
+<pre><code class="json">
 {
   "createdAt": "2012-04-28T17:41:09.106Z",
   "objectId": "mrmBZvsErB"
 }
-```
+</code></pre>
 
 When creating Android installation objects containing GCM (Google Cloud Messaging) credentials, you must have at least the following fields in your installation object:
 
@@ -86,7 +86,7 @@ When creating Android installation objects containing GCM (Google Cloud Messagin
 
 You could create and object with these fields using a command like this:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -101,8 +101,8 @@ curl -X POST \
         ]
       }' \
   https://api.parse.com/1/installations
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -121,7 +121,7 @@ connection.request('POST', '/1/installations', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 If you upload Android installations with GCM credentials, then you must also set the GCM API Key associated with this GCM sender ID in your application's push settings.
 
@@ -129,13 +129,13 @@ If you upload Android installations with GCM credentials, then you must also set
 
 You can retrieve the contents of an installation object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the installation created above:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   https://api.parse.com/1/installations/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -145,11 +145,11 @@ connection.request('GET', '/1/installations/mrmBZvsErB', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The response body is a JSON object containing all the user-provided fields, plus the `createdAt`, `updatedAt`, and `objectId` fields:
 
-```json
+<pre><code class="json">
 {
   "deviceType": "ios",
   "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -160,13 +160,13 @@ The response body is a JSON object containing all the user-provided fields, plus
   "updatedAt": "2012-04-28T17:41:09.106Z",
   "objectId": "mrmBZvsErB"
 }
-```
+</code></pre>
 
 ### Updating Installations
 
 Installation objects can be updated by sending a PUT request to the installation URL. For example, to subscribe the installation above to the "foo" push channel:
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -180,8 +180,8 @@ curl -X PUT \
         ]
       }' \
   https://api.parse.com/1/installations/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -199,7 +199,7 @@ connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Note that there is a restriction on updating the `deviceToken` field of Installation objects. You can only update the `deviceToken` field of an Installation object if contains a non-nil `installationId` field.
 
@@ -209,13 +209,13 @@ You can retrieve multiple installations at once by sending a GET request to the 
 
 Without any URL parameters, a GET request simply lists installations:
 
-```bash
+<pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   https://api.parse.com/1/installations
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -225,11 +225,11 @@ connection.request('GET', '/1/installations', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 The return value is a JSON object that contains a results field with a JSON array that lists the users.
 
-```json
+<pre><code class="json">
 {
   "results": [
     {
@@ -254,7 +254,7 @@ The return value is a JSON object that contains a results field with a JSON arra
     }
   ]
 }
-```
+</code></pre>
 
 All of the options for queries that work for regular objects also work for installation objects, so check the section on [Querying Objects](#queries-basic-queries) for more details. By doing an array query over `channels`, for example, you can find the set of devices subscribed to a given push channel.
 
@@ -263,13 +263,13 @@ All of the options for queries that work for regular objects also work for insta
 
 To delete an installation from the Parse Cloud, send a DELETE request to its URL. This functionality is not available in the client SDKs, so you must authenticate this method using the `X-Parse-Master-Key` header in your request instead of the `X-Parse-REST-API-Key` header. Your master key allows you to bypass ACLs and should only be used from within a trusted environment. For example:
 
-```bash
+<pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   https://api.parse.com/1/installations/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -279,7 +279,7 @@ connection.request('DELETE', '/1/installations/mrmBZvsErB', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Sending Pushes
 
@@ -297,7 +297,7 @@ A channel is identified by a string that starts with a letter and consists of al
 
 Subscribing to a channel via the REST API can be done by updating the `Installation` object. We send a PUT request to the `Installation` URL and update the `channels` field. For example, in a baseball score app, we could do:
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -308,8 +308,8 @@ curl -X PUT \
         ]
       }' \
   https://api.parse.com/1/installations/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -324,7 +324,7 @@ connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
 
@@ -336,7 +336,7 @@ To unsubscribe from a channel you would need to update the `channels` array and 
 
 With the REST API, the following code can be used to alert all subscribers of the "Giants" and "Mets" channels about the results of the game. This will display a notification center alert to iOS users and a system tray notification to Android users.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -351,8 +351,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -371,7 +371,7 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ### Using Advanced Targeting
 
@@ -383,7 +383,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 Storing arbitrary data on an `Installation` object is done in the same way we store data on [any other object](#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -394,8 +394,8 @@ curl -X PUT \
         "injuryReports": true
       }' \
   https://api.parse.com/1/installations/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -410,11 +410,11 @@ connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate an Installation with a particular user, for example, you can use a pointer to the `_User` class on the `Installation`.
 
-```bash
+<pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -427,8 +427,8 @@ curl -X PUT \
         }
       }' \
   https://api.parse.com/1/installations/mrmBZvsErB
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -445,13 +445,13 @@ connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 #### Sending Pushes to Queries
 
 Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries).
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -465,8 +465,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -484,11 +484,11 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 We can even use channels with our query. To send a push to all subscribers of the "Giants" channel but filtered by those who want score update, we can do the following:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -503,8 +503,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -523,11 +523,11 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -552,8 +552,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -582,7 +582,7 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 An in depth look at the `Installation` end point can be found in the [REST guide](#push-notifications-installations).
 
@@ -604,7 +604,7 @@ If you want to send more than just a message, you can set other fields in the `d
 
 For example, to send a notification that increases the current badge number by 1 and plays a custom sound for iOS devices, and displays a particular title for Android users, you can do the following:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -621,8 +621,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -643,13 +643,13 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS](/docs/ios/guide#push-notifications-receiving-pushes) and [Android](/docs/android/guide#push-notifications-receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
-```bash
-```
-```python
+<pre><code class="bash">
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -670,7 +670,7 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ### Setting an Expiration Date
 
@@ -678,7 +678,7 @@ When a user's device is turned off or not connected to the internet, push notifi
 
 There are two parameters provided by Parse to allow setting an expiration date for your notification. The first is `expiration_time` which takes a date (in ISO 8601 format or Unix epoch time) specifying when Parse should stop trying to send the notification. To expire the notification exactly 1 week from now, you can use the following command.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -690,8 +690,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -707,11 +707,11 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expired. This value is relative to the `push_time` parameter used to [schedule notifications](#push-notifications-scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from March 16th, 2015.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -724,8 +724,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -742,14 +742,14 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 ### Targeting by Platform
 
 If you build a cross platform app, it is possible you may only want to target iOS or Android devices. There are two methods provided to filter which of these devices are targeted. Note that both platforms are targeted by default.
 
 The following examples would send a different notification to Android, iOS, and Windows users.
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -763,8 +763,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -782,9 +782,9 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -798,8 +798,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -817,9 +817,9 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -833,8 +833,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -852,9 +852,9 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -868,8 +868,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -887,13 +887,13 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 ## Scheduling Pushes
 
 You can schedule a push in advance by specifying a `push_time`. For example, if a user schedules a game reminder for a game on March 19th, 2015 at noon UTC, you can schedule the push notification by sending:
 
-```bash
+<pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -908,8 +908,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/push
-```
-```python
+</code></pre>
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -928,7 +928,7 @@ connection.request('POST', '/1/push', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-```
+</code></pre>
 
 If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted. This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
 

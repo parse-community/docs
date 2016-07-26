@@ -19,7 +19,7 @@ The user will also see helpful toast messages if they provide invalid input (e.g
 
 To include `ParseLoginActivity` in your app, import the ParseLoginUI library project, and add the following into your `AndroidManifest.xml`:
 
-```xml
+</code></pre>xml
 <activity
     android:name="com.parse.ui.ParseLoginActivity"
     android:label="@string/app_name"
@@ -28,14 +28,14 @@ To include `ParseLoginActivity` in your app, import the ParseLoginUI library pro
         android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
         android:value="true"/>
 </activity>
-```
+</code></pre>
 
 Then, you can launch `ParseLoginActivity` from your own activity by calling:
 
-```java
+<pre><code class="java">
 ParseLoginBuilder builder = new ParseLoginBuilder(MyActivity.this);
 startActivityForResult(builder.build(), 0);
-```
+</code></pre>
 
 When `ParseLoginActivity` finishes, your caller activity will receive either:
 
@@ -52,14 +52,14 @@ This basic integration case works well if your caller activity is designed to fu
 
 If some parts or all of your app cannot function without a valid `ParseUser`, you can protect these parts of your app with a `ParseLoginDispatchActivity` (supplied in this library project).  This dispatch activity acts like a gatekeeper; it automatically launches `ParseLoginActivity` if no user is logged in, or launches the protected activity if a user is already logged in.  To use this, you subclass `ParseLoginDispatchActivity` and specify what protected activity to launch.
 
-```java
+<pre><code class="java">
 public class SampleDispatchActivity extends ParseLoginDispatchActivity {
   @Override
   protected Class<?> getTargetClass() {
     return SampleProfileActivity.class;
   }
 }
-```
+</code></pre>
 
 We've provided another sample app, [ParseLoginSampleWithDispatchActivity](https://github.com/ParsePlatform/ParseUI-Android) for this use case.  The `SampleProfileActivity` in this app cannot function without a logged-in user, so it is protected by `SampleDispatchActivity`.
 
@@ -102,7 +102,7 @@ Please note that `PARSE_LOGIN_ENABLED`, `FACEBOOK_LOGIN_ENABLED`, and `TWITTER_L
 
 Example configuration:
 
-```xml
+</code></pre>xml
 <activity
     android:name="com.parse.ui.ParseLoginActivity"
     android:label="@string/my_app_name"
@@ -132,24 +132,24 @@ Example configuration:
         android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_PERMISSIONS"
         android:resource="@array/my_facebook_permissions"/>
 </activity>
-```
+</code></pre>
 
 For the Facebook permission array, you also need to have this in your `res/values/strings.xml`:
 
-```xml
+</code></pre>xml
 <resources>
     <string-array name="my_facebook_permissions">
         <item>public_profile</item>
         <item>user_friends</item>
     </string-array>
 </resources>
-```
+</code></pre>
 
 ### Configure by Code
 
 You can configure the `ParseLoginActivity` by code using the ParseLoginBuilder.  You specify the options on the builder, and then call `build()` to generate an `Intent` that can be used to start the `ParseLoginActivity`.  We've provided a sample app, [ParseLoginSampleCodeCustomization](https://github.com/ParsePlatform/ParseUI-Android) demonstrating this use case.  The options in `ParseLoginBuilder` are the same as those in activity metadata customization.  If you specify options in both code and activity metadata, the options in code take precedence.
 
-```java
+<pre><code class="java">
 ParseLoginBuilder builder = new ParseLoginBuilder(ProfileActivity.this);
 Intent parseLoginIntent = builder.setAppLogo(R.drawable.my_app_logo)
     .setParseLoginEnabled(true)
@@ -166,7 +166,7 @@ Intent parseLoginIntent = builder.setAppLogo(R.drawable.my_app_logo)
     .setTwitterLoginButtontext("Twitter")
     .build();
 startActivityForResult(parseLoginIntent, 0);
-```
+</code></pre>
 
 ### Configure by Overriding Layout Resource Files
 
@@ -197,7 +197,7 @@ When the AdapterView is attached to the window, your `ParseQueryAdapter` will au
 
 Consider the following code, which sets up a very simple `ParseQueryAdapter` to display data in a `ListView`. You can be up and running with a functional `ListView` full of data with very little configuration.
 
-```java
+<pre><code class="java">
 // Inside an Activity
 public void onCreate(Bundle savedInstanceState) {
   super.onCreate(savedInstanceState);
@@ -211,7 +211,7 @@ public void onCreate(Bundle savedInstanceState) {
   ListView listView = (ListView) findViewById(R.id.listview);
   listView.setAdapter(adapter);
 }
-```
+</code></pre>
 
 This view will display a list of Instruments by name. Notice all the code that we're not writing: we can skip the logic to fetch each consecutive page of results, to manually update and maintain the backing data array, to download images in the background and set the image data on UI widgets, and to handle touch events to trigger loading the next page of results.
 
@@ -225,7 +225,7 @@ To change this behavior, we drew from the functionality of an `ArrayAdapter`: bu
 
 See below for an example setting up a `ParseQueryAdapter` to display only punk and metal bands with four or more members, ordered by number of records sold:
 
-```java
+<pre><code class="java">
 ParseQueryAdapter<ParseObject> adapter =
   new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() {
     public ParseQuery<ParseObject> create() {
@@ -237,7 +237,7 @@ ParseQueryAdapter<ParseObject> adapter =
       return query;
     }
   });
-```
+</code></pre>
 
 ## Customizing the Rows
 
@@ -247,7 +247,7 @@ One way to customize the rows is to override `getItemView(ParseObject, View, Vie
 
 Here, we inflate and configure a layout of our own, with a `TextView`, a `ParseImageView`, and an extra "description" `TextView` (id: `R.id.description`):
 
-```java
+<pre><code class="java">
 @Override
 public View getItemView(ParseObject object, View v, ViewGroup parent) {
   if (v == null) {
@@ -265,11 +265,11 @@ public View getItemView(ParseObject object, View v, ViewGroup parent) {
   descriptionView.setText(object.getString("description"));
   return v;
 }
-```
+</code></pre>
 
 Another way to customize the rows is to have complete control over the look of the rows by overriding `ParseQueryAdapter`'s methods and ignoring the superclass's implementation entirely. In this example, our item views are simply rows where the color is defined by the `ParseObject`:
 
-```java
+<pre><code class="java">
 @Override
 public View getItemView(ParseObject object, View v, ViewGroup parent) {
   if (v == null) {
@@ -291,7 +291,7 @@ public View getNextPageView(View v, ViewGroup parent) {
   return v;
 }
 
-```
+</code></pre>
 
 ## Loading Remote Images in Rows
 

@@ -60,11 +60,13 @@ In cases where there is already an explicit application loop, we can integrate p
 
 To do this we must first include the respective libraries:
 
-```
+```cpp
 #include <sys/time.h>
 ```
-then add the following logic to your method:
-```
+
+Then add the following logic to your method:
+
+```cpp
 // ...
 parseSetPushCallback(client, myPushCallback);
 parseStartPushService(client);
@@ -72,10 +74,10 @@ int socket = parseGetPushSocket(client);
 while(1) {
 	struct timeval tv;
 	fd_set receive, send, error;
-	
+
 	// tv_sec defines the interval at which the method is executed.
 	// The lower the value the more responsive it will be to notifications.
-	
+
 	tv.tv_sec = 10;
 	tv.tv_usec= 0;
 	FD_ZERO(&receive);

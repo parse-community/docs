@@ -6,7 +6,7 @@ Storing data through the Parse REST API is built around a JSON encoding of the o
 
 For example, let's say you're tracking data for your smart toaster. A single Parse Object could contain:
 
-```js
+```javascript
 temperature: 175.0, leverDown: true
 ```
 
