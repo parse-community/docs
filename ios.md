@@ -6,6 +6,9 @@ platform: iOS
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parse.com/docs/ios/api/
 
+redirect_from:
+  - /ios/
+
 sections:
 - "ios/getting-started.md"
 - "ios/objects.md"
