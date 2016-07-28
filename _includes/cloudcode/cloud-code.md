@@ -1,22 +1,4 @@
-# Cloud Code
-
-## What is Cloud Code?
-
-Parse's vision is to let developers build any mobile app without dealing with servers. For complex apps, sometimes you just need a bit of logic that isn't running on a mobile device. Cloud Code makes this possible.
-
-Cloud Code is easy to use because it's built on the same JavaScript SDK that powers thousands of apps. The only difference is that this code runs in the Parse Cloud rather than running on a mobile device. When you update your Cloud Code, it becomes available to all mobile environments instantly. You don't have to wait for a new release of your application. This lets you change app behavior on the fly and add new features faster.
-
-Even if you're only familiar with mobile development, we hope you'll find Cloud Code straightforward and easy to use.
-
-## What Cloud Code Is Not
-
-Cloud Code is not Node.js. Both Cloud Code and Node.js are built on the V8 JavaScript engine, but similarities end there. If you're interested in using Node.js with Parse, you can read more about [using Heroku with Parse on our blog](http://blog.parse.com/announcements/introducing-heroku-parse/).
-
-## Getting Started
-
-On the computer you use for development, you will need to install Parse's command line tool. This will let you manage your code in the Parse Cloud. Visit the [Installation section](#command-line-installation) of the [Command Line Tool guide](#command-line) to learn how to install the tool, set up your Cloud Code directory, and [deploy your code](#command-line-a-simple-function).
-
-## Cloud Functions
+# Cloud Functions
 
 Let's look at a slightly more complex example where Cloud Code is useful. One reason to do computation in the cloud is so that you don't have to send a huge list of objects down to a device if you only want a little bit of information. For example, let's say you're writing an app that lets people review movies. A single `Review` object could look like:
 
@@ -149,9 +131,9 @@ If there is an error, the response in the client looks like:
 }
 ```
 
-## beforeSave Triggers
+# beforeSave Triggers
 
-### Implementing validation
+## Implementing validation
 
 Another reason to run code in the cloud is to enforce a particular data format. For example, you might have both an Android and an iOS app, and you want to validate data for each of those. Rather than writing code once for each client environment, you can write it just once with Cloud Code.
 
@@ -185,7 +167,7 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
 });
 ```
 
-### Modifying Objects on Save
+## Modifying Objects on Save
 
 In some cases, you don't want to throw out invalid data. You just want to tweak it a bit before saving it. `beforeSave` can handle this case, too. You just call `response.success` on the altered object.
 
@@ -202,7 +184,7 @@ Parse.Cloud.beforeSave("Review", function(request, response) {
 });
 ```
 
-## afterSave Triggers
+# afterSave Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been saved. You can do this by registering a handler with the `afterSave` method. For example, suppose you want to keep track of the number of comments on a blog post. You can do that by writing a function like this:
 
@@ -225,7 +207,7 @@ The client will receive a successful response to the save request after the hand
 
 If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](https://parse.com/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
-## beforeDelete Triggers
+# beforeDelete Triggers
 
 You can run custom Cloud Code before an object is deleted. You can do this with the `beforeDelete` method. For instance, this can be used to implement a restricted delete policy that is more sophisticated than what can be expressed through  [ACLs](https://parse.com/docs/js/api/symbols/Parse.ACL.html). For example, suppose you have a photo album app, where many photos are associated with each album, and you want to prevent the user from deleting an album if it still has a photo in it. You can do that by writing a function like this:
 
@@ -253,7 +235,7 @@ If `response.error` is called, the `Album` object will not be deleted, and the c
 If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](https://parse.com/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 
-## afterDelete Triggers
+# afterDelete Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been deleted. You can do this by registering a handler with the `afterDelete` method. For example, suppose that after deleting a blog post, you also want to delete all associated comments. You can do that by writing a function like this:
 
@@ -282,74 +264,3 @@ The `afterDelete` handler can access the object that was deleted through `reques
 The client will receive a successful response to the delete request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
 If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](https://parse.com/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
-
-## Resource Limits
-
-### Timeouts
-
-Cloud functions will be killed after 15 seconds of wall clock time. `beforeSave`, `afterSave`, `beforeDelete`, and `afterDelete` functions will be killed after 3 seconds of run time. If a Cloud function or a `beforeSave`/`afterSave`/`beforeDelete`/`afterDelete` function is called from another Cloud Code call, it will be further limited by the time left in the calling function. For example, if a `beforeSave` function is triggered by a cloud function after it has run for 13 seconds, the `beforeSave` function will only have 2 seconds to run, rather than the normal 3 seconds. If you need additional time to perform operations in Cloud Code, consider using a [background job](#cloud-code-advanced-background-jobs).
-
-### Memory
-
-Cloud Code invocations (such as functions, save/delete hooks, background jobs, and custom endpoint handlers) must use a finite amount of memory (currently 384 MB, but subject to change in the future). This memory is garbage collected by the JavaScript engine, so it is generally not an issue.
-
-To allow the garbage collector to do its work properly, make sure that you aren't saving references to large objects, HTTP response buffers, and other objects to global variables in your script.
-
-### Network requests
-
-Network requests that are still in progress after `success` or `error` are called will be canceled. In general, you should wait for all network requests to finish before calling `success`. For `afterSave` functions and `afterDelete` functions, which don't call `success`/`error`, Cloud Code will wait for all network requests to finish.
-
-Here's an example where calling `response.success` will cancel an outstanding query, leading to unexpected results:
-
-```javascript
-Parse.Cloud.define("ThisFunctionWillNotReturnAllDataAsExpected", function(request, response) {
-  var results = "Retrieved all Posts:\n"
-  var query = new Parse.Query("Post");
-
-  // This query.find() is unlikely to finish before response.success() is called.
-  query.find().then(function(posts) {
-    for (var i = 0; i < posts.length; i++) {
-      results += posts[i].get('title') + "\n";
-    }  
-  });
-
-  response.success(results); // Response: "Retrieval all Posts:\n"
-});
-```
-
-This is a common mistake that can be easily avoided. Make sure that you only call `success` once all of your network queries have returned data, such as in the following example:
-
-```javascript
-Parse.Cloud.define("ThisFunctionWillReturnAllData", function(request, response) {
-  var results = "Retrieved all Posts:\n"
-  var query = new Parse.Query("Post");
-
-  query.find().then(function(posts) {
-    for (var i = 0; i < posts.length; i++) {
-      results += posts[i].get('title') + "\n";
-    }
-
-    // success has been moved inside the callback for query.find()
-    response.success(results);
-  }, function(error) {
-    // Make sure to catch any errors, otherwise you may see a "success/error not called" error in Cloud Code.
-    response.error("Could not retrieve Posts, error " + error.code + ": " + error.message);
-  });
-
-});
-```
-
-HTTP requests have a maximum timeout of 1 minute. This timeout can be further restricted by the maximum timeout for the type of Cloud Code being executed as decribed in the [timeouts](#cloud-code-timeouts) section. For instance, HTTP requests in Cloud Functions are limited to 15 seconds, HTTP requests in before/after save triggers are limited to 3 seconds, etc.
-
-## Logging from Cloud Code
-
-If you want to log a message to the log files displayed by `parse log`, you can use `console.log`, `console.error`, or `console.warn`. Both `console.error` and `console.warn` will write to the error log.
-
-```javascript
-Parse.Cloud.define("Logger", function(request, response) {
-  console.log(request.params);
-  response.success();
-});
-```
-
-Cloud functions may log up to 100 messages per request. Log lines are limited to 1KB in size, after which they are truncated.

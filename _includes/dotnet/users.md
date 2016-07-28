@@ -286,7 +286,7 @@ public App()
 There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `ParseUser`, or (2) linking Facebook to an existing `ParseUser`.
 
 <div class='tip info'><div>
-It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use [Microsoft's Facebook SDK](http://www.csharpsdk.org).
+  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you can use the Facebook SDK.
 </div></div>
 
 ### Login & Signup

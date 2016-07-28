@@ -2,10 +2,6 @@
 
 Parse allows you to associate real-world latitude and longitude coordinates with an object.  Adding a `PFGeoPoint` to a `PFObject` allows queries to take into account the proximity of an object to a reference point. This allows you to easily do things like find out what user is closest to another user or which places are closest to a user.
 
-<div class='tip info'><div>
-  Explore the use of `PFGeoPoints` and `PFUser` in a real application with our [Anywall tutorial](/tutorials/anywall). You'll learn everything from implementing a basic user management workflow to tracking GPS location with Core Location.
-</div></div>
-
 ## PFGeoPoint
 
 To associate a point with an object you first need to create a `PFGeoPoint`. For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:

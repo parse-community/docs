@@ -4,10 +4,6 @@
 
 `PFFile` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `PFObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
 
-<div class='tip info'><div>
-  Learn how to make an app that allows the user to take photos and upload it directly to Parse in our [Saving Images tutorial](/tutorials/saving-images).
-</div></div>
-
 Getting started with `PFFile` is easy. First, you'll need to have the data in `NSData` form and then create a `PFFile` with it. In this example, we'll just use a string:
 
 <pre><code class="objectivec">

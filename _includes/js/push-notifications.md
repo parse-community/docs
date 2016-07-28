@@ -7,7 +7,7 @@ If you haven't installed the SDK yet, please [head over to the Push QuickStart](
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
 <div class='tip info'><div>
-The JavaScript SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications. A common use case is to send pushes from [Cloud Code](/docs/cloud_code_guide).
+The JavaScript SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications. A common use case is to send pushes from Cloud Code.
 </div></div>
 
 ## Setting Up Push

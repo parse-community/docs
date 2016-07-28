@@ -1,9 +1,5 @@
 # Sessions
 
-<div class='tip info'><div>
-  Session APIs are only available in apps with revocable sessions enabled. Parse apps created after March 25, 2015 have this enabled by default ("Require Revocable Sessions" toggle in your Parse.com app settings page). If you have an existing app, you can upgrade to revocable sessions by following the [Session Migration Tutorial](https://www.parse.com/tutorials/session-migration-tutorial).
-</div></div>
-
 Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct `Session` object for each user-installation pair; if a user issues a login request from a device they're already logged into, that user's previous `Session` object for that Installation is automatically deleted. `Session` objects are stored on Parse in the Session class, and you can view them on the Parse.com Data Browser. We provide a set of APIs to manage `Session` objects in your app.
 
 A `Session` is a subclass of a Parse `Object`, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because the Parse Cloud automatically creates sessions when you log in or sign up users, you should not manually create `Session` objects unless you are building a "Parse for IoT" app (e.g. Arduino or Embedded C). Deleting a `Session` will log the user out of the device that is currently using this session's token.

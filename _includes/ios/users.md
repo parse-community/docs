@@ -448,10 +448,6 @@ post.save()
 
 Parse provides an easy way to integrate Facebook with your application. The Facebook SDK can be used with our SDK, and is integrated with the `PFUser` class to make linking your users to their Facebook identities easy.
 
-<div class='tip info'><div>
-  Learn how to use Parse with the Facebook API to create a profile viewer application. The [Integrating Facebook in iOS tutorial](/tutorials/integrating-facebook-in-ios) will teach you how to create and login `PFUsers` through Facebook and make queries to the Facebook Graph API.
-</div></div>
-
 Using our Facebook integration, you can associate an authenticated Facebook user with a `PFUser`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save the user's data to Parse.
 
 **Note:** Parse SDK is compatible both with Facebook SDK 3.x and 4.x for iOS. These instructions are for Facebook SDK 4.x.
@@ -509,6 +505,7 @@ Next, add the following handlers in your app delegate.
   [FBSDKAppEvents activateApp];
 }
 </code></pre>
+
 <pre><code class="swift">
 func application(application: UIApplication,
                  openURL url: NSURL,
@@ -520,7 +517,6 @@ func application(application: UIApplication,
                                                              annotation: annotation)
 }
 
-
 //Make sure it isn't already declared in the app delegate (possible redefinition of func error)
 func applicationDidBecomeActive(application: UIApplication) {
   FBSDKAppEvents.activateApp()
@@ -530,7 +526,7 @@ func applicationDidBecomeActive(application: UIApplication) {
 There are two main ways to use Facebook with your Parse users: (1) to log in (or sign up) as a Facebook user and creating a `PFUser`, or (2) linking Facebook to an existing `PFUser`.
 
 <div class='tip info'><div>
-  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://parse.com/questions/how-can-i-find-parse-users-that-are-facebook-friends-with-the-current-user).
+  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to do a graph query using the Facebook SDK.
 </div></div>
 
 ### Log In & Sign Up

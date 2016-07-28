@@ -5,7 +5,7 @@ If you haven't set up your project yet, please [head over to the QuickStart guid
 The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.</p>
 
 <div class='tip info'><div>
-  If you're looking to build a React application with Parse, we provide a special library for that. All of the documentation is available at the [GitHub repo](https://github.com/ParsePlatform/ParseReact).
+  If you're looking to build a React application with Parse, we provide a special library for that. All of the documentation is available at the <a href="https://github.com/ParsePlatform/ParseReact">GitHub repo</a>.
 </div></div>
 
 Our JavaScript SDK is originally based on the popular [Backbone.js](http://backbonejs.org/) framework, but it provides flexible APIs that allow it to be paired with your favorite JS libraries. Our goal is to minimize configuration and let you quickly start building your JavaScript and HTML5 app on Parse.

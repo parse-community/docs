@@ -5,7 +5,7 @@
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
 <div class='tip info'><div>
-The PHP SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications. A common use case is to send pushes from [Cloud Code](/docs/cloud_code_guide).
+The PHP SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications.
 </div></div>
 
 ## Setting Up Push
@@ -182,7 +182,7 @@ $queryAndroid->equalTo('deviceType', 'android');
 ParsePush::send(array(
   "where" => $queryAndroid,
   "data" => array(
-    "alert" => "Your suitcase has been filled with tiny robots!" 
+    "alert" => "Your suitcase has been filled with tiny robots!"
   )
 ));
 
@@ -193,7 +193,7 @@ $queryIOS->equalTo('deviceType', 'ios');
 ParsePush::send(array(
   "where" => $queryIOS,
   "data" => array(
-    "alert" => "Your suitcase has been filled with tiny apples!" 
+    "alert" => "Your suitcase has been filled with tiny apples!"
   )
 ));
 
@@ -204,7 +204,7 @@ $queryWindows->equalTo('deviceType', 'winrt');
 ParsePush::send(array(
   "where" => $queryWindows,
   "data" => array(
-    "alert" => "Your suitcase has been filled with tiny surfaces!" 
+    "alert" => "Your suitcase has been filled with tiny surfaces!"
   )
 ));
 
@@ -215,7 +215,7 @@ $queryWP8->equalTo('deviceType', 'winphone');
 ParsePush::send(array(
   "where" => $queryWP8,
   "data" => array(
-    "alert" => "Your suitcase is very hip; very metro." 
+    "alert" => "Your suitcase is very hip; very metro."
   )
 ));
 </code></pre>

@@ -355,7 +355,7 @@ Parse.FacebookUtils.logIn("user_likes,email", {
 `Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 <div class='tip info'><div>
-  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to [do a graph query via Facebook's SDK](https://developers.facebook.com/docs/graph-api/using-graph-api/v2.3).
+  It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to do a graph query using the Facebook SDK.
 </div></div>
 
 
@@ -395,4 +395,3 @@ The Facebook Javascript SDK provides a main `FB` object that is the starting poi
 Facebook login using the Parse SDK requires that the Facebook SDK already be loaded before calling `Parse.FacebookUtils.init()`.
 
 Our library manages the `FB` object for you. The `FB` singleton is synchronized with the current user by default, so any methods you call on it will be acting on the Facebook user associated with the current `Parse.User`. Calling `FB.login()` or `FB.logOut()` explicitly will cause the `Parse.User` and `FB` object to fall out of synchronization, and is not recommended.
-
