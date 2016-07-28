@@ -4,7 +4,7 @@ permalink: /arduino/guide/
 layout: guide
 platform: Arduino
 quickstart: https://parse.com/apps/quickstart
-api_reference: https://parse.com/docs/arduino/api/
+api_reference: https://parseplatform.github.io/Parse-SDK-Arduino/api
 
 sections:
 - "arduino/getting-started.md"

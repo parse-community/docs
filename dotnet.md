@@ -4,7 +4,7 @@ permalink: /dotnet/guide/
 layout: guide
 platform: dotNET
 quickstart: https://parse.com/apps/quickstart
-api_reference: https://parse.com/docs/dotnet/api/
+api_reference: https://parseplatform.github.io/Parse-SDK-dotNET/api
 
 sections:
 - "dotnet/getting-started.md"

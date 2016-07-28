@@ -4,7 +4,7 @@ permalink: /macos/guide/
 layout: guide
 platform: macOS
 quickstart: https://parse.com/apps/quickstart
-api_reference: https://parse.com/docs/osx/api/
+api_reference: https://parseplatform.github.io/Parse-SDK-iOS-OSX/api
 
 sections:
 - "ios/getting-started.md"

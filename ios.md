@@ -4,7 +4,7 @@ permalink: /ios/guide/
 layout: guide
 platform: iOS
 quickstart: https://parse.com/apps/quickstart
-api_reference: https://parse.com/docs/ios/api/
+api_reference: https://parseplatform.github.io/Parse-SDK-iOS-OSX/api
 
 redirect_from:
   - /ios/

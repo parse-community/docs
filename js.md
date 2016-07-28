@@ -4,7 +4,7 @@ permalink: /js/guide/
 layout: guide
 platform: JavaScript
 quickstart: https://parse.com/apps/quickstart
-api_reference: https://parse.com/docs/js/api/
+api_reference: https://parseplatform.github.io/Parse-SDK-JS/api
 
 sections:
 - "js/getting-started.md"
