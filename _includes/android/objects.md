@@ -6,7 +6,7 @@ Storing data on Parse is built around the `ParseObject`. Each `ParseObject` cont
 
 For example, let's say you're tracking high scores for a game. A single `ParseObject` could contain:
 
-<pre><code class="javascript">
+```javascript
 score: 1337, playerName: "Sean Plott", cheatMode: false
 ```
 
