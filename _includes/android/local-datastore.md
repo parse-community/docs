@@ -2,7 +2,7 @@
 
 The Parse Android SDK provides a local datastore which can be used to store and retrieve `ParseObject`s, even when the network is unavailable. To enable this functionality, simply call `Parse.enableLocalDatastore()` before your call to `initialize`.
 
-<pre><code class="java">
+```java
 import com.parse.Parse;
 import android.app.Application;
 
@@ -15,7 +15,7 @@ public class App extends Application {
     Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
   }
 }
-</code></pre>
+```
 
 There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `ParseObject`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `ParseQuery` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
 
@@ -28,26 +28,26 @@ Calling the `saveEventually` method on a `ParseObject` will cause the object to 
 You can store a `ParseObject` in the local datastore by pinning it. Pinning a `ParseObject` is recursive, just like saving, so any objects that are pointed to by the one you are pinning will also be pinned. When an object is pinned, every time you update it by fetching or saving new data, the copy in the local datastore will be updated
       automatically. You don't need to worry about it at all.
 
-<pre><code class="java">
+```java
 ParseObject gameScore = new ParseObject("GameScore");
 gameScore.put("score", 1337);
 gameScore.put("playerName", "Sean Plott");
 gameScore.put("cheatMode", false);
 
 gameScore.pinInBackground();
-</code></pre>
+```
 
 If you have multiple objects, you can pin them all at once with the `pinAllInBackground` convenience method.
 
-<pre><code class="java">
+```java
 ParseObject.pinAllInBackground(listOfObjects);
-</code></pre>
+```
 
 ## Retrieving Objects
 
 Storing objects is great, but it's only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the `fromLocalDatastore` method to tell the `ParseQuery` where to look for its results.
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
 query.fromLocalDatastore();
 query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
@@ -59,13 +59,13 @@ query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
         }
     }
 });
-</code></pre>
+```
 
 ## Querying
 
 Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [ParseQuery](#queries). Any `ParseQuery` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.whereEqualTo("playerName", "Joe Bob");
 query.fromLocalDatastore();
@@ -79,39 +79,39 @@ query.findInBackground(new FindCallback<ParseObject>() {
         }
     }
 });
-</code></pre>
+```
 
 ## Unpinning
 
 When you are done with an object and no longer need it to be in the local datastore, you can simply unpin it. This will free up disk space on the device and keep your queries on the local datastore running quickly.
 
-<pre><code class="java">
+```java
 gameScore.unpinInBackground();
-</code></pre>
+```
 
 There's also a method to unpin several objects at once.
 
-<pre><code class="java">
+```java
 ParseObject.unpinAllInBackground(listOfObjects);
-</code></pre>
+```
 
 ## Pinning with Labels
 
 Manually pinning and unpinning each object individual is a bit like using `malloc` and `free`. It is a very powerful tool, but it can be difficult to manage what objects get stored in complex scenarios. For example, imagine you are making a game with separate high score lists for global high scores and your friends' high scores. If one of your friends happens to have a globally high score, you need to make sure you don't unpin them completely when you remove them from one of the cached queries. To make these scenarios easier, you can also pin with a label. Labels indicate a group of objects that should be stored together.
 
-<pre><code class="java">
+```java
 // Add several objects with a label.
 ParseObject.pinAllInBackground("MyScores", someGameScores);
 
 // Add another object with the same label.
 anotherGameScore.pinInBackground("MyScores");
-</code></pre>
+```
 
 To unpin all of the objects with the same label at the same time, you can pass a label to the unpin methods. This saves you from having to manually track which objects are in each group you care about.
 
-<pre><code class="java">
+```java
 ParseObject.unpinAllInBackground("MyScores");
-</code></pre>
+```
 
 Any object will stay in the datastore as long as it is pinned with any label. In other words, if you pin an object with two different labels, and then unpin it with one label, the object will stay in the datastore until you also unpin it with the other label.
 
@@ -119,7 +119,7 @@ Any object will stay in the datastore as long as it is pinned with any label. In
 
 Pinning with labels makes it easy to cache the results of queries. You can use one label to pin the results of each different query. To get new results from the network, just do a query and update the pinned objects.
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
 query.orderByDescending(“score”);
 
@@ -135,11 +135,11 @@ query.findInBackground(new FindCallback<ParseObject>() {
   });
   }
 });
-</code></pre>
+```
 
 When you want to get the cached results for the query, you can then run the same query against the local datastore.
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
 query.orderByDescending(“score”);
 query.fromLocalDatastore();
@@ -149,19 +149,19 @@ query.findInBackground(new FindCallback<ParseObject>() {
     // Yay! Cached scores!
   }
 });
-</code></pre>
+```
 
 ## Syncing Local Changes
 
 Once you've saved some changes locally, there are a few different ways you can save those changes back to Parse over the network. The easiest way to do this is with `saveEventually`. When you call `saveEventually` on a `ParseObject`, it will be pinned until it can be saved. The SDK will make sure to save the object the next time the network is available.
 
-<pre><code class="java">
+```java
 gameScore.saveEventually();
-</code></pre>
+```
 
 If you'd like to have more control over the way objects are synced, you can keep them in the local datastore until you are ready to save them yourself using `saveInBackground`. To manage the set of objects that need to be saved, you can again use a label. The `fromPin` method on `ParseQuery` makes it easy to fetch just the objects you care about.
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
 query.fromPin(“MyChanges”);
 query.findInBackground(new FindCallback<ParseObject>() {
@@ -172,4 +172,4 @@ query.findInBackground(new FindCallback<ParseObject>() {
     }
   }
 });
-</code></pre>
+```

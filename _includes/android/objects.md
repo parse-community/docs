@@ -8,7 +8,7 @@ For example, let's say you're tracking high scores for a game. A single `ParseOb
 
 <pre><code class="javascript">
 score: 1337, playerName: "Sean Plott", cheatMode: false
-</code></pre>
+```
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and objects - anything that can be JSON-encoded.
 
@@ -18,20 +18,20 @@ Each `ParseObject` has a class name that you can use to distinguish different so
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `Map`, plus the `saveInBackground` method:
 
-<pre><code class="java">
+```java
 ParseObject gameScore = new ParseObject("GameScore");
 gameScore.put("score", 1337);
 gameScore.put("playerName", "Sean Plott");
 gameScore.put("cheatMode", false);
 gameScore.saveInBackground();
-</code></pre>
+```
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
 <pre><code class="javascript">
 objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
-</code></pre>
+```
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
@@ -41,7 +41,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
   public void done(ParseObject object, ParseException e) {
@@ -52,30 +52,30 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
     }
   }
 });
-</code></pre>
+```
 
 To get the values out of the `ParseObject`, there's a `getX` method for each data type:
 
-<pre><code class="java">
+```java
 int score = gameScore.getInt("score");
 String playerName = gameScore.getString("playerName");
 boolean cheatMode = gameScore.getBoolean("cheatMode");
-</code></pre>
+```
 
 If you don't know what type of data you're getting out, you can call `get(key)`, but then you probably have to cast it right away anyways. In most situations you should use the typed accessors like `getString`.
 
 The three special values have their own accessors:
 
-<pre><code class="java">
+```java
 String objectId = gameScore.getObjectId();
 Date updatedAt = gameScore.getUpdatedAt();
 Date createdAt = gameScore.getCreatedAt();
-</code></pre>
+```
 
 If you need to refresh an object you already have with the latest data that
     is in the cloud, you can call the `fetchInBackground` method like so:
 
-<pre><code class="java">
+```java
 myObject.fetchInBackground(new GetCallback<ParseObject>() {
   public void done(ParseObject object, ParseException e) {
     if (e == null) {
@@ -85,7 +85,7 @@ myObject.fetchInBackground(new GetCallback<ParseObject>() {
     }
   }
 });
-</code></pre>
+```
 
 The code in the `GetCallback` will be run on the main thread.
 
@@ -93,13 +93,13 @@ The code in the `GetCallback` will be run on the main thread.
 
 Parse also lets you store objects in a [local datastore](#local-datastore) on the Android device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, call `Parse.enableLocalDatastore()` in your `Application` constructor before calling `Parse.initialize()`. Once the local datastore is enabled, you can store an object by pinning it.
 
-<pre><code class="java">
+```java
 ParseObject gameScore = new ParseObject("GameScore");
 gameScore.put("score", 1337);
 gameScore.put("playerName", "Sean Plott");
 gameScore.put("cheatMode", false);
 gameScore.pinInBackground();
-</code></pre>
+```
 
 As with saving, this recursively stores every object and file that `gameScore` points to, if it has been fetched from the cloud. Whenever you save changes to the object, or fetch new changes from Parse, the copy in the datastore will be automatically updated, so you don't have to worry about it.
 
@@ -107,7 +107,7 @@ As with saving, this recursively stores every object and file that `gameScore` p
 
 Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a `ParseQuery` just like you would while on the network, but using the `fromLocalDatastore` method to tell it where to get the data.
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.fromLocalDatastore();
 query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
@@ -119,11 +119,11 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
     }
   }
 });
-</code></pre>
+```
 
 If you already have an instance of the object, you can instead use the `fetchFromLocalDatastoreInBackground` method.
 
-<pre><code class="java">
+```java
 ParseObject object = ParseObject.createWithoutData("GameScore", "xWMyZ4YEGZ");
 object.fetchFromLocalDatastoreInBackground(new GetCallback<ParseObject>() {
   public void done(ParseObject object, ParseException e) {
@@ -134,33 +134,33 @@ object.fetchFromLocalDatastoreInBackground(new GetCallback<ParseObject>() {
     }
   }
 });
-</code></pre>
+```
 
 ## Unpinning Objects
 
 When you are done with the object and no longer need to keep it on the device, you can release it with `unpinInBackground`.
 
-<pre><code class="java">
+```java
 gameScore.unpinInBackground();
-</code></pre>
+```
 
 ## Saving Objects Offline
 
 Most save functions execute immediately, and inform your app when the save is complete. If you don't need to know when the save has finished, you can use `saveEventually` instead. The advantage is that if the user currently doesn't have a network connection, `saveEventually` will store the update on the device until a network connection is re-established. If your app is closed before the connection is back, Parse will try again the next time the app is opened. All calls to `saveEventually` (and `deleteEventually`) are executed in the order they are called, so it is safe to call `saveEventually` on an object multiple times. If you have the local datastore enabled, then any object you `saveEventually` will be pinned as long as that save is in progress. That makes it easy to retrieve your local changes while waiting for the network to be available.
 
-<pre><code class="java">
+```java
 ParseObject gameScore = new ParseObject("GameScore");
 gameScore.put("score", 1337);
 gameScore.put("playerName", "Sean Plott");
 gameScore.put("cheatMode", false);
 gameScore.saveEventually();
-</code></pre>
+```
 
 ## Updating Objects
 
 Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the `objectId`, you can retrieve the `ParseObject` using a `ParseQuery` and update its data:
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 
 // Retrieve the object by id
@@ -175,7 +175,7 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
     }
   }
 });
-</code></pre>
+```
 
 Parse automatically figures out which data has changed so only "dirty" fields will be transmitted during a save. You don't need to worry about squashing data in the cloud that you didn't intend to update.
 
@@ -185,10 +185,10 @@ The above example contains a common use case. The "score" field is a counter tha
 
 To help with storing counter-type data, Parse provides methods that atomically increment (or decrement) any number field. So, the same update can be rewritten as:
 
-<pre><code class="java">
+```java
 gameScore.increment("score");
 gameScore.saveInBackground();
-</code></pre>
+```
 
 You can also increment by any amount using `increment(key, amount)`.
 
@@ -202,10 +202,10 @@ To help with storing array data, there are three operations that can be used to 
 
 For example, we can add items to the set-like "skills" field like so:
 
-<pre><code class="java">
+```java
 gameScore.addAllUnique("skills", Arrays.asList("flying", "kungfu"));
 gameScore.saveInBackground();
-</code></pre>
+```
 
 Note that it is not currently possible to atomically add and remove items from an array in the same save. You will have to call `save` in between every different kind of array operation.
 
@@ -213,21 +213,21 @@ Note that it is not currently possible to atomically add and remove items from a
 
 To delete an object from the Parse Cloud:
 
-<pre><code class="java">
+```java
 myObject.deleteInBackground();
-</code></pre>
+```
 
 If you want to run a callback when the delete is confirmed, you can provide a `DeleteCallback` to the `deleteInBackground` method. If you want to block the calling thread, you can use the `delete` method.
 
 You can delete a single field from an object with the `remove` method:
 
-<pre><code class="java">
+```java
 // After this, the playerName field will be empty
 myObject.remove("playerName");
 
 // Saves the field deletion to the Parse Cloud
 myObject.saveInBackground();
-</code></pre>
+```
 
 ## Relational Data
 
@@ -235,7 +235,7 @@ Objects can have relationships with other objects. To model this behavior, any `
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 
-<pre><code class="java">
+```java
 // Create the post
 ParseObject myPost = new ParseObject("Post");
 myPost.put("title", "I'm Hungry");
@@ -250,18 +250,18 @@ myComment.put("parent", myPost);
 
 // This will save both myPost and myComment
 myComment.saveInBackground();
-</code></pre>
+```
 
 You can also link objects using just their `objectId`s like so:
 
-<pre><code class="java">
+```java
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
 myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
-</code></pre>
+```
 
 By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
-<pre><code class="java">
+```java
 fetchedComment.getParseObject("post")
     .fetchIfNeededInBackground(new GetCallback<ParseObject>() {
         public void done(ParseObject post, ParseException e) {
@@ -269,26 +269,26 @@ fetchedComment.getParseObject("post")
           // Do something with your new title variable
         }
     });
-</code></pre>
+```
 
 You can also model a many-to-many relation using the `ParseRelation` object.  This works similar to `List<ParseObject>`, except that you don't need to download all the `ParseObject`s in a relation at once.  This allows `ParseRelation` to scale to many more objects than the `List<ParseObject>` approach.  For example, a `User` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `User` likes using `getRelation`.  In order to add a post to the list, the code would look something like:
 
-<pre><code class="java">
+```java
 ParseUser user = ParseUser.getCurrentUser();
 ParseRelation<ParseObject> relation = user.getRelation("likes");
 relation.add(post);
 user.saveInBackground();
-</code></pre>
+```
 
 You can remove a post from the `ParseRelation` with something like:
 
-<pre><code class="java">
+```java
 relation.remove(post);
-</code></pre>
+```
 
 By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by calling `findInBackground` on the `ParseQuery` returned by `getQuery`.  The code would look like:
 
-<pre><code class="java">
+```java
 relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
     void done(List<ParseObject> results, ParseException e) {
       if (e != null) {
@@ -298,14 +298,14 @@ relation.getQuery().findInBackground(new FindCallback<ParseObject>() {
       }
     }
 });
-</code></pre>
+```
 
 If you want only a subset of the `Post`s you can add extra constraints to the `ParseQuery` returned by `getQuery`.  The code would look something like:
 
-<pre><code class="java">
+```java
 ParseQuery<ParseObject> query = relation.getQuery();
 // Add other query constraints.
-</code></pre>
+```
 
  For more details on `ParseQuery`, please look at the [query portion of this guide](#queries).  A `ParseRelation` behaves similar to a `List<ParseObject>` for querying purposes, so any queries you can do on lists of objects (other than `include`) you can do on `ParseRelation`.
 
@@ -328,7 +328,7 @@ You can nest `JSONObject` and `JSONArray` objects to store more structured data 
 
 Some examples:
 
-<pre><code class="java">
+```java
 int myNumber = 42;
 String myString = "the number is " + myNumber;
 Date myDate = new Date();
@@ -349,7 +349,7 @@ bigObject.put("myArray", myArray);
 bigObject.put("myObject", myObject);
 bigObject.put("myNull", JSONObject.NULL);
 bigObject.saveInBackground();
-</code></pre>
+```
 
 We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See [Files](#files) for more details.
 
@@ -359,21 +359,21 @@ For more information about how Parse handles data, check out our documentation o
 
 Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `ParseObject` class and access any field with `get()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:
 
-<pre><code class="java">
+```java
 ParseObject shield = new ParseObject("Armor");
 shield.put("displayName", "Wooden Shield");
 shield.put("fireproof", false);
 shield.put("rupees", 50);
-</code></pre>
+```
 
 Into this:
 
-<pre><code class="java">
+```java
 Armor shield = new Armor();
 shield.setDisplayName("Wooden Shield");
 shield.setFireproof(false);
 shield.setRupees(50);
-</code></pre>
+```
 
 ### Subclassing ParseObject
 
@@ -385,7 +385,7 @@ To create a `ParseObject` subclass:
 4.  Call `ParseObject.registerSubclass(YourClass.class)` in your `Application` constructor before calling `Parse.initialize()`.
     The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
 
-<pre><code class="java">
+```java
 // Armor.java
 import com.parse.ParseObject;
 import com.parse.ParseClassName;
@@ -407,7 +407,7 @@ public class App extends Application {
     Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
   }
 }
-</code></pre>
+```
 
 ### Accessors, Mutators, and Methods
 
@@ -415,7 +415,7 @@ Adding methods to your `ParseObject` subclass helps encapsulate logic about the 
 
 You can add accessors and mutators for the fields of your `ParseObject` easily. Declare the getter and setter for the field as you normally would, but implement them in terms of `get()` and `put()`. The following example creates a `displayName` field in the `Armor` class:
 
-<pre><code class="java">
+```java
 // Armor.java
 @ParseClassName("Armor")
 public class Armor extends ParseObject {
@@ -426,7 +426,7 @@ public class Armor extends ParseObject {
     put("displayName", value);
   }
 }
-</code></pre>
+```
 
 You can now access the displayName field using `armor.getDisplayName()` and assign to it using `armor.setDisplayName("Wooden Sword")`. This allows your IDE to provide autocompletion as you develop your app and allows typos to be caught at compile-time.
 
@@ -434,7 +434,7 @@ Accessors and mutators of various types can be easily defined in this manner usi
 
 If you need more complicated logic than simple field access, you can declare your own methods as well:
 
-<pre><code class="java">
+```java
 public void takeDamage(int amount) {
   // Decrease the armor's durability and determine whether it has broken
   increment("durability", -amount);
@@ -442,7 +442,7 @@ public void takeDamage(int amount) {
     setBroken(true);
   }
 }
-</code></pre>
+```
 
 ### Initializing Subclasses
 
@@ -450,15 +450,15 @@ You should create new instances of your subclasses using the constructors you ha
 
 To create a reference to an existing object, use `ParseObject.createWithoutData()`:
 
-<pre><code class="java">
+```java
 Armor armorReference = ParseObject.createWithoutData(Armor.class, armor.getObjectId());
-</code></pre>
+```
 
 ### Queries
 
 You can get a query for objects of a particular subclass using the static method `ParseQuery.getQuery()`. The following example queries for armors that the user can afford:
 
-<pre><code class="java">
+```java
 ParseQuery<Armor> query = ParseQuery.getQuery(Armor.class);
 query.whereLessThanOrEqualTo("rupees", ParseUser.getCurrentUser().get("rupees"));
 query.findInBackground(new FindCallback<Armor>() {
@@ -469,4 +469,4 @@ query.findInBackground(new FindCallback<Armor>() {
     }
   }
 });
-</code></pre>
+```

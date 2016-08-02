@@ -6,27 +6,27 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you first need to create a `ParseGeoPoint`.  For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:
 
-<pre><code class="java">
+```java
 ParseGeoPoint point = new ParseGeoPoint(40.0, -30.0);
-</code></pre>
+```
 
 This point is then stored in the object as a regular field.
 
-<pre><code class="java">
+```java
 placeObject.put("location", point);
-</code></pre>
+```
 
 ## Geo Queries
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `ParseQuery` using `whereNear`.  Getting a list of ten places that are closest to a user may look something like:
 
-<pre><code class="java">
+```java
 ParseGeoPoint userLocation = (ParseGeoPoint) userObject.get("location");
 ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceObject");
 query.whereNear("location", userLocation);
 query.setLimit(10);
 query.findInBackground(new FindCallback<ParseObject>() { ... });
-</code></pre>
+```
 
 At this point `nearPlaces` will be an array of objects ordered by distance (nearest to farthest) from `userLocation`. Note that if an additional `orderByAscending()`/`orderByDescending()` constraint is applied, it will take precedence over the distance ordering.
 
@@ -34,13 +34,13 @@ To limit the results using distance, check out `whereWithinKilometers`, `whereWi
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `whereWithinGeoBox` restriction to your `ParseQuery`.
 
-<pre><code class="java">
+```java
 ParseGeoPoint southwestOfSF = new ParseGeoPoint(37.708813, -122.526398);
 ParseGeoPoint northeastOfSF = new ParseGeoPoint(37.822802, -122.373962);
 ParseQuery<ParseObject> query = ParseQuery.getQuery("PizzaPlaceObject");
 query.whereWithinGeoBox("location", southwestOfSF, northeastOfSF);
 query.findInBackground(new FindCallback<ParseObject>() { ... });
-</code></pre>
+```
 
 ## Caveats
 
