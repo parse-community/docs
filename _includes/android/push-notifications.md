@@ -476,7 +476,7 @@ Basically, you will need to run the same push query you're using for your target
 
 The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](/docs/rest#queries-constraints) over `ParseInstallation`s would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
-<pre><code class="bash">
+```bash
 # Query over installations
 curl -X GET \
 -H "X-Parse-Application-Id: {YOUR_APPLICATION_ID}" \
@@ -489,7 +489,7 @@ https://api.parse.com/1/installations
 
 If you type the above into a console, you should be able to see the first 1,000 objects that match your query. Note that constraints are always ANDed, so if you want to further reduce the search scope, you can add a constraint that matches the specific installation for your device:
 
-<pre><code class="bash">
+```bash
 # Query over installations
 curl -X GET \
 -H "X-Parse-Application-Id: {YOUR_APPLICATION_ID}" \
