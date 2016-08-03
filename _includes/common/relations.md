@@ -234,7 +234,7 @@ let weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit]
 // store the weapons for the user
 let user = PFUser.currentUser()
 user["weaponsList"] = weapons
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```php
