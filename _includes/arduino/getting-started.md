@@ -6,11 +6,9 @@ The Parse platform provides a complete backend solution for your hardware device
 
 Note that the Arduino SDK only contains a subset of Parse features found in mobile and desktop. This allows the SDK to be smaller in size and more performant, making it suitable for constrained embedded environments. The Arduino SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary. Check out the[ GitHub repository](https://github.com/ParsePlatform/parse-embedded-sdks) for more information.
 
-On Parse, you create an App for each of your mobile and embedded applications. Each App has its own application id and client key that you apply to your SDK install. Your account on Parse can accommodate multiple Apps. This is useful even if you have one application, since you can deploy different versions for test and production.
-
 ## Initialization
 
-In order for Parse to know which app is associated with the Arduino device, simply specify the application ID and client key in your`setup` function:
+In order for Parse to know which app is associated with the Arduino device, simply specify the application ID and client key in your `setup` function:
 
 ```cpp
 void setup() {
@@ -19,4 +17,4 @@ void setup() {
 }
 ```
 
-After this, all calls to the Parse cloud will use the specified app.
+After this, all calls to the Parse Server will use the specified app.

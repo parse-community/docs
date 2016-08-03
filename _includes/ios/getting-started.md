@@ -1,7 +1,3 @@
 # Getting Started
 
-If you haven't installed the SDK yet, please [head over to the QuickStart guide]({{ page.quickstart }}#parse_data/mobile/ios/native/new) to get our SDK up and running in Xcode. Note that we support iOS 7.0 and higher. You can also check out our [iOS API Reference](https://parse.com/docs/ios/api) and [OS X API Reference](https://parse.com/docs/osx/api) for more detailed information about our SDK.
-
-The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.
-
-On Parse, you create an App for each of your mobile applications. Each App has its own application id and client key that you apply to your SDK install. Your account on Parse can accommodate multiple Apps. This is useful even if you have one application, since you can deploy different versions for test and production.
+If you haven't installed the SDK yet, please [head over to the QuickStart guide]({{ page.quickstart }}#parse_data/mobile/ios/native/new) to get our SDK up and running in Xcode. Note that we support iOS 7.0 and higher. You can also check out our [iOS and macOS API Reference](/Parse-SDK-iOS-OSX/api) for more detailed information about our SDK.

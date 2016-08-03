@@ -686,8 +686,8 @@
 							if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
 									new App.Views.Docs.Toggle({
 											parent: this.scrollContent,
-											opt1: 'objectivec', // was objc
-											opt2: 'swift', // was swift
+											opt1: 'objectivec',
+											opt2: 'swift',
 											label1: 'Objective-C',
 											label2: 'Swift',
 											onChange: this.handleToggleChange.bind(this)
@@ -732,22 +732,15 @@
 							$('.common-lang-block').hide();
 							switch (this.platform) {
 									case 'ios':
-											$('.common-lang-block.objc').show();
-											$('.common-lang-block.swift').show();
-											break;
 									case 'osx':
-											$('.common-lang-block.objc').show();
+									case 'macos':
+											$('.common-lang-block.objectivec').show();
 											$('.common-lang-block.swift').show();
 											break;
 									case 'android':
 											$('.common-lang-block.java').show();
 											break;
-									case 'js':
-											$('.common-lang-block.js').show();
-											break;
 									case 'dotnet':
-											$('.common-lang-block.csharp').show();
-											break;
 									case 'unity':
 											$('.common-lang-block.csharp').show();
 											break;
@@ -758,12 +751,11 @@
 											$('.common-lang-block.bash').show();
 											$('.common-lang-block.python').show();
 											break;
-									case 'cloudcode':
-											$('.common-lang-block.js').show();
-											break;
 									case 'arduino':
 											$('.common-lang-block.cpp').show();
 											break;
+									case 'cloudcode':
+									case 'js':
 									default:
 											$('.common-lang-block.js').show();
 							}

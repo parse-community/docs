@@ -295,7 +295,7 @@ Restricted sessions are prohibited from creating, modifying, or deleting any dat
 
 If you want to prevent restricted Sessions from modifying classes other than `User`, `Session`, or `Role`, you can write a Cloud Code `beforeSave` handler for that class:
 
-<pre><code class="javascript">
+```js
 Parse.Cloud.beforeSave("MyClass", function(request, response) {
   Parse.Session.current().then(function(session) {
     if (session.get('restricted')) {
@@ -304,7 +304,7 @@ Parse.Cloud.beforeSave("MyClass", function(request, response) {
     response.success();
   });
 });
-</code></pre>
+```
 You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the `Session` API, but do not restrict Parse Cloud's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:
 
 * **Find**, **Delete** — Useful for building a UI screen that allows users to see their active session on all devices, and log out of sessions on other devices. If your app does not have this feature, you should disable these permissions.

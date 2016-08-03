@@ -7,5 +7,3 @@ The Parse platform provides a complete backend solution for your mobile applicat
 The Parse PHP SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary.  Check out the [GitHub repository](https://github.com/ParsePlatform/parse-php-sdk) for more information.
 
 The Parse PHP SDK requires version 5.4 or greater of the PHP runtime.
-
-On Parse, you create an App for each of your applications. Each App has its own application id and REST API key that you apply to your web app. Your account on Parse can accommodate multiple Apps. This is useful even if you have one application, since you can deploy different versions for test and production.
