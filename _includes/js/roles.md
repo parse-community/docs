@@ -20,22 +20,22 @@ The `Parse.Role` uses the same security scheme (ACLs) as all other objects on Pa
 
 To create a new `Parse.Role`, you would write:
 
-<pre><code class="javascript">
+````javascript
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 var roleACL = new Parse.ACL();
 roleACL.setPublicReadAccess(true);
 var role = new Parse.Role("Administrator", roleACL);
 role.save();
-</code></pre>
+````
 
 You can add users and roles that should inherit your new role's permissions through the "users" and "roles" relations on `Parse.Role`:
 
-<pre><code class="javascript">
+````javascript
 var role = new Parse.Role(roleName, roleACL);
 role.getUsers().add(usersToAddToRole);
 role.getRoles().add(rolesToAddToRole);
 role.save();
-</code></pre>
+````
 
 Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
@@ -45,24 +45,24 @@ Now that you have created a set of roles for use in your application, you can us
 
 Giving a role read or write permission to an object is straightforward.  You can either use the `Parse.Role`:
 
-<pre><code class="javascript">
+````javascript
 var moderators = /* Query for some Parse.Role */;
 var wallPost = new Parse.Object("WallPost");
 var postACL = new Parse.ACL();
 postACL.setRoleWriteAccess(moderators, true);
 wallPost.setACL(postACL);
 wallPost.save();
-</code></pre>
+````
 
 You can avoid querying for a role by specifying its name for the ACL:
 
-<pre><code class="javascript">
+````javascript
 var wallPost = new Parse.Object("WallPost");
 var postACL = new Parse.ACL();
 postACL.setRoleWriteAccess("Moderators", true);
 wallPost.setACL(postACL);
 wallPost.save();
-</code></pre>
+````
 
 ## Role Hierarchy
 
@@ -70,9 +70,9 @@ As described above, one role can contain another, establishing a parent-child re
 
 These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators", like this:
 
-<pre><code class="javascript">
+````javascript
 var administrators = /* Your "Administrators" role */;
 var moderators = /* Your "Moderators" role */;
 moderators.getRoles().add(administrators);
 moderators.save();
-</code></pre>
+````

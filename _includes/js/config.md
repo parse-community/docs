@@ -4,7 +4,7 @@
 
 After that you will be able to fetch the `Parse.Config` on the client, like in this example:
 
-<pre><code class="javascript">
+````javascript
 Parse.Config.get().then(function(config) {
   var winningNumber = config.get("winningNumber");
   var message = "Yay! The number is " + winningNumber + "!";
@@ -12,13 +12,13 @@ Parse.Config.get().then(function(config) {
 }, function(error) {
   // Something went wrong (e.g. request timed out)
 });
-</code></pre>
+````
 
 ## Retrieving Config
 
 `ParseConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `get` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `current`.
 
-<pre><code class="javascript">
+````javascript
 Parse.Config.get().then(function(config) {
   console.log("Yay! Config was fetched from the server.");
 
@@ -34,7 +34,7 @@ Parse.Config.get().then(function(config) {
   }
   console.log("Welcome Message = " + welcomeMessage);
 });
-</code></pre>
+````
 
 ## Current Config
 
@@ -42,7 +42,7 @@ Every `Parse.Config` instance that you get is always immutable. When you retriev
 
 It might be troublesome to retrieve the config from the server every time you want to use it. You can avoid this by simply using the cached `current()` object and fetching the config only once in a while.
 
-<pre><code class="javascript">
+````javascript
 // Fetches the config at most once every 12 hours per app runtime
 var refreshConfig = function() {
   var lastFetchedDate;
@@ -56,7 +56,7 @@ var refreshConfig = function() {
     }
   };
 }();
-</code></pre>
+````
 
 ## Parameters
 

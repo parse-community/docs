@@ -10,7 +10,7 @@ Parse's Unity SDK makes heavy use of a subset of the [Task-based Asynchronous Pa
 ## Adding `link.xml`
 
 Create a file and name it `link.xml` under your Assets folder and put the following code to make sure Parse Unity SDK works with Unity code optimization pipeline:
-</code></pre>xml
+````xml
 <linker>
   <assembly fullname="UnityEngine">
     <type fullname="UnityEngine.iOS.NotificationServices" preserve="all"/>
@@ -24,4 +24,4 @@ Create a file and name it `link.xml` under your Assets folder and put the follow
     <namespace fullname="Parse.Internal" preserve="all"/>
   </assembly>
 </linker>
-</code></pre>
+````

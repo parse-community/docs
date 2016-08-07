@@ -50,7 +50,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
@@ -96,7 +96,7 @@ query.equalTo("cheatMode", false);
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("cheatMode", equalTo: false)
 ```
 {: .common-lang-block .swift }
@@ -172,7 +172,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("playerName", notEqualTo: "Michael Yabuti")
 query.findObjectsInBackgroundWithBlock {
@@ -233,7 +233,7 @@ PFQuery *query = [PFUser query];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
 ```
@@ -274,7 +274,7 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 ```
 {: .common-lang-block .swift }
@@ -324,7 +324,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("GameScore")
 // Previously retrieved highScore for Michael Yabuti
 query.whereKey("score", greaterThan: highScore)
@@ -388,7 +388,7 @@ PFQuery *query = [PFUser query];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 var query = PFUser.query()
 query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
 ```
@@ -428,7 +428,7 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
 ```
 {: .common-lang-block .swift }
@@ -471,7 +471,7 @@ query.matches("playerName", "Michael", “i”);
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
 ```
 {: .common-lang-block .swift }
@@ -508,7 +508,7 @@ query.contains("playerName", "Michael");
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("playerName", containsString: "Michael")
 ```
 {: .common-lang-block .swift }
@@ -545,7 +545,7 @@ query.startsWith("playerName", "Michael");
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("playerName", hasPrefix: "Michael")
 ```
 {: .common-lang-block .swift }
@@ -584,7 +584,7 @@ query.matches("playerName", "^Michael");
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.whereKey("playerName", matchesRegex: "^Michael")
 ```
 {: .common-lang-block .swift }
@@ -627,7 +627,7 @@ query.limit = 10; // limit to at most 10 results
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 query.limit = 10 // limit to at most 10 results
 ```
 {: .common-lang-block .swift }
@@ -674,7 +674,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Place"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("Place")
 query.whereKey("location", nearGeoPoint: userGeoPoint, withinMiles: 10.0)
 query.findObjectsInBackgroundWithBlock {
@@ -740,7 +740,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.selectKeys(["score", "playerName"])
 query.findObjectsInBackgroundWithBlock {
@@ -835,7 +835,7 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The Matrix"]) {
   (ratings, error) in
   if !error {
@@ -913,7 +913,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("Review")
 // movieId corresponds to a given movie's id
 query.whereKey("movie", equalTo: movieId)
@@ -1001,7 +1001,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("Movie")
 query.findObjectsInBackgroundWithBlock {
   (objects, error) in
@@ -1098,7 +1098,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Post"];
 ```
 {: .common-lang-block .objc }
 
-<pre><code class="swift">
+````swift
 let query = PFQuery.queryWithClassName("Post")
 query.whereKey("hashtags", containsAllObjectsInArray: ["#parse", "#ftw"])
 query.findObjectsInBackgroundWithBlock {

@@ -6,15 +6,15 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you first need to create a `ParseGeoPoint`.  For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:
 
-<pre><code class="php">
+````php
 $point = new ParseGeoPoint(40.0, -30.0);
-</code></pre>
+````
 
 This point is then stored in the object as a regular field.
 
-<pre><code class="php">
+````php
 $placeObject->set("location", $point);
-</code></pre>
+````
 
 Note: Currently only one key in a class may be a `ParseGeoPoint`.
 
@@ -22,7 +22,7 @@ Note: Currently only one key in a class may be a `ParseGeoPoint`.
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `ParseQuery` using `near`.  Getting an array of ten places that are closest to a user may look something like:
 
-<pre><code class="php">
+````php
 // User's location
 $userGeoPoint = $userObject->get("location");
 // Create a query for places
@@ -33,7 +33,7 @@ $query->near("location", $userGeoPoint);
 $query->limit(10);
 // Final array of objects
 $placesObjects = $query->find();
-</code></pre>
+````
 
 At this point `$placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `$userGeoPoint`. Note that if an additional `ascending()`/`descending()` order-by constraint is applied, it will take precedence over the distance ordering.
 
@@ -41,14 +41,14 @@ To limit the results using distance, check out `withinMiles`, `withinKilometers`
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `ParseQuery`.
 
-<pre><code class="php">
+````php
 $southwestOfSF = new ParseGeoPoint(37.708813, -122.526398);
 $northeastOfSF = new ParseGeoPoint(37.822802, -122.373962);
 
 $query = new ParseQuery("PizzaPlaceObject");
 $query->withinGeoBox("location", $southwestOfSF, $northeastOfSF);
 $pizzaPlacesInSF = $query->find();
-</code></pre>
+````
 
 ## Caveats
 

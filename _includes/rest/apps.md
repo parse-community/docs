@@ -22,14 +22,14 @@ and use the header `X-Parse-Account-Key` instead.
 To fetch the keys and settings for all of the apps that you are a collaborator
 on, run:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Email: <PARSE_ACCOUNT_EMAIL>" \
   -H "X-Parse-Password: <PARSE_ACCOUNT_PASSWORD>" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/apps
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -40,11 +40,11 @@ connection.request('GET', '/1/apps', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 The response body is JSON containing the keys and settings for your apps.
 
-<pre><code class="json">
+````json
 {
   "results": [
     {
@@ -64,18 +64,18 @@ The response body is JSON containing the keys and settings for your apps.
     ...
   ]
 }
-</code></pre>
+````
 
 To fetch the keys and settings of a single app, run:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Email: <PARSE_ACCOUNT_EMAIL>" \
   -H "X-Parse-Password: <PARSE_ACCOUNT_PASSWORD>" \
   -H "Content-Type: application/json" \
   https://api.parse.com/1/apps/${APPLICATION_ID}
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -86,7 +86,7 @@ connection.request('GET', '/1/apps/${APPLICATION_ID}', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 ## Creating apps
 
@@ -105,15 +105,15 @@ The default values for the allowable settings are:
 | `requireRevocableSessions`      | true          |
 | `revokeSessionOnPasswordChange` | true          |
 
-<pre><code class="bash">
+````bash
 curl -X POST \
   -H "X-Parse-Email: <PARSE_ACCOUNT_EMAIL>" \
   -H "X-Parse-Password: <PARSE_ACCOUNT_PASSWORD>" \
   -H "Content-Type: application/json" \
   -d '{"appName":"my new app","clientClassCreationEnabled":false}' \
   https://api.parse.com/1/apps
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -126,21 +126,21 @@ connection.request('POST', '/1/apps', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 ## Updating apps
 
 You can change your app's name, as well as change your app's settings, by sending a PUT request to `/1/apps`:
 
-<pre><code class="bash">
+````bash
 curl -X PUT \
   -H "X-Parse-Email: ${PARSE_ACCOUNT_EMAIL}" \
   -H "X-Parse-Password: <PARSE_ACCOUNT_PASSWORD>" \
   -H "Content-Type: application/json" \
   -d '{"appName":"updated app name","clientClassCreationEnabled":true}' \
   https://api.parse.com/1/apps/${APPLICATION_ID}
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -153,4 +153,4 @@ connection.request('PUT', '/1/apps/${APPLICATION_ID}', json.dumps(
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````

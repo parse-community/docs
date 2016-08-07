@@ -14,16 +14,16 @@ If you are using Parse to manage users in your mobile app, you are already famil
 
 You use the `PFLogInViewController` class by instantiating it and presenting it modally:
 
-<pre><code class="objectivec">
+````objectivec
 PFLogInViewController *logInController = [[PFLogInViewController alloc] init];
 logInController.delegate = self;
 [self presentViewController:logInController animated:YES completion:nil];
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 var logInController = PFLogInViewController()
 logInController.delegate = self
 self.presentViewController(logInController, animated:true, completion: nil)
-</code></pre>
+````
 
 ### Configuring the Log In Elements
 
@@ -39,20 +39,20 @@ self.presentViewController(logInController, animated:true, completion: nil)
 
 Any of the above features can be turned on or off. The options can be set using the `fields` property on `PFLogInViewController`:
 
-<pre><code class="objectivec">
+````objectivec
   logInController.fields = (PFLogInFieldsUsernameAndPassword
                            | PFLogInFieldsLogInButton
                            | PFLogInFieldsSignUpButton
                            | PFLogInFieldsPasswordForgotten
                            | PFLogInFieldsDismissButton);
-</code></pre>
-<pre><code class="swift">
+````
+````swift
   logInController.fields = [PFLogInFields.UsernameAndPassword,
                             PFLogInFields.LogInButton,
                             PFLogInFields.SignUpButton,
                             PFLogInFields.PasswordForgotten,
                             PFLogInFields.DismissButton]
-</code></pre>
+````
 
 Essentially, you create an array of all the options you want to include in the log in screen, and assign the value to `fields`.
 
@@ -63,37 +63,37 @@ In addition, there are a number of other options that can be turned on, includin
 
 Similarly, you can turn on Facebook or Twitter log in as such:
 
-<pre><code class="objectivec">
+````objectivec
 logInController.fields = (PFLogInFieldsUsernameAndPassword
                           | PFLogInFieldsFacebook
                           | PFLogInFieldsTwitter);
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 logInController.fields = [PFLogInFields.UsernameAndPassword,
                            PFLogInFields.Facebook,
                            PFLogInFields.Twitter]
-</code></pre>
+````
 
 The above code would produce a log in screen that includes username, password, Facebook and Twitter buttons. Facebook log in permissions can be set via the `facebookPermissions`.
 
-<pre><code class="objectivec">
+````objectivec
 PFLogInViewController *logInController = [[PFLogInViewController alloc] init];
 logInController.delegate = self;
 logInController.facebookPermissions = @[ @"friends_about_me" ];
 [self presentViewController:logInController animated:YES completion:nil];
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 var logInController = PFLogInViewController()
 logInController.delegate = self
 logInController.facebookPermissions = [ "friends_about_me" ]
 self.presentViewController(logInController, animated:true, completion:nil)
-</code></pre>
+````
 
 ### Responding to Log In Success, Failure or Cancellation
 
 When the user signs in or cancels, the `PFLogInViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFLogInViewController`. Additionally, the delegate could possibly update its own views or forward the message to the other components that need to know about the `PFUser`.
 
-<pre><code class="objectivec">
+````objectivec
 - (void)logInViewController:(PFLogInViewController *)controller
                didLogInUser:(PFUser *)user {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -102,8 +102,8 @@ When the user signs in or cancels, the `PFLogInViewController` notifies the dele
 - (void)logInViewControllerDidCancelLogIn:(PFLogInViewController *)logInController {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser!) -> Void {
   self.dismissViewControllerAnimated(true, completion: nil)
 }
@@ -111,7 +111,7 @@ func logInViewController(controller: PFLogInViewController, didLogInUser user: P
 func logInViewControllerDidCancelLogIn(controller: PFLogInViewController) -> Void {
   self.dismissViewControllerAnimated(true, completion: nil)
 }
-</code></pre>
+````
 
 Besides the delegate pattern, the `PFLogInViewController` also supports `NSNotification`s, which is useful if there are multiple observers of the sign in events.
 
@@ -119,7 +119,7 @@ Besides the delegate pattern, the `PFLogInViewController` also supports `NSNotif
 
 You might want to use your own logo or background image. You can achieve this by subclassing `PFLogInViewController` and overriding `viewDidLoad` method:
 
-<pre><code class="objectivec">
+````objectivec
 @interface MyLogInViewController : PFLogInViewController
 
 @end
@@ -135,8 +135,8 @@ You might want to use your own logo or background image. You can achieve this by
     self.logInView.logo = logoView; // logo can be any UIView
 }
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 class MyLogInViewController : PFLogInViewController {
 
   override func viewDidLoad() {
@@ -149,26 +149,26 @@ class MyLogInViewController : PFLogInViewController {
   }
 
 }
-</code></pre>
+````
 
 If you would like to modify the logo and the background of the associated sign up view, you will need to subclass `PFSignUpViewController` and create an instance of the subclass and assign it to the `signUpController` as soon as you instantiate `PFLogInViewController`:
 
-<pre><code class="objectivec">
+````objectivec
 MyLogInViewController *logInController = [[MyLogInViewController alloc] init];
 logInController.signUpController = [[MySignUpViewController alloc] init];
 [self presentViewController:logInController animated:YES completion:nil];
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 let logInController = MyLogInViewController()
 logInController.signUpController = MySignUpViewController()
 self.presentViewController(logInController, animated: true, completion: nil)
-</code></pre>
+````
 
 ### Further View Customization
 
 Occasionally you might want to customize `PFLogInViewController` further. For example, you might want to change the placeholder text to "Email" or change the size of the login button. In both cases, you need to subclass `PFLogInViewController` and override either `viewDidLoad` or `viewDidLayoutSubviews`. Override the former if the behavior is not related to layout, and override the latter otherwise:
 
-<pre><code class="objectivec">
+````objectivec
 @interface MyLogInViewController : PFLogInViewController
 
 @end
@@ -186,8 +186,8 @@ Occasionally you might want to customize `PFLogInViewController` further. For ex
 }
 
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 class MyLogInViewController : PFLogInViewController {
 
   override func viewDidLoad() {
@@ -203,7 +203,7 @@ class MyLogInViewController : PFLogInViewController {
   }
 
 }
-</code></pre>
+````
 
 Developers interested in this kind of customization should take a look at the interface of [`PFLogInView`](ios/api/Classes/PFLogInView.html), where all customizable properties are documented.
 
@@ -221,16 +221,16 @@ If you are using `PFLogInViewController` with the `PFLogInFieldsSignUpButton` op
 
 You use `PFSignUpViewController` by instantiating it and presenting it modally:
 
-<pre><code class="objectivec">
+````objectivec
 PFSignUpViewController *signUpController = [[PFSignUpViewController alloc] init];
 signUpController.delegate = self;
 [self presentViewController:signUpController animated:YES completion:nil];
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 let signUpController = PFSignUpViewController()
 signUpController.delegate = self
 self.presentViewController(signUpController, animated: true, completion: nil)
-</code></pre>
+````
 
 That is all you need to do to get a functional sign up screen.
 
@@ -247,20 +247,20 @@ That is all you need to do to get a functional sign up screen.
 
 If your sign up screen requires an additional field on top of the default ones, such as "phone number", you can turn on a field called named "additional":
 
-<pre><code class="objectivec">
+````objectivec
 signUpController.fields = (PFSignUpFieldsUsernameAndPassword
                           | PFSignUpFieldsSignUpButton
                           | PFSignUpFieldsEmail
                           | PFSignUpFieldsAdditional
                           | PFSignUpFieldsDismissButton);
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 signUpController.fields = (PFSignUpFields.UsernameAndPassword
                           | PFSignUpFields.SignUpButton
                           | PFSignUpFields.Email
                           | PFSignUpFields.Additional
                           | PFSignUpFields.DismissButton)
-</code></pre>
+````
 
 Essentially, you use the bitwise or operator (`|`) to chain up all the options you want to include in the sign up screen, and assign the value to `fields`. Similarly, you can turn off any field by omitting it in the assignment to fields.
 
@@ -268,7 +268,7 @@ Essentially, you use the bitwise or operator (`|`) to chain up all the options y
 
 When the user signs up or cancels, the `PFSignUpViewController` notifies the delegate of the event. Upon receiving this callback, the delegate should, at a minimum, dismiss `PFSignUpViewController`. Additionally, the delegate could update its own views or forward the message to the other components that need to know about the `PFUser`.
 
-<pre><code class="objectivec">
+````objectivec
 - (void)signUpViewController:(PFSignUpViewController *)signUpController didSignUpUser:(PFUser *)user {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -276,8 +276,8 @@ When the user signs up or cancels, the `PFSignUpViewController` notifies the del
 - (void)signUpViewControllerDidCancelSignUp:(PFSignUpViewController *)signUpController {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 func signUpViewController(signUpController: PFSignUpViewController, didSignUpUser user: PFUser) -> Void {
   self.dismissViewControllerAnimated(true, completion: nil)
 }
@@ -285,7 +285,7 @@ func signUpViewController(signUpController: PFSignUpViewController, didSignUpUse
 func signUpViewControllerDidCancelSignUp(signUpController: PFSignUpViewController) -> Void {
   self.dismissViewControllerAnimated(true, completion: nil)
 }
-</code></pre>
+````
 
 Besides the delegate pattern, the `PFSignUpViewController` also supports `NSNotification`s, which is useful when there are multiple listeners of the sign up events.
 
@@ -293,7 +293,7 @@ Besides the delegate pattern, the `PFSignUpViewController` also supports `NSNoti
 
 You might want to use your own logo or background image. You can achieve this by subclassing `PFSignUpViewController` and overriding `viewDidLoad`:
 
-<pre><code class="objectivec">
+````objectivec
 @interface MySignUpViewController : PFSignUpViewController
 
 @end
@@ -310,8 +310,8 @@ You might want to use your own logo or background image. You can achieve this by
 }
 
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 class MySignUpViewController : PFSignUpViewController {
 
   override func viewDidLoad() {
@@ -323,20 +323,20 @@ class MySignUpViewController : PFSignUpViewController {
     self.signUpView.logo = logoView // 'logo' can be any UIView
   }
 }
-</code></pre>
+````
 
 ### Customizing Validation Logic
 
 Often you will want to run some client-side validation on the sign up information before submitting it to the Parse Cloud. You can add your validation logic in the `signUpViewController:shouldBeginSignUp:` method in the `PFSignUpViewControllerDelegate`. For example, if you decide any password less than 8 characters is too short, you can achieve the following with:
 
-<pre><code class="objectivec">
+````objectivec
 - (BOOL)signUpViewController:(PFSignUpViewController *)signUpController
            shouldBeginSignUp:(NSDictionary *)info {
     NSString *password = info[@"password"];
     return (password.length >= 8); // prevent sign up if password has to be at least 8 characters long
 }
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 func signUpViewController(signUpController: PFSignUpViewController!,
                           shouldBeginSignUp info: [NSObject : AnyObject]!) -> Bool {
     if let password = info?["password"] as? String {
@@ -344,14 +344,14 @@ func signUpViewController(signUpController: PFSignUpViewController!,
     }
     return false
 }
-</code></pre>
+````
 `info` is a dictionary that contains all sign up fields, such as username, password, email, and additional.
 
 ### Further View Customization
 
 Occasionally you might want to customize `PFSignUpViewController` further. For example, you might want to change the "additional" placeholder text to "Phone" or change the size of the signup button. You can always subclass `PFSignUpViewController` and override `UIViewController`'s various methods. You should override the `viewDidLoad` if the behavior you want to change is unrelated to view layout, and override `viewDidLayoutSubviews` otherwise:
 
-<pre><code class="objectivec">
+````objectivec
 @interface MySignUpViewController : PFSignUpViewController
 
 @end
@@ -369,8 +369,8 @@ Occasionally you might want to customize `PFSignUpViewController` further. For e
 }
 
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 class MySignUpViewController : PFSignUpViewController {
 
   override func viewDidLoad() {
@@ -386,7 +386,7 @@ class MySignUpViewController : PFSignUpViewController {
   }
 
 }
-</code></pre>
+````
 
 Developer interested in this kind of customization should take a look at the interface of [`PFSignUpView`](ios/api/Classes/PFSignUpView.html), where all customizable properties are documented.
 
@@ -423,7 +423,7 @@ The class allows you to think about a one-to-one mapping between a `PFObject` an
 
 The easiest way to understand this class is with an example. This subclass of `PFQueryTableViewController` displays a series of Todo items and their numeric priorities:
 
-<pre><code class="objectivec">
+````objectivec
 @interface SimpleTableViewController : PFQueryTableViewController
 
 @end
@@ -474,8 +474,8 @@ The easiest way to understand this class is with an example. This subclass of `P
 }
 
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 class SimpleTableViewController : PFQueryTableViewController {
 
     override init(style: UITableViewStyle, className: String?) {
@@ -526,7 +526,7 @@ class SimpleTableViewController : PFQueryTableViewController {
         return cell
     }
 }
-</code></pre>
+````
 
 <img src="https://parse.com/images/docs/todo_view.png" style="max-width:200px"/>
 
@@ -540,7 +540,7 @@ A good starting point to learn more is to look at the [API for the class](/image
 
 `PFQueryTableViewController` makes it simple to display remote images stored in the Parse Cloud as `PFFile`s. All you need to do is to override `tableView:cellForRowAtIndexPath:object:` and return a `PFTableViewCell` with its `imageView`'s `file` property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the `image` property of the `imageView`.
 
-<pre><code class="objectivec">
+````objectivec
 @implementation SimpleTableViewController
 
 - (UITableViewCell *)tableView:(UITableView *)tableView  cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -556,8 +556,8 @@ A good starting point to learn more is to look at the [API for the class](/image
     return cell;
 }
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
     let identifier = "cell"
 
@@ -574,7 +574,7 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
 
     return cell
 }
-</code></pre>
+````
 
 <img src="https://parse.com/images/docs/images_table.png" style="max-width:200px"/>
 
@@ -628,20 +628,20 @@ When the user is offline or a Parse error was generated from a query, an alert c
 
 Many apps need to display images stored in the Parse Cloud as `PFFile`s. However, to load remote images with the built-in `UIImageView` involves writing many lines of boilerplate code. `PFImageView` simplifies this task:
 
-<pre><code class="objectivec">
+````objectivec
 PFImageView *imageView = [[PFImageView alloc] init];
 imageView.image = [UIImage imageNamed:@"..."]; // placeholder image
 imageView.file = (PFFile *)someObject[@"picture"]; // remote image
 
 [imageView loadInBackground];
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 let imageView = PFImageView()
 imageView.image = UIImage(named: "...") // placeholder image
 imageView.file = someObject.picture // remote image
 
 imageView.loadInBackground()
-</code></pre>
+````
 
 If assigned to, the `image` property is used to display a placeholder before the remote image is downloaded. Note that the download does not start as soon as the `file` property is assigned to, but the loading only begins when `loadInBackground:` is called. The remote image is cached both in memory and on disc. If the image is found in cache, the call to `loadInBackground:` would return immediately.
 
@@ -649,7 +649,7 @@ If assigned to, the `image` property is used to display a placeholder before the
 
 Many apps need to display table view cells which contain images stored in the Parse Cloud as `PFFile`s. However, to load remote images with the built-in `UITableViewCell` involves writing many lines of boilerplate code. `PFTableViewCell` simplifies this task by exposing an `imageView` property of the type `PFImageView` that supports remote image loading:
 
-<pre><code class="objectivec">
+````objectivec
 @implementation SimpleTableViewController
 
 - (UITableViewCell *)tableView:(UITableView *)tableView  cellForRowAtIndexPath:(NSIndexPath *)indexPath object:(PFObject *)object {
@@ -666,8 +666,8 @@ Many apps need to display table view cells which contain images stored in the Pa
 }
 
 @end
-</code></pre>
-<pre><code class="swift">
+````
+````swift
 func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     let identifier = "cell"
     var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? PFTableViewCell
@@ -685,7 +685,7 @@ func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexP
 
     return cell!
 }
-</code></pre>
+````
 
 Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFile`.
 
@@ -697,9 +697,9 @@ All strings in Parse's UI classes are customizable/localizable. The easiest way 
 
 Say, for example, you would like to customize the loading message in the HUD of `PFSignUpViewController` that says "Loading..." Assume you have followed the localization guide and set up `Localizable.strings` in the `en.lproj` directory. In `Localizable.strings`, you can then enter:
 
-<pre><code class="javascript">
+````javascript
 "Loading..." = "In progress";
-</code></pre>
+````
 
 That would customize the string to "In progress". The key on the left is the original string you want to customize, and the value on the right is the customized value.
 
@@ -707,8 +707,8 @@ Say, you would like to customize the error message in `PFSignUpViewController` t
 
 Included in  the Parse SDK is a file named `Localizable.string` which includes all the localizable keys in the Parse framework. Browsing this file, developers can find the key for the string they would like to customize. You notice that the string `"The email address \"%@\" is invalid. Please enter a valid email."` is a key in the file. In your own `Localizable.strings`, you can then enter:
 
-<pre><code class="javascript">
+````javascript
 "The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";
-</code></pre>
+````
 
 The string is now customized.
