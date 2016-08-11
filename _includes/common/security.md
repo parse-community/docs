@@ -74,17 +74,17 @@ The easiest way to control who can access which data is through access control l
 
 Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse's [automatic anonymous users](/docs/ios/guide#users-anonymous-users) functionality. To set an ACL on the current user's data to not be publicly readable, all you have to do is:
 
-<pre><code class="objectivec">
+````objectivec
 PFUser *user = [PFUser currentUser];
 user.ACL = [PFACL ACLWithUser:user];
-</code></pre>
+````
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+````swift
 if let user = PFUser.currentUser() {
     user.ACL = PFACL(user: user)
 }
-</code></pre>
+````
 {: .common-lang-block .swift }
 
 ```java
@@ -125,14 +125,14 @@ Most apps should do this. If you store any sensitive user data, such as email ad
 
 To make it super easy to create user-private ACLs for every object, we have a way to set a default ACL that will be used for every new object you create:
 
-<pre><code class="objectivec">
+````objectivec
 [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
-</code></pre>
+````
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+````swift
 PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
-</code></pre>
+````
 {: .common-lang-block .swift }
 
 ```java
@@ -167,23 +167,23 @@ ParseACL::setDefaultACL(new ParseACL(), true);
 
 If you want the user to have some data that is public and some that is private, it's best to have two separate objects. You can add a pointer to the private data from the public one.
 
-<pre><code class="objectivec">
+````objectivec
 PFObject *privateData = [PFObject objectWithClassName:@"PrivateUserData"];
 privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 [privateData setObject:@"555-5309" forKey:@"phoneNumber"];
 
 [[PFUser currentUser] setObject:privateData forKey:@"privateData"];
-</code></pre>
+````
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+````swift
 if let currentUser = PFUser.currentUser() {
     let privateData = PFObject(className: "PrivateUserData")
     privateData.ACL = PFACL(user: currentUser)
     privateData.setObject("555-5309", forKey: "phoneNumber")
     currentUser.setObject(privateData, forKey: "privateData")
 }
-</code></pre>
+````
 {: .common-lang-block .swift }
 
 ```java
@@ -234,20 +234,20 @@ ParseUser::getCurrentUser()->set("privateData", $privateData);
 
 Of course, you can set different read and write permissions on an object. For example, this is how you would create an ACL for a public post by a user, where anyone can read it:
 
-<pre><code class="objectivec">
+````objectivec
 PFACL *acl = [PFACL ACL];
 [acl setPublicReadAccess:true];
 [acl setWriteAccess:true forUser:[PFUser currentUser]];
-</code></pre>
+````
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+````swift
 let acl = PFACL()
 acl.setPublicReadAccess(true)
 if let currentUser = PFUser.currentUser() {
     acl.setWriteAccess(true, forUser: currentUser)
 }
-</code></pre>
+````
 {: .common-lang-block .swift }
 
 ```java
@@ -290,19 +290,19 @@ $acl->setWriteAccess(ParseUser::getCurrentUser(), true);
 
 Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
 
-<pre><code class="objectivec">
+````objectivec
 // Assuming you've already created a role called "admins"...
 PFACL *acl = [PFACL ACL];
 [acl setPublicReadAccess:true];
 [acl setWriteAccess:true forRoleWithName:@"admins"];
-</code></pre>
+````
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+````swift
 let acl = PFACL()
 acl.setPublicReadAccess(true)
 acl.setWriteAccess(true, forRoleWithName: "admins")
-</code></pre>
+````
 {: .common-lang-block .swift }
 
 ```java

@@ -10,9 +10,9 @@ Without having to implement any client-side logic, you can view real-time graphs
 
 Our initial analytics hook allows you to track your application being launched. By adding the following line to your Launching event handler, you'll be able to collect data on when and how often your application is opened.
 
-<pre><code class="cs">
+````cs
 ParseAnalytics.TrackAppOpenedAsync();
-</code></pre>
+````
 
 Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
 
@@ -22,7 +22,7 @@ Graphs and breakdowns of your statistics are accessible from your app's Dashboar
 
 Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
 
-<pre><code class="cs">
+````cs
 var dimensions = new Dictionary<string, string> {
   // Define ranges to bucket data points into meaningful segments
   { "priceRange", "1000-1500" },
@@ -33,15 +33,15 @@ var dimensions = new Dictionary<string, string> {
 };
 // Send the dimensions to Parse along with the 'search' event
 ParseAnalytics.TrackEventAsync("search", dimensions);
-</code></pre>
+````
 
 `ParseAnalytics` can even be used as a lightweight error tracker &mdash; simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
-<pre><code class="cs">
+````cs
 var errDimensions = new Dictionary<string, string> {
   { "code", Convert.ToString(error.Code) }
 };
 ParseAnalytics.TrackEventAsync("error", errDimensions );
-</code></pre>
+````
 
 Note that Parse currently only stores the first eight dimension pairs per call to `ParseAnalytics.TrackEventAsync()`.

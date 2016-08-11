@@ -6,13 +6,13 @@
 
 After that you will be able to fetch the config on the client by sending a `GET` request to config URL. Here is a simple example that will fetch the `Parse.Config`:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   https://api.parse.com/1/config
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -22,29 +22,29 @@ connection.request('GET', '/1/config', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 The response body is a JSON object containing all the configuration parameters in the `params` field.
 
-<pre><code class="json">
+````json
 {
   "params": {
     "welcomeMessage": "Welcome to The Internet!",
     "winningNumber": 42
   }
 }
-</code></pre>
+````
 
 You can also update the config by sending a `PUT` request to config URL. Here is a simple example that will update the `Parse.Config`:
 
-<pre><code class="bash">
+````bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -d "{\"params\":{\"winningNumber\":43}}"
   https://api.parse.com/1/config
-</code></pre>
-<pre><code class="javascript">
+````
+````javascript
 var request = require('request');
 return request({
   method: 'PUT',
@@ -58,12 +58,12 @@ return request({
     params: { winningNumber: 43 }
   }
 })
-</code></pre>
+````
 
 The response body is a JSON object containing a simple boolean value in the `result` field.
 
-<pre><code class="json">
+````json
 {
   "result": true
 }
-</code></pre>
+````

@@ -12,7 +12,7 @@ You can ask Parse to verify user email addresses in your application settings pa
 
 To sign up a new user, send a POST request to the users root. You may add any additional fields. For example, to create a user with a specific phone number:
 
-<pre><code class="bash">
+````bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -20,8 +20,8 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
   https://api.parse.com/1/users
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -37,32 +37,32 @@ connection.request('POST', '/1/users', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 `The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during signup, the Parse Cloud will automatically create a `Session` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new user:
 
-<pre><code class="javascript">
+````javascript
 Status: 201 Created
 Location: https://api.parse.com/1/users/g7y9tkhB7O
-</code></pre>
+````
 
 The response body is a JSON object containing the `objectId`, the `createdAt` timestamp of the newly-created object, and the `sessionToken` which can be used to authenticate subsequent requests as this user:
 
-<pre><code class="json">
+````json
 {
   "createdAt": "2011-11-07T20:58:34.448Z",
   "objectId": "g7y9tkhB7O",
   "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
-</code></pre>
+````
 
 ## Logging In
 
 After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the `/1/login` endpoint with `username` and `password` as URL-encoded parameters:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -71,8 +71,8 @@ curl -X GET \
   --data-urlencode 'username=cooldude6' \
   --data-urlencode 'password=p_n7!-e8' \
   https://api.parse.com/1/login
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 params = urllib.urlencode({"username":"cooldude6","password":"p_n7!-e8"})
@@ -84,13 +84,13 @@ connection.request('GET', '/1/login?%s' % params, '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 `The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login, the Parse Cloud will automatically create a `Session` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, `objectId`, and `sessionToken` fields:
 
-<pre><code class="json">
+````json
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
@@ -99,7 +99,7 @@ The response body is a JSON object containing all the user-provided fields excep
   "objectId": "g7y9tkhB7O",
   "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
-</code></pre>
+````
 
 ## Verifying Emails
 
@@ -116,15 +116,15 @@ There are three `emailVerified` states to consider:
 
 You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to `/1/requestPasswordReset` endpoint with `email` in the body of the request:
 
-<pre><code class="bash">
+````bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"email":"coolguy@iloveapps.com"}' \
   https://api.parse.com/1/requestPasswordReset
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -137,7 +137,7 @@ connection.request('POST', '/1/requestPasswordReset', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 If successful, the response body is an empty JSON object.
 
@@ -146,13 +146,13 @@ If successful, the response body is an empty JSON object.
 
 You can also retrieve the contents of a user object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the user created above:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   https://api.parse.com/1/users/g7y9tkhB7O
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -162,11 +162,11 @@ connection.request('GET', '/1/users/g7y9tkhB7O', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, and `objectId` fields:
 
-<pre><code class="json">
+````json
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
@@ -174,20 +174,20 @@ The response body is a JSON object containing all the user-provided fields excep
   "updatedAt": "2011-11-07T20:58:34.448Z",
   "objectId": "g7y9tkhB7O"
 }
-</code></pre>
+````
 
 ## Validating Session Tokens / Retrieving Current User
 
 With a valid session token, you can send a GET request to the `/1/users/me` endpoint to retrieve the user associated with that session token:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   https://api.parse.com/1/users/me
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -198,16 +198,16 @@ connection.request('GET', '/1/users/me', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 The response matches the JSON object above for retrieving users.  If the session token is not valid, an error object is returned:
 
-<pre><code class="json">
+````json
 {
   "code": 209,
   "error": "invalid session token"
 }
-</code></pre>
+````
 
 ## Updating Users
 
@@ -217,7 +217,7 @@ To change the data on a user that already exists, send a PUT request to the user
 
 For example, if we wanted to change the phone number for `cooldude6`:
 
-<pre><code class="bash">
+````bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -225,8 +225,8 @@ curl -X PUT \
   -H "Content-Type: application/json" \
   -d '{"phone":"415-369-6201"}' \
   https://api.parse.com/1/users/g7y9tkhB7O
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -240,27 +240,27 @@ connection.request('PUT', '/1/users/g7y9tkhB7O', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 The response body is a JSON object containing just an `updatedAt` field with the timestamp of the update.
 
-<pre><code class="json">
+````json
 {
   "updatedAt": "2011-11-07T21:25:10.623Z"
 }
-</code></pre>
+````
 
 ## Querying
 
 You can retrieve multiple users at once by sending a GET request to the root users URL. Without any URL parameters, this simply lists users:
 
-<pre><code class="bash">
+````bash
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   https://api.parse.com/1/users
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -270,11 +270,11 @@ connection.request('GET', '/1/users', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
 
-<pre><code class="json">
+````json
 {
   "results": [
     {
@@ -293,7 +293,7 @@ The return value is a JSON object that contains a `results` field with a JSON ar
     }
   ]
 }
-</code></pre>
+````
 
 All of the options for queries that work for regular objects also work for user objects, so check the section on [Querying Objects](#queries-basic) for more details.
 
@@ -302,14 +302,14 @@ All of the options for queries that work for regular objects also work for user 
 
 To delete a user from the Parse Cloud, send a DELETE request to its URL. You must provide the `X-Parse-Session-Token` header to authenticate. For example:
 
-<pre><code class="bash">
+````bash
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   https://api.parse.com/1/users/g7y9tkhB7O
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -320,7 +320,7 @@ connection.request('DELETE', '/1/users/g7y9tkhB7O', '', {
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 ## Linking Users
 
@@ -330,7 +330,7 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
 
 ### Facebook `authData`
 
-<pre><code class="json">
+````json
 {
   "facebook": {
     "id": "user's Facebook id number as a string",
@@ -338,12 +338,12 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
     "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
   }
 }
-</code></pre>
+````
 Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
 
 ### Twitter `authData`
 
-<pre><code class="json">
+````json
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
@@ -354,25 +354,25 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
     "auth_token_secret": "the secret associated with the auth_token"
   }
 }
-</code></pre>
+````
 
 Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
 
 ### Anonymous user `authData`
 
-<pre><code class="json">
+````json
 {
   "anonymous": {
     "id": "random UUID with lowercase hexadecimal digits"
   }
 }
-</code></pre>
+````
 
 ### Signing Up and Logging In
 
 Signing a user up with a linked service and logging them in with that service uses the same POST request, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
 
-<pre><code class="bash">
+````bash
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -391,8 +391,8 @@ curl -X POST \
         }
       }' \
   https://api.parse.com/1/users
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -415,20 +415,20 @@ connection.request('POST', '/1/users', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 `The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login or signup, the Parse Cloud will automatically create a `Session` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
-<pre><code class="javascript">
+````javascript
 Status: 200 OK
 Location: https://api.parse.com/1/users/uMz0YZeAqc
-</code></pre>
+````
 
 With a response body like:
 
-<pre><code class="json">
+````json
 {
   "username": "Parse",
   "createdAt": "2012-02-28T23:49:36.353Z",
@@ -446,31 +446,31 @@ With a response body like:
     }
   }
 }
-</code></pre>
+````
 
 If the user has never been linked with this account, you will instead receive a status code of `201 Created`, indicating that a new user was created:
 
-<pre><code class="javascript">
+````javascript
 Status: 201 Created
 Location: https://api.parse.com/1/users/uMz0YZeAqc
-</code></pre>
+````
 
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
 
-<pre><code class="json">
+````json
 {
   "username": "iwz8sna7sug28v4eyu7t89fij",
   "createdAt": "2012-02-28T23:49:36.353Z",
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
 }
-</code></pre>
+````
 
 ### Linking
 
 Linking an existing user with a service like Facebook or Twitter uses a PUT request to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
 
-<pre><code class="bash">
+````bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -486,8 +486,8 @@ curl -X PUT \
         }
       }' \
   https://api.parse.com/1/users/uMz0YZeAqc
-</code></pre>
-<pre><code class="python">
+````
+````python
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -507,7 +507,7 @@ connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 After linking your user to a service, you can authenticate them using matching `authData`.
 
@@ -515,7 +515,7 @@ After linking your user to a service, you can authenticate them using matching `
 
 Unlinking an existing user with a service also uses a PUT request to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
 
-<pre><code class="bash">
+````bash
 curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
@@ -527,8 +527,8 @@ curl -X PUT \
         }
       }' \
   https://api.parse.com/1/users/uMz0YZeAqc
-</code></pre>
-<pre><code class="bash">
+````
+````bash
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
@@ -544,7 +544,7 @@ connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
      })
 result = json.loads(connection.getresponse().read())
 print result
-</code></pre>
+````
 
 ## Security
 
@@ -554,7 +554,7 @@ The ACL is formatted as a JSON object where the keys are either object ids or th
 
 For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
 
-<pre><code class="json">
+````json
 {
   "3KmCvT7Zsb": {
     "read": true,
@@ -564,6 +564,6 @@ For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write 
     "read": true
   }
 }
-</code></pre>
+````
 
 If you want to access your data ignoring all ACLs, you can use the master key provided on the Dashboard. Instead of the `X-Parse-REST-API-Key` header, set the `X-Parse-Master-Key` header. For backward compatibility, you can also do master-level authentication using HTTP Basic Auth, passing the application id as the username and the master key as the password. For security, the master key should not be distributed to end users, but if you are running code in a trusted environment, feel free to use the master key for authentication.
