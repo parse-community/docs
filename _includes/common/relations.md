@@ -313,7 +313,7 @@ NSArray *weapons = [[PFUser currentUser] objectForKey:@"weaponsList"];
 
 <pre><code class="swift">
 let weapons = PFUser.currentUser()?.objectForKey("weaponsList")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```php

@@ -6318,7 +6318,7 @@ NSArray *weapons = @[scimitar, plasmaRifle, grenade, bunnyRabbit];
 [[PFUser currentUser] setObject:weapons forKey:@weaponsList"];
 </code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // let's say we have four weapons
 let scimitar = ...
 let plasmaRifle = ...
@@ -6331,11 +6331,9 @@ let weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit]
 // store the weapons for the user
 let user = PFUser.currentUser()
 user["weaponsList"] = weapons
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```php
-// let's say we have four weapons
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// let's say we have four weapons
 $scimitar = ...
 $plasmaRifle = ...
 $grenade = ...
@@ -6347,119 +6345,106 @@ $weapons = [$scimitar, $plasmaRifle, $grenade, $bunnyRabbit];
 // store the weapons for the user
 $user = ParseUser::getCurrentUser();
 $user-&gt;set("weaponsList", weapons);
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// let's say we have four weapons
-var scimitar = ...
-var plasmaRifle = ...
-var grenade = ...
-var bunnyRabbit = ...
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have four weapons
+</span><span class="n">var</span> <span class="n">scimitar</span> <span class="p">=</span> <span class="p">...</span>
+<span class="n">var</span> <span class="n">plasmaRifle</span> <span class="p">=</span> <span class="p">...</span>
+<span class="n">var</span> <span class="n">grenade</span> <span class="p">=</span> <span class="p">...</span>
+<span class="n">var</span> <span class="n">bunnyRabbit</span> <span class="p">=</span> <span class="p">...</span>
 
-// stick the objects in an array
-var weapons = new List<parseobject>();
-weapons.Add(scimitar);
-weapons.Add(plasmaRifle);
-weapons.Add(grenade);
-weapons.Add(bunnyRabbit);
+<span class="c1">// stick the objects in an array
+</span><span class="n">var</span> <span class="n">weapons</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;();</span>
+<span class="n">weapons</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">scimitar</span><span class="p">);</span>
+<span class="n">weapons</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">plasmaRifle</span><span class="p">);</span>
+<span class="n">weapons</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">grenade</span><span class="p">);</span>
+<span class="n">weapons</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">bunnyRabbit</span><span class="p">);</span>
 
-// store the weapons for the user
-var user = ParseUser.CurrentUser;
-user.AddRangeToList("weaponsList", weapons);
-```
-{: .common-lang-block .csharp }
+<span class="c1">// store the weapons for the user
+</span><span class="n">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">;</span>
+<span class="n">user</span><span class="p">.</span><span class="nf">AddRangeToList</span><span class="p">(</span><span class="s">"weaponsList"</span><span class="p">,</span> <span class="n">weapons</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```js
-// let's say we have four weapons
-var scimitar = ...
-var plasmaRifle = ...
-var grenade = ...
-var bunnyRabbit = ...
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have four weapons</span>
+<span class="kd">var</span> <span class="nx">scimitar</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">var</span> <span class="nx">plasmaRifle</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">var</span> <span class="nx">grenade</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">var</span> <span class="nx">bunnyRabbit</span> <span class="o">=</span> <span class="p">...</span>
 
-// stick the objects in an array
-var weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit];
+<span class="c1">// stick the objects in an array</span>
+<span class="kd">var</span> <span class="nx">weapons</span> <span class="o">=</span> <span class="p">[</span><span class="nx">scimitar</span><span class="p">,</span> <span class="nx">plasmaRifle</span><span class="p">,</span> <span class="nx">grenade</span><span class="p">,</span> <span class="nx">bunnyRabbit</span><span class="p">];</span>
 
-// store the weapons for the user
-var user = Parse.User.current();
-user.set("weaponsList", weapons);
-```
-{: .common-lang-block .js }
+<span class="c1">// store the weapons for the user</span>
+<span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">current</span><span class="p">();</span>
+<span class="nx">user</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"weaponsList"</span><span class="p">,</span> <span class="nx">weapons</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Later, if we want to retrieve the `Weapon` objects, it's just one line of code:
+<p>Later, if we want to retrieve the <code class="highlighter-rouge">Weapon</code> objects, it’s just one line of code:</p>
 
-```java
-ArrayList<parseobject> weapons = ParseUser.getCurrentUser().get("weaponsList");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">weapons</span> <span class="o">=</span> <span class="n">ParseUser</span><span class="o">.</span><span class="na">getCurrentUser</span><span class="o">().</span><span class="na">get</span><span class="o">(</span><span class="s">"weaponsList"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 NSArray *weapons = [[PFUser currentUser] objectForKey:@"weaponsList"];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let weapons = PFUser.currentUser()?.objectForKey("weaponsList")
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```php
-$weapons = ParseUser::getCurrentUser()-&gt;get("weaponsList");
-```
-{: .common-lang-block .php }
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>$weapons = ParseUser::getCurrentUser()-&gt;get("weaponsList");
+</code></pre>
+</div>
 
-```cs
-var weapons = ParseUser.CurrentUser.Get&lt;IList<object>&gt;("weaponsList");
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">weapons</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">IList</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;&gt;(</span><span class="s">"weaponsList"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```js
-var weapons = Parse.User.current().get("weaponsList")
-```
-{: .common-lang-block .js }
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">weapons</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">current</span><span class="p">().</span><span class="nx">get</span><span class="p">(</span><span class="s2">"weaponsList"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Sometimes, we will want to fetch the "many" objects in our one-to-many relationship at the same time as we fetch the "one" object. One trick we could employ is to use the `includeKey` (or `include` in Android) parameter whenever we use a Parse Query to also fetch the array of `Weapon` objects (stored in the `weaponsList` column) along with the Parse User object:
+<p>Sometimes, we will want to fetch the “many” objects in our one-to-many relationship at the same time as we fetch the “one” object. One trick we could employ is to use the <code class="highlighter-rouge">includeKey</code> (or <code class="highlighter-rouge">include</code> in Android) parameter whenever we use a Parse Query to also fetch the array of <code class="highlighter-rouge">Weapon</code> objects (stored in the <code class="highlighter-rouge">weaponsList</code> column) along with the Parse User object:</p>
 
-```java
-// set up our query for a User object
-ParseQuery<parseuser> userQuery = ParseUser.getQuery();
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for a User object</span>
+<span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseUser</span><span class="o">&gt;</span> <span class="n">userQuery</span> <span class="o">=</span> <span class="n">ParseUser</span><span class="o">.</span><span class="na">getQuery</span><span class="o">();</span>
 
-// configure any constraints on your query...
-// for example, you may want users who are also playing with or against you
-// tell the query to fetch all of the Weapon objects along with the user
-// get the "many" at the same time that you're getting the "one"
-userQuery.include("weaponsList");
+<span class="c1">// configure any constraints on your query...</span>
+<span class="c1">// for example, you may want users who are also playing with or against you</span>
+<span class="c1">// tell the query to fetch all of the Weapon objects along with the user</span>
+<span class="c1">// get the "many" at the same time that you're getting the "one"</span>
+<span class="n">userQuery</span><span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="s">"weaponsList"</span><span class="o">);</span>
 
-// execute the query
-userQuery.findInBackground(new FindCallback<parseuser>() {
-  public void done(List<parseuser> userList, ParseException e) {
-    // userList contains all of the User objects, and their associated Weapon objects, too
-  }
-});
-```
-{: .common-lang-block .java }
+<span class="c1">// execute the query</span>
+<span class="n">userQuery</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseUser</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseUser</span><span class="o">&gt;</span> <span class="n">userList</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// userList contains all of the User objects, and their associated Weapon objects, too</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // set up our query for a User object
 PFQuery *userQuery = [PFUser query];
 
@@ -6475,9 +6460,8 @@ PFQuery *userQuery = [PFUser query];
     // objects contains all of the User objects, and their associated Weapon objects, too
 }];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // set up our query for a User object
 let userQuery = PFUser.query();
 
@@ -6494,10 +6478,8 @@ userQuery?.findObjectsInBackgroundWithBlock {
     // objects contains all of the User objects, and their associated Weapon objects, too
 }
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// set up our query for a User object
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// set up our query for a User object
 $userQuery = ParseUser::query();
 
 // configure any constraints on your query...
@@ -6510,158 +6492,145 @@ $userQuery-&gt;includeKey("weaponsList");
 // execute the query
 $results = $userQuery-&gt;find();
 // results contains all of the User objects, and their associated Weapon objects, too
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// set up our query for a User object
-var userQuery = ParseUser.Query;
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for a User object
+</span><span class="n">var</span> <span class="n">userQuery</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">Query</span><span class="p">;</span>
 
-// configure any constraints on your query...
+<span class="c1">// configure any constraints on your query...
 // for example, you may want users who are also playing with or against you
-
-// tell the query to fetch all of the Weapon objects along with the user
+</span>
+<span class="c1">// tell the query to fetch all of the Weapon objects along with the user
 // get the "many" at the same time that you're getting the "one"
-userQuery = userQuery.Include("weaponsList");
+</span><span class="n">userQuery</span> <span class="p">=</span> <span class="n">userQuery</span><span class="p">.</span><span class="nf">Include</span><span class="p">(</span><span class="s">"weaponsList"</span><span class="p">);</span>
 
-// execute the query
-IEnumerable<parseuser> results = await userQuery.FindAsync();
-// results contains all of the User objects, and their associated Weapon objects, too
-```
-{: .common-lang-block .csharp }
+<span class="c1">// execute the query
+</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">ParseUser</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">userQuery</span><span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+<span class="c1">// results contains all of the User objects, and their associated Weapon objects, too
+</span></code></pre>
+</div>
 
-```js
-// set up our query for a User object
-var userQuery = new Parse.Query(Parse.User);
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for a User object</span>
+<span class="kd">var</span> <span class="nx">userQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
 
-// configure any constraints on your query...
-// for example, you may want users who are also playing with or against you
+<span class="c1">// configure any constraints on your query...</span>
+<span class="c1">// for example, you may want users who are also playing with or against you</span>
 
-// tell the query to fetch all of the Weapon objects along with the user
-// get the "many" at the same time that you're getting the "one"
-userQuery.include("weaponsList");
+<span class="c1">// tell the query to fetch all of the Weapon objects along with the user</span>
+<span class="c1">// get the "many" at the same time that you're getting the "one"</span>
+<span class="nx">userQuery</span><span class="p">.</span><span class="nx">include</span><span class="p">(</span><span class="s2">"weaponsList"</span><span class="p">);</span>
 
-// execute the query
-userQuery.find({
-  success: function(results){
-    // results contains all of the User objects, and their associated Weapon objects, too
-  }
-});
-```
-{: .common-lang-block .js }
+<span class="c1">// execute the query</span>
+<span class="nx">userQuery</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">){</span>
+    <span class="c1">// results contains all of the User objects, and their associated Weapon objects, too</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-You can also get the "one" side of the one-to-many relationship from the "many" side. For example, if we want to find all Parse User objects who also have a given `Weapon`, we can write a constraint for our query like this:
+<p>You can also get the “one” side of the one-to-many relationship from the “many” side. For example, if we want to find all Parse User objects who also have a given <code class="highlighter-rouge">Weapon</code>, we can write a constraint for our query like this:</p>
 
-```java
-// add a constraint to query for whenever a specific Weapon is in an array
-userQuery.whereEqualTo("weaponsList", scimitar);
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// add a constraint to query for whenever a specific Weapon is in an array</span>
+<span class="n">userQuery</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"weaponsList"</span><span class="o">,</span> <span class="n">scimitar</span><span class="o">);</span>
 
-// or query using an array of Weapon objects...
-userQuery.whereEqualTo("weaponsList", arrayOfWeapons);
-```
-{: .common-lang-block .java }
+<span class="c1">// or query using an array of Weapon objects...</span>
+<span class="n">userQuery</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"weaponsList"</span><span class="o">,</span> <span class="n">arrayOfWeapons</span><span class="o">);</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // add a constraint to query for whenever a specific Weapon is in an array
 [userQuery whereKey:@"weaponsList" equalTo:scimitar];
 
 // or query using an array of Weapon objects...
 [userQuery whereKey:@"weaponsList" containedIn:arrayOfWeapons];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // add a constraint to query for whenever a specific Weapon is in an array
 userQuery?.whereKey("weaponsList", equalTo: scimitar);
 
 // or query using an array of Weapon objects...
 userQuery?.whereKey("weaponsList", containedIn: arrayOfWeapons)
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// add a constraint to query for whenever a specific Weapon is in an array
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// add a constraint to query for whenever a specific Weapon is in an array
 $userQuery-&gt;equalTo("weaponsList", $scimitar);
 
 // or query using an array of Weapon objects...
 $userQuery-&gt;containedIn("weaponsList", $arrayOfWeapons);
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// add a constraint to query for whenever a specific Weapon is in an array
-userQuery = userQuery.WhereEqualTo("weaponsList", scimitar);
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// add a constraint to query for whenever a specific Weapon is in an array
+</span><span class="n">userQuery</span> <span class="p">=</span> <span class="n">userQuery</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"weaponsList"</span><span class="p">,</span> <span class="n">scimitar</span><span class="p">);</span>
 
-// or query using an array of Weapon objects...
-userQuery = userQuery.WhereContainedIn("weaponsList", arrayOfWeapons);
-```
-{: .common-lang-block .csharp }
+<span class="c1">// or query using an array of Weapon objects...
+</span><span class="n">userQuery</span> <span class="p">=</span> <span class="n">userQuery</span><span class="p">.</span><span class="nf">WhereContainedIn</span><span class="p">(</span><span class="s">"weaponsList"</span><span class="p">,</span> <span class="n">arrayOfWeapons</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```js
-// add a constraint to query for whenever a specific Weapon is in an array
-userQuery.equalTo("weaponsList", scimitar);
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// add a constraint to query for whenever a specific Weapon is in an array</span>
+<span class="nx">userQuery</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"weaponsList"</span><span class="p">,</span> <span class="nx">scimitar</span><span class="p">);</span>
 
-// or query using an array of Weapon objects...
-userQuery.containedIn("weaponsList", arrayOfWeapons);
-```
-{: .common-lang-block .js }
+<span class="c1">// or query using an array of Weapon objects...</span>
+<span class="nx">userQuery</span><span class="p">.</span><span class="nx">containedIn</span><span class="p">(</span><span class="s2">"weaponsList"</span><span class="p">,</span> <span class="nx">arrayOfWeapons</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-## Many-to-Many
+<h2 id="many-to-many">Many-to-Many</h2>
 
-Now let’s tackle many-to-many relationships. Suppose we had a book reading app and we wanted to model `Book` objects and `Author` objects. As we know, a given author can write many books, and a given book can have multiple authors. This is a many-to-many relationship scenario where you have to choose between Arrays, Parse Relations, or creating your own Join Table.
+<p>Now let’s tackle many-to-many relationships. Suppose we had a book reading app and we wanted to model <code class="highlighter-rouge">Book</code> objects and <code class="highlighter-rouge">Author</code> objects. As we know, a given author can write many books, and a given book can have multiple authors. This is a many-to-many relationship scenario where you have to choose between Arrays, Parse Relations, or creating your own Join Table.</p>
 
-The decision point here is whether you want to attach any metadata to the relationship between two entities. If you don’t, Parse Relation or using Arrays are going to be the easiest alternatives. In general, using arrays will lead to higher performance and require fewer queries. If either side of the many-to-many relationship could lead to an array with more than 100 or so objects, then, for the same reason Pointers were better for one-to-many relationships, Parse Relation or Join Tables will be better alternatives.
+<p>The decision point here is whether you want to attach any metadata to the relationship between two entities. If you don’t, Parse Relation or using Arrays are going to be the easiest alternatives. In general, using arrays will lead to higher performance and require fewer queries. If either side of the many-to-many relationship could lead to an array with more than 100 or so objects, then, for the same reason Pointers were better for one-to-many relationships, Parse Relation or Join Tables will be better alternatives.</p>
 
-On the other hand, if you want to attach metadata to the relationship, then create a separate table (the "Join Table") to house both ends of the relationship. Remember, this is information **about the relationship**, not about the objects on either side of the relationship. Some examples of metadata you may be interested in, which would necessitate a Join Table approach, include:
+<p>On the other hand, if you want to attach metadata to the relationship, then create a separate table (the “Join Table”) to house both ends of the relationship. Remember, this is information <strong>about the relationship</strong>, not about the objects on either side of the relationship. Some examples of metadata you may be interested in, which would necessitate a Join Table approach, include:</p>
 
-### Using Parse Relations
+<h3 id="using-parse-relations">Using Parse Relations</h3>
 
-Using Parse Relations, we can create a relationship between a `Book` and a few `Author` objects. In the Data Browser, you can create a column on the `Book` object of type relation and name it `authors`.
+<p>Using Parse Relations, we can create a relationship between a <code class="highlighter-rouge">Book</code> and a few <code class="highlighter-rouge">Author</code> objects. In the Data Browser, you can create a column on the <code class="highlighter-rouge">Book</code> object of type relation and name it <code class="highlighter-rouge">authors</code>.</p>
 
-After that, we can associate a few authors with this book:
+<p>After that, we can associate a few authors with this book:</p>
 
-```java
-// let’s say we have a few objects representing Author objects
-ParseObject authorOne =
-ParseObject authorTwo =
-ParseObject authorThree =
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// let’s say we have a few objects representing Author objects</span>
+<span class="n">ParseObject</span> <span class="n">authorOne</span> <span class="o">=</span>
+<span class="n">ParseObject</span> <span class="n">authorTwo</span> <span class="o">=</span>
+<span class="n">ParseObject</span> <span class="n">authorThree</span> <span class="o">=</span>
 
-// now we create a book object
-ParseObject book = new ParseObject("Book");
+<span class="c1">// now we create a book object</span>
+<span class="n">ParseObject</span> <span class="n">book</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParseObject</span><span class="o">(</span><span class="s">"Book"</span><span class="o">);</span>
 
-// now let’s associate the authors with the book
-// remember, we created a "authors" relation on Book
-ParseRelation<parseobject> relation = book.getRelation("authors");
-relation.add(authorOne);
-relation.add(authorTwo);
-relation.add(authorThree);
+<span class="c1">// now let’s associate the authors with the book</span>
+<span class="c1">// remember, we created a "authors" relation on Book</span>
+<span class="n">ParseRelation</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">relation</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="na">getRelation</span><span class="o">(</span><span class="s">"authors"</span><span class="o">);</span>
+<span class="n">relation</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">authorOne</span><span class="o">);</span>
+<span class="n">relation</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">authorTwo</span><span class="o">);</span>
+<span class="n">relation</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">authorThree</span><span class="o">);</span>
 
-// now save the book object
-book.saveInBackground();
-```
-{: .common-lang-block .java }
+<span class="c1">// now save the book object</span>
+<span class="n">book</span><span class="o">.</span><span class="na">saveInBackground</span><span class="o">();</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // let’s say we have a few objects representing Author objects
 PFObject *authorOne = …
 PFObject *authorTwo = …
@@ -6680,9 +6649,8 @@ PFRelation *relation = [book relationForKey:@"authors"];
 // now save the book object
 [book saveInBackground];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // let’s say we have a few objects representing Author objects
 let authorOne = ...
 let authorTwo = ...
@@ -6701,10 +6669,8 @@ relation.addObject(authorThree)
 // now save the book object
 book.saveInBackground()
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// let’s say we have a few objects representing Author objects
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// let’s say we have a few objects representing Author objects
 $authorOne = ...
 $authorTwo = ...
 $authorThree = ...
@@ -6721,78 +6687,73 @@ $relation-&gt;add($authorThree);
 
 // now save the book object
 $book-&gt;save();
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// let’s say we have a few objects representing Author objects
-var authorOne = ...
-var authorTwo = ...
-var authorThree = ...
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// let’s say we have a few objects representing Author objects
+</span><span class="n">var</span> <span class="n">authorOne</span> <span class="p">=</span> <span class="p">...</span>
+<span class="n">var</span> <span class="n">authorTwo</span> <span class="p">=</span> <span class="p">...</span>
+<span class="n">var</span> <span class="n">authorThree</span> <span class="p">=</span> <span class="p">...</span>
 
-// now we create a book object
-var book = new ParseObject("Book");
+<span class="c1">// now we create a book object
+</span><span class="n">var</span> <span class="n">book</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseObject</span><span class="p">(</span><span class="s">"Book"</span><span class="p">);</span>
 
-// now let’s associate the authors with the book
+<span class="c1">// now let’s associate the authors with the book
 // remember, we created a "authors" relation on Book
-var relation = book.GetRelation<parseobject>("authors");
-relation.Add(authorOne);
-relation.Add(authorTwo);
-relation.Add(authorThree);
+</span><span class="n">var</span> <span class="n">relation</span> <span class="p">=</span> <span class="n">book</span><span class="p">.</span><span class="n">GetRelation</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;(</span><span class="s">"authors"</span><span class="p">);</span>
+<span class="n">relation</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">authorOne</span><span class="p">);</span>
+<span class="n">relation</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">authorTwo</span><span class="p">);</span>
+<span class="n">relation</span><span class="p">.</span><span class="nf">Add</span><span class="p">(</span><span class="n">authorThree</span><span class="p">);</span>
 
-// now save the book object
-await book.SaveAsync();
-```
-{: .common-lang-block .csharp }
+<span class="c1">// now save the book object
+</span><span class="n">await</span> <span class="n">book</span><span class="p">.</span><span class="nf">SaveAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```js
-// let’s say we have a few objects representing Author objects
-var authorOne = ...
-var authorTwo = ...
-var authorThree = ...
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// let’s say we have a few objects representing Author objects</span>
+<span class="kd">var</span> <span class="nx">authorOne</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">var</span> <span class="nx">authorTwo</span> <span class="o">=</span> <span class="p">...</span>
+<span class="kd">var</span> <span class="nx">authorThree</span> <span class="o">=</span> <span class="p">...</span>
 
-// now we create a book object
-var book = new Parse.Object("Book");
+<span class="c1">// now we create a book object</span>
+<span class="kd">var</span> <span class="nx">book</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">);</span>
 
-// now let’s associate the authors with the book
-// remember, we created a "authors" relation on Book
-var relation = book.relation("authors");
-relation.add(authorOne);
-relation.add(authorTwo);
-relation.add(authorThree);
+<span class="c1">// now let’s associate the authors with the book</span>
+<span class="c1">// remember, we created a "authors" relation on Book</span>
+<span class="kd">var</span> <span class="nx">relation</span> <span class="o">=</span> <span class="nx">book</span><span class="p">.</span><span class="nx">relation</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">);</span>
+<span class="nx">relation</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">authorOne</span><span class="p">);</span>
+<span class="nx">relation</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">authorTwo</span><span class="p">);</span>
+<span class="nx">relation</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">authorThree</span><span class="p">);</span>
 
-// now save the book object
-book.save();
-```
-{: .common-lang-block .js }
+<span class="c1">// now save the book object</span>
+<span class="nx">book</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-To get the list of authors who wrote a book, create a query:
+<p>To get the list of authors who wrote a book, create a query:</p>
 
-```java
-// suppose we have a book object
-ParseObject book = ...
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a book object</span>
+<span class="n">ParseObject</span> <span class="n">book</span> <span class="o">=</span> <span class="o">...</span>
 
-// create a relation based on the authors key
-ParseRelation relation = book.getRelation("authors");
+<span class="c1">// create a relation based on the authors key</span>
+<span class="n">ParseRelation</span> <span class="n">relation</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="na">getRelation</span><span class="o">(</span><span class="s">"authors"</span><span class="o">);</span>
 
-// generate a query based on that relation
-ParseQuery query = relation.getQuery();
+<span class="c1">// generate a query based on that relation</span>
+<span class="n">ParseQuery</span> <span class="n">query</span> <span class="o">=</span> <span class="n">relation</span><span class="o">.</span><span class="na">getQuery</span><span class="o">();</span>
 
-// now execute the query
-```
-{: .common-lang-block .java }
+<span class="c1">// now execute the query</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // suppose we have a book object
 PFObject *book = ...
 
@@ -6804,9 +6765,8 @@ PFQuery *query = [relation query];
 
 // now execute the query
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // suppose we have a book object
 let book = ...
 
@@ -6818,10 +6778,8 @@ let query = relation.query()
 
 // now execute the query
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// suppose we have a book object
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// suppose we have a book object
 $book = ...
 
 // create a relation based on the authors key
@@ -6831,63 +6789,58 @@ $relation = $book-&gt;getRelation("authors");
 $query = $relation-&gt;getQuery();
 
 // now execute the query
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// suppose we have a book object
-var book = ...
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a book object
+</span><span class="n">var</span> <span class="n">book</span> <span class="p">=</span> <span class="p">...</span>
 
-// create a relation based on the authors key
-var relation = book.GetRelation<parseobject>("authors");
+<span class="c1">// create a relation based on the authors key
+</span><span class="n">var</span> <span class="n">relation</span> <span class="p">=</span> <span class="n">book</span><span class="p">.</span><span class="n">GetRelation</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;(</span><span class="s">"authors"</span><span class="p">);</span>
 
-// generate a query based on that relation
-var query = relation.Query;
+<span class="c1">// generate a query based on that relation
+</span><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">relation</span><span class="p">.</span><span class="n">Query</span><span class="p">;</span>
 
-// now execute the query
-```
-{: .common-lang-block .csharp }
+<span class="c1">// now execute the query
+</span></code></pre>
+</div>
 
-```js
-// suppose we have a book object
-var book = ...
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a book object</span>
+<span class="kd">var</span> <span class="nx">book</span> <span class="o">=</span> <span class="p">...</span>
 
-// create a relation based on the authors key
-var relation = book.relation("authors");
+<span class="c1">// create a relation based on the authors key</span>
+<span class="kd">var</span> <span class="nx">relation</span> <span class="o">=</span> <span class="nx">book</span><span class="p">.</span><span class="nx">relation</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">);</span>
 
-// generate a query based on that relation
-var query = relation.query();
+<span class="c1">// generate a query based on that relation</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">relation</span><span class="p">.</span><span class="nx">query</span><span class="p">();</span>
 
-// now execute the query
-```
-{: .common-lang-block .js }
+<span class="c1">// now execute the query</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Perhaps you even want to get a list of all the books to which an author contributed. You can create a slightly different kind of query to get the inverse of the relationship:
+<p>Perhaps you even want to get a list of all the books to which an author contributed. You can create a slightly different kind of query to get the inverse of the relationship:</p>
 
-```java
-// suppose we have a author object, for which we want to get all books
-ParseObject author = ...
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a author object, for which we want to get all books</span>
+<span class="n">ParseObject</span> <span class="n">author</span> <span class="o">=</span> <span class="o">...</span>
 
-// first we will create a query on the Book object
-ParseQuery<parseobject> query = ParseQuery.getQuery("Book");
+<span class="c1">// first we will create a query on the Book object</span>
+<span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Book"</span><span class="o">);</span>
 
-// now we will query the authors relation to see if the author object we have
-// is contained therein
-query.whereEqualTo("authors", author);
-```
-{: .common-lang-block .java }
+<span class="c1">// now we will query the authors relation to see if the author object we have</span>
+<span class="c1">// is contained therein</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"authors"</span><span class="o">,</span> <span class="n">author</span><span class="o">);</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // suppose we have a author object, for which we want to get all books
 PFObject *author = ...
 
@@ -6898,9 +6851,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Book"];
 // we have is contained therein
 [query whereKey:@"authors" equalTo:author];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // suppose we have a author object, for which we want to get all books
 let author = ...
 
@@ -6911,10 +6863,8 @@ let query = PFQuery(className: "Book")
 // we have is contained therein
 query?.whereKey("authors", equalTo: author)
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// suppose we have a author object, for which we want to get all books
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// suppose we have a author object, for which we want to get all books
 $author = ...
 
 // first we will create a query on the Book object
@@ -6923,65 +6873,60 @@ $query = new ParseQuery("Book");
 // now we will query the authors relation to see if the author object we have
 // is contained therein
 $query-&gt;equalTo("authors", $author);
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// suppose we have a author object, for which we want to get all books
-var author = ...
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a author object, for which we want to get all books
+</span><span class="n">var</span> <span class="n">author</span> <span class="p">=</span> <span class="p">...</span>
 
-// first we will create a query on the Book object
-var query = ParseObject.GetQuery("Book");
+<span class="c1">// first we will create a query on the Book object
+</span><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Book"</span><span class="p">);</span>
 
-// now we will query the authors relation to see if the author object we have
+<span class="c1">// now we will query the authors relation to see if the author object we have
 // is contained therein
-query = query.WhereEqualTo("authors", author);
-```
-{: .common-lang-block .csharp }
+</span><span class="n">query</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"authors"</span><span class="p">,</span> <span class="n">author</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```js
-// suppose we have a author object, for which we want to get all books
-var author = ...
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a author object, for which we want to get all books</span>
+<span class="kd">var</span> <span class="nx">author</span> <span class="o">=</span> <span class="p">...</span>
 
-// first we will create a query on the Book object
-var query = new Parse.Query("Book");
+<span class="c1">// first we will create a query on the Book object</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">);</span>
 
-// now we will query the authors relation to see if the author object we have
-// is contained therein
-query.equalTo("authors", author);
-```
-{: .common-lang-block .js }
+<span class="c1">// now we will query the authors relation to see if the author object we have</span>
+<span class="c1">// is contained therein</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">,</span> <span class="nx">author</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-### Using Join Tables
+<h3 id="using-join-tables">Using Join Tables</h3>
 
-There may be certain cases where we want to know more about a relationship. For example, suppose we were modeling a following/follower relationship between users: a given user can follow another user, much as they would in popular social networks. In our app, we not only want to know if User A is following User B, but we also want to know **when** User A started following User B. This information could not be contained in a Parse Relation. In order to keep track of this data, you must create a separate table in which the relationship is tracked. This table, which we will call `Follow`, would have a `from` column and a `to` column, each with a pointer to a Parse User. Alongside the relationship, you can also add a column with a `Date` object named `date`.
+<p>There may be certain cases where we want to know more about a relationship. For example, suppose we were modeling a following/follower relationship between users: a given user can follow another user, much as they would in popular social networks. In our app, we not only want to know if User A is following User B, but we also want to know <strong>when</strong> User A started following User B. This information could not be contained in a Parse Relation. In order to keep track of this data, you must create a separate table in which the relationship is tracked. This table, which we will call <code class="highlighter-rouge">Follow</code>, would have a <code class="highlighter-rouge">from</code> column and a <code class="highlighter-rouge">to</code> column, each with a pointer to a Parse User. Alongside the relationship, you can also add a column with a <code class="highlighter-rouge">Date</code> object named <code class="highlighter-rouge">date</code>.</p>
 
-Now, when you want to save the following relationship between two users, create a row in the `Follow` table, filling in the `from`, `to`, and `date` keys appropriately:
+<p>Now, when you want to save the following relationship between two users, create a row in the <code class="highlighter-rouge">Follow</code> table, filling in the <code class="highlighter-rouge">from</code>, <code class="highlighter-rouge">to</code>, and <code class="highlighter-rouge">date</code> keys appropriately:</p>
 
-```java
-// suppose we have a user we want to follow
-ParseUser otherUser = ...
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a user we want to follow</span>
+<span class="n">ParseUser</span> <span class="n">otherUser</span> <span class="o">=</span> <span class="o">...</span>
 
-// create an entry in the Follow table
-ParseObject follow = new ParseObject("Follow");
-follow.put("from", ParseUser.getCurrentUser());
-follow.put("to", otherUser);
-follow.put("date", Date());
-follow.saveInBackground();
-```
-{: .common-lang-block .java }
+<span class="c1">// create an entry in the Follow table</span>
+<span class="n">ParseObject</span> <span class="n">follow</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParseObject</span><span class="o">(</span><span class="s">"Follow"</span><span class="o">);</span>
+<span class="n">follow</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"from"</span><span class="o">,</span> <span class="n">ParseUser</span><span class="o">.</span><span class="na">getCurrentUser</span><span class="o">());</span>
+<span class="n">follow</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"to"</span><span class="o">,</span> <span class="n">otherUser</span><span class="o">);</span>
+<span class="n">follow</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"date"</span><span class="o">,</span> <span class="n">Date</span><span class="o">());</span>
+<span class="n">follow</span><span class="o">.</span><span class="na">saveInBackground</span><span class="o">();</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // suppose we have a user we want to follow
 PFUser *otherUser = ...
 
@@ -6992,9 +6937,8 @@ PFObject *follow = [PFObject objectWithClassName:@"Follow"];
 [follow setObject:[NSDate date] forKey@"date"];
 [follow saveInBackground];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // suppose we have a user we want to follow
 let otherUser = ...
 
@@ -7005,10 +6949,8 @@ follow.setObject(otherUser, forKey: "to")
 follow.setObject(NSDate(), forKey: "date")
 follow.saveInBackground()
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// suppose we have a user we want to follow
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// suppose we have a user we want to follow
 $otherUser = ...
 
 // create an entry in the Follow table
@@ -7017,61 +6959,56 @@ $follow-&gt;set("from", ParseUser::getCurrentUser());
 $follow-&gt;set("to", $otherUser);
 $follow-&gt;set("date", new DateTime());
 $follow-&gt;save();
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// suppose we have a user we want to follow
-ParseUser otherUser = ...
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a user we want to follow
+</span><span class="n">ParseUser</span> <span class="n">otherUser</span> <span class="p">=</span> <span class="p">...</span>
 
-// create an entry in the Follow table
-var follow = new ParseObject("Follow");
-follow["from"] = ParseUser.CurrentUser;
-follow["to"] = otherUser;
-follow["date"] = DateTime.UtcNow;
-await follow.SaveAsync();
-```
-{: .common-lang-block .csharp }
+<span class="c1">// create an entry in the Follow table
+</span><span class="n">var</span> <span class="n">follow</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseObject</span><span class="p">(</span><span class="s">"Follow"</span><span class="p">);</span>
+<span class="n">follow</span><span class="p">[</span><span class="s">"from"</span><span class="p">]</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">;</span>
+<span class="n">follow</span><span class="p">[</span><span class="s">"to"</span><span class="p">]</span> <span class="p">=</span> <span class="n">otherUser</span><span class="p">;</span>
+<span class="n">follow</span><span class="p">[</span><span class="s">"date"</span><span class="p">]</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">UtcNow</span><span class="p">;</span>
+<span class="n">await</span> <span class="n">follow</span><span class="p">.</span><span class="nf">SaveAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```js
-var otherUser = ...
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">otherUser</span> <span class="o">=</span> <span class="p">...</span>
 
-// create an entry in the Follow table
-var follow = new Parse.Object("Follow");
-follow.set("from", Parse.User.current());
-follow.set("to", otherUser);
-follow.set("date", Date());
-follow.save();
-```
-{: .common-lang-block .js }
+<span class="c1">// create an entry in the Follow table</span>
+<span class="kd">var</span> <span class="nx">follow</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">(</span><span class="s2">"Follow"</span><span class="p">);</span>
+<span class="nx">follow</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"from"</span><span class="p">,</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">current</span><span class="p">());</span>
+<span class="nx">follow</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"to"</span><span class="p">,</span> <span class="nx">otherUser</span><span class="p">);</span>
+<span class="nx">follow</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"date"</span><span class="p">,</span> <span class="nb">Date</span><span class="p">());</span>
+<span class="nx">follow</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-If we want to find all of the people we are following, we can execute a query on the `Follow` table:
+<p>If we want to find all of the people we are following, we can execute a query on the <code class="highlighter-rouge">Follow</code> table:</p>
 
-```java
-// set up the query on the Follow table
-ParseQuery<parseobject> query = ParseQuery.getQuery("Follow");
-query.whereEqualTo("from", ParseUser.getCurrentUser());
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up the query on the Follow table</span>
+<span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Follow"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"from"</span><span class="o">,</span> <span class="n">ParseUser</span><span class="o">.</span><span class="na">getCurrentUser</span><span class="o">());</span>
 
-// execute the query
-query.findInBackground(newFindCallback<parseobject>() {
-    public void done(List<parseobject> followList, ParseException e) {
+<span class="c1">// execute the query</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="n">newFindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">followList</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 
-    }
-});
-```
-{: .common-lang-block .java }
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // set up the query on the Follow table
 PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
 [query whereKey:@"from" equalTo:[PFUser currentUser]];
@@ -7088,9 +7025,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
   }
 }];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // set up the query on the Follow table
 let query = PFQuery(className: "Follow")
 query.whereKey("from", equalTo: PFUser.currentUser()!)
@@ -7110,66 +7046,59 @@ query.findObjectsInBackgroundWithBlock{
     }
 }
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// set up the query on the Follow table
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// set up the query on the Follow table
 $query = new ParseQuery("Follow");
 $query-&gt;equalTo("from", ParseUser::getCurrentUser());
 
 // execute the query
 $results = $query-&gt;find();
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// set up the query on the Follow table
-ParseQuery<parseobject> query = ParseQuery.getQuery("Follow");
-query = query.WhereEqualTo("from", ParseUser.CurrentUser);
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up the query on the Follow table
+</span><span class="n">ParseQuery</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseQuery</span><span class="p">.</span><span class="nf">getQuery</span><span class="p">(</span><span class="s">"Follow"</span><span class="p">);</span>
+<span class="n">query</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"from"</span><span class="p">,</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
 
-// execute the query
-IEnumerable<parseobject> results = await query.FindAsync();
-```
-{: .common-lang-block .csharp }
+<span class="c1">// execute the query
+</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">query</span><span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```js
-var query = new Parse.Query("Follow");
-query.equalTo("from", Parse.User.current());
-query.find({
-  success: function(users){
-    ...
-  }
-});
-```
-{: .common-lang-block .js }
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Follow"</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"from"</span><span class="p">,</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">current</span><span class="p">());</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">users</span><span class="p">){</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-It’s also pretty easy to find all the users that are following the current user by querying on the `to` key:
+<p>It’s also pretty easy to find all the users that are following the current user by querying on the <code class="highlighter-rouge">to</code> key:</p>
 
-```java
-// set up the query on the Follow table
-ParseQuery<parseobject> query = ParseQuery.getQuery("Follow");
-query.whereEqualTo("to", ParseUser.getCurrentUser());
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up the query on the Follow table</span>
+<span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Follow"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"to"</span><span class="o">,</span> <span class="n">ParseUser</span><span class="o">.</span><span class="na">getCurrentUser</span><span class="o">());</span>
 
-// execute the query
-query.findInBackground(newFindCallback<parseobject>() {
-    public void done(List<parseobject> followList, ParseException e) {
+<span class="c1">// execute the query</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="n">newFindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">followList</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 
-    }
-});
-```
-{: .common-lang-block .java }
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // set up the query on the Follow table
 PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
 [query whereKey:@"to" equalTo:[PFUser currentUser]];
@@ -7185,9 +7114,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
   }
 }];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // set up the query on the Follow table
 let query = PFQuery(className: "Follow")
 query.whereKey("to", equalTo: PFUser.currentUser()!)
@@ -7207,67 +7135,60 @@ query.findObjectsInBackgroundWithBlock{
     }
 }
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// create an entry in the Follow table
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// create an entry in the Follow table
 $query = new ParseQuery("Follow");
 $query-&gt;equalTo("to", ParseUser::getCurrentUser());
 $results = $query-&gt;find();
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// create an entry in the Follow table
-var query = ParseObject.GetQuery("Follow")
-    .WhereEqualTo("to", ParseUser.CurrentUser);
-IEnumerable<parseobject> results = await query.FindAsync();
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// create an entry in the Follow table
+</span><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Follow"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"to"</span><span class="p">,</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
+<span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">query</span><span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```js
-// create an entry in the Follow table
-var query = new Parse.Query("Follow");
-query.equalTo("to", Parse.User.current());
-query.find({
-  success: function(users){
-    ...
-  }
-});
-```
-{: .common-lang-block .js }
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// create an entry in the Follow table</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Follow"</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"to"</span><span class="p">,</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">.</span><span class="nx">current</span><span class="p">());</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">users</span><span class="p">){</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-### Using an Array
+<h3 id="using-an-array">Using an Array</h3>
 
-Arrays are used in Many-to-Many relationships in much the same way that they are for One-to-Many relationships. All objects on one side of the relationship will have an Array column containing several objects on the other side of the relationship.
+<p>Arrays are used in Many-to-Many relationships in much the same way that they are for One-to-Many relationships. All objects on one side of the relationship will have an Array column containing several objects on the other side of the relationship.</p>
 
-Suppose we have a book reading app with `Book` and `Author` objects. The `Book` object will contain an Array of `Author` objects (with a key named `authors`). Arrays are a great fit for this scenario because it's highly unlikely that a book will have more than 100 or so authors. We will put the Array in the `Book` object for this reason. After all, an author could write more than 100 books.
+<p>Suppose we have a book reading app with <code class="highlighter-rouge">Book</code> and <code class="highlighter-rouge">Author</code> objects. The <code class="highlighter-rouge">Book</code> object will contain an Array of <code class="highlighter-rouge">Author</code> objects (with a key named <code class="highlighter-rouge">authors</code>). Arrays are a great fit for this scenario because it’s highly unlikely that a book will have more than 100 or so authors. We will put the Array in the <code class="highlighter-rouge">Book</code> object for this reason. After all, an author could write more than 100 books.</p>
 
-Here is how we save a relationship between a `Book` and an `Author`.
+<p>Here is how we save a relationship between a <code class="highlighter-rouge">Book</code> and an <code class="highlighter-rouge">Author</code>.</p>
 
-```java
-// let's say we have an author
-ParseObject author = ...
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have an author</span>
+<span class="n">ParseObject</span> <span class="n">author</span> <span class="o">=</span> <span class="o">...</span>
 
-// and let's also say we have an book
-ParseObject book = ...
+<span class="c1">// and let's also say we have an book</span>
+<span class="n">ParseObject</span> <span class="n">book</span> <span class="o">=</span> <span class="o">...</span>
 
-// add the author to the authors list for the book
-book.put("authors", author);
-```
-{: .common-lang-block .java }
+<span class="c1">// add the author to the authors list for the book</span>
+<span class="n">book</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"authors"</span><span class="o">,</span> <span class="n">author</span><span class="o">);</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // let's say we have an author
 PFObject *author = ...
 
@@ -7277,9 +7198,8 @@ PFObject *book = ...
 // add the author to the authors list for the book
 [book addObject:author forKey:@"authors"];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // let's say we have an author
 let author = ...
 
@@ -7289,10 +7209,8 @@ let book = ...
 // add the author to the authors list for the book
 book.addObject(author, forKey: "authors")
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// let's say we have an author
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// let's say we have an author
 $author = ...
 
 // and let's also say we have an book
@@ -7300,62 +7218,57 @@ $book = ...
 
 // add the author to the authors list for the book
 $book-&gt;addUnique("authors", array($author));
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// let's say we have an author
-var author = ...
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have an author
+</span><span class="n">var</span> <span class="n">author</span> <span class="p">=</span> <span class="p">...</span>
 
-// and let's also say we have an book
-var book = ...
+<span class="c1">// and let's also say we have an book
+</span><span class="n">var</span> <span class="n">book</span> <span class="p">=</span> <span class="p">...</span>
 
-// add the author to the authors list for the book
-book.AddToList("authors", author);
-```
-{: .common-lang-block .csharp }
+<span class="c1">// add the author to the authors list for the book
+</span><span class="n">book</span><span class="p">.</span><span class="nf">AddToList</span><span class="p">(</span><span class="s">"authors"</span><span class="p">,</span> <span class="n">author</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```js
-// let's say we have an author
-var author = ...
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have an author</span>
+<span class="kd">var</span> <span class="nx">author</span> <span class="o">=</span> <span class="p">...</span>
 
-// and let's also say we have an book
-var book = ...
+<span class="c1">// and let's also say we have an book</span>
+<span class="kd">var</span> <span class="nx">book</span> <span class="o">=</span> <span class="p">...</span>
 
-// add the author to the authors list for the book
-book.add("authors", author);
-```
-{: .common-lang-block .js }
+<span class="c1">// add the author to the authors list for the book</span>
+<span class="nx">book</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">,</span> <span class="nx">author</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Because the author list is an Array, you should use the `includeKey` (or `include` on Android) parameter when fetching a `Book` so that Parse returns all the authors when it also returns the book:
+<p>Because the author list is an Array, you should use the <code class="highlighter-rouge">includeKey</code> (or <code class="highlighter-rouge">include</code> on Android) parameter when fetching a <code class="highlighter-rouge">Book</code> so that Parse returns all the authors when it also returns the book:</p>
 
-```java
-// set up our query for the Book object
-ParseQuery bookQuery = ParseQuery.getQuery("Book");
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object</span>
+<span class="n">ParseQuery</span> <span class="n">bookQuery</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Book"</span><span class="o">);</span>
 
-// configure any constraints on your query...
-// tell the query to fetch all of the Author objects along with the Book
-bookQuery.include("authors");
+<span class="c1">// configure any constraints on your query...</span>
+<span class="c1">// tell the query to fetch all of the Author objects along with the Book</span>
+<span class="n">bookQuery</span><span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="s">"authors"</span><span class="o">);</span>
 
-// execute the query
-bookQuery.findInBackground(newFindCallback<parseobject>() {
-    public void done(List<parseobject> bookList, ParseException e) {
-    }
-});
-```
-{: .common-lang-block .java }
+<span class="c1">// execute the query</span>
+<span class="n">bookQuery</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="n">newFindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">bookList</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // set up our query for the Book object
 PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
 
@@ -7369,9 +7282,8 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
     // Author objects, too
 }];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // set up our query for the Book object
 let bookQuery = PFQuery(className: "Book")
 
@@ -7386,10 +7298,8 @@ bookQuery.findObjectsInBackgroundWithBlock{
     // Author objects, too
 }
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// set up our query for the Book object
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// set up our query for the Book object
 $bookQuery = new ParseQuery("Book");
 
 // configure any constraints on your query...
@@ -7398,113 +7308,100 @@ $bookQuery-&gt;includeKey("authors");
 
 // execute the query
 $books= $bookQuery-&gt;find();
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// set up our query for the Book object
-var bookQuery = ParseObject.GetQuery("Book");
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object
+</span><span class="n">var</span> <span class="n">bookQuery</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Book"</span><span class="p">);</span>
 
-// configure any constraints on your query...
+<span class="c1">// configure any constraints on your query...
 // tell the query to fetch all of the Author objects along with the Book
-bookQuery = bookQuery.Include("authors");
+</span><span class="n">bookQuery</span> <span class="p">=</span> <span class="n">bookQuery</span><span class="p">.</span><span class="nf">Include</span><span class="p">(</span><span class="s">"authors"</span><span class="p">);</span>
 
-// execute the query
-IEnumerable<parseobject> books= await bookQuery.FindAsync();
-```
-{: .common-lang-block .csharp }
+<span class="c1">// execute the query
+</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">books</span><span class="p">=</span> <span class="n">await</span> <span class="n">bookQuery</span><span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```js
-// set up our query for the Book object
-var bookQuery = new Parse.Query("Book");
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object</span>
+<span class="kd">var</span> <span class="nx">bookQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">);</span>
 
-// configure any constraints on your query...
-// tell the query to fetch all of the Author objects along with the Book
-bookQuery.include("authors");
+<span class="c1">// configure any constraints on your query...</span>
+<span class="c1">// tell the query to fetch all of the Author objects along with the Book</span>
+<span class="nx">bookQuery</span><span class="p">.</span><span class="nx">include</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">);</span>
 
-// execute the query
-bookQuery.find({
-  success: function(books){
-    ...
-  }
-});
-```
-{: .common-lang-block .js }
+<span class="c1">// execute the query</span>
+<span class="nx">bookQuery</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">books</span><span class="p">){</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-At that point, getting all the `Author` objects in a given `Book` is a pretty straightforward call:
+<p>At that point, getting all the <code class="highlighter-rouge">Author</code> objects in a given <code class="highlighter-rouge">Book</code> is a pretty straightforward call:</p>
 
-```java
-ArrayList<parseobject> authorList = book.getList("authors");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">authorList</span> <span class="o">=</span> <span class="n">book</span><span class="o">.</span><span class="na">getList</span><span class="o">(</span><span class="s">"authors"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 NSArray *authorList = [book objectForKey@"authors"];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let authorList = book.objectForKey("authors") as? NSArray
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-$authorList = $book-&gt;get("authors");
-```
-{: .common-lang-block .php }
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>$authorList = $book-&gt;get("authors");
+</code></pre>
+</div>
 
-```cs
-var authorList = book.Get&lt;List<parseobject>&gt;("authors");
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">authorList</span> <span class="p">=</span> <span class="n">book</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;&gt;(</span><span class="s">"authors"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```js
-var authorList = book.get("authors")
-```
-{: .common-lang-block .js }
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">authorList</span> <span class="o">=</span> <span class="nx">book</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Finally, suppose you have an `Author` and you want to find all the `Book` objects in which she appears. This is also a pretty straightforward query with an associated constraint:
+<p>Finally, suppose you have an <code class="highlighter-rouge">Author</code> and you want to find all the <code class="highlighter-rouge">Book</code> objects in which she appears. This is also a pretty straightforward query with an associated constraint:</p>
 
-```java
-// set up our query for the Book object
-ParseQuery bookQuery = ParseQuery.getQuery("Book");
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object</span>
+<span class="n">ParseQuery</span> <span class="n">bookQuery</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Book"</span><span class="o">);</span>
 
-// configure any constraints on your query...
-booKQuery.whereEqualTo("authors", author);
+<span class="c1">// configure any constraints on your query...</span>
+<span class="n">booKQuery</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"authors"</span><span class="o">,</span> <span class="n">author</span><span class="o">);</span>
 
-// tell the query to fetch all of the Author objects along with the Book
-bookQuery.include("authors");
+<span class="c1">// tell the query to fetch all of the Author objects along with the Book</span>
+<span class="n">bookQuery</span><span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="s">"authors"</span><span class="o">);</span>
 
-// execute the query
-bookQuery.findInBackground(newFindCallback<parseobject>() {
-    public void done(List<parseobject> bookList, ParseException e) {
+<span class="c1">// execute the query</span>
+<span class="n">bookQuery</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="n">newFindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">bookList</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
 
-    }
-});
-```
-{: .common-lang-block .java }
+    <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-<pre><code class="objectivec">
+<pre class="common-lang-block objectivec"><code class="objectivec">
 // suppose we have an Author object
 PFObject *author = ...
 
@@ -7522,9 +7419,8 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
     // objects is all of the Book objects, and their associated Author objects, too
 }];
 </code></pre>
-{: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 // suppose we have an Author object
 let author = ...
 
@@ -7543,10 +7439,8 @@ bookQuery.findObjectsInBackgroundWithBlock{
     // objects is all of the Book objects, and their associated Author objects, too
 }
 </code></pre>
-{: .common-lang-block .swift }
 
-```php
-// set up our query for the Book object
+<div class="common-lang-block php highlighter-rouge"><pre class="highlight"><code>// set up our query for the Book object
 $bookQuery = new ParseQuery("Book");
 
 // configure any constraints on your query...
@@ -7557,62 +7451,59 @@ $bookQuery-&gt;includeKey("authors");
 
 // execute the query
 $books = $bookQuery-&gt;find();
-```
-{: .common-lang-block .php }
+</code></pre>
+</div>
 
-```cs
-// set up our query for the Book object
-var bookQuery = ParseObject.GetQuery("Book");
+<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object
+</span><span class="n">var</span> <span class="n">bookQuery</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Book"</span><span class="p">);</span>
 
-// configure any constraints on your query...
-bookQuery = bookQuery.WhereEqualTo("authors", author);
+<span class="c1">// configure any constraints on your query...
+</span><span class="n">bookQuery</span> <span class="p">=</span> <span class="n">bookQuery</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"authors"</span><span class="p">,</span> <span class="n">author</span><span class="p">);</span>
 
-// tell the query to fetch all of the Author objects along with the Book
-bookQuery = bookQuery.Include("authors");
+<span class="c1">// tell the query to fetch all of the Author objects along with the Book
+</span><span class="n">bookQuery</span> <span class="p">=</span> <span class="n">bookQuery</span><span class="p">.</span><span class="nf">Include</span><span class="p">(</span><span class="s">"authors"</span><span class="p">);</span>
 
-// execute the query
-IEnumerable<parseobject> books = await bookQuery.FindAsync();
-```
-{: .common-lang-block .csharp }
+<span class="c1">// execute the query
+</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">books</span> <span class="p">=</span> <span class="n">await</span> <span class="n">bookQuery</span><span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```js
-// set up our query for the Book object
-var bookQuery = new Parse.Query("Book");
+<div class="common-lang-block js highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object</span>
+<span class="kd">var</span> <span class="nx">bookQuery</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Book"</span><span class="p">);</span>
 
-// configure any constraints on your query...
-bookQuery.equalTo("authors", author);
+<span class="c1">// configure any constraints on your query...</span>
+<span class="nx">bookQuery</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">,</span> <span class="nx">author</span><span class="p">);</span>
 
-// tell the query to fetch all of the Author objects along with the Book
-bookQuery.include("authors");
+<span class="c1">// tell the query to fetch all of the Author objects along with the Book</span>
+<span class="nx">bookQuery</span><span class="p">.</span><span class="nx">include</span><span class="p">(</span><span class="s2">"authors"</span><span class="p">);</span>
 
-// execute the query
-bookQuery.find({
-  success: function(books){
-    ...
-  }
-});
-```
-{: .common-lang-block .js }
+<span class="c1">// execute the query</span>
+<span class="nx">bookQuery</span><span class="p">.</span><span class="nx">find</span><span class="p">({</span>
+  <span class="na">success</span><span class="p">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">books</span><span class="p">){</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-## One-to-One
+<h2 id="one-to-one">One-to-One</h2>
 
-In Parse, a one-to-one relationship is great for situations where you need to split one object into two objects. These situations should be rare, but two examples include:
+<p>In Parse, a one-to-one relationship is great for situations where you need to split one object into two objects. These situations should be rare, but two examples include:</p>
 
-* **Limiting visibility of some user data.** In this scenario, you would split the object in two, where one portion of the object contains data that is visible to other users, while the related object contains data that is private to the original user (and protected via ACLs).
-* **Splitting up an object for size.** In this scenario, your original object is greater than the 128K maximum size permitted for an object, so you decide to create a secondary object to house extra data. It is usually better to design your data model to avoid objects this large, rather than splitting them up. If you can't avoid doing so, you can also consider storing large data in a Parse File.
+<ul>
+  <li><strong>Limiting visibility of some user data.</strong> In this scenario, you would split the object in two, where one portion of the object contains data that is visible to other users, while the related object contains data that is private to the original user (and protected via ACLs).</li>
+  <li><strong>Splitting up an object for size.</strong> In this scenario, your original object is greater than the 128K maximum size permitted for an object, so you decide to create a secondary object to house extra data. It is usually better to design your data model to avoid objects this large, rather than splitting them up. If you can’t avoid doing so, you can also consider storing large data in a Parse File.</li>
+</ul>
 
-Thank you for reading this far. We apologize for the complexity. Modeling relationships in data is a hard subject, in general. But look on the bright side: it's still easier than relationships with people.
-</parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseobject></parseuser></parseuser></parseuser></parseuser></object></code></pre></parseobject></parseobject></code></pre>
+<p>Thank you for reading this far. We apologize for the complexity. Modeling relationships in data is a hard subject, in general. But look on the bright side: it’s still easier than relationships with people.</p>
 
 
                     
