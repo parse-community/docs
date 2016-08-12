@@ -21,7 +21,7 @@ We'll go through each of these in detail as we run through the various use cases
 The first thing your app will do is probably ask the user to sign up. The following code illustrates a typical sign up:
 
 ```java
-ParseUser user = new ParseUser();
+ParseUser user = ParseObject.create(ParseUser.class);
 user.setUsername("my name");
 user.setPassword("my pass");
 user.setEmail("email@example.com");
