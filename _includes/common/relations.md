@@ -42,7 +42,7 @@ $game->set("createdBy", ParseUser::getCurrentUser());
 var game = new ParseObject("Game");
 game["createdBy"] = ParseUser.CurrentUser;
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 var game = new Parse.Object("Game");
@@ -91,7 +91,7 @@ $gameQuery->equalTo("createdBy", ParseUser::getCurrentUser());
 ```cs
 var query = ParseObject.getQuery("Game").WhereEqualTo("createdBy", ParseUser.CurrentUser);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 var query = new Parse.Query("Game");
@@ -154,7 +154,7 @@ ParseObject game = ...
 // getting the user who created the Game
 ParseUser user = game["createdBy"];
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // say we have a Game object
@@ -271,7 +271,7 @@ weapons.Add(bunnyRabbit);
 var user = ParseUser.CurrentUser;
 user.AddRangeToList("weaponsList", weapons);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // let's say we have four weapons
@@ -324,7 +324,7 @@ $weapons = ParseUser::getCurrentUser()->get("weaponsList");
 ```cs
 var weapons = ParseUser.CurrentUser.Get<IList<Object>>("weaponsList");
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 var weapons = Parse.User.current().get("weaponsList")
@@ -431,7 +431,7 @@ userQuery = userQuery.Include("weaponsList");
 IEnumerable<ParseUser> results = await userQuery.FindAsync();
 // results contains all of the User objects, and their associated Weapon objects, too
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // set up our query for a User object
@@ -508,7 +508,7 @@ userQuery = userQuery.WhereEqualTo("weaponsList", scimitar);
 // or query using an array of Weapon objects...
 userQuery = userQuery.WhereContainedIn("weaponsList", arrayOfWeapons);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // add a constraint to query for whenever a specific Weapon is in an array
@@ -646,7 +646,7 @@ relation.Add(authorThree);
 // now save the book object
 await book.SaveAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // let’s say we have a few objects representing Author objects
@@ -749,7 +749,7 @@ var query = relation.Query;
 
 // now execute the query
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // suppose we have a book object
@@ -840,7 +840,7 @@ var query = ParseObject.GetQuery("Book");
 // is contained therein
 query = query.WhereEqualTo("authors", author);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // suppose we have a author object, for which we want to get all books
@@ -934,7 +934,7 @@ follow["to"] = otherUser;
 follow["date"] = DateTime.UtcNow;
 await follow.SaveAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 var otherUser = ...
@@ -1033,7 +1033,7 @@ query = query.WhereEqualTo("from", ParseUser.CurrentUser);
 // execute the query
 IEnumerable<ParseObject> results = await query.FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 var query = new Parse.Query("Follow");
@@ -1126,7 +1126,7 @@ var query = ParseObject.GetQuery("Follow")
     .WhereEqualTo("to", ParseUser.CurrentUser);
 IEnumerable<ParseObject> results = await query.FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // create an entry in the Follow table
@@ -1216,7 +1216,7 @@ var book = ...
 // add the author to the authors list for the book
 book.AddToList("authors", author);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // let's say we have an author
@@ -1315,7 +1315,7 @@ bookQuery = bookQuery.Include("authors");
 // execute the query
 IEnumerable<ParseObject> books= await bookQuery.FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // set up our query for the Book object
@@ -1369,7 +1369,7 @@ $authorList = $book->get("authors");
 ```cs
 var authorList = book.Get<List<ParseObject>>("authors");
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 var authorList = book.get("authors")
@@ -1476,7 +1476,7 @@ bookQuery = bookQuery.Include("authors");
 // execute the query
 IEnumerable<ParseObject> books = await bookQuery.FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```js
 // set up our query for the Book object

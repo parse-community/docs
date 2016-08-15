@@ -103,7 +103,7 @@ user.setACL(new Parse.ACL(user));
 var user = ParseUser.CurrentUser;
 user.ACL = new ParseACL(user);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```php
 $user = ParseUser::getCurrentUser();
@@ -148,7 +148,7 @@ ParseACL.setDefaultACL(new ParseACL(), true);
 ```cs
 // not available in the .NET SDK
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```php
 ParseACL::setDefaultACL(new ParseACL(), true);
@@ -211,7 +211,7 @@ privateData["phoneNumber"] = "555-5309";
 
 ParseUser.CurrentUser["privateData"] =  privateData;
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```php
 $privateData = ParseObject::create("PrivateUserData");
@@ -269,7 +269,7 @@ var acl = new ParseACL();
 acl.PublicReadAccess = true;
 acl.SetRoleWriteAccess(ParseUser.CurrentUser.ObjectId, true);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```php
 $acl = new ParseACL();
@@ -325,7 +325,7 @@ var acl = new ParseACL();
 acl.PublicReadAccess = true;
 acl.SetRoleWriteAccess("admins", true);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```php
 $acl = new ParseACL();
@@ -398,7 +398,7 @@ Note that this ACL is not actually created on each object. Any existing ACLs wil
 
 Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don't always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, [Pointer Permissions](#security-pointer-permissions) are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.
 
-![]({{ /assets/images/clp_vs_acl_diagram.png || prepend: site.baseurl }})
+![]({{ '/assets/images/clp_vs_acl_diagram.png' || prepend: site.baseurl }})
 
 As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let's look at an example to get a better sense of how CLPs and ACLs can interact. Say we have a `Photo` class, with an object, `photoObject`. There are 2 users in our app, `user1` and `user2`. Now lets say we set a Get CLP on the `Photo` class, disabling public Get, but allowing `user1` to perform Get. Now let's also set an ACL on `photoObject` to allow Read - which includes GET - for only `user2`.
 

@@ -238,9 +238,9 @@
 
 <p>For example, let’s say you’re tracking high scores for a game. A single <code class="highlighter-rouge">PFObject</code> could contain:</p>
 
-<pre><code class="javascript">
-score: 1337, playerName: "Sean Plott", cheatMode: false
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">score</span><span class="err">:</span> <span class="mi">1337</span><span class="p">,</span> <span class="nx">playerName</span><span class="err">:</span> <span class="s2">"Sean Plott"</span><span class="p">,</span> <span class="nx">cheatMode</span><span class="err">:</span> <span class="kc">false</span>
 </code></pre>
+</div>
 
 <p>Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.</p>
 
@@ -250,7 +250,7 @@ score: 1337, playerName: "Sean Plott", cheatMode: false
 
 <p>Let’s say you want to save the <code class="highlighter-rouge">GameScore</code> described above to the Parse Cloud. The interface is similar to a <code class="highlighter-rouge">NSMutableDictionary</code>, plus the <code class="highlighter-rouge">saveInBackground</code> method:</p>
 
-<pre><code class="objc">
+<pre><code class="objectivec">
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
 gameScore[@"score"] = @1337;
 gameScore[@"playerName"] = @"Sean Plott";
@@ -281,10 +281,10 @@ gameScore.saveInBackgroundWithBlock {
 
 <p>After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:</p>
 
-<pre><code class="javascript">
-objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
-createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">objectId</span><span class="err">:</span> <span class="s2">"xWMyZ4YEGZ"</span><span class="p">,</span> <span class="nx">score</span><span class="err">:</span> <span class="mi">1337</span><span class="p">,</span> <span class="nx">playerName</span><span class="err">:</span> <span class="s2">"Sean Plott"</span><span class="p">,</span> <span class="nx">cheatMode</span><span class="err">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nx">createdAt</span><span class="err">:</span><span class="s2">"2011-06-10T18:33:42Z"</span><span class="p">,</span> <span class="nx">updatedAt</span><span class="err">:</span><span class="s2">"2011-06-10T18:33:42Z"</span>
 </code></pre>
+</div>
 
 <p>There are two things to note here. You didn’t have to configure or set up a new Class called <code class="highlighter-rouge">GameScore</code> before running this code. Your Parse app lazily creates this Class for you when it first encounters it.</p>
 
@@ -2812,7 +2812,7 @@ All special fields except <code class="highlighter-rouge">installationId</code> 
 
 <p>To handle this error, we recommend writing a global utility function that is called by all of your Parse request error callbacks. You can then handle the “invalid session token” error in this global function. You should prompt the user to login again so that they can obtain a new session token. This code could look like this:</p>
 
-<div class="common-lang-block objc highlighter-rouge"><pre class="highlight"><code><span class="c1">// Objective-C
+<div class="common-lang-block objectivec highlighter-rouge"><pre class="highlight"><code><span class="c1">// Objective-C
 </span><span class="k">@interface</span> <span class="nc">ParseErrorHandlingController</span> <span class="p">:</span> <span class="nc">NSObject</span>
 
 <span class="k">+</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">handleParseError</span><span class="p">:(</span><span class="n">NSError</span> <span class="o">*</span><span class="p">)</span><span class="nv">error</span><span class="p">;</span>
@@ -2989,7 +2989,7 @@ query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]!, error: NSError!
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ParseErrorHandler</span> <span class="p">{</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="k">public</span> <span class="k">class</span> <span class="nc">ParseErrorHandler</span> <span class="p">{</span>
   <span class="k">public</span> <span class="k">static</span> <span class="k">void</span> <span class="nf">HandleParseError</span><span class="p">(</span><span class="n">ParseException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">switch</span> <span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">Code</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">case</span> <span class="n">ParseException</span><span class="p">.</span><span class="n">ErrorCode</span><span class="p">.</span><span class="n">InvalidSessionToken</span><span class="p">:</span>
@@ -6157,7 +6157,7 @@ $game-&gt;set("createdBy", ParseUser::getCurrentUser());
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">game</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseObject</span><span class="p">(</span><span class="s">"Game"</span><span class="p">);</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">game</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseObject</span><span class="p">(</span><span class="s">"Game"</span><span class="p">);</span>
 <span class="n">game</span><span class="p">[</span><span class="s">"createdBy"</span><span class="p">]</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">;</span>
 </code></pre>
 </div>
@@ -6199,7 +6199,7 @@ $gameQuery-&gt;equalTo("createdBy", ParseUser::getCurrentUser());
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">getQuery</span><span class="p">(</span><span class="s">"Game"</span><span class="p">).</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"createdBy"</span><span class="p">,</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">getQuery</span><span class="p">(</span><span class="s">"Game"</span><span class="p">).</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"createdBy"</span><span class="p">,</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
 </code></pre>
 </div>
 
@@ -6250,7 +6250,7 @@ $user = $game["createdBy"];
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// say we have a Game object
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// say we have a Game object
 </span><span class="n">ParseObject</span> <span class="n">game</span> <span class="p">=</span> <span class="p">...</span>
 
 <span class="c1">// getting the user who created the Game
@@ -6348,7 +6348,7 @@ $user-&gt;set("weaponsList", weapons);
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have four weapons
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have four weapons
 </span><span class="n">var</span> <span class="n">scimitar</span> <span class="p">=</span> <span class="p">...</span>
 <span class="n">var</span> <span class="n">plasmaRifle</span> <span class="p">=</span> <span class="p">...</span>
 <span class="n">var</span> <span class="n">grenade</span> <span class="p">=</span> <span class="p">...</span>
@@ -6408,7 +6408,7 @@ let weapons = PFUser.currentUser()?.objectForKey("weaponsList")
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">weapons</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">IList</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;&gt;(</span><span class="s">"weaponsList"</span><span class="p">);</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">weapons</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">IList</span><span class="p">&lt;</span><span class="n">Object</span><span class="p">&gt;&gt;(</span><span class="s">"weaponsList"</span><span class="p">);</span>
 </code></pre>
 </div>
 
@@ -6495,7 +6495,7 @@ $results = $userQuery-&gt;find();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for a User object
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for a User object
 </span><span class="n">var</span> <span class="n">userQuery</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">Query</span><span class="p">;</span>
 
 <span class="c1">// configure any constraints on your query...
@@ -6572,7 +6572,7 @@ $userQuery-&gt;containedIn("weaponsList", $arrayOfWeapons);
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// add a constraint to query for whenever a specific Weapon is in an array
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// add a constraint to query for whenever a specific Weapon is in an array
 </span><span class="n">userQuery</span> <span class="p">=</span> <span class="n">userQuery</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"weaponsList"</span><span class="p">,</span> <span class="n">scimitar</span><span class="p">);</span>
 
 <span class="c1">// or query using an array of Weapon objects...
@@ -6690,7 +6690,7 @@ $book-&gt;save();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// let’s say we have a few objects representing Author objects
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// let’s say we have a few objects representing Author objects
 </span><span class="n">var</span> <span class="n">authorOne</span> <span class="p">=</span> <span class="p">...</span>
 <span class="n">var</span> <span class="n">authorTwo</span> <span class="p">=</span> <span class="p">...</span>
 <span class="n">var</span> <span class="n">authorThree</span> <span class="p">=</span> <span class="p">...</span>
@@ -6792,7 +6792,7 @@ $query = $relation-&gt;getQuery();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a book object
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a book object
 </span><span class="n">var</span> <span class="n">book</span> <span class="p">=</span> <span class="p">...</span>
 
 <span class="c1">// create a relation based on the authors key
@@ -6876,7 +6876,7 @@ $query-&gt;equalTo("authors", $author);
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a author object, for which we want to get all books
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a author object, for which we want to get all books
 </span><span class="n">var</span> <span class="n">author</span> <span class="p">=</span> <span class="p">...</span>
 
 <span class="c1">// first we will create a query on the Book object
@@ -6962,7 +6962,7 @@ $follow-&gt;save();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a user we want to follow
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// suppose we have a user we want to follow
 </span><span class="n">ParseUser</span> <span class="n">otherUser</span> <span class="p">=</span> <span class="p">...</span>
 
 <span class="c1">// create an entry in the Follow table
@@ -7056,7 +7056,7 @@ $results = $query-&gt;find();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up the query on the Follow table
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up the query on the Follow table
 </span><span class="n">ParseQuery</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseQuery</span><span class="p">.</span><span class="nf">getQuery</span><span class="p">(</span><span class="s">"Follow"</span><span class="p">);</span>
 <span class="n">query</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"from"</span><span class="p">,</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
 
@@ -7143,7 +7143,7 @@ $results = $query-&gt;find();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// create an entry in the Follow table
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// create an entry in the Follow table
 </span><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Follow"</span><span class="p">)</span>
     <span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"to"</span><span class="p">,</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
 <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">query</span><span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
@@ -7221,7 +7221,7 @@ $book-&gt;addUnique("authors", array($author));
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have an author
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// let's say we have an author
 </span><span class="n">var</span> <span class="n">author</span> <span class="p">=</span> <span class="p">...</span>
 
 <span class="c1">// and let's also say we have an book
@@ -7311,7 +7311,7 @@ $books= $bookQuery-&gt;find();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object
 </span><span class="n">var</span> <span class="n">bookQuery</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Book"</span><span class="p">);</span>
 
 <span class="c1">// configure any constraints on your query...
@@ -7365,7 +7365,7 @@ let authorList = book.objectForKey("authors") as? NSArray
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">authorList</span> <span class="p">=</span> <span class="n">book</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;&gt;(</span><span class="s">"authors"</span><span class="p">);</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">authorList</span> <span class="p">=</span> <span class="n">book</span><span class="p">.</span><span class="n">Get</span><span class="p">&lt;</span><span class="n">List</span><span class="p">&lt;</span><span class="n">ParseObject</span><span class="p">&gt;&gt;(</span><span class="s">"authors"</span><span class="p">);</span>
 </code></pre>
 </div>
 
@@ -7454,7 +7454,7 @@ $books = $bookQuery-&gt;find();
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// set up our query for the Book object
 </span><span class="n">var</span> <span class="n">bookQuery</span> <span class="p">=</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Book"</span><span class="p">);</span>
 
 <span class="c1">// configure any constraints on your query...
@@ -7783,7 +7783,7 @@ if let user = PFUser.currentUser() {
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">;</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">user</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">;</span>
 <span class="n">user</span><span class="p">.</span><span class="n">ACL</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseACL</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
 </code></pre>
 </div>
@@ -7821,7 +7821,7 @@ PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="c1">// not available in the .NET SDK
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// not available in the .NET SDK
 </span></code></pre>
 </div>
 
@@ -7872,7 +7872,7 @@ if let currentUser = PFUser.currentUser() {
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">privateData</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseObject</span><span class="p">(</span><span class="s">"PrivateUserData"</span><span class="p">);</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">privateData</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseObject</span><span class="p">(</span><span class="s">"PrivateUserData"</span><span class="p">);</span>
 <span class="n">privateData</span><span class="p">.</span><span class="n">ACL</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseACL</span><span class="p">(</span><span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">);</span>
 <span class="n">privateData</span><span class="p">[</span><span class="s">"phoneNumber"</span><span class="p">]</span> <span class="p">=</span> <span class="s">"555-5309"</span><span class="p">;</span>
 
@@ -7924,7 +7924,7 @@ if let currentUser = PFUser.currentUser() {
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">acl</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseACL</span><span class="p">();</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">acl</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseACL</span><span class="p">();</span>
 <span class="n">acl</span><span class="p">.</span><span class="n">PublicReadAccess</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
 <span class="n">acl</span><span class="p">.</span><span class="nf">SetRoleWriteAccess</span><span class="p">(</span><span class="n">ParseUser</span><span class="p">.</span><span class="n">CurrentUser</span><span class="p">.</span><span class="n">ObjectId</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
 </code></pre>
@@ -7972,7 +7972,7 @@ acl.setWriteAccess(true, forRoleWithName: "admins")
 </code></pre>
 </div>
 
-<div class="common-lang-block csharp highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">acl</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseACL</span><span class="p">();</span>
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">acl</span> <span class="p">=</span> <span class="k">new</span> <span class="nf">ParseACL</span><span class="p">();</span>
 <span class="n">acl</span><span class="p">.</span><span class="n">PublicReadAccess</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
 <span class="n">acl</span><span class="p">.</span><span class="nf">SetRoleWriteAccess</span><span class="p">(</span><span class="s">"admins"</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
 </code></pre>
@@ -8048,7 +8048,7 @@ $acl-&gt;setRoleWriteAccessWithName("admins", true);
 
 <p>Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don’t always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, <a href="#security-pointer-permissions">Pointer Permissions</a> are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.</p>
 
-<p><img src="/docs" alt="" /></p>
+<p><img src="/docs/assets/images/clp_vs_acl_diagram.png" alt="" /></p>
 
 <p>As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let’s look at an example to get a better sense of how CLPs and ACLs can interact. Say we have a <code class="highlighter-rouge">Photo</code> class, with an object, <code class="highlighter-rouge">photoObject</code>. There are 2 users in our app, <code class="highlighter-rouge">user1</code> and <code class="highlighter-rouge">user2</code>. Now lets say we set a Get CLP on the <code class="highlighter-rouge">Photo</code> class, disabling public Get, but allowing <code class="highlighter-rouge">user1</code> to perform Get. Now let’s also set an ACL on <code class="highlighter-rouge">photoObject</code> to allow Read - which includes GET - for only <code class="highlighter-rouge">user2</code>.</p>
 
@@ -8268,124 +8268,118 @@ $acl-&gt;setRoleWriteAccessWithName("admins", true);
 </code></pre>
 </div>
 
-<pre class="common-lang-block objc"><code class="language-objectivec">PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
+<pre class="common-lang-block objectivec"><code class="objectivec">
+PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"score" equalTo:@50];
 [query whereKey:@"playerName"
     containedIn:@[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"]];
 </code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("GameScore");
-query.whereEqualTo("score", 50);
-query.whereContainedIn("playerName", Arrays.asList("Jonathan Walsh", "Dario Wunsch", "Shawn Simon"));
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"GameScore"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"score"</span><span class="o">,</span> <span class="mi">50</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereContainedIn</span><span class="o">(</span><span class="s">"playerName"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Jonathan Walsh"</span><span class="o">,</span> <span class="s">"Dario Wunsch"</span><span class="o">,</span> <span class="s">"Shawn Simon"</span><span class="o">));</span>
+</code></pre>
+</div>
 
-```cs
-var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
-var query = new ParseObject.GetQuery("GameScore")
-    .WhereEqualTo("score", 50)
-    .WhereContainedIn("playerName", names);
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">names</span> <span class="p">=</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"Jonathan Walsh"</span><span class="p">,</span> <span class="s">"Dario Wunsch"</span><span class="p">,</span> <span class="s">"Shawn Simon"</span> <span class="p">};</span>
+<span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"GameScore"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"score"</span><span class="p">,</span> <span class="m">50</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereContainedIn</span><span class="p">(</span><span class="s">"playerName"</span><span class="p">,</span> <span class="n">names</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Creating an index query based on the score field would yield a smaller search space in general than creating one on the `playerName` field.
+<p>Creating an index query based on the score field would yield a smaller search space in general than creating one on the <code class="highlighter-rouge">playerName</code> field.</p>
 
-When examining data types, booleans have a very low entropy and and do not make good indexes. Take the following query constraint:
+<p>When examining data types, booleans have a very low entropy and and do not make good indexes. Take the following query constraint:</p>
 
-```javascript
-query.equalTo("cheatMode", false);
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"cheatMode"</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"cheatMode" equalTo:@NO];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("cheatMode", equalTo: false)
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereEqualTo("cheatMode", false);
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"cheatMode"</span><span class="o">,</span> <span class="kc">false</span><span class="o">);</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereEqualTo("cheatMode", false);
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"cheatMode"</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-The two possible values for `"cheatMode"` are `true` and `false`. If an index was added on this field it would be of little use because it's likely that 50% of the records will have to be looked at to return query results.
+<p>The two possible values for <code class="highlighter-rouge">"cheatMode"</code> are <code class="highlighter-rouge">true</code> and <code class="highlighter-rouge">false</code>. If an index was added on this field it would be of little use because it’s likely that 50% of the records will have to be looked at to return query results.</p>
 
-Data types are ranked by their expected entropy of the value space for the key:
+<p>Data types are ranked by their expected entropy of the value space for the key:</p>
 
-* GeoPoints
-* Array
-* Pointer
-* Date
-* String
-* Number
-* Other
+<ul>
+  <li>GeoPoints</li>
+  <li>Array</li>
+  <li>Pointer</li>
+  <li>Date</li>
+  <li>String</li>
+  <li>Number</li>
+  <li>Other</li>
+</ul>
 
-Even the best indexing strategy can be defeated by suboptimal queries.
+<p>Even the best indexing strategy can be defeated by suboptimal queries.</p>
 
-## Efficient Query Design
+<h2 id="efficient-query-design">Efficient Query Design</h2>
 
-Writing efficient queries means taking full advantage of indexes. Let's take a look at some query constraints that negate the use of indexes:
+<p>Writing efficient queries means taking full advantage of indexes. Let’s take a look at some query constraints that negate the use of indexes:</p>
 
-* Not Equal To
-* Not Contained In
+<ul>
+  <li>Not Equal To</li>
+  <li>Not Contained In</li>
+</ul>
 
-Additionally, the following queries under certain scenarios may result in slow query responses if they can't take advantage of indexes:
+<p>Additionally, the following queries under certain scenarios may result in slow query responses if they can’t take advantage of indexes:</p>
 
-* Regular Expressions
-* Ordered By
+<ul>
+  <li>Regular Expressions</li>
+  <li>Ordered By</li>
+</ul>
 
-### Not Equal To
+<h3 id="not-equal-to">Not Equal To</h3>
 
-For example, let's say you're tracking high scores for a game in a GameScore class. Now say you want to retrieve the scores for all players except a certain one. You could create this query:
+<p>For example, let’s say you’re tracking high scores for a game in a GameScore class. Now say you want to retrieve the scores for all players except a certain one. You could create this query:</p>
 
-```javascript
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
-query.notEqualTo("playerName", "Michael Yabuti");
-query.find().then(function(results) {
-  // Retrieved scores successfully
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">GameScore</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"GameScore"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">GameScore</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">notEqualTo</span><span class="p">(</span><span class="s2">"playerName"</span><span class="p">,</span> <span class="s2">"Michael Yabuti"</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Retrieved scores successfully</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -8393,10 +8387,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("playerName", notEqualTo: "Michael Yabuti")
 query.findObjectsInBackgroundWithBlock {
@@ -8405,138 +8398,118 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("GameScore");
-query.whereNotEqualTo("playerName", "Michael Yabuti");
-query.findInBackground(new FindCallback<parseobject>() {
-  @Override
-  public void done(List<parseobject> list, ParseException e) {
-    if ( e == null) {
-      // Retrieved scores successfully
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"GameScore"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereNotEqualTo</span><span class="o">(</span><span class="s">"playerName"</span><span class="o">,</span> <span class="s">"Michael Yabuti"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span> <span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Retrieved scores successfully</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-var results = await ParseObject.GetQuery("GameScore")
-    .WhereNotEqualTo("playerName", "Michael Yabuti")
-    .FindAsync();
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"GameScore"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereNotEqualTo</span><span class="p">(</span><span class="s">"playerName"</span><span class="p">,</span> <span class="s">"Michael Yabuti"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-This query can't take advantage of indexes. The database has to look at all the objects in the `"GameScore"` class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.
+<p>This query can’t take advantage of indexes. The database has to look at all the objects in the <code class="highlighter-rouge">"GameScore"</code> class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.</p>
 
-Luckily, most of the time a “Not Equal To” query condition can be rewritten as a “Contained In” condition. Instead of querying for the absence of values, you ask for values which match the rest of the column values. Doing this allows the database to use an index and your queries will be faster.
+<p>Luckily, most of the time a “Not Equal To” query condition can be rewritten as a “Contained In” condition. Instead of querying for the absence of values, you ask for values which match the rest of the column values. Doing this allows the database to use an index and your queries will be faster.</p>
 
-For example if the User class has a column called state which has values “SignedUp”, “Verified”, and “Invited”, the slow way to find all users who have used the app at least once would be to run the query:
+<p>For example if the User class has a column called state which has values “SignedUp”, “Verified”, and “Invited”, the slow way to find all users who have used the app at least once would be to run the query:</p>
 
-```javascript
-var query = new Parse.Query(Parse.User);
-query.notEqualTo("state", "Invited");
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">notEqualTo</span><span class="p">(</span><span class="s2">"state"</span><span class="p">,</span> <span class="s2">"Invited"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notEqualTo:@"Invited"];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseuser> query = ParseQuery.getQuery(ParseUser.class);
-query.whereNotEqualTo("state", "Invited");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseUser</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="n">ParseUser</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereNotEqualTo</span><span class="o">(</span><span class="s">"state"</span><span class="o">,</span> <span class="s">"Invited"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-```cs
-var query = ParseUser.Query
-    .WhereNotEqualTo("state", "Invited");
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">Query</span>
+    <span class="p">.</span><span class="nf">WhereNotEqualTo</span><span class="p">(</span><span class="s">"state"</span><span class="p">,</span> <span class="s">"Invited"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-It would be faster to use the “Contained In” condition when setting up the query:
+<p>It would be faster to use the “Contained In” condition when setting up the query:</p>
 
-```javascript
-query.containedIn("state", ["SignedUp", "Verified"]);
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">containedIn</span><span class="p">(</span><span class="s2">"state"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"SignedUp"</span><span class="p">,</span> <span class="s2">"Verified"</span><span class="p">]);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"state"
     containedIn:@[@"SignedUp", @"Verified"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereContainedIn</span><span class="o">(</span><span class="s">"state"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"SignedUp"</span><span class="o">,</span> <span class="s">"Verified"</span><span class="o">));</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereContainedIn("state", new[] { "SignedUp", "Verified" });
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereContainedIn</span><span class="p">(</span><span class="s">"state"</span><span class="p">,</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"SignedUp"</span><span class="p">,</span> <span class="s">"Verified"</span> <span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Sometimes, you may have to completely rewrite your query. Going back to the `"GameScore"` example, let's say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player's high score and then using the following query:
+<p>Sometimes, you may have to completely rewrite your query. Going back to the <code class="highlighter-rouge">"GameScore"</code> example, let’s say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player’s high score and then using the following query:</p>
 
-```javascript
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
-// Previously retrieved highScore for Michael Yabuti
-query.greaterThan("score", highScore);
-query.find().then(function(results) {
-  // Retrieved scores successfully
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">GameScore</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"GameScore"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">GameScore</span><span class="p">);</span>
+<span class="c1">// Previously retrieved highScore for Michael Yabuti</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">greaterThan</span><span class="p">(</span><span class="s2">"score"</span><span class="p">,</span> <span class="nx">highScore</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Retrieved scores successfully</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // Previously retrieved highScore for Michael Yabuti
 [query whereKey:@"score" greaterThan:highScore];
@@ -8545,10 +8518,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 // Previously retrieved highScore for Michael Yabuti
 query.whereKey("score", greaterThan: highScore)
@@ -8558,336 +8530,281 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("GameScore");
-// Previously retrieved highScore for Michael Yabuti
-query.whereGreaterThan("score", highScore);
-query.findInBackground(new FindCallback<parseobject>() {
-  @Override
-  public void done(List<parseobject> list, ParseException e) {
-    if (e == null) {
-      // Retrieved scores successfully
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"GameScore"</span><span class="o">);</span>
+<span class="c1">// Previously retrieved highScore for Michael Yabuti</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereGreaterThan</span><span class="o">(</span><span class="s">"score"</span><span class="o">,</span> <span class="n">highScore</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Retrieved scores successfully</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-// Previously retrieved highScore for Michael Yabuti
-var results = await ParseObject.GetQuery("GameScore")
-    .WhereGreaterThan("score", highScore)
-    .FindAsync();
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// Previously retrieved highScore for Michael Yabuti
+</span><span class="n">var</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"GameScore"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereGreaterThan</span><span class="p">(</span><span class="s">"score"</span><span class="p">,</span> <span class="n">highScore</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-The new query you use depends on your use case. This may sometimes mean a redesign of your data model.
+<p>The new query you use depends on your use case. This may sometimes mean a redesign of your data model.</p>
 
-### Not Contained In
+<h3 id="not-contained-in">Not Contained In</h3>
 
-Similar to “Not Equal To”, the “Not Contained In” query constraint can't use an index. You should try and use the complementary “Contained In” constraint. Building on the User example, if the state column had one more value, “Blocked”, to represent blocked users, a slow query to find active users would be:
+<p>Similar to “Not Equal To”, the “Not Contained In” query constraint can’t use an index. You should try and use the complementary “Contained In” constraint. Building on the User example, if the state column had one more value, “Blocked”, to represent blocked users, a slow query to find active users would be:</p>
 
-```javascript
-var query = new Parse.Query(Parse.User);
-query.notContainedIn("state", ["Invited", "Blocked"];
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">notContainedIn</span><span class="p">(</span><span class="s2">"state"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"Invited"</span><span class="p">,</span> <span class="s2">"Blocked"</span><span class="p">];</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notContainedIn:@[@"Invited", @"Blocked"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 var query = PFUser.query()
 query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseuser> query = ParseQuery.getQuery(ParseUser.class);
-query.whereNotContainedIn("state", Arrays.asList("Invited", "Blocked"));
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseUser</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="n">ParseUser</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereNotContainedIn</span><span class="o">(</span><span class="s">"state"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Invited"</span><span class="o">,</span> <span class="s">"Blocked"</span><span class="o">));</span>
+</code></pre>
+</div>
 
-```cs
-var query = ParseUser.Query
-    .WhereNotContainedIn("state", new[] { "Invited", "Blocked" });
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">ParseUser</span><span class="p">.</span><span class="n">Query</span>
+    <span class="p">.</span><span class="nf">WhereNotContainedIn</span><span class="p">(</span><span class="s">"state"</span><span class="p">,</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"Invited"</span><span class="p">,</span> <span class="s">"Blocked"</span> <span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Using a complimentary “Contained In” query constraint will always be faster:
+<p>Using a complimentary “Contained In” query constraint will always be faster:</p>
 
-```javascript
-query.containedIn("state", ["SignedUp", "Verified"]);
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">containedIn</span><span class="p">(</span><span class="s2">"state"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"SignedUp"</span><span class="p">,</span> <span class="s2">"Verified"</span><span class="p">]);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereContainedIn</span><span class="o">(</span><span class="s">"state"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"SignedUp"</span><span class="o">,</span> <span class="s">"Verified"</span><span class="o">));</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereContainedIn("state", new[] { "SignedUp", "Verified"});
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereContainedIn</span><span class="p">(</span><span class="s">"state"</span><span class="p">,</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"SignedUp"</span><span class="p">,</span> <span class="s">"Verified"</span><span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
+<p>This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.</p>
 
-### Regular Expressions
+<h3 id="regular-expressions">Regular Expressions</h3>
 
-Regular expression queries should be avoided due to performance considerations. MongoDB is not efficient for doing partial string matching except for the special case where you only want a prefix match. Queries that have regular expression constraints are therefore very expensive, especially for classes with over 100,000 records. Consider restricting how many such operations can be run on a particular app at any given time.
+<p>Regular expression queries should be avoided due to performance considerations. MongoDB is not efficient for doing partial string matching except for the special case where you only want a prefix match. Queries that have regular expression constraints are therefore very expensive, especially for classes with over 100,000 records. Consider restricting how many such operations can be run on a particular app at any given time.</p>
 
-You should avoid using regular expression constraints that don't use indexes. For example, the following query looks for data with a given string in the `"playerName"` field. The string search is case insensitive and therefore cannot be indexed:
+<p>You should avoid using regular expression constraints that don’t use indexes. For example, the following query looks for data with a given string in the <code class="highlighter-rouge">"playerName"</code> field. The string search is case insensitive and therefore cannot be indexed:</p>
 
-```javascript
-query.matches("playerName", "Michael", “i”);
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">matches</span><span class="p">(</span><span class="s2">"playerName"</span><span class="p">,</span> <span class="s2">"Michael"</span><span class="p">,</span> <span class="err">“</span><span class="nx">i</span><span class="err">”</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"Michael" modifiers:@"i"];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereMatches("playerName", "Michael", "i");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereMatches</span><span class="o">(</span><span class="s">"playerName"</span><span class="o">,</span> <span class="s">"Michael"</span><span class="o">,</span> <span class="s">"i"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereMatches("playerName", "Michael", "i")
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereMatches</span><span class="p">(</span><span class="s">"playerName"</span><span class="p">,</span> <span class="s">"Michael"</span><span class="p">,</span> <span class="s">"i"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-The following query, while case sensitive, looks for any occurrence of the string in the field and cannot be indexed:
+<p>The following query, while case sensitive, looks for any occurrence of the string in the field and cannot be indexed:</p>
 
-```javascript
-query.contains("playerName", "Michael");
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s2">"playerName"</span><span class="p">,</span> <span class="s2">"Michael"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"playerName" containsString:@"Michael"];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("playerName", containsString: "Michael")
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereContains("playerName", "Michael");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereContains</span><span class="o">(</span><span class="s">"playerName"</span><span class="o">,</span> <span class="s">"Michael"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereContains("playerName", "Michael")
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereContains</span><span class="p">(</span><span class="s">"playerName"</span><span class="p">,</span> <span class="s">"Michael"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-These queries are both slow. In fact, the `matches` and `contains` query constraints are not covered in our querying guides on purpose and we do not recommend using them. Depending on your use case, you should switch to using the following constraint that uses an index, such as:
+<p>These queries are both slow. In fact, the <code class="highlighter-rouge">matches</code> and <code class="highlighter-rouge">contains</code> query constraints are not covered in our querying guides on purpose and we do not recommend using them. Depending on your use case, you should switch to using the following constraint that uses an index, such as:</p>
 
-```javascript
-query.startsWith("playerName", "Michael");
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="s2">"playerName"</span><span class="p">,</span> <span class="s2">"Michael"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"playerName" hasPrefix:@"Michael"];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("playerName", hasPrefix: "Michael")
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereStartsWith("playerName", "Michael");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereStartsWith</span><span class="o">(</span><span class="s">"playerName"</span><span class="o">,</span> <span class="s">"Michael"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereStartsWith("playerName", "Michael")
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereStartsWith</span><span class="p">(</span><span class="s">"playerName"</span><span class="p">,</span> <span class="s">"Michael"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.
+<p>This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.</p>
 
-As a best practice, when you use regular expression constraints, you'll want to ensure that other constraints in the query reduce the result set to the order of hundreds of objects to make the query efficient. If you must use the `matches` or `contains` constraints for legacy reasons, then use case sensitive, anchored queries where possible, for example:
+<p>As a best practice, when you use regular expression constraints, you’ll want to ensure that other constraints in the query reduce the result set to the order of hundreds of objects to make the query efficient. If you must use the <code class="highlighter-rouge">matches</code> or <code class="highlighter-rouge">contains</code> constraints for legacy reasons, then use case sensitive, anchored queries where possible, for example:</p>
 
-```javascript
-query.matches("playerName", "^Michael");
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">matches</span><span class="p">(</span><span class="s2">"playerName"</span><span class="p">,</span> <span class="s2">"^Michael"</span><span class="p">);</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"^Michael"];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.whereKey("playerName", matchesRegex: "^Michael")
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.whereMatches("playerName", "^Michael");
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">whereMatches</span><span class="o">(</span><span class="s">"playerName"</span><span class="o">,</span> <span class="s">"^Michael"</span><span class="o">);</span>
+</code></pre>
+</div>
 
-```cs
-query.WhereMatches("playerName", "^Michael")
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">WhereMatches</span><span class="p">(</span><span class="s">"playerName"</span><span class="p">,</span> <span class="s">"^Michael"</span><span class="p">)</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.
+<p>Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.</p>
 
-## Write Restrictive Queries
+<h2 id="write-restrictive-queries">Write Restrictive Queries</h2>
 
-Writing restrictive queries allows you to return only the data that the client needs. This is critical in a mobile environment were data usage can be limited and network connectivity unreliable. You also want your mobile app to appear responsive and this is directly affected by the objects you send back to the client. The [Querying section](#queries) shows the types of constraints you can add to your existing queries to limit the data returned. When adding constraints, you want to pay attention and design efficient queries.
+<p>Writing restrictive queries allows you to return only the data that the client needs. This is critical in a mobile environment were data usage can be limited and network connectivity unreliable. You also want your mobile app to appear responsive and this is directly affected by the objects you send back to the client. The <a href="#queries">Querying section</a> shows the types of constraints you can add to your existing queries to limit the data returned. When adding constraints, you want to pay attention and design efficient queries.</p>
 
-You can limit the number of query results returned. The limit is 100 by default but anything from 1 to 1000 is a valid limit:
+<p>You can limit the number of query results returned. The limit is 100 by default but anything from 1 to 1000 is a valid limit:</p>
 
-```javascript
-query.limit(10); // limit to at most 10 results
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">query</span><span class="p">.</span><span class="nx">limit</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> <span class="c1">// limit to at most 10 results</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 query.limit = 10; // limit to at most 10 results
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 query.limit = 10 // limit to at most 10 results
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-query.setLimit(10); // limit to at most 10 results
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="o">.</span><span class="na">setLimit</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span> <span class="c1">// limit to at most 10 results</span>
+</code></pre>
+</div>
 
-```cs
-query.Limit(10); // limit to at most 10 results
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">query</span><span class="p">.</span><span class="nf">Limit</span><span class="p">(</span><span class="m">10</span><span class="p">);</span> <span class="c1">// limit to at most 10 results
+</span></code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-If you're issuing queries on GeoPoints, make sure you specify a reasonable radius:
+<p>If you’re issuing queries on GeoPoints, make sure you specify a reasonable radius:</p>
 
-```javascript
-var query = new Parse.Query(PlaceObject);
-query.withinMiles("location", userGeoPoint, 10.0);
-query.find().then(function(placesObjects) {
-  // Get a list of objects within 10 miles of a user's location
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">PlaceObject</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">withinMiles</span><span class="p">(</span><span class="s2">"location"</span><span class="p">,</span> <span class="nx">userGeoPoint</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">placesObjects</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Get a list of objects within 10 miles of a user's location</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Place"];
 [query whereKey:@"location" nearGeoPoint:userGeoPoint withinMiles:10.0];
 [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
@@ -8895,10 +8812,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"Place"];
     // List of objects within 10 miles of a user's location
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("Place")
 query.whereKey("location", nearGeoPoint: userGeoPoint, withinMiles: 10.0)
 query.findObjectsInBackgroundWithBlock {
@@ -8907,53 +8823,47 @@ query.findObjectsInBackgroundWithBlock {
     // List of places within 10 miles of a user's location
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("Place");
-query.whereWithinMiles("location", userGeoPoint, 10.0);
-query.findInBackground(new FindCallback<parseobject>() {
-  @Override
-  public void done(List<parseobject> list, ParseException e) {
-    if (e == null) {
-      // List of places within 10 miles of a user's location
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Place"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereWithinMiles</span><span class="o">(</span><span class="s">"location"</span><span class="o">,</span> <span class="n">userGeoPoint</span><span class="o">,</span> <span class="mf">10.0</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// List of places within 10 miles of a user's location</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-var results = await ParseObject.GetQuery("GameScore")
-    .WhereWithinDistance("location", userGeoPoint, ParseGeoDistance.FromMiles(10.0))
-    .FindAsync();
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"GameScore"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereWithinDistance</span><span class="p">(</span><span class="s">"location"</span><span class="p">,</span> <span class="n">userGeoPoint</span><span class="p">,</span> <span class="n">ParseGeoDistance</span><span class="p">.</span><span class="nf">FromMiles</span><span class="p">(</span><span class="m">10.0</span><span class="p">))</span>
+    <span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-You can further limit the fields returned by calling select:
+<p>You can further limit the fields returned by calling select:</p>
 
-```javascript
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
-query.select("score", "playerName");
-query.find().then(function(results) {
-  // each of results will only have the selected fields available.
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">GameScore</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"GameScore"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">GameScore</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="s2">"score"</span><span class="p">,</span> <span class="s2">"playerName"</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// each of results will only have the selected fields available.</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query selectKeys:@[@"score", @"playerName"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -8961,10 +8871,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // each of results will only have the selected fields available.
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.selectKeys(["score", "playerName"])
 query.findObjectsInBackgroundWithBlock {
@@ -8973,82 +8882,76 @@ query.findObjectsInBackgroundWithBlock {
     // each of results will only have the selected fields available.
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("GameScore");
-query.selectKeys(Arrays.asList("score", "playerName"));
-query.findInBackground(new FindCallback<parseobject>() {
-  @Override
-  public void done(List<parseobject> list, ParseException e) {
-    if (e == null) {
-      // each of results will only have the selected fields available.
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"GameScore"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">selectKeys</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"score"</span><span class="o">,</span> <span class="s">"playerName"</span><span class="o">));</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// each of results will only have the selected fields available.</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-var results = await ParseObject.GetQuery("GameScore")
-     .Select(new[] { "score", "playerName" })
-     .FindAsync();
-// each of results will only have the selected fields available.
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"GameScore"</span><span class="p">)</span>
+     <span class="p">.</span><span class="nf">Select</span><span class="p">(</span><span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"score"</span><span class="p">,</span> <span class="s">"playerName"</span> <span class="p">})</span>
+     <span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+<span class="c1">// each of results will only have the selected fields available.
+</span></code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-## Client-side Caching
+<h2 id="client-side-caching">Client-side Caching</h2>
 
-For queries run from iOS and Android, you can turn on query caching. See the [iOS](/docs/ios/guide#queries-caching-queries) and [Android](/docs/android/guide#queries-caching-queries) guides for more details. Caching queries will increase your mobile app's performance especially in cases where you want to display cached data while fetching the latest data from Parse.
+<p>For queries run from iOS and Android, you can turn on query caching. See the <a href="/docs/ios/guide#queries-caching-queries">iOS</a> and <a href="/docs/android/guide#queries-caching-queries">Android</a> guides for more details. Caching queries will increase your mobile app’s performance especially in cases where you want to display cached data while fetching the latest data from Parse.</p>
 
-## Use Cloud Code
+<h2 id="use-cloud-code">Use Cloud Code</h2>
 
-Cloud Code allows you to run custom JavaScript logic on Parse Server instead of on the client.
+<p>Cloud Code allows you to run custom JavaScript logic on Parse Server instead of on the client.</p>
 
-You can use this to offload processing to the Parse servers thus increasing your app's perceived performance.  You can create hooks that run whenever an object is saved or deleted. This is useful if you want to validate or sanitize your data. You can also use Cloud Code to modify related objects or kick off other processes such as sending off a push notification.
+<p>You can use this to offload processing to the Parse servers thus increasing your app’s perceived performance.  You can create hooks that run whenever an object is saved or deleted. This is useful if you want to validate or sanitize your data. You can also use Cloud Code to modify related objects or kick off other processes such as sending off a push notification.</p>
 
-We saw examples of limiting the data returned by writing restrictive queries. You can also use [Cloud Functions](/docs/cloudcode/guide#cloud-code-cloud-functions) to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie's average rating:
+<p>We saw examples of limiting the data returned by writing restrictive queries. You can also use <a href="/docs/cloudcode/guide#cloud-code-cloud-functions">Cloud Functions</a> to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie’s average rating:</p>
 
-```javascript
-Parse.Cloud.define("averageStars", function(request, response) {
-  var Review = Parse.Object.extend("Review");
-  var query = new Parse.Query(Review);
-  query.equalTo("movie", request.params.movie);
-  query.find().then(function(results) {
-    var sum = 0;
-    for (var i = 0; i &lt; results.length; ++i) {
-      sum += results[i].get("stars");
-    }
-    response.success(sum / results.length);
-  }, function(error) {
-    response.error("movie lookup failed");
-  });
-});
-```
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s2">"averageStars"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">Review</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Review</span><span class="p">);</span>
+  <span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="s2">"movie"</span><span class="p">,</span> <span class="nx">request</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">movie</span><span class="p">);</span>
+  <span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="o">++</span><span class="nx">i</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">sum</span> <span class="o">+=</span> <span class="nx">results</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">get</span><span class="p">(</span><span class="s2">"stars"</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">success</span><span class="p">(</span><span class="nx">sum</span> <span class="o">/</span> <span class="nx">results</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+  <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">"movie lookup failed"</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-You could have ran a query on the Review class on the client, returned only the stars field data and computed the result on the client. As the number of reviews for a movie increases you can see that the data being returned to the device using this methodology also increases. Implementing the functionality through a Cloud Function returns the one result if successful.
+<p>You could have ran a query on the Review class on the client, returned only the stars field data and computed the result on the client. As the number of reviews for a movie increases you can see that the data being returned to the device using this methodology also increases. Implementing the functionality through a Cloud Function returns the one result if successful.</p>
 
-As you look at optimizing your queries, you'll find that you may have to change the queries - sometimes even after you've shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use [Cloud Functions](/docs/cloudcode/guide#cloud-code-cloud-functions). Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:
+<p>As you look at optimizing your queries, you’ll find that you may have to change the queries - sometimes even after you’ve shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use <a href="/docs/cloudcode/guide#cloud-code-cloud-functions">Cloud Functions</a>. Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:</p>
 
-```javascript
-Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings) {
-  // ratings is 4.5
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s2">"averageStars"</span><span class="p">,</span> <span class="p">{</span> <span class="s2">"movie"</span><span class="p">:</span> <span class="s2">"The Matrix"</span> <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ratings</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ratings is 4.5</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 [PFCloud callFunctionInBackground:@"averageStars"
                   withParameters:@{@"movie": @"The Matrix"}
                            block:^(NSNumber *ratings, NSError *error) {
@@ -9056,76 +8959,69 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
     // ratings is 4.5
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The Matrix"]) {
   (ratings, error) in
   if !error {
     // ratings is 4.5
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-HashMap&lt;String, String&gt; params = new HashMap();
-params.put("movie", "The Matrix");
-ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback<float>() {
-  @Override
-  public void done(Float aFloat, ParseException e) {
-    if (e == null) {
-      // ratings is 4.5
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">params</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">();</span>
+<span class="n">params</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"movie"</span><span class="o">,</span> <span class="s">"The Matrix"</span><span class="o">);</span>
+<span class="n">ParseCloud</span><span class="o">.</span><span class="na">callFunctionInBackground</span><span class="o">(</span><span class="s">"averageStars"</span><span class="o">,</span> <span class="n">params</span><span class="o">,</span> <span class="k">new</span> <span class="n">FunctionCallback</span><span class="o">&lt;</span><span class="n">Float</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">Float</span> <span class="n">aFloat</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// ratings is 4.5</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-IDictionary&lt;string, object&gt; dictionary = new Dictionary&lt;string, object&gt;
-{
-    { "movie", "The Matrix" }
-};
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">IDictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span> <span class="n">dictionary</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Dictionary</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">object</span><span class="p">&gt;</span>
+<span class="p">{</span>
+    <span class="p">{</span> <span class="s">"movie"</span><span class="p">,</span> <span class="s">"The Matrix"</span> <span class="p">}</span>
+<span class="p">};</span>
 
-ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t =&gt; {
-  var result = t.Result;
-  // result is 4.5
-});
-```
-{: .common-lang-block .csharp }
+<span class="n">ParseCloud</span><span class="p">.</span><span class="n">CallFunctionAsync</span><span class="p">&lt;</span><span class="kt">float</span><span class="p">&gt;(</span><span class="s">"averageStars"</span><span class="p">,</span> <span class="n">dictionary</span><span class="p">).</span><span class="nf">ContinueWith</span><span class="p">(</span><span class="n">t</span> <span class="p">=&gt;</span> <span class="p">{</span>
+  <span class="n">var</span> <span class="n">result</span> <span class="p">=</span> <span class="n">t</span><span class="p">.</span><span class="n">Result</span><span class="p">;</span>
+  <span class="c1">// result is 4.5
+</span><span class="p">});</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.
+<p>If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.</p>
 
-## Avoid Count Operations
+<h2 id="avoid-count-operations">Avoid Count Operations</h2>
 
-For classes with over 1,000 objects, count operations are limited by timeouts. Thus, it is preferable to architect your application to avoid this count operation.
+<p>For classes with over 1,000 objects, count operations are limited by timeouts. Thus, it is preferable to architect your application to avoid this count operation.</p>
 
-Suppose you are displaying movie information in your app and your data model consists of a Movie class and a Review class that contains a pointer to the corresponding movie. You might want to display the review count for each movie on the top-level navigation screen using a query like this:
+<p>Suppose you are displaying movie information in your app and your data model consists of a Movie class and a Review class that contains a pointer to the corresponding movie. You might want to display the review count for each movie on the top-level navigation screen using a query like this:</p>
 
-```javascript
-var Review = Parse.Object.extend("Review");
-var query = new Parse.Query("Review");
-// movieId corresponds to a given movie's id
-query.equalTo(“movie”, movieId);
-query.count().then(function(count) {
-  // Request succeeded
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Review</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">);</span>
+<span class="c1">// movieId corresponds to a given movie's id</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="err">“</span><span class="nx">movie</span><span class="err">”</span><span class="p">,</span> <span class="nx">movieId</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">count</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">count</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Request succeeded</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 // movieId corresponds to a given movie's id
 [query whereKey:@"movie" equalTo:movieId];
@@ -9134,10 +9030,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     // Request succeeded
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("Review")
 // movieId corresponds to a given movie's id
 query.whereKey("movie", equalTo: movieId)
@@ -9147,85 +9042,78 @@ query.countObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("Review");
-// movieId corresponds to a given movie's id
-query.whereEqualTo("movie", movieId);
-query.countInBackground(new CountCallback() {
-  @Override
-  public void done(int i, ParseException e) {
-    if ( e == null) {
-      // Request succeeded
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Review"</span><span class="o">);</span>
+<span class="c1">// movieId corresponds to a given movie's id</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"movie"</span><span class="o">,</span> <span class="n">movieId</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">countInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">CountCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span> <span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Request succeeded</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-var count = await ParseObject.GetQuery("Review")
-// movieId corresponds to a given movie's id
-    .WhereEqualTo("movie", movieId)
-    .CountAsync();
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">count</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Review"</span><span class="p">)</span>
+<span class="c1">// movieId corresponds to a given movie's id
+</span>    <span class="p">.</span><span class="nf">WhereEqualTo</span><span class="p">(</span><span class="s">"movie"</span><span class="p">,</span> <span class="n">movieId</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">CountAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the `count()` operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie's review count field. This can be done in an `afterSave` handler:
+<p>If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the <code class="highlighter-rouge">count()</code> operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie’s review count field. This can be done in an <code class="highlighter-rouge">afterSave</code> handler:</p>
 
-```javascript
-Parse.Cloud.afterSave("Review", function(request) {
-  // Get the movie id for the Review
-  var movieId = request.object.get("movie").id;
-  // Query the Movie represented by this review
-  var Movie = Parse.Object.extend("Movie");
-  var query = new Parse.Query(Movie);
-  query.get(movieId).then(function(movie) {
-    // Increment the reviews field on the Movie object
-    movie.increment("reviews");
-    movie.save();
-  }, function(error) {
-    throw "Got an error " + error.code + " : " + error.message;
-  });
-});
-```
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">afterSave</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Get the movie id for the Review</span>
+  <span class="kd">var</span> <span class="nx">movieId</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"movie"</span><span class="p">).</span><span class="nx">id</span><span class="p">;</span>
+  <span class="c1">// Query the Movie represented by this review</span>
+  <span class="kd">var</span> <span class="nx">Movie</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Movie"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Movie</span><span class="p">);</span>
+  <span class="nx">query</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">movieId</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">movie</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Increment the reviews field on the Movie object</span>
+    <span class="nx">movie</span><span class="p">.</span><span class="nx">increment</span><span class="p">(</span><span class="s2">"reviews"</span><span class="p">);</span>
+    <span class="nx">movie</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+  <span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">throw</span> <span class="s2">"Got an error "</span> <span class="o">+</span> <span class="nx">error</span><span class="p">.</span><span class="nx">code</span> <span class="o">+</span> <span class="s2">" : "</span> <span class="o">+</span> <span class="nx">error</span><span class="p">.</span><span class="nx">message</span><span class="p">;</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-Your new optimized query would not need to look at the Review class to get the review count:
+<p>Your new optimized query would not need to look at the Review class to get the review count:</p>
 
-```javascript
-var Movie = Parse.Object.extend("Movie");
-var query = new Parse.Query(Movie);
-query.find().then(function(results) {
-  // Results include the reviews count field
-}, function(error) {
-  // Request failed
-});
-```
-{: .common-lang-block .javascript }
+<div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Movie</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Movie"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Movie</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Results include the reviews count field</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Request failed</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
   if (!error) {
     // Results include the reviews count field
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("Movie")
 query.findObjectsInBackgroundWithBlock {
   (objects, error) in
@@ -9233,85 +9121,79 @@ query.findObjectsInBackgroundWithBlock {
     // Results include the reviews count field
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("Movie");
-query.findInBackground(new FindCallback<parseobject>() {
-  @Override
-  public void done(List<parseobject> list, ParseException e) {
-    if (e == null) {
-      // Results include the reviews count field
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Movie"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Results include the reviews count field</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-var results = await ParseObject.GetQuery("Movie")
-    .FindAsync();
-// Results include the reviews count field
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Movie"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+<span class="c1">// Results include the reviews count field
+</span></code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an `afterSave` or `afterDelete` Cloud Code handler. The approach you choose depends on your use case.
+<p>You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an <code class="highlighter-rouge">afterSave</code> or <code class="highlighter-rouge">afterDelete</code> Cloud Code handler. The approach you choose depends on your use case.</p>
 
-## Implement Efficient Searches
+<h2 id="implement-efficient-searches">Implement Efficient Searches</h2>
 
-As mentioned previously, MongoDB is not efficient for doing partial string matching. However, this is an important use case when implementing search functionality that scales well in production.
+<p>As mentioned previously, MongoDB is not efficient for doing partial string matching. However, this is an important use case when implementing search functionality that scales well in production.</p>
 
-Simplistic search algorithms simply scan through all the class data and executes the query on each entry. The key to making searches run efficiently is to minimize the number of data that has to be examined when executing each query by using an index as we've outlined earlier. You’ll need to build your data model in a way that it’s easy for us to build an index for the data you want to be searchable. For example, string matching queries that don’t match an exact prefix of the string won’t be able to use an index leading to timeout errors as the data set grows.
+<p>Simplistic search algorithms simply scan through all the class data and executes the query on each entry. The key to making searches run efficiently is to minimize the number of data that has to be examined when executing each query by using an index as we’ve outlined earlier. You’ll need to build your data model in a way that it’s easy for us to build an index for the data you want to be searchable. For example, string matching queries that don’t match an exact prefix of the string won’t be able to use an index leading to timeout errors as the data set grows.</p>
 
-Let's walk through an example of how you could build an efficient search. You can apply the concepts you learn in this example to your use case. Say your app has users making posts, and you want to be able to search those posts for hashtags or particular keywords. You’ll want to pre-process your posts and save the list of hashtags and words into array fields. You can do this processing either in your app before saving the posts, or you can use a Cloud Code `beforeSave` hook to do this on the fly:
+<p>Let’s walk through an example of how you could build an efficient search. You can apply the concepts you learn in this example to your use case. Say your app has users making posts, and you want to be able to search those posts for hashtags or particular keywords. You’ll want to pre-process your posts and save the list of hashtags and words into array fields. You can do this processing either in your app before saving the posts, or you can use a Cloud Code <code class="highlighter-rouge">beforeSave</code> hook to do this on the fly:</p>
 
-```javascript
-var _ = require("underscore");
-Parse.Cloud.beforeSave("Post", function(request, response) {
-  var post = request.object;
-  var toLowerCase = function(w) { return w.toLowerCase(); };
-  var words = post.get("text").split(/\b/);
-  words = _.map(words, toLowerCase);
-  var stopWords = ["the", "in", "and"]
-  words = _.filter(words, function(w) {
-    return w.match(/^\w+$/) &amp;&amp; !   _.contains(stopWords, w);
-  });
-  var hashtags = post.get("text").match(/#.+?\b/g);
-  hashtags = _.map(hashtags, toLowerCase);
-  post.set("words", words);
-  post.set("hashtags", hashtags);
-  response.success();
-});
-```
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">_</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"underscore"</span><span class="p">);</span>
+<span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">beforeSave</span><span class="p">(</span><span class="s2">"Post"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">post</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">object</span><span class="p">;</span>
+  <span class="kd">var</span> <span class="nx">toLowerCase</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">w</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">w</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">();</span> <span class="p">};</span>
+  <span class="kd">var</span> <span class="nx">words</span> <span class="o">=</span> <span class="nx">post</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">).</span><span class="nx">split</span><span class="p">(</span><span class="sr">/</span><span class="se">\b</span><span class="sr">/</span><span class="p">);</span>
+  <span class="nx">words</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">words</span><span class="p">,</span> <span class="nx">toLowerCase</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">stopWords</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"the"</span><span class="p">,</span> <span class="s2">"in"</span><span class="p">,</span> <span class="s2">"and"</span><span class="p">]</span>
+  <span class="nx">words</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">words</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">w</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">w</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/^</span><span class="se">\w</span><span class="sr">+$/</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span>   <span class="nx">_</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="nx">stopWords</span><span class="p">,</span> <span class="nx">w</span><span class="p">);</span>
+  <span class="p">});</span>
+  <span class="kd">var</span> <span class="nx">hashtags</span> <span class="o">=</span> <span class="nx">post</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"text"</span><span class="p">).</span><span class="nx">match</span><span class="p">(</span><span class="sr">/#.+</span><span class="se">?\b</span><span class="sr">/g</span><span class="p">);</span>
+  <span class="nx">hashtags</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">hashtags</span><span class="p">,</span> <span class="nx">toLowerCase</span><span class="p">);</span>
+  <span class="nx">post</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"words"</span><span class="p">,</span> <span class="nx">words</span><span class="p">);</span>
+  <span class="nx">post</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s2">"hashtags"</span><span class="p">,</span> <span class="nx">hashtags</span><span class="p">);</span>
+  <span class="nx">response</span><span class="p">.</span><span class="nx">success</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-This saves your words and hashtags in array fields, which MongoDB will store with a multi-key index. There are some important things to notice about this. First of all it’s converting all words to lower case so that we can look them up with lower case queries, and get case insensitive matching. Secondly, it’s filtering out common words like ‘the’, ‘in’, and ‘and’ which will occur in a lot of posts, to additionally reduce useless scanning of the index when executing the queries.
+<p>This saves your words and hashtags in array fields, which MongoDB will store with a multi-key index. There are some important things to notice about this. First of all it’s converting all words to lower case so that we can look them up with lower case queries, and get case insensitive matching. Secondly, it’s filtering out common words like ‘the’, ‘in’, and ‘and’ which will occur in a lot of posts, to additionally reduce useless scanning of the index when executing the queries.</p>
 
-Once you've got the keywords set up, you can efficiently look them up using “All” constraint on your query:
+<p>Once you’ve got the keywords set up, you can efficiently look them up using “All” constraint on your query:</p>
 
-```javascript
-var Post = Parse.Object.extend("Post");
-var query = new Parse.Query(Post);
-query.containsAll("hashtags", [“#parse”, “#ftw”]);
-query.find().then(function(results) {
-  // Request succeeded
-}, function(error) {
-  // Request failed
-});
-```
-{: .common-lang-block-js}
+<div class="common-lang-block-js highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Post</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Post"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="nx">Post</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">containsAll</span><span class="p">(</span><span class="s2">"hashtags"</span><span class="p">,</span> <span class="p">[</span><span class="err">“#</span><span class="nx">parse</span><span class="err">”</span><span class="p">,</span> <span class="err">“#</span><span class="nx">ftw</span><span class="err">”</span><span class="p">]);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">results</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Request succeeded</span>
+<span class="p">},</span> <span class="kd">function</span><span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Request failed</span>
+<span class="p">});</span>
+</code></pre>
+</div>
 
-```objectivec
+<pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Post"];
 [query whereKey:@"hashtags" containsAllObjectsInArray:@[@"#parse", @"#ftw"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -9319,10 +9201,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     // Request succeeded
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
 
-<pre><code class="swift">
+<pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("Post")
 query.whereKey("hashtags", containsAllObjectsInArray: ["#parse", "#ftw"])
 query.findObjectsInBackgroundWithBlock {
@@ -9331,73 +9212,75 @@ query.findObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-```
-{: .common-lang-block .swift }
+</code></pre>
 
-```java
-ParseQuery<parseobject> query = ParseQuery.getQuery("Post");
-query.whereContainsAll("hashtags", Arrays.asList("#parse", "#ftw"));
-query.findInBackground(new FindCallback<parseobject>() {
-  @Override
-  public void done(List<parseobject> list, ParseException e) {
-    if (e == null) {
-      // Request succeeded
-    }
-  }
-});
-```
-{: .common-lang-block .java }
+<div class="common-lang-block java highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"Post"</span><span class="o">);</span>
+<span class="n">query</span><span class="o">.</span><span class="na">whereContainsAll</span><span class="o">(</span><span class="s">"hashtags"</span><span class="o">,</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"#parse"</span><span class="o">,</span> <span class="s">"#ftw"</span><span class="o">));</span>
+<span class="n">query</span><span class="o">.</span><span class="na">findInBackground</span><span class="o">(</span><span class="k">new</span> <span class="n">FindCallback</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;()</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">done</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">ParseException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">e</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="c1">// Request succeeded</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">});</span>
+</code></pre>
+</div>
 
-```cs
-var results = await ParseObject.GetQuery("Post")
-    .WhereContainsAll("hashtags", new[] { "#parse", "#ftw" })
-    .FindAsync();
-```
-{: .common-lang-block .csharp }
+<div class="common-lang-block cs highlighter-rouge"><pre class="highlight"><code><span class="n">var</span> <span class="n">results</span> <span class="p">=</span> <span class="n">await</span> <span class="n">ParseObject</span><span class="p">.</span><span class="nf">GetQuery</span><span class="p">(</span><span class="s">"Post"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nf">WhereContainsAll</span><span class="p">(</span><span class="s">"hashtags"</span><span class="p">,</span> <span class="k">new</span><span class="p">[]</span> <span class="p">{</span> <span class="s">"#parse"</span><span class="p">,</span> <span class="s">"#ftw"</span> <span class="p">})</span>
+    <span class="p">.</span><span class="nf">FindAsync</span><span class="p">();</span>
+</code></pre>
+</div>
 
-```bash
-# No REST API example
-```
-{: .common-lang-block .bash }
+<div class="common-lang-block bash highlighter-rouge"><pre class="highlight"><code><span class="c"># No REST API example</span>
+</code></pre>
+</div>
 
-```cpp
-// No C++ example
-```
-{: .common-lang-block .cpp }
+<div class="common-lang-block cpp highlighter-rouge"><pre class="highlight"><code><span class="c1">// No C++ example
+</span></code></pre>
+</div>
 
-## Limits and Other Considerations
+<h2 id="limits-and-other-considerations">Limits and Other Considerations</h2>
 
-There are some limits in place to ensure the API can provide the data you need in a performant manner. We may adjust these in the future. Please take a moment to read through the following list:
+<p>There are some limits in place to ensure the API can provide the data you need in a performant manner. We may adjust these in the future. Please take a moment to read through the following list:</p>
 
-**Objects**
+<p><strong>Objects</strong></p>
 
-* Parse Objects are limited in size to 128 KB.
-* We recommend against creating more than 64 fields on a single Parse Object to ensure that we can build effective indexes for your queries.
-* We recommend against using field names that are longer than 1,024 characters, otherwise an index for the field will not be created.
+<ul>
+  <li>Parse Objects are limited in size to 128 KB.</li>
+  <li>We recommend against creating more than 64 fields on a single Parse Object to ensure that we can build effective indexes for your queries.</li>
+  <li>We recommend against using field names that are longer than 1,024 characters, otherwise an index for the field will not be created.</li>
+</ul>
 
-**Queries**
+<p><strong>Queries</strong></p>
 
-* Queries return 100 objects by default. Use the `limit` parameter to change this, up to a value of 1,000.
-* Queries can only return up to 1,000 objects in a single result set. This includes any resolved pointers. You can use `skip` and `limit` to page through results.
-* The maximum value accepted by `skip` is 10,000. If you need to get more objects, we recommend sorting the results and then using a constraint on the sort column to filter out the first 10,000 results. You will then be able to continue paging through results starting from a `skip` value of 0. For example, you can sort your results by `createdAt ASC` and then filter out any objects older than the `createdAt` value of the 10,000th object when starting again from 0.
-* Alternatively, you may use the `each()` method in the JavaScript SDK to page through all objects that match the query.
-* Skips and limits can only be used on the outer query.
-* You may increase the limit of a inner query to 1,000, but skip cannot be used to get more results past the first 1,000.
-* Constraints that collide with each other will result in only one of the constraint being applied. An example of this would be two `equalTo` constraints over the same key with two different values, which contradicts itself (perhaps you're looking for 'contains').
-* No geo-queries inside compound OR queries.
-* Using `$exists: false` is not advised.
-* The `each` query method in the JavaScript SDK cannot be used in conjunction with queries using geo-point constraints.
-* A maximum of 500,000 objects will be scanned per query. If your constraints do not successfully limit the scope of the search, this can result in queries with incomplete results.  
-* A `containsAll` query constraint can only take up to 9 items in the comparison array.
+<ul>
+  <li>Queries return 100 objects by default. Use the <code class="highlighter-rouge">limit</code> parameter to change this, up to a value of 1,000.</li>
+  <li>Queries can only return up to 1,000 objects in a single result set. This includes any resolved pointers. You can use <code class="highlighter-rouge">skip</code> and <code class="highlighter-rouge">limit</code> to page through results.</li>
+  <li>The maximum value accepted by <code class="highlighter-rouge">skip</code> is 10,000. If you need to get more objects, we recommend sorting the results and then using a constraint on the sort column to filter out the first 10,000 results. You will then be able to continue paging through results starting from a <code class="highlighter-rouge">skip</code> value of 0. For example, you can sort your results by <code class="highlighter-rouge">createdAt ASC</code> and then filter out any objects older than the <code class="highlighter-rouge">createdAt</code> value of the 10,000th object when starting again from 0.</li>
+  <li>Alternatively, you may use the <code class="highlighter-rouge">each()</code> method in the JavaScript SDK to page through all objects that match the query.</li>
+  <li>Skips and limits can only be used on the outer query.</li>
+  <li>You may increase the limit of a inner query to 1,000, but skip cannot be used to get more results past the first 1,000.</li>
+  <li>Constraints that collide with each other will result in only one of the constraint being applied. An example of this would be two <code class="highlighter-rouge">equalTo</code> constraints over the same key with two different values, which contradicts itself (perhaps you’re looking for ‘contains’).</li>
+  <li>No geo-queries inside compound OR queries.</li>
+  <li>Using <code class="highlighter-rouge">$exists: false</code> is not advised.</li>
+  <li>The <code class="highlighter-rouge">each</code> query method in the JavaScript SDK cannot be used in conjunction with queries using geo-point constraints.</li>
+  <li>A maximum of 500,000 objects will be scanned per query. If your constraints do not successfully limit the scope of the search, this can result in queries with incomplete results.</li>
+  <li>A <code class="highlighter-rouge">containsAll</code> query constraint can only take up to 9 items in the comparison array.</li>
+</ul>
 
-**Push Notifications**
+<p><strong>Push Notifications</strong></p>
 
-* [Delivery of notifications is a “best effort”, not guaranteed](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1). It is not intended to deliver data to your app, only to notify the user that there is new data available.
+<ul>
+  <li><a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1">Delivery of notifications is a “best effort”, not guaranteed</a>. It is not intended to deliver data to your app, only to notify the user that there is new data available.</li>
+</ul>
 
-**Cloud Code**
+<p><strong>Cloud Code</strong></p>
 
-* The `params` payload that is passed to a Cloud Function is limited to 50 MB.
-</parseobject></parseobject></parseobject></code></pre></parseobject></parseobject></parseobject></code></pre></parseobject></code></pre></float></float></code></pre></parseobject></parseobject></parseobject></code></pre></parseobject></parseobject></parseobject></code></pre></code></pre></code></pre></code></pre></code></pre></code></pre></code></pre></parseuser></code></pre></parseobject></parseobject></parseobject></code></pre></code></pre></parseuser></code></pre></parseobject></parseobject></parseobject></code></pre></code></pre></parseobject></code></pre>
+<ul>
+  <li>The <code class="highlighter-rouge">params</code> payload that is passed to a Cloud Function is limited to 50 MB.</li>
+</ul>
 
 
                     

@@ -710,7 +710,7 @@ App.Views = {};
 					break;
 				case 'dotnet':
         case 'unity':
-					$('.common-lang-block.csharp').show();
+					$('.common-lang-block.cs').show();
 					break;
 				case 'php':
 					$('.common-lang-block.php').show();

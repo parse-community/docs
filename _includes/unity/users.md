@@ -20,7 +20,7 @@ We'll go through each of these in detail as we run through the various use cases
 
 The first thing your app will do is probably ask the user to sign up. The following code illustrates a typical sign up:
 
-<pre><code class="cs">
+```cs
 var user = new ParseUser()
 {
     Username = "my name",
@@ -32,7 +32,7 @@ var user = new ParseUser()
 user["phone"] = "415-392-0202";
 
 Task signUpTask = user.SignUpAsync();
-</code></pre>
+```
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
@@ -46,7 +46,7 @@ You are free to use an email address as the username. Simply ask your users to e
 
 Of course, after you allow users to sign up, you need to let them log in to their account in the future. To do this, you can use the class method `LogInAsync`.
 
-<pre><code class="cs">
+```cs
 ParseUser.LogInAsync("myname", "mypass").ContinueWith(t =>
 {
     if (t.IsFaulted || t.IsCanceled)
@@ -58,7 +58,7 @@ ParseUser.LogInAsync("myname", "mypass").ContinueWith(t =>
         // Login was successful.
     }
 })
-</code></pre>
+```
 
 ## Verifying Emails
 
@@ -76,7 +76,7 @@ It would be bothersome if the user had to log in every time they open your app. 
 
 Whenever you use any signup or login methods, the user is cached on disk. You can treat this cache as a session, and automatically assume the user is logged in:
 
-<pre><code class="cs">
+```cs
 if (ParseUser.CurrentUser != null)
 {
     // do stuff with the user
@@ -85,14 +85,14 @@ else
 {
     // show the signup or login screen
 }
-</code></pre>
+```
 
 You can clear the current user by logging them out:
 
-<pre><code class="cs">
+```cs
 ParseUser.LogOut();
 var currentUser = ParseUser.CurrentUser; // this will now be null
-</code></pre>
+```
 
 ## Security For User Objects
 
@@ -102,7 +102,7 @@ Specifically, you are not able to invoke the `SaveAsync` or `DeleteAsync` method
 
 The following illustrates this security policy:
 
-<pre><code class="cs">
+```cs
 ParseUser user = null;
 ParseUser.LogInAsync("my_username", "my_password").ContinueWith(t =>
 {
@@ -135,7 +135,7 @@ ParseUser.LogInAsync("my_username", "my_password").ContinueWith(t =>
         // This will always fail, since the ParseUser is not authenticated
     }
 });
-</code></pre>
+```
 
 The `ParseUser` obtained from `Current` will always be authenticated.
 
@@ -147,18 +147,18 @@ The same security model that applies to the `ParseUser` can be applied to other 
 
 The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, the `ParseACL` constructor generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
-<pre><code class="cs">
+```cs
 var privateNote = new ParseObject("Note");
 privateNote["content"] = "This note is private!";
 privateNote.ACL = new ParseACL(ParseUser.CurrentUser);
 Task saveTask = privateNote.SaveAsync();
-</code></pre>
+```
 
 This note will then only be accessible to the current user, although it will be accessible to any device where that user is signed in. This functionality is useful for applications where you want to enable access to user data across multiple devices, like a personal todo list.
 
 Permissions can also be granted on a per-user basis. You can add permissions individually to a `ParseACL` using `SetReadAccess` and `SetWriteAccess`. For example, let's say you have a message that will be sent to a group of several users, where each of them have the rights to read and delete that message:
 
-<pre><code class="cs">
+```cs
 var groupMessage = new ParseObject("Message");
 var groupACL = new ParseACL();
 
@@ -172,11 +172,11 @@ foreach (var user in userList)
 
 groupMessage.ACL = groupACL;
 Task saveTask = groupMessage.SaveAsync();
-</code></pre>
+```
 
 You can also grant permissions to all users at once using the `PublicReadAccess` and `PublicWriteAccess` properties. This allows patterns like posting comments on a message board. For example, to create a post that can only be edited by its author, but can be read by anyone:
 
-<pre><code class="cs">
+```cs
 var publicPost = new ParseObject("Post");
 var postACL = new ParseACL(ParseUser.CurrentUser)
 {
@@ -185,7 +185,7 @@ var postACL = new ParseACL(ParseUser.CurrentUser)
 };
 publicPost.ACL = postACL;
 Task saveTask = publicPost.SaveAsync();
-</code></pre>
+```
 
 Operations that are forbidden, such as deleting an object that you do not have write access to, result in a `ParseException` with an `OtherCause` error code. For security purposes, this prevents clients from distinguishing which object ids exist but are secured, versus which object ids do not exist at all.
 
@@ -195,9 +195,9 @@ As soon as you introduce passwords into a system, users will forget them. In suc
 
 To kick off the password reset flow, ask the user for their email address, and call:
 
-<pre><code class="cs">
+```cs
 Task requestPasswordTask = ParseUser.RequestPasswordResetAsync("email@example.com");
-</code></pre>
+```
 
 This will attempt to match the given email with the user's email or username field, and will send them a password reset email. By doing this, you can opt to have users use their email as their username, or you can collect it separately and store it in the email field.
 
@@ -214,14 +214,14 @@ Note that the messaging in this flow will reference your app by the name that yo
 
 To query for users, you need to use the special user query:
 
-<pre><code class="cs">
+```cs
 ParseUser.Query
     .WhereEqualTo("gender", "female")
     .FindAsync().ContinueWith(t =>
     {
         IEnumerable<ParseUser> women = t.Result;
     });
-</code></pre>
+```
 
 In addition, you can use `GetAsync` to get a `ParseUser` by id.
 
@@ -229,7 +229,7 @@ In addition, you can use `GetAsync` to get a `ParseUser` by id.
 
 Associations involving a `ParseUser` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
-<pre><code class="cs">
+```cs
 // Make a new post
 var post = new ParseObject("Post")
 {
@@ -247,7 +247,7 @@ post.SaveAsync().ContinueWith(t =>
 {
     IEnumerable<ParseObject> userPosts = t.Result;
 });
-</code></pre>
+```
 
 ## Facebook Users
 
@@ -268,9 +268,9 @@ There are two main ways to use Facebook with your Parse users: (1) logging in as
 
 `ParseFacebookUtils` provides a way to allow your `ParseUser`s to log in or sign up through Facebook. This is accomplished using the `LogInAsync()` method. Use the Facebook Unity SDK to log into Facebook, then call `LogInAsync()` with the access token information:
 
-<pre><code class="cs">
+```cs
 Task<ParseUser> logInTask = ParseFacebookUtils.LogInAsync(userId, accessToken, tokenExpiration);
-</code></pre>
+```
 
 When this code is run, our SDK receives the Facebook data and saves it to a `ParseUser`. If it's a new user based on the Facebook ID, then that user is created.
 
@@ -285,17 +285,17 @@ When this code is run, the following happens:
 
 If you want to associate an existing `ParseUser` with a Facebook account, you can link it like so:
 
-<pre><code class="cs">
+```cs
 if (!ParseFacebookUtils.IsLinked(user))
 {
     Task linkTask = ParseFacebookUtils.LinkAsync(user, userId, accessToken, tokenExpiration);
 }
-</code></pre>
+```
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `ParseUser` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
 If you want to unlink a Facebook account from a user, simply do this:
 
-<pre><code class="cs">
+```cs
 Task unlinkTask = ParseFacebookUtils.UnlinkAsync(user);
-</code></pre>
+```

@@ -4,12 +4,12 @@
 
 `ParseConfig` is a way to configure your applications remotely by storing a single configuration object on Parse. It enables you to add things like feature gating or a simple "Message of the Day". To start using `ParseConfig` you need to add a few key/value pairs (parameters) to your app on the Parse Config Dashboard.
 
-![](/images/docs/config_editor.png)
+![]({{ '/assets/images/config_editor.png' | prepend: site.baseurl }})
 
 After that you will be able to fetch the `ParseConfig` on the client, like in this example:
 
-<pre><code class="cs">
-ParseConfig.GetAsync().ContinueWith(t => 
+```cs
+ParseConfig.GetAsync().ContinueWith(t =>
 {
   if (t.isFaulted) {
     // Something went wrong (e.g. request timed out)
@@ -17,14 +17,14 @@ ParseConfig.GetAsync().ContinueWith(t =>
     ParseConfig config = t.Result;
   }
 })
-</code></pre>
+```
 
 ## Retrieving Config
 
 `ParseConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `GetAsync` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `CurrentConfig`.
 
-<pre><code class="cs">
-ParseConfig.GetAsync().ContinueWith(t => 
+```cs
+ParseConfig.GetAsync().ContinueWith(t =>
 {
   ParseConfig config = null;
   if (t.isFaulted) {
@@ -43,7 +43,7 @@ ParseConfig.GetAsync().ContinueWith(t =>
 
   Console.WriteLine(String.Format("Welcome Messsage From Config = {0}", welcomeMessage));
 })
-</code></pre>
+```
 
 ## Current Config
 
@@ -51,7 +51,7 @@ Every `ParseConfig` instance that you get is always immutable. When you retrieve
 
 It might be troublesome to retrieve the config from the server every time you want to use it. You can avoid this by simply using the cached `CurrentConfig` object and fetching the config only once in a while.
 
-<pre><code class="cs">
+```cs
 public class Helper
 {
   private static TimeSpan configRefreshInterval = TimeSpan.FromHours(12);
@@ -67,7 +67,7 @@ public class Helper
     }
   }
 }
-</code></pre>
+```
 
 ## Parameters
 

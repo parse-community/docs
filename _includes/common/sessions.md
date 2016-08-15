@@ -89,7 +89,7 @@ To handle this error, we recommend writing a global utility function that is cal
   }
 }];
 ```
-{: .common-lang-block .objc }
+{: .common-lang-block .objectivec }
 
 ```
 // Swift
@@ -211,7 +211,7 @@ query.find().then(function() {
 ```
 {: .common-lang-block .js }
 
-```csharp
+```cs
 public class ParseErrorHandler {
   public static void HandleParseError(ParseException e) {
     switch (e.Code) {
@@ -246,7 +246,7 @@ query.FindAsync().ContinueWith(t => {
   }
 });
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```php
 public class ParseErrorHandler {

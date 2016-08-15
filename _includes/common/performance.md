@@ -42,19 +42,19 @@ query.containedIn("playerName",
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"score" equalTo:@50];
 [query whereKey:@"playerName"
     containedIn:@[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -70,7 +70,7 @@ var query = new ParseObject.GetQuery("GameScore")
     .WhereEqualTo("score", 50)
     .WhereContainedIn("playerName", names);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -91,14 +91,14 @@ query.equalTo("cheatMode", false);
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"cheatMode" equalTo:@NO];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("cheatMode", equalTo: false)
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -109,7 +109,7 @@ query.whereEqualTo("cheatMode", false);
 ```cs
 query.WhereEqualTo("cheatMode", false);
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -161,7 +161,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -169,8 +169,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
@@ -181,7 +181,7 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -203,7 +203,7 @@ var results = await ParseObject.GetQuery("GameScore")
     .WhereNotEqualTo("playerName", "Michael Yabuti")
     .FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -227,16 +227,16 @@ query.notEqualTo("state", "Invited");
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notEqualTo:@"Invited"];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -249,7 +249,7 @@ query.whereNotEqualTo("state", "Invited");
 var query = ParseUser.Query
     .WhereNotEqualTo("state", "Invited");
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -268,15 +268,15 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"state"
     containedIn:@[@"SignedUp", @"Verified"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -287,7 +287,7 @@ query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```cs
 query.WhereContainedIn("state", new[] { "SignedUp", "Verified" });
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -312,7 +312,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // Previously retrieved highScore for Michael Yabuti
 [query whereKey:@"score" greaterThan:highScore];
@@ -321,8 +321,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
@@ -334,7 +334,7 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -358,7 +358,7 @@ var results = await ParseObject.GetQuery("GameScore")
     .WhereGreaterThan("score", highScore)
     .FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -382,16 +382,16 @@ query.notContainedIn("state", ["Invited", "Blocked"];
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notContainedIn:@[@"Invited", @"Blocked"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 var query = PFUser.query()
 query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -404,7 +404,7 @@ query.whereNotContainedIn("state", Arrays.asList("Invited", "Blocked"));
 var query = ParseUser.Query
     .WhereNotContainedIn("state", new[] { "Invited", "Blocked" });
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -423,14 +423,14 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -441,7 +441,7 @@ query.whereContainedIn("state", Arrays.asList("SignedUp", "Verified"));
 ```cs
 query.WhereContainedIn("state", new[] { "SignedUp", "Verified"});
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -466,14 +466,14 @@ query.matches("playerName", "Michael", “i”);
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"Michael" modifiers:@"i"];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -484,7 +484,7 @@ query.whereMatches("playerName", "Michael", "i");
 ```cs
 query.WhereMatches("playerName", "Michael", "i")
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -503,14 +503,14 @@ query.contains("playerName", "Michael");
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"playerName" containsString:@"Michael"];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("playerName", containsString: "Michael")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -521,7 +521,7 @@ query.whereContains("playerName", "Michael");
 ```cs
 query.WhereContains("playerName", "Michael")
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -540,14 +540,14 @@ query.startsWith("playerName", "Michael");
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"playerName" hasPrefix:@"Michael"];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("playerName", hasPrefix: "Michael")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -558,7 +558,7 @@ query.whereStartsWith("playerName", "Michael");
 ```cs
 query.WhereStartsWith("playerName", "Michael")
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -579,14 +579,14 @@ query.matches("playerName", "^Michael");
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"^Michael"];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.whereKey("playerName", matchesRegex: "^Michael")
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -597,7 +597,7 @@ query.whereMatches("playerName", "^Michael");
 ```cs
 query.WhereMatches("playerName", "^Michael")
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -622,14 +622,14 @@ query.limit(10); // limit to at most 10 results
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 query.limit = 10; // limit to at most 10 results
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 query.limit = 10 // limit to at most 10 results
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -640,7 +640,7 @@ query.setLimit(10); // limit to at most 10 results
 ```cs
 query.Limit(10); // limit to at most 10 results
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -663,7 +663,7 @@ query.find().then(function(placesObjects) {
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Place"];
 [query whereKey:@"location" nearGeoPoint:userGeoPoint withinMiles:10.0];
 [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
@@ -671,8 +671,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Place"];
     // List of objects within 10 miles of a user's location
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("Place")
@@ -683,7 +683,7 @@ query.findObjectsInBackgroundWithBlock {
     // List of places within 10 miles of a user's location
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -705,7 +705,7 @@ var results = await ParseObject.GetQuery("GameScore")
     .WhereWithinDistance("location", userGeoPoint, ParseGeoDistance.FromMiles(10.0))
     .FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -729,7 +729,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query selectKeys:@[@"score", @"playerName"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -737,8 +737,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // each of results will only have the selected fields available.
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("GameScore")
@@ -749,7 +749,7 @@ query.findObjectsInBackgroundWithBlock {
     // each of results will only have the selected fields available.
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -772,7 +772,7 @@ var results = await ParseObject.GetQuery("GameScore")
      .FindAsync();
 // each of results will only have the selected fields available.
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -824,7 +824,7 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 [PFCloud callFunctionInBackground:@"averageStars"
                   withParameters:@{@"movie": @"The Matrix"}
                            block:^(NSNumber *ratings, NSError *error) {
@@ -832,8 +832,8 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
     // ratings is 4.5
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The Matrix"]) {
@@ -842,7 +842,7 @@ PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The 
     // ratings is 4.5
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -870,7 +870,7 @@ ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t =
   // result is 4.5
 });
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -901,7 +901,7 @@ query.count().then(function(count) {
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 // movieId corresponds to a given movie's id
 [query whereKey:@"movie" equalTo:movieId];
@@ -910,8 +910,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     // Request succeeded
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("Review")
@@ -923,7 +923,7 @@ query.countObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -947,7 +947,7 @@ var count = await ParseObject.GetQuery("Review")
     .WhereEqualTo("movie", movieId)
     .CountAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -991,15 +991,15 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .javascript }
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
   if (!error) {
     // Results include the reviews count field
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("Movie")
@@ -1009,7 +1009,7 @@ query.findObjectsInBackgroundWithBlock {
     // Results include the reviews count field
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -1030,7 +1030,7 @@ var results = await ParseObject.GetQuery("Movie")
     .FindAsync();
 // Results include the reviews count field
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
@@ -1087,7 +1087,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block-js}
 
-```objectivec
+<pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Post"];
 [query whereKey:@"hashtags" containsAllObjectsInArray:@[@"#parse", @"#ftw"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -1095,8 +1095,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     // Request succeeded
   }
 }];
-```
-{: .common-lang-block .objc }
+</code></pre>
+{: .common-lang-block .objectivec }
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("Post")
@@ -1107,7 +1107,7 @@ query.findObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-```
+</code></pre>
 {: .common-lang-block .swift }
 
 ```java
@@ -1129,7 +1129,7 @@ var results = await ParseObject.GetQuery("Post")
     .WhereContainsAll("hashtags", new[] { "#parse", "#ftw" })
     .FindAsync();
 ```
-{: .common-lang-block .csharp }
+{: .common-lang-block .cs }
 
 ```bash
 # No REST API example
