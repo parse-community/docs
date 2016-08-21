@@ -255,14 +255,14 @@ signUpController.fields = (PFSignUpFieldsUsernameAndPassword
                           | PFSignUpFieldsDismissButton);
 </code></pre>
 <pre><code class="swift">
-signUpController.fields = (PFSignUpFields.UsernameAndPassword
-                          | PFSignUpFields.SignUpButton
-                          | PFSignUpFields.Email
-                          | PFSignUpFields.Additional
-                          | PFSignUpFields.DismissButton)
+signUpController.fields = [PFSignUpFields.UsernameAndPassword,
+                           PFSignUpFields.SignUpButton,
+                           PFSignUpFields.Email,
+                           PFSignUpFields.Additional,
+                           PFSignUpFields.DismissButton]
 </code></pre>
 
-Essentially, you use the bitwise or operator (`|`) to chain up all the options you want to include in the sign up screen, and assign the value to `fields`. Similarly, you can turn off any field by omitting it in the assignment to fields.
+Essentially, you create an array of all the options you want to include in the sign up screen, and assign the value to `fields`. Similarly, you can turn off any field by omitting it in the assignment to fields.
 
 ### Responding to Sign Up Success, Failure or Cancellation
 
