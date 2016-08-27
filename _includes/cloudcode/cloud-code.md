@@ -131,6 +131,61 @@ If there is an error, the response in the client looks like:
 }
 ```
 
+# Cloud Jobs
+
+Sometimes you want to execute long running functions, and you don't want to wait for the response. Cloud Jobs are just meant for that.
+
+## Define a Job
+
+```javascript
+Parse.Cloud.job("myJob", function(request, status) {
+  // the params passed through the start request
+  var params = request.params;
+  // Headers from the request that triggered the job
+  var headers = request.headers;
+
+  // get the parse-server logger
+  var log = request.log;
+
+  // Update the Job status message
+  status.message("I just started");
+  doSomethingVeryLong().then(function(result) {
+    // Mark the job as successful
+    // success and error only support string as parameters
+    status.success("I just finished");
+  }, function(error) {
+    // Mark the job as errored
+    status.error("There was an error");
+  })
+});
+```
+
+Note that calling `status.success` or `status.error` won't prevent any further execution of the job.
+
+## Running a Job
+
+Calling jobs is done via the REST API and is protected by the master key.
+
+```sh
+curl -X POST -H 'X-Parse-Application-Id: appId' -H 'X-Parse-Master-Key: masterKey' https://my-parse-server.com/1/jobs/myJob
+```
+
+The response will consist of an empty body and contain the `X-Parse-Job-Status-Id: a1c3e5g7i9k` header. With the _JobStatus's objectId that has just been created.
+
+You can pass some data alongside the call if you want to customize the job execution. 
+
+## Scheduling a Job
+
+We don't support at the moment job scheduling and highly recommend to use a 3rd party system for scheduling your jobs.
+
+- On [AWS Elastic Beanstalk](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html#worker-periodictasks)
+- On [Google App Engine](https://cloud.google.com/appengine/docs/flexible/nodejs/scheduling-jobs-with-cron-yaml)
+- On [Heroku](https://devcenter.heroku.com/articles/scheduler#scheduling-jobs)
+
+## Viewing Jobs
+
+Viewing jobs is currently not supported on parse-dashboard, but you can query the _JobStatus class with a masterKey call to fetch your recent jobs.
+
 # beforeSave Triggers
 
 ## Implementing validation
