@@ -12,7 +12,7 @@ Our JavaScript SDK is originally based on the popular [Backbone.js](http://backb
 
 Our SDK supports Firefox 23+, Chrome 17+, Safari 5+, and IE 10. IE 9 is supported only for apps that are hosted with HTTPS.
 
-To initialize your own Parse-Server with Javascript, you should replace your curently initialize code with this
+To initialize your own Parse-Server with Javascript, you should replace your current initialization code with this
 <pre><code class="javascript">
 Parse.initialize("YOUR_APP_ID");
 Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
