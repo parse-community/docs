@@ -420,14 +420,14 @@
 											// Build collapsable sublist with h2 tags. We skip any H2s
 											// that appear before the first H1.
 									} else if (el.tagName === 'H2' && latestMajor !== undefined) {
-													latestMinor = UI.tag('ul', { className: 'ui_live_toc_minor_list' });
-													latestMajor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_major' }, [UI.tag('a', { href: '#' + name }, text), latestMinor]));
+											latestMinor = UI.tag('ul', { className: 'ui_live_toc_minor_list' });
+											latestMajor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_major' }, [UI.tag('a', { href: '#' + name }, text), latestMinor]));
 
-													// Build deeper collapsable sublist with h3 tags. We skip any
-													// H3s that appear before the first H1 or directly after any H1
-											} else if (el.tagName === 'H3' && latestMajor !== undefined && latestMinor !== undefined) {
-															latestMinor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_minor' }, [UI.tag('a', { href: '#' + name }, text.toLowerCase())]));
-													}
+											// Build deeper collapsable sublist with h3 tags. We skip any
+											// H3s that appear before the first H1 or directly after any H1
+									} else if (el.tagName === 'H3' && latestMajor !== undefined && latestMinor !== undefined) {
+											latestMinor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_minor' }, [UI.tag('a', { href: '#' + name }, text.toLowerCase())]));
+									}
 							}
 							return toc;
 					},
@@ -3045,8 +3045,8 @@
 
 							// Don't bring in undefined values
 						} else if (copy !== undefined) {
-								target[name] = copy;
-							}
+							target[name] = copy;
+						}
 					}
 				}
 			}
@@ -3265,14 +3265,14 @@
 
 					// Go through every key on the object,
 				} else {
-						for (i in elems) {
-							value = callback(elems[i], i, arg);
+					for (i in elems) {
+						value = callback(elems[i], i, arg);
 
-							if (value != null) {
-								ret.push(value);
-							}
+						if (value != null) {
+							ret.push(value);
 						}
 					}
+				}
 
 				// Flatten any nested arrays
 				return concat.apply([], ret);
@@ -3479,34 +3479,34 @@
 
 				// Sets one value
 			} else if (value !== undefined) {
-					chainable = true;
+				chainable = true;
 
-					if (!jQuery.isFunction(value)) {
-						raw = true;
-					}
+				if (!jQuery.isFunction(value)) {
+					raw = true;
+				}
 
-					if (bulk) {
+				if (bulk) {
 
-						// Bulk operations run against the entire set
-						if (raw) {
-							fn.call(elems, value);
-							fn = null;
+					// Bulk operations run against the entire set
+					if (raw) {
+						fn.call(elems, value);
+						fn = null;
 
-							// ...except when executing function values
-						} else {
-								bulk = fn;
-								fn = function fn(elem, key, value) {
-									return bulk.call(jQuery(elem), value);
-								};
-							}
-					}
-
-					if (fn) {
-						for (; i < len; i++) {
-							fn(elems[i], key, raw ? value : value.call(elems[i], i, fn(elems[i], key)));
-						}
+						// ...except when executing function values
+					} else {
+						bulk = fn;
+						fn = function fn(elem, key, value) {
+							return bulk.call(jQuery(elem), value);
+						};
 					}
 				}
+
+				if (fn) {
+					for (; i < len; i++) {
+						fn(elems[i], key, raw ? value : value.call(elems[i], i, fn(elems[i], key)));
+					}
+				}
+			}
 
 			return chainable ? elems :
 
@@ -3864,27 +3864,27 @@
 								// Element context
 							} else {
 
-									// Support: IE, Opera, Webkit
-									// TODO: identify versions
-									// getElementById can match elements by name instead of ID
-									if (newContext && (elem = newContext.getElementById(m)) && contains(context, elem) && elem.id === m) {
+								// Support: IE, Opera, Webkit
+								// TODO: identify versions
+								// getElementById can match elements by name instead of ID
+								if (newContext && (elem = newContext.getElementById(m)) && contains(context, elem) && elem.id === m) {
 
-										results.push(elem);
-										return results;
-									}
+									results.push(elem);
+									return results;
 								}
+							}
 
 							// Type selector
 						} else if (match[2]) {
-								push.apply(results, context.getElementsByTagName(selector));
-								return results;
+							push.apply(results, context.getElementsByTagName(selector));
+							return results;
 
-								// Class selector
-							} else if ((m = match[3]) && support.getElementsByClassName && context.getElementsByClassName) {
+							// Class selector
+						} else if ((m = match[3]) && support.getElementsByClassName && context.getElementsByClassName) {
 
-									push.apply(results, context.getElementsByClassName(m));
-									return results;
-								}
+							push.apply(results, context.getElementsByClassName(m));
+							return results;
+						}
 					}
 
 					// Take advantage of querySelectorAll
@@ -3900,25 +3900,25 @@
 							// Exclude object elements
 						} else if (context.nodeName.toLowerCase() !== "object") {
 
-								// Capture the context ID, setting it first if necessary
-								if (nid = context.getAttribute("id")) {
-									nid = nid.replace(rescape, "\\$&");
-								} else {
-									context.setAttribute("id", nid = expando);
-								}
-
-								// Prefix every selector in the list
-								groups = tokenize(selector);
-								i = groups.length;
-								nidselect = ridentifier.test(nid) ? "#" + nid : "[id='" + nid + "']";
-								while (i--) {
-									groups[i] = nidselect + " " + toSelector(groups[i]);
-								}
-								newSelector = groups.join(",");
-
-								// Expand context for sibling selectors
-								newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
+							// Capture the context ID, setting it first if necessary
+							if (nid = context.getAttribute("id")) {
+								nid = nid.replace(rescape, "\\$&");
+							} else {
+								context.setAttribute("id", nid = expando);
 							}
+
+							// Prefix every selector in the list
+							groups = tokenize(selector);
+							i = groups.length;
+							nidselect = ridentifier.test(nid) ? "#" + nid : "[id='" + nid + "']";
+							while (i--) {
+								groups[i] = nidselect + " " + toSelector(groups[i]);
+							}
+							newSelector = groups.join(",");
+
+							// Expand context for sibling selectors
+							newContext = rsibling.test(selector) && testContext(context.parentNode) || context;
+						}
 
 						if (newSelector) {
 							try {
@@ -4126,8 +4126,8 @@
 
 					// Support: IE 9 - 10 only
 				} else if (parent.attachEvent) {
-						parent.attachEvent("onunload", unloadHandler);
-					}
+					parent.attachEvent("onunload", unloadHandler);
+				}
 			}
 
 			/* Attributes
@@ -4197,8 +4197,8 @@
 
 					// DocumentFragment nodes don't have gEBTN
 				} else if (support.qsa) {
-						return context.querySelectorAll(tag);
-					}
+					return context.querySelectorAll(tag);
+				}
 			} : function (tag, context) {
 				var elem,
 				    tmp = [],
@@ -4411,8 +4411,8 @@
 
 					// If the nodes are siblings, we can do a quick check
 				} else if (aup === bup) {
-						return siblingCheck(a, b);
-					}
+					return siblingCheck(a, b);
+				}
 
 				// Otherwise we need full lists of their ancestors for comparison
 				cur = a;
@@ -4625,8 +4625,8 @@
 
 						// other types prohibit arguments
 					} else if (match[3]) {
-							Sizzle.error(match[0]);
-						}
+						Sizzle.error(match[0]);
+					}
 
 					return match;
 				},
@@ -4645,15 +4645,15 @@
 
 						// Strip excess characters from unquoted arguments
 					} else if (unquoted && rpseudo.test(unquoted) && (
-						// Get excess from tokenize (recursively)
-						excess = tokenize(unquoted, true)) && (
-						// advance to the next closing parenthesis
-						excess = unquoted.indexOf(")", unquoted.length - excess) - unquoted.length)) {
+					// Get excess from tokenize (recursively)
+					excess = tokenize(unquoted, true)) && (
+					// advance to the next closing parenthesis
+					excess = unquoted.indexOf(")", unquoted.length - excess) - unquoted.length)) {
 
-							// excess is a negative index
-							match[0] = match[0].slice(0, excess);
-							match[2] = unquoted.slice(0, excess);
-						}
+						// excess is a negative index
+						match[0] = match[0].slice(0, excess);
+						match[2] = unquoted.slice(0, excess);
+					}
 
 					// Return only captures needed by the pseudo filter method (type and argument)
 					return match.slice(0, 3);
@@ -5322,13 +5322,13 @@
 
 					// Add elements to results, through postFinder if defined
 				} else {
-						matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut);
-						if (postFinder) {
-							postFinder(null, results, matcherOut, xml);
-						} else {
-							push.apply(results, matcherOut);
-						}
+					matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut);
+					if (postFinder) {
+						postFinder(null, results, matcherOut, xml);
+					} else {
+						push.apply(results, matcherOut);
 					}
+				}
 			});
 		}
 
@@ -5558,8 +5558,8 @@
 
 						// Precompiled matchers will still verify ancestry, so step up a level
 					} else if (compiled) {
-							context = context.parentNode;
-						}
+						context = context.parentNode;
+					}
 
 					selector = selector.slice(tokens.shift().value.length);
 				}
@@ -5664,10 +5664,10 @@
 			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 			// Sizzle requires that there be a global window in Common-JS like environments
 		} else if (typeof module !== "undefined" && module.exports) {
-				module.exports = Sizzle;
-			} else {
-				window.Sizzle = Sizzle;
-			}
+			module.exports = Sizzle;
+		} else {
+			window.Sizzle = Sizzle;
+		}
 		// EXPOSE
 	})(window);
 
@@ -6115,8 +6115,8 @@
 
 				// Fails to return the selected option to the default selected state when cloning options
 			} else if (nodeName === "input" || nodeName === "textarea") {
-					dest.defaultValue = src.defaultValue;
-				}
+				dest.defaultValue = src.defaultValue;
+			}
 		}
 
 		function domManip(collection, args, callback, ignored) {
@@ -6297,8 +6297,8 @@
 
 										// This is a shortcut to avoid jQuery.event.remove's overhead
 									} else {
-											jQuery.removeEvent(elem, type, data.handle);
-										}
+										jQuery.removeEvent(elem, type, data.handle);
+									}
 								}
 							}
 
@@ -6524,33 +6524,33 @@
 
 						// Convert non-html into a text node
 					} else if (!rhtml.test(elem)) {
-							nodes.push(context.createTextNode(elem));
+						nodes.push(context.createTextNode(elem));
 
-							// Convert html into DOM nodes
-						} else {
-								tmp = tmp || fragment.appendChild(context.createElement("div"));
+						// Convert html into DOM nodes
+					} else {
+						tmp = tmp || fragment.appendChild(context.createElement("div"));
 
-								// Deserialize a standard representation
-								tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
-								wrap = wrapMap[tag] || wrapMap._default;
-								tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2];
+						// Deserialize a standard representation
+						tag = (rtagName.exec(elem) || ["", ""])[1].toLowerCase();
+						wrap = wrapMap[tag] || wrapMap._default;
+						tmp.innerHTML = wrap[1] + jQuery.htmlPrefilter(elem) + wrap[2];
 
-								// Descend through wrappers to the right content
-								j = wrap[0];
-								while (j--) {
-									tmp = tmp.lastChild;
-								}
+						// Descend through wrappers to the right content
+						j = wrap[0];
+						while (j--) {
+							tmp = tmp.lastChild;
+						}
 
-								// Support: Android<4.1, PhantomJS<2
-								// push.apply(_, arraylike) throws on ancient WebKit
-								jQuery.merge(nodes, tmp.childNodes);
+						// Support: Android<4.1, PhantomJS<2
+						// push.apply(_, arraylike) throws on ancient WebKit
+						jQuery.merge(nodes, tmp.childNodes);
 
-								// Remember the top-level container
-								tmp = fragment.firstChild;
+						// Remember the top-level container
+						tmp = fragment.firstChild;
 
-								// Ensure the created nodes are orphaned (#12392)
-								tmp.textContent = "";
-							}
+						// Ensure the created nodes are orphaned (#12392)
+						tmp.textContent = "";
+					}
 				}
 			}
 
@@ -6730,12 +6730,12 @@
 					// configurability must be true to allow the property to be
 					// deleted with the delete operator
 				} else {
-						Object.defineProperty(owner, this.expando, {
-							value: value,
-							writable: true,
-							configurable: true
-						});
-					}
+					Object.defineProperty(owner, this.expando, {
+						value: value,
+						writable: true,
+						configurable: true
+					});
+				}
 				return owner[this.expando];
 			},
 			cache: function cache(owner) {
@@ -6768,11 +6768,11 @@
 							// configurable must be true to allow the property to be
 							// deleted when data is removed
 						} else {
-								Object.defineProperty(owner, this.expando, {
-									value: value,
-									configurable: true
-								});
-							}
+							Object.defineProperty(owner, this.expando, {
+								value: value,
+								configurable: true
+							});
+						}
 					}
 				}
 
@@ -6789,11 +6789,11 @@
 					// Handle: [ owner, { properties } ] args
 				} else {
 
-						// Copy the properties one-by-one to the cache object
-						for (prop in data) {
-							cache[prop] = data[prop];
-						}
+					// Copy the properties one-by-one to the cache object
+					for (prop in data) {
+						cache[prop] = data[prop];
 					}
+				}
 				return cache;
 			},
 			get: function get(owner, key) {
@@ -6932,7 +6932,7 @@
 			//  - Object
 			//    - Any
 			/* jshint -W018 */
-			return owner.nodeType === 1 || owner.nodeType === 9 || ! +owner.nodeType;
+			return owner.nodeType === 1 || owner.nodeType === 9 || !+owner.nodeType;
 		};
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
@@ -7053,8 +7053,8 @@
 
 									// ...and otherwise set as attributes
 								} else {
-										this.attr(match, context[match]);
-									}
+									this.attr(match, context[match]);
+								}
 							}
 						}
 
@@ -7062,46 +7062,46 @@
 
 						// HANDLE: $(#id)
 					} else {
-							elem = document.getElementById(match[2]);
+						elem = document.getElementById(match[2]);
 
-							// Support: Blackberry 4.6
-							// gEBID returns nodes no longer in the document (#6963)
-							if (elem && elem.parentNode) {
+						// Support: Blackberry 4.6
+						// gEBID returns nodes no longer in the document (#6963)
+						if (elem && elem.parentNode) {
 
-								// Inject the element directly into the jQuery object
-								this.length = 1;
-								this[0] = elem;
-							}
-
-							this.context = document;
-							this.selector = selector;
-							return this;
+							// Inject the element directly into the jQuery object
+							this.length = 1;
+							this[0] = elem;
 						}
+
+						this.context = document;
+						this.selector = selector;
+						return this;
+					}
 
 					// HANDLE: $(expr, $(...))
 				} else if (!context || context.jquery) {
-						return (context || root).find(selector);
+					return (context || root).find(selector);
 
-						// HANDLE: $(expr, context)
-						// (which is just equivalent to: $(context).find(expr)
-					} else {
-							return this.constructor(context).find(selector);
-						}
+					// HANDLE: $(expr, context)
+					// (which is just equivalent to: $(context).find(expr)
+				} else {
+					return this.constructor(context).find(selector);
+				}
 
 				// HANDLE: $(DOMElement)
 			} else if (selector.nodeType) {
-					this.context = this[0] = selector;
-					this.length = 1;
-					return this;
+				this.context = this[0] = selector;
+				this.length = 1;
+				return this;
 
-					// HANDLE: $(function)
-					// Shortcut for document ready
-				} else if (jQuery.isFunction(selector)) {
-						return root.ready !== undefined ? root.ready(selector) :
+				// HANDLE: $(function)
+				// Shortcut for document ready
+			} else if (jQuery.isFunction(selector)) {
+				return root.ready !== undefined ? root.ready(selector) :
 
-						// Execute immediately if ready is not present
-						selector(jQuery);
-					}
+				// Execute immediately if ready is not present
+				selector(jQuery);
+			}
 
 			if (selector.selector !== undefined) {
 				this.selector = selector.selector;
@@ -8015,8 +8015,8 @@
 
 				// Event type
 			} else {
-					this.type = src;
-				}
+				this.type = src;
+			}
 
 			// Put explicitly provided properties onto the event object
 			if (props) {
@@ -8544,8 +8544,8 @@
 
 						// Otherwise, this object is spent
 					} else {
-							list = "";
-						}
+						list = "";
+					}
 				}
 			},
 
@@ -9179,8 +9179,8 @@
 
 					// Any non-fx value stops us from restoring the original display value
 				} else {
-						display = undefined;
-					}
+					display = undefined;
+				}
 			}
 
 			if (!jQuery.isEmptyObject(orig)) {
@@ -9225,8 +9225,8 @@
 
 				// If this is a noop like .hide().hide(), restore an overwritten display value
 			} else if ((display === "none" ? defaultDisplay(elem.nodeName) : display) === "inline") {
-					style.display = display;
-				}
+				style.display = display;
+			}
 		}
 
 		function propFilter(props, specialEasing) {
@@ -10205,21 +10205,21 @@
 
 						// Toggle whole class name
 					} else if (value === undefined || type === "boolean") {
-							className = getClass(this);
-							if (className) {
+						className = getClass(this);
+						if (className) {
 
-								// Store className if set
-								dataPriv.set(this, "__className__", className);
-							}
-
-							// If the element has a class name or if we're passed `false`,
-							// then remove the whole classname (if there was one, the above saved it).
-							// Otherwise bring back whatever was previously saved (if anything),
-							// falling back to the empty string if nothing was stored.
-							if (this.setAttribute) {
-								this.setAttribute("class", className || value === false ? "" : dataPriv.get(this, "__className__") || "");
-							}
+							// Store className if set
+							dataPriv.set(this, "__className__", className);
 						}
+
+						// If the element has a class name or if we're passed `false`,
+						// then remove the whole classname (if there was one, the above saved it).
+						// Otherwise bring back whatever was previously saved (if anything),
+						// falling back to the empty string if nothing was stored.
+						if (this.setAttribute) {
+							this.setAttribute("class", className || value === false ? "" : dataPriv.get(this, "__className__") || "");
+						}
+					}
 				});
 			},
 
@@ -10772,8 +10772,8 @@
 
 							// Otherwise append
 						} else {
-								(structure[dataType] = structure[dataType] || []).push(func);
-							}
+							(structure[dataType] = structure[dataType] || []).push(func);
+						}
 					}
 				}
 			};
@@ -10936,54 +10936,54 @@
 						// Convert response if prev dataType is non-auto and differs from current
 					} else if (prev !== "*" && prev !== current) {
 
-							// Seek a direct converter
-							conv = converters[prev + " " + current] || converters["* " + current];
+						// Seek a direct converter
+						conv = converters[prev + " " + current] || converters["* " + current];
 
-							// If none found, seek a pair
-							if (!conv) {
-								for (conv2 in converters) {
+						// If none found, seek a pair
+						if (!conv) {
+							for (conv2 in converters) {
 
-									// If conv2 outputs current
-									tmp = conv2.split(" ");
-									if (tmp[1] === current) {
+								// If conv2 outputs current
+								tmp = conv2.split(" ");
+								if (tmp[1] === current) {
 
-										// If prev can be converted to accepted input
-										conv = converters[prev + " " + tmp[0]] || converters["* " + tmp[0]];
-										if (conv) {
+									// If prev can be converted to accepted input
+									conv = converters[prev + " " + tmp[0]] || converters["* " + tmp[0]];
+									if (conv) {
 
-											// Condense equivalence converters
-											if (conv === true) {
-												conv = converters[conv2];
+										// Condense equivalence converters
+										if (conv === true) {
+											conv = converters[conv2];
 
-												// Otherwise, insert the intermediate dataType
-											} else if (converters[conv2] !== true) {
-													current = tmp[0];
-													dataTypes.unshift(tmp[1]);
-												}
-											break;
+											// Otherwise, insert the intermediate dataType
+										} else if (converters[conv2] !== true) {
+											current = tmp[0];
+											dataTypes.unshift(tmp[1]);
 										}
-									}
-								}
-							}
-
-							// Apply converter (if not an equivalence)
-							if (conv !== true) {
-
-								// Unless errors are allowed to bubble, catch and return them
-								if (conv && s.throws) {
-									response = conv(response);
-								} else {
-									try {
-										response = conv(response);
-									} catch (e) {
-										return {
-											state: "parsererror",
-											error: conv ? e : "No conversion from " + prev + " to " + current
-										};
+										break;
 									}
 								}
 							}
 						}
+
+						// Apply converter (if not an equivalence)
+						if (conv !== true) {
+
+							// Unless errors are allowed to bubble, catch and return them
+							if (conv && s.throws) {
+								response = conv(response);
+							} else {
+								try {
+									response = conv(response);
+								} catch (e) {
+									return {
+										state: "parsererror",
+										error: conv ? e : "No conversion from " + prev + " to " + current
+									};
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -11396,8 +11396,8 @@
 
 							// Simply rethrow otherwise
 						} else {
-								throw e;
-							}
+							throw e;
+						}
 					}
 				}
 
@@ -11465,15 +11465,15 @@
 
 							// if not modified
 						} else if (status === 304) {
-								statusText = "notmodified";
+							statusText = "notmodified";
 
-								// If we have data, let's convert it
-							} else {
-									statusText = response.state;
-									success = response.data;
-									error = response.error;
-									isSuccess = !error;
-								}
+							// If we have data, let's convert it
+						} else {
+							statusText = response.state;
+							success = response.data;
+							error = response.error;
+							isSuccess = !error;
+						}
 					} else {
 
 						// Extract error from statusText and normalize for non-aborts
@@ -12135,8 +12135,8 @@
 
 						// Otherwise restore preexisting value
 					} else {
-							window[callbackName] = overwritten;
-						}
+						window[callbackName] = overwritten;
+					}
 
 					// Save back as free
 					if (s[callbackName]) {
@@ -12206,8 +12206,8 @@
 
 				// Otherwise, build a param string
 			} else if (params && (typeof params === "undefined" ? "undefined" : _typeof(params)) === "object") {
-					type = "POST";
-				}
+				type = "POST";
+			}
 
 			// If we have elements to modify, make the request
 			if (self.length > 0) {
