@@ -77,6 +77,7 @@ curl -X POST \
         "name": "Andrew",
         "picture": {
           "name": "...profile.png",
+          "url": "...profile.png",
           "__type": "File"
         }
       }' \
@@ -90,6 +91,7 @@ connection.request('POST', '/1/classes/PlayerProfile', json.dumps({
        "name": "Andrew",
        "picture": {
          "name": "...profile.png",
+         "url:": "...profile.png",
          "__type": "File"
        }
      }), {
@@ -101,7 +103,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-Note that the name of the file in the request is not the local file name, but the name in the response of the previous upload operation.
+Note that the name of the file in the request is not the local file name, but the name in the response of the previous upload operation. It is also important to add the `url` from the previous upload operation to the request.
 
 
 ## Deleting Files
