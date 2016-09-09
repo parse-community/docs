@@ -31,6 +31,7 @@ See the [Development Guide](/ParsePlatform/parse-server/wiki/Development-Guide) 
 * [Run Parse-server on Google Cloud Platform](https://cloud.google.com/nodejs/resources/frameworks/parse-server)
 * [Microsoft Azure](https://azure.microsoft.com/en-us/blog/azure-welcomes-parse-developers/) - Migration guide
 * [Rackspace Cloud Servers](https://support.rackspace.com/how-to/migrating-from-parse-to-rackspace/) - Migrating to Rackspace cloud servers
+* [SashiDo](https://www.sashido.io) - Affordable managed Parse Server hosting with care! Migration in a click. Auto Scaling. Simple and flexible pricing
 * [ObjectRocket](https://objectrocket.com/blog/mongodb/move-your-parse-data-to-objectrocket) - Migrating your database to ObjectRocket from Rackspace
 * [Urban Airship](https://www.urbanairship.com/parse-migration) - Push notification migration tool from Urban Airship
 * [docker image](https://hub.docker.com/r/instainer/parse-server) - A docker image for running parse-server quickly
