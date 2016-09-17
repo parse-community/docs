@@ -322,7 +322,7 @@ If you want to use `afterDelete` for a predefined class in the Parse JavaScript 
 
 # beforeFind Triggers
 
-*Available only on parse-server cloud code*
+*Available only on parse-server cloud code starting 2.2.20*
 
 In some cases you may want to transform an incoming query, adding an additional limit or increasing the default limit, adding extra includes or restrict the results to a subset of keys. You can do so with the `beforeFind` trigger.
 
