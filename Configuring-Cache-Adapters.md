@@ -13,6 +13,7 @@ Those cache adapters can be cleaned at anytime internally, you should not use th
 ```javascript
 
 var RedisCacheAdapter = require('parse-server').RedisCacheAdapter;
+var redisOptions = {url: 'YOUR REDIS URL HERE'}
 var redisCache = new RedisCacheAdapter(redisOptions);
 
 var api = new ParseServer({
