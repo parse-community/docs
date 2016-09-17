@@ -16,6 +16,7 @@
 * [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#deploying-parse-server)
 * [Configuring Third Party Auth](/ParsePlatform/parse-server/wiki/OAuth)
 * [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
+* [Configuring Cache Adapters](/ParsePlatform/parse-server/wiki/Configuring-Cache-Adapters)
 * [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
 * [Using LiveQuery](/ParsePlatform/parse-server/wiki/Parse-LiveQuery)
   * [LiveQuery Protocol](/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
