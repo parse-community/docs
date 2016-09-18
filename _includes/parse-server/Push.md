@@ -1,4 +1,4 @@
-# Push Overview
+# Push Notifications
 
 Parse Server provides basic push notification functionality for iOS and Android. With this feature, you can:
 
@@ -15,7 +15,7 @@ However, there are a few caveats:
 * Delivery reports are not supported
 * Scheduled push is not supported
 
-# API
+## API
 We support most of the sending options similar to the hosted Parse.com service. Check the detailed doc [here](https://parse.com/docs/rest/guide#push-notifications-sending-options). Parse Server supports the following:
 
 * `channels` to target installations by channels
@@ -34,17 +34,17 @@ Here is the list of sending options we do not support yet:
 *  Increment `badge` under `data` for iOS badge number
 
 
-# Quick Start
+## Quick Start
 
-## 1. Prepare APNS and GCM Credentials
+### 1. Prepare APNS and GCM Credentials
 
   You will need to obtain some credentials from GCM and APNS in order to send push notifications to iOS and Android devices.
 
-### APNS (iOS)
+#### APNS (iOS)
 
   If you are setting up push notifications on iOS for the first time, follow the [Parse Push Notifications tutorial](https://github.com/ParsePlatform/PushTutorial/blob/master/iOS/README.md#1-creating-the-ssl-certificate) to obtain a production Apple Push Certificate.  Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well.  Optionally, the module supports accepting the push certificate and key in `.pem` format.
 
-### GCM (Android)
+#### GCM (Android)
 
   To get your GCM sender ID, enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number. It should be a large integer like 123427208255. This project number is your GCM sender ID.
 
@@ -52,7 +52,7 @@ Here is the list of sending options we do not support yet:
 
   By default, the hosted Parse service (parse.com) sends pushes to your Android app with its own GCM sender ID. With your Parse Server, this setup will no longer work. Instead, your Parse Server will send GCM pushes with its own GCM sender ID and API key.  You should register a GCM sender ID and update your app as soon as possible.  Until users update, you can continue sending push notifications through Parse.com.
 
-## 2. Configure Parse Server
+### 2. Configure Parse Server
 
   When initializing Parse Server, you should pass an additional push configuration. For example
   ```js
@@ -114,7 +114,7 @@ Here is the list of sending options we do not support yet:
 
 ### 3. Configure Client Apps
 
-Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](https://github.com/ParsePlatform/Parse-Server/wiki/Push-Configuring-Clients).
+Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](#configuring-your-clients-to-receive-push-notifications).
 
 ### 4. Send Push Notifications
 
@@ -191,7 +191,7 @@ APNS Notification transmitted to:7a7d2864598e1f65e6e02135245b7daf8ea510514e6376f
 
 These logs mean that the GCM and APNS connections are working.
 
-# Push Adapter
+## Push Adapter
 
 Parse Server provides a `PushAdapter` which abstracts the way we actually send push notifications. The default implementation is `ParsePushAdapter`, which uses GCM for Android push and APNS for iOS push. However, if you want to use other push providers, you can implement your own `PushAdapter`. Your adapter needs to implement `send(data, installations)`, which is used for sending data to the installations. You can use `ParsePushAdapter` as a reference. After you implement your `PushAdapter`, you can pass that instance to Parse Server like this
 
@@ -209,7 +209,7 @@ var server = new ParseServer({
 
 By doing this, after Parse Server decodes the push API request and runs the installation query, your `PushAdapter`'s `send(data, installations)` will be called and is responsible for sending the notifications. If you provide your custom `PushAdapter`, the default `ParsePushAdapter` will be ignored.
 
-# Future Improvements
+## Future Improvements
 
 The current solution provides a good starting point for push notifications. We have a lot of ideas to improve the feature:
 * Support more platforms
@@ -221,8 +221,8 @@ The current solution provides a good starting point for push notifications. We h
 
 If you're interested in any of these features, don't hesitate to jump in and send a PR to the repo. We would love to work with you!
 
-# Notes
+## Notes
 
-## Silent Notifications
+### Silent Notifications
 
 If you have migrated from Parse.com Push and you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) and not "1". This value will be explicitly checked.

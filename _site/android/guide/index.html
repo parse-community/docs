@@ -2499,11 +2499,11 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>Push notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.</p>
 
-<p>If you haven’t installed the SDK yet, <a href="https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start">head over to the Push QuickStart</a> to get our SDK up and running.</p>
+<p>If you haven’t installed the SDK yet, <a href="#quick-start">head over to the Push QuickStart</a> to get our SDK up and running.</p>
 
 <h2 id="setting-up-push">Setting Up Push</h2>
 
-<p>If you want to start using push, start by completing the <a href="https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start">Android Push Notifications QuickStart Guide</a> to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.</p>
+<p>If you want to start using push, start by completing the <a href="#quick-start">Android Push Notifications QuickStart Guide</a> to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.</p>
 
 <p>The Parse library provides push notifications using Google Cloud Messaging (GCM) if Google Play Services are available. Learn more about Google Play Services <a href="https://developers.google.com/android/guides/overview">here</a>.</p>
 
@@ -2828,7 +2828,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <h2 id="receiving-pushes">Receiving Pushes</h2>
 
-<p>Make sure you’ve gone through the <a href="https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start">Android Push QuickStart</a> to set up your app to receive pushes.</p>
+<p>Make sure you’ve gone through the <a href="#quick-start">Android Push QuickStart</a> to set up your app to receive pushes.</p>
 
 <p>When a push notification is received, the “title” is displayed in the status bar and the “alert” is displayed alongside the “title” when the user expands the notification drawer. If you choose to subclass <code class="highlighter-rouge">com.parse.ParsePushBroadcastReceiver</code>, be sure to replace that name with your class’ name in the registration.</p>
 
@@ -3020,7 +3020,7 @@ https://api.parse.com/1/installations
 <ul>
   <li><a href="/docs/downloads">Upgrade to the latest SDK</a>. This documentation covers the push API introduced in the 1.7.0 version of the Android Parse SDK. Please upgrade if you are getting compiler errors following these instructions.</li>
   <li>Make sure you are using the correct <code class="highlighter-rouge">packageName</code> in your <code class="highlighter-rouge">AndroidManifest.xml</code>.</li>
-  <li>Make sure you have the correct permissions listed in your <code class="highlighter-rouge">AndroidManifest.xml</code> file, as outlined in the <a href="https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start">Android Push Quickstart</a>. If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct <code class="highlighter-rouge">android:name</code> property and the proper intent filters.</li>
+  <li>Make sure you have the correct permissions listed in your <code class="highlighter-rouge">AndroidManifest.xml</code> file, as outlined in the <a href="#quick-start">Android Push Quickstart</a>. If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct <code class="highlighter-rouge">android:name</code> property and the proper intent filters.</li>
   <li>Make sure you’ve used the correct App ID and client key, and that <code class="highlighter-rouge">Parse.initialize()</code> is being called. <code class="highlighter-rouge">Parse.initialize()</code> lets the service know which application it is listening for; this code must be in your <code class="highlighter-rouge">Application.onCreate</code> rather than <code class="highlighter-rouge">Activity.onCreate</code> for a particular <code class="highlighter-rouge">Activity</code>, so that any activation technique will know how to use Parse.</li>
   <li>Check that the push registration call is being called successfully. Your device must successfully register a ParseInstallation object with a valid GCM Registration id in the “deviceToken” field, if using GCM.</li>
   <li>Check that the device is set to accept push notifications from your app.</li>

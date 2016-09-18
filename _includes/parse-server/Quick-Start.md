@@ -1,3 +1,5 @@
+# Quick start
+
 The fastest and easiest way to get started is to run MongoDB and Parse Server locally.
 
 ## Running Parse Server locally
@@ -14,7 +16,7 @@ That's it! You are now running a standalone version of Parse Server on your mach
 
 **Using a remote MongoDB?** Pass the  `--databaseURI DATABASE_URI` parameter when starting `parse-server`. Learn more about configuring Parse Server [here](#configuration). For a full list of available options, run `parse-server --help`.
 
-### Saving your first object
+## Saving your first object
 
 Now that you're running Parse Server, it is time to save your first object. We'll use the [REST API](https://parse.com/docs/rest/guide), but you can easily do the same using any of the [Parse SDKs](https://parseplatform.github.io/#sdks). Run the following:
 
@@ -80,6 +82,6 @@ $ curl -X GET \
 
 To learn more about using saving and querying objects on Parse Server, check out the [Parse documentation](https://parse.com/docs).
 
-### Connect your app to Parse Server
+## Connect your app to Parse Server
 
-Parse provides SDKs for all the major platforms. Refer to the Parse Server guide to [learn how to connect your app to Parse Server](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server).
+Parse provides SDKs for all the major platforms. Refer to the Parse Server guide to [learn how to connect your app to Parse Server](#using-parse-sdks-with-parse-server).

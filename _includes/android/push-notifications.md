@@ -2,11 +2,11 @@
 
 Push notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, [head over to the Push QuickStart](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, [head over to the Push QuickStart](#quick-start) to get our SDK up and running.
 
 ## Setting Up Push
 
-If you want to start using push, start by completing the [Android Push Notifications QuickStart Guide](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start) to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.
+If you want to start using push, start by completing the [Android Push Notifications QuickStart Guide](#quick-start) to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.
 
 The Parse library provides push notifications using Google Cloud Messaging (GCM) if Google Play Services are available. Learn more about Google Play Services [here](https://developers.google.com/android/guides/overview).
 
@@ -325,7 +325,7 @@ Sending scheduled push notifications is not currently supported by the Android S
 
 ## Receiving Pushes
 
-Make sure you've gone through the [Android Push QuickStart](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start) to set up your app to receive pushes.
+Make sure you've gone through the [Android Push QuickStart](#quick-start) to set up your app to receive pushes.
 
 When a push notification is received, the “title” is displayed in the status bar and the “alert” is displayed alongside the “title” when the user expands the notification drawer. If you choose to subclass `com.parse.ParsePushBroadcastReceiver`, be sure to replace that name with your class' name in the registration.
 
@@ -512,7 +512,7 @@ If everything looks great so far, but push notifications are not showing up on y
 
 *   [Upgrade to the latest SDK](/docs/downloads). This documentation covers the push API introduced in the 1.7.0 version of the Android Parse SDK. Please upgrade if you are getting compiler errors following these instructions.
 *   Make sure you are using the correct `packageName` in your `AndroidManifest.xml`.
-*   Make sure you have the correct permissions listed in your `AndroidManifest.xml` file, as outlined in the [Android Push Quickstart](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start). If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct `android:name` property and the proper intent filters.
+*   Make sure you have the correct permissions listed in your `AndroidManifest.xml` file, as outlined in the [Android Push Quickstart](#quick-start). If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct `android:name` property and the proper intent filters.
 *   Make sure you've used the correct App ID and client key, and that `Parse.initialize()` is being called. `Parse.initialize()` lets the service know which application it is listening for; this code must be in your `Application.onCreate` rather than `Activity.onCreate` for a particular `Activity`, so that any activation technique will know how to use Parse.
 *   Check that the push registration call is being called successfully. Your device must successfully register a ParseInstallation object with a valid GCM Registration id in the "deviceToken" field, if using GCM.
 *   Check that the device is set to accept push notifications from your app.

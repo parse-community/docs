@@ -1,3 +1,5 @@
+# Compatibility with parse.com
+
 There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend.
 
 ## Analytics
@@ -141,7 +143,7 @@ You can now [send push notifications using Parse Dashboard](http://blog.parse.co
 
 ## Files
 
-Parse Files in hosted Parse applications were limited to 10 MB. The default storage layer in Parse Server, GridStore, can handle files up to 16 MB. To store larger files, we suggest using [Amazon's Simple Storage Service (S3)](https://github.com/ParsePlatform/parse-server/wiki/Storing-Files-in-AWS-S3).
+Parse Files in hosted Parse applications were limited to 10 MB. The default storage layer in Parse Server, GridStore, can handle files up to 16 MB. To store larger files, we suggest using [Amazon's Simple Storage Service (S3)](#configuring-S3Adapter).
 
 ## In-App Purchases
 
@@ -153,7 +155,7 @@ There is no background job functionality in Parse Server. If you have scheduled 
 
 ## Push Notifications
 
-Parse Server implements basic transactional pushes to iOS and Android devices using channels or queries. Check out the [Push Guide](https://github.com/ParsePlatform/parse-server/wiki/Push) for the details.
+Parse Server implements basic transactional pushes to iOS and Android devices using channels or queries. Check out the [Push Guide](#push-notifications) for the details.
 
 ### Client Push
 
@@ -185,7 +187,7 @@ Parse Server only supports single app instances. There is ongoing work to make P
 
 ## Social Login
 
-Facebook, Twitter, and Anonymous logins are supported out of the box. Support for additional platforms may be configured via the [`oauth` configuration option](https://github.com/ParsePlatform/parse-server/wiki/OAuth).
+Facebook, Twitter, and Anonymous logins are supported out of the box. Support for additional platforms may be configured via the [`oauth` configuration option](#oauth).
 
 ## Webhooks
 

@@ -1,14 +1,14 @@
+# Configuring Cache Adapters
+
 By default, parse-server provides an internal cache layer to speed up schema verifications, user, roles and sessions lookup.
 
 In some cases, in distributed environment, you may want to use a distributed cache like Redis.
 
 parse-server comes with an optional redis cache adapter.
 
-## Note:
-
 Those cache adapters can be cleaned at anytime internally, you should not use them to cache data and you should let parse-server manage their data lifecycle.
 
-# RedisCacheAdapter
+## RedisCacheAdapter
 
 ```javascript
 

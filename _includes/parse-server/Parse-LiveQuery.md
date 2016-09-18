@@ -1,27 +1,10 @@
-* [Overview](#overview)
-* [Usage](#usage)
-  * [Server Setup](#server-setup)
-  * [Client Setup](#client-setup)
-  * [Events](#events)
-  * [Further Reading](#further-reading)
-* [LiveQuery Protocol](#livequery-protocol)
-* [LiveQuery Server](#livequery-server)
-  * [Configuration](#configuration)
-  * [Basic Architecture](#basic-architecture)
-  * [Scalability](#scalability)
-  * [Security](#security)
-* [LiveQuery Clients](#livequery-clients)
-* [LiveQuery with NGINX](#livequery-with-nginx)
-
-# Overview
+# Parse LiveQuery
 
 `Parse.Query` is one of the key concepts for Parse. It allows you to retrieve `Parse.Object`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Parse.Query` is based on a pull model, which is not suitable for apps that need real-time support.
 
 Suppose you are building an app that allows multiple users to edit the same file at the same time. `Parse.Query` would not be an ideal tool since you can not know when to query from the server to get the updates.
 
 To solve this problem, we introduce **Parse LiveQuery**. This tool allows you to subscribe to a `Parse.Query` you are interested in. Once subscribed, the server will notify clients whenever a `Parse.Object` that matches the `Parse.Query` is created or updated, in real-time.
-
-# Usage
 
 Parse LiveQuery contains two parts, the LiveQuery server and the LiveQuery clients. In order to use live queries, you need to set up both of them.
 
@@ -95,19 +78,19 @@ We support five types of event:
 
 You can check the [LiveQuery protocol specification](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) to learn more about each event type.
 
-For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide](https://parse.com/docs/js/guide#live-queries).
+For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide](https://parse.com/docs/js/guide##live-queries).
 
-For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide](https://parse.com/docs/ios/guide#live-queries).
+For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide](https://parse.com/docs/ios/guide##live-queries).
 
-# LiveQuery Protocol
+## LiveQuery Protocol
 
 The LiveQuery Protocol is the key to the Parse LiveQuery. The clients and server communicate through WebSocket using this protocol. Clients can follow the protocol to connect to the LiveQuery server, subscribe/unsubscribe a `Parse.Query` and get updates from the LiveQuery server.
 
 The LiveQuery protocol is a simple protocol that encapsulates messages in JSON strings and runs over a WebSocket connection. For the specification, check our wiki page [here](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification).
 
-# LiveQuery Server
+## LiveQuery Server
 
-## Configuration
+### Configuration
 
 The full configuration of the LiveQuery server should look like this:
 
@@ -139,9 +122,9 @@ The full configuration of the LiveQuery server should look like this:
 * `cacheTimeout` - Optional. Number in milliseconds. When clients provide the `sessionToken` to the LiveQuery server, the LiveQuery server will try to fetch its `ParseUser`'s objectId from parse server and store it in the cache. The value defines the duration of the cache. Check the following Security section and our protocol specification for details. Defaults to 30 * 24 * 60 * 60 * 1000 ms (~30 days).
 * `logLevel` - Optional. This string defines the log level of the LiveQuery server. We support `VERBOSE`, `INFO`, `ERROR`, `NONE`. Defaults to `INFO`.
 
-## Basic Architecture
+### Basic Architecture
 
-[[images/lq_local.png]]
+![]({{ '/assets/images/lq_local.png' | prepend: site.baseurl }})
 
 The LiveQuery server is a separate server from Parse Server. As shown in the picture, it mainly contains four components at the runtime.
 
@@ -150,7 +133,7 @@ The LiveQuery server is a separate server from Parse Server. As shown in the pic
 * **The WebSocketServer**. It is responsible for maintaining the WebSocket connections with clients. It can pass the subscribe/unsubscribe messages from clients to the LiveQuery component. When the LiveQuery component finds a `Parse.Object` fulfills a `Parse.Query`, it will get the event message from LiveQuery component and send it to the clients.
 * **The LiveQuery**. It is the key component of the LiveQuery Server. It maintains the subscription status of clients. After it gets the `Parse.Object` updates from the Subscriber, it can do the query matching and generate the event messages for clients.
 
-## Scalability
+### Scalability
 
 Based on your usage, different components of the LiveQuery server may become the bottleneck. If you app has high throughput, the Publisher/Subscriber may have problems. If you subscribe to many complex `Parse.Query`s, the LiveQuery component may cause issues. If you need to maintain lots of clients, the WebSocketServer may be the bottleneck. Thus, we highly recommend you to do the load testing for your app if you want to use LiveQuery server in production.
 
@@ -177,19 +160,19 @@ var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer,  {
 
 The architecture of the whole LiveQuery system after you use Redis should be like this:
 
-[[images/lq_multiple.png]]
+![]({{ '/assets/images/lq_multiple.png' | prepend: site.baseurl }})
 
 For example, if you use Heroku to deploy your Live Query server, after you setup the Redis with the LiveQuery server, you can simply add more dynos to make your app more scalable like this:
 
-[[images/lq_heroku.png]]
+![]({{ '/assets/images/lq_heroku.png' | prepend: site.baseurl }})
 
-## Security
+### Security
 
 The LiveQuery server provides two ways to secure your app. The first one is key matching. If you provide key pairs when you initialize the LiveQuery server, when clients try to connect to LiveQuery server, they have to provide the necessary key pairs. Otherwise, the connection will be refused.
 
 The second one is ACL. For what is ACL, you can check the definition [here](http://blog.parse.com/learn/engineering/parse-security-iii-are-you-on-the-list/). When clients try to connect and subscribe to the LiveQuery server, they can provide their `sessionToken`. If you give your `Parse.Object` proper ACL, when the LiveQuery server get the updates of the `Parse.Object`, it will try to match `Parse.Object`'s ACL with the `sessionToken` of clients or their subscriptions. The event will be only sent to clients whose `sessionToken` matches the `Parse.Object`'s ACL.
 
-# LiveQuery Clients
+## LiveQuery Clients
 
 The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK as of version 1.8.0. A separate LiveQuery client library is available for iOS / OS X applications. An Android client is coming soon.
 
@@ -197,6 +180,6 @@ The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK 
 * [Parse LiveQuery iOS / OS X](https://github.com/ParsePlatform/ParseLiveQuery-iOS-OSX)
 * Parse LiveQuery Android - _soon!_
 
-# LiveQuery With NGINX
+## LiveQuery With NGINX
 
 Please refer to the [NGINX documentation](https://www.nginx.com/blog/websocket-nginx/) in order to allow a proper handling of the LiveQuery server that relies on web sockets

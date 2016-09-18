@@ -15,10 +15,10 @@ layout: docs
     <div class="docs-platform">
           <header class="docs-platform__header">
               <span class="docs-platform__name">parse-server</span>
-              <svg class="icon icon-apple"><use xlink:href="{ site.baseurl }}/assets/symbols.svg#cloudcode"></use></svg>
+              <svg class="icon icon-infinity"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#infinity"></use></svg>
           </header>
           <ul class="docs-platform__links">
-              <li class="docs-platform__links"><a href="parse-server/Parse-Server-Guide">Guide</a></li>
+              <li class="docs-platform__links"><a href="parse-server/guide/">Guide</a></li>
               <li class="docs-platform__links"><a href="https://parse.com/migration">Migration Guide</a></li>
           </ul>
           <footer class="docs-platform__footer">

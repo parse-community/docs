@@ -1,10 +1,12 @@
-# Migrating
+# Parse Server Guide
+
+## Migrating
 
 **The Parse hosted backend will be fully retired on January 28, 2017. If you are planning to migrate an app, you need to begin work as soon as possible. You will need to go through the [migration guide](https://parse.com/migration) or your app will stop working after the retirement date.**
 
 ---
 
-# Overview
+## Overview
 
 Parse Server is an open source version of the Parse backend that can be deployed to any infrastructure that can run Node.js. You can find the source on the [GitHub repo](/ParsePlatform/parse-server).
 
@@ -13,22 +15,22 @@ Parse Server is an open source version of the Parse backend that can be deployed
 * You can migrate an existing app to your own infrastructure.
 * You can develop and test your app locally using Node.
 
-## Prerequisites
+### Prerequisites
 
 * Node 4.3
 * MongoDB version 2.6.X or 3.0.X
 * Python 2.x (For Windows users, 2.7.1 is the required version)
 * For deployment, an infrastructure provider like Heroku or AWS
 
-## Compatibility with hosted Parse
+### Compatibility with hosted Parse
 
-There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. If you're migrating a hosted Parse.com app to Parse Server, please take some time to carefully review the [compatibility issues](https://github.com/ParsePlatform/parse-server/wiki/Compatibility-with-Hosted-Parse) document.
+There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend. If you're migrating a hosted Parse.com app to Parse Server, please take some time to carefully review the [compatibility issues](#compatibility-with-hosted-parse) document.
 
-# Getting Started
+## Getting Started
 
-The fastest and easiest way to get started is to follow our [Quick Start guide](/ParsePlatform/parse-server/wiki/Quick-Start) to run MongoDB and Parse Server locally.
+The fastest and easiest way to get started is to follow our [Quick Start guide](#quick-start) to run MongoDB and Parse Server locally.
 
-## Installation
+### Installation
 
 Start using Parse Server by grabbing the npm module:
 
@@ -38,7 +40,7 @@ npm install -g parse-server
 
 Or, you can specify "parse-server" in your `packages.json` file.
 
-## Installation from source
+### Installation from source
 
 If you wish to run the latest version of Parse Server from `master`:
 
@@ -57,7 +59,7 @@ git submodule add  git@github.com:ParsePlatform/parse-server.git
 npm link parse-server ./parse-server
 ```
 
-### Update to latest version from source
+#### Update to latest version from source
 
 ```bash
 cd parse-server
@@ -67,11 +69,11 @@ cd ..
 git commit -am 'Updates parse-server to latest version'
 ```
 
-# Usage
+## Usage
 
 Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
 
-The constructor returns an API object that conforms to an [Express Middleware](http://expressjs.com/en/api.html#app.use). This object provides the REST endpoints for a Parse app. Create an instance like so:
+The constructor returns an API object that conforms to an [Express Middleware](http://expressjs.com/en/api.html##app.use). This object provides the REST endpoints for a Parse app. Create an instance like so:
 
 ```js
 var api = new ParseServer({
@@ -96,9 +98,9 @@ The parameters are as follows:
 * `restAPIKey`: The REST API key for your app. (optional)
 * `javascriptKey`: The JavaScript key for your app. (optional)
 * `dotNetKey`: The .NET key for your app. (optional)
-* `push`: An object containing push configuration. See [Push](/ParsePlatform/parse-server/wiki/Push)
-* `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
-* `oauth`: Configure support for [3rd party authentication](/ParsePlatform/parse-server/wiki/OAuth).
+* `push`: An object containing push configuration. See [Push](#push-notifications)
+* `filesAdapter`: An object that implements the [FilesAdapter](/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](#configuring-file-adapters)
+* `oauth`: Configure support for [3rd party authentication](#oauth-and-3rd-party-authentication).
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
@@ -120,14 +122,14 @@ app.listen(port, function() {
 
 And with that, you will have a Parse Server running on port 1337, serving the Parse API at `/parse`.
 
-# Database
+### Database
 
 Parse Server uses [MongoDB](https://www.mongodb.org/) as the database for your application. If you have not used MongoDB before, we highly recommend familiarizing yourself with it first before proceeding.
 
 The Mongo requirements for Parse Server are:
 
 * MongoDB version 2.6.X or 3.0.X
-* The [failIndexKeyTooLong](https://docs.mongodb.org/manual/reference/parameters/#param.failIndexKeyTooLong) parameter must be set to `false`.
+* The [failIndexKeyTooLong](https://docs.mongodb.org/manual/reference/parameters/##param.failIndexKeyTooLong) parameter must be set to `false`.
 * An SSL connection is recommended (but not required).
 * We strongly recommend that your MongoDB servers be hosted in the US-East region for minimal lantecy.
 
@@ -143,7 +145,7 @@ When using MongoDB with your Parse app, there are some differences with the host
 If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](/ParsePlatform/parse-server/wiki/MongoRocks).
 
 
-## Why do I need to set failIndexKeyTooLong=false?
+### Why do I need to set failIndexKeyTooLong=false?
 
 MongoDB only allows index keys that are 1024 bytes or smaller. If a write operation attempts to store a value greater than 1024 bytes in size to a field that has been indexed, it will fail with an error. Due to how Parse dynamically indexes collections based on query traffic, we inevitably have indexed some fields with values larger than 1024 bytes. To avoid random write errors, we configured "failIndexKeyTooLong=false" on our databases, and accept the write even if the field is indexed. A side effect of this is that data with fields larger than 1024 bytes will appear to be "missing" depending on which index is selected by the MongoDB query planner.
 
@@ -154,13 +156,13 @@ Customers migrating their data only need to configure this parameter if they hav
 3. Evaluate all existing indexes and drop indexes for fields with data larger than 1024 bytes. The number of fields and indexes will depend entirely on the nature of your application and its data.
 4. Configure `failIndexKeyTooLong=true` on the database
 
-# Keys
+## Keys
 
 Parse Server does not require the use of client-side keys. This includes the client key, JavaScript key, .NET key, and REST API key. The Application ID is sufficient to secure your app.
 
 However, you have the option to specify any of these four keys upon initialization. Upon doing so, Parse Server will enforce that any clients passing a key matches. The behavior is consistent with hosted Parse.
 
-# Using Parse SDKs with Parse Server
+## Using Parse SDKs with Parse Server
 
 To use a Parse SDK with Parse Server, change the server URL to your Parse API URL (make sure you have the [latest version of the SDKs](https://parse.com/docs/downloads)). For example, if you have Parse Server running locally mounted at /parse:
 
@@ -222,18 +224,18 @@ ParseClient::initialize('YOUR_APP_ID', 'YOUR_CLIENT_KEY', 'YOUR_MASTER_KEY');
 ParseClient::setServerURL('http://localhost:1337/parse');
 ```
 
-# Deploying Parse Server
+## Deploying Parse Server
 
-The fastest and easiest way to start using Parse Server is to run MongoDB and Parse Server locally. Once you have a better understanding of how the project works, read on to learn how to deploy Parse Server to major infrastructure providers. If your provider is not listed here, please take a look at the [list of articles from the community](https://github.com/ParsePlatform/parse-server/wiki#community-links) as someone may have already written a guide for it.
+The fastest and easiest way to start using Parse Server is to run MongoDB and Parse Server locally. Once you have a better understanding of how the project works, read on to learn how to deploy Parse Server to major infrastructure providers. If your provider is not listed here, please take a look at the [list of articles from the community](https://github.com/ParsePlatform/parse-server/wiki##community-links) as someone may have already written a guide for it.
 
-## Deploying to Heroku and mLab
+### Deploying to Heroku and mLab
 
 Heroku and mLab provide an easy way to deploy Parse Server, especially if you're new to managing your own backend infrastructure.
 
 Here are the steps:
 
 1. Create a repo for your Express app with the Parse Server middleware mounted (you can use our [sample project](https://github.com/ParsePlatform/parse-server-example), or start your own).
-2. Create a Heroku account (if you don’t have one already) and use the Heroku Toolbelt to log in and prepare a new app in the same directory as your Express app. Take a look at Heroku's [Getting Started with Node.js guide](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) for more details.
+2. Create a Heroku account (if you don’t have one already) and use the Heroku Toolbelt to log in and prepare a new app in the same directory as your Express app. Take a look at Heroku's [Getting Started with Node.js guide](https://devcenter.heroku.com/articles/getting-started-with-nodejs##introduction) for more details.
 3. Use the mLab addon: `heroku addons:create mongolab:sandbox` (or, you can create a Mongo instance yourself, either directly with mLab or your own box)
 4. Use heroku config and note the URI provided by mLab under the var MONGOLAB_URI
 5. Copy this URI and set it as a new config variable: heroku config:set `DATABASE_URI=mongodb://...`
@@ -241,15 +243,15 @@ Here are the steps:
 
 You may also refer to the Heroku Dev Center article on [Deploying a Parse Server to Heroku](https://devcenter.heroku.com/articles/deploying-a-parse-server-to-heroku).
 
-# Setting up Push Notifications
+## Setting up Push Notifications
 
-* See the [Push Notification guide](/ParsePlatform/parse-server/wiki/Push).
+* See the [Push Notification guide](#push-notifications).
 * [PPNS Protocol Specification (for Parse IoT devices)](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)
 
-# Configuring File Adapters
+## File Adapters
 
-Parse Server allows developers to choose from several options when hosting files (GridStore, S3, Google Cloud Storage). GridStore is used by default and requires no setup, but if you're interested in using S3 or Google Cloud Storage, [additional configuration information is available](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters).
+Parse Server allows developers to choose from several options when hosting files (GridStore, S3, Google Cloud Storage). GridStore is used by default and requires no setup, but if you're interested in using S3 or Google Cloud Storage, [additional configuration information is available](#configuring-file-adapters).
 
-# Using LiveQuery
+## Using LiveQuery
 
-LiveQuery provides real-time subscriptions to Parse Queries. To learn more, check out the [LiveQuery guide](/ParsePlatform/parse-server/wiki/Parse-LiveQuery).
+LiveQuery provides real-time subscriptions to Parse Queries. To learn more, check out the [LiveQuery guide](#parse-livequery).
