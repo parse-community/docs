@@ -12,6 +12,19 @@ layout: docs
   </div>
 
   <div class="docs-platforms">
+    <div class="docs-platform">
+          <header class="docs-platform__header">
+              <span class="docs-platform__name">parse-server</span>
+              <svg class="icon icon-apple"><use xlink:href="{ site.baseurl }}/assets/symbols.svg#cloudcode"></use></svg>
+          </header>
+          <ul class="docs-platform__links">
+              <li class="docs-platform__links"><a href="parse-server/Parse-Server-Guide">Guide</a></li>
+              <li class="docs-platform__links"><a href="https://parse.com/migration">Migration Guide</a></li>
+          </ul>
+          <footer class="docs-platform__footer">
+              <a href="https://npmjs.com/package/parse-server" class="btn btn--outline">Latest Downloads</a>
+          </footer>
+      </div>
       <div class="docs-platform">
           <header class="docs-platform__header">
               <span class="docs-platform__name">iOS</span>

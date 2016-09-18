@@ -4,21 +4,6 @@
 
 ---
 
-* [Overview](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#overview)
-* [Getting Started](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#getting-started)
-* [Usage](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage)
-* [Database](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#database)
-  * [Using RocksDB](/ParsePlatform/parse-server/wiki/MongoRocks)
-* [Keys](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#keys)
-* [Using Parse SDKs with Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#using-parse-sdks-with-parse-server)
-* [Deploying Parse Server](/ParsePlatform/parse-server/wiki/Parse-Server-Guide#deploying-parse-server)
-* [Configuring Third Party Authentication](/ParsePlatform/parse-server/wiki/OAuth)
-* [Configuring File Adapters](/ParsePlatform/parse-server/wiki/Configuring-File-Adapters)
-* [Setting up Push Notifications](/ParsePlatform/parse-server/wiki/Push)
-* [Using LiveQuery](/ParsePlatform/parse-server/wiki/Parse-LiveQuery)
-  * [LiveQuery Protocol](/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
-* [Migrating an Existing App](https://parse.com/migration)
-
 # Overview
 
 Parse Server is an open source version of the Parse backend that can be deployed to any infrastructure that can run Node.js. You can find the source on the [GitHub repo](/ParsePlatform/parse-server).
