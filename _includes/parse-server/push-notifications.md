@@ -38,79 +38,84 @@ Here is the list of sending options we do not support yet:
 
 ### 1. Prepare APNS and GCM Credentials
 
-  You will need to obtain some credentials from GCM and APNS in order to send push notifications to iOS and Android devices.
+You will need to obtain some credentials from GCM and APNS in order to send push notifications to iOS and Android devices.
 
 #### APNS (iOS)
 
-  If you are setting up push notifications on iOS for the first time, follow the [Parse Push Notifications tutorial](https://github.com/ParsePlatform/PushTutorial/blob/master/iOS/README.md#1-creating-the-ssl-certificate) to obtain a production Apple Push Certificate.  Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well.  Optionally, the module supports accepting the push certificate and key in `.pem` format.
+If you are setting up push notifications on iOS for the first time, follow the [Parse Push Notifications tutorial](https://github.com/ParsePlatform/PushTutorial/blob/master/iOS/README.md#1-creating-the-ssl-certificate) to obtain a production Apple Push Certificate.  Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well.  Optionally, the module supports accepting the push certificate and key in `.pem` format.
 
 #### GCM (Android)
 
-  To get your GCM sender ID, enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number. It should be a large integer like 123427208255. This project number is your GCM sender ID.
+To get your GCM sender ID, enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number. It should be a large integer like 123427208255. This project number is your GCM sender ID.
 
-  To get your GCM API key, go to the [Google developer credentials](https://console.developers.google.com/apis/credentials) page, and either create a new API key or reuse an existing one.
+To get your GCM API key, go to the [Google developer credentials](https://console.developers.google.com/apis/credentials) page, and either create a new API key or reuse an existing one.
 
-  By default, the hosted Parse service (parse.com) sends pushes to your Android app with its own GCM sender ID. With your Parse Server, this setup will no longer work. Instead, your Parse Server will send GCM pushes with its own GCM sender ID and API key.  You should register a GCM sender ID and update your app as soon as possible.  Until users update, you can continue sending push notifications through Parse.com.
+By default, the hosted Parse service (parse.com) sends pushes to your Android app with its own GCM sender ID. With your Parse Server, this setup will no longer work. Instead, your Parse Server will send GCM pushes with its own GCM sender ID and API key.  You should register a GCM sender ID and update your app as soon as possible.  Until users update, you can continue sending push notifications through Parse.com.
 
 ### 2. Configure Parse Server
 
-  When initializing Parse Server, you should pass an additional push configuration. For example
-  ```js
-  var server = new ParseServer({
-    databaseURI: '...',
-    cloud: '...',
-    appId: '...',
-    masterKey: '...',
-    push: {
-      android: {
-        senderId: '...',
-        apiKey: '...'
-      },
-      ios: {
-        pfx: '/file/path/to/XXX.p12',
-        passphrase: '', // optional password to your p12/PFX
-        bundleId: '',
-        production: false
-      }
-    }
-  });
-  ```
-  The configuration format is
-  ```js
+When initializing Parse Server, you should pass an additional push configuration. For example
+
+```js
+var server = new ParseServer({
+  databaseURI: '...',
+  cloud: '...',
+  appId: '...',
+  masterKey: '...',
   push: {
     android: {
-      senderId: '', // The Sender ID of GCM
-      apiKey: '' // The Server API Key of GCM
+      senderId: '...',
+      apiKey: '...'
     },
     ios: {
-      pfx: '', // The filename of private key and certificate in PFX or PKCS12 format from disk  
-      passphrase: '', // optional password to your p12
-      cert: '', // If not using the .p12 format, the path to the certificate PEM to load from disk
-      key: '', // If not using the .p12 format, the path to the private key PEM to load from disk
-      bundleId: '', // The bundle identifier associate with your app
-      production: false // Specifies which environment to connect to: Production (if true) or Sandbox
+      pfx: '/file/path/to/XXX.p12',
+      passphrase: '', // optional password to your p12/PFX
+      bundleId: '',
+      production: false
     }
   }
-  ```
-  For iOS, if you need to support both the dev and prod certificates, you can provide an array of configurations like
-  ```js
-  push: {
-    ios: [
-      {
-        pfx: '', // Dev PFX or P12
-        bundleId: '',
-        production: false // Dev
-      },
-      {
-        pfx: '', // Prod PFX or P12
-        bundleId: '',  
-        production: true // Prod
-      }
-    ]
-  }
-  ```
+});
+```
 
-  If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates.
+The configuration format is
+
+```js
+push: {
+  android: {
+    senderId: '', // The Sender ID of GCM
+    apiKey: '' // The Server API Key of GCM
+  },
+  ios: {
+    pfx: '', // The filename of private key and certificate in PFX or PKCS12 format from disk  
+    passphrase: '', // optional password to your p12
+    cert: '', // If not using the .p12 format, the path to the certificate PEM to load from disk
+    key: '', // If not using the .p12 format, the path to the private key PEM to load from disk
+    bundleId: '', // The bundle identifier associate with your app
+    production: false // Specifies which environment to connect to: Production (if true) or Sandbox
+  }
+}
+```
+
+For iOS, if you need to support both the dev and prod certificates, you can provide an array of configurations like
+
+```js
+push: {
+  ios: [
+    {
+      pfx: '', // Dev PFX or P12
+      bundleId: '',
+      production: false // Dev
+    },
+    {
+      pfx: '', // Prod PFX or P12
+      bundleId: '',  
+      production: true // Prod
+    }
+  ]
+}
+```
+
+If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates.
 
 ### 3. Configure Client Apps
 
@@ -121,25 +126,25 @@ Configure an app which connects to Parse Server. We have provided a detailed [li
 Currently Parse Server only supports sending push notifications by your `masterKey`. The easiest way to do that is to curl:
 
 ```curl
-  curl -X POST \
-    -H "X-Parse-Application-Id: you_app_id" \
-    -H "X-Parse-Master-Key: your_master_key" \
-    -H "Content-Type: application/json" \
-    -d '{
-          "where": {
-            "deviceType": {
-              "$in": [
-                "ios",
-                "android"
-              ]
-            }
-          },
-          "data": {
-            "title": "The Shining",
-            "alert": "All work and no play makes Jack a dull boy."
+curl -X POST \
+  -H "X-Parse-Application-Id: you_app_id" \
+  -H "X-Parse-Master-Key: your_master_key" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "where": {
+          "deviceType": {
+            "$in": [
+              "ios",
+              "android"
+            ]
           }
-        }'\   http://your_server_address/parse/push
-  ```
+        },
+        "data": {
+          "title": "The Shining",
+          "alert": "All work and no play makes Jack a dull boy."
+        }
+      }'\   http://your_server_address/parse/push
+```
 
 Push notifications can also be sent from cloud code:
 
@@ -212,6 +217,7 @@ By doing this, after Parse Server decodes the push API request and runs the inst
 ## Future Improvements
 
 The current solution provides a good starting point for push notifications. We have a lot of ideas to improve the feature:
+
 * Support more platforms
 * Support more sending options
 * Support more push providers
@@ -226,3 +232,7 @@ If you're interested in any of these features, don't hesitate to jump in and sen
 ### Silent Notifications
 
 If you have migrated from Parse.com Push and you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) and not "1". This value will be explicitly checked.
+
+### PPNS
+
+* [PPNS Protocol Specification (for Parse IoT devices)](/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification)

@@ -2,15 +2,19 @@
 title: Parse-Server Guide | Parse
 permalink: /parse-server/guide/
 layout: guide
-platform: Parse-Server
-quickstart: /docs/parse-server/quick-start
+platform: Parse Server
+quickstart: /docs/parse-server/quickstart
 
 sections:
-- "parse-server/parse-server.md"
-- "parse-server/OAuth.md"
-- "parse-server/Push.md"
-- "parse-server/Push-Configuring-Clients.md"
-- "parse-server/Configuring-File-Adapters.md"
-- "parse-server/Configuring-Cache-Adapters.md"
-- "parse-server/Parse-LiveQuery.md"
+- "parse-server/getting-started.md"
+- "parse-server/database.md"
+- "parse-server/usage.md"
+- "parse-server/deploying.md"
+- "parse-server/push-notifications.md"
+- "parse-server/push-notifications-clients.md"
+- "parse-server/file-adapters.md"
+- "parse-server/cache-adapters.md"
+- "parse-server/live-query.md"
+- "parse-server/third-party-auth.md"
+- "parse-server/compatibility.md"
 ---
