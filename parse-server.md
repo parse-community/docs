@@ -3,9 +3,9 @@ title: Parse-Server Guide | Parse
 permalink: /parse-server/guide/
 layout: guide
 platform: Parse-Server
+quickstart: /docs/parse-server/quick-start
 
 sections:
-- "parse-server/Quick-Start.md"
 - "parse-server/parse-server.md"
 - "parse-server/OAuth.md"
 - "parse-server/Push.md"
