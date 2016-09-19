@@ -1,4 +1,4 @@
-# Parse LiveQuery
+# Live Queries
 
 `Parse.Query` is one of the key concepts for Parse. It allows you to retrieve `Parse.Object`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Parse.Query` is based on a pull model, which is not suitable for apps that need real-time support.
 
