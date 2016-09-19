@@ -14,7 +14,7 @@ layout: docs
   <div class="docs-platforms">
     <div class="docs-platform">
           <header class="docs-platform__header">
-              <span class="docs-platform__name">parse-server</span>
+              <span class="docs-platform__name">Parse Server</span>
               <svg class="icon icon-infinity"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#infinity"></use></svg>
           </header>
           <ul class="docs-platform__links">
