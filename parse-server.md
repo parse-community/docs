@@ -19,4 +19,6 @@ sections:
 - "parse-server/live-query.md"
 - "parse-server/third-party-auth.md"
 - "parse-server/compatibility.md"
+- "parse-server/MongoRocks.md"
+- "parse-server/Development-Guide.md"
 ---

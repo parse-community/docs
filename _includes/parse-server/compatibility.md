@@ -93,7 +93,7 @@ As with Parse Cloud Code, you can use `Parse.Cloud.httpRequest` to make network 
 
 ### Cloud Modules
 
-Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
+Native Cloud Code modules are not available in Parse Server, so you will need to use a replacement:
 
 * **App Links**:
   There is no direct replacement, but it is relatively easy to generate these tags yourself.
