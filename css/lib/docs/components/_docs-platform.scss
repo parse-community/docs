@@ -149,6 +149,11 @@
         width: 38px;
         height: auto;
     }
+    svg.icon-infinity{
+        fill: $defaultPlatform;
+        width: 24px;
+        height: 24px;
+    }
     svg.icon-ios{
         fill: $iosPlatform;
         width: 24px;
@@ -184,7 +189,12 @@
         width: 23px;
         height: 24px;
     }
-    svg.icon-iot, svg.icon-cloudcode, svg.icon-embedded_c, svg.icon-arduino{
+    svg.icon-cloudcode{
+        fill: $defaultPlatform;
+        width: 24px;
+        height: 24px;
+    }
+    svg.icon-iot, svg.icon-embedded_c, svg.icon-arduino{
         fill: $defaultPlatform;
         width: 31px;
         height: 21px;

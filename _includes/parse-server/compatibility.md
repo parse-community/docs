@@ -93,10 +93,10 @@ As with Parse Cloud Code, you can use `Parse.Cloud.httpRequest` to make network 
 
 ### Cloud Modules
 
-Native [Cloud Code modules](https://parse.com/docs/cloudcode/guide#cloud-code-modules) are not available in Parse Server, so you will need to use a replacement:
+Native Cloud Code modules are not available in Parse Server, so you will need to use a replacement:
 
 * **App Links**:
-  There is no direct replacement, but it is relatively easy to generate these tags yourself.
+  Use the [applinks-metatag](https://github.com/parse-server-modules/applinks-metatag) module.
 
 * **Buffer**:
   This is included natively with Node. Remove any `require('buffer')` calls.

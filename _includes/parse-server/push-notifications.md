@@ -16,7 +16,7 @@ However, there are a few caveats:
 * Scheduled push is not supported
 
 ## API
-We support most of the sending options similar to the hosted Parse.com service. Check the detailed doc [here](https://parse.com/docs/rest/guide#push-notifications-sending-options). Parse Server supports the following:
+We support most of the sending options similar to the hosted Parse.com service. Check the detailed doc [here](/docs/rest/guide#push-notifications-sending-options). Parse Server supports the following:
 
 * `channels` to target installations by channels
 * `where` to target installations by `ParseQuery`

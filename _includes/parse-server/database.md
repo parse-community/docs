@@ -20,10 +20,9 @@ When using MongoDB with your Parse app, there are some differences with the host
 
 If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks).
 
-
 ### Why do I need to set failIndexKeyTooLong=false?
 
-MongoDB only allows index keys that are 1024 bytes or smaller. If a write operation attempts to store a value greater than 1024 bytes in size to a field that has been indexed, it will fail with an error. Due to how Parse dynamically indexes collections based on query traffic, we inevitably have indexed some fields with values larger than 1024 bytes. To avoid random write errors, we configured "failIndexKeyTooLong=false" on our databases, and accept the write even if the field is indexed. A side effect of this is that data with fields larger than 1024 bytes will appear to be "missing" depending on which index is selected by the MongoDB query planner.
+MongoDB only allows index keys that are 1024 bytes or smaller. If a write operation attempts to store a value greater than 1024 bytes in size to a field that has been indexed, it will fail with an error. Due to how Parse dynamically indexes collections based on query traffic, we inevitably have indexed some fields with values larger than 1024 bytes. To avoid random write errors, we configured `failIndexKeyTooLong=false` on our databases, and accept the write even if the field is indexed. A side effect of this is that data with fields larger than 1024 bytes will appear to be "missing" depending on which index is selected by the MongoDB query planner.
 
 Customers migrating their data only need to configure this parameter if they have indexed fields larger than 1024 bytes in size *and* they have collections larger than 1 million documents. For smaller apps, we will automatically clean up offending indexes during the migration. Larger apps should follow these steps as a best practice:
 

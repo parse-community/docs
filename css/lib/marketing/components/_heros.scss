@@ -181,7 +181,7 @@
             a{ color: $color-parse-blue; }
             p{ max-width: 558px; }
 
-            .btns{ 
+            .btns{
                 width: 100%;
                 position: absolute;
                 left:0;
@@ -310,6 +310,9 @@
 
         &:before{ display:none; }
 
+        &.server_docs_header{
+          background-color: $defaultPlatform;
+        }
         &.ios_docs_header{
           background-color: $iosPlatform;
         }

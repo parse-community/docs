@@ -78,15 +78,15 @@ We support five types of event:
 
 You can check the [LiveQuery protocol specification](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) to learn more about each event type.
 
-For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide](https://parse.com/docs/js/guide##live-queries).
+For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide](/docs/js/guide#live-queries).
 
-For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide](https://parse.com/docs/ios/guide##live-queries).
+For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide](/docs/ios/guide#live-queries).
 
 ## LiveQuery Protocol
 
 The LiveQuery Protocol is the key to the Parse LiveQuery. The clients and server communicate through WebSocket using this protocol. Clients can follow the protocol to connect to the LiveQuery server, subscribe/unsubscribe a `Parse.Query` and get updates from the LiveQuery server.
 
-The LiveQuery protocol is a simple protocol that encapsulates messages in JSON strings and runs over a WebSocket connection. For the specification, check our wiki page [here](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification).
+The LiveQuery protocol is a simple protocol that encapsulates messages in JSON strings and runs over a WebSocket connection. You can find the specification in the For the specification, check out the [Parse Server wiki page](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification).
 
 ## LiveQuery Server
 
