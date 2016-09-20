@@ -27,7 +27,7 @@ $ mongodb-runner start
 $ npm start
 ```
 
-The bootstrap script will prompt you for an application id and master key. You can use any arbitrary string as your application id and master key. These will be used by your clients to authenticate with the Parse Server.
+You can use any arbitrary string as your application id and master key. These will be used by your clients to authenticate with the Parse Server.
 
 That's it! You are now running a standalone version of Parse Server on your machine.
 
