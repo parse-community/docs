@@ -18,15 +18,16 @@ There are a few areas where Parse Server does not provide compatibility with the
 
 # Getting Started
 
-The fastest and easiest way to get started is to run MongoDB and Parse Server locally.
+The fastest and easiest way to get started is to run MongoDB and Parse Server locally. Use the bootstrap script to set up Parse Server in the current directory.
 
 ```bash
-$ npm install -g parse-server mongodb-runner
+$ sh <(curl -fsSL https://raw.githubusercontent.com/parseplatform/parse-server/master/bootstrap.sh)
+$ npm install -g mongodb-runner
 $ mongodb-runner start
-$ parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongodb://localhost/test
+$ npm start
 ```
 
-You can use any arbitrary string as your application id and master key. These will be used by your clients to authenticate with the Parse Server.
+The bootstrap script will prompt you for an application id and master key. You can use any arbitrary string as your application id and master key. These will be used by your clients to authenticate with the Parse Server.
 
 That's it! You are now running a standalone version of Parse Server on your machine.
 
