@@ -649,6 +649,7 @@ html.lte-ie9 .hero__pointer { display: none; }
   .hero--policies__numbered-list { padding: 30px 0 23px; } }
 .hero--docs { padding-top: 0; height: 250px; background-color: #6D7A82; text-align: left; overflow: hidden; }
 .hero--docs:before { display: none; }
+.hero--docs.server_docs_header { background-color: #169CEE; }
 .hero--docs.ios_docs_header { background-color: #5B707D; }
 .hero--docs.android_docs_header { background-color: #00C26E; }
 .hero--docs.cloudcode_docs_header { background-color: #169CEE; }
@@ -775,6 +776,7 @@ input[type="text"]:focus::placeholder { color: rgba(102, 99, 122, 0.2); }
 .docs-platform__footer { border-radius: 0 0 4px 4px; padding: 12px 16px 12px; min-height: 58px; }
 .docs-platform__footer .btn { width: 100%; font-size: 1.4rem; padding: 0 22px; height: 32px; line-height: 31px; }
 .docs-platform img { width: 38px; height: auto; }
+.docs-platform svg.icon-infinity { fill: #169CEE; width: 24px; height: 24px; }
 .docs-platform svg.icon-ios { fill: #5B707D; width: 24px; height: 24px; }
 .docs-platform svg.icon-android { fill: #00C26E; width: 22px; height: 26px; }
 .docs-platform svg.icon-osx { fill: #9CAFBA; width: 24px; height: 24px; }
@@ -782,7 +784,8 @@ input[type="text"]:focus::placeholder { color: rgba(102, 99, 122, 0.2); }
 .docs-platform svg.icon-dotnet { fill: #922ADD; width: 32px; height: 32px; }
 .docs-platform svg.icon-php { fill: #0E69A1; width: 23px; height: 24px; }
 .docs-platform svg.icon-unity { fill: #11A4BA; width: 23px; height: 24px; }
-.docs-platform svg.icon-iot, .docs-platform svg.icon-cloudcode, .docs-platform svg.icon-embedded_c, .docs-platform svg.icon-arduino { fill: #169CEE; width: 31px; height: 21px; }
+.docs-platform svg.icon-cloudcode { fill: #169CEE; width: 24px; height: 24px; }
+.docs-platform svg.icon-iot, .docs-platform svg.icon-embedded_c, .docs-platform svg.icon-arduino { fill: #169CEE; width: 31px; height: 21px; }
 .docs-platform svg.icon-rest { fill: #FF395E; width: 25px; height: 24px; }
 .docs-platform svg.icon-server { fill: #6D7A82; width: 25px; height: 25px; }
 html.no-touch .docs-platform__links a:hover { background-color: #FDFAFB; }
