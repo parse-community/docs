@@ -425,7 +425,7 @@ bigObject.set("myDate", date);
 bigObject.set("myArray", array);
 bigObject.set("myObject", object);
 bigObject.set("anyKey", null); // this value can only be saved to an existing key
-bigObject.set("myPointerKey", pointer); // shows up as Pointer <MyClassName> in the Data Browser
+bigObject.set("myPointerKey", pointer); // shows up as Pointer &lt;MyClassName&gt; in the Data Browser
 bigObject.save();
 </code></pre>
 
