@@ -26,8 +26,8 @@ var file = new Parse.File("myfile.zzz", fileData, "image/png");
 
 But most commonly for HTML5 apps, you'll want to use an html form with a file upload control. On modern browsers, this is easy. Create a file input tag which allows the user to pick a file from their local drive to upload:
 
-</code></pre>html
-    <input type="file" id="profilePhotoFileUpload">
+<pre><code>
+&lt;input type="file" id="profilePhotoFileUpload"&gt;
 </code></pre>
 
 Then, in a click handler or other function, get a reference to that file:
@@ -42,7 +42,7 @@ if (fileUploadControl.files.length > 0) {
 }
 </code></pre>
 
-Notice in this example that we give the file a name of `photo.jpg`. There's two things to note here: 
+Notice in this example that we give the file a name of `photo.jpg`. There's two things to note here:
 
 *   You don't need to worry about filename collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `photo.jpg`.
 *   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your filename ends with `.png`.
