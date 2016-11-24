@@ -2,7 +2,8 @@
 title: macOS Developers Guide | Parse
 permalink: /macos/guide/
 layout: guide
-platform: macOS
+platform: macos
+display_platform: macOS
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-iOS-OSX/api
 

@@ -2,7 +2,8 @@
 title: Arduino Developers Guide | Parse
 permalink: /arduino/guide/
 layout: guide
-platform: Arduino
+platform: arduino
+display_platform: Arduino
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-Arduino/api
 

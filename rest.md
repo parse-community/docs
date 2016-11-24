@@ -2,7 +2,8 @@
 title: REST API Guide | Parse
 permalink: /rest/guide/
 layout: guide
-platform: REST
+platform: rest
+display_platform: REST
 quickstart: https://parse.com/apps/quickstart
 
 sections:

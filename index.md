@@ -56,7 +56,7 @@ layout: docs
       <div class="docs-platform">
           <header class="docs-platform__header">
               <span class="docs-platform__name">JavaScript</span>
-              <svg class="icon icon-javascript"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#javascript"></use></svg>
+              <svg class="icon icon-js"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#javascript"></use></svg>
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="js/guide/">Guide</a></li>

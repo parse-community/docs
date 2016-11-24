@@ -9,20 +9,20 @@ layout: default
       {% include menu.html %}
       <div class="content__wrapper">
         {% include header.html %}
-
         <aside class="hero hero--docs {{ '_docs_header' | prepend: page.platform | downcase }}">
           <div class="grid-container">
             <div class="col-md--6 col-lg--9">
-                <p class="h1 h1--white" data-ignore-from-select>
-                    <span>{{ page.platform }} <em>Guide</em></span>
+              <p class="h1 h1--white" data-ignore-from-select>
+                <span>{{ page.display_platform }} <em>Guide</em></span>
 
-                    <a href="/docs/" class="btn btn--back">
-                        <span class="hide-mobile">Browse all platforms</span>
-                        <span class="show-mobile">Browse</span>
-                    </a>
+                <a href="/docs/" class="btn btn--back">
+                  <span class="hide-mobile">Browse all platforms</span>
+                  <span class="show-mobile">Browse</span>
+                </a>
 
-                    <svg class="icon icon-{{ page.platform | downcase }}"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#{{ page.platform | downcase }}"></use></svg>
-                </p>
+                <svg class="icon icon-{{ page.platform | downcase }}"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#{{ page.platform | downcase }}"></use></svg>
+
+              </p>
             </div>
           </div>
         </aside><!-- .hero -->
@@ -34,19 +34,24 @@ layout: default
 
           <div class="grid-container">
             <div class="col-md--6 col-lg--9">
-
               <div class="guide_content">
-                <div id="toc" style="overflow-y: scroll; height: 100%;">
-                  <div class="top_links">
-                  {% if page.quickstart %}
-                    <a href="{{ page.quickstart }}">Quickstart<i class="icon_minimize"></i></a>
-                  {% endif %}
-                  {% if page.guide %}
-                    <a href="{{ page.guide }}">Guide<i class="icon_minimize"></i></a>
-                  {% endif %}
-                  {% if page.api_reference %}
-                    <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
-                  {% endif %}
+                <div id="toc">
+                  <div style="overflow-y: scroll; height: 100%;">
+                    <div class="top_links">
+                    {% if page.quickstart %}
+                      <a href="{{ page.quickstart }}">Quickstart<i class="icon_minimize"></i></a>
+                    {% endif %}
+                    {% if page.guide %}
+                      <a href="{{ page.guide }}">Guide<i class="icon_minimize"></i></a>
+                    {% endif %}
+                    {% if page.api_reference %}
+                      <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
+                    {% endif %}
+                      <!-- .algolia-search-wrapper -->
+                      <div class="algolia-search-wrapper">
+                        <input id="algolia-doc-search" class="{{ '_docs_docsearch' | prepend: page.platform | downcase }}" tabindex="0" type="text" placeholder="Search..." />
+                      </div><!-- .algolia-search-wrapper -->
+                    </div>
                   </div>
                 </div>
 
@@ -70,4 +75,13 @@ layout: default
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
   <script src="{{ site.baseurl }}/assets/js/bundle.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+  <script type="text/javascript"> docsearch({
+    apiKey: 'c7f5661ba53e2e3c1c3752696362209e',
+    indexName: 'parse',
+    inputSelector: '#algolia-doc-search',
+    algoliaOptions: { 'facetFilters': ["tags:{{ page.platform | downcase }}"] }, // android, arduino, cloudcode, dotnet, embedded_c, ios, js, macos, parse-server, php, rest, unity
+    debug: false // Set debug to true if you want to inspect the dropdown
+  });
+  </script>
 </body>

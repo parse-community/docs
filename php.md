@@ -2,7 +2,8 @@
 title: PHP Developers Guide | Parse
 permalink: /php/guide/
 layout: guide
-platform: PHP
+platform: php
+display_platform: PHP
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/parse-php-sdk/namespaces/Parse.html
 

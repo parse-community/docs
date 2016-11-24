@@ -1,5 +1,5 @@
 #toc{
-    $live-toc-distance-top: 45px;
+    $live-toc-distance-top: 85px;
 
     display:none; // until tablet
     position: absolute;
@@ -187,20 +187,3 @@
   }
 
 }
-
-// #mobile_toc.mobile-toc-select--clone{
-//     position: fixed;
-//     min-width: $break-mobile;
-//     width:100%;
-//     bottom: 0;
-//     left:0;
-//     transition: transform 600ms $bezier-blog-menu;
-//     transform: translateY(100%);
-//     backface-visibility: hidden;
-//
-//     &-reveal{
-//         transition: transform 600ms $bezier-blog-menu;
-//         transform: translateY(0);
-//         bottom:0;
-//     }
-// }

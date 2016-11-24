@@ -2,7 +2,8 @@
 title: iOS Developers Guide | Parse
 permalink: /ios/guide/
 layout: guide
-platform: iOS
+platform: ios
+display_platform: iOS
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-iOS-OSX/api
 
