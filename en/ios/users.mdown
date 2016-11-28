@@ -486,7 +486,7 @@ import FBSDKCoreKit
 import ParseFacebookUtilsV4
 
 // AppDelegate.swift (Swift 3)
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -&gt; Bool {
+func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
   
   //your other app delegate stuff
   
