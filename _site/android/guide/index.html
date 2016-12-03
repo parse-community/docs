@@ -30,6 +30,7 @@
       <!-- build:css -->
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
       <link href="/docs/css/docs.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" rel="stylesheet" />
       <!-- endbuild -->
 
       <!--[if lte IE 9]>
@@ -174,20 +175,20 @@
     </div><!-- container -->
 </header>
 
-
         <aside class="hero hero--docs android_docs_header">
           <div class="grid-container">
             <div class="col-md--6 col-lg--9">
-                <p class="h1 h1--white" data-ignore-from-select>
-                    <span>Android <em>Guide</em></span>
+              <p class="h1 h1--white" data-ignore-from-select>
+                <span>Android <em>Guide</em></span>
 
-                    <a href="/docs/" class="btn btn--back">
-                        <span class="hide-mobile">Browse all platforms</span>
-                        <span class="show-mobile">Browse</span>
-                    </a>
+                <a href="/docs/" class="btn btn--back">
+                  <span class="hide-mobile">Browse all platforms</span>
+                  <span class="show-mobile">Browse</span>
+                </a>
 
-                    <svg class="icon icon-android"><use xlink:href="/docs/assets/symbols.svg#android"></use></svg>
-                </p>
+                <svg class="icon icon-android"><use xlink:href="/docs/assets/symbols.svg#android"></use></svg>
+
+              </p>
             </div>
           </div>
         </aside><!-- .hero -->
@@ -199,17 +200,22 @@
 
           <div class="grid-container">
             <div class="col-md--6 col-lg--9">
-
               <div class="guide_content">
-                <div id="toc" style="overflow-y: scroll; height: 100%;">
-                  <div class="top_links">
-                  
-                    <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
-                  
-                  
-                  
-                    <a href="https://parseplatform.github.io/Parse-SDK-Android/api">API Reference<i class="icon_minimize"></i></a>
-                  
+                <div id="toc">
+                  <div style="overflow-y: scroll; height: 100%;">
+                    <div class="top_links">
+                    
+                      <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
+                    
+                    
+                    
+                      <a href="https://parseplatform.github.io/Parse-SDK-Android/api">API Reference<i class="icon_minimize"></i></a>
+                    
+                      <!-- .algolia-search-wrapper -->
+                      <div class="algolia-search-wrapper">
+                        <input id="algolia-doc-search" class="android_docs_docsearch" tabindex="0" type="text" placeholder="Search..." />
+                      </div><!-- .algolia-search-wrapper -->
+                    </div>
                   </div>
                 </div>
 
@@ -7434,6 +7440,15 @@ query.findObjectsInBackgroundWithBlock {
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
   <script src="/docs/assets/js/bundle.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+  <script type="text/javascript"> docsearch({
+    apiKey: 'c7f5661ba53e2e3c1c3752696362209e',
+    indexName: 'parse',
+    inputSelector: '#algolia-doc-search',
+    algoliaOptions: { 'facetFilters': ["tags:android"] }, // android, arduino, cloudcode, dotnet, embedded_c, ios, js, macos, parse-server, php, rest, unity
+    debug: false // Set debug to true if you want to inspect the dropdown
+  });
+  </script>
 </body>
 
 </html>

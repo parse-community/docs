@@ -2,7 +2,8 @@
 title: JavaScript Developers Guide | Parse
 permalink: /js/guide/
 layout: guide
-platform: JavaScript
+platform: js
+display_platform: JavaScript
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-JS/api
 

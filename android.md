@@ -2,7 +2,8 @@
 title: Android Developers Guide | Parse
 permalink: /android/guide/
 layout: guide
-platform: Android
+platform: android
+display_platform: Android
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-Android/api
 

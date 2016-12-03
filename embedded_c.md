@@ -2,7 +2,8 @@
 title: Embedded C Developers Guide | Parse
 permalink: /embedded_c/guide/
 layout: guide
-platform: Embedded_C
+platform: embedded_c
+display_platform: Embedded C
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/parse-embedded-sdks/api
 

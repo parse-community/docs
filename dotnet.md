@@ -2,7 +2,8 @@
 title: .NET Developers Guide | Parse
 permalink: /dotnet/guide/
 layout: guide
-platform: dotNET
+platform: dotnet
+display_platform: .NET
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-dotNET/api
 

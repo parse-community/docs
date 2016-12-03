@@ -2,7 +2,8 @@
 title: Unity Developers Guide | Parse
 permalink: /unity/guide/
 layout: guide
-platform: Unity
+platform: unity
+display_platform: Unity
 quickstart: https://parse.com/apps/quickstart
 api_reference: https://parseplatform.github.io/Parse-SDK-dotNET/api
 

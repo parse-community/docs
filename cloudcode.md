@@ -2,7 +2,8 @@
 title: Cloud Code Guide | Parse
 permalink: /cloudcode/guide/
 layout: guide
-platform: CloudCode
+platform: cloudcode
+display_platform: Cloud Code
 
 sections:
 - "cloudcode/getting-started.md"

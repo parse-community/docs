@@ -2,7 +2,8 @@
 title: Parse Server Guide | Parse
 permalink: /parse-server/guide/
 layout: guide
-platform: Parse Server
+platform: parse-server
+display_platform: Parse Server
 quickstart: https://github.com/ParsePlatform/Parse-Server#getting-started
 
 sections:
