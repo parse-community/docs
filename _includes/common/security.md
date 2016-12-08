@@ -394,6 +394,43 @@ Pointer permissions are like virtual ACLs. They don't appear in the ACL column, 
 
 Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don't have many ACLs set. Fortunately, it's easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.
 
+### Requires Authentication permission (requires parse-server  >= 2.3.0)
+
+Starting version 2.3.0, parse-server introduces a new Class Level Permission `requiresAuthentication`.
+This CLP prevents any non authenticated user from performing the action protected by the CLP.
+
+For example, you want to allow your **authenticated users** to `find` and `get` `Announcement`'s from your application and your **admin role** to have all privileged, you would set the CLP:
+
+```
+// POST http://my-parse-server.com/schemas/Announcement
+// Set the X-Parse-Application-Id and X-Parse-Master-Key header
+// body: 
+{
+  classLevelPermissions: 
+  {
+    "find": {
+      "requireAuthentication": true,
+      "role:admin": true
+    },
+    "get": {
+      "requireAuthentication": true,
+      "role:admin": true
+    },
+    "create": { "role:admin": true },
+    "update": { "role:admin": true },
+    "delete": { "role:admin": true },
+  }
+}
+```
+
+Effects:
+
+- Non authenticated users won't be able to do anything.
+- Authenticated users (any user with a valid sessionToken) will be able to read all the objects in that class
+- Users belonging to the admin role, will be able to perform all operations.
+
+:warning: Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
+
 ### CLP and ACL interaction
 
 Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don't always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, [Pointer Permissions](#security-pointer-permissions) are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.
