@@ -319,3 +319,57 @@ The `afterDelete` handler can access the object that was deleted through `reques
 The client will receive a successful response to the delete request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
 If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User](https://parse.com/docs/js/api/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+
+# beforeFind Triggers
+
+*Available only on parse-server cloud code starting 2.2.20*
+
+In some cases you may want to transform an incoming query, adding an additional limit or increasing the default limit, adding extra includes or restrict the results to a subset of keys. You can do so with the `beforeFind` trigger.
+
+
+## Examples
+
+```javascript
+// Properties available
+Parse.Cloud.beforeFind('MyObject', function(req) {
+  let query = req.query; // the Parse.Query
+  let user = req.user; // the user
+  let triggerName = req.triggerName; // beforeFind
+  let isMaster = req.master; // if the query is run with masterKey
+  let logger = req.log; // the logger
+  let installationId = req.installationId; // The installationId
+});
+
+// Selecting keys
+Parse.Cloud.beforeFind('MyObject', function(req) {
+  let query = req.query; // the Parse.Query
+  // Force the selection on some keys
+  query.select(['key1', 'key2']);
+});
+
+// Asynchronous support
+Parse.Cloud.beforeFind('MyObject', function(req) {
+  let query = req.query; 
+  return aPromise().then((results) => {
+    // do something with the results
+    query.containedIn('key', results);
+  });
+});
+
+// Returning a different query
+Parse.Cloud.beforeFind('MyObject', function(req) {
+  let query = req.query; 
+  let otherQuery = new Parse.Query('MyObject');
+  otherQuery.equalTo('key', 'value');
+  return Parse.Query.or(query, otherQuery);
+});
+
+// Rejecting a query
+Parse.Cloud.beforeFind('MyObject', function(req) {
+  // throw an error
+  throw new Parse.Error(101, 'error');
+
+  // rejecting promise
+  return Promise.reject('error');
+});
+```
