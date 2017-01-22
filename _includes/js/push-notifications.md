@@ -329,7 +329,7 @@ You can schedule a push in advance by specifying a `push_time`. For example, if 
 var tomorrowDate = new Date(...);
 
 var query = new Parse.Query(Parse.Installation);
-query.equalTo('user_id', 'user_123');
+query.equalTo('user', user);
 
 Parse.Push.send({
   where: query,

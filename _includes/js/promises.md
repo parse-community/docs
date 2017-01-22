@@ -199,7 +199,7 @@ Promises are convenient when you want to do a series of tasks in a row, each one
 
 <pre><code class="javascript">
 var query = new Parse.Query("Comments");
-query.equalTo("post", 123);
+query.equalTo("post", post);
 
 query.find().then(function(results) {
   // Create a trivial resolved promise as a base case.
@@ -223,7 +223,7 @@ You can also use promises to perform several tasks in parallel, using the `when`
 
 <pre><code class="javascript">
 var query = new Parse.Query("Comments");
-query.equalTo("post", 123);
+query.equalTo("post", post);
 
 query.find().then(function(results) {
   // Collect one promise for each delete into an array.
