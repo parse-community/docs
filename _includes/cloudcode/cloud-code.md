@@ -269,7 +269,7 @@ You can run custom Cloud Code before an object is deleted. You can do this with 
 ```javascript
 Parse.Cloud.beforeDelete("Album", function(request, response) {
   query = new Parse.Query("Photo");
-  query.equalTo("album", request.object.id);
+  query.equalTo("album", request.object);
   query.count({
     success: function(count) {
       if (count > 0) {

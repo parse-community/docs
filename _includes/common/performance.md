@@ -893,8 +893,7 @@ Suppose you are displaying movie information in your app and your data model con
 ```javascript
 var Review = Parse.Object.extend("Review");
 var query = new Parse.Query("Review");
-// movieId corresponds to a given movie's id
-query.equalTo(“movie”, movieId);
+query.equalTo(“movie”, movie);
 query.count().then(function(count) {
   // Request succeeded
 });
@@ -903,8 +902,7 @@ query.count().then(function(count) {
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
-// movieId corresponds to a given movie's id
-[query whereKey:@"movie" equalTo:movieId];
+[query whereKey:@"movie" equalTo:movie];
 [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
   if (!error) {
     // Request succeeded
@@ -915,8 +913,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 
 <pre><code class="swift">
 let query = PFQuery.queryWithClassName("Review")
-// movieId corresponds to a given movie's id
-query.whereKey("movie", equalTo: movieId)
+query.whereKey("movie", equalTo: movie)
 query.countObjectsInBackgroundWithBlock {
   (number, error) in
   if !error {
