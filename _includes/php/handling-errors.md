@@ -14,4 +14,4 @@ try {
 }
 </code></pre>
 
-For a list of all possible error codes, scroll down to [Error Codes](#errors).
+For a list of all possible error codes, scroll down to [Error Codes](#error-codes).
