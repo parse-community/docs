@@ -167,7 +167,7 @@ Note that calling `status.success` or `status.error` won't prevent any further e
 Calling jobs is done via the REST API and is protected by the master key.
 
 ```sh
-curl -X POST -H 'X-Parse-Application-Id: appId' -H 'X-Parse-Master-Key: masterKey' https://my-parse-server.com/1/jobs/myJob
+curl -X POST -H 'X-Parse-Application-Id: appId' -H 'X-Parse-Master-Key: masterKey' https://my-parse-server.com/parse/jobs/myJob
 ```
 
 The response will consist of an empty body and contain the `X-Parse-Job-Status-Id: a1c3e5g7i9k` header. With the _JobStatus's objectId that has just been created.
