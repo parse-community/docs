@@ -179,7 +179,7 @@ Schema validation is built in. Retrieving the schema via API is available.
 
 ## Session Features
 
-Parse Server requires the use of [revocable sessions](http://blog.parse.com/announcements/announcing-new-enhanced-sessions/). If your app is still using legacy sessions, follow this [migration guide](https://parse.com/tutorials/session-migration-tutorial).
+Parse Server requires the use of [revocable sessions](http://blog.parse.com/announcements/announcing-new-enhanced-sessions/).
 
 ## Single app aware
 

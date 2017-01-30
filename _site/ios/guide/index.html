@@ -70,8 +70,6 @@
       <aside class="site__menu">
     <nav class="site__menu__nav">
         <ul>
-            <li><a href="/migration">Migration Guide</a></li>
-            <li><a href="/help">Help</a></li>
             <li><a href="/docs">Docs</a></li>
             <li><a href="http://blog.parse.com/">Blog</a></li>
         </ul>
@@ -166,10 +164,8 @@
         </a>
 
         <ul class="header-nav">
-            <li><a href="https://parse.com/migration">Migration Guide</a></li>
             <li><a href="/docs/">Docs</a></li>
             <li><a href="http://blog.parse.com">Blog</a></li>
-            <li><a href="https://parse.com/help">Help</a></li>
         </ul>
 
     </div><!-- container -->
@@ -8050,6 +8046,45 @@ $acl-&gt;setRoleWriteAccessWithName("admins", true);
 
 <p>Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don’t have many ACLs set. Fortunately, it’s easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.</p>
 
+<h3 id="requires-authentication-permission-requires-parse-server---230">Requires Authentication permission (requires parse-server  &gt;= 2.3.0)</h3>
+
+<p>Starting version 2.3.0, parse-server introduces a new Class Level Permission <code class="highlighter-rouge">requiresAuthentication</code>.
+This CLP prevents any non authenticated user from performing the action protected by the CLP.</p>
+
+<p>For example, you want to allow your <strong>authenticated users</strong> to <code class="highlighter-rouge">find</code> and <code class="highlighter-rouge">get</code> <code class="highlighter-rouge">Announcement</code>’s from your application and your <strong>admin role</strong> to have all privileged, you would set the CLP:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>// POST http://my-parse-server.com/schemas/Announcement
+// Set the X-Parse-Application-Id and X-Parse-Master-Key header
+// body: 
+{
+  classLevelPermissions: 
+  {
+    "find": {
+      "requireAuthentication": true,
+      "role:admin": true
+    },
+    "get": {
+      "requireAuthentication": true,
+      "role:admin": true
+    },
+    "create": { "role:admin": true },
+    "update": { "role:admin": true },
+    "delete": { "role:admin": true },
+  }
+}
+</code></pre>
+</div>
+
+<p>Effects:</p>
+
+<ul>
+  <li>Non authenticated users won’t be able to do anything.</li>
+  <li>Authenticated users (any user with a valid sessionToken) will be able to read all the objects in that class</li>
+  <li>Users belonging to the admin role, will be able to perform all operations.</li>
+</ul>
+
+<p>:warning: Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.</p>
+
 <h3 id="clp-and-acl-interaction">CLP and ACL interaction</h3>
 
 <p>Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don’t always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, <a href="#security-pointer-permissions">Pointer Permissions</a> are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.</p>
@@ -9019,8 +9054,7 @@ PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The 
 
 <div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">Review</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parse</span><span class="p">.</span><span class="nx">Query</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">);</span>
-<span class="c1">// movieId corresponds to a given movie's id</span>
-<span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="err">“</span><span class="nx">movie</span><span class="err">”</span><span class="p">,</span> <span class="nx">movieId</span><span class="p">);</span>
+<span class="nx">query</span><span class="p">.</span><span class="nx">equalTo</span><span class="p">(</span><span class="err">“</span><span class="nx">movie</span><span class="err">”</span><span class="p">,</span> <span class="nx">movie</span><span class="p">);</span>
 <span class="nx">query</span><span class="p">.</span><span class="nx">count</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">count</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// Request succeeded</span>
 <span class="p">});</span>
@@ -9029,8 +9063,7 @@ PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The 
 
 <pre class="common-lang-block objectivec"><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
-// movieId corresponds to a given movie's id
-[query whereKey:@"movie" equalTo:movieId];
+[query whereKey:@"movie" equalTo:movie];
 [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
   if (!error) {
     // Request succeeded
@@ -9040,8 +9073,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 
 <pre class="common-lang-block swift"><code class="swift">
 let query = PFQuery.queryWithClassName("Review")
-// movieId corresponds to a given movie's id
-query.whereKey("movie", equalTo: movieId)
+query.whereKey("movie", equalTo: movie)
 query.countObjectsInBackgroundWithBlock {
   (number, error) in
   if !error {
