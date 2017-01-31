@@ -319,7 +319,7 @@ class Monster extends ParseObject
   public static $parseClassName = "Monster";
 
   public function hasSuperHumanStrength() {
-    return this->get("strength") > 18;
+    return $this->get("strength") > 18;
   }
 
   public static function spawn($strength) {
