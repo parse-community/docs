@@ -15,11 +15,12 @@ sections:
 - "parse-server/deploying.md"
 - "parse-server/push-notifications.md"
 - "parse-server/push-notifications-clients.md"
+- "parse-server/class-level-permissions.md"
 - "parse-server/file-adapters.md"
 - "parse-server/cache-adapters.md"
 - "parse-server/live-query.md"
 - "parse-server/third-party-auth.md"
 - "parse-server/compatibility.md"
 - "parse-server/MongoRocks.md"
-- "parse-server/Development-Guide.md"
+- "parse-server/development.md"
 ---

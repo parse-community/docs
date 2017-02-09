@@ -1,6 +1,6 @@
 # Getting Started
 
-Cloud Code is [built into Parse Server](https://github.com/ParsePlatform/parse-server/wiki/Parse-Server-Guide#usage). The default entry point for your Cloud Code is at `./cloud/main.js`.
+Cloud Code is [built into Parse Server](/docs/parse-server/guide/). The default entry point for your Cloud Code is at `./cloud/main.js`.
 
 ## What is Cloud Code?
 

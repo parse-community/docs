@@ -2,7 +2,7 @@
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart](https://github.com/ParsePlatform/parse-server/wiki/Push#quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push QuickStart](/docs/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 ## Installations
 
