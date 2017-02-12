@@ -34,7 +34,7 @@ Here is the list of sending options we do not support yet:
 *  Increment `badge` under `data` for iOS badge number
 
 
-## Quick Start
+## Push Notifications Quick Start
 
 ### 1. Prepare APNS and GCM Credentials
 

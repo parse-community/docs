@@ -1,6 +1,6 @@
 # Compatibility with parse.com
 
-There are a few areas where Parse Server does not provide compatibility with the Parse hosted backend.
+There are a few areas where Parse Server does not provide compatibility with the original Parse.com hosted backend.
 
 ## Analytics
 

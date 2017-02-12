@@ -24,6 +24,8 @@ If you have any fixes or suggestions, simply send us a pull request!
 
 ### Running The Site Locally
 
+You will need Ruby, [Bundler](http://bundler.io/), and npm.
+
 Clone this repository, then install Jekyll and node packages:
 
 ```
@@ -37,4 +39,4 @@ Then run webpack and Jekyll:
 npm start
 ```
 
-Finally, open http://localhost:4000/docs/ios/guide/ in your web browser.
+Finally, open http://localhost:4000/docs/ in your web browser.
