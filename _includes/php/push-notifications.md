@@ -242,12 +242,11 @@ $response = ParsePush::send(array(
   "data" => $data
 ), true);
 
-// check if a push status id was returned
-if(isset($response['_headers']['X-Push-Status-Id'])) {
+// check if a push status id is present
+if(ParsePush::hasStatus($response)) {
 
     // Retrieve PushStatus object
-    $pushStatusId = $response['_headers']['X-Push-Status-Id'];
-    $pushStatus = PushStatus::getFromId($pushStatusId);
+    $pushStatus = ParsePush::getStatus($response);
     
     // get push status string
     $status = $pushStatus->getPushStatus();
@@ -255,6 +254,9 @@ if(isset($response['_headers']['X-Push-Status-Id'])) {
     if($status == "succeeded") {
         // handle a successful push request
         
+    } else if($status == "running") {
+        // handle a running push request
+    
     } else {
         // push request did not succeed
         
