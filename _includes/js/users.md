@@ -279,7 +279,7 @@ To start using Facebook with Parse, you need to:
 4.  Replace your call to `FB.init()` with a call to `Parse.FacebookUtils.init()`. For example, if you load the Facebook JavaScript SDK asynchronously, your `fbAsyncInit` function will look like this:
 
 <pre><code class="javascript">
-<script>
+&lt;script&gt;
   // Initialize Parse
   Parse.initialize("$PARSE_APPLICATION_ID", "$PARSE_JAVASCRIPT_KEY");
 
@@ -302,7 +302,7 @@ To start using Facebook with Parse, you need to:
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-</script>
+&lt;/script&gt;
 </code></pre>
 
 The function assigned to `fbAsyncInit` is run as soon as the Facebook JavaScript SDK has completed loading. Any code that you want to run after the Facebook JavaScript SDK is loaded should be placed within this function and after the call to `Parse.FacebookUtils.init()`.
