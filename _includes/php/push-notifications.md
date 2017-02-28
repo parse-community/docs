@@ -5,7 +5,7 @@
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
 <div class='tip info'><div>
-The PHP SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications.
+The PHP SDK does not currently support receiving pushes. It can only be used to send notifications to iOS and Android applications and to check the status of recent pushes.
 </div></div>
 
 ## Setting Up Push
@@ -51,7 +51,7 @@ $data = array("alert" => "Hi!");
 ParsePush::send(array(
   "channels" => ["PHPFans"],
   "data" => $data
-));
+), true);
 </code></pre>
 
 ### Using Advanced Targeting
@@ -74,7 +74,7 @@ $query->equalTo("design", "rad");
 ParsePush::send(array(
   "where" => $query,
   "data" => $data
-));
+), true);
 </code></pre>
 
 We can even use channels with our query. To send a push to all subscribers of the "Giants" channel but filtered by those who want score update, we can do the following:
@@ -89,7 +89,7 @@ ParsePush::send(array(
   "data" => array(
     "alert" => "Giants scored against the A's! It's now 2-2."
   )
-));
+), true);
 </code></pre>
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
@@ -109,7 +109,7 @@ ParsePush::send(array(
   "data" => array(
     "alert" => "Free hotdogs at the Parse concession stand!"
   )
-));
+), true);
 </code></pre>
 
 ## Sending Options
@@ -139,7 +139,7 @@ ParsePush::send(array(
     "sound" => "cheering.caf",
     "title" => "Mets Score!"
   )
-));
+), true);
 </code></pre>
 
 It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS](#receiving/iOS) and [Android](#receiving/Android), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
@@ -157,7 +157,7 @@ ParsePush::send(array(
     "name" => "Vaughn",
     "newsItem" => "Man bites dog"
   )
-));
+), true);
 </code></pre>
 
 ### Setting an Expiration Date
@@ -184,7 +184,7 @@ ParsePush::send(array(
   "data" => array(
     "alert" => "Your suitcase has been filled with tiny robots!"
   )
-));
+), true);
 
 // Notification for iOS users
 $queryIOS = ParseInstallation::query();
@@ -195,7 +195,7 @@ ParsePush::send(array(
   "data" => array(
     "alert" => "Your suitcase has been filled with tiny apples!"
   )
-));
+), true);
 
 // Notification for Windows 8 users
 $queryWindows = ParseInstallation::query();
@@ -206,7 +206,7 @@ ParsePush::send(array(
   "data" => array(
     "alert" => "Your suitcase has been filled with tiny surfaces!"
   )
-));
+), true);
 
 // Notification for Windows Phone 8 users
 $queryWP8 = ParseInstallation::query();
@@ -217,7 +217,7 @@ ParsePush::send(array(
   "data" => array(
     "alert" => "Your suitcase is very hip; very metro."
   )
-));
+), true);
 </code></pre>
 
 ## Scheduling Pushes
@@ -227,6 +227,49 @@ You can schedule a push in advance by specifying a `push_time` parameter of type
 If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted. This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
 
 The scheduled time cannot be in the past, and can be up to two weeks in the future. It can be an ISO 8601 date with a date, time, and timezone, as in the example above, or it can be a numeric value representing a UNIX epoch time in seconds (UTC).
+
+## Receiving Push Status
+
+If the version of ParseServer you are running supports it you can retrieve a `PushStatus` object from the response.
+
+From that you can fetch the status message of the push request, number of pushes sent, number failed, and more.
+
+<pre><code class="php">
+$data = array("alert" => "Hi!");
+
+$response = ParsePush::send(array(
+  "channels" => ["PHPFans"],
+  "data" => $data
+), true);
+
+// check if a push status id is present
+if(ParsePush::hasStatus($response)) {
+
+    // Retrieve PushStatus object
+    $pushStatus = ParsePush::getStatus($response);
+    
+    // get push status string
+    $status = $pushStatus->getPushStatus();
+    
+    if($status == "succeeded") {
+        // handle a successful push request
+        
+    } else if($status == "running") {
+        // handle a running push request
+    
+    } else {
+        // push request did not succeed
+        
+    }
+        
+    // get # pushes sent
+    $sent = $pushStatus->getPushesSent();
+    
+    // get # pushes failed
+    $failed = $pushStatus->getPushesFailed();
+    
+}
+</code></pre>
 
 ## Receiving Pushes
 
