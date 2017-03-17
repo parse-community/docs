@@ -45,7 +45,7 @@ You can limit the number of results with `setLimit`. By default, results are lim
 query.setLimit(10); // limit to at most 10 results
 ```
 
-If you want exactly one result, a more convenient alternative may be to use `getFirst` or `getFirstBackground` instead of using `find`.
+If you want exactly one result, a more convenient alternative may be to use `getFirst` or `getFirstInBackground` instead of using `find`.
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
