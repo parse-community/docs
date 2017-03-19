@@ -404,7 +404,7 @@ public class App extends Application {
     super.onCreate();
 
     ParseObject.registerSubclass(Armor.class);
-    Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+    Parse.initialize(this);
   }
 }
 ```
