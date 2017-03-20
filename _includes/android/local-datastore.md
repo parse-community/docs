@@ -12,7 +12,7 @@ public class App extends Application {
     super.onCreate();
 
     Parse.enableLocalDatastore(this);
-    Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
+    Parse.initialize(this);
   }
 }
 ```

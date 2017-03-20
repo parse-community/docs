@@ -30,11 +30,8 @@ _Objective-C_
 ```java
 Parse.initialize(new Parse.Configuration.Builder(myContext)
     .applicationId("YOUR_APP_ID")
-    .clientKey(null)
-    .server("http://localhost:1337/parse/") // The trailing slash is important.
-
+    .server("http://localhost:1337/parse/")
     ...
-
     .build()
 );
 ```
