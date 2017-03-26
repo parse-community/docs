@@ -9,7 +9,7 @@ Note that we support Android 2.3 and higher. You can also check out our [API Ref
 
 ```groovy
 dependencies {
-  compile 'com.parse:parse-android:1.14.0'
+  compile 'com.parse:parse-android:1.14.1'
 }
 ```
 

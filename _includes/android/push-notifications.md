@@ -16,9 +16,7 @@ When sending pushes to Android devices with GCM, there are several pieces of inf
 *   **Sender ID**: The GCM sender ID is a public number that identifies the sender of a push notification.
 *   **API key**: The GCM API key is a server secret that allows a server to send pushes to a registration ID on behalf of a particular sender ID.
 
-The Parse Android SDK chooses a reasonable default configuration so that you do not have to worry about GCM registration ids, sender ids, or API keys. In particular, the SDK will automatically register your app for push at startup time using Parse's sender ID (1076345567071) and will store the resulting registration ID in the `deviceToken` field of the app's current `ParseInstallation`.
-
-However, as an advanced feature for developers that want to send pushes from multiple push providers, Parse allows you to optionally register your app for pushes with additional GCM sender IDs. To do this, specify the additional GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`:
+The Parse Android SDK now requires you to specify the GCM sender ID with the following `<meta-data>` tag as a child of the `<application>` element in your app's `AndroidManifest.xml`:
 
 ```java
 <meta-data android:name="com.parse.push.gcm_sender_id"
