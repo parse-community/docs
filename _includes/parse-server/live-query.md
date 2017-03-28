@@ -174,11 +174,11 @@ The second one is ACL. For what is ACL, you can check the definition [here](http
 
 ## LiveQuery Clients
 
-The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK as of version 1.8.0. A separate LiveQuery client library is available for iOS / OS X applications. An Android client is coming soon.
+The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK as of version 1.8.0. A separate LiveQuery client library is available for iOS / OS X and Android.
 
 * [Parse JavaScript SDK](https://github.com/ParsePlatform/Parse-SDK-JS)
 * [Parse LiveQuery iOS / OS X](https://github.com/ParsePlatform/ParseLiveQuery-iOS-OSX)
-* Parse LiveQuery Android - _soon!_
+* [Parse LiveQuery Android](https://github.com/ParsePlatform/ParseLiveQuery-Android)
 
 ## LiveQuery With NGINX
 
