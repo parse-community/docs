@@ -44,4 +44,4 @@ query.get("thisObjectIdDoesntExist", {
 
 For methods like `save` and `signUp` that affect a particular `Parse.Object`, the first argument to the error function will be the object itself, and the second will be the `Parse.Error` object.  This is for compatibility with Backbone-type frameworks.
 
-For a list of all possible `Parse.Error` codes, scroll down to [Error Codes](#errors), or see the `Parse.Error` section of the  [JavaScript API `Parse.Error`](https://parse.com/docs/js/api/symbols/Parse.Error.html).
+For a list of all possible `Parse.Error` codes, scroll down to [Error Codes](#errors), or see the `Parse.Error` section of the  [JavaScript API `Parse.Error`](/Parse-SDK-JS/api/classes/Parse.Error.htmll).

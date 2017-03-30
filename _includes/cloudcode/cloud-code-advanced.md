@@ -146,4 +146,4 @@ The response object passed into the `success` and `error` will contain:
 * **`buffer`** - The raw byte representation of the response body.
 * **`text`** - The raw response body.
 * **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
-* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](https://parse.com/docs/js/api/classes/Parse.Cloud.HTTPResponse.html) objects.
+* **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie](/docs/js/api/classes/Parse.Cloud.HTTPResponse.html) objects.

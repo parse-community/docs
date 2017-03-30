@@ -138,4 +138,4 @@ For synchronous (non-background) methods, error handling is mostly the same exce
 
 By default, all connections have a timeout of 10 seconds, so the synchronous methods will not hang indefinitely.
 
-For a list of all possible `NSError` types, scroll down to [Error Codes](#errors), or see the `PFErrorCode` section of the [iOS API](https://parse.com/docs/ios/api/Constants/PFErrorCode.html) or [OS X API](https://parse.com/docs/osx/api/Constants/PFErrorCode.html).
+For a list of all possible `NSError` types, scroll down to [Error Codes](#errors), or see the `PFErrorCode` section of the [iOS-OSX API](/Parse-SDK-iOS-OSX/api/Enums/PFErrorCode.html).

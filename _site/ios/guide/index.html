@@ -7657,7 +7657,7 @@ func callbackForSave(result: NSNumber?, error: NSError?) -&gt; Void {
 
 <p>By default, all connections have a timeout of 10 seconds, so the synchronous methods will not hang indefinitely.</p>
 
-<p>For a list of all possible <code class="highlighter-rouge">NSError</code> types, scroll down to <a href="#errors">Error Codes</a>, or see the <code class="highlighter-rouge">PFErrorCode</code> section of the <a href="https://parse.com/docs/ios/api/Constants/PFErrorCode.html">iOS API</a> or <a href="https://parse.com/docs/osx/api/Constants/PFErrorCode.html">OS X API</a>.</p>
+<p>For a list of all possible <code class="highlighter-rouge">NSError</code> types, scroll down to <a href="#errors">Error Codes</a>, or see the <code class="highlighter-rouge">PFErrorCode</code> section of the <a href="/Parse-SDK-iOS-OSX/api/Enums/PFErrorCode.html">iOS-OSX API</a>.</p>
 
 
                     
@@ -8171,13 +8171,13 @@ This CLP prevents any non authenticated user from performing the action protecte
 
 <h2 id="data-integrity-in-cloud-code">Data Integrity in Cloud Code</h2>
 
-<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="https://parse.com/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
+<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
 
 <p>Cloud Code allows you to upload JavaScript to Parse’s servers, where we will run it for you. Unlike client code running on users’ devices that may have been tampered with, Cloud Code is guaranteed to be the code that you’ve written, so it can be trusted with more responsibility.</p>
 
 <p>One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it’s particularly important that a malicious client not be able to bypass the validation logic.</p>
 
-<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="https://parse.com/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
+<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">beforeSave</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">object</span><span class="p">;</span>
@@ -8190,7 +8190,7 @@ This CLP prevents any non authenticated user from performing the action protecte
 </code></pre>
 </div>
 
-<p>Our <a href="https://parse.com/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
+<p>Our <a href="/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
 
 <p>Validations can lock down your app so that only certain values are acceptable. You can also use <code class="highlighter-rouge">afterSave</code> validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.</p>
 

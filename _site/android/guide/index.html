@@ -220,7 +220,80 @@
                     
                     <h1 id="getting-started">Getting Started</h1>
 
-<p>If you haven’t installed the SDK yet, please <a href="https://parse.com/apps/quickstart#parse_data/mobile/android/native/new">head over to the QuickStart guide</a> to get our SDK up and running in Android Studio. Note that we support Android 2.3 and higher. You can also check out our <a href="/Parse-SDK-Android/api/">API Reference</a> for more detailed information about our SDK.</p>
+<p>Note that we support Android 2.3 and higher. You can also check out our <a href="/Parse-SDK-Android/api/">API Reference</a> for more detailed information about our SDK.</p>
+
+<h2 id="installation">Installation</h2>
+<p><strong>Step 1:</strong> Download <code class="highlighter-rouge">Parse-SDK-Android</code></p>
+
+<ul>
+  <li><strong>Option 1:</strong> Add dependency to the application level <code class="highlighter-rouge">build.gradle</code> file.</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
+  <span class="n">compile</span> <span class="s1">'com.parse:parse-android:1.14.1'</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>Option 2:</strong> Download <a href="https://search.maven.org/remote_content?g=com.parse&amp;a=parse-android&amp;v=LATEST">latest JAR</a></li>
+</ul>
+
+<p><strong>Step 2:</strong> Setup Parse</p>
+
+<ul>
+  <li><strong>Option 1:</strong> Setup in the Manifest</li>
+</ul>
+
+<p>You may define <code class="highlighter-rouge">com.parse.SERVER_URL</code> and <code class="highlighter-rouge">com.parse.APPLICATION_ID</code> meta-data in your <code class="highlighter-rouge">AndroidManifest.xml</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;application</span> <span class="err">...</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;meta-data</span>
+    <span class="na">android:name=</span><span class="s">"com.parse.SERVER_URL"</span>
+    <span class="na">android:value=</span><span class="s">"@string/parse_server_url"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;meta-data</span>
+    <span class="na">android:name=</span><span class="s">"com.parse.APPLICATION_ID"</span>
+    <span class="na">android:value=</span><span class="s">"@string/parse_app_id"</span> <span class="nt">/&gt;</span>
+  ...
+<span class="nt">&lt;/application&gt;</span>
+</code></pre>
+</div>
+
+<p>Initializing Parse in the <code class="highlighter-rouge">Application</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.parse.Parse</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.app.Application</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCreate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>Option 2:</strong> Setup in the <code class="highlighter-rouge">Application</code></li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.parse.Parse</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.app.Application</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCreate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">new</span> <span class="n">Parse</span><span class="o">.</span><span class="na">Configuration</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">applicationId</span><span class="o">(</span><span class="s">"YOUR_APP_ID"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">server</span><span class="o">(</span><span class="s">"http://localhost:1337/parse/"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+    <span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
 
 
                     
@@ -643,7 +716,7 @@ The following code sucessfully implements and registers the <code class="highlig
     <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
 
     <span class="n">ParseObject</span><span class="o">.</span><span class="na">registerSubclass</span><span class="o">(</span><span class="n">Armor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">PARSE_APPLICATION_ID</span><span class="o">,</span> <span class="n">PARSE_CLIENT_KEY</span><span class="o">);</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
@@ -768,7 +841,7 @@ The following code sucessfully implements and registers the <code class="highlig
 </code></pre>
 </div>
 
-<p>If you want exactly one result, a more convenient alternative may be to use <code class="highlighter-rouge">getFirst</code> or <code class="highlighter-rouge">getFirstBackground</code> instead of using <code class="highlighter-rouge">find</code>.</p>
+<p>If you want exactly one result, a more convenient alternative may be to use <code class="highlighter-rouge">getFirst</code> or <code class="highlighter-rouge">getFirstInBackground</code> instead of using <code class="highlighter-rouge">find</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"GameScore"</span><span class="o">);</span>
 <span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"playerEmail"</span><span class="o">,</span> <span class="s">"dstemkoski@example.com"</span><span class="o">);</span>
@@ -2325,7 +2398,7 @@ try {
     <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
 
     <span class="n">Parse</span><span class="o">.</span><span class="na">enableLocalDatastore</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">PARSE_APPLICATION_ID</span><span class="o">,</span> <span class="n">PARSE_CLIENT_KEY</span><span class="o">);</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
@@ -2518,9 +2591,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
   <li><strong>API key</strong>: The GCM API key is a server secret that allows a server to send pushes to a registration ID on behalf of a particular sender ID.</li>
 </ul>
 
-<p>The Parse Android SDK chooses a reasonable default configuration so that you do not have to worry about GCM registration ids, sender ids, or API keys. In particular, the SDK will automatically register your app for push at startup time using Parse’s sender ID (1076345567071) and will store the resulting registration ID in the <code class="highlighter-rouge">deviceToken</code> field of the app’s current <code class="highlighter-rouge">ParseInstallation</code>.</p>
-
-<p>However, as an advanced feature for developers that want to send pushes from multiple push providers, Parse allows you to optionally register your app for pushes with additional GCM sender IDs. To do this, specify the additional GCM sender ID with the following <code class="highlighter-rouge">&lt;meta-data&gt;</code> tag as a child of the <code class="highlighter-rouge">&lt;application&gt;</code> element in your app’s <code class="highlighter-rouge">AndroidManifest.xml</code>:</p>
+<p>The Parse Android SDK now requires you to specify the GCM sender ID with the following <code class="highlighter-rouge">&lt;meta-data&gt;</code> tag as a child of the <code class="highlighter-rouge">&lt;application&gt;</code> element in your app’s <code class="highlighter-rouge">AndroidManifest.xml</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"com.parse.push.gcm_sender_id"</span>
            <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">"id:YOUR_SENDER_ID"</span> <span class="o">/&gt;;</span>
@@ -5058,7 +5129,7 @@ $books = $bookQuery-&gt;find();
 
 <p>Many of the methods on <code class="highlighter-rouge">ParseObject</code>, including <code class="highlighter-rouge">save()</code>, <code class="highlighter-rouge">delete()</code>, and <code class="highlighter-rouge">get()</code> will throw a <code class="highlighter-rouge">ParseException</code> on an invalid request, such as deleting or editing an object that no longer exists in the cloud, or when there is a network failure preventing communication with the Parse Cloud. You will need to catch and deal with these exceptions.</p>
 
-<p>For more details, look at the <a href="https://parse.com/docs/android/api/">Android API</a>.</p>
+<p>For more details, look at the <a href="/docs/android/api/">Android API</a>.</p>
 
 
                     
@@ -5572,13 +5643,13 @@ This CLP prevents any non authenticated user from performing the action protecte
 
 <h2 id="data-integrity-in-cloud-code">Data Integrity in Cloud Code</h2>
 
-<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="https://parse.com/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
+<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
 
 <p>Cloud Code allows you to upload JavaScript to Parse’s servers, where we will run it for you. Unlike client code running on users’ devices that may have been tampered with, Cloud Code is guaranteed to be the code that you’ve written, so it can be trusted with more responsibility.</p>
 
 <p>One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it’s particularly important that a malicious client not be able to bypass the validation logic.</p>
 
-<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="https://parse.com/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
+<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">beforeSave</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">object</span><span class="p">;</span>
@@ -5591,7 +5662,7 @@ This CLP prevents any non authenticated user from performing the action protecte
 </code></pre>
 </div>
 
-<p>Our <a href="https://parse.com/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
+<p>Our <a href="/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
 
 <p>Validations can lock down your app so that only certain values are acceptable. You can also use <code class="highlighter-rouge">afterSave</code> validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.</p>
 
