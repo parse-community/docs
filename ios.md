@@ -1,6 +1,6 @@
 ---
 title: iOS Developers Guide | Parse
-permalink: /ios/guide
+permalink: /ios/guide/
 layout: guide
 platform: ios
 display_platform: iOS
