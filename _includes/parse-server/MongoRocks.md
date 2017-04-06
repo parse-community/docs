@@ -1,10 +1,10 @@
 # Using MongoDB + RocksDB
 
-* [MongoRocks: What and Why?](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#mongorocks-what-and-why)
-* [Provisioning](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#example-provisioning-on-ubuntu-and-aws)
-* [Installation](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#installation)
-* [Backups](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#backups)
-* [Migrating Existing Data to MongoRocks](https://github.com/ParsePlatform/parse-server/wiki/MongoRocks#migrating-existing-data-to-mongorocks)
+* [MongoRocks: What and Why?](https://github.com/parse-community/parse-server/wiki/MongoRocks#mongorocks-what-and-why)
+* [Provisioning](https://github.com/parse-community/parse-server/wiki/MongoRocks#example-provisioning-on-ubuntu-and-aws)
+* [Installation](https://github.com/parse-community/parse-server/wiki/MongoRocks#installation)
+* [Backups](https://github.com/parse-community/parse-server/wiki/MongoRocks#backups)
+* [Migrating Existing Data to MongoRocks](https://github.com/parse-community/parse-server/wiki/MongoRocks#migrating-existing-data-to-mongorocks)
 
 ## MongoRocks: What and Why?
 
@@ -35,7 +35,7 @@ Generally speaking, MongoRocks was suitable for running all app workloads at Par
 - Applications with high number of in-place updates or deletes. For example, a very busy work queue or heap.
 - Applications with queries that scan many documents *and* fit entirely in memory.
 
-It's difficult to make precise statements about performance for any given workload without data. When in doubt, run your own benchmarks. You can use the [flashback](https://github.com/ParsePlatform/flashback) toolset to record and replay benchmarks based on live traffic.
+It's difficult to make precise statements about performance for any given workload without data. When in doubt, run your own benchmarks. You can use the [flashback](https://github.com/parse-community/flashback) toolset to record and replay benchmarks based on live traffic.
 
 ## Example: Provisioning on Ubuntu and AWS
 

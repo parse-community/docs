@@ -32,10 +32,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="ios/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-iOS-OSX/api">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.osx }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-iOS-OSX/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-iOS-OSX/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -46,10 +46,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="android/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-Android/api">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.android }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-Android/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-Android/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -60,10 +60,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="js/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-JS/api">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.js }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-JS/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-JS/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -74,10 +74,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="dotnet/guide">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-dotNET/api">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.dotnet }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-dotNET/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-dotNET/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -88,10 +88,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="macos/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-iOS-OSX/api">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.osx }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-iOS-OSX/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-iOS-OSX/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -102,10 +102,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="unity/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-dotNET/api">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.dotnet }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-dotNET/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-dotNET/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -116,10 +116,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="php/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//parse-php-sdk/namespaces/Parse.html">API Reference</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.php }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/parse-php-sdk/releases" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/parse-php-sdk/releases" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -130,10 +130,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="arduino/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//Parse-SDK-Arduino/api/">API Reference</a></li>
+              <li class="docs-platform__links"><a href="https://parse-community.github.io/Parse-SDK-Arduino/api/">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/Parse-SDK-Arduino/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/Parse-SDK-Arduino/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -144,10 +144,10 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="embedded_c/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parseplatform.github.io//parse-embedded-sdks/api/">API Reference</a></li>
+              <li class="docs-platform__links"><a href="https://parse-community.github.io/parse-embedded-sdks/api/">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
-              <a href="https://github.com/ParsePlatform/parse-embedded-sdks/releases/latest" class="btn btn--outline">Latest Downloads</a>
+              <a href="https://github.com/parse-community/parse-embedded-sdks/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 

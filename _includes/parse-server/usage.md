@@ -1,6 +1,6 @@
 # Usage
 
-Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](https://github.com/ParsePlatform/parse-server), which at its root contains a sample Express app with the Parse API mounted.
+Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. Express is a web framework for Node.js. The fastest way to get started is to clone the [Parse Server repo](https://github.com/parse-community/parse-server), which at its root contains a sample Express app with the Parse API mounted.
 
 The constructor returns an API object that conforms to an [Express Middleware](http://expressjs.com/en/api.html##app.use). This object provides the REST endpoints for a Parse app. Create an instance like so:
 
@@ -28,7 +28,7 @@ The parameters are as follows:
 * `javascriptKey`: The JavaScript key for your app. (optional)
 * `dotNetKey`: The .NET key for your app. (optional)
 * `push`: An object containing push configuration. See [Push](#push-notifications)
-* `filesAdapter`: An object that implements the [FilesAdapter](https://github.com/ParsePlatform/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](#configuring-file-adapters)
+* `filesAdapter`: An object that implements the [FilesAdapter](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](#configuring-file-adapters)
 * `auth`: Configure support for [3rd party authentication](#oauth-and-3rd-party-authentication).
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:

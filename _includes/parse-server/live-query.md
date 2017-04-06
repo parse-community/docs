@@ -76,17 +76,17 @@ We support five types of event:
 
 ## Further Reading
 
-You can check the [LiveQuery protocol specification](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) to learn more about each event type.
+You can check the [LiveQuery protocol specification](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) to learn more about each event type.
 
-For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide](/docs/js/guide#live-queries).
+For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide](/docs/js/guide#live-queries).
 
-For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/ParsePlatform/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide](/docs/ios/guide#live-queries).
+For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide](/docs/ios/guide#live-queries).
 
 ## LiveQuery Protocol
 
 The LiveQuery Protocol is the key to the Parse LiveQuery. The clients and server communicate through WebSocket using this protocol. Clients can follow the protocol to connect to the LiveQuery server, subscribe/unsubscribe a `Parse.Query` and get updates from the LiveQuery server.
 
-The LiveQuery protocol is a simple protocol that encapsulates messages in JSON strings and runs over a WebSocket connection. You can find the specification in the For the specification, check out the [Parse Server wiki page](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification).
+The LiveQuery protocol is a simple protocol that encapsulates messages in JSON strings and runs over a WebSocket connection. You can find the specification in the For the specification, check out the [Parse Server wiki page](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification).
 
 ## LiveQuery Server
 
@@ -176,9 +176,9 @@ The second one is ACL. For what is ACL, you can check the definition [here](http
 
 The JavaScript LiveQuery client is provided as part of the Parse JavaScript SDK as of version 1.8.0. A separate LiveQuery client library is available for iOS / OS X and Android.
 
-* [Parse JavaScript SDK](https://github.com/ParsePlatform/Parse-SDK-JS)
-* [Parse LiveQuery iOS / OS X](https://github.com/ParsePlatform/ParseLiveQuery-iOS-OSX)
-* [Parse LiveQuery Android](https://github.com/ParsePlatform/ParseLiveQuery-Android)
+* [Parse JavaScript SDK](https://github.com/parse-community/Parse-SDK-JS)
+* [Parse LiveQuery iOS / OS X](https://github.com/parse-community/ParseLiveQuery-iOS-OSX)
+* [Parse LiveQuery Android](https://github.com/parse-community/ParseLiveQuery-Android)
 
 ## LiveQuery With NGINX
 

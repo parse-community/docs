@@ -4,7 +4,7 @@ At the end of the day, users of your application will be interacting with Androi
 
 ## ParseLoginUI
 
-If you are using Parse to manage users in your mobile app, you are already familiar with the `ParseUser`  class. At some point in your app, you might want to present a screen to log in your `ParseUser`.  Parse provides an open-source [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the [ParseLoginUI](https://github.com/ParsePlatform/ParseUI-Android) for detail steps.
+If you are using Parse to manage users in your mobile app, you are already familiar with the `ParseUser`  class. At some point in your app, you might want to present a screen to log in your `ParseUser`.  Parse provides an open-source [ParseLoginUI](https://github.com/parse-community/ParseUI-Android) library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the [ParseLoginUI](https://github.com/parse-community/ParseUI-Android) for detail steps.
 
 This library contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.
 
@@ -42,7 +42,7 @@ When `ParseLoginActivity` finishes, your caller activity will receive either:
 *   `RESULT_OK`: The user successfully logged in. `ParseUser.getCurrentUser()` will be populated.
 *   `RESULT_CANCELLED`: The user pressed the back button. If the user fails to log in or sign up, the only way to return to the previous screen is by pressing the back button.
 
-We've provided a sample app, [ParseLoginSampleBasic](https://github.com/ParsePlatform/ParseUI-Android) for this use case.  This sample app is a simple profile viewer.  If you are not logged in, `SampleProfileActivity` prompts you to log in.  Clicking on the login button in `SampleProfileActivity` launches the `ParseLoginActivity`, which prompts the user for login credentials.  If the user successfully logs in, `ParseLoginActivity` will automatically finish itself and return `RESULT_OK`.  Then, `SampleProfileActivity` will display the user's name and a logout button.
+We've provided a sample app, [ParseLoginSampleBasic](https://github.com/parse-community/ParseUI-Android) for this use case.  This sample app is a simple profile viewer.  If you are not logged in, `SampleProfileActivity` prompts you to log in.  Clicking on the login button in `SampleProfileActivity` launches the `ParseLoginActivity`, which prompts the user for login credentials.  If the user successfully logs in, `ParseLoginActivity` will automatically finish itself and return `RESULT_OK`.  Then, `SampleProfileActivity` will display the user's name and a logout button.
 
 ![]({{ '/assets/images/basic_login.png' | prepend: site.baseurl }})
 
@@ -61,7 +61,7 @@ public class SampleDispatchActivity extends ParseLoginDispatchActivity {
 }
 ```
 
-We've provided another sample app, [ParseLoginSampleWithDispatchActivity](https://github.com/ParsePlatform/ParseUI-Android) for this use case.  The `SampleProfileActivity` in this app cannot function without a logged-in user, so it is protected by `SampleDispatchActivity`.
+We've provided another sample app, [ParseLoginSampleWithDispatchActivity](https://github.com/parse-community/ParseUI-Android) for this use case.  The `SampleProfileActivity` in this app cannot function without a logged-in user, so it is protected by `SampleDispatchActivity`.
 
 ![]({{ '/assets/images/login_with_dispatch.png' | prepend: site.baseurl }})
 
@@ -147,7 +147,7 @@ For the Facebook permission array, you also need to have this in your `res/value
 
 ### Configure by Code
 
-You can configure the `ParseLoginActivity` by code using the ParseLoginBuilder.  You specify the options on the builder, and then call `build()` to generate an `Intent` that can be used to start the `ParseLoginActivity`.  We've provided a sample app, [ParseLoginSampleCodeCustomization](https://github.com/ParsePlatform/ParseUI-Android) demonstrating this use case.  The options in `ParseLoginBuilder` are the same as those in activity metadata customization.  If you specify options in both code and activity metadata, the options in code take precedence.
+You can configure the `ParseLoginActivity` by code using the ParseLoginBuilder.  You specify the options on the builder, and then call `build()` to generate an `Intent` that can be used to start the `ParseLoginActivity`.  We've provided a sample app, [ParseLoginSampleCodeCustomization](https://github.com/parse-community/ParseUI-Android) demonstrating this use case.  The options in `ParseLoginBuilder` are the same as those in activity metadata customization.  If you specify options in both code and activity metadata, the options in code take precedence.
 
 ```java
 ParseLoginBuilder builder = new ParseLoginBuilder(ProfileActivity.this);
@@ -176,7 +176,7 @@ You can override any layout resources by having files with the same name as thos
 *   `com_parse_ui_parse_signup_fragment.xml`: You can add additional input fields in the signup form here.  If you do, you also need add code to `ParseSignupFragment` to copy that data into the `ParseUser` object.
 *   `com_parse_ui_parse_login_help_fragment.xml`: You can change the message for password reset.
 
-We've provided another sample app, [ParseLoginSampleLayoutOverride](https://github.com/ParsePlatform/ParseUI-Android) showing how to do this.  This sample app only has a Facebook login button in `com_parse_ui_parse_login_fragment.xml`, and adds a background image to the login screens.
+We've provided another sample app, [ParseLoginSampleLayoutOverride](https://github.com/parse-community/ParseUI-Android) showing how to do this.  This sample app only has a Facebook login button in `com_parse_ui_parse_login_fragment.xml`, and adds a background image to the login screens.
 
 ## ParseQueryAdapter
 

@@ -4,8 +4,7 @@ permalink: /embedded_c/guide/
 layout: guide
 platform: embedded_c
 display_platform: Embedded C
-quickstart: https://parse.com/apps/quickstart
-api_reference: https://parseplatform.github.io/parse-embedded-sdks/api
+api_reference: https://parse-community.github.io/parse-embedded-sdks/api
 
 sections:
 - "embedded_c/getting-started.md"

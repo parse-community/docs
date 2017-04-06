@@ -4,7 +4,6 @@ permalink: /rest/guide/
 layout: guide
 platform: rest
 display_platform: REST
-quickstart: https://parse.com/apps/quickstart
 
 sections:
 - "rest/getting-started.md"

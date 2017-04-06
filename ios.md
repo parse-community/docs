@@ -1,11 +1,10 @@
 ---
 title: iOS Developers Guide | Parse
-permalink: /ios/guide/
+permalink: /ios/guide
 layout: guide
 platform: ios
 display_platform: iOS
-quickstart: https://parse.com/apps/quickstart
-api_reference: https://parseplatform.github.io/Parse-SDK-iOS-OSX/api
+api_reference: https://parse-community.github.io/Parse-SDK-iOS-OSX/api
 
 redirect_from:
   - /ios/

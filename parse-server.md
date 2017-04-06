@@ -4,7 +4,7 @@ permalink: /parse-server/guide/
 layout: guide
 platform: parse-server
 display_platform: Parse Server
-quickstart: https://github.com/ParsePlatform/Parse-Server#getting-started
+quickstart: https://github.com/parse-community/Parse-Server#getting-started
 
 sections:
 - "parse-server/getting-started.md"

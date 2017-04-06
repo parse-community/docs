@@ -1,4 +1,4 @@
-Parse Server is an open source version of the Parse backend that can be deployed to any infrastructure that can run Node.js. You can find the source on the [GitHub repo](https://github.com/ParsePlatform/parse-server).
+Parse Server is an open source version of the Parse backend that can be deployed to any infrastructure that can run Node.js. You can find the source on the [GitHub repo](https://github.com/parse-community/parse-server).
 
 * Parse Server is not dependent on the hosted Parse backend.
 * Parse Server uses MongoDB directly, and is not dependent on the Parse hosted database.
@@ -21,7 +21,7 @@ There are a few areas where Parse Server does not provide compatibility with the
 The fastest and easiest way to get started is to run MongoDB and Parse Server locally. Use the bootstrap script to set up Parse Server in the current directory.
 
 ```bash
-$ sh <(curl -fsSL https://raw.githubusercontent.com/parseplatform/parse-server/master/bootstrap.sh)
+$ sh <(curl -fsSL https://raw.githubusercontent.com/parse-community/parse-server/master/bootstrap.sh)
 $ npm install -g mongodb-runner
 $ mongodb-runner start
 $ npm start

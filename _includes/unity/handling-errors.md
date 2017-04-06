@@ -64,4 +64,4 @@ ParseObject.GetQuery("Note").GetAsync(someObjectId).ContinueWith(t =>
 })
 ```
 
-For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API](/Parse-SDK-dotNET/api/html/T_Parse_ParseException_ErrorCode.htm).
+For a list of all possible `ErrorCode` types, scroll down to [Error Codes](#errors), or see the `ParseException.ErrorCode` section of the [.NET API]({{ site.apis.dotnet }}/html/T_Parse_ParseException_ErrorCode.htm).
