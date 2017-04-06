@@ -1291,7 +1291,7 @@ ParseQuery.clearAllCachedResults();
 
 <p>Note that we used the <code class="highlighter-rouge">signUpInBackground</code> method, not the <code class="highlighter-rouge">saveInBackground</code> method. New <code class="highlighter-rouge">ParseUser</code>s should always be created using the <code class="highlighter-rouge">signUpInBackground</code> (or <code class="highlighter-rouge">signUp</code>) method. Subsequent updates to a user can be done by calling <code class="highlighter-rouge">save</code>.</p>
 
-<p>The <code class="highlighter-rouge">signUpInBackground</code> method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our <a href="/docs/android/">API docs</a>.</p>
+<p>The <code class="highlighter-rouge">signUpInBackground</code> method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our <a href="/android/">API docs</a>.</p>
 
 <p>If a signup isn’t successful, you should read the error object that is returned. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.</p>
 
@@ -2305,7 +2305,7 @@ try {
 </code></pre>
 </div>
 
-<p>You can delete files that are referenced by objects using the <a href="/docs/rest/guide/#files-deleting-files">REST API</a>. You will need to provide the master key in order to be allowed to delete a file.</p>
+<p>You can delete files that are referenced by objects using the <a href="/rest/guide/#files-deleting-files">REST API</a>. You will need to provide the master key in order to be allowed to delete a file.</p>
 
 <p>If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app’s Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.</p>
 
@@ -2573,11 +2573,11 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>Push notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.</p>
 
-<p>If you haven’t installed the SDK yet, <a href="/docs/parse-server/guide/#push-notifications-quick-start">head over to the Push QuickStart</a> to get our SDK up and running.</p>
+<p>If you haven’t installed the SDK yet, <a href="/parse-server/guide/#push-notifications-quick-start">head over to the Push QuickStart</a> to get our SDK up and running.</p>
 
 <h2 id="setting-up-push">Setting Up Push</h2>
 
-<p>If you want to start using push, start by completing the <a href="/docs/parse-server/guide/#push-notifications-quick-start">Android Push Notifications QuickStart Guide</a> to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.</p>
+<p>If you want to start using push, start by completing the <a href="/parse-server/guide/#push-notifications-quick-start">Android Push Notifications QuickStart Guide</a> to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.</p>
 
 <p>The Parse library provides push notifications using Google Cloud Messaging (GCM) if Google Play Services are available. Learn more about Google Play Services <a href="https://developers.google.com/android/guides/overview">here</a>.</p>
 
@@ -2641,7 +2641,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>There are two ways to send push notifications using Parse: <a href="#push-notifications-using-channels">channels</a> and <a href="#push-notifications-using-advanced-targeting">advanced targeting</a>. Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.</p>
 
-<p>Sending notifications is often done from the Parse.com push console, the <a href="/docs/rest/guide#push-notifications-sending-pushes">REST API</a> or from <a href="/docs/js/guide#push-notifications-sending-pushes">Cloud Code</a>. However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set <strong>Client Push Enabled</strong> in the Push Notifications settings of your Parse app.</p>
+<p>Sending notifications is often done from the Parse.com push console, the <a href="/rest/guide#push-notifications-sending-pushes">REST API</a> or from <a href="/js/guide#push-notifications-sending-pushes">Cloud Code</a>. However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set <strong>Client Push Enabled</strong> in the Push Notifications settings of your Parse app.</p>
 
 <p>However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined  <a href="http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/">on our blog</a>.  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.</p>
 
@@ -2896,11 +2896,11 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <h2 id="scheduling-pushes">Scheduling Pushes</h2>
 
-<p>Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the <a href="/docs/rest/guide#push-notifications-scheduling-pushes">REST API</a>, <a href="/docs/js/guide#push-notifications-scheduling-pushes">JavaScript SDK</a> or the push console on your Parse Dashboard.</p>
+<p>Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the <a href="/rest/guide#push-notifications-scheduling-pushes">REST API</a>, <a href="/js/guide#push-notifications-scheduling-pushes">JavaScript SDK</a> or the push console on your Parse Dashboard.</p>
 
 <h2 id="receiving-pushes">Receiving Pushes</h2>
 
-<p>Make sure you’ve gone through the <a href="/docs/parse-server/guide/#push-notifications-quick-start">Android Push QuickStart</a> to set up your app to receive pushes.</p>
+<p>Make sure you’ve gone through the <a href="/parse-server/guide/#push-notifications-quick-start">Android Push QuickStart</a> to set up your app to receive pushes.</p>
 
 <p>When a push notification is received, the “title” is displayed in the status bar and the “alert” is displayed alongside the “title” when the user expands the notification drawer. If you choose to subclass <code class="highlighter-rouge">com.parse.ParsePushBroadcastReceiver</code>, be sure to replace that name with your class’ name in the registration.</p>
 
@@ -3053,7 +3053,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <h4 id="debugging-using-the-rest-api">Debugging using the REST API</h4>
 
-<p>The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a <a href="/docs/rest#queries-constraints">REST API query</a> over <code class="highlighter-rouge">ParseInstallation</code>s would look like from the REST API docs. Don’t forget to use the <code class="highlighter-rouge">X-Parse-Master-Key</code> header to ensure that the Master Key is used to run this query.</p>
+<p>The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a <a href="/rest#queries-constraints">REST API query</a> over <code class="highlighter-rouge">ParseInstallation</code>s would look like from the REST API docs. Don’t forget to use the <code class="highlighter-rouge">X-Parse-Master-Key</code> header to ensure that the Master Key is used to run this query.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="c"># Query over installations</span>
 curl -X GET <span class="se">\</span>
@@ -3090,9 +3090,9 @@ https://api.parse.com/1/installations
 <p>If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check.</p>
 
 <ul>
-  <li><a href="/docs/downloads">Upgrade to the latest SDK</a>. This documentation covers the push API introduced in the 1.7.0 version of the Android Parse SDK. Please upgrade if you are getting compiler errors following these instructions.</li>
+  <li><a href="/downloads">Upgrade to the latest SDK</a>. This documentation covers the push API introduced in the 1.7.0 version of the Android Parse SDK. Please upgrade if you are getting compiler errors following these instructions.</li>
   <li>Make sure you are using the correct <code class="highlighter-rouge">packageName</code> in your <code class="highlighter-rouge">AndroidManifest.xml</code>.</li>
-  <li>Make sure you have the correct permissions listed in your <code class="highlighter-rouge">AndroidManifest.xml</code> file, as outlined in the <a href="/docs/parse-server/guide/#push-notifications-quick-start">Android Push Quickstart</a>. If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct <code class="highlighter-rouge">android:name</code> property and the proper intent filters.</li>
+  <li>Make sure you have the correct permissions listed in your <code class="highlighter-rouge">AndroidManifest.xml</code> file, as outlined in the <a href="/parse-server/guide/#push-notifications-quick-start">Android Push Quickstart</a>. If you are using a a custom receiver, be sure you have registered it in the Manifest file with the correct <code class="highlighter-rouge">android:name</code> property and the proper intent filters.</li>
   <li>Make sure you’ve used the correct App ID and client key, and that <code class="highlighter-rouge">Parse.initialize()</code> is being called. <code class="highlighter-rouge">Parse.initialize()</code> lets the service know which application it is listening for; this code must be in your <code class="highlighter-rouge">Application.onCreate</code> rather than <code class="highlighter-rouge">Activity.onCreate</code> for a particular <code class="highlighter-rouge">Activity</code>, so that any activation technique will know how to use Parse.</li>
   <li>Check that the push registration call is being called successfully. Your device must successfully register a ParseInstallation object with a valid GCM Registration id in the “deviceToken” field, if using GCM.</li>
   <li>Check that the device is set to accept push notifications from your app.</li>
@@ -3225,7 +3225,7 @@ https://api.parse.com/1/installations
 
 <p>Graphs and breakdowns of your statistics are accessible from your app’s Dashboard.</p>
 
-<p>Further analytics are available around push notification delivery and open rates. Take a look at the <a href="/docs/android/guide#push-notifications-tracking-pushes-and-app-opens">Tracking Pushes and App Opens subsection</a> of our Push Guide for more detailed information on handling notification payloads and push-related callbacks.</p>
+<p>Further analytics are available around push notification delivery and open rates. Take a look at the <a href="/android/guide/#tracking-pushes-and-app-openss">Tracking Pushes and App Opens subsection</a> of our Push Guide for more detailed information on handling notification payloads and push-related callbacks.</p>
 
 <h2 id="custom-analytics">Custom Analytics</h2>
 
@@ -5232,7 +5232,7 @@ $books = $bookQuery-&gt;find();
 
 <p>The easiest way to control who can access which data is through access control lists, commonly known as ACLs. The idea behind an ACL is that each object has a list of users and roles along with what permissions that user or role has. A user needs read permissions (or must belong to a role that has read permissions) in order to retrieve an object’s data, and a user needs write permissions (or must belong to a role that has write permissions) in order to update or delete that object.</p>
 
-<p>Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse’s <a href="/docs/ios/guide#users-anonymous-users">automatic anonymous users</a> functionality. To set an ACL on the current user’s data to not be publicly readable, all you have to do is:</p>
+<p>Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse’s <a href="/ios/guide#users-anonymous-users">automatic anonymous users</a> functionality. To set an ACL on the current user’s data to not be publicly readable, all you have to do is:</p>
 
 <pre class="common-lang-block objectivec"><code class="objectivec">
 PFUser *user = [PFUser currentUser];
@@ -5635,19 +5635,19 @@ This CLP prevents any non authenticated user from performing the action protecte
     <p>Get requests on installations follow ACLs normally. Find requests without master key is not allowed unless you supply the <code class="highlighter-rouge">installationId</code> as a constraint.</p>
   </li>
   <li>
-    <p>Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the <a href="/docs/rest#installations">installations section of the REST guide</a>.</p>
+    <p>Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the <a href="/rest#installations">installations section of the REST guide</a>.</p>
   </li>
 </ol>
 
 <h2 id="data-integrity-in-cloud-code">Data Integrity in Cloud Code</h2>
 
-<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
+<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
 
 <p>Cloud Code allows you to upload JavaScript to Parse’s servers, where we will run it for you. Unlike client code running on users’ devices that may have been tampered with, Cloud Code is guaranteed to be the code that you’ve written, so it can be trusted with more responsibility.</p>
 
 <p>One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it’s particularly important that a malicious client not be able to bypass the validation logic.</p>
 
-<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
+<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">beforeSave</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">object</span><span class="p">;</span>
@@ -5660,7 +5660,7 @@ This CLP prevents any non authenticated user from performing the action protecte
 </code></pre>
 </div>
 
-<p>Our <a href="/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
+<p>Our <a href="/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
 
 <p>Validations can lock down your app so that only certain values are acceptable. You can also use <code class="highlighter-rouge">afterSave</code> validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.</p>
 
@@ -6425,7 +6425,7 @@ query.findObjectsInBackgroundWithBlock {
 
 <h2 id="client-side-caching">Client-side Caching</h2>
 
-<p>For queries run from iOS and Android, you can turn on query caching. See the <a href="/docs/ios/guide#queries-caching-queries">iOS</a> and <a href="/docs/android/guide#queries-caching-queries">Android</a> guides for more details. Caching queries will increase your mobile app’s performance especially in cases where you want to display cached data while fetching the latest data from Parse.</p>
+<p>For queries run from iOS and Android, you can turn on query caching. See the <a href="/ios/guide#queries-caching-queries">iOS</a> and <a href="/android/guide#queries-caching-queries">Android</a> guides for more details. Caching queries will increase your mobile app’s performance especially in cases where you want to display cached data while fetching the latest data from Parse.</p>
 
 <h2 id="use-cloud-code">Use Cloud Code</h2>
 
@@ -6433,7 +6433,7 @@ query.findObjectsInBackgroundWithBlock {
 
 <p>You can use this to offload processing to the Parse servers thus increasing your app’s perceived performance.  You can create hooks that run whenever an object is saved or deleted. This is useful if you want to validate or sanitize your data. You can also use Cloud Code to modify related objects or kick off other processes such as sending off a push notification.</p>
 
-<p>We saw examples of limiting the data returned by writing restrictive queries. You can also use <a href="/docs/cloudcode/guide#cloud-code-cloud-functions">Cloud Functions</a> to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie’s average rating:</p>
+<p>We saw examples of limiting the data returned by writing restrictive queries. You can also use <a href="/cloudcode/guide#cloud-code-cloud-functions">Cloud Functions</a> to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie’s average rating:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">define</span><span class="p">(</span><span class="s2">"averageStars"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">Review</span> <span class="o">=</span> <span class="nx">Parse</span><span class="p">.</span><span class="nb">Object</span><span class="p">.</span><span class="nx">extend</span><span class="p">(</span><span class="s2">"Review"</span><span class="p">);</span>
@@ -6454,7 +6454,7 @@ query.findObjectsInBackgroundWithBlock {
 
 <p>You could have ran a query on the Review class on the client, returned only the stars field data and computed the result on the client. As the number of reviews for a movie increases you can see that the data being returned to the device using this methodology also increases. Implementing the functionality through a Cloud Function returns the one result if successful.</p>
 
-<p>As you look at optimizing your queries, you’ll find that you may have to change the queries - sometimes even after you’ve shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use <a href="/docs/cloudcode/guide#cloud-code-cloud-functions">Cloud Functions</a>. Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:</p>
+<p>As you look at optimizing your queries, you’ll find that you may have to change the queries - sometimes even after you’ve shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use <a href="/cloudcode/guide#cloud-code-cloud-functions">Cloud Functions</a>. Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:</p>
 
 <div class="common-lang-block javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="s2">"averageStars"</span><span class="p">,</span> <span class="p">{</span> <span class="s2">"movie"</span><span class="p">:</span> <span class="s2">"The Matrix"</span> <span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">ratings</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// ratings is 4.5</span>

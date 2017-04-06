@@ -10,4 +10,4 @@ ParseResponse response = Parse.sendRequest("POST", "/1/users", "{\"username\":\"
 
 In this case, the response will contain the objectId of the created user, assuming it was created successfully.
 
-Head on over to the [REST API documentation](/docs/rest) to discover what's possible. For each code sample, you can switch it to cURL to see what the endpoint and payload would look like.
+Head on over to the [REST API documentation]({{ site.baseUrl }}/rest) to discover what's possible. For each code sample, you can switch it to cURL to see what the endpoint and payload would look like.

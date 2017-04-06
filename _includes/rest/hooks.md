@@ -9,11 +9,11 @@ There are two kinds of cloud code webhooks: function webhooks and trigger webhoo
 
 Cloud functions are functions that run in the cloud and allow you to build functions
 common to all platforms.
-For more details please read [cloud code functions](/docs/cloudcode/guide/#cloud-code-cloud-functions).
+For more details please read [cloud code functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-code-cloud-functions).
 
 Cloud triggers are invoked whenever you save or delete a parse object.
 Triggers are commonly used to validate your objects before saving them.
-For more details please read [cloud code triggers](/docs/cloudcode/guide/#beforesave-triggers).
+For more details please read [cloud code triggers]({{ site.baseUrl }}/cloudcode/guide/#beforesave-triggers).
 
 Lets establish some basic terminology used throughout the rest of this section.
 

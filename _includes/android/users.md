@@ -45,7 +45,7 @@ This call will asynchronously create a new user in your Parse App. Before it doe
 
 Note that we used the `signUpInBackground` method, not the `saveInBackground` method. New `ParseUser`s should always be created using the `signUpInBackground` (or `signUp`) method. Subsequent updates to a user can be done by calling `save`.
 
-The `signUpInBackground` method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our [API docs](/docs/android/).
+The `signUpInBackground` method comes in various flavors, with the ability to pass back errors, and also synchronous versions. As usual, we highly recommend using the asynchronous versions when possible, so as not to block the UI in your app. You can read more about these specific methods in our [API docs]({{ site.baseUrl }}/android/).
 
 If a signup isn't successful, you should read the error object that is returned. The most likely case is that the username or email has already been taken by another user. You should clearly communicate this to your users, and ask them try a different username.
 

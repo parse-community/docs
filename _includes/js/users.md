@@ -307,7 +307,7 @@ To start using Facebook with Parse, you need to:
 
 The function assigned to `fbAsyncInit` is run as soon as the Facebook JavaScript SDK has completed loading. Any code that you want to run after the Facebook JavaScript SDK is loaded should be placed within this function and after the call to `Parse.FacebookUtils.init()`.
 
-If you encounter any issues that are Facebook-related, a good resource is the [official getting started guide from Facebook](https://developers.facebook.com/docs/reference/javascript/).
+If you encounter any issues that are Facebook-related, a good resource is the [official getting started guide from Facebook](https://developers.facebook.com{{ site.baseUrl }}/reference/javascript/).
 
 If you encounter issues that look like they're being returned from Parse's servers, try removing your Facebook application's App Secret from your app's settings page.
 
@@ -339,7 +339,7 @@ When this code is run, the following happens:
 3.  Our SDK receives the Facebook data and saves it to a `Parse.User`. If it's a new user based on the Facebook ID, then that user is created.
 4.  Your `success` callback is called with the user.
 
-You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
+You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com{{ site.baseUrl }}/authentication/permissions/) your app requires from the Facebook user.  For example:
 
 <pre><code class="javascript">
 Parse.FacebookUtils.logIn("user_likes,email", {
@@ -352,7 +352,7 @@ Parse.FacebookUtils.logIn("user_likes,email", {
 });
 </code></pre>
 
-`Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+`Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com{{ site.baseUrl }}/reference/api/permissions/)
 
 <div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to do a graph query using the Facebook SDK.
@@ -390,7 +390,7 @@ Parse.FacebookUtils.unlink(user, {
 
 ### Facebook SDK and Parse
 
-The Facebook Javascript SDK provides a main `FB` object that is the starting point for many of the interactions with Facebook's API. [You can read more about their SDK here](https://developers.facebook.com/docs/reference/javascript/).
+The Facebook Javascript SDK provides a main `FB` object that is the starting point for many of the interactions with Facebook's API. [You can read more about their SDK here](https://developers.facebook.com{{ site.baseUrl }}/reference/javascript/).
 
 Facebook login using the Parse SDK requires that the Facebook SDK already be loaded before calling `Parse.FacebookUtils.init()`.
 

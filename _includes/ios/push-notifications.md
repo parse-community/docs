@@ -2,11 +2,11 @@
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart](/docs/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 ## Setting Up Push
 
-If you want to start using push, start by completing the [Push Notifications QuickStart](/docs/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
+If you want to start using push, start by completing the [Push Notifications QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
 
 ## Installations
 
@@ -72,7 +72,7 @@ The Parse SDK will avoid making unnecessary requests. If a `PFInstallation` is s
 
 There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](/docs/rest/guide#push-notifications-sending-pushes) or from [Cloud Code](/docs/js/guide#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide#push-notifications-sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/).  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.
 
@@ -515,7 +515,7 @@ if let query = query {
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the iOS or OS X SDKs. Take a look at the [REST API](/docs/rest/guide/#push-notifications-scheduling-pushes), [JavaScript SDK](/docs/js/guide/#push-notifications-scheduling-pushes) or the Parse.com push console.
+Sending scheduled push notifications is not currently supported by the iOS or OS X SDKs. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#push-notifications-scheduling-pushes) or the Parse.com push console.
 
 ## Receiving Pushes
 
@@ -867,7 +867,7 @@ Basically, you will need to run the same push query you're using for your target
 
 #### Debugging using the REST API
 
-The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query](/docs/rest#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
 <pre><code class="bash">
 # Query over installations
@@ -925,7 +925,7 @@ If your app has been released for a while, it is expected that a percentage of y
 
 ### Handling Push Notifications
 
-If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check. For example, if your app is in the foreground when the push notification is received, an alert will not be displayed by default. You will need to handle the incoming push notification and perform the necessary action as documented in [Responding to the Payload](/docs/ios/guide#push-notifications-responding-to-the-payload).
+If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check. For example, if your app is in the foreground when the push notification is received, an alert will not be displayed by default. You will need to handle the incoming push notification and perform the necessary action as documented in [Responding to the Payload]({{ site.baseUrl }}/ios/guide#push-notifications-responding-to-the-payload).
 
 If your app is not running in the foreground and the push notification is not showing up, make sure that you're specifying an "alert" key in your payload. Otherwise, the push notification will be treated as a silent push notification.
 

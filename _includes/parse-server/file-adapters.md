@@ -112,7 +112,7 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 
 ## Configuring `GCSAdapter`
 
-Unlike the S3 adapter, you must create a new Cloud Storage bucket, as this is not created automatically. See the Google Cloud guide on [Authentication](https://googlecloudplatform.github.io/gcloud-node/#/docs/master/guides/authentication) for more details.
+Unlike the S3 adapter, you must create a new Cloud Storage bucket, as this is not created automatically. See the Google Cloud guide on [Authentication](https://googlecloudplatform.github.io/gcloud-node/#{{ site.baseUrl }}/master/guides/authentication) for more details.
 
 ### Installation
 

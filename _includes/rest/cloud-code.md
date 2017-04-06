@@ -31,7 +31,7 @@ print result
 Similarly, you can trigger a background job from the REST API. For example, to trigger the job named `userMigration`:
 
 <div class='tip info'><div>
-  Take a look at the <a href="/docs/cloudcode/guide#cloud-code-cloud-functions">Cloud Code Guide</a> to learn more about Cloud Functions and Background Jobs.
+  Take a look at the <a href="/cloudcode/guide#cloud-code-cloud-functions">Cloud Code Guide</a> to learn more about Cloud Functions and Background Jobs.
 </div></div>
 
 <pre><code class="bash">

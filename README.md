@@ -39,7 +39,7 @@ Then run webpack and Jekyll:
 npm start
 ```
 
-Finally, open http://localhost:4000/docs/ in your web browser.
+Finally, open http://localhost:4000/ in your web browser.
 
 -----
 

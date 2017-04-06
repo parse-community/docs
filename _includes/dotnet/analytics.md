@@ -16,7 +16,7 @@ ParseAnalytics.TrackAppOpenedAsync();
 
 Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
 
-Further analytics are available around push notification delivery and open rates. Take a look at the [Tracking Pushes and App Opens subsection](/docs/push_guide#receiving-tracking/.NET) of our Push Guide for more detailed information on handling remote notification payloads and push-related callbacks.
+Further analytics are available around push notification delivery and open rates. Take a look at the [Tracking Pushes and App Opens subsection]({{ site.baseUrl }}/push_guide#receiving-tracking/.NET) of our Push Guide for more detailed information on handling remote notification payloads and push-related callbacks.
 
 
 ## Custom Analytics

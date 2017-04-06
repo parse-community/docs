@@ -56,7 +56,7 @@ ParsePush::send(array(
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API](/docs/php_guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/php_guide#queries) and to send them a push.
 
 Since `Installation` objects are just like any other object stored in Parse, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
@@ -66,7 +66,7 @@ The PHP SDK does not currently support modifying `Installation` objects. Take a 
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query](/docs/php_guide#queries).
+Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/php_guide#queries).
 
 <pre><code class="php">
 $query = ParseInstallation::query();
