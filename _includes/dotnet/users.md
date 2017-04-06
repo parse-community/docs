@@ -307,7 +307,7 @@ When this code is run, the following happens:
 4.  The awaited `Task` completes and your code continues executing.
 5.  The current user reference will be updated to this user.
 
-You may optionally provide a list of strings that specifies what [permissions](https://developers.facebook.com{{ site.baseUrl }}/authentication/permissions/) your app requires from the Facebook user.  For example:
+You may optionally provide a list of strings that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
 
 ```cs
 // Make your browser control visible
@@ -324,7 +324,7 @@ catch
 // Hide your browser control
 ```
 
-`ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com{{ site.baseUrl }}/reference/api/permissions/)
+`ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 ### Linking
 
