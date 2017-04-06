@@ -119,13 +119,13 @@ img { width: auto; height: auto; max-width: 100%; }
 
 /* 2 */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { img[src*=".svg"] { width: 100%; } }
-@font-face { font-family: 'webfont_din-regular'; src: url("/docs/assets/fonts/din17sbop-regular-webfont.woff") format("woff"); font-weight: normal; font-style: normal; }
-@font-face { font-family: 'webfont_input'; src: url("/docs/assets/fonts/d94de4bd-16a6-4c19-81bd-ed8f4e1624c6-3.woff") format("woff"); font-weight: normal; font-style: normal; }
-@font-face { font-family: 'webfont_alright'; src: url("/docs/assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Light.woff") format("woff"); font-weight: 300; font-style: normal; }
-@font-face { font-family: 'webfont_alright'; src: url("/docs/assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Regular.woff") format("woff"); font-weight: 400; font-style: normal; }
-@font-face { font-family: 'webfont_alright'; src: url("/docs/assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Medium.woff") format("woff"); font-weight: 500; font-style: normal; }
-@font-face { font-family: 'webfont_alright'; src: url("/docs/assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Bold.woff") format("woff"); font-weight: 700; font-style: normal; }
-@font-face { font-family: 'webfont_alright'; src: url("/docs/assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Black.woff") format("woff"); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'webfont_din-regular'; src: url("../assets/fonts/din17sbop-regular-webfont.woff") format("woff"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'webfont_input'; src: url("../assets/fonts/d94de4bd-16a6-4c19-81bd-ed8f4e1624c6-3.woff") format("woff"); font-weight: normal; font-style: normal; }
+@font-face { font-family: 'webfont_alright'; src: url("../assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Light.woff") format("woff"); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'webfont_alright'; src: url("../assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Regular.woff") format("woff"); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'webfont_alright'; src: url("../assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Medium.woff") format("woff"); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'webfont_alright'; src: url("../assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Bold.woff") format("woff"); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'webfont_alright'; src: url("../assets/fonts/ttfah-AlrightSubLPWebfontUseOnly-Black.woff") format("woff"); font-weight: 800; font-style: normal; }
 p, .p, [class^="p--"], [class*=" p--"] { color: #555572; font-size: 1.4rem; line-height: 1.6; }
 p a, .p a, [class^="p--"] a, [class*=" p--"] a { color: #169CEE; }
 @media (min-width: 760px) { p, .p, [class^="p--"], [class*=" p--"] { font-size: 1.6rem; } }
@@ -803,7 +803,7 @@ div.algolia-search-wrapper { display: inline-block; vertical-align: top; positio
 .algolia-autocomplete .aa-dropdown-menu { margin-left: -210px; margin-top: -4px; }
 
 @media screen and (max-width: 960px) { div.algolia-search-wrapper { display: none; } }
-input#algolia-doc-search { background: transparent url("/docs/assets/images/search.png") no-repeat 10px center; background-size: 16px 16px; padding: 0 10px; padding-left: 35px; margin-top: 10px; height: 30px; font-size: 16px; line-height: 20px; background-color: #555; border-radius: 4px; color: white; outline: none; border: none; width: 170px; transition: .5s width ease; -webkit-transition: .5s width ease; -moz-transition: .5s width ease; -o-transition: .5s width ease; }
+input#algolia-doc-search { background: transparent url("../assets/images/search.png") no-repeat 10px center; background-size: 16px 16px; padding: 0 10px; padding-left: 35px; margin-top: 10px; height: 30px; font-size: 16px; line-height: 20px; background-color: #555; border-radius: 4px; color: white; outline: none; border: none; width: 170px; transition: .5s width ease; -webkit-transition: .5s width ease; -moz-transition: .5s width ease; -o-transition: .5s width ease; }
 input#algolia-doc-search::placeholder { color: white; }
 input#algolia-doc-search::-webkit-input-placeholder { color: white; }
 input#algolia-doc-search::-moz-placeholder { color: white; }
@@ -1248,7 +1248,7 @@ html.no-touch .hide-touch { display: block; }
 .wysiwyg-content a:not(.btn) code { font-weight: 700; color: #169CEE; }
 .wysiwyg-content ul, .wysiwyg-content ol { padding: 0; margin: 2em 0 2em 1em; list-style: none; }
 .wysiwyg-content ul li, .wysiwyg-content ol li { margin: 0.9em 0; padding: 0 0 0 25px; position: relative; line-height: 1.4; }
-.wysiwyg-content ul li:before, .wysiwyg-content ol li:before { display: block; content: ""; position: absolute; left: 0; top: 3px; width: 15px; height: 11px; background: url("/docs/assets/svgs/plus.svg") left top no-repeat; background-size: 9px auto; }
+.wysiwyg-content ul li:before, .wysiwyg-content ol li:before { display: block; content: ""; position: absolute; left: 0; top: 3px; width: 15px; height: 11px; background: url("/assets/svgs/plus.svg") left top no-repeat; background-size: 9px auto; }
 @media (min-width: 760px) { .wysiwyg-content ul, .wysiwyg-content ol { max-width: 480px; }
   .wysiwyg-content ul li, .wysiwyg-content ol li { padding-left: 30px; }
   .wysiwyg-content ul li:before, .wysiwyg-content ol li:before { background-size: 11px auto; top: 4px; } }

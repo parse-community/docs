@@ -414,12 +414,15 @@
 									// Build main table of contents list from h1 tags
 									if (el.tagName === 'H1') {
 											latestMajor = UI.tag('ul', { className: 'ui_live_toc_major_list' });
+											latestMajor.name = name;
 											toc.push(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_main' }, [UI.tag('a', { href: '#' + name }, text), latestMajor]));
 											latestMinor = undefined;
 
 											// Build collapsable sublist with h2 tags. We skip any H2s
 											// that appear before the first H1.
 									} else if (el.tagName === 'H2' && latestMajor !== undefined) {
+											el.id = latestMajor.name + '_' + name;
+											name = el.id;
 											latestMinor = UI.tag('ul', { className: 'ui_live_toc_minor_list' });
 											latestMajor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_major' }, [UI.tag('a', { href: '#' + name }, text), latestMinor]));
 

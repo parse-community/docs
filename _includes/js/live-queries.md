@@ -1,9 +1,9 @@
 # Live Queries
 
 ## Standard API
-As we discussed in our [LiveQuery protocol](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification), we maintain a WebSocket connection to communicate with the Parse LiveQuery server. When used server side we use the [`ws`](https://www.npmjs.com/package/ws) package and in the browser we use [`window.WebSocket`](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). We think in most cases it isn't necessary to deal with the WebSocket connection directly. Thus, we developed a simple API to let you focus on your own business logic.
+As we discussed in our [LiveQuery protocol](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification), we maintain a WebSocket connection to communicate with the Parse LiveQuery server. When used server side we use the [`ws`](https://www.npmjs.com/package/ws) package and in the browser we use [`window.WebSocket`](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API). We think in most cases it isn't necessary to deal with the WebSocket connection directly. Thus, we developed a simple API to let you focus on your own business logic.
 
-Note: Live Queries is supported only in [Parse Server](https://github.com/ParsePlatform/parse-server) with [JS SDK ~1.8](https://github.com/ParsePlatform/Parse-SDK-JS).
+Note: Live Queries is supported only in [Parse Server](https://github.com/parse-community/parse-server) with [JS SDK ~1.8](https://github.com/parse-community/Parse-SDK-JS).
 
 ## Create a subscription
 ```
@@ -141,7 +141,7 @@ let client = new LiveQueryClient({
 ```
 * `applicationId` is mandatory, it's the `applicationId` of your Parse app
 * `liveQueryServerURL` is mandatory, it's the URL of your LiveQuery server
-* `javascriptKey` and `masterKey` are optional, they are used for verifying the `LiveQueryClient` when it tries to connect to the LiveQuery server. If you set them, they should match your Parse app. You can check LiveQuery protocol [here](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) for more details.
+* `javascriptKey` and `masterKey` are optional, they are used for verifying the `LiveQueryClient` when it tries to connect to the LiveQuery server. If you set them, they should match your Parse app. You can check LiveQuery protocol [here](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) for more details.
 
 ### Open
 ```
@@ -155,7 +155,7 @@ let query = new Parse.Query('Game');
 let subscription = client.subscribe(query, sessionToken); 
 ```
 * `query` is mandatory, it is the `ParseQuery` you want to subscribe
-* `sessionToken` is optional, if you provide the `sessionToken`, when the LiveQuery server gets `ParseObject`'s updates from parse server, it'll try to check whether the `sessionToken` fulfills the `ParseObject`'s ACL. The LiveQuery server will only send updates to clients whose sessionToken is fit for the `ParseObject`'s ACL. You can check the LiveQuery protocol [here](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) for more details.
+* `sessionToken` is optional, if you provide the `sessionToken`, when the LiveQuery server gets `ParseObject`'s updates from parse server, it'll try to check whether the `sessionToken` fulfills the `ParseObject`'s ACL. The LiveQuery server will only send updates to clients whose sessionToken is fit for the `ParseObject`'s ACL. You can check the LiveQuery protocol [here](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) for more details.
 The `subscription` you get is the same `subscription` you get from our Standard API. You can check our Standard API about how to use the `subscription` to get events.
 
 ### Unsubscribe

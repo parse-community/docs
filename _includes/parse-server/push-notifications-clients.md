@@ -115,7 +115,7 @@ curl -X GET \
   http://your_parse_server:1337/parse/installations
 ```
 
-##### Proceed to [Step 4](https://github.com/ParsePlatform/parse-server/wiki/Push#4-send-push-notifications).
+##### Proceed to [Step 4](https://github.com/parse-community/parse-server/wiki/Push#4-send-push-notifications).
 
 ### Android apps
 
@@ -227,4 +227,4 @@ curl -X GET \
   http://your_parse_server:1337/parse/installations
 ```
 
-##### Proceed to [Step 4](https://github.com/ParsePlatform/parse-server/wiki/Push#4-send-push-notifications).
+##### Proceed to [Step 4](https://github.com/parse-community/parse-server/wiki/Push#4-send-push-notifications).

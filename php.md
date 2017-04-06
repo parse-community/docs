@@ -4,8 +4,7 @@ permalink: /php/guide/
 layout: guide
 platform: php
 display_platform: PHP
-quickstart: https://parse.com/apps/quickstart
-api_reference: https://parseplatform.github.io/parse-php-sdk/namespaces/Parse.html
+api_reference: https://parse-community.github.io/parse-php-sdk/namespaces/Parse.html
 
 sections:
 - "php/getting-started.md"

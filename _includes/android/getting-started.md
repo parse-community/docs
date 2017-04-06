@@ -1,6 +1,6 @@
 # Getting Started
 
-Note that we support Android 2.3 and higher. You can also check out our [API Reference](/Parse-SDK-Android/api/) for more detailed information about our SDK.
+Note that we support Android 2.3 and higher. You can also check out our [API Reference]({{ site.apis.android }}) for more detailed information about our SDK.
 
 ## Installation
 **Step 1:** Download `Parse-SDK-Android`

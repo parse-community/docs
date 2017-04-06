@@ -1,6 +1,6 @@
 # Parse Docs
 
-These are the markdown sources for all of the [Parse SDK guides](https://parseplatform.github.io/#sdks). The content for the guides is stored in this repo, and we use Jekyll to generate a static site that is hosted on GitHub Pages.
+These are the markdown sources for all of the [Parse SDK guides](https://parse-community.github.io/#sdks). The content for the guides is stored in this repo, and we use Jekyll to generate a static site that is hosted on GitHub Pages.
 
 ## Repository Structure
 

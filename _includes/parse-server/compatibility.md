@@ -80,7 +80,7 @@ Parse.Cloud.define('getTotalMessageCount', function(request, response) {
 
 ### Minimum JavaScript SDK version
 
-Parse Server also uses at least version [1.7.0](https://github.com/ParsePlatform/Parse-SDK-JS/releases) of the Parse SDK, which has some breaking changes from the previous versions. If your Parse.com Cloud Code uses a previous version of the SDK, you may need to update your cloud code. You can look up which version of the JavaScript SDK your Parse.com Cloud Code is using by running the following command inside your Cloud Code folder:
+Parse Server also uses at least version [1.7.0](https://github.com/parse-community/Parse-SDK-JS/releases) of the Parse SDK, which has some breaking changes from the previous versions. If your Parse.com Cloud Code uses a previous version of the SDK, you may need to update your cloud code. You can look up which version of the JavaScript SDK your Parse.com Cloud Code is using by running the following command inside your Cloud Code folder:
 
 ```
 $ parse jssdk
@@ -135,7 +135,7 @@ Class-level permissions are supported in Parse Server, but they have always been
 
 ### Parse Config
 
-Parse Config is available in Parse Server and can be configured from your [Parse Dashboard](https://github.com/ParsePlatform/parse-dashboard).
+Parse Config is available in Parse Server and can be configured from your [Parse Dashboard](https://github.com/parse-community/parse-dashboard).
 
 ### Push Notification Console
 
@@ -171,7 +171,7 @@ Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM
 
 ### Parse IoT Devices
 
-Push notification support for the Parse IoT SDKs is provided through the Parse Push Notification Service (PPNS). PPNS is a push notification service for Android and IoT devices maintained by Parse. This service will be retired on January 28, 2017. [This page](https://github.com/ParsePlatform/parse-server/wiki/PPNS-Protocol-Specification) documents the PPNS protocol for users that wish to create their own PPNS-compatible server for use with their Parse IoT devices.
+Push notification support for the Parse IoT SDKs is provided through the Parse Push Notification Service (PPNS). PPNS is a push notification service for Android and IoT devices maintained by Parse. This service will be retired on January 28, 2017. [This page](https://github.com/parse-community/parse-server/wiki/PPNS-Protocol-Specification) documents the PPNS protocol for users that wish to create their own PPNS-compatible server for use with their Parse IoT devices.
 
 ## Schema
 
@@ -195,4 +195,4 @@ Facebook, Twitter, and Anonymous logins are supported out of the box. Support fo
 
 ## Welcome Emails and Email Verification
 
-This is not supported out of the box. But, you can use a `beforeSave` to send out emails using a provider like Mailgun and add logic for verification. [Subscribe to this issue](https://github.com/ParsePlatform/parse-server/issues/275) to be notified if email verification support is added to Parse Server.
+This is not supported out of the box. But, you can use a `beforeSave` to send out emails using a provider like Mailgun and add logic for verification. [Subscribe to this issue](https://github.com/parse-community/parse-server/issues/275) to be notified if email verification support is added to Parse Server.

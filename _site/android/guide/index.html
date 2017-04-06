@@ -29,7 +29,7 @@
       <!-- CSS -->
       <!-- build:css -->
       <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
-      <link href="/docs/css/docs.css" rel="stylesheet" />
+      <link href="/css/docs.css" rel="stylesheet" />
       <link href="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.css" rel="stylesheet" />
       <!-- endbuild -->
 
@@ -81,22 +81,22 @@
         <ul>
             <li>
                 <a href="https://www.facebook.com/parseit">
-                    <svg class="icon icon-fb"><use xlink:href="/docs/assets/symbols.svg#fb"></use></svg>
+                    <svg class="icon icon-fb"><use xlink:href="/assets/symbols.svg#fb"></use></svg>
                 </a>
             </li>
             <li>
                 <a href="https://twitter.com/parseit">
-                    <svg class="icon icon-twitter"><use xlink:href="/docs/assets/symbols.svg#twitter"></use></svg>
+                    <svg class="icon icon-twitter"><use xlink:href="/assets/symbols.svg#twitter"></use></svg>
                 </a>
             </li>
             <li>
                 <a href="https://parseplatform.github.io">
-                    <svg class="icon icon-github"><use xlink:href="/docs/assets/symbols.svg#github"></use></svg>
+                    <svg class="icon icon-github"><use xlink:href="/assets/symbols.svg#github"></use></svg>
                 </a>
             </li>
             <li>
                 <a href="http://stackoverflow.com/questions/tagged/parse.com">
-                    <svg class="icon icon-stack-overflow"><use xlink:href="/docs/assets/symbols.svg#stack-overflow"></use></svg>
+                    <svg class="icon icon-stack-overflow"><use xlink:href="/assets/symbols.svg#stack-overflow"></use></svg>
                 </a>
             </li>
         </ul>
@@ -177,12 +177,12 @@
               <p class="h1 h1--white" data-ignore-from-select>
                 <span>Android <em>Guide</em></span>
 
-                <a href="/docs/" class="btn btn--back">
+                <a href="/" class="btn btn--back">
                   <span class="hide-mobile">Browse all platforms</span>
                   <span class="show-mobile">Browse</span>
                 </a>
 
-                <svg class="icon icon-android"><use xlink:href="/docs/assets/symbols.svg#android"></use></svg>
+                <svg class="icon icon-android"><use xlink:href="/assets/symbols.svg#android"></use></svg>
 
               </p>
             </div>
@@ -201,11 +201,9 @@
                   <div style="overflow-y: scroll; height: 100%;">
                     <div class="top_links">
                     
-                      <a href="https://parse.com/apps/quickstart">Quickstart<i class="icon_minimize"></i></a>
                     
                     
-                    
-                      <a href="https://parseplatform.github.io/Parse-SDK-Android/api">API Reference<i class="icon_minimize"></i></a>
+                      <a href="https://parse-community.github.io/Parse-SDK-Android/api">API Reference<i class="icon_minimize"></i></a>
                     
                       <!-- .algolia-search-wrapper -->
                       <div class="algolia-search-wrapper">
@@ -220,13 +218,86 @@
                     
                     <h1 id="getting-started">Getting Started</h1>
 
-<p>If you haven’t installed the SDK yet, please <a href="https://parse.com/apps/quickstart#parse_data/mobile/android/native/new">head over to the QuickStart guide</a> to get our SDK up and running in Android Studio. Note that we support Android 2.3 and higher. You can also check out our <a href="/Parse-SDK-Android/api/">API Reference</a> for more detailed information about our SDK.</p>
+<p>Note that we support Android 2.3 and higher. You can also check out our <a href="https://parse-community.github.io/Parse-SDK-Android/api">API Reference</a> for more detailed information about our SDK.</p>
+
+<h2 id="installation">Installation</h2>
+<p><strong>Step 1:</strong> Download <code class="highlighter-rouge">Parse-SDK-Android</code></p>
+
+<ul>
+  <li><strong>Option 1:</strong> Add dependency to the application level <code class="highlighter-rouge">build.gradle</code> file.</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="n">dependencies</span> <span class="o">{</span>
+  <span class="n">compile</span> <span class="s1">'com.parse:parse-android:1.14.1'</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>Option 2:</strong> Download <a href="https://search.maven.org/remote_content?g=com.parse&amp;a=parse-android&amp;v=LATEST">latest JAR</a></li>
+</ul>
+
+<p><strong>Step 2:</strong> Setup Parse</p>
+
+<ul>
+  <li><strong>Option 1:</strong> Setup in the Manifest</li>
+</ul>
+
+<p>You may define <code class="highlighter-rouge">com.parse.SERVER_URL</code> and <code class="highlighter-rouge">com.parse.APPLICATION_ID</code> meta-data in your <code class="highlighter-rouge">AndroidManifest.xml</code>:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;application</span> <span class="err">...</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;meta-data</span>
+    <span class="na">android:name=</span><span class="s">"com.parse.SERVER_URL"</span>
+    <span class="na">android:value=</span><span class="s">"@string/parse_server_url"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;meta-data</span>
+    <span class="na">android:name=</span><span class="s">"com.parse.APPLICATION_ID"</span>
+    <span class="na">android:value=</span><span class="s">"@string/parse_app_id"</span> <span class="nt">/&gt;</span>
+  ...
+<span class="nt">&lt;/application&gt;</span>
+</code></pre>
+</div>
+
+<p>Initializing Parse in the <code class="highlighter-rouge">Application</code></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.parse.Parse</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.app.Application</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCreate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li><strong>Option 2:</strong> Setup in the <code class="highlighter-rouge">Application</code></li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.parse.Parse</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">android.app.Application</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">App</span> <span class="kd">extends</span> <span class="n">Application</span> <span class="o">{</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="n">onCreate</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">new</span> <span class="n">Parse</span><span class="o">.</span><span class="na">Configuration</span><span class="o">.</span><span class="na">Builder</span><span class="o">(</span><span class="k">this</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">applicationId</span><span class="o">(</span><span class="s">"YOUR_APP_ID"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">server</span><span class="o">(</span><span class="s">"http://localhost:1337/parse/"</span><span class="o">)</span>
+      <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+    <span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
 
 
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -643,7 +714,7 @@ The following code sucessfully implements and registers the <code class="highlig
     <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
 
     <span class="n">ParseObject</span><span class="o">.</span><span class="na">registerSubclass</span><span class="o">(</span><span class="n">Armor</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">PARSE_APPLICATION_ID</span><span class="o">,</span> <span class="n">PARSE_CLIENT_KEY</span><span class="o">);</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
@@ -715,7 +786,7 @@ The following code sucessfully implements and registers the <code class="highlig
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -768,7 +839,7 @@ The following code sucessfully implements and registers the <code class="highlig
 </code></pre>
 </div>
 
-<p>If you want exactly one result, a more convenient alternative may be to use <code class="highlighter-rouge">getFirst</code> or <code class="highlighter-rouge">getFirstBackground</code> instead of using <code class="highlighter-rouge">find</code>.</p>
+<p>If you want exactly one result, a more convenient alternative may be to use <code class="highlighter-rouge">getFirst</code> or <code class="highlighter-rouge">getFirstInBackground</code> instead of using <code class="highlighter-rouge">find</code>.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">ParseQuery</span><span class="o">&lt;</span><span class="n">ParseObject</span><span class="o">&gt;</span> <span class="n">query</span> <span class="o">=</span> <span class="n">ParseQuery</span><span class="o">.</span><span class="na">getQuery</span><span class="o">(</span><span class="s">"GameScore"</span><span class="o">);</span>
 <span class="n">query</span><span class="o">.</span><span class="na">whereEqualTo</span><span class="o">(</span><span class="s">"playerEmail"</span><span class="o">,</span> <span class="s">"dstemkoski@example.com"</span><span class="o">);</span>
@@ -1165,7 +1236,7 @@ ParseQuery.clearAllCachedResults();
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -1725,7 +1796,7 @@ ParseQuery.clearAllCachedResults();
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -2050,7 +2121,7 @@ try {
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -2157,7 +2228,7 @@ try {
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -2242,7 +2313,7 @@ try {
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -2306,7 +2377,7 @@ try {
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -2325,7 +2396,7 @@ try {
     <span class="kd">super</span><span class="o">.</span><span class="na">onCreate</span><span class="o">();</span>
 
     <span class="n">Parse</span><span class="o">.</span><span class="na">enableLocalDatastore</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
-    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">PARSE_APPLICATION_ID</span><span class="o">,</span> <span class="n">PARSE_CLIENT_KEY</span><span class="o">);</span>
+    <span class="n">Parse</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
@@ -2492,7 +2563,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -2518,9 +2589,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
   <li><strong>API key</strong>: The GCM API key is a server secret that allows a server to send pushes to a registration ID on behalf of a particular sender ID.</li>
 </ul>
 
-<p>The Parse Android SDK chooses a reasonable default configuration so that you do not have to worry about GCM registration ids, sender ids, or API keys. In particular, the SDK will automatically register your app for push at startup time using Parse’s sender ID (1076345567071) and will store the resulting registration ID in the <code class="highlighter-rouge">deviceToken</code> field of the app’s current <code class="highlighter-rouge">ParseInstallation</code>.</p>
-
-<p>However, as an advanced feature for developers that want to send pushes from multiple push providers, Parse allows you to optionally register your app for pushes with additional GCM sender IDs. To do this, specify the additional GCM sender ID with the following <code class="highlighter-rouge">&lt;meta-data&gt;</code> tag as a child of the <code class="highlighter-rouge">&lt;application&gt;</code> element in your app’s <code class="highlighter-rouge">AndroidManifest.xml</code>:</p>
+<p>The Parse Android SDK now requires you to specify the GCM sender ID with the following <code class="highlighter-rouge">&lt;meta-data&gt;</code> tag as a child of the <code class="highlighter-rouge">&lt;application&gt;</code> element in your app’s <code class="highlighter-rouge">AndroidManifest.xml</code>:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">meta</span><span class="o">-</span><span class="n">data</span> <span class="nl">android:</span><span class="n">name</span><span class="o">=</span><span class="s">"com.parse.push.gcm_sender_id"</span>
            <span class="nl">android:</span><span class="n">value</span><span class="o">=</span><span class="s">"id:YOUR_SENDER_ID"</span> <span class="o">/&gt;;</span>
@@ -2576,7 +2645,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined  <a href="http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/">on our blog</a>.  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.</p>
 
-<p><img src="/docs/assets/images/client_push_settings.png" alt="" /></p>
+<p><img src="/assets/images/client_push_settings.png" alt="" /></p>
 
 <p>You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.</p>
 
@@ -2599,7 +2668,7 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>Once subscribed to the “Giants” channel, your <code class="highlighter-rouge">Installation</code> object should have an updated <code class="highlighter-rouge">channels</code> field.</p>
 
-<p><img src="/docs/assets/images/installation_channel.png" alt="" /></p>
+<p><img src="/assets/images/installation_channel.png" alt="" /></p>
 
 <p>Unsubscribing from a channel is just as easy:</p>
 
@@ -2897,15 +2966,15 @@ query.getInBackground("</span><span class="n">xWMyZ4YE</span><span class="err">"
 
 <p>For each push campaign sent through the Parse web push console, you can allocate a subset of your devices to be in the experiment’s test audience, which Parse will automatically split into two equally-sized experiment groups. For each experiment group, you can specify a different push message. The remaining devices will be saved so that you can send the winning message to them later. Parse will randomly assign devices to each group to minimize the chance for a test to affect another test’s results (although we still don’t recommend running multiple A/B tests over the same devices on the same day).</p>
 
-<p><img src="/docs/assets/images/experiment_enable.png" alt="" /></p>
+<p><img src="/assets/images/experiment_enable.png" alt="" /></p>
 
 <p>After you send the push, you can come back to the push console to see in real time which version resulted in more push opens, along with other metrics such as statistical confidence interval. It’s normal for the number of recipients in each group to be slightly different because some devices that we had originally allocated to that experiment group may have uninstalled the app. It’s also possible for the  random group assignment to be slightly uneven when the test audience size is small. Since we calculate open rate separately for each group based on recipient count, this should not significantly affect your experiment results.</p>
 
-<p><img src="/docs/assets/images/experiment_results.png" alt="" /></p>
+<p><img src="/assets/images/experiment_results.png" alt="" /></p>
 
 <p>If you are happy with the way one message performed, you can send that to the rest of your app’s devices (i.e. the “Launch Group”). This step only applies to A/B tests where you vary the message.</p>
 
-<p><img src="/docs/assets/images/experiment_launch.png" alt="" /></p>
+<p><img src="/assets/images/experiment_launch.png" alt="" /></p>
 
 <p>Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with <a href="#push-notifications-tracking-pushes-and-app-opens">push open tracking</a>.</p>
 
@@ -3041,7 +3110,7 @@ https://api.parse.com/1/installations
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -3053,7 +3122,7 @@ https://api.parse.com/1/installations
 
 <p><code class="highlighter-rouge">ParseConfig</code> is a way to configure your applications remotely by storing a single configuration object on Parse. It enables you to add things like feature gating or a simple “Message of the Day”. To start using <code class="highlighter-rouge">ParseConfig</code> you need to add a few key/value pairs (parameters) to your app on the Parse Config Dashboard.</p>
 
-<p><img src="/docs/assets/images/config_editor.png" alt="" /></p>
+<p><img src="/assets/images/config_editor.png" alt="" /></p>
 
 <p>After that you will be able to fetch the <code class="highlighter-rouge">ParseConfig</code> on the client, like in this example:</p>
 
@@ -3132,7 +3201,7 @@ https://api.parse.com/1/installations
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -3191,7 +3260,7 @@ https://api.parse.com/1/installations
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -3203,11 +3272,11 @@ https://api.parse.com/1/installations
 
 <h2 id="parseloginui">ParseLoginUI</h2>
 
-<p>If you are using Parse to manage users in your mobile app, you are already familiar with the <code class="highlighter-rouge">ParseUser</code>  class. At some point in your app, you might want to present a screen to log in your <code class="highlighter-rouge">ParseUser</code>.  Parse provides an open-source <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginUI</a> library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginUI</a> for detail steps.</p>
+<p>If you are using Parse to manage users in your mobile app, you are already familiar with the <code class="highlighter-rouge">ParseUser</code>  class. At some point in your app, you might want to present a screen to log in your <code class="highlighter-rouge">ParseUser</code>.  Parse provides an open-source <a href="https://github.com/parse-community/ParseUI-Android">ParseLoginUI</a> library that does exactly this.  Please note ParseLoginUI is not included with the Parse Android SDK; you need to import this library from maven or from our Git repository into your project. Check the README.md of the <a href="https://github.com/parse-community/ParseUI-Android">ParseLoginUI</a> for detail steps.</p>
 
 <p>This library contains an Android login activity that is ultra-customizable and easy to integrate with your app.  You can configure the look and feel of the login screens by either specifying XML configurations or constructing an Intent in code.  In this guide, we first provide several ways to integrate with the login library.  Then, we describe in detail how to customize the login screens.</p>
 
-<p><img src="/docs/assets/images/all_screens.png" alt="" /></p>
+<p><img src="/assets/images/all_screens.png" alt="" /></p>
 
 <h2 id="login-library-api">Login Library API</h2>
 
@@ -3243,9 +3312,9 @@ The user will also see helpful toast messages if they provide invalid input (e.g
   <li><code class="highlighter-rouge">RESULT_CANCELLED</code>: The user pressed the back button. If the user fails to log in or sign up, the only way to return to the previous screen is by pressing the back button.</li>
 </ul>
 
-<p>We’ve provided a sample app, <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginSampleBasic</a> for this use case.  This sample app is a simple profile viewer.  If you are not logged in, <code class="highlighter-rouge">SampleProfileActivity</code> prompts you to log in.  Clicking on the login button in <code class="highlighter-rouge">SampleProfileActivity</code> launches the <code class="highlighter-rouge">ParseLoginActivity</code>, which prompts the user for login credentials.  If the user successfully logs in, <code class="highlighter-rouge">ParseLoginActivity</code> will automatically finish itself and return <code class="highlighter-rouge">RESULT_OK</code>.  Then, <code class="highlighter-rouge">SampleProfileActivity</code> will display the user’s name and a logout button.</p>
+<p>We’ve provided a sample app, <a href="https://github.com/parse-community/ParseUI-Android">ParseLoginSampleBasic</a> for this use case.  This sample app is a simple profile viewer.  If you are not logged in, <code class="highlighter-rouge">SampleProfileActivity</code> prompts you to log in.  Clicking on the login button in <code class="highlighter-rouge">SampleProfileActivity</code> launches the <code class="highlighter-rouge">ParseLoginActivity</code>, which prompts the user for login credentials.  If the user successfully logs in, <code class="highlighter-rouge">ParseLoginActivity</code> will automatically finish itself and return <code class="highlighter-rouge">RESULT_OK</code>.  Then, <code class="highlighter-rouge">SampleProfileActivity</code> will display the user’s name and a logout button.</p>
 
-<p><img src="/docs/assets/images/basic_login.png" alt="" /></p>
+<p><img src="/assets/images/basic_login.png" alt="" /></p>
 
 <p>This basic integration case works well if your caller activity is designed to function regardless of whether there is a valid current user.  For example, a restaurant reviews app may allow the user to browse restaurants even when the user is not logged in.  If the user does log in, the app could provide a more personalized experience on that same screen.</p>
 
@@ -3262,15 +3331,15 @@ The user will also see helpful toast messages if they provide invalid input (e.g
 </code></pre>
 </div>
 
-<p>We’ve provided another sample app, <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginSampleWithDispatchActivity</a> for this use case.  The <code class="highlighter-rouge">SampleProfileActivity</code> in this app cannot function without a logged-in user, so it is protected by <code class="highlighter-rouge">SampleDispatchActivity</code>.</p>
+<p>We’ve provided another sample app, <a href="https://github.com/parse-community/ParseUI-Android">ParseLoginSampleWithDispatchActivity</a> for this use case.  The <code class="highlighter-rouge">SampleProfileActivity</code> in this app cannot function without a logged-in user, so it is protected by <code class="highlighter-rouge">SampleDispatchActivity</code>.</p>
 
-<p><img src="/docs/assets/images/login_with_dispatch.png" alt="" /></p>
+<p><img src="/assets/images/login_with_dispatch.png" alt="" /></p>
 
 <p>The dispatch activity does not necessarily need to be the first activity at app launch.  You can launch the dispatch activity from any activity.  When your protected activity finishes, the dispatch activity will automatically forward the result code to your caller activity.</p>
 
 <p>Let’s revisit the restaurant reviews app again.  You might have a comment activity that requires a user.  You can protect this activity behind a dispatch activity.  The main restaurant listing activity (supports either user or no user), can launch the dispatch activity when the user presses the comment button.  If no user is logged in, the dispatch activity will start <code class="highlighter-rouge">ParseLoginActivity</code> to obtain a ParseUser.  If the user refuses to log in, they will be gracefully taken back to the restaurant listings activity.  In the restaurant listings activity, you can always call <code class="highlighter-rouge">ParseUser.getCurrentUser()</code> to determine whether the user logged in.</p>
 
-<p><img src="/docs/assets/images/restaurants_app.png" alt="" /></p>
+<p><img src="/assets/images/restaurants_app.png" alt="" /></p>
 
 <h2 id="customizing-the-login-library">Customizing the Login Library</h2>
 
@@ -3352,7 +3421,7 @@ The user will also see helpful toast messages if they provide invalid input (e.g
 
 <h3 id="configure-by-code">Configure by Code</h3>
 
-<p>You can configure the <code class="highlighter-rouge">ParseLoginActivity</code> by code using the ParseLoginBuilder.  You specify the options on the builder, and then call <code class="highlighter-rouge">build()</code> to generate an <code class="highlighter-rouge">Intent</code> that can be used to start the <code class="highlighter-rouge">ParseLoginActivity</code>.  We’ve provided a sample app, <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginSampleCodeCustomization</a> demonstrating this use case.  The options in <code class="highlighter-rouge">ParseLoginBuilder</code> are the same as those in activity metadata customization.  If you specify options in both code and activity metadata, the options in code take precedence.</p>
+<p>You can configure the <code class="highlighter-rouge">ParseLoginActivity</code> by code using the ParseLoginBuilder.  You specify the options on the builder, and then call <code class="highlighter-rouge">build()</code> to generate an <code class="highlighter-rouge">Intent</code> that can be used to start the <code class="highlighter-rouge">ParseLoginActivity</code>.  We’ve provided a sample app, <a href="https://github.com/parse-community/ParseUI-Android">ParseLoginSampleCodeCustomization</a> demonstrating this use case.  The options in <code class="highlighter-rouge">ParseLoginBuilder</code> are the same as those in activity metadata customization.  If you specify options in both code and activity metadata, the options in code take precedence.</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="n">ParseLoginBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ParseLoginBuilder</span><span class="o">(</span><span class="n">ProfileActivity</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
 <span class="n">Intent</span> <span class="n">parseLoginIntent</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">setAppLogo</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">my_app_logo</span><span class="o">)</span>
@@ -3383,7 +3452,7 @@ The user will also see helpful toast messages if they provide invalid input (e.g
   <li><code class="highlighter-rouge">com_parse_ui_parse_login_help_fragment.xml</code>: You can change the message for password reset.</li>
 </ul>
 
-<p>We’ve provided another sample app, <a href="https://github.com/ParsePlatform/ParseUI-Android">ParseLoginSampleLayoutOverride</a> showing how to do this.  This sample app only has a Facebook login button in <code class="highlighter-rouge">com_parse_ui_parse_login_fragment.xml</code>, and adds a background image to the login screens.</p>
+<p>We’ve provided another sample app, <a href="https://github.com/parse-community/ParseUI-Android">ParseLoginSampleLayoutOverride</a> showing how to do this.  This sample app only has a Facebook login button in <code class="highlighter-rouge">com_parse_ui_parse_login_fragment.xml</code>, and adds a background image to the login screens.</p>
 
 <h2 id="parsequeryadapter">ParseQueryAdapter</h2>
 
@@ -3534,7 +3603,7 @@ The user will also see helpful toast messages if they provide invalid input (e.g
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -3654,7 +3723,7 @@ The user will also see helpful toast messages if they provide invalid input (e.g
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -5048,7 +5117,7 @@ $books = $bookQuery-&gt;find();
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -5058,13 +5127,13 @@ $books = $bookQuery-&gt;find();
 
 <p>Many of the methods on <code class="highlighter-rouge">ParseObject</code>, including <code class="highlighter-rouge">save()</code>, <code class="highlighter-rouge">delete()</code>, and <code class="highlighter-rouge">get()</code> will throw a <code class="highlighter-rouge">ParseException</code> on an invalid request, such as deleting or editing an object that no longer exists in the cloud, or when there is a network failure preventing communication with the Parse Cloud. You will need to catch and deal with these exceptions.</p>
 
-<p>For more details, look at the <a href="https://parse.com/docs/android/api/">Android API</a>.</p>
+<p>For more details, look at the <a href="https://parse-community.github.io/Parse-SDK-Android/api">Android API</a>.</p>
 
 
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -5108,7 +5177,7 @@ $books = $bookQuery-&gt;find();
 
 <p>As a start, you can configure your application so that clients cannot create new classes on Parse. This is done from the Settings tab on the Data Browser. Scroll down to the <strong>App Permissions</strong> section and turn off <strong>Allow client class creation</strong>. Once enabled, classes may only be created from the Data Browser. This will prevent attackers from filling your database with unlimited, arbitrary new classes.</p>
 
-<p><img src="/docs/assets/images/client_class_creation.png" alt="" /></p>
+<p><img src="/assets/images/client_class_creation.png" alt="" /></p>
 
 <h3 id="configuring-class-level-permissions">Configuring Class-Level Permissions</h3>
 
@@ -5490,7 +5559,7 @@ This CLP prevents any non authenticated user from performing the action protecte
 
 <p>Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don’t always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, <a href="#security-pointer-permissions">Pointer Permissions</a> are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.</p>
 
-<p><img src="/docs/assets/images/clp_vs_acl_diagram.png" alt="" /></p>
+<p><img src="/assets/images/clp_vs_acl_diagram.png" alt="" /></p>
 
 <p>As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let’s look at an example to get a better sense of how CLPs and ACLs can interact. Say we have a <code class="highlighter-rouge">Photo</code> class, with an object, <code class="highlighter-rouge">photoObject</code>. There are 2 users in our app, <code class="highlighter-rouge">user1</code> and <code class="highlighter-rouge">user2</code>. Now lets say we set a Get CLP on the <code class="highlighter-rouge">Photo</code> class, disabling public Get, but allowing <code class="highlighter-rouge">user1</code> to perform Get. Now let’s also set an ACL on <code class="highlighter-rouge">photoObject</code> to allow Read - which includes GET - for only <code class="highlighter-rouge">user2</code>.</p>
 
@@ -5572,13 +5641,13 @@ This CLP prevents any non authenticated user from performing the action protecte
 
 <h2 id="data-integrity-in-cloud-code">Data Integrity in Cloud Code</h2>
 
-<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="https://parse.com/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
+<p>For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users’ data safe. Sometimes, though, you’ll run into an edge case where they aren’t quite enough. For everything else, there’s <a href="/docs/cloudcode/guide#cloud-code">Cloud Code</a>.</p>
 
 <p>Cloud Code allows you to upload JavaScript to Parse’s servers, where we will run it for you. Unlike client code running on users’ devices that may have been tampered with, Cloud Code is guaranteed to be the code that you’ve written, so it can be trusted with more responsibility.</p>
 
 <p>One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it’s particularly important that a malicious client not be able to bypass the validation logic.</p>
 
-<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="https://parse.com/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
+<p>To create validation functions, Cloud Code allows you to implement a <code class="highlighter-rouge">beforeSave</code> trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a <a href="/docs/cloudcode/guide#cloud-code-beforesave-triggers">Cloud Code beforeSave trigger</a> to make sure every user has an email address set:</p>
 
 <div class="highlighter-rouge"><pre class="highlight"><code><span class="nx">Parse</span><span class="p">.</span><span class="nx">Cloud</span><span class="p">.</span><span class="nx">beforeSave</span><span class="p">(</span><span class="nx">Parse</span><span class="p">.</span><span class="nx">User</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">var</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">request</span><span class="p">.</span><span class="nx">object</span><span class="p">;</span>
@@ -5591,7 +5660,7 @@ This CLP prevents any non authenticated user from performing the action protecte
 </code></pre>
 </div>
 
-<p>Our <a href="https://parse.com/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
+<p>Our <a href="/docs/cloudcode/guide#cloud-code">Cloud Code guide</a> provides instructions on how to upload this trigger to our servers.</p>
 
 <p>Validations can lock down your app so that only certain values are acceptable. You can also use <code class="highlighter-rouge">afterSave</code> validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.</p>
 
@@ -5657,7 +5726,7 @@ This CLP prevents any non authenticated user from performing the action protecte
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -6725,7 +6794,7 @@ query.findObjectsInBackgroundWithBlock {
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -7454,7 +7523,7 @@ query.findObjectsInBackgroundWithBlock {
                     
 
 <div class="helpful">
-	<span>Want to contribute to this doc? <a href="https://github.com/parseplatform/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
+	<span>Want to contribute to this doc? <a href="https://github.com/parse-community/docs/tree/gh-pages/_includes/android">Edit this section.</a></span>
 	<hr/>
 </div>
 
@@ -7471,7 +7540,7 @@ query.findObjectsInBackgroundWithBlock {
   </div><!-- /.site__wrapper -->
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
-  <script src="/docs/assets/js/bundle.js"></script>
+  <script src="/assets/js/bundle.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
   <script type="text/javascript"> docsearch({
     apiKey: '3d4445ed639f81888d1a5987d54fb68e',

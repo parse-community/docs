@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "jekyll": "bundle exec jekyll serve",
-    "dev-webpack": "webpack --watch",
+    "dev-webpack": "./node_modules/.bin/webpack --watch",
     "webpack": "webpack -p",
     "dev": "npm run dev-webpack & npm run jekyll",
     "prod": "npm run webpack & npm run jekyll",

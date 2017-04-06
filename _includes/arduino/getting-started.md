@@ -1,10 +1,10 @@
 # Getting Started
 
-If you haven't installed the SDK yet, please [head over to the QuickStart guide](https://parse.com{{ page.quickstart }}#embedded/arduino) to install the SDK in the Arduino IDE. Note that this SDK requires the Arduino Yún and the Arduino IDE v1.6.0+.
+If you haven't installed the SDK yet, please [head over to the QuickStart guide]({ page.quickstart }}#embedded/arduino) to install the SDK in the Arduino IDE. Note that this SDK requires the Arduino Yún and the Arduino IDE v1.6.0+.
 
 The Parse platform provides a complete backend solution for your hardware device. Our goal is to totally eliminate the need for writing server code or maintaining servers.
 
-Note that the Arduino SDK only contains a subset of Parse features found in mobile and desktop. This allows the SDK to be smaller in size and more performant, making it suitable for constrained embedded environments. The Arduino SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary. Check out the[ GitHub repository](https://github.com/ParsePlatform/parse-embedded-sdks) for more information.
+Note that the Arduino SDK only contains a subset of Parse features found in mobile and desktop. This allows the SDK to be smaller in size and more performant, making it suitable for constrained embedded environments. The Arduino SDK is fully open source, and anyone can contribute to make it better, or make their own changes if necessary. Check out the[ GitHub repository](https://github.com/parse-community/parse-embedded-sdks) for more information.
 
 ## Initialization
 

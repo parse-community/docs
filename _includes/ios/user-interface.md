@@ -2,11 +2,11 @@
 
 At the end of the day, users of your app are going to be interacting with UIKit components.
 
-[ParseUI](https://github.com/ParsePlatform/ParseUI-iOS) is an opensource collection of a handy user interface components aimed to streamline and simplify user authentication, displaying lists of data, and other common app elements.
+[ParseUI](https://github.com/parse-community/ParseUI-iOS) is an opensource collection of a handy user interface components aimed to streamline and simplify user authentication, displaying lists of data, and other common app elements.
 
-Please note that [ParseUI](https://github.com/ParsePlatform/ParseUI-iOS) is not included inside the main Parse iOS SDK.
+Please note that [ParseUI](https://github.com/parse-community/ParseUI-iOS) is not included inside the main Parse iOS SDK.
 
-To learn more on how to install it - follow the instructions on the official [GitHub page](https://github.com/ParsePlatform/ParseUI-iOS).
+To learn more on how to install it - follow the instructions on the official [GitHub page](https://github.com/parse-community/ParseUI-iOS).
 
 ## PFLogInViewController
 
