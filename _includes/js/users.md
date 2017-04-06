@@ -395,3 +395,46 @@ The Facebook Javascript SDK provides a main `FB` object that is the starting poi
 Facebook login using the Parse SDK requires that the Facebook SDK already be loaded before calling `Parse.FacebookUtils.init()`.
 
 Our library manages the `FB` object for you. The `FB` singleton is synchronized with the current user by default, so any methods you call on it will be acting on the Facebook user associated with the current `Parse.User`. Calling `FB.login()` or `FB.logOut()` explicitly will cause the `Parse.User` and `FB` object to fall out of synchronization, and is not recommended.
+
+### oauth
+The purpose is to provide alternate methods of authentication.
+
+The authentication credentials have to be ** acquired by the client** and sent to the server. parse-server then validates that it supports that authentication method by looking in the oauth configuration and can perform additional validation, as checking that the access token is valid.
+
+This implementation is intended to be lightweight and not provide the complex flow of server-side oauth authentication that required URL redirects etc...
+
+This is how you would setup parse-server for a custom authentication provider.
+<pre><code class="javascript">
+var api = new ParseServer({
+	//...
+	oauth: {
+        instagram: {}
+    }
+</code></pre>
+
+
+the provider has to implement: validateAuthData(authData) and return a Promise that resolves if the authData is valid.
+
+On the client:
+
+Acquire auth data for that provider (for example using hello.js library) and put it in a hash.
+Use the linking/login features from the client SDK or the REST API to send to the server your hash:
+
+<pre><code class="javascript">
+const myAuthData = {
+authData: {
+ instagram: {
+   token: token,
+  id: uniqueId // important, the ID in your auth system for late retrieval
+ }
+}
+}
+</code></pre>
+
+<pre><code class="javascript">
+Parse.User.logInWith('instagram', myAuthData )
+</code></pre>
+
+Upon reception, the server will lookup in it's configuration or the default providers for an oauth provider name instagram. Then will pass the content of authData.instagram to the validateAuthData function defined by your provider.
+
+If the validation passes, the user can now login with this auth data
