@@ -771,7 +771,7 @@
 					},
 
 					handleSelectChange: function handleSelectChange(e) {
-							location.href = this.mobileToc.selectedOptions[0].getAttribute('data-anchor');
+							location.href = "#" + this.mobileToc.selectedOptions[0].getAttribute('data-anchor');
 					},
 
 					handleWindowResize: function handleWindowResize(e) {
