@@ -407,7 +407,7 @@ This is how you would setup parse-server for a custom authentication provider.
 <pre><code class="javascript">
 var api = new ParseServer({
 	//...
-	oauth: {
+	auth: {
         instagram: {}
     }
 </code></pre>
@@ -423,16 +423,15 @@ Use the linking/login features from the client SDK or the REST API to send to th
 <pre><code class="javascript">
 const myAuthData = {
 authData: {
- instagram: {
-   token: token,
-  id: uniqueId // important, the ID in your auth system for late retrieval
- }
-}
+   		access_token: token,
+		id: uniqueId // important, the ID in your auth system for late retrieval
+	}
 }
 </code></pre>
 
 <pre><code class="javascript">
-Parse.User.logInWith('instagram', myAuthData )
+let user = new Parse.User();
+user._linkWith('instagram', myAuthData);
 </code></pre>
 
 Upon reception, the server will lookup in it's configuration or the default providers for an oauth provider name instagram. Then will pass the content of authData.instagram to the validateAuthData function defined by your provider.
