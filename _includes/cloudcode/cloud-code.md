@@ -210,7 +210,7 @@ If `response.error` is called, the `Review` object will not be saved, and the cl
 
 One useful tip is that even if your mobile app has many different versions, the same version of Cloud Code applies to all of them. Thus, if you launch an application that doesn't correctly check the validity of input data, you can still fix this problem by adding a validation with `beforeSave`.
 
-If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself:
+If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself:
 
 ```javascript
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -260,7 +260,7 @@ Parse.Cloud.afterSave("Comment", function(request) {
 
 The client will receive a successful response to the save request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
-If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 # beforeDelete Triggers
 
@@ -287,7 +287,7 @@ Parse.Cloud.beforeDelete("Album", function(request, response) {
 
 If `response.error` is called, the `Album` object will not be deleted, and the client will get an error. If `response.success` is called, the object will be deleted normally. Your code should call one of these two callbacks.
 
-If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 
 # afterDelete Triggers
@@ -318,7 +318,7 @@ The `afterDelete` handler can access the object that was deleted through `reques
 
 The client will receive a successful response to the delete request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
-If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}/symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}symbols/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 # beforeFind Triggers
 

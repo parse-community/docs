@@ -24,7 +24,7 @@ The second level of security is at the schema and data level. Enforcing security
 *   A client application can add fields to classes
 *   A client application can modify or query for objects on Parse
 
-You can configure any of these permissions to apply to everyone, no one, or to specific users or roles in your app. Roles are groups that contain users or other roles, which you can assign to an object to restrict its use. Any permission granted to a role is also granted to any of its children, whether they are users or other roles, enabling you to create an access hierarchy for your apps. Each of [the Parse guides](/docs) includes a detailed description of employing Roles in your apps.
+You can configure any of these permissions to apply to everyone, no one, or to specific users or roles in your app. Roles are groups that contain users or other roles, which you can assign to an object to restrict its use. Any permission granted to a role is also granted to any of its children, whether they are users or other roles, enabling you to create an access hierarchy for your apps. Each of [the Parse guides]({{ site.baseUrl }}/) includes a detailed description of employing Roles in your apps.
 
 Once you are confident that you have the right classes and relationships between classes in your app, you should begin to lock it down by doing the following:
 

@@ -438,8 +438,6 @@ It's important to break down the system into components when troubleshooting pus
 * Are your devices registering for push notifications?
 * Is your app set up to receive these notifications?
 
-If the answer is Yes to all of these questions, there may be an operational issue that is affecting the delivery of push notifications. You can see the current status of the platform in our [status page](https://status.parse.com). If everything looks green, please [create a bug report](https://parse.com/help#report) with more information. Every bug report opened against the push notification category will be redirected to this troubleshooting guide unless it includes evidence of having gone through these steps, so please be as verbose as possible.
-
 If you're unsure about the answer to any of the above questions, read on!
 
 ### Confirm that the push campaign was created

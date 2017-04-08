@@ -6,7 +6,7 @@ platform: rest
 display_platform: REST
 
 redirect_from:
-  - /ios/
+  - /rest/
 
 sections:
 - "rest/getting-started.md"
