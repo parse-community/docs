@@ -66,7 +66,7 @@ The Parse Android SDK will avoid making unnecessary requests. If a `ParseInstall
 
 There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide#push-notifications-sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide/#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined  [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/).  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.
 
@@ -319,7 +319,7 @@ wpPush.sendPushInBackground();
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide#push-notifications-scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide#push-notifications-scheduling-pushes) or the push console on your Parse Dashboard.
+Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#push-notifications-scheduling-pushes) or the push console on your Parse Dashboard.
 
 ## Receiving Pushes
 

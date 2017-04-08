@@ -34,7 +34,7 @@ IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id.
 
 Change the `android:name` attribute of `<category>` element above to match your application's package name.
 
-Change "YOUR_SENDER_ID" to the GCM Sender Id you obtained back in Step 1. See our [Android push guide]({{ site.baseUrl }}/android/guide#push-notifications-setting-up-push) for more details on this attribute.
+Change "YOUR_SENDER_ID" to the GCM Sender Id you obtained back in Step 1. See our [Android push guide]({{ site.baseUrl }}/android/guide/#push-notifications-setting-up-push) for more details on this attribute.
 
 **Migrating a hosted Parse app?** Note that you cannot send GCM pushes to old versions of your app that do not contain the `com.parse.push.gcm_sender_id` attribute in your app manifest, since those versions of the app haven't registered for push using your GCM sender ID.
 

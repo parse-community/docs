@@ -645,7 +645,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide#push-notifications-receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide#push-notifications-receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
+It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide/#push-notifications-receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
 <pre><code class="bash">
 </code></pre>

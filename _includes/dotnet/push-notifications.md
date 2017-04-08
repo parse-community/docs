@@ -470,5 +470,5 @@ Setting up Push Notifications is often a source of frustration for developers. T
 * Clean and build your project.
 * Check the number of recipients in your Parse Push Console. Does it match the expected number of recipients? Your push might be targeted incorrectly.
 * Open your project's `package.appxmanifest` file and make sure "Toast Capable" is set to "yes."* If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table.  We do not automatically delete installation objects when the users uninstall your app.  When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.
-* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide]({{ site.baseUrl }}/ios/guide#push-notifications-troubleshooting).
-* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide]({{ site.baseUrl }}/android/guide#push-notifications-troubleshooting).
+* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide]({{ site.baseUrl }}/ios/guide/#push-notifications-troubleshooting).
+* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide]({{ site.baseUrl }}/android/guide/#push-notifications-troubleshooting).

@@ -20,7 +20,7 @@ Come back to this guide afterwards to learn more about the push features offered
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-On Unity, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API]({{ site.baseUrl }}/dotnet/guide#objects) for storing and retrieving data. To access the current `Installation` object from your .NET app, use the `ParseInstallation.CurrentInstallation` property.
+On Unity, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API]({{ site.baseUrl }}/dotnet/guide/#objects) for storing and retrieving data. To access the current `Installation` object from your .NET app, use the `ParseInstallation.CurrentInstallation` property.
 
 While it is possible to modify a `ParseInstallation` just like you would a `ParseObject`, there are several special fields that help manage and target devices.
 
@@ -124,13 +124,13 @@ If you want to target multiple channels with a single push notification, you can
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/unity/guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/unity/guide/#queries) and to send them a push.
 
 Since `ParseInstallation` is a subclass of `ParseObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-Storing data on an `Installation` object is just as easy as storing [any other data]({{ site.baseUrl }}/unity/guide#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
+Storing data on an `Installation` object is just as easy as storing [any other data]({{ site.baseUrl }}/unity/guide/#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
 ```cs
 // Store the category of push notifications the user would like to receive.
@@ -152,7 +152,7 @@ installation.SaveAsync();
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `ParseQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/unity/guide#queries), but we use the special static property `ParseInstallation.Query` to create it. We set this query on our `ParsePush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `ParseQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/unity/guide/#queries), but we use the special static property `ParseInstallation.Query` to create it. We set this query on our `ParsePush` object, before sending the notification.
 
 ```cs
 var push = new ParsePush();
@@ -382,5 +382,5 @@ Our web push console guides you through every step of setting up a Localized Pus
 
 Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of these troubleshooting tips.
 
-* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide]({{ site.baseUrl }}/ios/guide#push-notifications-troubleshooting).
-* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide]({{ site.baseUrl }}/android/guide#push-notifications-troubleshooting).
+* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide]({{ site.baseUrl }}/ios/guide/#push-notifications-troubleshooting).
+* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide]({{ site.baseUrl }}/android/guide/#push-notifications-troubleshooting).

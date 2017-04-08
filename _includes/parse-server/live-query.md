@@ -78,9 +78,9 @@ We support five types of event:
 
 You can check the [LiveQuery protocol specification](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) to learn more about each event type.
 
-For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide]({{ site.baseUrl }}/js/guide#live-queries).
+For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide]({{ site.baseUrl }}/js/guide/#live-queries).
 
-For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide]({{ site.baseUrl }}/ios/guide#live-queries).
+For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide]({{ site.baseUrl }}/ios/guide/#live-queries).
 
 ## LiveQuery Protocol
 
