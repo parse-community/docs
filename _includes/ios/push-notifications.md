@@ -636,7 +636,7 @@ func application(application: UIApplication,  didReceiveRemoteNotification userI
 }
 </code></pre>
 
-You can read more about handling push notifications in Apple's [Local and Push Notification Programming Guide](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Introduction.html).
+You can read more about handling push notifications in Apple's [Local and Push Notification Programming Guide](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/index.html).
 
 ### Tracking Pushes and App Opens
 

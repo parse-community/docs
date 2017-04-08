@@ -534,7 +534,7 @@ This view shows a list of Todo items and also allows the user to pull-to-refresh
 
 Notice all the code that we're not writing. We don't need to handle loading the data into the table, wrangle index paths, or handle tricky pagination code. That's all handled by the `PFQueryTableViewController` automatically.
 
-A good starting point to learn more is to look at the [API for the class](/images/docs/ios/api/Classes/PFQueryTableViewController.html) and also the [template subclass file](https://gist.github.com/ba03c1a550f14f88f95d). We designed the class with customizability in mind, so it should accommodate many instances where you used to use `UITableViewController`.
+A good starting point to learn more is to look at the [API for the class](http://parseplatform.org/Parse-SDK-iOS-OSX/api/Classes/PFQueryTableViewController.html) and also the [template subclass file](https://gist.github.com/ba03c1a550f14f88f95d). We designed the class with customizability in mind, so it should accommodate many instances where you used to use `UITableViewController`.
 
 ### Loading Remote Images in Cells
 
