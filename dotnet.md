@@ -4,7 +4,7 @@ permalink: /dotnet/guide/
 layout: guide
 platform: dotnet
 display_platform: .NET
-api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api
+api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api/
 
 sections:
 - "dotnet/getting-started.md"

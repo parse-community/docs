@@ -5,7 +5,7 @@ Parse Server provides basic push notification functionality for iOS and Android.
 * Target installations by platform
 * Target installations by a `ParseQuery`
 * Send push notifications to Android devices through [Google Cloud Messaging (GCM)](https://developers.google.com/cloud-messaging/)
-* Send push notifications to iOS devices through [Apple Push Notification Service (APNS)](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html)
+* Send push notifications to iOS devices through [Apple Push Notification Service (APNS)](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1)
 * Use most of the sending options
 
 However, there are a few caveats:
@@ -235,4 +235,4 @@ If you have migrated from Parse.com Push and you are seeing situations where sil
 
 ### PPNS
 
-* [PPNS Protocol Specification (for Parse IoT devices)](/parse-community/parse-server/wiki/PPNS-Protocol-Specification)
+* [PPNS Protocol Specification (for Parse IoT devices)](https://github.com/parse-community/parse-server/wiki/PPNS-Protocol-Specification)

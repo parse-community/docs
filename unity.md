@@ -4,7 +4,7 @@ permalink: /unity/guide/
 layout: guide
 platform: unity
 display_platform: Unity
-api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api
+api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api/
 
 sections:
 - "unity/getting-started.md"

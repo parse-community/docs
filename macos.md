@@ -4,7 +4,7 @@ permalink: /macos/guide/
 layout: guide
 platform: macos
 display_platform: macOS
-api_reference: "{{ site.apis.osx }}"
+api_reference: https://parseplatform.org/Parse-SDK-iOS-OSX/api
 
 sections:
 - "ios/getting-started.md"

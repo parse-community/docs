@@ -46,6 +46,6 @@ On this module, you need to implement and export those two functions `validateAu
 
 For more information about custom auth please see the examples:
 
-- [Facebook OAuth](https://github.com/parse-community/parse-server/blob/master/src/authDataManager/facebook.js)
-- [Twitter OAuth](https://github.com/parse-community/parse-server/blob/master/src/authDataManager/twitter.js)
-- [Instagram OAuth](https://github.com/parse-community/parse-server/blob/master/src/authDataManager/instagram.js)
+- [Facebook OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/facebook.js)
+- [Twitter OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/twitter.js)
+- [Instagram OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/instagram.js)

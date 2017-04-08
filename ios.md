@@ -4,7 +4,7 @@ permalink: /ios/guide/
 layout: guide
 platform: ios
 display_platform: iOS
-api_reference: https://parse-community.github.io/Parse-SDK-iOS-OSX/api
+api_reference: https://parseplatform.org/Parse-SDK-iOS-OSX/api
 
 redirect_from:
   - /ios/

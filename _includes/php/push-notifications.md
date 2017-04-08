@@ -56,7 +56,7 @@ ParsePush::send(array(
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/php_guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/php/guide#queries) and to send them a push.
 
 Since `Installation` objects are just like any other object stored in Parse, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
@@ -66,7 +66,7 @@ The PHP SDK does not currently support modifying `Installation` objects. Take a 
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/php_guide#queries).
+Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/php/guide#queries).
 
 <pre><code class="php">
 $query = ParseInstallation::query();
@@ -123,7 +123,7 @@ If you want to send more than just a message, you can set other fields in the `d
 *   **`alert`**: the notification's message.
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
-*   **`content-available`**: _(iOS only)_ If you are a writing a [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) app, or an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
+*   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
 *   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated      with opening the URI is launched.
 *   **`title`**: _(Android only)_ the value displayed in the Android system tray notification.

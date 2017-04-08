@@ -1165,7 +1165,7 @@ There are some limits in place to ensure the API can provide the data you need i
 
 **Push Notifications**
 
-* [Delivery of notifications is a “best effort”, not guaranteed](https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/Chapters/ApplePushService.html#//apple_ref/doc/uid/TP40008194-CH100-SW1). It is not intended to deliver data to your app, only to notify the user that there is new data available.
+* [Delivery of notifications is a “best effort”, not guaranteed](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1). It is not intended to deliver data to your app, only to notify the user that there is new data available.
 
 **Cloud Code**
 

@@ -5,6 +5,9 @@ layout: guide
 platform: rest
 display_platform: REST
 
+redirect_from:
+  - /ios/
+
 sections:
 - "rest/getting-started.md"
 - "rest/quick-reference.md"

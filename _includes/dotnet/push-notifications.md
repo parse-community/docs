@@ -35,14 +35,14 @@ If you want to start using push on Unity Android, start by completing [Android P
 
 Every Parse application installed on a device registered for push notifications has an associated `Installation` object. The `Installation` object is where you store all the data needed to target push notifications. For example, in a baseball app, you could store the teams a user is interested in to send updates about their performance. Saving the `Installation` object is also required for tracking push-related app open events.
 
-On .NET, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API]({{ site.baseUrl }}/dotnet/guide#objects) for storing and retrieving data. To access the current `Installation` object from your .NET app, use the `ParseInstallation.CurrentInstallation` property.
+On .NET, `Installation` objects are available through the `ParseInstallation` class, a subclass of `ParseObject`. It uses the [same API]({{ site.baseUrl }}/dotnet/guide/#objects) for storing and retrieving data. To access the current `Installation` object from your .NET app, use the `ParseInstallation.CurrentInstallation` property.
 
 While it is possible to modify a `ParseInstallation` just like you would a `ParseObject`, there are several special fields that help manage and target devices.
 
 *   **`channels`**:
     An `IEnumerable<string>` of the channels to which a device is currently subscribed. In .NET, this field is accessible through the `Channels` property.
 *   **`timeZone`**: The current time zone where the target device is located. This field is readonly and can be accessed via the `TimeZone` property. This value is synchronized every time an `Installation` object is saved from the device.
-*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time a `ParseInstallation` object is saved from the device _(readonly)_.
+*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). This value is synchronized every time a `ParseInstallation` object is saved from the device _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet". This field is readonly and can be accessed via the `DeviceType` property.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device      is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
 *   **`installationId`**: Unique Id for the device used by Parse. This field is readonly and can be accessed via the `InstallationId` property.
@@ -139,13 +139,13 @@ If you want to target multiple channels with a single push notification, you can
 
 ### Using Advanced Targeting
 
-While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/dotnet/guide#queries) and to send them a push.
+While channels are great for many applications, sometimes you need more precision when targeting the recipients of your pushes. Parse allows you to write a query for any subset of your `Installation` objects using the [querying API]({{ site.baseUrl }}/dotnet/guide/#queries) and to send them a push.
 
 Since `ParseInstallation` is a subclass of `ParseObject`, you can save any data you want and even create relationships between `Installation` objects and your other objects. This allows you to send pushes to a very customized and dynamic segment of your user base.
 
 #### Saving Installation Data
 
-Storing data on an `Installation` object is just as easy as storing [any other data]({{ site.baseUrl }}/dotnet/guide#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
+Storing data on an `Installation` object is just as easy as storing [any other data]({{ site.baseUrl }}/dotnet/guide/#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
 ```cs
 // Store the category of push notifications the user would like to receive.
@@ -167,7 +167,7 @@ await installation.SaveAsync();
 
 #### Sending Pushes to Queries
 
-Once you have your data stored on your `Installation` objects, you can use a `ParseQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/dotnet/guide#queries), but we use the special static property `ParseInstallation.Query` to create it. We set this query on our `ParsePush` object, before sending the notification.
+Once you have your data stored on your `Installation` objects, you can use a `ParseQuery` to target a subset of these devices. `Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/dotnet/guide/#queries), but we use the special static property `ParseInstallation.Query` to create it. We set this query on our `ParsePush` object, before sending the notification.
 
 ```cs
 var push = new ParsePush();
@@ -229,7 +229,7 @@ If you want to send more than just a message, you will need to use an `IDictiona
 *   **`alert`**: the notification's message.
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
-*   **`content-available`**: _(iOS only)_ If you are a writing a [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) app, or an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
+*   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
 *   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated with opening the URI is launched.
 *   **`title`**: _(Android, Windows 8, and Windows Phone 8 only)_ the value displayed in the Android system tray or Windows toast notification.

@@ -19,7 +19,6 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="parse-server/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parse.com/migration">Migration Guide</a></li>
           </ul>
           <footer class="docs-platform__footer">
               <a href="https://npmjs.com/package/parse-server" class="btn btn--outline">Latest Downloads</a>
@@ -73,7 +72,7 @@ layout: docs
               <svg class="icon icon-dotnet"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#dotnet"></use></svg>
           </header>
           <ul class="docs-platform__links">
-              <li class="docs-platform__links"><a href="dotnet/guide">Guide</a></li>
+              <li class="docs-platform__links"><a href="dotnet/guide/">Guide</a></li>
               <li class="docs-platform__links"><a href="{{ site.apis.dotnet }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">

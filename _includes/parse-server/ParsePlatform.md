@@ -12,7 +12,7 @@ We recommend you run MongoDB in replica set mode, with at least three nodes for 
 
 #### MongoDB 3.0
 
-Configuring MongoDB to use the WireTiger storage engine is a matter of setting a few flags in the mongodb.conf file. For complete documentation of all MongoDB configuration options, visit the MongoDB reference page for [Configuration File Options](https://docs.mongodb.org/v3.0/reference/configuration-options/).
+Configuring MongoDB to use the WireTiger storage engine is a matter of setting a few flags in the mongodb.conf file. For complete documentation of all MongoDB configuration options, visit the MongoDB reference page for [Configuration File Options](https://docs.mongodb.com/v3.0/reference/configuration-options/).
 
 First, set the storage engine parameter to instruct MongoDB to use the WiredTiger storage engine.
 

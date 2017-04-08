@@ -18,4 +18,4 @@ void mySaveCallback(ParseClient client, int error, int httpStatus, const char* h
 parseSendRequest(client, "GET", "/1/classes/TestObject/gsMHOY3MAx", NULL, myCallback);
 ```
 
-Using this function, you have full access to the REST API to create objects, delete objects, send analytics events, and more. Take a look at the [REST API Guide]({{ site.baseUrl }}/rest) to find out all the details.
+Using this function, you have full access to the REST API to create objects, delete objects, send analytics events, and more. Take a look at the [REST API Guide]({{ site.baseUrl }}/rest/guide) to find out all the details.

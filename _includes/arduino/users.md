@@ -2,7 +2,7 @@
 
 At the core of many apps, there is a notion of user accounts that lets users access their information in a secure manner. In our other SDKs, we provide a specialized user class that automatically handles much of the functionality required for user account management. Users are a special class of Parse Objects and has all the same features, such as flexible schema, automatic persistence, and a key value interface.
 
-The Arduino SDK does not provide methods to directly sign in as a user. If you want to have the Arduino device act on behalf of a user, you will need to [create a Session through a companion app]({{ site.baseUrl }}/ios#sessions) or another Parse SDK and pass a Restricted Session to the device. You can read more about users in our [REST API]({{ site.baseUrl }}/rest#users) or one of our other [SDK guides](/docs).
+The Arduino SDK does not provide methods to directly sign in as a user. If you want to have the Arduino device act on behalf of a user, you will need to [create a Session through a companion app]({{ site.baseUrl }}/ios#sessions) or another Parse SDK and pass a Restricted Session to the device. You can read more about users in our [REST API]({{ site.baseUrl }}/rest#users) or one of our other [SDK guides]({{ site.baseUrl }}).
 
 ## Setting a Session
 

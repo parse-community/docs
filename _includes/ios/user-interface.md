@@ -205,7 +205,7 @@ class MyLogInViewController : PFLogInViewController {
 }
 </code></pre>
 
-Developers interested in this kind of customization should take a look at the interface of [`PFLogInView`](ios/api/Classes/PFLogInView.html), where all customizable properties are documented.
+Developers interested in this kind of customization should take a look at the interface of [`PFLogInView`](http://parseplatform.org/Parse-SDK-iOS-OSX/api/Classes/PFLogInView.html), where all customizable properties are documented.
 
 ### Portrait and Landscape
 
@@ -388,7 +388,7 @@ class MySignUpViewController : PFSignUpViewController {
 }
 </code></pre>
 
-Developer interested in this kind of customization should take a look at the interface of [`PFSignUpView`](ios/api/Classes/PFSignUpView.html), where all customizable properties are documented.
+Developer interested in this kind of customization should take a look at the interface of [`PFSignUpView`](http://parseplatform.org/Parse-SDK-iOS-OSX/api/Classes/PFSignUpView.html), where all customizable properties are documented.
 
 ### Portrait and Landscape
 

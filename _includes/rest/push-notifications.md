@@ -597,7 +597,7 @@ If you want to send more than just a message, you can set other fields in the `d
 *   **`alert`**: the notification's message.
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
-*   **`content-available`**: _(iOS only)_ If you are a writing a [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) app, or an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
+*   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
 *   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated      with opening the URI is launched.
 *   **`title`**: _(Android only)_ the value displayed in the Android system tray notification.

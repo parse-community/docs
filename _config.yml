@@ -10,7 +10,7 @@ name: Parse Open Source Docs
 title: Parse Docs
 email: community@parse.com
 description: The open source GitHub page for the Parse platform.
-url: "https://docs.parseplatform.org" # the base hostname & protocol for your site
+url: "http://docs.parseplatform.org" # the base hostname & protocol for your site
 repository: parse-community/docs
 facebook_username: parseit
 twitter_username:  parseit
@@ -19,11 +19,11 @@ stackoverflow_tag: parse.com
 serverfault_tag:   parse
 support_url: https://www.parse.com/help
 apis:
-  osx: https://parse-community.github.io/Parse-SDK-iOS-OSX/api
-  android: https://parse-community.github.io/Parse-SDK-Android/api
-  js: https://parse-community.github.io/Parse-SDK-JS/api
-  php: https://parse-community.github.io/parse-php-sdk/namespaces/Parse.html
-  dotnet: https://parse-community.github.io/Parse-SDK-dotNET/api
+  osx: https://parseplatform.org/Parse-SDK-iOS-OSX/api/
+  android: https://parseplatform.org/Parse-SDK-Android/api/
+  js: https://parseplatform.org/Parse-SDK-JS/api/
+  php: https://parseplatform.org/parse-php-sdk/namespaces/Parse.html
+  dotnet: https://parseplatform.org/Parse-SDK-dotNET/api/
 
 # Build settings
 markdown: kramdown

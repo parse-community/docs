@@ -61,7 +61,7 @@ While it is possible to modify a `PFInstallation` just like you would a `PFObjec
 *   **`appIdentifier`**: A unique identifier for this installation's client application. In iOS/OS X, this value is obtained from `kCFBundleIdentifierKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`parseVersion`**: The version of the Parse SDK which this installation uses. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
-*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1]("http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3"). This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
+*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used for Android devices. This parameter is not supported in iOS/OS X devices _(readonly)_.
 *   **`GCMSenderId`**: This field only has meaning for Android `PFInstallation`s that use the GCM push type. This parameter is not supported in iOS/OS X devices.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices _(readonly)_.
@@ -313,7 +313,7 @@ If you want to send more than just a message, you will need to use an `NSDiction
 *   **`alert`**:   the notification's message.
 *   **`badge`**: _(iOS/OS X only)_   the value indicated in the top right corner of the app icon.   This can be set to a value   or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS/OS X only)_   the name of a sound file in the application bundle.
-*   **`content-available`**: _(iOS only)_ If you are a writing a [Newsstand](http://developer.apple.com/library/iOS/#technotes/tn2280/_index.html) app, or an app using the Remote Notification Background Mode [ introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
+*   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [ introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
 *   **`category`**: _(iOS only)_ the identifier of th   [   `UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
 *   **`uri`**: _(Android only)_   an optional field that contains a URI. When the   notification is opened, an `Activity` associate   with opening the URI is launched.
 *   **`title`**: _(Android, Windows 8, and Windows Phone 8 only)_   the value displayed in the Android system tray or Windows toast notification.
@@ -867,7 +867,7 @@ Basically, you will need to run the same push query you're using for your target
 
 #### Debugging using the REST API
 
-The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest/guide#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
 <pre><code class="bash">
 # Query over installations

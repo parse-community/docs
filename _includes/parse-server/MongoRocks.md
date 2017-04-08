@@ -102,7 +102,7 @@ $ sudo dpkg -i percona-server-mongodb-*
 
 ### Configuration
 
-Configuring MongoDB to use the RocksDB storage engine is a matter of setting a few flags in the mongodb.conf file. For complete documentation of all MongoDB configuration options, visit the MongoDB reference page for [Configuration File Options](https://docs.mongodb.org/v3.0/reference/configuration-options/).
+Configuring MongoDB to use the RocksDB storage engine is a matter of setting a few flags in the mongodb.conf file. For complete documentation of all MongoDB configuration options, visit the MongoDB reference page for [Configuration File Options](https://docs.mongodb.com/v3.0/reference/configuration-options/).
 
 First, set the storage engine parameter to instruct MongoDB to use the RocksDB storage engine.
 
@@ -193,19 +193,15 @@ More documentation on strata, including how to restore backups, can be found [he
 
 ## Migrating Existing Data to MongoRocks
 
-### Moving your Parse app for the first time
-
-If your data is still hosted on Parse, then your job is really easy. Just follow the steps in our [migration guide](https://parse.com/migration#database) to move your data to your new MongoRocks replica set. We highly recommend that you take steps to secure your MongoDB installation with authentication and encryption. For a list of best security practices, see the [MongoDB Security Checklist](https://docs.mongodb.org/manual/administration/security-checklist/).
-
 ### Upgrading an existing replica set to MongoRocks
 
 The data files used by MMAP, WiredTiger, and RocksDB are not compatible. In other words, you cannot start MongoRocks using existing MMAP or Wiredtiger data. To change storage formats, you must do one of the following:
 
-1. Do a logical export and import using [mongodump](https://docs.mongodb.org/v3.0/reference/program/mongodump/) and [mongorestore](https://docs.mongodb.org/manual/reference/program/mongorestore/).
+1. Do a logical export and import using [mongodump](https://docs.mongodb.com/v3.0/reference/program/mongodump/) and [mongorestore](https://docs.mongodb.com/manual/reference/program/mongorestore/).
 2. Perform an initial sync of data using replication
 
 Option 2 is the easiest, as you can bring a new, empty node online and add it to the replica set without incurring downtime. This approach usually works fine until your data size is in the hundreds of gigabytes. To do so:
 
 1. Provision a new node configured for RocksDB, following the above steps.
-2. Add the node to your replica set using [rs.add()](https://docs.mongodb.org/v3.0/reference/method/rs.add/)
-3. Wait for initial sync. Note that your data sync must complete before the oplog window expires. Depending on the size of your data, you may need to [resize your oplog](https://docs.mongodb.org/v3.0/tutorial/change-oplog-size/)
+2. Add the node to your replica set using [rs.add()](https://docs.mongodb.com/v3.0/reference/method/rs.add/)
+3. Wait for initial sync. Note that your data sync must complete before the oplog window expires. Depending on the size of your data, you may need to [resize your oplog](https://docs.mongodb.com/v3.0/tutorial/change-oplog-size/)

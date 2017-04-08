@@ -459,7 +459,7 @@ To start using Facebook with Parse, you need to:
 1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already.
 2.  Add your application's Facebook Application ID on your Parse application's settings page.
 3.  Follow Facebook's instructions for [getting started with the Facebook SDK](https://developers.facebook.com/docs/ios/getting-started) to create an app linked to the Facebook SDK. Double-check that you have added FacebookAppID and URL Scheme values to your application's .plist file.
-4.  Download and unzip [Parse iOS SDK](/downloads/ios/parse-library/latest), if you haven't already.
+4.  Download and unzip [Parse iOS SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX/releases/latest), if you haven't already.
 5.  Add `ParseFacebookUtils.framework` to your Xcode project, by dragging it into your project folder target.
 
 There's also two code changes you'll need to make. First, add the following to your `application:didFinishLaunchingWithOptions:` method, after you've initialized the Parse SDK.
