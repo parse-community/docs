@@ -6,6 +6,9 @@ platform: macos
 display_platform: macOS
 api_reference: http://parseplatform.org/Parse-SDK-iOS-OSX/api
 
+redirect_from:
+- /osx/guide/
+
 sections:
 - "ios/getting-started.md"
 - "ios/objects.md"
