@@ -119,7 +119,7 @@ If you have a list of certificates, Parse Server's strategy on choosing them is 
 
 ### 3. Configure Client Apps
 
-Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](#push-notifications_configuring-your-clients-to-receive-push-notifications).
+Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](#push-notifications/configuring-your-clients-to-receive-push-notifications).
 
 ### 4. Send Push Notifications
 

@@ -584,7 +584,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-An in depth look at the `Installation` end point can be found in the [REST guide](#push-notifications-installations).
+An in depth look at the `Installation` end point can be found in the [REST guide](#push-notifications/installations).
 
 ## Sending Options
 

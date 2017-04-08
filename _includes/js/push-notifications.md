@@ -86,7 +86,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 #### Saving Installation Data
 
-The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide#push-notifications-installations), [Android]({{ site.baseUrl }}/android/guide#push-notifications-installations) or [REST]({{ site.baseUrl }}/rest/guide#push-notifications-installations) Push guide for more on this topic.
+The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide#push-notifications/installations), [Android]({{ site.baseUrl }}/android/guide#push-notifications/installations) or [REST]({{ site.baseUrl }}/rest/guide#push-notifications/installations) Push guide for more on this topic.
 
 #### Sending Pushes to Queries
 

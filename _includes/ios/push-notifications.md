@@ -642,7 +642,7 @@ You can read more about handling push notifications in Apple's [Local and Push N
 
 To track your users' engagement over time and the effect of push notifications, we provide some hooks in the `PFAnalytics` class. You can view the open rate for a specific push notification on the Parse.com push console. You can also view overall app open and push open graphs are on the Parse analytics console.  Our analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 
-This section assumes that you've already set up your application to [save the Installation object](#push-notifications-installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+This section assumes that you've already set up your application to [save the Installation object](#push-notifications/installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 First, add the following to your `application:didFinishLaunchingWithOptions:` method to collect information about when your application was launched, and what triggered it. The extra checks ensure that, even with iOS 7's more advanced background push features, a single logical app-open or push-open event is counted as such.
 

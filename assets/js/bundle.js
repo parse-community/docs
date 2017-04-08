@@ -421,14 +421,17 @@
 											// Build collapsable sublist with h2 tags. We skip any H2s
 											// that appear before the first H1.
 									} else if (el.tagName === 'H2' && latestMajor !== undefined) {
-											el.id = latestMajor.name + '_' + name;
+											el.id = latestMajor.name + '/' + name;
 											name = el.id;
 											latestMinor = UI.tag('ul', { className: 'ui_live_toc_minor_list' });
+											latestMinor.name = name;
 											latestMajor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_major' }, [UI.tag('a', { href: '#' + name }, text), latestMinor]));
 
 											// Build deeper collapsable sublist with h3 tags. We skip any
 											// H3s that appear before the first H1 or directly after any H1
 									} else if (el.tagName === 'H3' && latestMajor !== undefined && latestMinor !== undefined) {
+											el.id = latestMinor.name + '/' + name;
+											name = el.id;
 											latestMinor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_minor' }, [UI.tag('a', { href: '#' + name }, text.toLowerCase())]));
 									}
 							}

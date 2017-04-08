@@ -373,7 +373,7 @@ ParseAnalytics.trackAppOpened(getIntent());
 
 To track push opens, you should always pass the `Intent` to `trackAppOpened`. Passing `null` to `trackAppOpened` will track _only_ a standard app-opened event, not the push-opened event. If you don't track the push-opened event, you will not be able to use advanced analytics features such as push-open graphs and A/B testing.
 
-Please be sure to set up your application to [save the Installation object](#push-notifications-installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+Please be sure to set up your application to [save the Installation object](#push-notifications/installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 You can view the open rate for a specific push notification on your Parse.com push console. You can also view your application's overall app open and push open graphs on the Parse analytics console.  Our push open analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 

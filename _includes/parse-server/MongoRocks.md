@@ -1,11 +1,5 @@
 # Using MongoDB + RocksDB
 
-* [MongoRocks: What and Why?](https://github.com/parse-community/parse-server/wiki/MongoRocks#mongorocks-what-and-why)
-* [Provisioning](https://github.com/parse-community/parse-server/wiki/MongoRocks#example-provisioning-on-ubuntu-and-aws)
-* [Installation](https://github.com/parse-community/parse-server/wiki/MongoRocks#installation)
-* [Backups](https://github.com/parse-community/parse-server/wiki/MongoRocks#backups)
-* [Migrating Existing Data to MongoRocks](https://github.com/parse-community/parse-server/wiki/MongoRocks#migrating-existing-data-to-mongorocks)
-
 ## MongoRocks: What and Why?
 
 **Quick Version**
