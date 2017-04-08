@@ -42,7 +42,7 @@ You will need to obtain some credentials from GCM and APNS in order to send push
 
 #### APNS (iOS)
 
-If you are setting up push notifications on iOS for the first time, follow the [Parse Push Notifications tutorial](https://github.com/parse-community/PushTutorial/blob/master/iOS/README.md#1-creating-the-ssl-certificate) to obtain a production Apple Push Certificate.  Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well.  Optionally, the module supports accepting the push certificate and key in `.pem` format.
+If you are setting up push notifications on iOS for the first time, we recommend you visi the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate.  Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well.  Optionally, the module supports accepting the push certificate and key in `.pem` format.
 
 #### GCM (Android)
 

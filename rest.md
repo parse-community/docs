@@ -23,7 +23,6 @@ sections:
 - "rest/analytics.md"
 - "rest/cloud-code.md"
 - "rest/schemas.md"
-- "rest/apps.md"
 - "rest/hooks.md"
 - "common/errors.md"
 

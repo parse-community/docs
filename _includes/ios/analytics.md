@@ -30,10 +30,6 @@ PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
 PFAnalytics.trackAppOpenedWithLaunchOptions(nil)
 </code></pre>
 
-Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
-
-Further analytics are available around push notification delivery and open rates. Be sure to take a look at the [Tracking Pushes and App Opens subsection]({{ site.baseUrl }}/push_guide#receiving-tracking/iOS) of our Push Guide for more detailed information on handling remote notification payloads and push-related callbacks.
-
 ## Custom Analytics
 
 `PFAnalytics` also allows you to track free-form events, with a handful of `NSString` keys and values. These extra dimensions allow segmentation of your custom events via your app's Dashboard.

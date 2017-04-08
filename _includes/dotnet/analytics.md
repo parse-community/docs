@@ -14,11 +14,6 @@ Our initial analytics hook allows you to track your application being launched. 
 ParseAnalytics.TrackAppOpenedAsync();
 ```
 
-Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
-
-Further analytics are available around push notification delivery and open rates. Take a look at the [Tracking Pushes and App Opens subsection]({{ site.baseUrl }}/push_guide#receiving-tracking/.NET) of our Push Guide for more detailed information on handling remote notification payloads and push-related callbacks.
-
-
 ## Custom Analytics
 
 `ParseAnalytics` also allows you to track free-form events, with a handful of `string` keys and values. These extra dimensions allow segmentation of your custom events via your app's Dashboard.

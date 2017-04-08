@@ -825,7 +825,7 @@ If you're unsure about the answer to any of the above questions, read on!
 
 ### Confirm that the push campaign was created
 
-Having everything set up correctly in your Parse app won't help if your request to send a push notification does not reach Parse. The first step in debugging a push issue is to confirm that the push campaign is listed in your push logs. You can find these logs by visiting your app's [Dashboard](/apps) and clicking on Push.
+Having everything set up correctly in your Parse app won't help if your request to send a push notification does not reach Parse. The first step in debugging a push issue is to confirm that the push campaign is listed in your push logs. You can find these logs by visiting your app's [Dashboard](https://github.com/parse-community/parse-dashboard) and clicking on Push.
 
 If the push notification campaign is not showing up on that list, the issue is quite simple to resolve. Go back to your push notification sending code and make sure to check for any error responses. If you're using any of the client SDKs, make sure to listen for and catch any errors that may be returned. For example, you could log errors like so:
 
