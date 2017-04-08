@@ -1,5 +1,3 @@
-First you will need to set up your app to use Parse Server. Go through the [Parse Android QuickStart](https://parse.com/apps/quickstart##parse_data/mobile/android) first and come back here once your app is connected to Parse Server.
-
 #### Configure Broadcast Receiver and Permissions
 
 Add the following service and broadcast receiver definitions to `AndroidManifest.xml` immediately before the *closing* `</application>` tag:

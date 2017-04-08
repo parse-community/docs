@@ -1,5 +1,3 @@
-First you will need to set up your app to use Parse Server. Go through the [Parse iOS QuickStart](https://parse.com/apps/quickstart##parse_data/mobile/ios) first and come back here once your app is connected to Parse Server.
-
 #### Register Device for Push Notifications
 
 Open up your `AppDelegate.swift`, `AppDelegate.m`, or `AppDelegate.cs` file and make your app register for remote notifications by adding the following in your `application:didFinishLaunchingWithOptions:` function:
