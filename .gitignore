@@ -1,8 +1,8 @@
 # Generated site
-_site
+_site/
 
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 
