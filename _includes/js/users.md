@@ -404,7 +404,7 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
 
 ### Facebook `authData`
 
-<pre><code class="json">
+<pre><code class="javascript">
 {
   "facebook": {
     "id": "user's Facebook id number as a string",
@@ -417,7 +417,7 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
 
 ### Twitter `authData`
 
-<pre><code class="json">
+<pre><code class="javascript">
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
@@ -434,7 +434,7 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
 
 ### Anonymous user `authData`
 
-<pre><code class="json">
+<pre><code class="javascript">
 {
   "anonymous": {
     "id": "random UUID with lowercase hexadecimal digits"
@@ -460,7 +460,6 @@ user._linkWith('twitter', myAuthData).then(function(user){
     // user
   });
 </code></pre>
-
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
 <pre><code class="javascript">
@@ -489,14 +488,12 @@ With a response body like:
   }
 }
 </code></pre>
-
 If the user has never been linked with this account, you will instead receive a status code of `201 Created`, indicating that a new user was created:
 
 <pre><code class="javascript">
 Status: 201 Created
 Location: https://api.parse.com/1/users/uMz0YZeAqc
 </code></pre>
-
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
 
 <pre><code class="json">
@@ -524,7 +521,6 @@ user._linkWith("facebook", myAuthData).then(function(user){
   // user is linked now
   });
 </code></pre>
-
 After linking your user to a service, you can authenticate them using matching `authData`.
 
 ### Unlinking
