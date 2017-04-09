@@ -458,7 +458,7 @@ let myAuthData = {
 let user = new Parse.User();
 user._linkWith('twitter', myAuthData).then(function(user){
     // user
-  });
+});
 </code></pre>
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
@@ -519,7 +519,7 @@ let user = new Parse.User();
 user.id = "uMz0YZeAqc";
 user._linkWith("facebook", myAuthData).then(function(user){
   // user is linked now
-  });
+});
 </code></pre>
 After linking your user to a service, you can authenticate them using matching `authData`.
 
@@ -532,5 +532,5 @@ let user = new Parse.User();
 user.id = "uMz0YZeAqc";
 user._linkWith("facebook", {}).then(function(user){
   // user is unlinked now
-  });
+});
 </code></pre>
