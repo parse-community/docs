@@ -7,13 +7,13 @@ For example, in your application with curated content, you may have a number of 
 We provide a specialized class called `ParseRole` that represents these role objects in your client code.  `ParseRole` is a subclass of `ParseObject`, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on `ParseObject` also exist on `ParseRole`.  The difference is that `ParseRole` has some additions specific to management of roles.
 
 
-## Properties
+## `ParseRole` Properties
 
 `ParseRole` has several properties that set it apart from `ParseObject`:
 
 *   name: The name for the role.  This value is required, must be unique, and can only be set once as a role is being created.  The name must consist of alphanumeric characters, spaces, -, or _.  This name will be used to identify the Role without needing its objectId.
-*   users: A [relation](#objects-pointers) to the set of users that will inherit permissions granted to the containing role.
-*   roles: A [relation](#objects-pointers) to the set of roles whose users and roles will inherit permissions granted to the containing role.
+*   users: A [relation](#using-pointers) to the set of users that will inherit permissions granted to the containing role.
+*   roles: A [relation](#using-pointers) to the set of roles whose users and roles will inherit permissions granted to the containing role.
 
 
 ## Security for Role Objects
@@ -48,7 +48,7 @@ await role.SaveAsync();
 Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
 
-## Security for Other Objects
+## Role Based Security for Other Objects
 
 Now that you have created a set of roles for use in your application, you can use them with ACLs to define the privileges that their users will receive. Each `ParseObject` can specify a `ParseACL`, which provides an access control list that indicates which users and roles should be granted read or write access to the object.
 

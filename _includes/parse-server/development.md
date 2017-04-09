@@ -23,7 +23,7 @@ You can now start Parse Server using `npm start`:
 npm start -- --appId APPLICATION_ID --masterKey MASTER_KEY --serverURL http://localhost:1337/parse
 ```
 
-## Files
+## Notable Files
 
 The following is a breakdown of the various files you will find in the Parse Server source code. Click on a filename to learn more about the purpose behind each file.
 

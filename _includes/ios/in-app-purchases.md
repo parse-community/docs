@@ -8,7 +8,7 @@ Lastly, any content uploaded to Parse is exempt from the Apple review process, a
 
 ## Apple Setup
 
-Prior to using in-app purchases on Parse, you'll need to set up your app and products with Apple. This process spans both the provisioning portal and iTunes Connect. We recommend following this [step-by-step guide](https://developer.apple.com/library/ios/#technotes/tn2259/_index.html).
+Prior to using in-app purchases on Parse, you'll need to set up your app and products with Apple. This process spans both the provisioning portal and iTunes Connect. We recommend following this [step-by-step guide](https://developer.apple.com/library/content/technotes/tn2259/_index.html).
 
 Note that this is a tricky setup process so please ensure you follow Apple's documentation precisely.
 

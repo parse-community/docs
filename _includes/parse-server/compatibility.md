@@ -129,10 +129,6 @@ Native Cloud Code modules are not available in Parse Server, so you will need to
 
 Parse has provided a separate [Parse Dashboard project](http://blog.parse.com/announcements/introducing-the-parse-server-dashboard/) which can be used to manage all of your Parse Server applications.
 
-### Class Level Permissions
-
-Class-level permissions are supported in Parse Server, but they have always been configured using the dashboard on Parse.com. It is possible to modify these permissions without the dashboard. You'll see the format for class-level permissions in the SCHEMA collection when you migrate your database. There is also a `setPermissions` method on the `Schema` class, which you can see used in the unit-tests in `Schema.spec.js`.
-
 ### Parse Config
 
 Parse Config is available in Parse Server and can be configured from your [Parse Dashboard](https://github.com/parse-community/parse-dashboard).
@@ -141,9 +137,9 @@ Parse Config is available in Parse Server and can be configured from your [Parse
 
 You can now [send push notifications using Parse Dashboard](http://blog.parse.com/announcements/push-and-config-come-to-the-parse-dashboard/).
 
-## Files
+## Storing Files
 
-Parse Files in hosted Parse applications were limited to 10 MB. The default storage layer in Parse Server, GridStore, can handle files up to 16 MB. To store larger files, we suggest using [Amazon's Simple Storage Service (S3)](#configuring-S3Adapter).
+Parse Files in hosted Parse applications were limited to 10 MB. The default storage layer in Parse Server, GridStore, can handle files up to 16 MB. To store larger files, we suggest using [Amazon's Simple Storage Service (S3)](#configuring-s3adapter).
 
 ## In-App Purchases
 
@@ -152,10 +148,6 @@ iOS in-app purchase verification through Parse is not supported.
 ## Jobs
 
 There is no background job functionality in Parse Server. If you have scheduled jobs, port them over to a self-hosted solution using a wide variety of open source job queue projects. A popular one is [kue](https://github.com/Automattic/kue). Alternatively, if your jobs are simple, you could use a cron job.
-
-## Push Notifications
-
-Parse Server implements basic transactional pushes to iOS and Android devices using channels or queries. Check out the [Push Guide](#push-notifications) for the details.
 
 ### Client Push
 
@@ -166,7 +158,7 @@ Hosted Parse applications could disable a security setting in order to allow cli
 Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, the GCM registration IDs (stored in the `deviceToken` field) for your app are associated with Parse's GCM sender ID, which won't work after Parse is retired. You may want to take these actions to have your app register with a different GCM sender ID, which will make the registration IDs in the `deviceToken` field exportable to other push providers:
 
 * Enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number (it should be a large integer like `123427208255`). This is also known as your GCM sender ID.
-* Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide]({{ site.baseUrl }}/android/guide/#push-notifications-setting-up-push) for more details on this attribute.
+* Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide]({{ site.baseUrl }}/android/guide/#setting-up-push) for more details on this attribute.
 * Parse will now register for GCM with both its GCM sender ID and your GCM sender ID on app startup. You can use the resulting GCM registration IDs (stored in the `deviceToken` field of ParseInstallation) with other GCM push providers.
 
 ### Parse IoT Devices

@@ -7,7 +7,7 @@ With this class, you'll be able to add user account functionality in your app.
 `ParseUser` is a subclass of `ParseObject`, and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `ParseObject` also exist in `ParseUser`. The difference is that ParseUser has some special additions specific to user accounts.
 
 
-## Properties
+## `ParseUser` Properties
 
 `ParseUser` has several values that set it apart from `ParseObject`:
 

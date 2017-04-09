@@ -39,8 +39,6 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during signup, the Parse Cloud will automatically create a `Session` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
-
 When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new user:
 
 <pre><code class="javascript">
@@ -85,8 +83,6 @@ connection.request('GET', '/1/login?%s' % params, '', {
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
-
-`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login, the Parse Cloud will automatically create a `Session` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, `objectId`, and `sessionToken` fields:
 
@@ -295,7 +291,7 @@ The return value is a JSON object that contains a `results` field with a JSON ar
 }
 </code></pre>
 
-All of the options for queries that work for regular objects also work for user objects, so check the section on [Querying Objects](#queries-basic) for more details.
+All of the options for queries that work for regular objects also work for user objects, so check the section on [Querying Objects](#basic-queries) for more details.
 
 
 ## Deleting Users
@@ -416,8 +412,6 @@ connection.request('POST', '/1/users', json.dumps({
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
-
-`The X-Parse-Revocable-Session` header tells Parse to return a [revocable session](#sessions) even if your app has "Require Revocable Sessions" turned off (at Parse.com app settings page). This is useful for [transitioning from legacy session tokens](https://www.parse.com/tutorials/session-migration-tutorial) to revocable sessions when your existing mobile app also accesses the same Parse data. If "Require Revocable Sessions" is turned on (default for new apps), the `X-Parse-Revocable-Session` header is unnecessary. When you ask for a revocable session during login or signup, the Parse Cloud will automatically create a `Session` object. On this request, you can also tell Parse to automatically attach an installation to that session by specifying the optional `X-Parse-Installation-Id` header with the `installationId` of that installation.
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
@@ -546,7 +540,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-## Security
+## `User` Security
 
 When you access Parse via the REST API key, access can be restricted by ACL just like in the iOS and Android SDKs. You can still read and modify acls via the REST API, just by accessing the `"ACL"` key of an object.
 

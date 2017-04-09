@@ -208,7 +208,7 @@ query.whereStartsWith("name", "Big Daddy's");
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
 
-Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#performance-regular-expressions) for more details.
+Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#regular-expressions) for more details.
 
 
 ## Relational Queries
@@ -290,7 +290,7 @@ query.include("post.author");
 
 You can issue a query with multiple fields included by calling `include` multiple times. This functionality also works with ParseQuery helpers like `getFirst()` and `getInBackground()`.
 
-## Querying the Local Datastore
+## Using the Local Datastore
 
 If you have enabled the local datastore by calling `Parse.enableLocalDatastore()` before your call to `Parse.initialize()`, then you can also query against the objects stored locally on the device. To do this, call the `fromLocalDatastore` method on the query.
 

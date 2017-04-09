@@ -1,4 +1,4 @@
-# Push Notification
+# Push Notifications
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
@@ -256,7 +256,7 @@ The return value is a JSON object that contains a results field with a JSON arra
 }
 </code></pre>
 
-All of the options for queries that work for regular objects also work for installation objects, so check the section on [Querying Objects](#queries-basic-queries) for more details. By doing an array query over `channels`, for example, you can find the set of devices subscribed to a given push channel.
+All of the options for queries that work for regular objects also work for installation objects, so check the section on [Querying Objects](#basic-queries) for more details. By doing an array query over `channels`, for example, you can find the set of devices subscribed to a given push channel.
 
 
 ### Deleting Installations
@@ -283,7 +283,7 @@ print result
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
 You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.
 
@@ -584,7 +584,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-An in depth look at the `Installation` end point can be found in the [REST guide](#push-notifications/installations).
+An in depth look at the `Installation` end point can be found in the [REST guide](#installations).
 
 ## Sending Options
 
@@ -598,7 +598,7 @@ If you want to send more than just a message, you can set other fields in the `d
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
 *   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
-*   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
+*   **`category`**: _(iOS only)_ the identifier of the [`UNNotification​Category`](https://developer.apple.com/reference/usernotifications/unnotificationcategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated      with opening the URI is launched.
 *   **`title`**: _(Android only)_ the value displayed in the Android system tray notification.
 
@@ -645,7 +645,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide/#push-notifications-receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
+It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide/#receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
 <pre><code class="bash">
 </code></pre>
@@ -709,7 +709,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expired. This value is relative to the `push_time` parameter used to [schedule notifications](#push-notifications-scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from March 16th, 2015.
+Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expired. This value is relative to the `push_time` parameter used to [schedule notifications](#scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from March 16th, 2015.
 
 <pre><code class="bash">
 curl -X POST \

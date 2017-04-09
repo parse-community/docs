@@ -61,4 +61,4 @@ if (Parse.pushAvailable()) {
 
 ## Sending Pushes
 
-There are many ways to send a push notification. It's possible to send from the Arduino SDK via a call to the REST API, but you'll most likely be sending from another environment. [Read here for more information on how to send pushes]({{ site.baseUrl }}/rest#push-notifications).
+There are many ways to send a push notification. It's possible to send from the Arduino SDK via a call to the REST API, but you'll most likely be sending from another environment. [Read here for more information on how to send pushes]({{ site.baseUrl }}/rest/guide/#push-notifications).

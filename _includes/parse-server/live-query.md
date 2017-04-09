@@ -80,7 +80,7 @@ You can check the [LiveQuery protocol specification](https://github.com/parse-co
 
 For more details about the JavaScript LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-JS) and the [Live Query section in the JavaScript Guide]({{ site.baseUrl }}/js/guide/#live-queries).
 
-For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/Parse-SDK-iOS-OSX) and the [Live Query section in the iOS Guide]({{ site.baseUrl }}/ios/guide/#live-queries).
+For the iOS LiveQuery Client SDK, check out the [open source code](https://github.com/parse-community/ParseLiveQuery-iOS-OSX).
 
 ## LiveQuery Protocol
 
@@ -90,7 +90,7 @@ The LiveQuery protocol is a simple protocol that encapsulates messages in JSON s
 
 ## LiveQuery Server
 
-### Configuration
+### Configuring the server
 
 The full configuration of the LiveQuery server should look like this:
 
@@ -166,7 +166,7 @@ For example, if you use Heroku to deploy your Live Query server, after you setup
 
 ![]({{ '/assets/images/lq_heroku.png' | prepend: site.baseurl }})
 
-### Security
+### Security with LiveQuery
 
 The LiveQuery server provides two ways to secure your app. The first one is key matching. If you provide key pairs when you initialize the LiveQuery server, when clients try to connect to LiveQuery server, they have to provide the necessary key pairs. Otherwise, the connection will be refused.
 

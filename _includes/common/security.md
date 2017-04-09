@@ -10,9 +10,9 @@ When an app first connects to Parse, it identifies itself with an Application ID
 
 This is why Parse has many other security features to help you secure your data. The client key is given out to your users, so anything that can be done with just the client key is doable by the general public, even malicious hackers.
 
-The master key, on the other hand, is definitely a security mechanism. Using the master key allows you to bypass all of your app's security mechanisms, such as [class-level permissions](#security-class-level-permissions) and [ACLs](#security-object-level-access-control). Having the master key is like having root access to your app's servers, and you should guard your master key with the same zeal with which you would guard your production machines' root password.
+The master key, on the other hand, is definitely a security mechanism. Using the master key allows you to bypass all of your app's security mechanisms, such as [class-level permissions](#class-level-permissions) and [ACLs](#object-level-access-control). Having the master key is like having root access to your app's servers, and you should guard your master key with the same zeal with which you would guard your production machines' root password.
 
-The overall philosophy is to limit the power of your clients (using client keys), and to perform any sensitive actions requiring the master key in Cloud Code. You'll learn how to best wield this power in the section titled [Implementing Business Logic in Cloud Code](#security-implementing-business-logic-in-cloud-code).
+The overall philosophy is to limit the power of your clients (using client keys), and to perform any sensitive actions requiring the master key in Cloud Code. You'll learn how to best wield this power in the section titled [Implementing Business Logic in Cloud Code](#implementing-business-logic-in-cloud-code).
 
 A final note: All connections are made with HTTPS and SSL, and Parse will reject all non-HTTPS connections. As a result, you don't need to worry about man-in-the-middle attacks.
 
@@ -72,7 +72,7 @@ When a user logs into an app, they initiate a session with Parse. Through this s
 
 The easiest way to control who can access which data is through access control lists, commonly known as ACLs. The idea behind an ACL is that each object has a list of users and roles along with what permissions that user or role has. A user needs read permissions (or must belong to a role that has read permissions) in order to retrieve an object's data, and a user needs write permissions (or must belong to a role that has write permissions) in order to update or delete that object.
 
-Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse's [automatic anonymous users]({{ site.baseUrl }}/ios/guide/#users-anonymous-users) functionality. To set an ACL on the current user's data to not be publicly readable, all you have to do is:
+Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse's [automatic anonymous users]({{ site.baseUrl }}/ios/guide/#anonymous-users) functionality. To set an ACL on the current user's data to not be publicly readable, all you have to do is:
 
 <pre><code class="objectivec">
 PFUser *user = [PFUser currentUser];
@@ -433,7 +433,7 @@ Effects:
 
 ### CLP and ACL interaction
 
-Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don't always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, [Pointer Permissions](#security-pointer-permissions) are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.
+Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don't always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, [Pointer Permissions](#pointer-permissions) are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.
 
 ![]({{ '/assets/images/clp_vs_acl_diagram.png' || prepend: site.baseurl }})
 
@@ -447,7 +447,7 @@ Because of the complex interaction between CLPs, Pointer Permissions, and ACLs, 
 
 ### Security Edge Cases
 
-There are some special classes in Parse that don't follow all of the same security rules as every other class. Not all classes follow [Class-Level Permissions (CLPs)](#security-classes) or [Access Control Lists (ACLs)](#security-objects) exactly how they are defined, and here those exceptions are documented. Here "normal behavior" refers to CLPs and ACLs working normally, while any other special behaviors are described in the footnotes.
+There are some special classes in Parse that don't follow all of the same security rules as every other class. Not all classes follow [Class-Level Permissions (CLPs)](#class-level-permissions) or [Access Control Lists (ACLs)](#object-level-access-control) exactly how they are defined, and here those exceptions are documented. Here "normal behavior" refers to CLPs and ACLs working normally, while any other special behaviors are described in the footnotes.
 
 ||`_User`|`_Installation`|
 | --- | --- |
@@ -470,17 +470,17 @@ There are some special classes in Parse that don't follow all of the same securi
 
 6. Get requests on installations follow ACLs normally. Find requests without master key is not allowed unless you supply the `installationId` as a constraint.
 
-7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide]({{ site.baseUrl }}/rest#installations).
+7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide]({{ site.baseUrl }}/rest/guide/#installations).
 
 ## Data Integrity in Cloud Code
 
-For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users' data safe. Sometimes, though, you'll run into an edge case where they aren't quite enough. For everything else, there's [Cloud Code]({{ site.baseUrl }}/cloudcode/guide/#cloud-code).
+For most apps, care around keys, class-level permissions, and object-level ACLs are all you need to keep your app and your users' data safe. Sometimes, though, you'll run into an edge case where they aren't quite enough. For everything else, there's [Cloud Code]({{ site.baseUrl }}/cloudcode/guide/).
 
 Cloud Code allows you to upload JavaScript to Parse's servers, where we will run it for you. Unlike client code running on users' devices that may have been tampered with, Cloud Code is guaranteed to be the code that you've written, so it can be trusted with more responsibility.
 
 One particularly common use case for Cloud Code is preventing invalid data from being stored. For this sort of situation, it's particularly important that a malicious client not be able to bypass the validation logic.
 
-To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger]({{ site.baseUrl }}/cloudcode/guide/#cloud-code-beforesave-triggers) to make sure every user has an email address set:
+To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger]({{ site.baseUrl }}/cloudcode/guide/#beforesave-triggers) to make sure every user has an email address set:
 
 ```js
 Parse.Cloud.beforeSave(Parse.User, function(request, response) {
@@ -492,8 +492,6 @@ Parse.Cloud.beforeSave(Parse.User, function(request, response) {
   }
 });
 ```
-
-Our [Cloud Code guide]({{ site.baseUrl }}/cloudcode/guide/#cloud-code) provides instructions on how to upload this trigger to our servers.
 
 Validations can lock down your app so that only certain values are acceptable. You can also use `afterSave` validations to normalize your data (e.g. formatting all phone numbers or currency identically). You get to retain most of the productivity benefits of accessing Parse data directly from your client applications, but you can also enforce certain invariants for your data on the fly.
 

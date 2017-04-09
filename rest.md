@@ -18,12 +18,14 @@ sections:
 - "rest/roles.md"
 - "rest/files.md"
 - "rest/geopoints.md"
+- "common/data.md"
 - "rest/push-notifications.md"
 - "rest/config.md"
 - "rest/analytics.md"
 - "rest/cloud-code.md"
 - "rest/schemas.md"
 - "rest/hooks.md"
+- "common/security.md"
 - "common/errors.md"
 
 ---

@@ -6,7 +6,7 @@ With this class, you'll be able to add user account functionality in your app.
 
 `ParseUser` is a subclass of `ParseObject` and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `ParseObject` also exist in `ParseUser`. The difference is that ParseUser has some special additions specific to user accounts.
 
-## Properties
+## `ParseUser` Properties
 
 `ParseUser` has several properties that set it apart from `ParseObject`:
 
@@ -265,7 +265,7 @@ Parse provides an easy way to integrate Facebook with your application. The `Par
 
 Using our Facebook integration, you can associate an authenticated Facebook user with a `ParseUser`. With just a few lines of code, you'll be able to provide a "log in with Facebook" option in your app, and be able to save their data to Parse.
 
-### Setup
+### Setting up Facebook
 
 To start using Facebook with Parse, you need to:
 

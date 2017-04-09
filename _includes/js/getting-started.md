@@ -1,19 +1,39 @@
 # Getting Started
 
-If you haven't set up your project yet, please [head over to the QuickStart guide]({{ page.quickstart }}#js/native/blank) to get up and running. You can also check out our [API Reference]({{ site.apis.js }}) for more detailed information about our SDK.
+The easiest way to integrate the Parse SDK into your JavaScript project is through the [npm module](https://npmjs.org/parse).
+However, if you want to use a pre-compiled file, you can fetch it from [npmcdn](https://npmcdn.com). The development version is available at [https://npmcdn.com/parse/dist/parse.js](https://npmcdn.com/parse/dist/parse.js), and the minified production version is at [https://npmcdn.com/parse/dist/parse.min.js](https://npmcdn.com/parse/dist/parse.min.js).
 
-The Parse platform provides a complete backend solution for your mobile application. Our goal is to totally eliminate the need for writing server code or maintaining servers.
+### Using Parse on Different Platforms
 
-<div class='tip info'><div>
-  If you're looking to build a React application with Parse, we provide a special library for that. All of the documentation is available at the <a href="https://github.com/parse-community/ParseReact">GitHub repo</a>.
-</div></div>
+The JavaScript ecosystem is wide and incorporates a large number of platforms and execution environments. To handle this, the Parse npm module contains special versions of the SDK tailored to use in Node.js and [React Native](https://facebook.github.io/react-native/) environments. Not all features make sense in all environments, so using the appropriate package will ensure that items like local storage, user sessions, and HTTP requests use appropriate dependencies.
+
+To use the npm modules for a browser based application, include it as you normally would:
+
+```js
+var Parse = require('parse');
+```
+
+For server-side applications or Node.js command line tools, include `'parse/node'`:
+
+```js
+// In a node.js environment
+var Parse = require('parse/node');
+```
+
+For React Native applications, include `'parse/react-native'`:
+```js
+// In a React Native application
+var Parse = require('parse/react-native');
+```
+
+To initialize your own Parse-Server with Javascript, you should replace your current initialization code with this
+
+
+```js
+Parse.initialize("YOUR_APP_ID");
+Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
+```
 
 Our JavaScript SDK is originally based on the popular [Backbone.js](http://backbonejs.org/) framework, but it provides flexible APIs that allow it to be paired with your favorite JS libraries. Our goal is to minimize configuration and let you quickly start building your JavaScript and HTML5 app on Parse.
 
 Our SDK supports Firefox 23+, Chrome 17+, Safari 5+, and IE 10. IE 9 is supported only for apps that are hosted with HTTPS.
-
-To initialize your own Parse-Server with Javascript, you should replace your current initialization code with this
-```
-Parse.initialize("YOUR_APP_ID");
-Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
-```

@@ -6,7 +6,7 @@ With this class, you'll be able to add user account functionality in your app.
 
 `ParseUser` is a subclass of the `ParseObject`, and has all the same features, such as flexible schema, automatic persistence, and a key value interface. All the methods that are on `ParseObject` also exist in `ParseUser`. The difference is that `ParseUser` has some special additions specific to user accounts.
 
-## Properties
+## `ParseUser` Properties
 
 `ParseUser` has several properties that set it apart from `ParseObject`:
 
@@ -120,7 +120,7 @@ ParseAnonymousUtils.logIn(new LogInCallback() {
 });
 ```
 
-You can convert an anonymous user into a regular user by setting the username and password, then calling `signUp()`, or by logging in or linking with a service like [Facebook](#fbusers) or [Twitter](#twitterusers). The converted user will retain all of its data.  To determine whether the current user is an anonymous user, you can check `ParseAnonymousUtils.isLinked()`:
+You can convert an anonymous user into a regular user by setting the username and password, then calling `signUp()`, or by logging in or linking with a service like [Facebook](#facebook-users) or [Twitter](#twitter-users). The converted user will retain all of its data.  To determine whether the current user is an anonymous user, you can check `ParseAnonymousUtils.isLinked()`:
 
 ```java
 if (ParseAnonymousUtils.isLinked(ParseUser.getCurrentUser())) {
@@ -331,7 +331,7 @@ Using our Facebook integration, you can associate an authenticated Facebook user
 
 **Note:** Parse is compatible with both Facebook SDK 3.x and 4.x for Android. These instructions are for Facebook SDK 4.x.
 
-### Setup
+### Setting up Facebook
 
 To start using Facebook with Parse, you need to:
 
@@ -394,7 +394,7 @@ When this code is run, the following happens:
 
 In order to display the Facebook login dialogs and activities, the current `Activity` must be provided (often, the current activity is `this` when calling `logInWithReadPermissionsInBackground()` from within the `Activity`) as we have done above.
 
-`ParseUser` integration doesn't require any permissions to work out of the box (i.e. `null` is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#fbusers-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+`ParseUser` integration doesn't require any permissions to work out of the box (i.e. `null` is perfectly acceptable). When logging in, you can only use read permissions. See our documentation below about [requesting additional permissions](#requesting-permissions) (read or publish). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 ### Facebook Linking
 
@@ -445,7 +445,7 @@ To access the user's `AccessToken` you can simply call `AccessToken.getCurrentAc
 
 As with Facebook, Parse also provides an easy way to integrate Twitter authentication into your application. The Parse SDK provides a straightforward way to authorize and link a Twitter account to your `ParseUser`s. With just a few lines of code, you'll be able to provide a "log in with Twitter" option in your app, and be able to save their data to Parse.
 
-### Setup
+### Setting up Twitter
 
 To start using Twitter with Parse, you need to:
 

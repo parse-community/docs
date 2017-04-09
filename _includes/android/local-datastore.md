@@ -43,7 +43,7 @@ If you have multiple objects, you can pin them all at once with the `pinAllInBac
 ParseObject.pinAllInBackground(listOfObjects);
 ```
 
-## Retrieving Objects
+## Retrieving
 
 Storing objects is great, but it's only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the `fromLocalDatastore` method to tell the `ParseQuery` where to look for its results.
 
@@ -61,7 +61,7 @@ query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
 });
 ```
 
-## Querying
+## Querying the Local Datastore
 
 Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [ParseQuery](#queries). Any `ParseQuery` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
 

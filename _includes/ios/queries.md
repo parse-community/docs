@@ -507,7 +507,7 @@ let query = PFQuery(className: "BarbecueSauce", predicate: predicate)
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
 
-Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#performance-regular-expressions) for more details.
+Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#regular-expressions) for more details.
 
 
 ## Relational Queries
@@ -726,7 +726,7 @@ query.includeKey("post.author")
 
 You can issue a query with multiple fields included by calling `includeKey:` multiple times. This functionality also works with PFQuery helpers like `getFirstObject` and `getObjectInBackground`
 
-## Querying the Local Datastore
+## Using the Local Datastore
 
 If you have enabled the local datastore by calling `[Parse enableLocalDatastore]` before your call to `[Parse setApplicationId:clientKey:]`, then you can also query against the objects stored locally on the device. To do this, call the `fromLocalDatastore` method on the query.
 

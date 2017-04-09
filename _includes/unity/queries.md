@@ -154,7 +154,7 @@ var query = ParseObject.GetQuery("BarbecueSauce")
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
 
-Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#performance-regular-expressions) for more details.
+Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#regular-expressions) for more details.
 
 
 ## Relational Queries

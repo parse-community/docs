@@ -620,7 +620,7 @@ To create a `PFObject` subclass:
 3.  Import `PFObject+Subclass` in your .m file. This implements all methods in `PFSubclassing` beyond `parseClassName`.
 4.  Call `[YourClass registerSubclass]` before Parse `setApplicationId:clientKey:`.
 
-An easy way to do this is with your class' [+load](https://developer.apple.com/library/ios/documentation/cocoa/reference/foundation/classes/nsobject_class/reference/reference.html#//apple_ref/occ/clm/NSObject/load) (Obj-C only) or with [initialize](https://developer.apple.com/library/ios/documentation/Cocoa/Reference/Foundation/Classes/NSObject_Class/#//apple_ref/occ/clm/NSObject/initialize) (both Obj-C and Swift) methods.
+An easy way to do this is with your class' [+load](https://developer.apple.com/reference/objectivec/nsobject/1418815-load?language=objc) (Obj-C only) or with [initialize](https://developer.apple.com/reference/objectivec/nsobject/1418639-initialize) (both Obj-C and Swift) methods.
 
 Please note that the `initialize` method is not called until the class receives its first message, meaning that you need to call any instance or class method on your subclass before it will be registered with Parse SDK.
 

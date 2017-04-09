@@ -786,7 +786,7 @@ var results = await ParseObject.GetQuery("GameScore")
 
 ## Client-side Caching
 
-For queries run from iOS and Android, you can turn on query caching. See the [iOS]({{ site.baseUrl }}/ios/guide/#queries-caching-queries) and [Android]({{ site.baseUrl }}/android/guide/#queries-caching-queries) guides for more details. Caching queries will increase your mobile app's performance especially in cases where you want to display cached data while fetching the latest data from Parse.
+For queries run from iOS and Android, you can turn on query caching. See the [iOS]({{ site.baseUrl }}/ios/guide/#caching-queries) and [Android]({{ site.baseUrl }}/android/guide/#caching-queries) guides for more details. Caching queries will increase your mobile app's performance especially in cases where you want to display cached data while fetching the latest data from Parse.
 
 ## Use Cloud Code
 
@@ -794,7 +794,7 @@ Cloud Code allows you to run custom JavaScript logic on Parse Server instead of 
 
 You can use this to offload processing to the Parse servers thus increasing your app's perceived performance.  You can create hooks that run whenever an object is saved or deleted. This is useful if you want to validate or sanitize your data. You can also use Cloud Code to modify related objects or kick off other processes such as sending off a push notification.
 
-We saw examples of limiting the data returned by writing restrictive queries. You can also use [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-code-cloud-functions) to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie's average rating:
+We saw examples of limiting the data returned by writing restrictive queries. You can also use [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-functions) to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie's average rating:
 
 ```javascript
 Parse.Cloud.define("averageStars", function(request, response) {
@@ -815,7 +815,7 @@ Parse.Cloud.define("averageStars", function(request, response) {
 
 You could have ran a query on the Review class on the client, returned only the stars field data and computed the result on the client. As the number of reviews for a movie increases you can see that the data being returned to the device using this methodology also increases. Implementing the functionality through a Cloud Function returns the one result if successful.
 
-As you look at optimizing your queries, you'll find that you may have to change the queries - sometimes even after you've shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-code-cloud-functions). Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:
+As you look at optimizing your queries, you'll find that you may have to change the queries - sometimes even after you've shipped your app to the App Store or Google Play. The ability to change your queries without a client update is possible if you use [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-functions). Even if you have to redesign your schema, you could make all the changes in your Cloud Functions while keeping the client interface the same to avoid an app update. Take the average stars Cloud Function example from before, calling it from a client SDK would look like this:
 
 ```javascript
 Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings) {

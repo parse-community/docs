@@ -16,4 +16,4 @@ Each object has a class name that you can use to distinguish different sorts of 
 
 ## Data Types
 
-So far we've used values with type `double` and `bool`. The Parse REST API also supports strings, arrays, dates, and more. Read more about representing these and other types as JSON in the [REST API Guide]({{ site.baseUrl }}/rest#objects-data-types).
+So far we've used values with type `double` and `bool`. The Parse REST API also supports strings, arrays, dates, and more. Read more about representing these and other types as JSON in the [REST API Guide]({{ site.baseUrl }}/rest/guide/#data-types).

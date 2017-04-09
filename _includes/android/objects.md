@@ -454,7 +454,7 @@ To create a reference to an existing object, use `ParseObject.createWithoutData(
 Armor armorReference = ParseObject.createWithoutData(Armor.class, armor.getObjectId());
 ```
 
-### Queries
+### Queries on Subclasses
 
 You can get a query for objects of a particular subclass using the static method `ParseQuery.getQuery()`. The following example queries for armors that the user can afford:
 

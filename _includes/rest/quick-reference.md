@@ -2,135 +2,125 @@
 
 All API access is over HTTPS, and accessed via the `https://api.parse.com` domain. The relative path prefix `/1/` indicates that we are currently using version 1 of the API.
 
-## Objects
+## Objects API
 
 | URL                                 | HTTP Verb | Functionality                                      |
 |-------------------------------------|-----------|----------------------------------------------------|
-| `/1/classes/<className>`            | POST      | [Creating Objects](#objects-creating-objects)      |
-| `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#objects-retrieving-objects)  |
-| `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#objects-updating-objects)      |
+| `/1/classes/<className>`            | POST      | [Creating Objects](#creating-objects)      |
+| `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#retrieving-objects)  |
+| `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#updating-objects)      |
 | `/1/classes/<className>`            | GET       | [Queries](#queries)                                |
-| `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#objects-deleting-objects)      |
+| `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#deleting-objects)      |
 {: .docs_table}
 
-## Users
+## Users API
 
 | URL                       | HTTP Verb | Functionality                                                      |
 |---------------------------|-----------|--------------------------------------------------------------------|
-| `/1/users`                | POST      | [Signing Up](#users-signingup) <br/>[Linking Users](#users-linking-users) |
-| `/1/login`                | GET       | [Logging In](#users-logging-in)                                    |
-| `/1/logout`               | POST      | [Logging Out](#sessions-deleting-sessions)                         |
-| `/1/users/<objectId>`     | GET       | [Retrieving Users](#users-retrieving-users)                        |
-| `/1/users/me`             | GET       | [Validating Session Tokens](#users-validating-session-tokens-retrieving-current-user) <br/>[Retrieving Current User](#users-retrieving-users)                                        |
-| `/1/users/<objectId>`     | PUT       | [Updating Users](#users-updating-users) <br/>[Linking Users](#users-linking-users) <br/>[Verifying Emails](#users-verifying-emails) |
-| `/1/users`                | GET       | [Querying Users](#users-querying)                                  |
-| `/1/users/<objectId>`     | DELETE    | [Deleting Users](#users-deleting-users)                            |
-| `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#users-requesting-a-password-reset)  |
+| `/1/users`                | POST      | [Signing Up](#signing-up) <br/>[Linking Users](#linking-users) |
+| `/1/login`                | GET       | [Logging In](#logging-in)                                    |
+| `/1/logout`               | POST      | [Logging Out](#deleting-sessions)                         |
+| `/1/users/<objectId>`     | GET       | [Retrieving Users](#retrieving-users)                        |
+| `/1/users/me`             | GET       | [Validating Session Tokens](#validating-session-tokens--retrieving-current-user) <br/>[Retrieving Current User](#retrieving-users)                                        |
+| `/1/users/<objectId>`     | PUT       | [Updating Users](#updating-users) <br/>[Linking Users](#linking-users) <br/>[Verifying Emails](#verifying-emails) |
+| `/1/users`                | GET       | [Querying Users](#querying)                                  |
+| `/1/users/<objectId>`     | DELETE    | [Deleting Users](#deleting-users)                            |
+| `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#requesting-a-password-reset)  |
 {: .docs_table}
 
-## Sessions
+## Sessions API
 
 | URL                       | HTTP Verb |Functionality                               |
 |---------------------------|-----------|--------------------------------------------|
-| `/1/sessions`             | POST      | [Creating Restricted Sessions](#sessions-creating-sessions) |
-| `/1/sessions/<objectId>`  | GET       | [Retrieving Sessions](#sessions-retrieving-sessions) |
-| `/1/sessions/me`          | GET       | [Retrieving Current Session](#sessions-retrieving-sessions) |
-| `/1/sessions/<objectId>`  | PUT       | [Updating Sessions](#sessions-updating-sessions) |
-| `/1/sessions`             | GET       | [Querying Sessions](#sessions-querying-sessions) |
-| `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#sessions-deleting-sessions) |
-| `/1/sessions/me`          | PUT       | [Pairing with Installation](#sessions-pairing-session-with-installation) |
+| `/1/sessions`             | POST      | [Creating Restricted Sessions](#creating-sessions) |
+| `/1/sessions/<objectId>`  | GET       | [Retrieving Sessions](#retrieving-sessions) |
+| `/1/sessions/me`          | GET       | [Retrieving Current Session](#retrieving-sessions) |
+| `/1/sessions/<objectId>`  | PUT       | [Updating Sessions](#updating-sessions) |
+| `/1/sessions`             | GET       | [Querying Sessions](#querying-sessions) |
+| `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#deleting-sessions) |
+| `/1/sessions/me`          | PUT       | [Pairing with Installation](#pairing-session-with-installation) |
 {: .docs_table}
 
-## Roles
+## Roles API
 
 | URL                   | HTTP Verb | Functionality                               |
 |-----------------------|-----------|---------------------------------------------|
-| `/1/roles`            | POST      | [Creating Roles](#roles-creating-roles)     |
-| `/1/roles/<objectId>` | GET       | [Retrieving Roles](#roles-retrieving-roles) |
-| `/1/roles/<objectId>` | PUT       | [Updating Roles](#roles-updating-roles)     |
-| `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#roles-deleting-roles)     |
+| `/1/roles`            | POST      | [Creating Roles](#creating-roles)     |
+| `/1/roles/<objectId>` | GET       | [Retrieving Roles](#retrieving-roles) |
+| `/1/roles/<objectId>` | PUT       | [Updating Roles](#updating-roles)     |
+| `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#deleting-roles)     |
 {: .docs_table}
 
-## Files
+## Files API
 
 | URL                   | HTTP Verb | Functionality                             |
 |-----------------------|-----------|-------------------------------------------|
-| `/1/files/<fileName>` | POST      | [Uploading Files](#files-uploading-files) |
+| `/1/files/<fileName>` | POST      | [Uploading Files](#uploading-files) |
 {: .docs_table}
 
-## Analytics
+## Analytics API
 
 | URL                     | HTTP Verb | Functionality                                   |
 |-------------------------|-----------|-------------------------------------------------|
-| `/1/events/AppOpened`   | POST      | [Analytics](#analytics-app-open-analytics)      |
-| `/1/events/<eventName>` | POST      | [Custom Analytics](#analytics-custom-analytics) |
+| `/1/events/AppOpened`   | POST      | [Analytics](#app-open-analytics)      |
+| `/1/events/<eventName>` | POST      | [Custom Analytics](#custom-analytics) |
 {: .docs_table}
 
-## Push Notifications
+## Push Notifications API
 
 | URL       | HTTP Verb | Functionality                |
 |-----------|-----------|------------------------------|
 | `/1/push` | POST      | [Push Notifications](#push-notifications)  |
 {: .docs_table}
 
-## Installations
+## Installations API
 
 | URL                           | HTTP Verb | Functionality                                            |
 |-------------------------------|-----------|----------------------------------------------------------|
-| `/1/installations`            | POST      | [Uploading Installation Data](#push-notifications-uploading-installation-data)  |
-| `/1/installations/<objectId>` | GET       | [Retrieving Installations](#push-notifications-retrieving-installations)        |
-| `/1/installations/<objectId>` | PUT       | [Updating Installations](#push-notifications-updating-installations)        |
-| `/1/installations`            | GET       | [Querying Installations](#push-notifications-querying-installations)        |
-| `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#push-notifications-deleting-installations)        |
+| `/1/installations`            | POST      | [Uploading Installation Data](#uploading-installation-data)  |
+| `/1/installations/<objectId>` | GET       | [Retrieving Installations](#retrieving-installations)        |
+| `/1/installations/<objectId>` | PUT       | [Updating Installations](#updating-installations)        |
+| `/1/installations`            | GET       | [Querying Installations](#querying-installations)        |
+| `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#deleting-installations)        |
 {: .docs_table}
 
-## Cloud Functions
+## Cloud Functions API
 
 | URL                   | HTTP Verb | Functionality                                             |
 |-----------------------|-----------|-----------------------------------------------------------|
-| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#cloud-code-cloud-functions)    |
-| `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#cloud-code-background-jobs) |
+| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#calling-cloud-functions)    |
+| `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#triggering-background-jobs) |
 {: .docs_table}
 
-## Schemas
+## Schemas API
 
 | URL                     | HTTP Verb | Functionality                                             |
 |-------------------------|-----------|-----------------------------------------------------------|
-| `/1/schemas/`           | GET       | [Fetch All Schemas](#schema-fetch-the-schema)             |
-| `/1/schemas/<className>`| GET       | [Fetch Schema](#schema-fetch-the-schema)                  |
-| `/1/schemas/<className>`| POST      | [Create Schema](#schema-adding-a-schema)                  |
-| `/1/schemas/<className>`| PUT       | [Modify Schema](#schema-modifying-the-schema)             |
-| `/1/schemas/<className>`| DELETE    | [Delete Schema](#schema-removing-a-schema)                |
+| `/1/schemas/`           | GET       | [Fetch All Schemas](#fetch-the-schema)             |
+| `/1/schemas/<className>`| GET       | [Fetch Schema](#fetch-the-schema)                  |
+| `/1/schemas/<className>`| POST      | [Create Schema](#adding-a-schema)                  |
+| `/1/schemas/<className>`| PUT       | [Modify Schema](#modifying-the-schema)             |
+| `/1/schemas/<className>`| DELETE    | [Delete Schema](#removing-a-schema)                |
 {: .docs_table}
 
-## Apps
-
-| URL                      | HTTP Verb | Functionality                                             |
-|--------------------------|-----------|-----------------------------------------------------------|
-| `/1/apps/`               | GET       | [Fetch Apps](#apps-fetching-apps)                         |
-| `/1/apps/<applicationId>`| GET       | [Fetch App](#apps-fetching-apps)                          |
-| `/1/apps/<applicationId>`| POST      | [Create App](#apps-creating-apps)                         |
-| `/1/apps/<applicationId>`| PUT       | [Modify App](#apps-updating-apps)                         |
-{: .docs_table}
-
-## Function Hooks
+## Function Hooks API
 
 | URL                                 | HTTP Verb | Functionality                                           |
 |-------------------------------------|-----------|---------------------------------------------------------|
-| `/1/hooks/functions/<functionName>` | GET       | [Fetch Cloud Functions](#hooks-fetch-functions) |
-| `/1/hooks/functions/`               | POST      | [Create Cloud Function](#hooks-create-function-webhook) |
-| `/1/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#hooks-edit-function-webhook)     |
-| `/1/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#hooks-delete-function-webhook) |
+| `/1/hooks/functions/<functionName>` | GET       | [Fetch Cloud Functions](#fetch-functions) |
+| `/1/hooks/functions/`               | POST      | [Create Cloud Function](#create-function-webhook) |
+| `/1/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#edit-function-webhook)     |
+| `/1/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#delete-function-webhook) |
 {: .docs_table}
 
-## Trigger Hooks
+## Trigger Hooks API
 
 | URL                                           | HTTP Verb | Functionality                                           |
 |-----------------------------------------------|-----------|---------------------------------------------------------|
-| `/1/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#hooks-fetch-triggers)      |
-| `/1/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#hooks-create-trigger-webhook)   |
-| `/1/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#hooks-edit-trigger-webhook)       |
-| `/1/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#hooks-delete-trigger-webhook)   |
+| `/1/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#fetch-triggers)      |
+| `/1/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#create-trigger-webhook)   |
+| `/1/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#edit-trigger-webhook)       |
+| `/1/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#delete-trigger-webhook)   |
 {: .docs_table}
 
 ## Request Format

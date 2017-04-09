@@ -1,6 +1,6 @@
 # Getting Started
 
-If you haven't set up your project yet, please [head over to the QuickStart guide]({{ page.quickstart }}#php/blank) to get up and running. You can also check out our [API Reference]({{ site.apis.php }}) for more detailed information about our SDK.
+If you haven't set up your project yet, please [head over to the PHP SDK setup guide](https://github.com/parse-community/parse-php-sdk#installation) to get up and running. You can also check out our [API Reference]({{ site.apis.php }}) for more detailed information about our SDK.
 
 The Parse platform provides a complete backend solution for your mobile application. Generally, our goal is to eliminate the need for managing servers and writing server-side code. Our PHP SDK is for those applications and situations where server-side code is necessary, or simply preferred.
 

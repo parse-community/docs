@@ -98,7 +98,7 @@ query.find().then(function(students) {
 });
 </code></pre>
 
-## Error Handling
+## Error Handling With Promises
 
 The code samples above left out error handling for simplicity, but adding it back reiterates what a mess the old callback code could be:
 

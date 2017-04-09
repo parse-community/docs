@@ -8,4 +8,4 @@ The errors passed through callbacks are again OS-specific errors. The one except
 
 In the case of an HTTP error status, you should also check the request body. If the request body contains a valid JSON document, the document will contain a Parse error code, as defined by the [REST API documentation]({{ site.baseUrl }}/rest).
 
-For a list of all possible error codes, scroll down to [Error Codes](#errors).
+For a list of all possible error codes, scroll down to [Error Codes](#error-codes).

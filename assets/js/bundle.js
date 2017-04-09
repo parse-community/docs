@@ -421,8 +421,6 @@
 											// Build collapsable sublist with h2 tags. We skip any H2s
 											// that appear before the first H1.
 									} else if (el.tagName === 'H2' && latestMajor !== undefined) {
-											el.id = latestMajor.name + '/' + name;
-											name = el.id;
 											latestMinor = UI.tag('ul', { className: 'ui_live_toc_minor_list' });
 											latestMinor.name = name;
 											latestMajor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_major' }, [UI.tag('a', { href: '#' + name }, text), latestMinor]));
@@ -430,8 +428,6 @@
 											// Build deeper collapsable sublist with h3 tags. We skip any
 											// H3s that appear before the first H1 or directly after any H1
 									} else if (el.tagName === 'H3' && latestMajor !== undefined && latestMinor !== undefined) {
-											el.id = latestMinor.name + '/' + name;
-											name = el.id;
 											latestMinor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_minor' }, [UI.tag('a', { href: '#' + name }, text.toLowerCase())]));
 									}
 							}
@@ -444,13 +440,27 @@
 							var headerHeights = {};
 							var sortedHeights = [];
 							var headers = this.content.querySelectorAll('h1, h2, h3');
+							var latestMajor, latestMinor;
 							for (var i = 0; i < headers.length; i++) {
 									// var anchor = headers[i].getElementsByTagName('a')[0];
 									// var name = anchor.name;
-									var name = headers[i].id;
-
-									headerHeights[headers[i].offsetTop] = name;
-									sortedHeights.push(headers[i].offsetTop);
+									var el = headers[i];
+									var name = el.id;
+									var shouldAdd = false;
+									if (el.tagName === 'H1') {
+										latestMajor = el;
+										latestMinor = undefined;
+										shouldAdd = true;
+									} else if (el.tagName === 'H2' && latestMajor !== undefined) {
+										latestMinor = el;
+										shouldAdd = true;
+									} else if (el.tagName === 'H3' && latestMajor !== undefined && latestMinor !== undefined) {
+										shouldAdd = true;
+									}
+									if (shouldAdd) {
+										headerHeights[headers[i].offsetTop] = name;
+										sortedHeights.push(headers[i].offsetTop);
+									}
 							}
 							this._headerHeights = headerHeights;
 							this._sortedHeights = sortedHeights.sort(function (a, b) {
@@ -682,7 +692,8 @@
 							this.toc = new UI.LiveTOC({
 									parent: document.getElementById('toc'),
 									scrollContent: this.scrollContent,
-									content: document.getElementsByClassName('guide_content')[0]
+									content: document.getElementsByClassName('guide_content')[0],
+									alignment: 'top'
 							});
 
 							// deal with common-lang-blocks

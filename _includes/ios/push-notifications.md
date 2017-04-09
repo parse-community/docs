@@ -70,9 +70,9 @@ The Parse SDK will avoid making unnecessary requests. If a `PFInstallation` is s
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide/#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide/#sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide/#sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/).  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.
 
@@ -314,7 +314,7 @@ If you want to send more than just a message, you will need to use an `NSDiction
 *   **`badge`**: _(iOS/OS X only)_   the value indicated in the top right corner of the app icon.   This can be set to a value   or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS/OS X only)_   the name of a sound file in the application bundle.
 *   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [ introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
-*   **`category`**: _(iOS only)_ the identifier of th   [   `UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
+*   **`category`**: _(iOS only)_ the identifier of the [`UNNotification​Category`](https://developer.apple.com/reference/usernotifications/unnotificationcategory) for this push notification.
 *   **`uri`**: _(Android only)_   an optional field that contains a URI. When the   notification is opened, an `Activity` associate   with opening the URI is launched.
 *   **`title`**: _(Android, Windows 8, and Windows Phone 8 only)_   the value displayed in the Android system tray or Windows toast notification.
 
@@ -343,7 +343,7 @@ push.setData(data)
 push.sendPushInBackground()
 </code></pre>
 
-It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#push-notifications-receiving-pushes) section, you will have access to this data only when the user opens your app via the notification. This can be useful for displaying a different view controller when a user opens certain notifications.
+It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#receiving-pushes) section, you will have access to this data only when the user opens your app via the notification. This can be useful for displaying a different view controller when a user opens certain notifications.
 
 <pre><code class="objectivec">
 NSDictionary *data = @{
@@ -370,7 +370,7 @@ push.setData(data)
 push.sendPushInBackground()
 </code></pre>
 
-Whether your push notifications increment the app's badge or set it to a specific value, your app will eventually need to clear its badge. This is covered in [Clearing the Badge](#push-notifications-receiving-pushes).
+Whether your push notifications increment the app's badge or set it to a specific value, your app will eventually need to clear its badge. This is covered in [Clearing the Badge](#receiving-pushes).
 
 ### Setting an Expiration Date
 
@@ -515,11 +515,11 @@ if let query = query {
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the iOS or OS X SDKs. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#push-notifications-scheduling-pushes) or the Parse.com push console.
+Sending scheduled push notifications is not currently supported by the iOS or OS X SDKs. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#scheduling-pushes) or the Parse.com push console.
 
 ## Receiving Pushes
 
-As we saw in the [Customizing Your Notification](#push-notifications-sending-options) section, it is possible to send arbitrary data along with your notification message. We can use this data to modify the behavior of your app when a user opens a notification. For example, upon opening a notification saying that a friend commented on a user's picture, it would be nice to display this picture.
+As we saw in the [Customizing Your Notification](#sending-options) section, it is possible to send arbitrary data along with your notification message. We can use this data to modify the behavior of your app when a user opens a notification. For example, upon opening a notification saying that a friend commented on a user's picture, it would be nice to display this picture.
 
 Due to the package size restrictions imposed by Apple, you need to be careful in managing the amount of extra data sent, since it will cut down on the maximum size of your message. For this reason, it is recommended that you keep your extra keys and values as small as possible.
 
@@ -642,7 +642,7 @@ You can read more about handling push notifications in Apple's [Local and Push N
 
 To track your users' engagement over time and the effect of push notifications, we provide some hooks in the `PFAnalytics` class. You can view the open rate for a specific push notification on the Parse.com push console. You can also view overall app open and push open graphs are on the Parse analytics console.  Our analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 
-This section assumes that you've already set up your application to [save the Installation object](#push-notifications/installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+This section assumes that you've already set up your application to [save the Installation object](#installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 First, add the following to your `application:didFinishLaunchingWithOptions:` method to collect information about when your application was launched, and what triggered it. The extra checks ensure that, even with iOS 7's more advanced background push features, a single logical app-open or push-open event is counted as such.
 
@@ -758,7 +758,7 @@ func applicationDidBecomeActive(application: UIApplication) {
 }
 </code></pre>
 
-The [UIApplicationDelegate documentation](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplicationDelegate_Protocol/index.html) contains more information on hooks into an app’s life cycle; the ones which are most relevant for resetting the badge count are  `applicationDidBecomeActive:`,  `application:didFinishLaunchingWithOptions:`,  and `application:didReceiveRemoteNotification:`.
+The [UIApplicationDelegate documentation](https://developer.apple.com/reference/uikit/uiapplicationdelegate) contains more information on hooks into an app’s life cycle; the ones which are most relevant for resetting the badge count are  `applicationDidBecomeActive:`,  `application:didFinishLaunchingWithOptions:`,  and `application:didReceiveRemoteNotification:`.
 
 ## Push Experiments
 
@@ -780,7 +780,7 @@ If you are happy with the way one message performed, you can send that to the re
 
 <img src="{{ site.baseUrl }}/assets/images/ios_push/experiment_launch.png" style="max-width:400px"/>
 
-Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, OS X v1.7.5+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#push-notifications-tracking-pushes-and-app-opens).
+Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, OS X v1.7.5+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#tracking-pushes-and-app-opens).
 
 ### Experiment Statistics
 
@@ -800,7 +800,7 @@ Just after a push send, when only a small number of users have opened their push
 
 Localizing your app's content is a proven way to drive greater engagement. We've made it easy to localize your push messages with Push Localization. The latest version of the Parse iOS SDK will detect and store the user's language in the installation object, and via the web push console you’ll be able to send localized push messages to your users in a single broadcast.
 
-### Setup
+### Setup for localized push
 
 To take advantage of  Push Localization you will need to make sure you've published your app with the Parse iOS SDK version 1.8.1 or greater. Any users of your application running the Parse iOS SDK version 1.8.1 or greater will then be targetable by Push Localization via the web push console.
 
@@ -865,7 +865,7 @@ Basically, you will need to run the same push query you're using for your target
 
 #### Debugging using the REST API
 
-The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest/guide/#queries-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest/guide/#query-constraints) over Installations would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
 <pre><code class="bash">
 # Query over installations
@@ -923,7 +923,7 @@ If your app has been released for a while, it is expected that a percentage of y
 
 ### Handling Push Notifications
 
-If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check. For example, if your app is in the foreground when the push notification is received, an alert will not be displayed by default. You will need to handle the incoming push notification and perform the necessary action as documented in [Responding to the Payload]({{ site.baseUrl }}/ios/guide/#push-notifications-responding-to-the-payload).
+If everything looks great so far, but push notifications are not showing up on your phone, there are a few more things you can check. For example, if your app is in the foreground when the push notification is received, an alert will not be displayed by default. You will need to handle the incoming push notification and perform the necessary action as documented in [Responding to the Payload]({{ site.baseUrl }}/ios/guide/#responding-to-the-payload).
 
 If your app is not running in the foreground and the push notification is not showing up, make sure that you're specifying an "alert" key in your payload. Otherwise, the push notification will be treated as a silent push notification.
 

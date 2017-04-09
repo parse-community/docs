@@ -138,4 +138,4 @@ For synchronous (non-background) methods, error handling is mostly the same exce
 
 By default, all connections have a timeout of 10 seconds, so the synchronous methods will not hang indefinitely.
 
-For a list of all possible `NSError` types, scroll down to [Error Codes](#errors), or see the `PFErrorCode` section of the [iOS-OSX API]({{ site.apis.osx }}/Enums/PFErrorCode.html).
+For a list of all possible `NSError` types, scroll down to [Error Codes](#error-codes), or see the `PFErrorCode` section of the [iOS-OSX API]({{ site.apis.osx }}/Enums/PFErrorCode.html).

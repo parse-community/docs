@@ -64,9 +64,9 @@ The Parse Android SDK will avoid making unnecessary requests. If a `ParseInstall
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide/#push-notifications-sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide/#sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide/#sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can  lead to a security vulnerability in your app, as outlined  [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/).  We recommend that you enable Client Push for testing purposes only,  and move your push notification logic into Cloud Code  when your app is ready to go into production.
 
@@ -213,7 +213,7 @@ push.sendInBackground();
 
 ## Sending Options
 
-Push notifications can do more than just send a message. In Android, pushes can also include custom data you wish to send. You have complete control of how you handle the data included in your push notification as we will see in the [Receiving Notifications](#push-notifications-receiving-pushes) section. An expiration date can also be set for the notification in case it is time sensitive.
+Push notifications can do more than just send a message. In Android, pushes can also include custom data you wish to send. You have complete control of how you handle the data included in your push notification as we will see in the [Receiving Notifications](#receiving-pushes) section. An expiration date can also be set for the notification in case it is time sensitive.
 
 ### Customizing your Notifications
 
@@ -236,7 +236,7 @@ push.setData(data);
 push.sendPushInBackground();
 ```
 
-It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#push-notifications-receiving-pushes) section, you're able to use the data sent with your push to do custom processing when  a user receives and interacts with a notification.
+It is also possible to specify your own data in this dictionary. As we'll see in the [Receiving Notifications](#receiving-pushes) section, you're able to use the data sent with your push to do custom processing when  a user receives and interacts with a notification.
 
 ```java
 JSONObject data = new JSONObject("{\"name\": \"Vaughn\",
@@ -319,7 +319,7 @@ wpPush.sendPushInBackground();
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#push-notifications-scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#push-notifications-scheduling-pushes) or the push console on your Parse Dashboard.
+Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#scheduling-pushes) or the push console on your Parse Dashboard.
 
 ## Receiving Pushes
 
@@ -335,7 +335,7 @@ Now that your app is all set up to receive push notifications, you can start cus
 
 #### Customizing Notification Icons
 
-The [Android style guide](https://www.google.com/design/spec/style/icons.html#notification) recommends apps use a push icon that is monochromatic and flat. The default push icon is your application's launcher icon, which is unlikely to conform to the style guide. To provide a custom push icon, add the following metadata tag to your app's `AndroidManifest.xml`:
+The [Android style guide](https://material.io/guidelines/style/icons.html) recommends apps use a push icon that is monochromatic and flat. The default push icon is your application's launcher icon, which is unlikely to conform to the style guide. To provide a custom push icon, add the following metadata tag to your app's `AndroidManifest.xml`:
 
 ```java
 <meta-data android:name="com.parse.push.notification_icon" android:resource="@drawable/push_icon"/>
@@ -343,7 +343,7 @@ The [Android style guide](https://www.google.com/design/spec/style/icons.html#no
 
 ...where `push_icon` is the name of a drawable resource in your package. If your application needs more than one small icon, you can override `getSmallIconId` in your `ParsePushBroadcastReceiver` subclass.
 
-If your push has a unique context associated with an image, such as the avatar of the user who sent a message, you can use a large push icon to call attention to the notification. When a notification has a large push icon, your app's static (small) push icon is moved to the lower right corner of the notification and the large icon takes its place. See the [Android UI documentation](http://developer.android.com/guide/topics/ui/notifiers/notifications.html#NotificationUI) for examples. To provide a large icon, you can override `getLargeIcon` in your `ParsePushBroadcastReceiver` subclass.
+If your push has a unique context associated with an image, such as the avatar of the user who sent a message, you can use a large push icon to call attention to the notification. When a notification has a large push icon, your app's static (small) push icon is moved to the lower right corner of the notification and the large icon takes its place. See the [Android UI documentation](https://developer.android.com/guide/topics/ui/notifiers/notifications.html#CreateNotification) for examples. To provide a large icon, you can override `getLargeIcon` in your `ParsePushBroadcastReceiver` subclass.
 
 #### Responding with a Custom Activity
 
@@ -373,7 +373,7 @@ ParseAnalytics.trackAppOpened(getIntent());
 
 To track push opens, you should always pass the `Intent` to `trackAppOpened`. Passing `null` to `trackAppOpened` will track _only_ a standard app-opened event, not the push-opened event. If you don't track the push-opened event, you will not be able to use advanced analytics features such as push-open graphs and A/B testing.
 
-Please be sure to set up your application to [save the Installation object](#push-notifications/installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+Please be sure to set up your application to [save the Installation object](#installations). Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 You can view the open rate for a specific push notification on your Parse.com push console. You can also view your application's overall app open and push open graphs on the Parse analytics console.  Our push open analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 
@@ -397,7 +397,7 @@ If you are happy with the way one message performed, you can send that to the re
 
 ![]({{ '/assets/images/experiment_launch.png' | prepend: site.baseurl }})
 
-Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#push-notifications-tracking-pushes-and-app-opens).
+Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#tracking-pushes-and-app-opens).
 
 ### Experiment Statistics
 
@@ -417,9 +417,9 @@ Just after a push send, when only a small number of users have opened their push
 
 Localizing your app's content is a proven way to drive greater engagement. We've made it easy to localize your push messages with Push Localization. The latest version of the Parse Android SDK will detect and store the user's language in the installation object, and via the web push console you’ll be able to send localized push messages to your users in a single broadcast.
 
-### Setup
+### Setup for localized push
 
-To take advantage of  Push Localization you will need to make sure you've published your app with the Parse Android SDK version 1.10.1 or greater. Any users of your application running the Parse Android SDK version 1.10.1 or greater will then be targetable by Push Localization via the web push console.
+To take advantage of Push Localization you will need to make sure you've published your app with the Parse Android SDK version 1.10.1 or greater. Any users of your application running the Parse Android SDK version 1.10.1 or greater will then be targetable by Push Localization via the web push console.
 
 It's important to note that for developers who have users running apps with versions of the Parse Android SDK earlier than 1.10.1 that targeting information for Localized Push will not be available and these users will receive the default message from the push console.
 
@@ -470,7 +470,7 @@ Basically, you will need to run the same push query you're using for your target
 
 #### Debugging using the REST API
 
-The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest#queries-constraints) over `ParseInstallation`s would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
+The REST API is quite easy to use for this sort of purpose as you can easily recreate the push query using the information provided in your push notification logs. If you look closely at the “Full Target” value in your push campaign log item, you may notice that it matches the query format for a REST API query. You can grab an example of what a [REST API query]({{ site.baseUrl }}/rest/guide/#query-constraints) over `ParseInstallation`s would look like from the REST API docs. Don't forget to use the `X-Parse-Master-Key` header to ensure that the Master Key is used to run this query.
 
 ```bash
 # Query over installations

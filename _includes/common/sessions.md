@@ -6,7 +6,7 @@ Sessions represent an instance of a user logged into a device. Sessions are auto
 
 Unlike other Parse objects, the `Session` class does not have Cloud Code triggers. So you cannot register a `beforeSave` or `afterSave` handler for the Session class.
 
-## Properties
+## `Session` Properties
 
 The `Session` object has these special fields:
 
@@ -23,8 +23,6 @@ The `Session` object has these special fields:
 All special fields except `installationId` can only be set automatically by the Parse Cloud. You can add custom fields onto `Session` objects, but please keep in mind that any logged-in device (with session token) can read other sessions that belong to the same user (unless you disable Class-Level Permissions, see below).
 
 ## Handling Invalid Session Token Error
-
-Apps created on Parse.com before March 25, 2015 use legacy session tokens until you [migrate them to use the new revocable sessions](https://www.parse.com/tutorials/session-migration-tutorial). On API requests with legacy tokens, if the token is invalid (e.g. User object was deleted), then the request is executed as a non-logged in user and no error was returned. On API requests with revocable session tokens, an invalid session token will always fail with the "invalid session token" error. This new behavior lets you know when you need to ask the user to log in again.
 
 With revocable sessions, your current session token could become invalid if its corresponding `Session` object is deleted from the Parse Cloud. This could happen if you implement a Session Manager UI that lets users log out of other devices, or if you manually delete the session via Cloud Code, REST API, or Data Browser. Sessions could also be deleted due to automatic expiration (if configured in app settings). When a device's session token no longer corresponds to a `Session` object on the Parse Cloud, all API requests from that device will fail with “Error 209: invalid session token”.
 
@@ -283,7 +281,7 @@ try {
 ```
 {: .common-lang-block .cpp }
 
-## Security
+## `Session`  Security
 
 `Session` objects can only be accessed by the user specified in the user field. All `Session` objects have an ACL that is read and write by that user only. You cannot change this ACL. This means querying for sessions will only return objects that match the current logged-in user.
 

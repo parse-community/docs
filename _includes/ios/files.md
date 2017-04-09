@@ -81,7 +81,7 @@ userPhoto["imageFile"] = imageFile
 userPhoto.saveInBackground()
 </code></pre>
 
-Your `PFFile` will be uploaded as part of the save operation on the `userPhoto` object. It's also possible to track a `PFFile`'s [upload and download progress](#files-progress).
+Your `PFFile` will be uploaded as part of the save operation on the `userPhoto` object. It's also possible to track a `PFFile`'s [upload and download progress](#progress).
 
 Retrieving the image back involves calling one of the `getData` variants on the `PFFile`. Here we retrieve the image file off another `UserPhoto` named `anotherPhoto`:
 
@@ -132,6 +132,6 @@ file.saveInBackgroundWithBlock({
 })
 </code></pre>
 
-You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#files-deleting-files). You will need to provide the master key in order to be allowed to delete a file.
+You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 
 If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app's Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.

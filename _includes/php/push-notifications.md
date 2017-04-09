@@ -10,7 +10,7 @@ The PHP SDK does not currently support receiving pushes. It can only be used to 
 
 ## Setting Up Push
 
-There is no setup required to use the PHP SDK for sending push notifications. If you haven't configured your [iOS](#setup/iOS) or [Android](#setup/Android) clients to use Push, take a look at their respective setup instruction using the platform toggle at the top.
+There is no setup required to use the PHP SDK for sending push notifications. If you haven't configured your [iOS]({{ site.baseUrl }}/ios/guide/#setting-up-push) or [Android]({{ site.baseUrl }}/android/guide/#setting-up-push) clients to use Push, take a look at their respective setup instruction using the platform toggle at the top.
 
 ## Installations
 
@@ -29,7 +29,7 @@ This class has several special fields that help you manage and target devices.
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#sending-channels/PHP) and [advanced targeting](#sending-queries/PHP). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting]({{ site.baseUrl }}/php/guide/#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
 You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the web console as long as no sends have happened yet. After you send the push, the web console shows push analytics graphs.
 
@@ -39,7 +39,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 #### Subscribing to Channels
 
-The PHP SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS](#sending-channels/iOS), [Android](#sending-channels/Android) or [REST](#sending-channels/REST) Push guide using the platform toggle at the top.
+The PHP SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-channels), [Android]({{ site.baseUrl }}/android/guide/#using-channels) or [REST]({{ site.baseUrl }}/rest/guide/#using-channels) Push guide using the platform toggle at the top.
 
 #### Sending Pushes to Channels
 
@@ -62,7 +62,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 #### Saving Installation Data
 
-The PHP SDK does not currently support modifying `Installation` objects. Take a look at the [iOS](#sending-queries/iOS), [Android](#sending-queries/Android) or [REST](#sending-queries/REST) Push guide using the platform toggle at the top.
+The PHP SDK does not currently support modifying `Installation` objects. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-advanced-targeting), [Android]({{ site.baseUrl }}/android/guide/#using-advanced-targeting) or [REST]({{ site.baseUrl }}/rest/guide/#using-advanced-targeting) Push guide using the platform toggle at the top.
 
 #### Sending Pushes to Queries
 
@@ -124,7 +124,7 @@ If you want to send more than just a message, you can set other fields in the `d
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
 *   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
-*   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
+*   **`category`**: _(iOS only)_ the identifier of the [`UNNotification​Category`](https://developer.apple.com/reference/usernotifications/unnotificationcategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated      with opening the URI is launched.
 *   **`title`**: _(Android only)_ the value displayed in the Android system tray notification.
 
@@ -142,7 +142,7 @@ ParsePush::send(array(
 ), true);
 </code></pre>
 
-It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS](#receiving/iOS) and [Android](#receiving/Android), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
+It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide/#receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
 <pre><code class="php">
 $query = ParseInstallation::query();
@@ -166,7 +166,7 @@ When a user's device is turned off or not connected to the internet, push notifi
 
 There are two parameters provided by Parse to allow setting an expiration date for your notification. The first is `expiration_time` which takes a `DateTime` specifying when Parse should stop trying to send the notification.
 
-Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications](#scheduled/JavaScript). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
+Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications]({{ site.baseUrl }}/js/guide/#scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
 
 ### Targeting by Platform
 
@@ -273,8 +273,8 @@ if(ParsePush::hasStatus($response)) {
 
 ## Receiving Pushes
 
-The PHP SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS](#receiving/iOS) or [Android](#receiving/Android), use the platform toggle at the top.
+The PHP SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS]({{ site.baseUrl }}/ios/guide/#receiving-pushes) or [Android]({{ site.baseUrl }}/android/guide/#receiving-pushes), use the platform toggle at the top.
 
 ## Troubleshooting
 
-For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS](#troubleshooting/iOS), [Android](#troubleshooting/Android), and [.NET](#troubleshooting/.NET) using the platform toggle at the top.
+For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS]({{ site.baseUrl }}/ios/guide/#troubleshooting), [Android]({{ site.baseUrl }}/android/guide/#troubleshooting), and [.NET]({{ site.baseUrl }}/dotnet/guide/#troubleshooting) using the platform toggle at the top.

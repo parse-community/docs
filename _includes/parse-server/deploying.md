@@ -9,7 +9,7 @@ Heroku and mLab provide an easy way to deploy Parse Server, especially if you're
 Here are the steps:
 
 1. Create a repo for your Express app with the Parse Server middleware mounted (you can use our [sample project](https://github.com/parse-community/parse-server-example), or start your own).
-2. Create a Heroku account (if you don’t have one already) and use the Heroku Toolbelt to log in and prepare a new app in the same directory as your Express app. Take a look at Heroku's [Getting Started with Node.js guide](https://devcenter.heroku.com/articles/getting-started-with-nodejs##introduction) for more details.
+2. Create a Heroku account (if you don’t have one already) and use the Heroku Toolbelt to log in and prepare a new app in the same directory as your Express app. Take a look at Heroku's [Getting Started with Node.js guide](https://devcenter.heroku.com/articles/getting-started-with-nodejs#introduction) for more details.
 3. Use the mLab addon: `heroku addons:create mongolab:sandbox` (or, you can create a Mongo instance yourself, either directly with mLab or your own box)
 4. Use heroku config and note the URI provided by mLab under the var MONGOLAB_URI
 5. Copy this URI and set it as a new config variable: heroku config:set `DATABASE_URI=mongodb://...`

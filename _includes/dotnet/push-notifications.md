@@ -55,9 +55,9 @@ While it is possible to modify a `ParseInstallation` just like you would a `Pars
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](#sending/REST) or from [Cloud Code](#sending/JavaScript). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API]({{ site.baseUrl }}/rest/guide/#sending-pushes) or from [Cloud Code]({{ site.baseUrl }}/js/guide/#sending-pushes). However, push notifications can also be triggered by the existing client SDKs. If you decide to send notifications from the client SDKs, you will need to set **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/). We recommend that you enable Client Push for testing purposes only, and move your push notification logic into Cloud Code when your app is ready to go into production.
 
@@ -230,7 +230,7 @@ If you want to send more than just a message, you will need to use an `IDictiona
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
 *   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
-*   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
+*   **`category`**: _(iOS only)_ the identifier of the [`UNNotification​Category`](https://developer.apple.com/reference/usernotifications/unnotificationcategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated with opening the URI is launched.
 *   **`title`**: _(Android, Windows 8, and Windows Phone 8 only)_ the value displayed in the Android system tray or Windows toast notification.
 
@@ -314,7 +314,7 @@ await wpPush.SendAsync();
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the .NET SDK. Take a look at the [REST API](#scheduled/REST), [JavaScript SDK](#scheduled/JavaScript) or the Parse.com push console.
+Sending scheduled push notifications is not currently supported by the .NET SDK. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#scheduling-pushes) or the Parse.com push console.
 
 ## Receiving Pushes
 
@@ -377,7 +377,7 @@ ParseAnalytics.TrackAppOpenedAsync(launchArgs);
 
 To track push opens, you should always pass your event handler's input args to `TrackAppOpenedAsync`.  A null or empty parameter to `TrackAppOpenedAsync` will track _only_ a standard app-opened event, not the push-opened event. If you don't track the push-opened event, you will not be able to use advanced analytics features such as push-open graphs and A/B testing.
 
-Please be sure to set up your application to [save the Installation object](#installations/.NET) Push open tracking only works when your application's devices are associated with saved `Installation` objects.
+Please be sure to set up your application to [save the Installation object](#installations) Push open tracking only works when your application's devices are associated with saved `Installation` objects.
 
 You can view the open rate for a specific push notification on your Parse.com push console. You can also view your application's overall app open and push open graphs on the Parse analytics console.  Our push open analytics graphs are rendered in real time, so you can easily verify that your application is sending the correct analytics events before your next release.
 
@@ -432,7 +432,7 @@ If you are happy with the way one message performed, you can send that to the re
 
 ![]({{ '/assets/images/experiment_launch.png' | prepend: site.baseurl }})
 
-Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#receiving-tracking).
+Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#receiving-pushes).
 
 ### Experiment Statistics
 
@@ -452,7 +452,7 @@ Just after a push send, when only a small number of users have opened their push
 
 Localizing your app's content is a proven way to drive greater engagement. We've made it easy to localize your push messages with Push Localization. The latest version of the Parse .NET SDK will detect and store the user's language in the installation object, and via the web push console you’ll be able to send localized push messages to your users in a single broadcast.
 
-### Setup
+### Setup for localized push
 
 To take advantage of  Push Localization you will need to make sure you've published your app with the Parse .NET SDK version 1.5.5 or greater. Any users of your application running the Parse .NET SDK version 1.5.5 or greater will then be targetable by Push Localization via the web push console.
 
@@ -470,5 +470,5 @@ Setting up Push Notifications is often a source of frustration for developers. T
 * Clean and build your project.
 * Check the number of recipients in your Parse Push Console. Does it match the expected number of recipients? Your push might be targeted incorrectly.
 * Open your project's `package.appxmanifest` file and make sure "Toast Capable" is set to "yes."* If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table.  We do not automatically delete installation objects when the users uninstall your app.  When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.
-* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide]({{ site.baseUrl }}/ios/guide/#push-notifications-troubleshooting).
-* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide]({{ site.baseUrl }}/android/guide/#push-notifications-troubleshooting).
+* If you're receiving push from Unity iOS, refer to [iOS Push Troubleshooting Guide]({{ site.baseUrl }}/ios/guide/#troubleshooting).
+* If you're receiving push from Unity Android, refer to [Android Push Troubleshooting Guide]({{ site.baseUrl }}/android/guide/#troubleshooting).

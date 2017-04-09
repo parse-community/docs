@@ -415,7 +415,7 @@ To create a reference to an existing object, use `ParseObject.CreateWithoutData<
 var armorReference = ParseObject.CreateWithoutData<Armor>(armor.ObjectId);
 ```
 
-### Queries
+### Queries on Subclasses
 
 You can get a query for objects of a particular subclass using the generic `ParseQuery<T>` class. The following example queries for armors that the user can afford:
 

@@ -6,7 +6,7 @@ A `Session` is a subclass of a Parse `Object`, so you can query, update, and del
 
 Unlike other Parse objects, the `Session` class does not have Cloud Code triggers. So you cannot register a `beforeSave` or `afterSave` handler for the Session class.
 
-## Properties
+## `Session` Properties
 
 The `Session` object has these special fields:
 
@@ -258,7 +258,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-## Security
+## `Session` Security
 
 `Session` objects can only be accessed by the user specified in the user field. All `Session` objects have an ACL that is read and write by that user only. You cannot change this ACL. This means querying for sessions will only return objects that match the current logged-in user.
 

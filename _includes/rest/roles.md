@@ -7,14 +7,14 @@ For example, in your application with curated content, you may have a number of 
 We provide a specialized role class to represent these groupings of users for the purposes of assigning permissions.  Roles have a few special fields that set them apart from other objects.
 
 *   name: The name for the role.  This value is required, and can only be set once as a role is being created. The name must consist of alphanumeric characters, spaces, -, or _.  This name will be used to identify the Role without needing its objectId.
-*   users: A [relation](#objects-updating) to the set of users that will inherit permissions granted to the containing role.
-*   roles: A [relation](#objects-updating) to the set of child roles whose users and roles will inherit permissions granted to the containing role.
+*   users: A [relation](#updating-objects) to the set of users that will inherit permissions granted to the containing role.
+*   roles: A [relation](#updating-objects) to the set of child roles whose users and roles will inherit permissions granted to the containing role.
 
 Often, in order to keep these roles secure, your mobile apps won't be directly responsible for managing creation and membership of your roles. Instead, roles may be managed by a separate interface on the web or manually managed by an administrator. Our REST API allows you to manage your roles without requiring a mobile client.
 
 ## Creating Roles
 
-Creating a new role differs from creating a generic object in that the `name` field is required. Roles must also specify an [`ACL`](#users-security), which should be as restrictive as possible to avoid allowing the wrong users to modify a role.
+Creating a new role differs from creating a generic object in that the `name` field is required. Roles must also specify an [`ACL`](#access-control-lists), which should be as restrictive as possible to avoid allowing the wrong users to modify a role.
 
 To create a new role, send a POST request to the roles root:
 
@@ -53,7 +53,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-You can create a role with child roles or users by adding existing objects to the `roles` and `users` [relations](#objects-updating):
+You can create a role with child roles or users by adding existing objects to the `roles` and `users` [relations](#updating-objects):
 
 <pre><code class="bash">
 curl -X POST \
@@ -187,12 +187,12 @@ The response body is a JSON object containing all of the fields on the role:
 }
 </code></pre>
 
-Note that the `users` and `roles` relations will not be visible in this JSON.  Instead, you must [query](#queries-relational) for the roles and users that belong to a given role using the `$relatedTo` operator.
+Note that the `users` and `roles` relations will not be visible in this JSON.  Instead, you must [query](#relational-queries) for the roles and users that belong to a given role using the `$relatedTo` operator.
 
 
 ## Updating Roles
 
-Updating a role generally works like [updating any other object](#objects-updating), but the `name` field on the role cannot be changed. Adding and removing users and roles to the `users` and `roles` relations can be accomplished by using the `AddRelation` and `RemoveRelation` operators.
+Updating a role generally works like [updating any other object](#updating-objects), but the `name` field on the role cannot be changed. Adding and removing users and roles to the `users` and `roles` relations can be accomplished by using the `AddRelation` and `RemoveRelation` operators.
 
 For example, we can add two users to the "Moderators" role created above like so:
 
@@ -341,10 +341,10 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-## Security
+## Security with Role
 
 When you access Parse via the REST API key, access can be restricted by ACL just like in the iOS and Android SDKs.  You can still read and modify ACLs via the REST API, just by accessing the `"ACL"` key of an object.
-In addition to per-user permissions [as described above](#users-security), you can also specify role-level permissions to your Parse objects. Instead of specifying an `objectId` as the key for a permission object as you do for users, you can instead specify a role's name with a `"role:"` prefix as the key for a permission object.  You can use role-level permissions alongside user-level permissions to provide fine-grained control over user access.
+In addition to per-user permissions [as described above](#access-control-lists), you can also specify role-level permissions to your Parse objects. Instead of specifying an `objectId` as the key for a permission object as you do for users, you can instead specify a role's name with a `"role:"` prefix as the key for a permission object.  You can use role-level permissions alongside user-level permissions to provide fine-grained control over user access.
 
 For example, to restrict an object to be readable by anyone in the "Members" role and writable by its creator and anyone in the "Moderators" role, you would specify an ACL like this:
 

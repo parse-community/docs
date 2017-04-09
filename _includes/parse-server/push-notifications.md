@@ -16,7 +16,7 @@ However, there are a few caveats:
 * Scheduled push is not supported
 
 ## API
-We support most of the sending options similar to the hosted Parse.com service. Check the detailed doc [here]({{ site.baseUrl }}/rest/guide/#push-notifications-sending-options). Parse Server supports the following:
+We support most of the sending options similar to the hosted Parse.com service. Check the detailed doc [here]({{ site.baseUrl }}/rest/guide/#sending-options). Parse Server supports the following:
 
 * `channels` to target installations by channels
 * `where` to target installations by `ParseQuery`
@@ -119,7 +119,7 @@ If you have a list of certificates, Parse Server's strategy on choosing them is 
 
 ### 3. Configure Client Apps
 
-Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](#push-notifications/configuring-your-clients-to-receive-push-notifications).
+Configure an app which connects to Parse Server. We have provided a detailed [list of steps to configure your iOS and Android clients](#configuring-your-clients-to-receive-push-notifications).
 
 ### 4. Send Push Notifications
 

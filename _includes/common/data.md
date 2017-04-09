@@ -6,7 +6,7 @@ Nevertheless, there are some cases where it's useful to be aware of how data is 
 
 ## Data Storage
 
-Internally, Parse stores data as JSON, so any datatype that can be converted to JSON can be stored on Parse. Refer to the [Data Types in Objects](#objects-data-types) section of this guide to see platform-specific examples.
+Internally, Parse stores data as JSON, so any datatype that can be converted to JSON can be stored on Parse. Refer to the [Data Types in Objects](#data-types) section of this guide to see platform-specific examples.
 
 Keys including the characters `$` or `.`, along with the key `__type` key, are reserved for the framework to handle additional types, so don't use those yourself. Key names must contain only numbers, letters, and underscore, and must start with a letter. Values can be anything that can be JSON-encoded.
 

@@ -12,7 +12,7 @@ The JavaScript SDK does not currently support receiving pushes. It can only be u
 
 ## Setting Up Push
 
-There is no setup required to use the JavaScript SDK for sending push notifications. If you haven't configured your [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-setting-up-push) or [Android]({{ site.baseUrl }}/android/guide/#push-notifications-setting-up-push) clients to use Push, take a look at their respective setup instruction using the platform toggle at the top.
+There is no setup required to use the JavaScript SDK for sending push notifications. If you haven't configured your [iOS]({{ site.baseUrl }}/ios/guide/#setting-up-push) or [Android]({{ site.baseUrl }}/android/guide/#setting-up-push) clients to use Push, take a look at their respective setup instruction using the platform toggle at the top.
 
 ## Installations
 
@@ -37,9 +37,9 @@ This class has several special fields that help you manage and target devices.
 
 ## Sending Pushes
 
-There are two ways to send push notifications using Parse: [channels](#push-notifications-using-channels) and [advanced targeting](#push-notifications-using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
+There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](#push-notifications-sending-pushes) or from [Cloud Code](#push-notifications-sending-pushes). Since the JavaScript SDK is used in Cloud Code, this is the place to start if you want to send pushes from your Cloud Functions. However, if you decide to send notifications from the JavaScript SDK outside of Cloud Code or any of the other client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse.com push console, the [REST API](#sending-pushes) or from [Cloud Code](#sending-pushes). Since the JavaScript SDK is used in Cloud Code, this is the place to start if you want to send pushes from your Cloud Functions. However, if you decide to send notifications from the JavaScript SDK outside of Cloud Code or any of the other client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
 However, be sure you understand that enabling Client Push can lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/). We recommend that you enable Client Push for testing purposes only, and move your push notification logic into Cloud Code when your app is ready to go into production.
 
@@ -55,7 +55,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 #### Subscribing to Channels
 
-The JavaScript SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-using-channels), [Android]({{ site.baseUrl }}/android/guide/#push-notifications-using-channels) or [REST]({{ site.baseUrl }}/rest/guide/#push-notifications-using-channels) Push guide using the platform toggle at the top.
+The JavaScript SDK does not currently support subscribing iOS and Android devices for pushes. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-channels), [Android]({{ site.baseUrl }}/android/guide/#using-channels) or [REST]({{ site.baseUrl }}/rest/guide/#using-channels) Push guide using the platform toggle at the top.
 
 #### Sending Pushes to Channels
 
@@ -86,7 +86,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 #### Saving Installation Data
 
-The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications/installations), [Android]({{ site.baseUrl }}/android/guide/#push-notifications/installations) or [REST]({{ site.baseUrl }}/rest/guide/#push-notifications/installations) Push guide for more on this topic.
+The JavaScript SDK does not currently support modifying `Installation` objects. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#installations), [Android]({{ site.baseUrl }}/android/guide/#installations) or [REST]({{ site.baseUrl }}/rest/guide/#installations) Push guide for more on this topic.
 
 #### Sending Pushes to Queries
 
@@ -172,7 +172,7 @@ If you want to send more than just a message, you can set other fields in the `d
 *   **`badge`**: _(iOS only)_ the value indicated in the top right corner of the app icon. This can be set to a value or to `Increment` in order to increment the current value by 1.
 *   **`sound`**: _(iOS only)_ the name of a sound file in the application bundle.
 *   **`content-available`**: _(iOS only)_ If you are a writing an app using the Remote Notification Background Mode [introduced in iOS7](https://developer.apple.com/library/ios/releasenotes/General/WhatsNewIniOS/Articles/iOS7.html#//apple_ref/doc/uid/TP40013162-SW10) (a.k.a. "Background Push"), set this value to 1 to trigger a background download.
-*   **`category`**: _(iOS only)_ the identifier of the [`UIUserNotificationCategory`](https://developer.apple.com/library/prerelease/ios/documentation/UIKit/Reference/UIUserNotificationCategory_class/index.html#//apple_ref/occ/cl/UIUserNotificationCategory) for this push notification.
+*   **`category`**: _(iOS only)_ the identifier of the [`UNNotification​Category`](https://developer.apple.com/reference/usernotifications/unnotificationcategory) for this push notification.
 *   **`uri`**: _(Android only)_ an optional field that contains a URI. When the notification is opened, an `Activity` associated      with opening the URI is launched.
 *   **`title`**: _(Android only)_ the value displayed in the Android system tray notification.
 
@@ -197,7 +197,7 @@ Parse.Push.send({
 });
 </code></pre>
 
-It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-scheduling-pushes) and [Android]({{ site.baseUrl }}/android/guide/#push-notifications-scheduling-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
+It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#scheduling-pushes) and [Android]({{ site.baseUrl }}/android/guide/#scheduling-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
 <pre><code class="javascript">
 var query = new Parse.Query(Parse.Installation);
@@ -247,7 +247,7 @@ Parse.Push.send({
 });
 </code></pre>
 
-Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications](#push-notifications-scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
+Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expires. This value is relative to the `push_time` parameter used to [schedule notifications](#scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from now.
 
 <pre><code class="javascript">
 var oneDayAway = new Date(...);
@@ -353,8 +353,8 @@ The scheduled time cannot be in the past, and can be up to two weeks in the futu
 
 ## Receiving Pushes
 
-The JavaScript SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-scheduling-pushes) or [Android]({{ site.baseUrl }}/android/guide/#push-notifications-scheduling-pushes), use the platform toggle at the top.
+The JavaScript SDK does not currently support receiving pushes. To learn more about handling received notifications in [iOS]({{ site.baseUrl }}/ios/guide/#scheduling-pushes) or [Android]({{ site.baseUrl }}/android/guide/#scheduling-pushes), use the platform toggle at the top.
 
 ## Troubleshooting
 
-For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS]({{ site.baseUrl }}/ios/guide/#push-notifications-troubleshooting), [Android]({{ site.baseUrl }}/android/guide/#push-notifications-troubleshooting), and [.NET]({{ site.baseUrl }}/dotnet/guide/#push-notifications-troubleshooting) using the platform toggle at the top.
+For tips on troubleshooting push notifications, check the troubleshooting sections for [iOS]({{ site.baseUrl }}/ios/guide/#troubleshooting), [Android]({{ site.baseUrl }}/android/guide/#troubleshooting), and [.NET]({{ site.baseUrl }}/dotnet/guide/#troubleshooting) using the platform toggle at the top.

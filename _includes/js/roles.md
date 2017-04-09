@@ -6,13 +6,13 @@ For example, in your application with curated content, you may have a number of 
 
 We provide a specialized class called `Parse.Role` that represents these role objects in your client code. `Parse.Role` is a subclass of `Parse.Object`, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on `Parse.Object` also  exist on `Parse.Role`.  The difference is that `Parse.Role` has some additions specific to management of roles.
 
-## Properties
+## `Parse.Role` Properties
 
 `Parse.Role` has several properties that set it apart from `Parse.Object`:
 
 *   **name**: The name for the role.  This value is required, and can only be set once as a role is being created.  The name must consist of alphanumeric characters, spaces, -, or _.  This name will be used to identify the Role without needing its objectId.
-*   **users**: A [relation](#objects-one-to-one-and-one-to-many-relationships) to the set of users that will inherit permissions granted to the containing role.
-*   **roles**: A [relation](#objects-many-to-many-relationships) to the set of roles whose users and roles will inherit permissions granted to the containing role.
+*   **users**: A [relation](#one-to-one-and-one-to-many-relationships) to the set of users that will inherit permissions granted to the containing role.
+*   **roles**: A [relation](#many-to-many-relationships) to the set of roles whose users and roles will inherit permissions granted to the containing role.
 
 ## Security for Role Objects
 
@@ -39,7 +39,7 @@ role.save();
 
 Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
-## Security for Other Objects
+## Role Based Security for Other Objects
 
 Now that you have created a set of roles for use in your application, you can use them with ACLs to define the privileges that their users will receive. Each `Parse.Object` can specify a `Parse.ACL`, which provides an access control list that indicates which users and roles should be granted read or write access to the object.
 
