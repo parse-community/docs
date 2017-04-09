@@ -395,3 +395,142 @@ The Facebook Javascript SDK provides a main `FB` object that is the starting poi
 Facebook login using the Parse SDK requires that the Facebook SDK already be loaded before calling `Parse.FacebookUtils.init()`.
 
 Our library manages the `FB` object for you. The `FB` singleton is synchronized with the current user by default, so any methods you call on it will be acting on the Facebook user associated with the current `Parse.User`. Calling `FB.login()` or `FB.logOut()` explicitly will cause the `Parse.User` and `FB` object to fall out of synchronization, and is not recommended.
+
+## Linking Users
+
+Parse allows you to link your users with services like Twitter and Facebook, enabling your users to sign up or log into your application using their existing identities. This is accomplished through \_linkWith() method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
+
+`authData` is a JSON object with keys for each linked service containing the data below. In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a using hellojs on client side) to obtain the information the the service requires for linking.
+
+### Facebook `authData`
+
+<pre><code class="javascript">
+{
+  "facebook": {
+    "id": "user's Facebook id number as a string",
+    "access_token": "an authorized Facebook access token for the user",
+    "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+  }
+}
+</code></pre>
+Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
+
+### Twitter `authData`
+
+<pre><code class="javascript">
+{
+  "twitter": {
+    "id": "user's Twitter id number as a string",
+    "screen_name": "user's Twitter screen name",
+    "consumer_key": "your application's consumer key",
+    "consumer_secret": "your application's consumer secret",
+    "auth_token": "an authorized Twitter token for the user with your application",
+    "auth_token_secret": "the secret associated with the auth_token"
+  }
+}
+</code></pre>
+
+Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
+
+### Anonymous user `authData`
+
+<pre><code class="javascript">
+{
+  "anonymous": {
+    "id": "random UUID with lowercase hexadecimal digits"
+  }
+}
+</code></pre>
+
+### Signing Up and Logging In
+
+Signing a user up with a linked service and logging them in with that service uses the same \_linkWith() mothod, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
+
+<pre><code class="javascript">
+let myAuthData = {
+  "id": "12345678",
+  "screen_name": "ParseIt",
+  "consumer_key": "SaMpLeId3X7eLjjLgWEw",
+  "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
+  "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
+  "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
+}
+let user = new Parse.User();
+user._linkWith('twitter', myAuthData).then(function(user){
+    // user
+});
+</code></pre>
+Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
+
+<pre><code class="javascript">
+Status: 200 OK
+Location: https://api.parse.com/1/users/uMz0YZeAqc
+</code></pre>
+
+With a response body like:
+
+<pre><code class="json">
+{
+  "username": "Parse",
+  "createdAt": "2012-02-28T23:49:36.353Z",
+  "updatedAt": "2012-02-28T23:49:36.353Z",
+  "objectId": "uMz0YZeAqc",
+  "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
+  "authData": {
+    "twitter": {
+      "id": "12345678",
+      "screen_name": "ParseIt",
+      "consumer_key": "SaMpLeId3X7eLjjLgWEw",
+      "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
+      "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
+      "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
+    }
+  }
+}
+</code></pre>
+If the user has never been linked with this account, you will instead receive a status code of `201 Created`, indicating that a new user was created:
+
+<pre><code class="javascript">
+Status: 201 Created
+Location: https://api.parse.com/1/users/uMz0YZeAqc
+</code></pre>
+The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
+
+<pre><code class="json">
+{
+  "username": "iwz8sna7sug28v4eyu7t89fij",
+  "createdAt": "2012-02-28T23:49:36.353Z",
+  "objectId": "uMz0YZeAqc",
+  "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
+}
+</code></pre>
+
+### Linking
+
+Linking an existing user with a service like Facebook or Twitter uses the same method \_linkWith() to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
+
+<pre><code class="javascript">
+let myAuthData = {
+  id: "123456789",
+  "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
+  "expiration_date": "2012-02-28T23:49:36.353Z"
+}
+let user = new Parse.User();
+user.id = "uMz0YZeAqc";
+user._linkWith("facebook", myAuthData).then(function(user){
+  // user is linked now
+});
+</code></pre>
+After linking your user to a service, you can authenticate them using matching `authData`.
+
+### Unlinking
+
+Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
+
+<pre><code class="javascript">
+let user = new Parse.User();
+user.id = "uMz0YZeAqc";
+user._linkWith("facebook", {}).then(function(user){
+  // user is unlinked now
+});
+</code></pre>
