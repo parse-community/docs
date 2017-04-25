@@ -18,7 +18,7 @@ If you want to restrict access to a full class to only authenticated users, you 
       "role:admin": true
     },
     "get": {
-      "requireAuthentication": true,
+      "requiresAuthentication": true,
       "role:admin": true
     },
     "create": { "role:admin": true },
