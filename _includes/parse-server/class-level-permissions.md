@@ -2,7 +2,7 @@
 
 Class level permissions are a security feature from that allows one to restrict access on a broader way than the [ACL based permissions]({{ site.baseUrl }}/rest/guide/#security).
 
-## `requireAuthentication`
+## `requiresAuthentication`
 
 If you want to restrict access to a full class to only authenticated users, you can use the `requiresAuthentication` class level permission. For example, you want to allow your **authenticated users** to `find` and `get` objects from your application and your admin users to have all privileges, you would set the CLP:
 
@@ -18,7 +18,7 @@ If you want to restrict access to a full class to only authenticated users, you 
       "role:admin": true
     },
     "get": {
-      "requireAuthentication": true,
+      "requiresAuthentication": true,
       "role:admin": true
     },
     "create": { "role:admin": true },
