@@ -21,7 +21,7 @@ var api = new ParseServer({
   appId: process.env.APP_ID || 'APPLICATION_ID',
   masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
   ...
-  cacheAdapter: cacheAdapter,
+  cacheAdapter: redisCache,
   ...
 });
 ```
