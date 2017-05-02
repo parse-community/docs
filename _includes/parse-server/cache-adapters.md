@@ -29,3 +29,5 @@ var api = new ParseServer({
 The `redisOptions` are passed directly to the redis.createClient method. For more informations, refer to the [redis.createClient](https://www.npmjs.com/package/redis#rediscreateclient) documentation.
 
 Note that at the moment, only passing a single argument is supported.
+
+The cache adapter can flush the redis database at anytime. It is best to not use the same redis database for other services. A different redis database can be chosen by providing a different database number to redisOptions. By default redis has 16 databases (indexed from 0 to 15).
