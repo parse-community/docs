@@ -157,6 +157,7 @@ var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer,  {
   redisURL: 'redis://localhost:6379'
 });
 ```
+This redis database should be different from the redis database used for `RedisCacheAdapter`.
 
 The architecture of the whole LiveQuery system after you use Redis should be like this:
 
