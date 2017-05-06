@@ -470,3 +470,64 @@ query.findInBackground(new FindCallback<Armor>() {
   }
 });
 ```
+
+## Parcelable
+
+As most public facing components of the SDK, `ParseObject` implements the `Parcelable` interface. This means you can retain a `ParseObject` during configuration changes, or pass objects to other components through `Bundle`s. To achieve this, depending on the context, use either `Parcel#writeParcelable(Parcelable, int)` or `Bundle#putParcelable(String, Parcelable)`.
+For instance, in an `Activity`,
+
+```java
+private ParseObject object;
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelable("object", object);
+}
+    
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+  if (savedInstanceState != null) {
+    object = (ParseObject) savedInstanceState.getParcelable("object");
+  }
+}
+```
+
+That's it. `ParseObject` will parcel its internal state, along with unsaved childs and dirty changes. There are, however, a few things to be aware of when parceling objects that have ongoing operations, like save or delete. The SDK behavior differs depending on whether you have enabled the Local Datastore.
+
+### Parceling with Local Datastore enabled
+
+When the Local Datastore is enabled, parceling a `ParseObject` is a safe operation even if there are ongoing save or delete operations. Thanks to LDS, the same instance is returned when unparceling (unless something happens in the middle, in which case the SDK behaves as if LDS was disabled, see below).
+
+This means that the `ParseObject` is internally notified about the operation results, whether it's successful or not. There is, however, no way to register external callbacks (`SaveCallback` or `DeleteCallback`) for these tasks, other than the ones you have already registered at the moment of saving / deleting the source instance.
+
+### Parceling with Local Datastore disabled
+
+When the Local Datastore is disabled, and the parceled `ParseObject` has ongoing operations that haven't finished yet, the unparceled object will end up in a stale state. The unparceled object, being a different instance than the source object,
+
+- assumes that ongoing operations at the moment of parceling never took place
+- will not update its internal state when the operations triggered by the source object 
+
+The unfortunate consequence is that keys that were dirty before saving will still be marked as dirty for the unparceled object. This means, for instance, that any future call to `saveInBackground()` will send these dirty operations to the server again. This can lead to inconsistencies for operations like `increment`, since it might be performed twice.
+
+### Parceling ParseObject subclasses
+
+By default, `ParseObject` implementation parcels everything that is needed. If your subclasses have stateful information that you would like to keep when parceling, you can simply override `onSaveInstanceState(Bundle)` and `onRestoreInstanceState(Bundle)`:
+
+```java
+// Armor.java
+@ParseClassName("Armor")
+public class Armor extends ParseObject {
+  private int member;
+  
+  @Override
+  protected void onSaveInstanceState(Bundle outState) {
+    outState.putInt("member", member);
+  }
+  
+  @Override
+  protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    member = savedInstanceState.getInt("member");
+  }
+}
+```

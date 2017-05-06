@@ -42,6 +42,27 @@ query.whereWithinGeoBox("location", southwestOfSF, northeastOfSF);
 query.findInBackground(new FindCallback<ParseObject>() { ... });
 ```
 
+## Parcelable
+
+As most public facing components of the SDK, `ParseGeoPoint` implements the `Parcelable` interface. This means you can retain a `ParseGeoPoint` during configuration changes, or pass it to other components of the app through `Bundles`. To achieve this, depending on the context, use either `Parcel#writeParcelable(Parcelable, int)` or `Bundle#putParcelable(String, Parcelable)`. For instance, in an Activity,
+
+```java
+private ParseGeoPoint point;
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelable("point", point);
+}
+    
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+  if (savedInstanceState != null) {
+    point = (ParseGeoPoint) savedInstanceState.getParcelable("point");
+  }
+}
+```
+
 ## Caveats
 
 At the moment there are a couple of things to watch out for:
