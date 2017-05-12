@@ -1,11 +1,11 @@
 # Push Notifications
 
-Parse Server provides basic push notification functionality for iOS and Android. With this feature, you can:
+Parse Server provides basic push notification functionality for iOS, macOS, tvOS and Android. With this feature, you can:
 
 * Target installations by platform
 * Target installations by a `ParseQuery`
 * Send push notifications to Android devices through [Google Cloud Messaging (GCM)](https://developers.google.com/cloud-messaging/)
-* Send push notifications to iOS devices through [Apple Push Notification Service (APNS)](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1)
+* Send push notifications to iOS, tvOS and macOS devices through [Apple Push Notification Service (APNS)](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1)
 * Use most of the sending options
 
 However, there are a few caveats:
@@ -38,11 +38,11 @@ Here is the list of sending options we do not support yet:
 
 ### 1. Prepare APNS and GCM Credentials
 
-You will need to obtain some credentials from GCM and APNS in order to send push notifications to iOS and Android devices.
+You will need to obtain some credentials from GCM and APNS in order to send push notifications.
 
 #### APNS (iOS)
 
-If you are setting up push notifications on iOS for the first time, we recommend you visi the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate.  Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well.  Optionally, the module supports accepting the push certificate and key in `.pem` format.
+If you are setting up push notifications on iOS, tvOS or macOS for the first time, we recommend you visit the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate. Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well. Optionally, the module supports accepting the push certificate and key in `.pem` format. Token-based authentication instead of a certificate is not supported yet.
 
 #### GCM (Android)
 
@@ -113,6 +113,41 @@ push: {
     }
   ]
 }
+```
+
+The configuration for macOS and tvOS works exactly as for iOS. Just add an additional configuration for each plattform. Please note the key for macOS is `osx`. If you need to support both the dev and prod certificates, you can do that for all Apple plattforms like described above.
+
+```js
+var server = new ParseServer({
+  databaseURI: '...',
+  cloud: '...',
+  appId: '...',
+  masterKey: '...',
+  push: {
+    android: {
+      senderId: '...',
+      apiKey: '...'
+    },
+    ios: {
+      pfx: '/file/path/to/XXX.p12',
+      passphrase: '', // optional password to your p12/PFX
+      bundleId: '',
+      production: false
+    },
+    osx: {
+      pfx: '/file/path/to/XXX.p12',
+      passphrase: '', // optional password to your p12/PFX
+      bundleId: '',
+      production: false
+    },
+    tvos: {
+      pfx: '/file/path/to/XXX.p12',
+      passphrase: '', // optional password to your p12/PFX
+      bundleId: '',
+      production: false
+    }
+  }
+});
 ```
 
 If you have a list of certificates, Parse Server's strategy on choosing them is trying to match `installations`' `appIdentifier` with `bundleId` first. If it can find some valid certificates, it will use those certificates to establish the connection to APNS and send notifications. If it can not find, it will try to send the notifications with all certificates. Prod certificates first, then dev certificates.
