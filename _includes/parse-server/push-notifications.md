@@ -225,7 +225,7 @@ The current solution provides a good starting point for push notifications. We h
 * Support delivery report and error handling
 * Support job queue and benchmarking
 
-If you're interested in any of these features, don't hesitate to jump in and send a PR to the repo. We would love to work with you!
+If you're interested in any of these features, [don't hesitate to jump in and send a PR to the repo](https://github.com/parse-server-modules/parse-server-push-adapter). We would love to work with you!
 
 ## Notes
 
