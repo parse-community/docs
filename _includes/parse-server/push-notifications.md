@@ -91,7 +91,7 @@ push: {
     cert: '', // If not using the .p12 format, the path to the certificate PEM to load from disk
     key: '', // If not using the .p12 format, the path to the private key PEM to load from disk
     bundleId: '', // The bundle identifier associate with your app
-    production: false // Specifies which environment to connect to: Production (if true) or Sandbox
+    production: false // Specifies which APNS environment to connect to: Production (if true) or Sandbox
   }
 }
 ```
