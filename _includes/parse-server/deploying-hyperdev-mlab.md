@@ -39,8 +39,8 @@ APP_ID=myAppId
 MASTER_KEY=your_master_key_here
 DATABASE_URI=mongodb://yourusername:yourpassword@yourmlabdatabaseaddress.mlab.com:yourdatabaseport/yourdatabasename
 
-#your SERVER_URL will depend on whatever URL hyperdev gives you
-SERVER_URL=https://noun-noun.hyperdev.space/parse
+#your SERVER_URL will depend on whatever URL hyperdev/glitch gives you
+SERVER_URL=https://noun-noun.glitch.me/parse
 
 #hyperdev will only let you log to this folder
 PARSE_SERVER_LOGS_FOLDER=/tmp
