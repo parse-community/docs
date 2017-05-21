@@ -5,15 +5,13 @@ Note that we support Android 2.3 and higher. You can also check out our [API Ref
 ## Installation
 **Step 1:** Download `Parse-SDK-Android`
 
-- **Option 1:** Add dependency to the application level `build.gradle` file.
+Add dependency to the application level `build.gradle` file.
 
 ```groovy
 dependencies {
-  compile 'com.parse:parse-android:1.14.1'
+  compile 'com.parse:parse-android:1.15.7'
 }
 ```
-
-- **Option 2:** Download [latest JAR](https://search.maven.org/remote_content?g=com.parse&a=parse-android&v=LATEST)
 
 **Step 2:** Setup Parse
 
