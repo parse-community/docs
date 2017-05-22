@@ -12,7 +12,7 @@ By default, only an application ID is needed to authenticate with Parse Server. 
 
 ## Client Class Creation
 
-Hosted Parse applications can turn off client class creation in their settings. Automatic creation of classes by the client is always allowed in Parse Server.
+Hosted Parse applications can turn off client class creation in their settings. Client Class Creation can be disabled by a configuration flag on parse-server.
 
 ## Cloud Code
 
