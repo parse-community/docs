@@ -164,6 +164,7 @@ Currently Parse Server only supports sending push notifications by your `masterK
 curl -X POST \
   -H "X-Parse-Application-Id: you_app_id" \
   -H "X-Parse-Master-Key: your_master_key" \
+  -H "X-Parse-REST-API-Key: your_rest_api_key" \
   -H "Content-Type: application/json" \
   -d '{
         "where": {
