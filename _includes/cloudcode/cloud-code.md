@@ -336,6 +336,7 @@ Parse.Cloud.beforeFind('MyObject', function(req) {
   let user = req.user; // the user
   let triggerName = req.triggerName; // beforeFind
   let isMaster = req.master; // if the query is run with masterKey
+  let isCount = req.count; // if the query is a count operation (available on parse-server 2.4.0 or up)
   let logger = req.log; // the logger
   let installationId = req.installationId; // The installationId
 });
