@@ -319,7 +319,21 @@ wpPush.sendPushInBackground();
 
 ## Scheduling Pushes
 
-Sending scheduled push notifications is not currently supported by the Android SDK. Take a look at the [REST API]({{ site.baseUrl }}/rest/guide/#scheduling-pushes), [JavaScript SDK]({{ site.baseUrl }}/js/guide/#scheduling-pushes) or the push console on your Parse Dashboard.
+You can schedule a push in advance by specifying a push time with `ParsePush.setPushTime(long)`. For example, if a user schedules a game reminder for a game tomorrow at noon UTC, you can schedule the push notification by sending:
+
+```java
+long tomorrowTime = ...; // in seconds
+
+// Send push notification with expiration interval
+ParsePush push = new ParsePush();
+push.setPushTime(tomorrowTime);
+push.setMessage("You previously created a reminder for the game today");
+push.sendPushInBackground();
+```
+
+If you also specify an expiration interval, it will be calculated from the scheduled push time, not from the time the push is submitted. This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
+
+The scheduled time cannot be in the past, and can be up to two weeks in the future.
 
 ## Receiving Pushes
 
