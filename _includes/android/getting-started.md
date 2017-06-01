@@ -64,3 +64,11 @@ public class App extends Application {
   }
 }
 ```
+
+- **Option 3:** Setup `Application` as your application name in `AndroidManifest.xml`
+```xml
+<application ...
+  android:name=".App">
+  
+</application>
+```
