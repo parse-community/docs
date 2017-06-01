@@ -508,21 +508,11 @@ Common scenarios that warrant validation include:
 
 While validation often makes sense in Cloud Code, there are likely certain actions that are particularly sensitive, and should be as carefully guarded as possible. In these cases, you can remove permissions or the logic from clients entirely and instead funnel all such operations to Cloud Code functions.
 
-When a Cloud Code function is called, it can invoke the `useMasterKey` function to gain the ability to modify user data. With the master key, your Cloud Code function can override any ACLs and write data. This means that it'll bypass all the security mechanisms you've put in place in the previous sections.
+When a Cloud Code function is called, it can use the optional `{useMasterKey:true}` parameter to gain the ability to modify user data. With the master key, your Cloud Code function can override any ACLs and write data. This means that it'll bypass all the security mechanisms you've put in place in the previous sections.
 
 Say you want to allow a user to "like" a `Post` object without giving them full write permissions on the object. You can do this by having the client call a Cloud Code function instead of modifying the Post itself:
 
-The master key should be used carefully. When invoked, the master key is in effect for the duration of the Cloud Code function in which it is called:
-
-```js
-Parse.Cloud.define("like", function(request, response) {
-  Parse.Cloud.useMasterKey();
-  // Everything after this point will bypass ACLs and other security
-  // even if I do things besides just updating a Post object.
-});
-```
-
-A more prudent way to use the master key would be to pass it as a parameter on a per-function basis. For example, instead of the above, set `useMasterKey` to `true` in each individual API function:
+The master key should be used carefully. setting `useMasterKey` to `true` only in the individual API function calls that need that security override:
 
 ```js
 Parse.Cloud.define("like", function(request, response) {
