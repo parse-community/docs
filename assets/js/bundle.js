@@ -801,7 +801,7 @@
 			hljs.highlightBlock(block);
 	});
 
-	var platform = window.location.pathname.split('/')[2];
+	var platform = window.location.pathname.split('/')[1];
 	if (platform) {
 			new App.Views.Docs.Main({
 					language: 'en',
