@@ -572,11 +572,13 @@ The format `{"$text": {"$search": {parameters}}}`
 
 Please refer to your database documentation on Full Text Search to setup your indexes, weights and limitations.
 
-<a href="https://docs.mongodb.com/v3.2/text-search/">Mongo 3.2 Full Text Search</a>.
-<a href="https://docs.mongodb.com/manual/reference/operator/query/text/">Mongo 3.4 Full Text Search</a>.
-<a href="https://www.postgresql.org/docs/9.5/static/textsearch.html">Postgres 9.5 Full Text Search</a>.
+<a href="https://docs.mongodb.com/v3.2/text-search/">Mongo 3.2 Full Text Search</a>
 
-Note: Postgres doesn't support `$caseSensitive` for Full Text Search, please use $regex above or create a lowercase column in your DB. Postgres supports `$diacriticSensitive: true` by default but `$diacriticSensitive: false` is not supported. To use false automatically, please install Postgres Unaccent Extension and update your text search configuration.
+<a href="https://docs.mongodb.com/manual/reference/operator/query/text/">Mongo 3.4 Full Text Search</a>
+
+<a href="https://www.postgresql.org/docs/9.5/static/textsearch.html">Postgres 9.5 Full Text Search</a>
+
+Note: Postgres doesn't support `$caseSensitive` for Full Text Search, please use `$regex` above or create a lowercase column in your DB. Postgres supports `$diacriticSensitive: true` by default but `$diacriticSensitive: false` is not supported. To use false automatically, please install Postgres Unaccent Extension and update your text search configuration.
 
 <pre><code class="bash">
 # Finds strings that contains "Daddy"
