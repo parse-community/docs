@@ -208,6 +208,8 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
+* Starting with Parse-Server 2.5.0
+
 It's also possible to query for the set of objects that are contained within or on the bounds of a polygon. `$polygon` allows for opened or closed paths, minimum of 3 `GeoPoint`'s.
 
 <pre><code class="bash">
