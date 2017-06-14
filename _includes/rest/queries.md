@@ -92,6 +92,7 @@ The values of the `where` parameter also support comparisons besides exact match
 | $dontSelect | Requires that a key's value not match a value for a key in the result of a different query |
 | $all        | Contains all of the given values |
 | $regex      | Requires that a key's value match a regular expression |
+| $text       | Performs a full text search on indexed fields |
 
 For example, to retrieve scores between 1000 and 3000, including the endpoints, we could issue:
 
@@ -556,6 +557,91 @@ The above example will match any `BarbecueSauce` objects where the value in the 
 
 Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
 
+For efficient search capabilities use the `$text` operator. By creating indexes on one or more columns your strings are turned into tokens for full text search functionality.
+
+The format `{"$text": {"$search": {parameters}}}`
+
+| Parameter           | Use                                                            |
+|--------------------------------------------------------------------------------------|
+| $term               | Specify a field to search (Required)                           |
+| $language           | Determines the list of stop words and the rules for tokenizer. |
+| $caseSensitive      | Enable or disable case sensitive search.     |
+| $diacriticSensitive | Enable or disable diacritic sensitive search |
+
+Please refer to your database documentation on Full Text Search to setup your indexes, weights and limitations.
+
+Note: Postgres doesn't support `$caseSensitive` for Full Text Search, please use $regex above or create a lowercase column in your DB. Postgres supports `$diacriticSensitive: true` by default but `$diacriticSensitive: false` is not supported. To use false automatically, please install Postgres Unaccent Extention and undate your text search configuration.
+
+<pre><code class="bash">
+# Finds strings that contains "Daddy"
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"name":{"$text":{"$search":{"$term":"Daddy"}}}}' \
+  https://api.parse.com/1/classes/BarbecueSauce
+</code></pre>
+<pre><code class="python">
+# Finds barbecue sauces that contains "Daddy"
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "name": {
+         "$text": {
+          "$search": {
+           "$term": "Daddy"
+          }
+         }
+       }
+     })})
+connection.connect()
+connection.request('GET', '/1/classes/BarbecueSauce?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+`$text` allows for sorting by `$score`. The text score signifies how well the string matched the search term(s) based on weights.
+
+<pre><code class="bash">
+# Finds strings that contains "Daddy" ordered by relevance
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"name":{"$text":{"$search":{"$term":"Daddy"}}}}' \
+  --data-urlencode 'order="$score"' \
+  --data-urlencode 'key="$score"' \
+  https://api.parse.com/1/classes/BarbecueSauce
+</code></pre>
+<pre><code class="python">
+# Finds string that contains "Daddy" ordered by relevance
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "name": {
+         "$text": {
+          "$search": {
+           "$term": "Daddy"
+          }
+         }
+       }
+     }),
+     "order":"$score",
+     "keys":"$score",
+     })
+connection.connect()
+connection.request('GET', '/1/classes/BarbecueSauce?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+Note: Both keys and order are required to sort by `$score`. You have to manually set weights on Postgres to use `$score`.
 
 ## Relational Queries
 
