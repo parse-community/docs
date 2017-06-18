@@ -316,9 +316,17 @@ query.count({
 });
 </code></pre>
 
+
 ## Compound Queries
 
- If you want to find objects that match one of several queries, you can use `Parse.Query.or` method to construct a query that is an OR of the queries passed in.  For instance if you want to find players who either have a lot of wins or a few wins, you can do:
+For more complex queries you might need compound queries. A compound query is a logical combination (e. g. "and" or "or") of sub queries.
+
+Note that we do not support GeoPoint or non-filtering constraints (e.g. `near`, `withinGeoBox`, `limit`, `skip`, `ascending`/`descending`, `include`) in the subqueries of the compound query.
+
+
+### OR-ed query constraints
+
+If you want to find objects that match one of several queries, you can use `Parse.Query.or` method to construct a query that is an OR of the queries passed in.  For instance if you want to find players who either have a lot of wins or a few wins, you can do:
 
 <pre><code class="javascript">
 var lotsOfWins = new Parse.Query("Player");
@@ -328,16 +336,58 @@ var fewWins = new Parse.Query("Player");
 fewWins.lessThan("wins", 5);
 
 var mainQuery = Parse.Query.or(lotsOfWins, fewWins);
-mainQuery.find({
-  success: function(results) {
-     // results contains a list of players that either have won a lot of games or won only a few games.
-  },
-  error: function(error) {
+mainQuery.find()
+  .then(function(results) {
+    // results contains a list of players that either have won a lot of games or won only a few games.
+  })
+  .catch(function(error) {
     // There was an error.
-  }
-});
+  });
 </code></pre>
 
-You can add additional constraints to the newly created `Parse.Query` that act as an 'and' operator.
 
-Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `near`, `withinGeoBox`, `limit`, `skip`, `ascending`/`descending`, `include`) in the subqueries of the compound query.
+### AND-ed query constraints
+
+If you want to find objects that match all conditions, you normally would use just one query. You can add additional constraints to the newly created `Parse.Query` that act as an 'and' operator.
+
+<pre><code class="javascript">
+var query = new Parse.Query("User");
+query.greaterThan("age", 18);
+query.greaterThan("friends", 0);
+query.find()
+  .then(function(results) {
+    // results contains a list of users both older than 18 and having friends.
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+Sometimes world is complexer than this simple example and you may need an compound query of sub queries. You can use `Parse.Query.and` method to construct a query that is an AND of the queries passed in. For instance if you want to find users in the age of 16 or 18 who have either no friends or at least 2 friends, you can do:
+
+<pre><code class="javascript">
+var age16Query = new Parse.Query("User");
+age16Query.equalTo("age", 16);
+
+var age18Query = new Parse.Query("User");
+age18Query.equalTo("age", 18);
+
+var friends0Query = new Parse.Query("User");
+friends0Query.equalTo("friends", 0);
+
+var friends2Query = new Parse.Query("User");
+friends2Query.greaterThan("friends", 2);
+
+var mainQuery = Parse.Query.and(
+  Parse.Query.or(age16Query, age18Query),
+  Parse.Query.or(friends0Query, friends2Query)
+);
+mainQuery.find()
+  .then(function(results) {
+    // results contains a list of users in the age of 16 or 18 who have either no friends or at least 2 friends
+    // results: (age 16 or 18) and (0 or >2 friends)
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
