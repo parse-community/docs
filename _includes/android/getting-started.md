@@ -64,3 +64,12 @@ public class App extends Application {
   }
 }
 ```
+
+Register the App class in the Android Manifest
+```
+<application
+  android:name=".App"
+  ...>
+  ...
+</application>
+```
