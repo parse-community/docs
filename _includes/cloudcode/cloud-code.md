@@ -342,6 +342,14 @@ Parse.Cloud.beforeFind('MyObject', (req) =>  {
   // rejecting promise
   return Promise.reject('error');
 });
+
+// Setting the read preference for a query
+// -- as of Parse Server 2.5, Mongo Only
+Parse.Cloud.beforeFind('MyObject2', (req) => {
+  req.readPreference = 'SECONDARY_PREFERRED';
+  req.subqueryReadPreference = 'SECONDARY';
+});
+
 ```
 
 # Using the Master Key in cloud code

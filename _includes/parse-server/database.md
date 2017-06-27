@@ -19,6 +19,8 @@ When using MongoDB with your Parse app, you need to manage your indexes yourself
 
 If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](#using-mongodb--rocksdb).
 
+In order to allow for better scaling of your data layer, it is possible to direct queries to a mongodb secondary for read operations.  See: XXXXX.
+
 ## Postgres
 
 The Posgres requirements for Parse Server are:
