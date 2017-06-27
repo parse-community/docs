@@ -81,6 +81,18 @@ $query->greaterThan("wins", 50);
 $query->greaterThanOrEqualTo("wins", 50);
 </code></pre>
 
+For sorting by `ParseGeoPoint` you can query for whether an object lies within a polygon of geo points:
+
+<pre><code class="php">
+// construct 3 geo points
+$geoPoint1 = new ParseGeoPoint();
+$geoPoint2 = new ParseGeoPoint();
+$geoPoint3 = new ParseGeoPoint();
+
+// restrict to any objects where `myGeoPoint` lies within a polygon made by 3 or more geo points
+$query->withinPolygon("myGeoPoint", [$geoPoint1, $geoPoint2, $geoPoint3]);
+</code></pre>
+
 If you want to retrieve objects matching several different values, you can use `containedIn`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular array:
 
 <pre><code class="php">
@@ -176,6 +188,16 @@ $query->startsWith("name", "Big Daddy's");
 </code></pre>
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
+
+You may also use `endsWith` to restrict to string values that end with a particular string instead:
+
+<pre><code class="php">
+// Finds barbecue sauces that end with "Sauce".
+$query = new ParseQuery("BarbecueSauce");
+$query->endsWith("name", "Sauce");
+</code></pre>
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key ends with "Sauce". For example, both "Big Daddy's BBQ Sauce" and "Home Style BBQ Sauce" will match, but "Big Daddy's BBQ" or "Best Sauce: Big Daddy's" will not.
 
 Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
 
