@@ -16,20 +16,19 @@ Cloud functions accept a JSON parameters dictionary on the `request` object, so 
 
 ```javascript
 Parse.Cloud.define("averageStars", function(request, response) {
-  var query = new Parse.Query("Review");
+  const query = new Parse.Query("Review");
   query.equalTo("movie", request.params.movie);
-  query.find({
-    success: function(results) {
-      var sum = 0;
-      for (var i = 0; i < results.length; ++i) {
+    .find()
+    .then((results) => {
+      let sum = 0;
+      for (let i = 0; i < results.length; ++i) {
         sum += results[i].get("stars");
       }
       response.success(sum / results.length);
-    },
-    error: function() {
+    })
+    .catch(() =>  {
       response.error("movie lookup failed");
-    }
-  });
+    });
 });
 ```
 
@@ -140,12 +139,12 @@ Sometimes you want to execute long running functions, and you don't want to wait
 ```javascript
 Parse.Cloud.job("myJob", function(request, status) {
   // the params passed through the start request
-  var params = request.params;
+  const params = request.params;
   // Headers from the request that triggered the job
-  var headers = request.headers;
+  const headers = request.headers;
 
   // get the parse-server logger
-  var log = request.log;
+  const log = request.log;
 
   // Update the Job status message
   status.message("I just started");
@@ -153,10 +152,11 @@ Parse.Cloud.job("myJob", function(request, status) {
     // Mark the job as successful
     // success and error only support string as parameters
     status.success("I just finished");
-  }, function(error) {
+  })
+  .catch(function(error) {
     // Mark the job as errored
     status.error("There was an error");
-  })
+  });
 });
 ```
 
@@ -172,7 +172,7 @@ curl -X POST -H 'X-Parse-Application-Id: appId' -H 'X-Parse-Master-Key: masterKe
 
 The response will consist of an empty body and contain the `X-Parse-Job-Status-Id: a1c3e5g7i9k` header. With the _JobStatus's objectId that has just been created.
 
-You can pass some data alongside the call if you want to customize the job execution. 
+You can pass some data alongside the call if you want to customize the job execution.
 
 ## Scheduling a Job
 
@@ -245,16 +245,15 @@ In some cases, you may want to perform some action, such as a push, after an obj
 
 ```javascript
 Parse.Cloud.afterSave("Comment", function(request) {
-  query = new Parse.Query("Post");
-  query.get(request.object.get("post").id, {
-    success: function(post) {
+  const query = new Parse.Query("Post");
+  query.get(request.object.get("post").id)
+    .then(function(post) {
       post.increment("comments");
-      post.save();
-    },
-    error: function(error) {
+      return post.save();
+    })
+    .catch(function(error) {
       console.error("Got an error " + error.code + " : " + error.message);
-    }
-  });
+    });
 });
 ```
 
@@ -268,20 +267,19 @@ You can run custom Cloud Code before an object is deleted. You can do this with 
 
 ```javascript
 Parse.Cloud.beforeDelete("Album", function(request, response) {
-  query = new Parse.Query("Photo");
+  const query = new Parse.Query("Photo");
   query.equalTo("album", request.object);
-  query.count({
-    success: function(count) {
+  query.count()
+    .then(function(count) {
       if (count > 0) {
         response.error("Can't delete album if it still has photos.");
       } else {
         response.success();
       }
-    },
-    error: function(error) {
+    })
+    .catch(function(error) {
       response.error("Error " + error.code + " : " + error.message + " when getting photo count.");
-    }
-  });
+    });
 });
 ```
 
@@ -296,21 +294,13 @@ In some cases, you may want to perform some action, such as a push, after an obj
 
 ```javascript
 Parse.Cloud.afterDelete("Post", function(request) {
-  query = new Parse.Query("Comment");
+  const query = new Parse.Query("Comment");
   query.equalTo("post", request.object);
-  query.find({
-    success: function(comments) {
-      Parse.Object.destroyAll(comments, {
-        success: function() {},
-        error: function(error) {
-          console.error("Error deleting related comments " + error.code + ": " + error.message);
-        }
-      });
-    },
-    error: function(error) {
+  query.find()
+    .then(Parse.Object.destroyAll)
+    .catch(function(error) {
       console.error("Error finding related comments " + error.code + ": " + error.message);
-    }
-  });
+    });
 });
 ```
 
@@ -350,7 +340,7 @@ Parse.Cloud.beforeFind('MyObject', function(req) {
 
 // Asynchronous support
 Parse.Cloud.beforeFind('MyObject', function(req) {
-  let query = req.query; 
+  let query = req.query;
   return aPromise().then((results) => {
     // do something with the results
     query.containedIn('key', results);
@@ -359,7 +349,7 @@ Parse.Cloud.beforeFind('MyObject', function(req) {
 
 // Returning a different query
 Parse.Cloud.beforeFind('MyObject', function(req) {
-  let query = req.query; 
+  let query = req.query;
   let otherQuery = new Parse.Query('MyObject');
   otherQuery.equalTo('key', 'value');
   return Parse.Query.or(query, otherQuery);
