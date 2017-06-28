@@ -32,9 +32,7 @@ Almost every class that you create should have these permissions tweaked to some
 
 ### Restricting class creation
 
-As a start, you can configure your application so that clients cannot create new classes on Parse. This is done from the Settings tab on the Data Browser. Scroll down to the **App Permissions** section and turn off **Allow client class creation**. Once enabled, classes may only be created from the Data Browser. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
-
-![]({{ '/assets/images/client_class_creation.png' | prepend: site.baseurl }})
+As a start, you can configure your application so that clients cannot create new classes on Parse. This is done by setting the key `allowClientClassCreation` to `false` in your ParseServer configuration.  See the project Readme for an overview of [Configuring your ParseServer](https://github.com/parse-community/parse-server#configuration).   Once restricted, classes may only be created from the Data Browser or with a the `masterKey`. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
 
 ### Configuring Class-Level Permissions
 
@@ -404,9 +402,9 @@ For example, you want to allow your **authenticated users** to `find` and `get` 
 ```
 // POST http://my-parse-server.com/schemas/Announcement
 // Set the X-Parse-Application-Id and X-Parse-Master-Key header
-// body: 
+// body:
 {
-  classLevelPermissions: 
+  classLevelPermissions:
   {
     "find": {
       "requireAuthentication": true,
