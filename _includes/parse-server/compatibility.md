@@ -6,14 +6,6 @@ There are a few areas where Parse Server does not provide compatibility with the
 
 Parse Analytics is not supported. We recommend sending analytics to another similar service like Mixpanel or Google Analytics.
 
-## Android: Exporting GCM Registration IDs
-
-Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, the GCM registration IDs (stored in the `deviceToken` field) for your app are associated with Parse's GCM sender ID, which won't work after Parse is retired. You may want to take these actions to have your app register with a different GCM sender ID, which will make the registration IDs in the `deviceToken` field exportable to other push providers:
-
-* Enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number (it should be a large integer like `123427208255`). This is also known as your GCM sender ID.
-* Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide]({{ site.baseUrl }}/android/guide/#setting-up-push) for more details on this attribute.
-* Parse will now register for GCM with both its GCM sender ID and your GCM sender ID on app startup. You can use the resulting GCM registration IDs (stored in the `deviceToken` field of ParseInstallation) with other GCM push providers.
-
 ## Authentication
 
 By default, only an application ID is needed to authenticate with Parse Server. The base configuration that comes with the one-click deploy options does not require authenticating with any other types of keys. Therefore, specifying client keys on Android or iOS is not needed.
@@ -21,10 +13,6 @@ By default, only an application ID is needed to authenticate with Parse Server. 
 ## Client Class Creation
 
 Hosted Parse applications can turn off client class creation in their settings. Client Class Creation can be disabled by a configuration flag on parse-server.
-
-## Client Push
-
-Hosted Parse applications could disable a security setting in order to allow clients to send push notifications. Parse Server does not allow clients to send push notifications as the `masterKey` must be used. Use Cloud Code or the REST API to send push notifications.
 
 ## Cloud Code
 
@@ -164,6 +152,20 @@ There is no background job functionality in Parse Server. If you have scheduled 
 ## Parse IoT Devices
 
 Push notification support for the Parse IoT SDKs is provided through the Parse Push Notification Service (PPNS). PPNS is a push notification service for Android and IoT devices maintained by Parse. This service will be retired on January 28, 2017. [This page](https://github.com/parse-community/parse-server/wiki/PPNS-Protocol-Specification) documents the PPNS protocol for users that wish to create their own PPNS-compatible server for use with their Parse IoT devices.
+
+## Push Notifications
+
+### Client Push
+
+Hosted Parse applications could disable a security setting in order to allow clients to send push notifications. Parse Server does not allow clients to send push notifications as the `masterKey` must be used. Use Cloud Code or the REST API to send push notifications.
+
+### Android: Exporting GCM Registration IDs
+
+Parse supports sending pushes to Android devices via Google Cloud Messaging (GCM). By default, the GCM registration IDs (stored in the `deviceToken` field) for your app are associated with Parse's GCM sender ID, which won't work after Parse is retired. You may want to take these actions to have your app register with a different GCM sender ID, which will make the registration IDs in the `deviceToken` field exportable to other push providers:
+
+* Enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number (it should be a large integer like `123427208255`). This is also known as your GCM sender ID.
+* Add the `com.parse.push.gcm_sender_id` metadata attribute to your app manifest so that Parse registers for push with your GCM sender ID. For instance, if your GCM sender ID is `123427208255`, then you should add a metadata attribute named `com.parse.push.gcm_sender_id` with the value `id:123427208255` (note that the "id:" prefix is required).  This attribute requires Android SDK 1.8.0 or higher. See our [Android push guide]({{ site.baseUrl }}/android/guide/#setting-up-push) for more details on this attribute.
+* Parse will now register for GCM with both its GCM sender ID and your GCM sender ID on app startup. You can use the resulting GCM registration IDs (stored in the `deviceToken` field of ParseInstallation) with other GCM push providers.
 
 ## Schema
 
