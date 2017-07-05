@@ -28,10 +28,10 @@ We support most of the sending options similar to the hosted Parse.com service. 
 * `title ` under `data` for Android notification title
 * `uri ` under `data` for Android notification launched URI
 * custom data under `data` for ios and Android
+* Increment `badge` under `data` for iOS badge number
 
 Here is the list of sending options we do not support yet:
 * `push_time` for scheduled push
-*  Increment `badge` under `data` for iOS badge number
 
 
 ## Push Notifications Quick Start
