@@ -34,6 +34,7 @@ game["createdBy"] = PFUser.currentUser()
 
 ```php
 $game = ParseObject::create("Game");
+
 $game->set("createdBy", ParseUser::getCurrentUser());
 ```
 {: .common-lang-block .php }
@@ -84,6 +85,7 @@ if let user = PFUser.currentUser() {
 
 ```php
 $gameQuery = new ParseQuery("Game");
+
 $gameQuery->equalTo("createdBy", ParseUser::getCurrentUser());
 ```
 {: .common-lang-block .php }
@@ -143,7 +145,7 @@ let createdBy = game["createdBy"]
 $game = ...
 
 // getting the user who created the Game
-$user = $game["createdBy"];
+$user = $game->get("createdBy");
 ```
 {: .common-lang-block .php }
 

@@ -264,6 +264,7 @@ So far we've used values with type `String`, `Integer`, and `ParseObject`. Parse
 * File => `ParseFile`
 * Pointer => other `ParseObject`
 * Relation => `ParseRelation`
+* GeoPoint => `ParseGeoPoint`
 * Null => `null`
 
 Some examples:
@@ -274,6 +275,7 @@ $string = "the number is " . $number;
 $date = new DateTime();
 $array = [$string, $number];
 $object = ["number" => $number, "string" => $string];
+$geoPoint = new ParseGeoPoint(37.75, -122.68); // san fran
 
 $bigObject = new ParseObject("BigObject");
 $bigObject->set("myNumber", $number);
@@ -281,6 +283,7 @@ $bigObject->set("myString", $string);
 $bigObject->set("myDate", $date);
 $bigObject->setArray("myArray", $array);
 $bigObject->setAssociativeArray("myObject", $object);
+$bigObject->set("myGeoPoint", $geoPoint);
 $bigObject->set("anyKey", null); // this value can only be saved to an existing key
 $bigObject->save();
 </code></pre>

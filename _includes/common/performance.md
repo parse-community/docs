@@ -40,7 +40,7 @@ query.equalTo("score", 50);
 query.containedIn("playerName",
     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -82,6 +82,15 @@ var query = new ParseObject.GetQuery("GameScore")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("GameScore");
+
+$query->equalTo("score", 50);
+$query->containedIn("playerName",
+    ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
+```
+{: .common-lang-block .php }
+
 Creating an index query based on the score field would yield a smaller search space in general than creating one on the `playerName` field.
 
 When examining data types, booleans have a very low entropy and and do not make good indexes. Take the following query constraint:
@@ -89,7 +98,7 @@ When examining data types, booleans have a very low entropy and and do not make 
 ```javascript
 query.equalTo("cheatMode", false);
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"cheatMode" equalTo:@NO];
@@ -120,6 +129,11 @@ query.WhereEqualTo("cheatMode", false);
 // No C++ example
 ```
 {: .common-lang-block .cpp }
+
+```php
+$query->equalTo("cheatMode", false);
+```
+{: .common-lang-block .php }
 
 The two possible values for `"cheatMode"` are `true` and `false`. If an index was added on this field it would be of little use because it's likely that 50% of the records will have to be looked at to return query results.
 
@@ -159,7 +173,7 @@ query.find().then(function(results) {
   // Retrieved scores successfully
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -215,6 +229,16 @@ var results = await ParseObject.GetQuery("GameScore")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("GameScore");
+
+$query->notEqualTo("playerName", "Michael Yabuti");
+
+$gameScores = $query->find();
+// Retrieved game scores
+```
+{: .common-lang-block .php }
+
 This query can't take advantage of indexes. The database has to look at all the objects in the `"GameScore"` class to satisfy the constraint and retrieve the results. As the number of entries in the class grows, the query takes longer to run.
 
 Luckily, most of the time a “Not Equal To” query condition can be rewritten as a “Contained In” condition. Instead of querying for the absence of values, you ask for values which match the rest of the column values. Doing this allows the database to use an index and your queries will be faster.
@@ -225,7 +249,7 @@ For example if the User class has a column called state which has values “Sign
 var query = new Parse.Query(Parse.User);
 query.notEqualTo("state", "Invited");
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFUser query];
@@ -261,12 +285,19 @@ var query = ParseUser.Query
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("_User");
+
+$query->notEqualTo("state", "Invited");
+```
+{: .common-lang-block .php }
+
 It would be faster to use the “Contained In” condition when setting up the query:
 
 ```javascript
 query.containedIn("state", ["SignedUp", "Verified"]);
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"state"
@@ -299,6 +330,11 @@ query.WhereContainedIn("state", new[] { "SignedUp", "Verified" });
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->containedIn("state", ["SignedUp", "Verified"]);
+```
+{: .common-lang-block .php }
+
 Sometimes, you may have to completely rewrite your query. Going back to the `"GameScore"` example, let's say we were running that query to display players who had scored higher than the given player. We could do this differently, by first getting the given player's high score and then using the following query:
 
 ```javascript
@@ -310,7 +346,7 @@ query.find().then(function(results) {
   // Retrieved scores successfully
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -370,6 +406,17 @@ var results = await ParseObject.GetQuery("GameScore")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("GameScore");
+
+// Previously retrieved highScore for Michael Yabuti
+$query->greaterThan("score", $highScore);
+
+$gameScores = $query->find();
+// Retrieved game scores
+```
+{: .common-lang-block .php }
+
 The new query you use depends on your use case. This may sometimes mean a redesign of your data model.
 
 ### Not Contained In
@@ -378,9 +425,9 @@ Similar to “Not Equal To”, the “Not Contained In” query constraint can't
 
 ```javascript
 var query = new Parse.Query(Parse.User);
-query.notContainedIn("state", ["Invited", "Blocked"];
+query.notContainedIn("state", ["Invited", "Blocked"]);
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFUser query];
@@ -416,12 +463,19 @@ var query = ParseUser.Query
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("_User");
+
+$query->notContainedIn("state", ["Invited", "Blocked"]);
+```
+{: .common-lang-block .php }
+
 Using a complimentary “Contained In” query constraint will always be faster:
 
 ```javascript
 query.containedIn("state", ["SignedUp", "Verified"]);
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
@@ -453,6 +507,11 @@ query.WhereContainedIn("state", new[] { "SignedUp", "Verified"});
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->containedIn("state", ["SignedUp", "Verified"]);
+```
+{: .common-lang-block .php }
+
 This means rewriting your queries accordingly. Your query rewrites will depend on your schema set up. It may mean redoing that schema.
 
 ### Regular Expressions
@@ -464,7 +523,7 @@ You should avoid using regular expression constraints that don't use indexes. Fo
 ```javascript
 query.matches("playerName", "Michael", “i”);
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"Michael" modifiers:@"i"];
@@ -496,12 +555,17 @@ query.WhereMatches("playerName", "Michael", "i")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->matches("playerName", "Michael", "i");
+```
+{: .common-lang-block .php }
+
 The following query, while case sensitive, looks for any occurrence of the string in the field and cannot be indexed:
 
 ```javascript
 query.contains("playerName", "Michael");
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"playerName" containsString:@"Michael"];
@@ -533,12 +597,17 @@ query.WhereContains("playerName", "Michael")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->contains("playerName", "Michael");
+```
+{: .common-lang-block .php }
+
 These queries are both slow. In fact, the `matches` and `contains` query constraints are not covered in our querying guides on purpose and we do not recommend using them. Depending on your use case, you should switch to using the following constraint that uses an index, such as:
 
 ```javascript
 query.startsWith("playerName", "Michael");
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"playerName" hasPrefix:@"Michael"];
@@ -570,6 +639,11 @@ query.WhereStartsWith("playerName", "Michael")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->startsWith("playerName", "Michael");
+```
+{: .common-lang-block .php }
+
 This looks for data that starts with the given string. This query will use the backend index, so it will be faster even for large datasets.
 
 As a best practice, when you use regular expression constraints, you'll want to ensure that other constraints in the query reduce the result set to the order of hundreds of objects to make the query efficient. If you must use the `matches` or `contains` constraints for legacy reasons, then use case sensitive, anchored queries where possible, for example:
@@ -577,7 +651,7 @@ As a best practice, when you use regular expression constraints, you'll want to 
 ```javascript
 query.matches("playerName", "^Michael");
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [query whereKey:@"playerName" matchesRegex:@"^Michael"];
@@ -609,6 +683,11 @@ query.WhereMatches("playerName", "^Michael")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->matches("playerName", "^Michael");
+```
+{: .common-lang-block .php }
+
 Most of the use cases around using regular expressions involve implementing search. A more performant way of implementing search is detailed later.
 
 ## Write Restrictive Queries
@@ -620,7 +699,7 @@ You can limit the number of query results returned. The limit is 100 by default 
 ```javascript
 query.limit(10); // limit to at most 10 results
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 query.limit = 10; // limit to at most 10 results
@@ -652,6 +731,11 @@ query.Limit(10); // limit to at most 10 results
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query->limit(10); // limit to at most 10 results
+```
+{: .common-lang-block .php }
+
 If you're issuing queries on GeoPoints, make sure you specify a reasonable radius:
 
 ```javascript
@@ -661,7 +745,7 @@ query.find().then(function(placesObjects) {
   // Get a list of objects within 10 miles of a user's location
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Place"];
@@ -717,6 +801,16 @@ var results = await ParseObject.GetQuery("GameScore")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("Place");
+
+$query->withinMiles("location", $userGeoPoint, 10);
+
+$placeObjects = $query.find();
+// Gets an array of objects within 10 miles of a user's location
+```
+{: .common-lang-block .php }
+
 You can further limit the fields returned by calling select:
 
 ```javascript
@@ -727,7 +821,7 @@ query.find().then(function(results) {
   // each of results will only have the selected fields available.
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -784,6 +878,16 @@ var results = await ParseObject.GetQuery("GameScore")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("GameScore");
+
+$query->select(["score", "playerName"]);
+
+$results = $query->find();
+// each of results will only have the selected fields available.
+```
+{: .common-lang-block .php }
+
 ## Client-side Caching
 
 For queries run from iOS and Android, you can turn on query caching. See the [iOS]({{ site.baseUrl }}/ios/guide/#caching-queries) and [Android]({{ site.baseUrl }}/android/guide/#caching-queries) guides for more details. Caching queries will increase your mobile app's performance especially in cases where you want to display cached data while fetching the latest data from Parse.
@@ -822,7 +926,7 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
   // ratings is 4.5
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 [PFCloud callFunctionInBackground:@"averageStars"
@@ -882,6 +986,12 @@ ParseCloud.CallFunctionAsync<float>("averageStars", dictionary).ContinueWith(t =
 ```
 {: .common-lang-block .cpp }
 
+```php
+$rating = ParseCloud::run("averageStars", ["movie" => "The Matrix" ]);
+// rating is 4.5
+```
+{: .common-lang-block .php }
+
 If later on, you need to modify the underlying data model, your client call can remain the same, as long as you return back a number that represents the ratings result.
 
 ## Avoid Count Operations
@@ -898,7 +1008,7 @@ query.count().then(function(count) {
   // Request succeeded
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
@@ -956,6 +1066,16 @@ var count = await ParseObject.GetQuery("Review")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("Review");
+
+// $movieId corresponds to a given movie's id
+$query->equalTo("movie", $movieId);
+
+$count = $query.count();
+```
+{: .common-lang-block .php }
+
 If you run the count query for each of the UI elements, they will not run efficiently on large data sets. One approach to avoid using the `count()` operator could be to add a field to the Movie class that represents the review count for that movie. When saving an entry to the Review class you could increment the corresponding movie's review count field. This can be done in an `afterSave` handler:
 
 ```javascript
@@ -986,7 +1106,7 @@ query.find().then(function(results) {
   // Request failed
 });
 ```
-{: .common-lang-block .javascript }
+{: .common-lang-block .js }
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
@@ -1039,6 +1159,14 @@ var results = await ParseObject.GetQuery("Movie")
 ```
 {: .common-lang-block .cpp }
 
+```php
+$query = new ParseQuery("Movie");
+
+$results = $query.find();
+// Results include the reviews count field
+```
+{: .common-lang-block .php }
+
 You could also use a separate Parse Object to keep track of counts for each review. Whenever a review gets added or deleted, you can increment or decrement the counts in an `afterSave` or `afterDelete` Cloud Code handler. The approach you choose depends on your use case.
 
 ## Implement Efficient Searches
@@ -1082,7 +1210,7 @@ query.find().then(function(results) {
   // Request failed
 });
 ```
-{: .common-lang-block-js}
+{: .common-lang-block .js}
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"Post"];
@@ -1137,6 +1265,16 @@ var results = await ParseObject.GetQuery("Post")
 // No C++ example
 ```
 {: .common-lang-block .cpp }
+
+```php
+$query = new ParseQuery("Post");
+
+$query->containsAll("hashtags", [“#parse”, “#ftw”]);
+
+$posts = $query->find();
+// posts containing all the given hash tags
+```
+{: .common-lang-block .php}
 
 ## Limits and Other Considerations
 
