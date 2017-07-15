@@ -11,7 +11,7 @@ And you're off! Take a look at the public [documentation][docs] and start buildi
    ```ruby
    pod 'Parse'
    ```
-   Run `pod install`, and you should now have the latest parse release.
+   Run `pod install`, and you should now have the latest parse release.  CocoaPods will generate a .xcworkspace for you.  You must open the .xcworkspace in Xcode or you will get a linker error.
     
     
  - **[Carthage](https://github.com/carthage/carthage)**
