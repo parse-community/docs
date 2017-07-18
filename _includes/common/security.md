@@ -14,7 +14,7 @@ The master key, on the other hand, is definitely a security mechanism. Using the
 
 The overall philosophy is to limit the power of your clients (using client keys), and to perform any sensitive actions requiring the master key in Cloud Code. You'll learn how to best wield this power in the section titled [Implementing Business Logic in Cloud Code](#implementing-business-logic-in-cloud-code).
 
-A final note: All connections are made with HTTPS and SSL, and Parse will reject all non-HTTPS connections. As a result, you don't need to worry about man-in-the-middle attacks.
+A final note: It is recommended to setup HTTPS and SSL in your server, to avoid man-in-the-middle attacks, but Parse works fine as well with non-HTTPS connections.  
 
 ## Class-Level Permissions
 
