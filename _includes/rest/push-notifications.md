@@ -40,13 +40,13 @@ curl -X POST \
           ""
         ]
       }' \
-  https://api.parse.com/1/installations
+  https://YOUR.PARSE-SERVER.HERE/parse/installations
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/installations', json.dumps({
+connection.request('POST', '/parse/installations', json.dumps({
        "deviceType": "ios",
        "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
        "channels": [
@@ -65,7 +65,7 @@ When the creation is successful, the HTTP response is a `201 Created` and the `L
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/installations/mrmBZvsErB
+Location: https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created installation:
@@ -100,13 +100,13 @@ curl -X POST \
           ""
         ]
       }' \
-  https://api.parse.com/1/installations
+  https://YOUR.PARSE-SERVER.HERE/parse/installations
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/installations', json.dumps({
+connection.request('POST', '/parse/installations', json.dumps({
        "deviceType": "android",
        "pushType": "gcm",
        "deviceToken": "APA91bFMvbrGg4cp3KUV_7dhU1gmwE_...",
@@ -133,13 +133,13 @@ You can retrieve the contents of an installation object by sending a GET request
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/installations/mrmBZvsErB', '', {
+connection.request('GET', '/parse/installations/mrmBZvsErB', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -179,13 +179,13 @@ curl -X PUT \
           "foo"
         ]
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '/parse/installations/mrmBZvsErB', json.dumps({
        "deviceType": "ios",
        "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
        "channels": [
@@ -213,13 +213,13 @@ Without any URL parameters, a GET request simply lists installations:
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/installations
+  https://YOUR.PARSE-SERVER.HERE/parse/installations
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/installations', '', {
+connection.request('GET', '/parse/installations', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })
@@ -267,13 +267,13 @@ To delete an installation from the Parse Cloud, send a DELETE request to its URL
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('DELETE', '/1/installations/mrmBZvsErB', '', {
+connection.request('DELETE', '/parse/installations/mrmBZvsErB', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })
@@ -307,13 +307,13 @@ curl -X PUT \
           "Giants"
         ]
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '/parse/installations/mrmBZvsErB', json.dumps({
        "channels": [
          "Giants"
        ]
@@ -350,13 +350,13 @@ curl -X POST \
           "alert": "The Giants won against the Mets 2-3."
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "channels": [
          "Giants",
          "Mets"
@@ -393,13 +393,13 @@ curl -X PUT \
         "gameResults": true,
         "injuryReports": true
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '/parse/installations/mrmBZvsErB', json.dumps({
        "scores": True,
        "gameResults": True,
        "injuryReports": True
@@ -426,13 +426,13 @@ curl -X PUT \
           "objectId": "vmRZXZ1Dvo"
         }
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '/parse/installations/mrmBZvsErB', json.dumps({
        "user": {
          "__type": "Pointer",
          "className": "_User",
@@ -464,13 +464,13 @@ curl -X POST \
           "alert": "Willie Hayes injured by own pop fly."
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "injuryReports": True
        },
@@ -502,13 +502,13 @@ curl -X POST \
           "alert": "The Giants scored a run! The score is now 2-2."
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "channels": "Giants",
          "scores": True
@@ -551,13 +551,13 @@ curl -X POST \
           "alert": "Free hotdogs at the Parse concession stand!"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "user": {
            "$inQuery": {
@@ -620,13 +620,13 @@ curl -X POST \
           "title": "Mets Score!"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "channels": [
          "Mets"
        ],
@@ -651,9 +651,9 @@ It is also possible to specify your own data in this dictionary. As explained in
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "channels": [
          "Indians"
        ],
@@ -689,13 +689,13 @@ curl -X POST \
           "alert": "Season tickets on sale until March 19, 2015"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "expiration_time": "2015-03-19T22:05:08Z",
        "data": {
          "alert": "Season tickets on sale until March 19, 2015"
@@ -723,13 +723,13 @@ curl -X POST \
           "alert": "Season tickets on sale until March 19, 2015"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "push_time": "2015-03-13T22:05:08Z",
        "expiration_interval": 518400,
        "data": {
@@ -762,13 +762,13 @@ curl -X POST \
           "alert": "Your suitcase has been filled with tiny robots!"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "deviceType": "android"
        },
@@ -797,13 +797,13 @@ curl -X POST \
           "alert": "Your suitcase has been filled with tiny apples!"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "deviceType": "ios"
        },
@@ -832,13 +832,13 @@ curl -X POST \
           "alert": "Your suitcase has been filled with tiny glass!"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "deviceType": "winrt"
        },
@@ -867,13 +867,13 @@ curl -X POST \
           "alert": "Your suitcase is very hip; very metro."
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "deviceType": "winphone"
        },
@@ -907,13 +907,13 @@ curl -X POST \
           "alert": "You previously created a reminder for the game today"
         }
       }' \
-  https://api.parse.com/1/push
+  https://YOUR.PARSE-SERVER.HERE/parse/push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '/parse/push', json.dumps({
        "where": {
          "user_id": "user_123"
        },

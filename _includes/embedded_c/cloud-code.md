@@ -20,5 +20,5 @@ void myCloudFunctionCallback(ParseClient client, int error, int httpStatus, cons
 		// httpResponseBody holds the Cloud Function response
 	}
 }
-parseSendRequest(client, "POST", "/1/functions/hello", "{\"value\":\"echo\"}", myCloudFunctionCallback);
+parseSendRequest(client, "POST", "/parse/functions/hello", "{\"value\":\"echo\"}", myCloudFunctionCallback);
 ```

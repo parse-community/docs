@@ -20,13 +20,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://api.parse.com/1/schemas
+  https://YOUR.PARSE-SERVER.HERE/parse/schemas
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/schemas', '', {
+connection.request('GET', '/parse/schemas', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -75,13 +75,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://api.parse.com/1/schemas/Game
+  https://YOUR.PARSE-SERVER.HERE/parse/schemas/Game
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/schemas/Game', "", {
+connection.request('GET', '/parse/schemas/Game', "", {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -109,13 +109,13 @@ curl -X POST \
         }
       }
     }' \
-  https://api.parse.com/1/schemas/City
+  https://YOUR.PARSE-SERVER.HERE/parse/schemas/City
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/schemas/Game', json.dumps({
+connection.request('POST', '/parse/schemas/Game', json.dumps({
        "className":"City","fields":{"name":{"type":"String"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -144,13 +144,13 @@ curl -X PUT \
         }
       }
     }' \
-  https://api.parse.com/1/schemas/City
+  https://YOUR.PARSE-SERVER.HERE/parse/schemas/City
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/schemas/City', json.dumps(
+connection.request('PUT', '/parse/schemas/City', json.dumps(
        "className":"City","fields":{"population":{"type":"Number"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -177,13 +177,13 @@ curl -X PUT \
         }
       }
     }' \
-  https://api.parse.com/1/schemas/City
+  https://YOUR.PARSE-SERVER.HERE/parse/schemas/City
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/schemas/Game', json.dumps(
+connection.request('PUT', '/parse/schemas/Game', json.dumps(
        "className":"City","fields":{"population":{"__op" : "Delete"} }
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -204,13 +204,13 @@ curl -X DELETE\
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://api.parse.com/1/schemas/City
+  https://YOUR.PARSE-SERVER.HERE/parse/schemas/City
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/schemas/City', "", {
+connection.request('PUT', '/parse/schemas/City', "", {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"

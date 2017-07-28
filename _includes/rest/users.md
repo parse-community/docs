@@ -19,13 +19,13 @@ curl -X POST \
   -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
   -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
-  https://api.parse.com/1/users
+  https://YOUR.PARSE-SERVER.HERE/parse/users
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/users', json.dumps({
+connection.request('POST', '/parse/users', json.dumps({
        "username": "cooldude6",
        "password": "p_n7!-e8",
        "phone": "415-392-0202"
@@ -43,7 +43,7 @@ When the creation is successful, the HTTP response is a `201 Created` and the `L
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/users/g7y9tkhB7O
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/g7y9tkhB7O
 </code></pre>
 
 The response body is a JSON object containing the `objectId`, the `createdAt` timestamp of the newly-created object, and the `sessionToken` which can be used to authenticate subsequent requests as this user:
@@ -58,7 +58,7 @@ The response body is a JSON object containing the `objectId`, the `createdAt` ti
 
 ## Logging In
 
-After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the `/1/login` endpoint with `username` and `password` as URL-encoded parameters:
+After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the `/parse/login` endpoint with `username` and `password` as URL-encoded parameters:
 
 <pre><code class="bash">
 curl -X GET \
@@ -68,14 +68,14 @@ curl -X GET \
   -G \
   --data-urlencode 'username=cooldude6' \
   --data-urlencode 'password=p_n7!-e8' \
-  https://api.parse.com/1/login
+  https://YOUR.PARSE-SERVER.HERE/parse/login
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 params = urllib.urlencode({"username":"cooldude6","password":"p_n7!-e8"})
 connection.connect()
-connection.request('GET', '/1/login?%s' % params, '', {
+connection.request('GET', '/parse/login?%s' % params, '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Revocable-Session": "1"
@@ -110,7 +110,7 @@ There are three `emailVerified` states to consider:
 
 ## Requesting A Password Reset
 
-You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to `/1/requestPasswordReset` endpoint with `email` in the body of the request:
+You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to `/parse/requestPasswordReset` endpoint with `email` in the body of the request:
 
 <pre><code class="bash">
 curl -X POST \
@@ -118,13 +118,13 @@ curl -X POST \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"email":"coolguy@iloveapps.com"}' \
-  https://api.parse.com/1/requestPasswordReset
+  https://YOUR.PARSE-SERVER.HERE/parse/requestPasswordReset
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/requestPasswordReset', json.dumps({
+connection.request('POST', '/parse/requestPasswordReset', json.dumps({
        "email": "coolguy@iloveapps.com"
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -146,13 +146,13 @@ You can also retrieve the contents of a user object by sending a GET request to 
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/users/g7y9tkhB7O
+  https://YOUR.PARSE-SERVER.HERE/parse/users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/users/g7y9tkhB7O', '', {
+connection.request('GET', '/parse/users/g7y9tkhB7O', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -174,20 +174,20 @@ The response body is a JSON object containing all the user-provided fields excep
 
 ## Validating Session Tokens / Retrieving Current User
 
-With a valid session token, you can send a GET request to the `/1/users/me` endpoint to retrieve the user associated with that session token:
+With a valid session token, you can send a GET request to the `/parse/users/me` endpoint to retrieve the user associated with that session token:
 
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://api.parse.com/1/users/me
+  https://YOUR.PARSE-SERVER.HERE/parse/users/me
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/users/me', '', {
+connection.request('GET', '/parse/users/me', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
@@ -220,13 +220,13 @@ curl -X PUT \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"phone":"415-369-6201"}' \
-  https://api.parse.com/1/users/g7y9tkhB7O
+  https://YOUR.PARSE-SERVER.HERE/parse/users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/users/g7y9tkhB7O', json.dumps({
+connection.request('PUT', '/parse/users/g7y9tkhB7O', json.dumps({
        "phone": "415-369-6201"
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -254,13 +254,13 @@ You can retrieve multiple users at once by sending a GET request to the root use
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/users
+  https://YOUR.PARSE-SERVER.HERE/parse/users
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/users', '', {
+connection.request('GET', '/parse/users', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -303,13 +303,13 @@ curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://api.parse.com/1/users/g7y9tkhB7O
+  https://YOUR.PARSE-SERVER.HERE/parse/users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('DELETE', '/1/users/g7y9tkhB7O', '', {
+connection.request('DELETE', '/parse/users/g7y9tkhB7O', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
@@ -386,13 +386,13 @@ curl -X POST \
           }
         }
       }' \
-  https://api.parse.com/1/users
+  https://YOUR.PARSE-SERVER.HERE/parse/users
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/users', json.dumps({
+connection.request('POST', '/parse/users', json.dumps({
        "authData": {
          "twitter": {
            "id": "12345678",
@@ -417,7 +417,7 @@ Parse then verifies that the provided `authData` is valid and checks to see if a
 
 <pre><code class="javascript">
 Status: 200 OK
-Location: https://api.parse.com/1/users/uMz0YZeAqc
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 
 With a response body like:
@@ -446,7 +446,7 @@ If the user has never been linked with this account, you will instead receive a 
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/users/uMz0YZeAqc
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
@@ -479,13 +479,13 @@ curl -X PUT \
           }
         }
       }' \
-  https://api.parse.com/1/users/uMz0YZeAqc
+  https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
+connection.request('PUT', '/parse/users/uMz0YZeAqc', json.dumps({
        "authData": {
          "facebook": {
            "id": "123456789",
@@ -520,13 +520,13 @@ curl -X PUT \
           "facebook": null
         }
       }' \
-  https://api.parse.com/1/users/uMz0YZeAqc
+  https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 <pre><code class="bash">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/users/uMz0YZeAqc', json.dumps({
+connection.request('PUT', '/parse/users/uMz0YZeAqc', json.dumps({
        "authData": {
          "facebook": null
        }

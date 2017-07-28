@@ -480,7 +480,7 @@ curl -X GET \
 -G \
 --data-urlencode 'limit=1000' \
 --data-urlencode 'where={ "city": "San Francisco", "deviceType": { "$in": [ "ios", "android", "winphone", "embedded" ] } }' \
-https://api.parse.com/1/installations
+https://YOUR.PARSE-SERVER.HERE/parse/installations
 ```
 
 If you type the above into a console, you should be able to see the first 1,000 objects that match your query. Note that constraints are always ANDed, so if you want to further reduce the search scope, you can add a constraint that matches the specific installation for your device:
@@ -493,7 +493,7 @@ curl -X GET \
 -G \
 --data-urlencode 'limit=1' \
 --data-urlencode 'where={ “objectId”: {YOUR_INSTALLATION_OBJECT_ID}, "city": "San Francisco", "deviceType": { "$in": [ "ios", "android", "winphone", "embedded" ] } }' \
-https://api.parse.com/1/installations
+https://YOUR.PARSE-SERVER.HERE/parse/installations
 ```
 
 If the above query returns no results, it is likely that your installation does not meet the targeting criteria for your campaign.

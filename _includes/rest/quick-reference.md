@@ -1,126 +1,130 @@
 # Quick Reference
 
-All API access is over HTTPS, and accessed via the `https://api.parse.com` domain. The relative path prefix `/1/` indicates that we are currently using version 1 of the API.
+All API access is provided via the domain to your parse server instance. In cases where a domain is used to access the API we will reference `https://YOUR.PARSE-SERVER.HERE`, which should be replaced with your domain for your parse server instance. 
+
+The relative path prefix `/parse/` is the default mount path for most installations. If you are using a different mount path be sure to change this to accommodate for your instance. If you are using a hosted service this may be something other than the expected `/parse/`, be sure to check before you proceed.
+
+API access can be provided over **HTTPS** and **HTTP**. We recommend utilizing **HTTPS** for anything other than local development. If you are using a hosted service you will almost certainly be accessing your API exclusively over **HTTPS**.
 
 ## Objects API
 
 | URL                                 | HTTP Verb | Functionality                                      |
 |-------------------------------------|-----------|----------------------------------------------------|
-| `/1/classes/<className>`            | POST      | [Creating Objects](#creating-objects)      |
-| `/1/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#retrieving-objects)  |
-| `/1/classes/<className>/<objectId>` | PUT       | [Updating Objects](#updating-objects)      |
-| `/1/classes/<className>`            | GET       | [Queries](#queries)                                |
-| `/1/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#deleting-objects)      |
+| `/parse/classes/<className>`            | POST      | [Creating Objects](#creating-objects)      |
+| `/parse/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#retrieving-objects)  |
+| `/parse/classes/<className>/<objectId>` | PUT       | [Updating Objects](#updating-objects)      |
+| `/parse/classes/<className>`            | GET       | [Queries](#queries)                                |
+| `/parse/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#deleting-objects)      |
 {: .docs_table}
 
 ## Users API
 
 | URL                       | HTTP Verb | Functionality                                                      |
 |---------------------------|-----------|--------------------------------------------------------------------|
-| `/1/users`                | POST      | [Signing Up](#signing-up) <br/>[Linking Users](#linking-users) |
-| `/1/login`                | GET       | [Logging In](#logging-in)                                    |
-| `/1/logout`               | POST      | [Logging Out](#deleting-sessions)                         |
-| `/1/users/<objectId>`     | GET       | [Retrieving Users](#retrieving-users)                        |
-| `/1/users/me`             | GET       | [Validating Session Tokens](#validating-session-tokens--retrieving-current-user) <br/>[Retrieving Current User](#retrieving-users)                                        |
-| `/1/users/<objectId>`     | PUT       | [Updating Users](#updating-users) <br/>[Linking Users](#linking-users) <br/>[Verifying Emails](#verifying-emails) |
-| `/1/users`                | GET       | [Querying Users](#querying)                                  |
-| `/1/users/<objectId>`     | DELETE    | [Deleting Users](#deleting-users)                            |
-| `/1/requestPasswordReset` | POST      | [Requesting A Password Reset](#requesting-a-password-reset)  |
+| `/parse/users`                | POST      | [Signing Up](#signing-up) <br/>[Linking Users](#linking-users) |
+| `/parse/login`                | GET       | [Logging In](#logging-in)                                    |
+| `/parse/logout`               | POST      | [Logging Out](#deleting-sessions)                         |
+| `/parse/users/<objectId>`     | GET       | [Retrieving Users](#retrieving-users)                        |
+| `/parse/users/me`             | GET       | [Validating Session Tokens](#validating-session-tokens--retrieving-current-user) <br/>[Retrieving Current User](#retrieving-users)                                        |
+| `/parse/users/<objectId>`     | PUT       | [Updating Users](#updating-users) <br/>[Linking Users](#linking-users) <br/>[Verifying Emails](#verifying-emails) |
+| `/parse/users`                | GET       | [Querying Users](#querying)                                  |
+| `/parse/users/<objectId>`     | DELETE    | [Deleting Users](#deleting-users)                            |
+| `/parse/requestPasswordReset` | POST      | [Requesting A Password Reset](#requesting-a-password-reset)  |
 {: .docs_table}
 
 ## Sessions API
 
 | URL                       | HTTP Verb |Functionality                               |
 |---------------------------|-----------|--------------------------------------------|
-| `/1/sessions`             | POST      | [Creating Restricted Sessions](#creating-sessions) |
-| `/1/sessions/<objectId>`  | GET       | [Retrieving Sessions](#retrieving-sessions) |
-| `/1/sessions/me`          | GET       | [Retrieving Current Session](#retrieving-sessions) |
-| `/1/sessions/<objectId>`  | PUT       | [Updating Sessions](#updating-sessions) |
-| `/1/sessions`             | GET       | [Querying Sessions](#querying-sessions) |
-| `/1/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#deleting-sessions) |
-| `/1/sessions/me`          | PUT       | [Pairing with Installation](#pairing-session-with-installation) |
+| `/parse/sessions`             | POST      | [Creating Restricted Sessions](#creating-sessions) |
+| `/parse/sessions/<objectId>`  | GET       | [Retrieving Sessions](#retrieving-sessions) |
+| `/parse/sessions/me`          | GET       | [Retrieving Current Session](#retrieving-sessions) |
+| `/parse/sessions/<objectId>`  | PUT       | [Updating Sessions](#updating-sessions) |
+| `/parse/sessions`             | GET       | [Querying Sessions](#querying-sessions) |
+| `/parse/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#deleting-sessions) |
+| `/parse/sessions/me`          | PUT       | [Pairing with Installation](#pairing-session-with-installation) |
 {: .docs_table}
 
 ## Roles API
 
 | URL                   | HTTP Verb | Functionality                               |
 |-----------------------|-----------|---------------------------------------------|
-| `/1/roles`            | POST      | [Creating Roles](#creating-roles)     |
-| `/1/roles/<objectId>` | GET       | [Retrieving Roles](#retrieving-roles) |
-| `/1/roles/<objectId>` | PUT       | [Updating Roles](#updating-roles)     |
-| `/1/roles/<objectId>` | DELETE    | [Deleting Roles](#deleting-roles)     |
+| `/parse/roles`            | POST      | [Creating Roles](#creating-roles)     |
+| `/parse/roles/<objectId>` | GET       | [Retrieving Roles](#retrieving-roles) |
+| `/parse/roles/<objectId>` | PUT       | [Updating Roles](#updating-roles)     |
+| `/parse/roles/<objectId>` | DELETE    | [Deleting Roles](#deleting-roles)     |
 {: .docs_table}
 
 ## Files API
 
 | URL                   | HTTP Verb | Functionality                             |
 |-----------------------|-----------|-------------------------------------------|
-| `/1/files/<fileName>` | POST      | [Uploading Files](#uploading-files) |
+| `/parse/files/<fileName>` | POST      | [Uploading Files](#uploading-files) |
 {: .docs_table}
 
 ## Analytics API
 
 | URL                     | HTTP Verb | Functionality                                   |
 |-------------------------|-----------|-------------------------------------------------|
-| `/1/events/AppOpened`   | POST      | [Analytics](#app-open-analytics)      |
-| `/1/events/<eventName>` | POST      | [Custom Analytics](#custom-analytics) |
+| `/parse/events/AppOpened`   | POST      | [Analytics](#app-open-analytics)      |
+| `/parse/events/<eventName>` | POST      | [Custom Analytics](#custom-analytics) |
 {: .docs_table}
 
 ## Push Notifications API
 
 | URL       | HTTP Verb | Functionality                |
 |-----------|-----------|------------------------------|
-| `/1/push` | POST      | [Push Notifications](#push-notifications)  |
+| `/parse/push` | POST      | [Push Notifications](#push-notifications)  |
 {: .docs_table}
 
 ## Installations API
 
 | URL                           | HTTP Verb | Functionality                                            |
 |-------------------------------|-----------|----------------------------------------------------------|
-| `/1/installations`            | POST      | [Uploading Installation Data](#uploading-installation-data)  |
-| `/1/installations/<objectId>` | GET       | [Retrieving Installations](#retrieving-installations)        |
-| `/1/installations/<objectId>` | PUT       | [Updating Installations](#updating-installations)        |
-| `/1/installations`            | GET       | [Querying Installations](#querying-installations)        |
-| `/1/installations/<objectId>` | DELETE    | [Deleting Installations](#deleting-installations)        |
+| `/parse/installations`            | POST      | [Uploading Installation Data](#uploading-installation-data)  |
+| `/parse/installations/<objectId>` | GET       | [Retrieving Installations](#retrieving-installations)        |
+| `/parse/installations/<objectId>` | PUT       | [Updating Installations](#updating-installations)        |
+| `/parse/installations`            | GET       | [Querying Installations](#querying-installations)        |
+| `/parse/installations/<objectId>` | DELETE    | [Deleting Installations](#deleting-installations)        |
 {: .docs_table}
 
 ## Cloud Functions API
 
 | URL                   | HTTP Verb | Functionality                                             |
 |-----------------------|-----------|-----------------------------------------------------------|
-| `/1/functions/<name>` | POST      | [Calling Cloud Functions](#calling-cloud-functions)    |
-| `/1/jobs/<name>`      | POST      | [Triggering Background Jobs](#triggering-background-jobs) |
+| `/parse/functions/<name>` | POST      | [Calling Cloud Functions](#calling-cloud-functions)    |
+| `/parse/jobs/<name>`      | POST      | [Triggering Background Jobs](#triggering-background-jobs) |
 {: .docs_table}
 
 ## Schemas API
 
 | URL                     | HTTP Verb | Functionality                                             |
 |-------------------------|-----------|-----------------------------------------------------------|
-| `/1/schemas/`           | GET       | [Fetch All Schemas](#fetch-the-schema)             |
-| `/1/schemas/<className>`| GET       | [Fetch Schema](#fetch-the-schema)                  |
-| `/1/schemas/<className>`| POST      | [Create Schema](#adding-a-schema)                  |
-| `/1/schemas/<className>`| PUT       | [Modify Schema](#modifying-the-schema)             |
-| `/1/schemas/<className>`| DELETE    | [Delete Schema](#removing-a-schema)                |
+| `/parse/schemas/`           | GET       | [Fetch All Schemas](#fetch-the-schema)             |
+| `/parse/schemas/<className>`| GET       | [Fetch Schema](#fetch-the-schema)                  |
+| `/parse/schemas/<className>`| POST      | [Create Schema](#adding-a-schema)                  |
+| `/parse/schemas/<className>`| PUT       | [Modify Schema](#modifying-the-schema)             |
+| `/parse/schemas/<className>`| DELETE    | [Delete Schema](#removing-a-schema)                |
 {: .docs_table}
 
 ## Function Hooks API
 
 | URL                                 | HTTP Verb | Functionality                                           |
 |-------------------------------------|-----------|---------------------------------------------------------|
-| `/1/hooks/functions/<functionName>` | GET       | [Fetch Cloud Functions](#fetch-functions) |
-| `/1/hooks/functions/`               | POST      | [Create Cloud Function](#create-function-webhook) |
-| `/1/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#edit-function-webhook)     |
-| `/1/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#delete-function-webhook) |
+| `/parse/hooks/functions/<functionName>` | GET       | [Fetch Cloud Functions](#fetch-functions) |
+| `/parse/hooks/functions/`               | POST      | [Create Cloud Function](#create-function-webhook) |
+| `/parse/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#edit-function-webhook)     |
+| `/parse/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#delete-function-webhook) |
 {: .docs_table}
 
 ## Trigger Hooks API
 
 | URL                                           | HTTP Verb | Functionality                                           |
 |-----------------------------------------------|-----------|---------------------------------------------------------|
-| `/1/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#fetch-triggers)      |
-| `/1/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#create-trigger-webhook)   |
-| `/1/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#edit-trigger-webhook)       |
-| `/1/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#delete-trigger-webhook)   |
+| `/parse/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#fetch-triggers)      |
+| `/parse/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#create-trigger-webhook)   |
+| `/parse/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#edit-trigger-webhook)       |
+| `/parse/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#delete-trigger-webhook)   |
 {: .docs_table}
 
 ## Request Format
@@ -134,7 +138,7 @@ In the examples that follow, the keys for your app are included in the command. 
 You may also authenticate your REST API requests using basic HTTP authentication. For example, to retrieve an object you could set the URL using your Parse credentials in the following format:
 
 <pre><code class="json">
-https://myAppID:javascript-key=myJavaScriptKey@api.parse.com/1/classes/GameScore/Ed1nuqPvcm
+https://myAppID:javascript-key=myJavaScriptKey@YOUR.PARSE-SERVER.HERE/parse/classes/GameScore/Ed1nuqPvcm
 </code></pre>
 
 For JavaScript usage, the Parse Cloud supports [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), so that you can use these headers in conjunction with XMLHttpRequest.

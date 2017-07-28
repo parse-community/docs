@@ -31,13 +31,13 @@ curl -X POST \
           }
         }
       }' \
-  https://api.parse.com/1/roles
+  https://YOUR.PARSE-SERVER.HERE/parse/roles
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/roles', json.dumps({
+connection.request('POST', '/parse/roles', json.dumps({
        "name": "Moderators",
        "ACL": {
          "*": {
@@ -88,13 +88,13 @@ curl -X POST \
           ]
         }
       }' \
-  https://api.parse.com/1/roles
+  https://YOUR.PARSE-SERVER.HERE/parse/roles
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/roles', json.dumps({
+connection.request('POST', '/parse/roles', json.dumps({
        "name": "Moderators",
        "ACL": {
          "*": {
@@ -134,7 +134,7 @@ When the creation is successful, the HTTP response is a `201 Created` and the Lo
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/roles/mrmBZvsErB
+Location: https://YOUR.PARSE-SERVER.HERE/parse/roles/mrmBZvsErB
 </code></pre>
 
 The response body is a JSON object containing the `objectId` and `createdAt` timestamp of the newly-created object:
@@ -154,13 +154,13 @@ You can also retrieve the contents of a role object by sending a GET request to 
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/roles/mrmBZvsErB', '', {
+connection.request('GET', '/parse/roles/mrmBZvsErB', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -218,13 +218,13 @@ curl -X PUT \
           ]
         }
       }' \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
+connection.request('PUT', '/parse/roles/mrmBZvsErB', json.dumps({
        "users": {
          "__op": "AddRelation",
          "objects": [
@@ -268,13 +268,13 @@ curl -X PUT \
           ]
         }
       }' \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
+connection.request('PUT', '/parse/roles/mrmBZvsErB', json.dumps({
        "roles": {
          "__op": "RemoveRelation",
          "objects": [
@@ -305,13 +305,13 @@ To delete a role from the Parse Cloud, send a DELETE request to its URL.  For ex
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('DELETE', '/1/roles/mrmBZvsErB', '', {
+connection.request('DELETE', '/parse/roles/mrmBZvsErB', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })
@@ -326,13 +326,13 @@ curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im" \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  https://YOUR.PARSE-SERVER.HERE/parse/roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('DELETE', '/1/roles/mrmBZvsErB', '', {
+connection.request('DELETE', '/parse/roles/mrmBZvsErB', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im"
@@ -388,13 +388,13 @@ curl -X PUT \
           ]
         }
       }' \
-  https://api.parse.com/1/roles/<ModeratorsRoleObjectId>
+  https://YOUR.PARSE-SERVER.HERE/parse/roles/<ModeratorsRoleObjectId>
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('PUT', '/1/roles/<ModeratorsRoleObjectId>', json.dumps({
+connection.request('PUT', '/parse/roles/<ModeratorsRoleObjectId>', json.dumps({
        "roles": {
          "__op": "AddRelation",
          "objects": [

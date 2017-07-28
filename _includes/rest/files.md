@@ -10,13 +10,13 @@ curl -X POST \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: text/plain" \
   -d 'Hello, World!' \
-  https://api.parse.com/1/files/hello.txt
+  https://YOUR.PARSE-SERVER.HERE/parse/files/hello.txt
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/files/hello.txt', 'Hello, World!', {
+connection.request('POST', '/parse/files/hello.txt', 'Hello, World!', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "text/plain"
@@ -49,13 +49,13 @@ curl -X POST \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: image/jpeg" \
   --data-binary '@myPicture.jpg' \
-  https://api.parse.com/1/files/pic.jpg
+  https://YOUR.PARSE-SERVER.HERE/parse/files/pic.jpg
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/files/pic.jpg', open('myPicture.jpg', 'rb').read(), {
+connection.request('POST', '/parse/files/pic.jpg', open('myPicture.jpg', 'rb').read(), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "image/jpeg"
@@ -81,13 +81,13 @@ curl -X POST \
           "__type": "File"
         }
       }' \
-  https://api.parse.com/1/classes/PlayerProfile
+  https://YOUR.PARSE-SERVER.HERE/parse/classes/PlayerProfile
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/classes/PlayerProfile', json.dumps({
+connection.request('POST', '/parse/classes/PlayerProfile', json.dumps({
        "name": "Andrew",
        "picture": {
          "name": "...profile.png",
@@ -114,13 +114,13 @@ Users holding the master key are allowed to delete files using the REST API. To 
 curl -X DELETE \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/files/...profile.png
+  https://YOUR.PARSE-SERVER.HERE/parse/files/...profile.png
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('DELETE', '/1/files/...profile.png', '', {
+connection.request('DELETE', '/parse/files/...profile.png', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })

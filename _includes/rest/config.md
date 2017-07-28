@@ -10,13 +10,13 @@ After that you will be able to fetch the config on the client by sending a `GET`
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/config
+  https://YOUR.PARSE-SERVER.HERE/parse/config
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('GET', '/1/config', '', {
+connection.request('GET', '/parse/config', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -42,7 +42,7 @@ curl -X PUT \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -d "{\"params\":{\"winningNumber\":43}}"
-  https://api.parse.com/1/config
+  https://YOUR.PARSE-SERVER.HERE/parse/config
 </code></pre>
 <pre><code class="javascript">
 var request = require('request');

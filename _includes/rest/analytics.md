@@ -30,13 +30,13 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -d '{
       }' \
-  https://api.parse.com/1/events/AppOpened
+  https://YOUR.PARSE-SERVER.HERE/parse/events/AppOpened
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/events/AppOpened', json.dumps({
+connection.request('POST', '/parse/events/AppOpened', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
@@ -67,13 +67,13 @@ curl -X POST \
           "dayType": "weekday"
         }
       }' \
-  https://api.parse.com/1/events/Search
+  https://YOUR.PARSE-SERVER.HERE/parse/events/Search
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/events/Search', json.dumps({
+connection.request('POST', '/parse/events/Search', json.dumps({
        "dimensions": {
          "priceRange": "1000-1500",
          "source": "craigslist",
@@ -100,13 +100,13 @@ curl -X POST \
           "code": "404"
         }
       }' \
-  https://api.parse.com/1/events/Error
+  https://YOUR.PARSE-SERVER.HERE/parse/events/Error
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
 connection.connect()
-connection.request('POST', '/1/events/Error', json.dumps({
+connection.request('POST', '/parse/events/Error', json.dumps({
        "dimensions": {
          "code": "404"
        }
@@ -119,4 +119,4 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-Note that Parse currently only stores the first eight dimension pairs per call to `/1/events/<eventName>`.
+Note that Parse currently only stores the first eight dimension pairs per call to `/parse/events/<eventName>`.
