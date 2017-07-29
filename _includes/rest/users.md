@@ -14,12 +14,12 @@ To sign up a new user, send a POST request to the users root. You may add any ad
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
   -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -30,7 +30,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "password": "p_n7!-e8",
        "phone": "415-392-0202"
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Revocable-Session": "1",
        "Content-Type": "application/json"
@@ -43,7 +43,7 @@ When the creation is successful, the HTTP response is a `201 Created` and the `L
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
+Location: <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
 </code></pre>
 
 The response body is a JSON object containing the `objectId`, the `createdAt` timestamp of the newly-created object, and the `sessionToken` which can be used to authenticate subsequent requests as this user:
@@ -58,17 +58,17 @@ The response body is a JSON object containing the `objectId`, the `createdAt` ti
 
 ## Logging In
 
-After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the `<span class="custom-parse-server-mount">/parse/</span>login` endpoint with `username` and `password` as URL-encoded parameters:
+After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code> endpoint with `username` and `password` as URL-encoded parameters:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Revocable-Session: 1" \
   -G \
   --data-urlencode 'username=cooldude6' \
   --data-urlencode 'password=p_n7!-e8' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>login
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>login
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
@@ -76,7 +76,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 params = urllib.urlencode({"username":"cooldude6","password":"p_n7!-e8"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>login?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Revocable-Session": "1"
      })
@@ -110,15 +110,15 @@ There are three `emailVerified` states to consider:
 
 ## Requesting A Password Reset
 
-You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to `<span class="custom-parse-server-mount">/parse/</span>requestPasswordReset` endpoint with `email` in the body of the request:
+You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>requestPasswordReset</code> endpoint with `email` in the body of the request:
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"email":"coolguy@iloveapps.com"}' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>requestPasswordReset
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>requestPasswordReset
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -127,7 +127,7 @@ connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>requestPasswordReset', json.dumps({
        "email": "coolguy@iloveapps.com"
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -144,16 +144,16 @@ You can also retrieve the contents of a user object by sending a GET request to 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -174,21 +174,21 @@ The response body is a JSON object containing all the user-provided fields excep
 
 ## Validating Session Tokens / Retrieving Current User
 
-With a valid session token, you can send a GET request to the `<span class="custom-parse-server-mount">/parse/</span>users/me` endpoint to retrieve the user associated with that session token:
+With a valid session token, you can send a GET request to the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users/me</code> endpoint to retrieve the user associated with that session token:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/me
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/me
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users/me', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -215,12 +215,12 @@ For example, if we wanted to change the phone number for `cooldude6`:
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"phone":"415-369-6201"}' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -229,7 +229,7 @@ connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', json.dumps({
        "phone": "415-369-6201"
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
        "Content-Type": "application/json"
@@ -252,16 +252,16 @@ You can retrieve multiple users at once by sending a GET request to the root use
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -300,17 +300,17 @@ To delete a user from the Parse Cloud, send a DELETE request to its URL. You mus
 
 <pre><code class="bash">
 curl -X DELETE \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -370,7 +370,7 @@ Signing a user up with a linked service and logging them in with that service us
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
@@ -386,7 +386,7 @@ curl -X POST \
           }
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -404,7 +404,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
          }
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Revocable-Session": "1",
        "Content-Type": "application/json"
@@ -417,7 +417,7 @@ Parse then verifies that the provided `authData` is valid and checks to see if a
 
 <pre><code class="javascript">
 Status: 200 OK
-Location: https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
+Location: <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
 </code></pre>
 
 With a response body like:
@@ -446,7 +446,7 @@ If the user has never been linked with this account, you will instead receive a 
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
+Location: <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
 </code></pre>
 
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
@@ -466,7 +466,7 @@ Linking an existing user with a service like Facebook or Twitter uses a PUT requ
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
@@ -479,7 +479,7 @@ curl -X PUT \
           }
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -494,7 +494,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
          }
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
@@ -511,7 +511,7 @@ Unlinking an existing user with a service also uses a PUT request to clear `auth
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
@@ -520,9 +520,9 @@ curl -X PUT \
           "facebook": null
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
 </code></pre>
-<pre><code class="bash">
+<pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
@@ -531,7 +531,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
          "facebook": null
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"

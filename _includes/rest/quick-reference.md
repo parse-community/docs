@@ -1,12 +1,12 @@
 # Quick Reference
 
-All API access is provided via the domain to your parse server instance. In cases where a domain is used to access the API we will reference `YOUR.PARSE-SERVER.HERE`{: .custom-parse-server-url}, which should be replaced with your domain for your parse server instance.
+For your convenience you can customize [your configuration](#your-configuration) to change the default server url, mount path and additional values to match your personal setup.
 
-The relative path prefix `parse`{: .custom-parse-server-mount} is the default mount path for most installations. If you are using a different mount path be sure to change this to accommodate for your instance. If you are using a hosted service this may be something other than the expected `parse`{: .custom-parse-server-mount}, be sure to check before you proceed.
+All API access is provided via the domain to your parse server instance. In cases where a domain is used to access the API we will reference `YOUR.PARSE-SERVER.HERE`{: .custom-parse-server-url}, which should be set to your domain in [your configuration](#your-configuration).
 
-For your convenience you can customize the **Server Settings** values in the left hand navbar to change both the default server url and mount path to match your personal setup.
+The relative path prefix `/parse/` is the default mount path for most installations. If you are using a different mount path be sure to change this to accommodate for your instance. If you are using a hosted service this may be something other than the expected `/parse/`, be sure to check before you proceed. For the following examples we will be using `/parse/`{: .custom-parse-server-mount}, which can be set in [your configuration](#your-configuration).
 
-API access can be provided over **HTTPS** and **HTTP**. We recommend utilizing **HTTPS** for anything other than local development. If you are using a hosted service you will almost certainly be accessing your API exclusively over **HTTPS**. In our examples we will be primarily using **HTTPS**.
+API access can be provided over **HTTPS** and **HTTP**. We recommend utilizing **HTTPS** for anything other than local development. If you are using a hosted service you will almost certainly be accessing your API exclusively over **HTTPS**.
 
 ## Objects API
 
@@ -140,7 +140,7 @@ In the examples that follow, the keys for your app are included in the command. 
 You may also authenticate your REST API requests using basic HTTP authentication. For example, to retrieve an object you could set the URL using your Parse credentials in the following format:
 
 <pre><code class="json">
-https://myAppID:javascript-key=myJavaScriptKey@<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
+<span class="custom-parse-server-protocol">https</span>://myAppID:javascript-key=myJavaScriptKey@<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 
 For JavaScript usage, the Parse Cloud supports [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), so that you can use these headers in conjunction with XMLHttpRequest.

@@ -766,43 +766,53 @@
 
 					setupServerFieldCustomization: function setupServerFieldCustomization() {
 
-							if (this.platform !== 'rest') {
-									// only customizes for rest currently
+							if (!document.getElementById('parse-server-custom-url')) {
+									// no customization available on this page
 									return;
 							}
 
-							// constant class name for both
-							var className = "custom-server-option";
+							if (typeof Storage !== "undefined") {
+									// apply previous values from local storage
+									var _url = localStorage.getItem('parse-server-custom-url');
+									var _mount = localStorage.getItem('parse-server-custom-mount');
+									var _protocol = localStorage.getItem('parse-server-custom-protocol');
+									var _appId = localStorage.getItem('parse-server-custom-appid');
+									var _clientKey = localStorage.getItem('parse-server-custom-clientkey');
 
-							var html = "<span class='custom-server-description'>Your Server Settings</span>";
-
-							// server url
-							var title = "Set your parse server url here.";
-							var value = "YOUR.PARSE-SERVER.HERE";
-							var id = 'parse-server-custom-url';
-							var holder = 'your.parse-server.com';
-							html += "<input id='" + id + "' class='" + className + "' type='text' placeholder='" + holder + "' value='" + value + "' title='" + title + "'>";
-
-							// mount path
-							title = "Set your parse server mount path here.";
-							value = "parse";
-							id = 'parse-server-custom-mount';
-							holder = 'parse';
-							html += "<input id='" + id + "' class='" + className + "' type='text' placeholder='" + holder + "' value='" + value + "' title='" + title + "'>";
-
-							html += "<br/>";
-
-							// add right before the first side bar section
-							document.getElementsByClassName('ui_live_toc')[0].insertAdjacentHTML('beforebegin', html);
+									// set existing entries
+									if (_url) {
+											$(".custom-parse-server-url").html(_url);
+											$("#parse-server-custom-url").val(_url);
+									}
+									if (_mount) {
+											$(".custom-parse-server-mount").html(_mount);
+											$("#parse-server-custom-mount").val(_mount);
+									}
+									if (_protocol) {
+											$(".custom-parse-server-protocol").html(_protocol);
+											$("#parse-server-custom-protocol").val(_protocol);
+									}
+									if (_appId) {
+											$(".custom-parse-server-appid").html(_appId);
+											$("#parse-server-custom-appid").val(_appId);
+									}
+									if (_clientKey) {
+											$(".custom-parse-server-clientkey").html(_clientKey);
+											$("#parse-server-custom-clientkey").val(_clientKey);
+									}
+							}
 
 							// set url listener
 							$('#parse-server-custom-url').keyup(function () {
 									var url = $('#parse-server-custom-url').val();
-									if (!url.match(/^[-_a-z0-9\.]+$/i)) {
+									if (!url.match(/^[-_a-z0-9\.]+(?::[0-9]+)?$/i)) {
 											// not a valid url
 											return;
 									}
 									$(".custom-parse-server-url").html(url);
+									if (typeof Storage !== "undefined") {
+											localStorage.setItem('parse-server-custom-url', url);
+									}
 							});
 
 							// set mount listener
@@ -821,6 +831,36 @@
 											mount = mount + '/';
 									}
 									$(".custom-parse-server-mount").html(mount);
+									if (typeof Storage !== "undefined") {
+											localStorage.setItem('parse-server-custom-mount', mount);
+									}
+							});
+
+							// set protocol listener
+							$('#parse-server-custom-protocol').change(function () {
+									var protocol = $('#parse-server-custom-protocol').val();
+									$(".custom-parse-server-protocol").html(protocol);
+									if (typeof Storage !== "undefined") {
+											localStorage.setItem('parse-server-custom-protocol', protocol);
+									}
+							});
+
+							// set appId listener
+							$('#parse-server-custom-appid').keyup(function () {
+									var appId = $('#parse-server-custom-appid').val();
+									$(".custom-parse-server-appid").html(appId);
+									if (typeof Storage !== "undefined") {
+											localStorage.setItem('parse-server-custom-appid', appId);
+									}
+							});
+
+							// set clientKey listener
+							$('#parse-server-custom-clientkey').keyup(function () {
+									var clientKey = $('#parse-server-custom-clientkey').val();
+									$(".custom-parse-server-clientkey").html(clientKey);
+									if (typeof Storage !== "undefined") {
+											localStorage.setItem('parse-server-custom-clientkey', clientKey);
+									}
 							});
 					},
 

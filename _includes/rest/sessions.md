@@ -30,18 +30,18 @@ With revocable sessions, your current session token could become invalid if its 
 
 ## Creating Sessions
 
-For mobile apps and websites, you should not create `Session` objects manually. Instead, you should call `GET <span class="custom-parse-server-mount">/parse/</span>login` and `POST <span class="custom-parse-server-mount">/parse/</span>users` (signup), which will automatically generate a `Session` object in the Parse Cloud. The session token for this automatically-created session will be sent back on the login and signup response. Same for Facebook/Twitter login and signup requests.
+For mobile apps and websites, you should not create `Session` objects manually. Instead, you should call <code class="highlighter-rouge">GET <span class="custom-parse-server-mount">/parse/</span>login</code> and <code class="highlighter-rouge">POST <span class="custom-parse-server-mount">/parse/</span>users</code> (signup), which will automatically generate a `Session` object in the Parse Cloud. The session token for this automatically-created session will be sent back on the login and signup response. Same for Facebook/Twitter login and signup requests.
 
 In "Parse for IoT" apps (e.g. Arduino or Embedded C), you may want to programmatically create a restricted session that can be transferred to an IoT device. In order to do this, you must first log in normally to obtain an unrestricted session token. Then, you can create a restricted session by providing this unrestricted session token:
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"customField":"value"}' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -50,7 +50,7 @@ connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>sessions', json.dumps({
        "customField": "value"
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
        "Content-Type": "application/json"
@@ -82,17 +82,17 @@ At this point, you can pass the session token `r:aVrtljyb7E8xKo9256gfvp4n2` to a
 If you have the session's objectId, you fetch the `Session` object as long as it belongs to the same user as your current session:
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -104,17 +104,17 @@ If you only have the session's token (from previous login or session create), yo
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/me
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/me
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -128,19 +128,19 @@ Updating a session is analogous to updating a Parse object.
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"customField":"value"}' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>logout', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -154,17 +154,17 @@ Querying for `Session` objects will only return objects belonging to the same us
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -180,17 +180,17 @@ Deleting the Session object will revoke its session token and cause the user to 
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>logout
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>logout
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>logout', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -202,17 +202,17 @@ If you want to delete another `Session` object for your user, and you have its `
 
 <pre><code class="bash">
 curl -X DELETE \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
 </code></pre>
 <pre><code class="python">
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
@@ -224,7 +224,7 @@ print result
 
 ## Pairing Session with Installation
 
-For normal user login with the `<span class="custom-parse-server-mount">/parse/</span>login` endpoint, the Parse Cloud will set the automatically-created `Session` object's `installationId` to the `X-Parse-Installation-Id` header passed on the login or signup request. Therefore, for these scenarios, you don't need to manually associate the `Session` object with an installation.
+For normal user login with the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code> endpoint, the Parse Cloud will set the automatically-created `Session` object's `installationId` to the `X-Parse-Installation-Id` header passed on the login or signup request. Therefore, for these scenarios, you don't need to manually associate the `Session` object with an installation.
 
 The following API is most useful for "Parse for IoT" apps (e.g. Arduino or Embedded C). During IoT device provisioning, the phone typically does not know the `installationId` of the IoT device. The provisioning process typically goes like this:
 
@@ -235,13 +235,13 @@ The following API is most useful for "Parse for IoT" apps (e.g. Arduino or Embed
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-Client-Key: ${CLIENT_KEY}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Client-Key: <span class="custom-parse-server-clientkey">${CLIENT_KEY}</span>" \
   -H "X-Parse-Session-Token: r:aVrtljyb7E8xKo9256gfvp4n2" \
   -H "X-Parse-Installation-Id: 2d3777a5-f5fc-4caf-80be-73c766235afb" \
   -H "Content-Type: application/json" \
   -d '{}' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/me
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/me
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -249,7 +249,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', json.dumps({
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "r:aVrtljyb7E8xKo9256gfvp4n2",
        "Content-Type": "application/json"
@@ -258,13 +258,13 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-## `Session` Security
+## Session Security
 
 `Session` objects can only be accessed by the user specified in the user field. All `Session` objects have an ACL that is read and write by that user only. You cannot change this ACL. This means querying for sessions will only return objects that match the current logged-in user.
 
-When you log in a user via `<span class="custom-parse-server-mount">/parse/</span>login`, Parse will automatically create a new unrestricted `Session` object in the Parse Cloud. Same for signups and Facebook/Twitter logins.
+When you log in a user via <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code>, Parse will automatically create a new unrestricted `Session` object in the Parse Cloud. Same for signups and Facebook/Twitter logins.
 
-Session objects manually created from `POST <span class="custom-parse-server-mount">/parse/</span>sessions` are always restricted. You cannot manually create an unrestricted sessions using the object creation API.
+Session objects manually created from <code class="highlighter-rouge">POST <span class="custom-parse-server-mount">/parse/</span>sessions</code> are always restricted. You cannot manually create an unrestricted sessions using the object creation API.
 
 Restricted sessions are prohibited from creating, modifying, or deleting any data in the `User`, `Session`, and `Role` classes. Restricted session also cannot read unrestricted sessions. Restricted Sessions are useful for "Parse for IoT" devices (e.g Arduino or Embedded C) that may run in a less-trusted physical environment than mobile apps. However, please keep in mind that restricted sessions can still read data on `User`, `Session`, and `Role` classes, and can read/write data in any other class just like a normal session. So it is still important for IoT devices to be in a safe physical environment and ideally use encrypted storage to store the session token.
 
@@ -280,7 +280,7 @@ Parse.Cloud.beforeSave("MyClass", function(request, response) {
   });
 });
 </code></pre>
-You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the `<span class="custom-parse-server-mount">/parse/</span>sessions` API, but do not restrict Parse Cloud's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:
+You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions</code> API, but do not restrict Parse Cloud's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:
 
 * **Find**, **Delete** — Useful for building a UI screen that allows users to see their active session on all devices, and log out of sessions on other devices. If your app does not have this feature, you should disable these permissions.
 * **Create** — Useful for "Parse for IoT" apps (e.g. Arduino or Embedded C) that provision restricted user sessions for other devices from the phone app. You should disable this permission when building apps for mobile and web. For "Parse for IoT" apps, you should check whether your IoT device actually needs to access user-specific data. If not, then your IoT device does not need a user session, and you should disable this permission.

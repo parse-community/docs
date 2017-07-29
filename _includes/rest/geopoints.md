@@ -8,7 +8,7 @@ To associate a point with an object you will need to embed a `GeoPoint` data typ
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -18,7 +18,7 @@ curl -X POST \
           "longitude": -30.0
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib
@@ -31,7 +31,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
          "longitude": -30.0
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -45,7 +45,7 @@ Now that you have a bunch of objects with spatial coordinates, it would be nice 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'limit=10' \
@@ -58,7 +58,7 @@ curl -X GET \
           }
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
@@ -74,7 +74,7 @@ params = urllib.urlencode({"limit":10,"where":json.dumps({
      })})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -114,7 +114,7 @@ To limit the search to a maximum distance add a `$maxDistanceInMiles` (for miles
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={
@@ -127,7 +127,7 @@ curl -X GET \
           "$maxDistanceInMiles": 10.0
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
@@ -144,7 +144,7 @@ params = urllib.urlencode({"where":json.dumps({
      })})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -155,7 +155,7 @@ It's also possible to query for the set of objects that are contained within a p
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={
@@ -176,7 +176,7 @@ curl -X GET \
           }
         }
       }' \
-  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
@@ -201,7 +201,7 @@ params = urllib.urlencode({"where":json.dumps({
      })})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
