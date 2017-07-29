@@ -807,6 +807,10 @@ App.Views = {};
       // set protocol listener
       $('#parse-server-custom-protocol').change(function() {
         const protocol = $('#parse-server-custom-protocol').val();
+        if(!protocol.match(/^[a-z]+$/)) {
+          // not a valid protocol
+          return;
+        }
         $(".custom-parse-server-protocol").html(protocol);
         if (typeof(Storage) !== "undefined") {
           localStorage.setItem('parse-server-custom-protocol', protocol);
@@ -815,7 +819,13 @@ App.Views = {};
 
       // set appId listener
       $('#parse-server-custom-appid').keyup(function() {
-        const appId = $('#parse-server-custom-appid').val();
+        var appId = $('#parse-server-custom-appid').val();
+        if(!appId.match(/^[^\s]+$/i)) {
+          // not a valid appId
+          return;
+        }
+        // encode any html
+        appId = appId.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         $(".custom-parse-server-appid").html(appId);
         if (typeof(Storage) !== "undefined") {
           localStorage.setItem('parse-server-custom-appid', appId);
@@ -824,7 +834,13 @@ App.Views = {};
 
       // set clientKey listener
       $('#parse-server-custom-clientkey').keyup(function() {
-        const clientKey = $('#parse-server-custom-clientkey').val();
+        var clientKey = $('#parse-server-custom-clientkey').val();
+        if(!clientKey.match(/^[^\s]+$/i)) {
+          // not a valid appId
+          return;
+        }
+        // encode any html
+        clientKey = clientKey.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         $(".custom-parse-server-clientkey").html(clientKey);
         if (typeof(Storage) !== "undefined") {
           localStorage.setItem('parse-server-custom-clientkey', clientKey);
