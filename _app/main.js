@@ -650,6 +650,9 @@ App.Views = {};
 			// deal with common-lang-blocks
 			this.toggleCommonLangBlocks();
 
+      // setup the server/mount path editor
+      this.setupServerFieldCustomization();
+
 			// add toggles to code blocks if necessary
 			if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
 				new App.Views.Docs.Toggle({
@@ -729,6 +732,67 @@ App.Views = {};
 			}
 		},
 
+    setupServerFieldCustomization: function setupServerFieldCustomization() {
+
+		  if(this.platform !== 'rest') {
+		    // only customizes for rest currently
+		    return;
+      }
+
+      // constant class name for both
+      const className = "custom-server-option";
+
+		  var html="<span class='custom-server-description'>Your Server Settings</span>";
+
+      // server url
+      var title     = "Set your parse server url here.";
+      var value     = "YOUR.PARSE-SERVER.HERE";
+      var id        = 'parse-server-custom-url';
+      var holder    = 'your.parse-server.com';
+      html+="<input id='"+id+"' class='"+className+"' type='text' placeholder='"+holder+"' value='"+value+"' title='"+title+"'>";
+
+      // mount path
+      title   = "Set your parse server mount path here.";
+      value   = "parse";
+      id      = 'parse-server-custom-mount';
+      holder  = 'parse';
+      html+="<input id='"+id+"' class='"+className+"' type='text' placeholder='"+holder+"' value='"+value+"' title='"+title+"'>";
+
+      html+="<br/>";
+
+      // add right before the first side bar section
+      document.getElementsByClassName('ui_live_toc')[0].insertAdjacentHTML('beforebegin', html);
+
+      // set url listener
+      $('#parse-server-custom-url').keyup(function() {
+        var url = $('#parse-server-custom-url').val();
+        if(!url.match(/^[-_a-z0-9\.]+$/i)) {
+          // not a valid url
+          return;
+        }
+        $(".custom-parse-server-url").html(url);
+      });
+
+      // set mount listener
+      $('#parse-server-custom-mount').keyup(function() {
+        var mount = $('#parse-server-custom-mount').val();
+        if(!mount.match(/^[-_a-z0-9\/]+$/i) && mount !== '') {
+          // not a valid mount path, and not empty
+          return;
+        }
+        if(!mount.match(/^\//)) {
+          // add leading slash
+          mount = '/'+mount;
+        }
+        if(!mount.match(/\/$/)) {
+          // add trailing slash
+          mount = mount+'/';
+        }
+        $(".custom-parse-server-mount").html(mount);
+      });
+
+    },
+
 		// we recalculate the header heights for the TOC
 		// highlighting when the height of the content changes
 		handleToggleChange: function() {
@@ -753,7 +817,7 @@ $('pre code').each(function(i, block) {
   hljs.highlightBlock(block);
 });
 
-var platform = window.location.pathname.split('/')[2];
+var platform = window.location.pathname.split('/')[1];
 if (platform) {
   new App.Views.Docs.Main({
     language: 'en',

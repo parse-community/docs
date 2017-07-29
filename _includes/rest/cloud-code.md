@@ -10,13 +10,13 @@ curl -X POST \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{}' \
-  https://YOUR.PARSE-SERVER.HERE/parse/functions/hello
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>functions/hello
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/functions/hello', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>functions/hello', json.dumps({
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
@@ -40,13 +40,13 @@ curl -X POST \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"plan":"paid"}' \
-  https://YOUR.PARSE-SERVER.HERE/parse/jobs/userMigration
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>jobs/userMigration
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/jobs/userMigration', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>jobs/userMigration', json.dumps({
        "plan": "paid"
      }), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",

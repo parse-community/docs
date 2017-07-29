@@ -1,8 +1,10 @@
 # Quick Reference
 
-All API access is provided via the domain to your parse server instance. In cases where a domain is used to access the API we will reference `https://YOUR.PARSE-SERVER.HERE`, which should be replaced with your domain for your parse server instance. 
+All API access is provided via the domain to your parse server instance. In cases where a domain is used to access the API we will reference `YOUR.PARSE-SERVER.HERE`{: .custom-parse-server-url}, which should be replaced with your domain for your parse server instance.
 
-The relative path prefix `/parse/` is the default mount path for most installations. If you are using a different mount path be sure to change this to accommodate for your instance. If you are using a hosted service this may be something other than the expected `/parse/`, be sure to check before you proceed.
+The relative path prefix `parse`{: .custom-parse-server-mount} is the default mount path for most installations. If you are using a different mount path be sure to change this to accommodate for your instance. If you are using a hosted service this may be something other than the expected `parse`{: .custom-parse-server-mount}, be sure to check before you proceed.
+
+For your convenience you can customize the **Server Settings** values in the left hand navbar to change both the default server url and mount path to match your personal setup.
 
 API access can be provided over **HTTPS** and **HTTP**. We recommend utilizing **HTTPS** for anything other than local development. If you are using a hosted service you will almost certainly be accessing your API exclusively over **HTTPS**. In our examples we will be primarily using **HTTPS**.
 
@@ -10,121 +12,121 @@ API access can be provided over **HTTPS** and **HTTP**. We recommend utilizing *
 
 | URL                                 | HTTP Verb | Functionality                                      |
 |-------------------------------------|-----------|----------------------------------------------------|
-| `/parse/classes/<className>`            | POST      | [Creating Objects](#creating-objects)      |
-| `/parse/classes/<className>/<objectId>` | GET       | [Retrieving Objects](#retrieving-objects)  |
-| `/parse/classes/<className>/<objectId>` | PUT       | [Updating Objects](#updating-objects)      |
-| `/parse/classes/<className>`            | GET       | [Queries](#queries)                                |
-| `/parse/classes/<className>/<objectId>` | DELETE    | [Deleting Objects](#deleting-objects)      |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>classes/&lt;className&gt;</code>            | POST      | [Creating Objects](#creating-objects)      |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>classes/&lt;className&gt;/&lt;objectId&gt;</code> | GET       | [Retrieving Objects](#retrieving-objects)  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>classes/&lt;className&gt;/&lt;objectId&gt;</code> | PUT       | [Updating Objects](#updating-objects)      |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>classes/&lt;className&gt;</code>            | GET       | [Queries](#queries)                                |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>classes/&lt;className&gt;/&lt;objectId&gt;</code> | DELETE    | [Deleting Objects](#deleting-objects)      |
 {: .docs_table}
 
 ## Users API
 
 | URL                       | HTTP Verb | Functionality                                                      |
 |---------------------------|-----------|--------------------------------------------------------------------|
-| `/parse/users`                | POST      | [Signing Up](#signing-up) <br/>[Linking Users](#linking-users) |
-| `/parse/login`                | GET       | [Logging In](#logging-in)                                    |
-| `/parse/logout`               | POST      | [Logging Out](#deleting-sessions)                         |
-| `/parse/users/<objectId>`     | GET       | [Retrieving Users](#retrieving-users)                        |
-| `/parse/users/me`             | GET       | [Validating Session Tokens](#validating-session-tokens--retrieving-current-user) <br/>[Retrieving Current User](#retrieving-users)                                        |
-| `/parse/users/<objectId>`     | PUT       | [Updating Users](#updating-users) <br/>[Linking Users](#linking-users) <br/>[Verifying Emails](#verifying-emails) |
-| `/parse/users`                | GET       | [Querying Users](#querying)                                  |
-| `/parse/users/<objectId>`     | DELETE    | [Deleting Users](#deleting-users)                            |
-| `/parse/requestPasswordReset` | POST      | [Requesting A Password Reset](#requesting-a-password-reset)  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users</code>                | POST      | [Signing Up](#signing-up) <br/>[Linking Users](#linking-users) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code>                | GET       | [Logging In](#logging-in)                                    |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>logout</code>               | POST      | [Logging Out](#deleting-sessions)                         |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users/&lt;objectId&gt;</code>     | GET       | [Retrieving Users](#retrieving-users)                        |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users/me</code>             | GET       | [Validating Session Tokens](#validating-session-tokens--retrieving-current-user) <br/>[Retrieving Current User](#retrieving-users)                                        |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users/&lt;objectId&gt;</code>     | PUT       | [Updating Users](#updating-users) <br/>[Linking Users](#linking-users) <br/>[Verifying Emails](#verifying-emails) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users</code>                | GET       | [Querying Users](#querying)                                  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users/&lt;objectId&gt;</code>     | DELETE    | [Deleting Users](#deleting-users)                            |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>requestPasswordReset</code> | POST      | [Requesting A Password Reset](#requesting-a-password-reset)  |
 {: .docs_table}
 
 ## Sessions API
 
 | URL                       | HTTP Verb |Functionality                               |
 |---------------------------|-----------|--------------------------------------------|
-| `/parse/sessions`             | POST      | [Creating Restricted Sessions](#creating-sessions) |
-| `/parse/sessions/<objectId>`  | GET       | [Retrieving Sessions](#retrieving-sessions) |
-| `/parse/sessions/me`          | GET       | [Retrieving Current Session](#retrieving-sessions) |
-| `/parse/sessions/<objectId>`  | PUT       | [Updating Sessions](#updating-sessions) |
-| `/parse/sessions`             | GET       | [Querying Sessions](#querying-sessions) |
-| `/parse/sessions/<objectId>`  | DELETE    | [Deleting Sessions](#deleting-sessions) |
-| `/parse/sessions/me`          | PUT       | [Pairing with Installation](#pairing-session-with-installation) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions</code>             | POST      | [Creating Restricted Sessions](#creating-sessions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions/&lt;objectId&gt;</code>  | GET       | [Retrieving Sessions](#retrieving-sessions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions/me</code>          | GET       | [Retrieving Current Session](#retrieving-sessions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions/&lt;objectId&gt;</code>  | PUT       | [Updating Sessions](#updating-sessions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions</code>             | GET       | [Querying Sessions](#querying-sessions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions/&lt;objectId&gt;</code>  | DELETE    | [Deleting Sessions](#deleting-sessions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions/me</code>          | PUT       | [Pairing with Installation](#pairing-session-with-installation) |
 {: .docs_table}
 
 ## Roles API
 
 | URL                   | HTTP Verb | Functionality                               |
 |-----------------------|-----------|---------------------------------------------|
-| `/parse/roles`            | POST      | [Creating Roles](#creating-roles)     |
-| `/parse/roles/<objectId>` | GET       | [Retrieving Roles](#retrieving-roles) |
-| `/parse/roles/<objectId>` | PUT       | [Updating Roles](#updating-roles)     |
-| `/parse/roles/<objectId>` | DELETE    | [Deleting Roles](#deleting-roles)     |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>roles</code>            | POST      | [Creating Roles](#creating-roles)     |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>roles/&lt;objectId&gt;</code> | GET       | [Retrieving Roles](#retrieving-roles) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>roles/&lt;objectId&gt;</code> | PUT       | [Updating Roles](#updating-roles)     |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>roles/&lt;objectId&gt;</code> | DELETE    | [Deleting Roles](#deleting-roles)     |
 {: .docs_table}
 
 ## Files API
 
 | URL                   | HTTP Verb | Functionality                             |
 |-----------------------|-----------|-------------------------------------------|
-| `/parse/files/<fileName>` | POST      | [Uploading Files](#uploading-files) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>files/&lt;fileName&gt;</code> | POST      | [Uploading Files](#uploading-files) |
 {: .docs_table}
 
 ## Analytics API
 
 | URL                     | HTTP Verb | Functionality                                   |
 |-------------------------|-----------|-------------------------------------------------|
-| `/parse/events/AppOpened`   | POST      | [Analytics](#app-open-analytics)      |
-| `/parse/events/<eventName>` | POST      | [Custom Analytics](#custom-analytics) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>events/AppOpened</code>   | POST      | [Analytics](#app-open-analytics)      |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>events/&lt;eventName&gt;</code> | POST      | [Custom Analytics](#custom-analytics) |
 {: .docs_table}
 
 ## Push Notifications API
 
 | URL       | HTTP Verb | Functionality                |
 |-----------|-----------|------------------------------|
-| `/parse/push` | POST      | [Push Notifications](#push-notifications)  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>push</code> | POST      | [Push Notifications](#push-notifications)  |
 {: .docs_table}
 
 ## Installations API
 
 | URL                           | HTTP Verb | Functionality                                            |
 |-------------------------------|-----------|----------------------------------------------------------|
-| `/parse/installations`            | POST      | [Uploading Installation Data](#uploading-installation-data)  |
-| `/parse/installations/<objectId>` | GET       | [Retrieving Installations](#retrieving-installations)        |
-| `/parse/installations/<objectId>` | PUT       | [Updating Installations](#updating-installations)        |
-| `/parse/installations`            | GET       | [Querying Installations](#querying-installations)        |
-| `/parse/installations/<objectId>` | DELETE    | [Deleting Installations](#deleting-installations)        |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>installations</code>            | POST      | [Uploading Installation Data](#uploading-installation-data)  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>installations/&lt;objectId&gt;</code> | GET       | [Retrieving Installations](#retrieving-installations)        |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>installations/&lt;objectId&gt;</code> | PUT       | [Updating Installations](#updating-installations)        |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>installations</code>            | GET       | [Querying Installations](#querying-installations)        |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>installations/&lt;objectId&gt;</code> | DELETE    | [Deleting Installations](#deleting-installations)        |
 {: .docs_table}
 
 ## Cloud Functions API
 
 | URL                   | HTTP Verb | Functionality                                             |
 |-----------------------|-----------|-----------------------------------------------------------|
-| `/parse/functions/<name>` | POST      | [Calling Cloud Functions](#calling-cloud-functions)    |
-| `/parse/jobs/<name>`      | POST      | [Triggering Background Jobs](#triggering-background-jobs) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>functions/&lt;name&gt;</code> | POST      | [Calling Cloud Functions](#calling-cloud-functions)    |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>jobs/&lt;name&gt;</code>      | POST      | [Triggering Background Jobs](#triggering-background-jobs) |
 {: .docs_table}
 
 ## Schemas API
 
 | URL                     | HTTP Verb | Functionality                                             |
 |-------------------------|-----------|-----------------------------------------------------------|
-| `/parse/schemas/`           | GET       | [Fetch All Schemas](#fetch-the-schema)             |
-| `/parse/schemas/<className>`| GET       | [Fetch Schema](#fetch-the-schema)                  |
-| `/parse/schemas/<className>`| POST      | [Create Schema](#adding-a-schema)                  |
-| `/parse/schemas/<className>`| PUT       | [Modify Schema](#modifying-the-schema)             |
-| `/parse/schemas/<className>`| DELETE    | [Delete Schema](#removing-a-schema)                |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>schemas/</code>           | GET       | [Fetch All Schemas](#fetch-the-schema)             |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>schemas/&lt;className&gt;</code>| GET       | [Fetch Schema](#fetch-the-schema)                  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>schemas/&lt;className&gt;</code>| POST      | [Create Schema](#adding-a-schema)                  |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>schemas/&lt;className&gt;</code>| PUT       | [Modify Schema](#modifying-the-schema)             |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>schemas/&lt;className&gt;</code>| DELETE    | [Delete Schema](#removing-a-schema)                |
 {: .docs_table}
 
 ## Function Hooks API
 
 | URL                                 | HTTP Verb | Functionality                                           |
 |-------------------------------------|-----------|---------------------------------------------------------|
-| `/parse/hooks/functions/<functionName>` | GET       | [Fetch Cloud Functions](#fetch-functions) |
-| `/parse/hooks/functions/`               | POST      | [Create Cloud Function](#create-function-webhook) |
-| `/parse/hooks/functions/<functionName>` | PUT       | [Edit Cloud Function](#edit-function-webhook)     |
-| `/parse/hooks/functions/<functionName>` | DELETE    | [Delete Cloud Function](#delete-function-webhook) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/functions/&lt;functionName&gt;</code> | GET       | [Fetch Cloud Functions](#fetch-functions) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/functions/</code>               | POST      | [Create Cloud Function](#create-function-webhook) |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/functions/&lt;functionName&gt;</code> | PUT       | [Edit Cloud Function](#edit-function-webhook)     |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/functions/&lt;functionName&gt;</code> | DELETE    | [Delete Cloud Function](#delete-function-webhook) |
 {: .docs_table}
 
 ## Trigger Hooks API
 
 | URL                                           | HTTP Verb | Functionality                                           |
 |-----------------------------------------------|-----------|---------------------------------------------------------|
-| `/parse/hooks/triggers/<className>/<triggerName>` | GET       | [Fetch Cloud Trigger](#fetch-triggers)      |
-| `/parse/hooks/triggers/`                          | POST      | [Create Cloud Trigger](#create-trigger-webhook)   |
-| `/parse/hooks/triggers/<className>/<triggerName>` | PUT       | [Edit Cloud Trigger](#edit-trigger-webhook)       |
-| `/parse/hooks/triggers/<className>/<triggerName>` | DELETE    | [Delete Cloud Trigger](#delete-trigger-webhook)   |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/&lt;className&gt;/&lt;triggerName&gt;</code> | GET       | [Fetch Cloud Trigger](#fetch-triggers)      |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/</code>                          | POST      | [Create Cloud Trigger](#create-trigger-webhook)   |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/&lt;className&gt;/&lt;triggerName&gt;</code> | PUT       | [Edit Cloud Trigger](#edit-trigger-webhook)       |
+| <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/&lt;className&gt;/&lt;triggerName&gt;</code> | DELETE    | [Delete Cloud Trigger](#delete-trigger-webhook)   |
 {: .docs_table}
 
 ## Request Format
@@ -138,7 +140,7 @@ In the examples that follow, the keys for your app are included in the command. 
 You may also authenticate your REST API requests using basic HTTP authentication. For example, to retrieve an object you could set the URL using your Parse credentials in the following format:
 
 <pre><code class="json">
-https://myAppID:javascript-key=myJavaScriptKey@YOUR.PARSE-SERVER.HERE/parse/classes/GameScore/Ed1nuqPvcm
+https://myAppID:javascript-key=myJavaScriptKey@<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 
 For JavaScript usage, the Parse Cloud supports [cross-origin resource sharing](http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing), so that you can use these headers in conjunction with XMLHttpRequest.

@@ -18,13 +18,13 @@ curl -X POST \
           "longitude": -30.0
         }
       }' \
-  https://YOUR.PARSE-SERVER.HERE/parse/classes/PlaceObject
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/classes/PlaceObject', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject', json.dumps({
        "location": {
          "__type": "GeoPoint",
          "latitude": 40.0,
@@ -58,11 +58,11 @@ curl -X GET \
           }
         }
       }' \
-  https://YOUR.PARSE-SERVER.HERE/parse/classes/PlaceObject
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"limit":10,"where":json.dumps({
        "location": {
          "$nearSphere": {
@@ -73,7 +73,7 @@ params = urllib.urlencode({"limit":10,"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/parse/classes/PlaceObject?%s' % params, '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject?%s' % params, '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -127,11 +127,11 @@ curl -X GET \
           "$maxDistanceInMiles": 10.0
         }
       }' \
-  https://YOUR.PARSE-SERVER.HERE/parse/classes/PlaceObject
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "location": {
          "$nearSphere": {
@@ -143,7 +143,7 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/parse/classes/PlaceObject?%s' % params, '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject?%s' % params, '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
@@ -176,11 +176,11 @@ curl -X GET \
           }
         }
       }' \
-  https://YOUR.PARSE-SERVER.HERE/parse/classes/PizzaPlaceObject
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "location": {
          "$within": {
@@ -200,7 +200,7 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/parse/classes/PizzaPlaceObject?%s' % params, '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject?%s' % params, '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })

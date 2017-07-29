@@ -56,13 +56,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/parse/hooks/functions', '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -90,13 +90,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions/sendMessage
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/parse/hooks/functions/sendMessage', '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -123,13 +123,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/parse/hooks/triggers', '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -164,13 +164,13 @@ curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers/Scores/beforeSave
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Scores/beforeSave
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/parse/hooks/triggers/Scores/beforeSave', '', {
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Scores/beforeSave', '', {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
@@ -204,7 +204,7 @@ To create cloud code functions or cloud code triggers you can modify your cloud 
 and perform a `parse deploy` the usual way.
 
 ## Create function webhook
-To create a new function webhook post to `/parse/hooks/functions` with payload in the format
+To create a new function webhook post to `<span class="custom-parse-server-mount">/parse/</span>hooks/functions` with payload in the format
 <pre><code class="bash">
 {"functionName" : x, "url" : y}
 </code></pre>
@@ -217,13 +217,13 @@ curl -X POST \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"functionName":"baz","url":"https://api.example.com/baz"}' \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/hooks/functions', json.dumps(
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions', json.dumps(
        {"functionName":"baz","url":"https://api.example.com/baz"}
      ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -250,13 +250,13 @@ curl -X POST \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"functionName":"bar","url":"https://api.example.com/bar"}' \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/hooks/functions', json.dumps(
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions', json.dumps(
        {"functionName":"bar","url":"https://api.example.com/bar"}
      ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -277,7 +277,7 @@ The output may look like this:
 </code></pre>
 
 ## Create trigger webhook
-To create a new function webhook post to `/parse/hooks/triggers` with payload in the format
+To create a new function webhook post to `<span class="custom-parse-server-mount">/parse/</span>hooks/triggers` with payload in the format
 <pre><code class="bash">
 {"className": x, "triggerName": y, "url": z}
 </code></pre>
@@ -292,13 +292,13 @@ curl -X POST \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"className": "Game", "triggerName": "beforeSave", "url": "https://api.example.com/Game/beforeSave"}' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/hooks/triggers', json.dumps(
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers', json.dumps(
        {"className": "Game", "triggerName": "beforeSave", "url": "https://api.example.com/Game/beforeSave"}
      ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -329,13 +329,13 @@ curl -X POST \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"className": "Tournament", "triggerName": "beforeDelete", "url": "https://api.example.com/Scores/beforeDelete"}' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/parse/hooks/triggers', json.dumps(
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers', json.dumps(
        {"className": "Tournament", "triggerName": "beforeDelete", "url": "https://api.example.com/Scores/beforeDelete"}
      ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -366,13 +366,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://api.example.com/_baz"}' \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions/baz
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/baz
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/functions/baz', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions/baz', json.dumps(
     {"url":"https://api.example.com/_baz"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -399,13 +399,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://api.example.com/_bar"}' \
-  https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions/bar
+  https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/bar
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/functions/bar', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions/bar', json.dumps(
       {"url":"https://api.example.com/_bar"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -434,13 +434,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://api.example.com/Game/_beforeSave"}' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers/Game/beforeSave
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Game/beforeSave
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/triggers/Game/beforeSave', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Game/beforeSave', json.dumps(
       {"url": "https://api.example.com/Game/_beforeSave"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -471,13 +471,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://api.example.com/Scores/beforeDelete"}' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers/Tournament/beforeDelete
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Tournament/beforeDelete
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/triggers/Tournament/beforeDelete', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Tournament/beforeDelete', json.dumps(
       {"url": "https://api.example.com/Scores/beforeDelete"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -507,13 +507,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{"__op": "Delete"}' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions/foo
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/foo
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/functions/foo', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions/foo', json.dumps(
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -538,13 +538,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/functions/sendMessage
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/functions/sendMessage', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage', json.dumps(
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -569,13 +569,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers/Game/beforeSave
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Game/beforeSave
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/triggers/Game/beforeSave', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Game/beforeSave', json.dumps(
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
@@ -600,13 +600,13 @@ curl -X PUT \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
-https://YOUR.PARSE-SERVER.HERE/parse/hooks/triggers/Tournament/beforeDelete
+https://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Tournament/beforeDelete
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('YOUR.PARSE-SERVER.HERE', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/parse/hooks/triggers/Tournament/beforeDelete', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Tournament/beforeDelete', json.dumps(
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "${APPLICATION_ID}",
