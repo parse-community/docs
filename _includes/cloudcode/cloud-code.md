@@ -184,7 +184,7 @@ We don't support at the moment job scheduling and highly recommend to use a 3rd 
 
 ## Viewing Jobs
 
-Viewing jobs is currently not supported on parse-dashboard, but you can query the _JobStatus class with a masterKey call to fetch your recent jobs.
+Viewing jobs is supported on parse-dashboard starting version 1.0.19, but you can also query the _JobStatus class with a masterKey call to fetch your recent jobs.
 
 # beforeSave Triggers
 
