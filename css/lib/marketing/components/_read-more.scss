@@ -1,0 +1,95 @@
+.read-more{
+
+    $read-more-toggle-height: 40px;
+    $read-more-gradient-height: 200px;
+    $read-more-mobile-height: 300px;
+    $read-more-tablet-height: 450px;
+    $read-more-desktop-height: 600px;
+    $read-more-transition: height 800ms ease-out;
+
+    position:relative;
+    height: $read-more-mobile-height;
+    overflow: hidden;
+    transition: $read-more-transition;
+
+    &:after{
+        content: "";
+        display: block;
+        position: absolute;
+        left:0; bottom:0;
+        width:100%;
+        height: $read-more-gradient-height;
+        background: linear-gradient(to bottom, rgba($color-parse-blue,0) 0, rgba($color-parse-blue,1) 100%);
+    }
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+    
+    &__checkbox:checked + &{
+        transform: translate(0,0); //force redraw
+        height: 100%;
+        padding-bottom: $read-more-toggle-height + 10px;
+
+        &:after{ display:none; }
+
+        .read-more__hide{ display:block; }
+        .read-more__hide{ display:none; }
+        .read-more__toggle:after{ content: attr(data-toggle-hide); }
+    }
+
+    &__checkbox{ 
+        display:none;   
+    }
+
+    &__toggle{
+        cursor: pointer;
+        display:block;
+        position:absolute;
+        bottom: 0; left:0;
+        width: 100%; height: $read-more-toggle-height;
+        // outline: 1px solid red;
+        z-index: 10;
+        text-align: center;
+
+        @include h4();
+        
+        color:white;
+        line-height: $read-more-toggle-height;
+
+        &:after{ content: attr(data-toggle-show); }
+
+        &__hide{ display:none; }
+        &__show{ display:block; }
+    }
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+    
+    // &:hover{}
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+        height: $read-more-tablet-height;
+    }
+    
+    @include break-min($break-desktop){
+        height: 100%;
+
+        &:after{ display: none !important; }
+        &__toggle{ display: none !important; }
+    }
+
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+    
+    // &--blue{}
+
+}

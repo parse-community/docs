@@ -1,0 +1,88 @@
+---
+layout: default
+---
+
+<body class="pure p_docs p_docs_show_guide user_logged_in" style="position: relative;">
+  <div class="site__wrapper">
+    <div class="site__content">
+
+      {% include menu.html %}
+      <div class="content__wrapper">
+        {% include header.html %}
+        <aside class="hero hero--docs {{ '_docs_header' | prepend: page.platform | downcase }}">
+          <div class="grid-container">
+            <div class="col-md--6 col-lg--9">
+              <p class="h1 h1--white" data-ignore-from-select>
+                <span>{{ page.display_platform }} <em>Guide</em></span>
+
+                <a href="{{ site.baseurl }}/" class="btn btn--back">
+                  <span class="hide-mobile">Browse all platforms</span>
+                  <span class="show-mobile">Browse</span>
+                </a>
+
+                <svg class="icon icon-{{ page.platform | downcase }}"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#{{ page.platform | downcase }}"></use></svg>
+
+              </p>
+            </div>
+          </div>
+        </aside><!-- .hero -->
+
+        <div class="guide" data-nav-waypoint>
+          <div id="mobile_toc" class="">
+          	<select></select>
+          </div>
+
+          <div class="grid-container">
+            <div class="col-md--6 col-lg--9">
+              <div class="guide_content">
+                <div id="toc">
+                  <div style="overflow-y: scroll; height: 100%;">
+                    <div class="top_links">
+                    {% if page.quickstart %}
+                      <a href="{{ page.quickstart }}">Quickstart<i class="icon_minimize"></i></a>
+                    {% endif %}
+                    {% if page.guide %}
+                      <a href="{{ page.guide }}">Guide<i class="icon_minimize"></i></a>
+                    {% endif %}
+                    {% if page.api_reference %}
+                      <a href="{{ page.api_reference }}">API Reference<i class="icon_minimize"></i></a>
+                    {% endif %}
+                      <!-- .algolia-search-wrapper -->
+                      <div class="algolia-search-wrapper">
+                        <input id="algolia-doc-search" class="{{ '_docs_docsearch' | prepend: page.platform | downcase }}" tabindex="0" type="text" placeholder="Search..." />
+                      </div><!-- .algolia-search-wrapper -->
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wysiwyg-content">
+                  {% for section in page.sections %}
+                    {% capture section_include %}{% include {{ section }} %}{% endcapture %}
+                    {{ section_include | markdownify }}
+
+                    {% include helpful_box.html %}
+                  {% endfor %}
+                  {{ content }}
+                </div>
+
+              </div>
+          		<!-- footer goes here -->
+            </div>
+          </div><!-- end content grid col -->
+        </div><!-- end .guide > .grid-container -->
+      </div><!-- /.content__wrapper -->
+    </div><!-- /.site__content -->
+  </div><!-- /.site__wrapper -->
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/bundle.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+  <script type="text/javascript"> docsearch({
+    apiKey: '3d4445ed639f81888d1a5987d54fb68e',
+    indexName: 'parse',
+    inputSelector: '#algolia-doc-search',
+    algoliaOptions: { 'facetFilters': ["tags:{{ page.platform | downcase }}"] }, // android, arduino, cloudcode, dotnet, embedded_c, ios, js, macos, parse-server, php, rest, unity
+    debug: false // Set debug to true if you want to inspect the dropdown
+  });
+  </script>
+</body>

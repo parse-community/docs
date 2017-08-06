@@ -1,0 +1,186 @@
+.community-graphic{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    $community-layers: (
+        ".photo-3",
+        ".photo-2",
+        ".p-sticker",
+        ".photo-1",
+        ".varsity-sticker",
+        ".icecream-sticker",
+        ".finger-sticker"
+    );
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    display:block;
+    overflow:hidden;
+    position: relative;
+    height: 345px;
+    max-width: 555px;
+    margin: 0 auto;
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+     &__all{
+        display:block;
+        position: absolute;
+        top: -134px;
+        left: -4px;
+        max-width:none;
+        width: 555px;
+        height: 478px;
+        background: url(/assets/images/graphic_community-photos_mobile.png) center center no-repeat;
+        background-size: contain;
+    }
+
+    &__layers{
+        display:block;
+        position: absolute;
+        top: -134px;
+        left: -4px;
+        max-width:none;
+        width: 555px;
+        height: 478px;
+        // outline: 1px solid red;
+
+        .varsity-sticker,
+        .p-sticker,
+        .icecream-sticker,
+        .finger-sticker,
+        .taco,
+        .krylon,
+        .photo-1,
+        .photo-2,
+        .photo-3{
+            position:absolute;
+            display:block;
+            background: url('') left top no-repeat;
+            background-size: contain;
+        }
+
+        .taco, .krylon{
+            display:none; // dont show on mobile
+        }
+
+        .varsity-sticker{
+            top: 27.5%;
+            left: 0.7%;
+            width: 22.6%;
+            height: 12%;
+            background-image: url(/assets/images/community/varsity.png);
+        }
+        .icecream-sticker{
+            top: 45.3%;
+            left: 0;
+            width: 9.4%;
+            height: 14.9%;
+            background-image: url(/assets/images/community/icecream.png);
+        }
+        .p-sticker{
+            top: 33.9%;
+            left: 44.3%;
+            width: 13.2%;
+            height: 13%;
+            background-image: url(/assets/images/community/p.png);
+        }
+        .finger-sticker{
+            width: 21.3%;
+            height:26.2%;
+            left: 54.2%;
+            bottom: 0.6%;
+            background-image: url(/assets/images/community/finger.png);
+        }
+        .photo-1{
+            height: 53.4%;
+            width: 65.5%;
+            bottom: 6.3%;
+            left: 2.7%;
+            background-image: url(/assets/images/community/photo1-small.png);
+        }
+        .photo-2{
+            width: 49.2%;
+            top: 0.9%;
+            left: 13.5%;
+            height: 40.2%;
+            background-image: url(/assets/images/community/photo2-small.png);
+        }
+        .photo-3{
+            width: 68%;
+            height: 56.9%;
+            top: 18.7%;
+            right: 0;
+            background-image: url(/assets/images/community/photo3-small.png);
+        }
+
+        .taco{
+            width: 13%;
+            height: 12.1%;
+            top: 83%;
+            left: -21%;
+            background-image: url(/assets/images/community/taco.png);
+        }
+        .krylon{
+            width: 12.5%;
+            height: 26.7%;
+            top: 25.5%;
+            left: -57.7%;
+            background-image: url(/assets/images/community/krylon.png);
+        }
+
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-desktop){
+
+        height: 725px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 100%;
+        max-width: none;
+        margin:0;
+
+        &__all{
+            left:50%;
+            top: -235px;
+            width: 1107px;
+            height: 954px;
+            margin-left: -160px;
+            background-image: url(/assets/images/graphic_community-photos.png);
+        }
+
+        &__layers{
+            left: 55%;
+            top: -235px;
+            width: 1107px;
+            height: 954px;
+            margin-left: -160px;
+
+            .taco, .krylon{
+                display:block; // dont show on mobile
+            }
+
+            .photo-1{ background-image: url(/assets/images/community/photo1-medium.png); }
+            .photo-2{ background-image: url(/assets/images/community/photo2-medium.png); }
+            .photo-3{ background-image: url(/assets/images/community/photo3-medium.png); }
+        }
+
+    }
+
+    @include break-min(1200px){
+        &__layers{ left: 50%; }
+    }
+
+}

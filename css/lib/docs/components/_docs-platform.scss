@@ -1,0 +1,272 @@
+.docs-platform{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    $docs-platform-uniform-padding-h: 16px;
+    $docs-platform-uniform-border: 1px solid $color-mischka;
+
+    $docs-platform-column-seperation: 38px;
+
+    $doc-platform-border-radius: 4px;
+
+    $docs-platform-header-padding-t: 15px;
+    $docs-platform-header-padding-r: 50px;
+    $docs-platform-header-padding-b: 15px;
+    $docs-platform-header-padding: $docs-platform-header-padding-t $docs-platform-header-padding-r $docs-platform-header-padding-b $docs-platform-uniform-padding-h;
+
+    $docs-platform-link-padding-t: 13px;
+    $docs-platform-link-padding-b: 11px;
+    $docs-platform-link-padding: $docs-platform-link-padding-t $docs-platform-uniform-padding-h $docs-platform-link-padding-b;
+
+    $docs-platform-footer-padding-t: 12px;
+    $docs-platform-footer-padding-b: 12px;
+    $docs-platform-footer-padding: $docs-platform-footer-padding-t $docs-platform-uniform-padding-h $docs-platform-footer-padding-b;
+
+    $docs-platform-button-font-size: 1.4rem;
+    $docs-platform-button-padding: 0 22px;
+    $docs-platform-button-height: 32px;
+    $docs-platform-button-lineheight: 31px;
+
+    $docs-platform-hover-link-color: $color-vista-white;
+    $docs-platform-hover-arrow-color: $color-regent-gray;
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+
+    &s{
+        @include clearfix();
+        margin: 3em auto 0;
+    }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    &:first-child{ margin-top: 0; }
+    &:last-child{ margin-bottom: 0; }
+
+    margin: 2em 0;
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__header, &__footer{
+        background-color: rgba($color-parse-blue, 0.03);
+        background-repeat: no-repeat;
+        border: $docs-platform-uniform-border;
+    }
+
+    &__header{
+        position: relative;
+        border-radius: $doc-platform-border-radius $doc-platform-border-radius 0 0;
+        padding: $docs-platform-header-padding;
+        min-height: 69px;
+
+        svg, img{
+            display:block;
+            position: absolute;
+            top: 25%;
+            right: $docs-platform-uniform-padding-h;
+        }
+    }
+
+    &__name, &__version{
+        display:block;
+    }
+
+    &__name{
+        color: $color-dolphin;
+        font-size: 1.8rem;
+        margin-bottom: 0;
+    }
+
+    &__version{
+        font-family: $font-din;
+        font-size: 1.2rem;
+        color: $color-dolphin;
+        opacity: 0.43;
+    }
+
+    &__links{
+
+        margin: 0; padding:0;
+
+        li{
+            list-style:none;
+
+            a{
+                position: relative;
+                display:block;
+                text-decoration: none;
+                padding: $docs-platform-link-padding;
+                border-left: $docs-platform-uniform-border;
+                border-right: $docs-platform-uniform-border;
+                font-size: 1.4rem;
+
+                transition: background-color 150ms ease;
+
+                &:before{
+                    position:absolute;
+                    right: $docs-platform-uniform-padding-h;
+                    top:50%;
+                    transform: translateY(-50%);
+                    content: "";
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 6px 0 6px 7px;
+                    border-color: transparent transparent transparent $color-mischka;
+
+                    transition: all 150ms ease;
+                }
+            }
+
+            & + li{ border-top: $docs-platform-uniform-border; }
+        }
+    }
+
+    &__footer{
+        border-radius: 0 0 $doc-platform-border-radius $doc-platform-border-radius;
+        padding: $docs-platform-footer-padding;
+        min-height: 58px;
+
+        .btn{
+            width: 100%;
+            font-size: $docs-platform-button-font-size;
+            padding: $docs-platform-button-padding;
+            height: $docs-platform-button-height;
+            line-height: $docs-platform-button-lineheight;
+        }
+    }
+
+
+    img{
+        width: 38px;
+        height: auto;
+    }
+    svg.icon-infinity{
+        fill: $defaultPlatform;
+        width: 24px;
+        height: 24px;
+    }
+    svg.icon-ios{
+        fill: $iosPlatform;
+        width: 24px;
+        height: 24px;
+    }
+    svg.icon-android{
+        fill: $androidPlatform;
+        width: 22px;
+        height: 26px;
+    }
+    svg.icon-osx{
+        fill: $osxPlatform;
+        width: 24px;
+        height: 24px;
+    }
+    svg.icon-js{
+        fill: $jsPlatform;
+        width: 33px;
+        height: 22px;
+    }
+    svg.icon-dotnet{
+        fill: $dotnetPlatform;
+        width: 32px;
+        height: 32px;
+    }
+    svg.icon-php{
+        fill: $phpPlatform;
+        width: 23px;
+        height: 24px;
+    }
+    svg.icon-unity{
+        fill: $unityPlatform;
+        width: 23px;
+        height: 24px;
+    }
+    svg.icon-cloudcode{
+        fill: $defaultPlatform;
+        width: 24px;
+        height: 24px;
+    }
+    svg.icon-iot, svg.icon-embedded_c, svg.icon-arduino{
+        fill: $defaultPlatform;
+        width: 31px;
+        height: 21px;
+    }
+    svg.icon-rest{
+        fill: $restPlatform;
+        width: 25px;
+        height: 24px;
+    }
+    svg.icon-server{
+        fill: $serverPlatform;
+        width: 25px;
+        height: 25px;
+    }
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    html.no-touch &__links{
+      a{
+         &:hover{
+          background-color: $docs-platform-hover-link-color;
+
+          &:before{ border-left-color: $docs-platform-hover-arrow-color; }
+        }
+      }
+    }
+
+    html.no-touch & .btn:hover{
+      background-color: $color-parse-blue;
+      color: white;
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+
+        &s{
+            margin: 2em -15px;
+            // max-width: 840px;
+        }
+
+        float: left;
+        width: (100%/3);
+        margin: 1.25em 0;
+        padding: 0 ($docs-platform-column-seperation/2);
+
+        &:first-child, &:last-child{ margin: 1.25em 0; }
+    }
+
+    @include break-min($break-desktop){
+         &s{
+            margin: 2em auto;
+            max-width: 840px;
+        }
+    }
+  header:not(.hasversion) .docs-platform__name{
+    padding-top: 9px;
+  }
+  span.spacer{
+    position: relative;
+    display: block;
+    text-decoration: none;
+    padding: 13px 16px 11px;
+    border-left: 1px solid #E0E0EA;
+    border-right: 1px solid #E0E0EA;
+    font-size: 1.4rem;
+    transition: background-color 150ms ease;
+    height: 41px;
+  }
+}

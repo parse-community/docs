@@ -1,0 +1,134 @@
+.view--community{}
+
+.section-community--videos{
+    position:relative;
+    padding: 48px 0 40px;
+
+    html.touch &{
+        &:before{
+            content: "";
+            position: absolute;
+            left:0; top:0;
+            width: 100%; height: 100%;
+            background: url(/assets/images/video-poster_earth.jpg) center center no-repeat;
+            background-size: cover;
+            opacity: 0.2;
+        }
+        &__video{
+            display: none !important;
+        }
+    }
+
+    &__background-video{
+        opacity:0.2;
+        display:block;
+        position: absolute;
+        left:0; top:0;
+        width: 100%; height:100%;
+        overflow:hidden;
+
+        video{
+            display:block;
+            position:absolute;
+            left:50%; top:50%;
+            transform: translate(-50%,-50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+        }
+    }
+
+    @include break-min($break-tablet){
+        padding: 70px 0 80px;
+    }
+    @include break-min($break-desktop){
+        padding: 140px 0 100px;
+
+        .video-player{ margin:0; }
+
+        .col-lg--3{
+            height: 405px; 
+            .copy-block{ 
+                @include vertical-align(); 
+                max-width: 270px;
+            }
+        }
+    }
+}
+
+.section-community--resources{
+    padding: 60px 0;
+
+    .btn{ margin-top: 1em; }
+
+    hr{ margin-top: 4em; }
+
+    .h6{
+      margin: 2em 0 0;
+
+      & + p{ margin: 1em 0 1.25em; }
+      & + p + .btn{ margin-top:0; }
+    }
+
+    .inline-graphic{
+      margin-bottom: 2em;
+    }
+
+    @include break-min($break-tablet){
+        padding: 70px 0 90px;
+
+        .inline-graphic{
+          position: relative;
+          height: 1016px;
+
+          img{
+            max-width: none;
+            position: absolute;
+            right: 70px;
+            height: 1092px;
+            top: -35px;
+
+          }
+        }
+    }
+}
+
+.section-community--learn{
+    background-color: $color-parse-blue;
+    padding: 40px 0 50px;
+    @include break-max($break-tablet - 1){
+        .h2{ max-width: 270px; margin-left:auto; margin-right: auto; }
+    }
+    @include break-min($break-tablet){
+        padding: 62px 0 70px;
+    }
+    @include break-min($break-desktop){
+        .copy-block{ margin-bottom: 3em; }
+    }
+}
+
+.section-community--support{
+    padding: 40px 0;
+
+    @include break-max($break-tablet - 1){
+        .grid-container{
+            margin-top: 2em;
+            
+            div + div{ margin-top: 2.5em; }
+        }
+    }
+
+    @include break-min($break-tablet){
+        padding-top:20px;
+        
+        .container{
+            margin-top: 3em;
+        }
+        .grid-container{
+            margin-top: 3em;
+            margin-bottom: 3em;
+        }   
+        .btn{ margin-top: 0.9em; }
+    }
+}

@@ -1,0 +1,132 @@
+div.algolia-search-wrapper {
+  display: inline-block;
+  vertical-align: top;
+  position: absolute;
+  top: 20px;
+  left: 0;
+}
+
+.algolia-autocomplete .aa-dropdown-menu {
+  margin-left: -210px;
+  margin-top: -4px;
+}
+
+@media screen and (max-width: 960px) {
+  div.algolia-search-wrapper {
+    display: none;
+  }
+}
+
+input {
+  &#algolia-doc-search {
+    background: transparent url('../assets/images/search.png') no-repeat 10px center;
+    background-size: 16px 16px;
+    padding: 0 10px;
+    padding-left: 35px;
+    margin-top: 10px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 20px;
+    background-color: #555;
+    border-radius: 4px;
+    color: white;
+    outline: none;
+    border: none;
+    width: 170px;
+    transition: .5s width ease;
+    -webkit-transition: .5s width ease;
+    -moz-transition: .5s width ease;
+    -o-transition: .5s width ease;
+
+    &::placeholder {
+      color: white;
+    }
+    &::-webkit-input-placeholder {
+      color: white;
+    }
+    &::-moz-placeholder {
+      color: white;
+    }
+    &:-ms-input-placeholder {
+      color: white;
+    }
+    &:-moz-placeholder {
+      color: white;
+    }
+
+    &.ios_docs_docsearch{
+      background-color: $iosPlatform;
+    }
+    &.android_docs_docsearch{
+      background-color: $androidPlatform;
+    }
+    &.cloudcode_docs_docsearch{
+      background-color: $defaultPlatform;
+    }
+    &.js_docs_docsearch{
+      background-color: $jsPlatform;
+    }
+    &.osx_docs_docsearch{
+      background-color: $osxPlatform;
+    }
+    &.unity_docs_docsearch{
+      background-color: $unityPlatform;
+    }
+    &.php_docs_docsearch{
+      background-color: $phpPlatform;
+    }
+    &.dotnet_docs_docsearch{
+      background-color: $dotnetPlatform;
+    }
+    &.arduino_docs_docsearch{
+      background-color: $defaultPlatform;
+    }
+    &.embedded_c_docs_docsearch{
+      background-color: $embeddedPlatform;
+    }
+    &.rest_docs_docsearch{
+      background-color: $restPlatform;
+    }
+
+    &:focus {
+      width: 300px;
+    }
+  }
+}
+
+.algolia-autocomplete {
+  vertical-align: top;
+  height: 53px;
+}
+
+.algolia-docsearch-suggestion {
+  border-bottom-color: hsl(198, 100%, 94%);
+
+  &--category-header {
+    background-color: white;
+  }
+
+  &--highlight {
+    color: $color-parse-blue;
+  }
+
+  &--category-header,
+  &--highlight {
+    background-color: $color-parse-blue;
+  }
+
+  &--subcategory-column {
+    border-right-color: hsl(198, 100%, 94%);
+    background-color: hsl(198, 100%, 96%);
+    color: #3B3738;
+  }
+}
+
+
+.aa-cursor .algolia-docsearch-suggestion {
+  background: hsl(198, 100%, 96%);
+
+  &--content {
+    color: $color-parse-blue;
+  }
+}

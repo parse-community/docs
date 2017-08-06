@@ -1,0 +1,223 @@
+.timeline{
+
+    $timeline-width: 4px;
+
+    $timeline-node-size: 16px;
+
+    $timeline-date-width: 200px;
+
+    $timeline-content-max-width: 330px;
+    $timeline-content-distance-left-mobile: 36px;
+    $timeline-content-distance-left: 45px;
+
+    $timeline-chathead-size: 48px;
+    $timeline-chathead-size-mobile: 40px;
+    $timeline-chathead-spacing: 14px;
+    $timeline-chathead-spacing-mobile: 10px;
+
+    $timeline-today-label-spacing: 14px;
+    $timeline-today-label-height: 110px;
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    position: relative;
+    height: 800px;
+    margin: 2em 0;
+
+    &:before{
+        display:block;
+        content: "";
+        width: $timeline-width;
+        position:absolute;
+        top: ($timeline-node-size/2); //initial offset
+        left: (($timeline-width/2)*-1);
+        height: 100%;
+        background-color: $color-mischka;
+        border-radius: ($timeline-width/2);
+    }
+
+    &:after{
+        display:block;
+        content: "Today";
+
+        position:absolute;
+        left: ((50px/2)*-1);
+        bottom: (($timeline-today-label-height + $timeline-today-label-spacing + ($timeline-node-size/2)) * -1);
+
+        width: 50px;
+        height: $timeline-today-label-height;
+        text-align: center;
+
+        font-family: $font-din;
+        text-transform: uppercase;
+        color: $color-dolphin;
+        font-size: 1rem;
+        letter-spacing: 1.67px;
+
+        background: url(/assets/images/timeline_fade-away.png) center bottom no-repeat;
+        background-size: $timeline-width auto;
+    }
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__node{
+        position: absolute;
+        width: 100%;
+        left:0; top:0;
+
+        .timeline__description{ display:none; }
+    }
+
+
+    &__trigger{
+        display: block;
+        position: absolute;
+        left:0; top:0;
+
+        width: $timeline-node-size; height: $timeline-node-size;
+        margin-left: (($timeline-node-size/2)*-1);
+
+        border-radius: 50%;
+        background-color: $color-mischka;
+        transition: transform 150ms $bezier-sweaty-elastic,
+                    background-color 150ms ease;
+
+        html.no-touch &:hover{
+            background-color: $color-dolphin;
+            transform: scale(1.25);
+            z-index: 10;
+        }
+    }
+
+    &__content{
+        padding-left: $timeline-content-distance-left-mobile;
+        max-width: $timeline-content-max-width;
+    }
+
+
+    &__date{
+        display:none;
+        font-family: $font-din;
+        text-transform: uppercase;
+        color: $color-dolphin;
+        width: $timeline-date-width;
+        font-size: 1rem;
+        letter-spacing: 1.67px;
+
+        margin-bottom: 0.5em;
+        padding-top: 1px;
+    }
+
+    // needs the additional specificity
+    .timeline__description{
+
+        h1,h2,h3,h4,h5{
+            margin: 0 0 0.4em;
+            letter-spacing: 0;
+            text-transform: none;
+            font-family: $font-alright; font-weight: $bold-weight;
+            font-size: 2rem;
+            color: $color-parse-blue;
+
+            & + h6{
+                margin-top: -0.4em;
+            }
+        }
+        h6{
+            font-family: $font-din;
+            margin: 0 0 0.8em;
+            letter-spacing: 0;
+            text-transform: none;
+            font-size: 1.6rem;
+            color: $color-parse-blue;
+        }
+        p{
+            margin: 0.4em 0 0.8em;
+            font-size: 1.4rem;
+            line-height: 1.4;
+        }
+    }
+
+    &__chathead{
+        &s{ margin-top: 1em; }
+
+        display: inline-block;
+        width: $timeline-chathead-size-mobile;
+        height: $timeline-chathead-size-mobile;
+        border-radius: 50%;
+        overflow: hidden;
+        margin: 0 $timeline-chathead-spacing-mobile ($timeline-chathead-spacing-mobile/2) 0;
+
+        background-size: cover;
+        background-position: center center;
+
+        transition: transform 200ms $bezier-sweaty-elastic,
+                    border-radius 200ms $bezier-sweaty-elastic,;
+        cursor: default;
+    }
+
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    &__node{
+        &.is-active{
+            .timeline__date{ display:block; }
+
+            .timeline__trigger{
+                background-color: $color-parse-blue;
+                transform: scale(1.25);
+
+                html.no-touch &:hover{
+                    background-color: $color-parse-blue;
+                }
+            }
+
+            .timeline__description{ display:block; }
+        }
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+
+        margin: 2em 0 2em 50%;
+
+        &__content{
+          padding-left: $timeline-content-distance-left-mobile;
+        }
+
+        &__chathead{
+          width: $timeline-chathead-size;
+          height: $timeline-chathead-size;
+          margin-right: $timeline-chathead-spacing;
+        }
+
+        &__date{
+          display:block;
+          position: absolute;
+          right:100%;
+          text-align: right;
+          padding-right: 25px;
+        }
+    }
+
+    // @include break-min($break-desktop){}
+
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+    // &--blue{}
+
+}

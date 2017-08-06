@@ -1,0 +1,189 @@
+#toc{
+    $live-toc-distance-top: 85px;
+
+    display:none; // until tablet
+    position: absolute;
+    left:0; top:0;
+    padding-top:$live-toc-distance-top;
+    padding-bottom:$live-toc-distance-top;
+    width: 174px;
+
+    transition: padding-top 200ms ease-in;
+
+    a{ display: block; }
+
+    &.is-fixed{
+        padding-top: ($live-toc-distance-top + 35px); // accoutn for scroll up nav
+        position:fixed;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .top_links{
+        margin-bottom: 15px;
+
+        a{
+            display: block;
+            padding: 3px 0;
+            font-family: $font-alright; font-weight: $light-weight;
+            font-size: 1.6rem;
+            color: #8F8F8F;
+
+            &:after{
+                content: "";
+                display:inline-block;
+                margin-left: 5px;
+                width: 15px;
+                height: 13px;
+            }
+        }
+    }
+
+    .ui_live_toc{
+
+        // ============================================================================
+        //   Variables
+        // ============================================================================
+
+
+
+        // ============================================================================
+        //   "This"
+        // ============================================================================
+
+        // position: fixed;
+        // left:0; top:0;
+        // height: 100%;
+        // overflow-y: auto;
+
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        font-family: $font-alright; font-weight: $light-weight;
+        font-size: 1.6rem;
+        text-transform: capitalize;
+
+        // ============================================================================
+        //   Scoped
+        // ============================================================================
+
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .ui_live_toc_major_list:empty{ display:none !important; }
+
+        > li {
+            > a {
+                padding: 3px 0;
+                color: $color-dolphin;
+            }
+
+            > ul{
+                margin: 5px 0 7px;
+                display:none;
+                padding-left:10px;
+                border-left: 2px solid #F3F3F5;
+
+                > li{
+
+                    > a{
+                        color:#8F8F8F;
+                        font-size: 1.4rem;
+                        padding: 3px 0;
+                    }
+
+                    > ul{
+                        display:none;
+                        margin: 10px 0;
+                        background-color: #F3F3F5;
+                        border-radius: 4px;
+                        padding: 8px;
+
+                        &:empty{ display:none; }
+
+                        > li {
+                            > a{
+                                font-size: 1.2rem;
+                                padding: 1px 0;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            &.selected,
+            .selected{
+                > a{
+                    font-weight: $bold-weight;
+                    color: $color-parse-blue;
+                }
+                > ul{ display:block; }
+            }
+        }
+
+
+    }
+
+    @include break-min($break-tablet){
+        display:block; // hidden mobile
+    }
+}
+
+#mobile_toc{
+
+    position: relative;
+    display:none;
+
+    &.is-fixed{
+      width: 100%;
+      min-width: $break-mobile;
+      opacity:0;
+    }
+
+    &:after{
+      content: "";
+      position:absolute;
+      right: 20px;
+      top:50%;
+      transform: translateY(-50%);
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 12px 7.5px 0 7.5px;
+      border-color: $color-mischka transparent transparent transparent;
+    }
+
+    select{
+        appearance: none;
+        width: 100%;
+        border: 0;
+        height: 50px;
+        text-align: center;
+        background-color: $color-vista-white;
+        outline: 0;
+        font-size: 1.8rem;
+        // font-weight: bold;
+        font-family: $font-alright; font-weight: $bold-weight;
+        color: $color-parse-blue;
+        // margin-top: 5px;
+        padding-left: 20px;
+        padding-right: 50px;
+        border-radius: 0;
+        border-bottom: 2px solid $color-mischka;
+    }
+}
+
+
+@include break-max($break-tablet - 1){
+
+  #mobile_toc{ display: block; }
+
+  .site__header.has-fixed-docs-select{
+    height: 105px;
+  }
+
+}

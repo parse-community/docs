@@ -1,0 +1,115 @@
+// pricing range styling
+
+$range-track-color: #E0E0EA;
+$range-track-color-filled: $color-comet;
+$range-track-color-filled-green: $color-carib-green;
+$range-thumb-color: #FDFAFB;
+
+$range-thumb-radius: 50%;
+$range-thumb-height: 23px;
+$range-thumb-width: 23px;
+$range-thumb-shadow-x: 0;
+$range-thumb-shadow-y: 1px;
+$range-thumb-shadow-blur: 4px;
+$range-thumb-shadow-color: rgba(0,0,0,0.12);
+$range-thumb-border-width: 1px;
+$range-thumb-border-color: white;
+
+$range-track-width: 100%;
+$range-track-height: 10px;
+$range-track-shadow-size: 2px;
+$range-track-shadow-blur: 2px;
+$range-track-shadow-color: #222;
+$range-track-border-width: 1px;
+$range-track-border-color: black;
+
+$range-track-radius: $range-track-height/2;
+$range-contrast: 5%;
+
+@mixin range-shadow($range-shadow-size,$range-shadow-blur,$range-shadow-color) {
+  // box-shadow: $range-shadow-size $range-shadow-size $range-shadow-blur $range-shadow-color, 0px 0px $range-shadow-size lighten($range-shadow-color,5%);
+}
+@mixin thumb-shadow($range-shadow-x,$range-shadow-y,$range-shadow-blur,$range-shadow-color) {
+  box-shadow: $range-shadow-x $range-shadow-y $range-shadow-blur $range-shadow-color;
+}
+
+@mixin range-track() {
+  width: $range-track-width;
+  height: $range-track-height;
+  cursor: pointer;
+  animate: 0.2s;
+}
+
+@mixin range-thumb() {
+  @include thumb-shadow($range-thumb-shadow-x,$range-thumb-shadow-y,$range-thumb-shadow-blur,$range-thumb-shadow-color);
+  border: $range-thumb-border-width solid $range-thumb-border-color;
+  height: $range-thumb-height;
+  width: $range-thumb-width;
+  border-radius: $range-thumb-radius;
+  background: $range-thumb-color;
+  cursor: pointer;
+}
+
+html:not(.lte-ie9) input[type=range] {
+  -webkit-appearance: none;
+  margin: $range-thumb-height/2 0;
+  width: $range-track-width;
+  height: $range-track-height;
+  background: linear-gradient(to right, $range-track-color-filled 10%, $range-track-color 10%);
+  border-radius: $range-track-radius;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  // &::-webkit-slider-runnable-track {
+  //   @include range-track();
+  //   @include range-shadow($range-track-shadow-size,$range-track-shadow-blur,$range-track-shadow-color);
+  //   background: $range-track-color;
+  //   background: linear-gradient(to right, $range-track-color-filled 10%, $range-track-color 10%);
+  //   border-radius: $range-track-radius;
+  // }
+
+  &::-webkit-slider-thumb {
+    @include range-thumb();
+    -webkit-appearance: none;
+    margin-top: 0;
+  }
+
+  &::-moz-range-track {
+    // @include range-track();
+    // @include range-shadow($range-track-shadow-size,$range-track-shadow-blur,$range-track-shadow-color);
+    background: none;
+    // border-radius: $range-track-radius;
+  }
+  &::-moz-range-thumb {
+     @include range-thumb();
+  }
+
+  &::-ms-track {
+    @include range-track();
+    height: $range-track-height !important;
+    background: transparent;
+    border-color: transparent;
+    border-width: $range-thumb-width 0;
+    color: transparent;
+  }
+
+  &::-ms-fill-lower {
+    background: darken($range-track-color, $range-contrast);
+    border: $range-track-border-width solid $range-track-border-color;
+    border-radius: $range-track-radius*2;
+    @include range-shadow($range-track-shadow-size,$range-track-shadow-blur,$range-track-shadow-color);
+  }
+  &::-ms-fill-upper {
+    background: $range-track-color;
+    border: $range-track-border-width solid $range-track-border-color;
+    border-radius: $range-track-radius*2;
+    @include range-shadow($range-track-shadow-size,$range-track-shadow-blur,$range-track-shadow-color);
+  }
+
+  &::-ms-thumb {
+    @include range-thumb();
+  }
+}

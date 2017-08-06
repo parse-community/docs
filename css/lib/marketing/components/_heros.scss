@@ -1,0 +1,505 @@
+// heroz
+
+.hero{
+
+    // ============================================================================
+    //   This
+    // ============================================================================
+
+    // height: 148px;
+    padding-top: 20px;
+
+    text-align: center;
+    position:relative;
+    background: $color-parse-blue url('') center center no-repeat;
+    background-size: cover;
+
+    overflow:hidden;
+
+    &:before{
+        display: block;
+        content: "";
+        position: absolute;
+        width: 100%; height: 100%;
+        left:0; top:0;
+        background-color: $color-parse-blue;
+        opacity:0.77;
+        z-index: 1;
+    }
+
+    @include break-min($break-switch-heros){
+        height: 120px;
+        padding-top: 40px;
+    }
+
+    // ============================================================================
+    //   Scoped changes
+    // ============================================================================
+
+    .container{
+        z-index:2;
+        position: relative;
+        top:50%;
+        transform: translateY(-50%) translateZ(0);
+    }
+
+    .h1, p{
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .h1{
+        max-width: 661px;
+        margin: 0.5em auto;
+    }
+    p{
+        max-width: 580px;
+    }
+    .btns{
+        margin-top: 20px;
+      a{ cursor: pointer; }
+        @include break-min($break-switch-heros){
+            margin-top: 50px;
+        }
+    }
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__video{
+        overflow:hidden;
+        position: absolute;
+        left:0; top:0;
+        width:100%; height:100%;
+        z-index:0;
+
+        video{
+            width: auto;
+            height: auto;
+            min-width: 100%;
+            min-height: 100%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        html.touch &{
+            display: none !important;
+        }
+    }
+
+    &__pointer{
+
+        position:absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+
+        .icon{
+            stroke: $color-gallery-gray;
+            animation: anim_scroll-hint 4s infinite;
+            animation-timing-function: cubic-bezier(0.645, 0.045, 0.355, 1);
+          &:hover{
+            stroke: $color-parse-blue;
+          }
+        }
+
+        @include break-min($break-switch-heros){
+            // bottom: 0;
+
+            .icon{ width: 39px; height: 39px; }
+        }
+
+        html.lte-ie9 & { display:none; }
+    }
+
+    &__emoji{
+        width: 74px;
+
+        & + .h1{
+            margin: 0.6em auto 0;
+
+            & + p{
+                margin: 0.9em auto 1.7em;
+            }
+        }
+    }
+
+    // &__parallax{
+    //     position: absolute;
+    //     left: 0;
+    //     top: 0;
+    //     height: 100%;
+    //     width: 100%;
+    //     background: url() center center no-repeat;
+    //     background-size: cover;
+
+    //     video{
+
+    //     }
+    // }
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+    &--green{
+        background-color: $color-carib-green;
+        &:before{ background-color: $color-carib-green; }
+        .btn--inverse{ color: $color-carib-green; }
+    }
+
+    &--red{
+        background-color: $color-rad-red;
+        &:before{ background-color: $color-rad-red; }
+        .btn--inverse{ color: $color-rad-red; }
+    }
+
+    &--basic{
+        height: 578px;
+        background-color: white;
+        &:before{
+            background-color: white;
+            opacity: 0.92;
+        }
+        .container{
+            a{ color: $color-parse-blue; }
+            p{ max-width: 468px; }
+        }
+    }
+
+     &--about{
+        height: 578px;
+        background-color: white;
+        &:before{
+            background-color: white;
+            opacity: 0.92;
+        }
+        .container{
+            a{ color: $color-parse-blue; }
+            p{ max-width: 558px; }
+
+            .btns{
+                width: 100%;
+                position: absolute;
+                left:0;
+                bottom: -100px;
+            }
+        }
+    }
+
+    &--small{
+        height: 500px;
+    }
+
+    &--noverlay{
+        &:before{ display:none !important; }
+    }
+
+    &--gradient{
+        &:before{
+            background: url(/assets/images/heros/gradient_blue-gray.png) left top repeat-x;
+            background-size: auto 100%;
+            opacity: 1;
+        }
+    }
+
+    &--home{
+
+      overflow: hidden;
+      height: 100vh;
+      min-height: 568px;
+      padding: 80px 0 0;
+      background: none;
+
+      @include break-min($break-switch-heros){
+        padding-top: 110px;
+        min-height: 700px;
+      }
+
+      &:before{
+        display:none;
+      }
+      &:after{
+        content: "";
+        position: absolute;
+        left: 0; right:0;
+        top: 80px; bottom: 320px;
+        background: url('/assets/images/heros/home.svg') center center no-repeat;
+        background-size: auto 100%;
+
+        @include break-min(375px){
+          bottom: 300px;
+        }
+        @include break-min(760px){
+          bottom: 270px;
+        }
+        @include break-min(1160px){
+          top: 110px;
+          bottom: 210px;
+        }
+      }
+
+      &__content{
+        position: absolute;
+        bottom:0;
+        height: auto;
+        width:100%;
+          padding-top: 0px;
+          padding-bottom: 70px;
+          background: $color-vista-white;
+          @include break-max($break-switch-heros){
+            padding-top: 60px;
+          }
+        .container{
+          // margin-top: -30px;
+          position: static;
+          transform: none;
+
+          @include break-min($break-switch-heros){
+            padding-top: 60px;
+          }
+        }
+        .h1{
+          margin: 0 auto;
+          @include break-min(1160px){ max-width:none; }
+        }
+        .btns{
+          margin-top: 1.95em;
+        }
+      }
+    }
+
+    &--policies{
+        padding-top: 120px;
+        height: auto;
+
+        .container{
+            top:0;
+            transform: none;
+            position: relative;
+
+            .h1{ margin: 0.5em auto 0.25em; }
+            .p{ margin: 0 auto; }
+        }
+
+        &__numbered-list{
+            margin-top: 32px;
+            padding: 20px 0;
+            z-index:2;
+            position: relative;
+            background-color: #1490DE;
+            color: white;
+        }
+
+        @include break-min($break-switch-heros){
+            padding-top: 136px;
+
+            &__numbered-list{ padding: 30px 0 23px; }
+        }
+    }
+
+    &--docs{
+        padding-top:0;
+        height: 250px;
+        background-color: $color-pale-sky;
+        text-align:left;
+        overflow:hidden;
+
+        &:before{ display:none; }
+
+        &.server_docs_header{
+          background-color: $defaultPlatform;
+        }
+        &.ios_docs_header{
+          background-color: $iosPlatform;
+        }
+        &.android_docs_header{
+          background-color: $androidPlatform;
+        }
+        &.cloudcode_docs_header{
+          background-color: $defaultPlatform;
+        }
+        &.js_docs_header{
+          background-color: $jsPlatform;
+        }
+        &.osx_docs_header{
+          background-color: $osxPlatform;
+        }
+        &.unity_docs_header{
+          background-color: $unityPlatform;
+        }
+        &.php_docs_header{
+          background-color: $phpPlatform;
+        }
+        &.dotnet_docs_header{
+          background-color: $dotnetPlatform;
+        }
+        &.arduino_docs_header{
+          background-color: $defaultPlatform;
+        }
+        &.embedded_c_docs_header{
+          background-color: $embeddedPlatform;
+        }
+        &.rest_docs_header{
+          background-color: $restPlatform;
+        }
+
+        .grid-container{
+            top:0;
+            padding-top: 150px;
+            transform: none
+
+            div{
+                position: relative;
+            }
+        }
+
+        .h1{
+            max-width: none;
+            position: relative;
+            margin:0;
+            letter-spacing: -1px;
+
+            em{
+                display:block;
+                font-style: normal;
+                font-family: $font-alright;
+                font-weight: $light-weight;
+                // font-width: 400;
+            }
+
+            .btn{
+                position:absolute;
+                right:0;
+                bottom:0;
+                font-family: $font-din;
+                letter-spacing: 0;
+                background-color: rgba(#000, 0.28);
+                font-weight: $regular-weight;
+
+                html.no-touch &:hover{ background-color: rgba(#000, 0.5); }
+            }
+        }
+
+        svg{
+            fill: white;
+            opacity: 0.1;
+            position: absolute;
+            left: -60px;
+            bottom: -16px;
+            width: 130px;
+            height: 130px;
+        }
+
+        @include break-min($break-tablet){
+            .grid-container{ padding-top: 180px; }
+            .h1{
+                em{ display:inline; }
+            }
+        }
+    }
+
+    &--docs-landing{
+        padding: 166px 0 12px;
+        height: auto;
+        text-align: left;
+        color: white;
+
+        &:before{ display:none !important; }
+
+        &__content{
+            padding-right: 30%;
+            position: relative;
+
+            .h1{
+                margin: 0 0 2px;
+                font-family: $font-alright;
+                text-align: left;
+            }
+        }
+        &__languages{
+            a {
+                font-size: 1.4rem;
+                opacity: 0.41;
+                color: white;
+                line-height: 2;
+                transition: opacity 180ms ease;
+
+                &.selected,
+                &:hover{
+                    text-decoration:none;
+                    opacity:1;
+                }
+
+                & + a{ margin-left: 10px; }
+            }
+        }
+        &__quickstart{
+            display:none;
+            position: absolute;
+            right: 0;
+            bottom: 6px;
+            font-size: 1.6rem;
+
+            span{ margin-right: 16px; }
+        }
+
+        @include break-min($break-tablet-max){
+            &__quickstart{
+                display:block;
+            }
+        }
+    }
+
+    &--platform-mobile{
+      background-image: url(/assets/images/heros/mobile.jpg);
+      background-color: $color-carib-green;
+      background-size: auto 82%;
+      background-position: center bottom;
+
+      &:before{ display:none !important; }
+    }
+
+    &--platform-desktop{
+        background-image: url(/assets/images/heros/desktop.jpg);
+        background-color: $color-rad-red;
+        background-size: auto 55%;
+        background-position: center 199px;
+
+        &:before{ display:none !important; }
+    }
+
+    &--product-core{
+      background-image: url(/assets/images/heros/core.png);
+      background-color: $color-core-blue;
+      background-size: auto 77%;
+      background-position: center 90%;
+
+      &:before{ display:none !important; }
+    }
+
+    &--product-push{
+        background-image: url(/assets/images/heros/push.jpg);
+        background-color: $color-push-blue;
+        background-size: auto 72%;
+        background-position: center center;
+
+        .h1{ max-width: 490px; }
+
+        &:before{ display:none !important; }
+    }
+
+    &--product-analytics{
+        background-image: url(/assets/images/heros/analytics.jpg);
+        background-color: $color-analytics-blue;
+        background-size: auto 72%;
+        background-position: center 126px;
+
+        &:before{ display:none !important; }
+    }
+
+
+}

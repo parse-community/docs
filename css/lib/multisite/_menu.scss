@@ -1,0 +1,94 @@
+.site__menu{
+
+    &__nav{
+        margin:0;
+        padding:0;
+
+        & > ul{
+            margin:0;
+            padding:0;
+
+            & > li {
+                // @for $i from 0 through 10 {
+                //     &:nth-child(#{$i}n){
+                //         transform: rotate3d(1,0,0,-90deg);
+                //         transform-origin: center top;
+                //         transition: transform 200ms cubic-bezier(.02, .01, .47, 1) (($i * 200ms) + 400);
+                //     }
+                // }
+                a{
+                    display:block;
+                    padding: $menu-mobile-link-padding;
+                    border-bottom: $menu-mobile-link-border;
+                    transition: all 200ms ease-in;
+
+                    font-size: $menu-mobile-link-size;
+                    font-family: $font-din;
+                    text-decoration: none;
+                    color: white;
+
+                    html.no-touch &:hover{
+                        transition: all 200ms ease;
+                        // border-bottom: $menu-mobile-link-border-onhover;
+                        background: rgba(255,255,255,0.1);
+                        // padding-left: 25px;
+                    }
+                }
+            }
+        }
+    }
+
+    .h4{
+        opacity:0.39;
+    }
+
+    &__socials{
+        @include clearfix();
+        position:relative;
+
+        padding: $menu-mobile-socials-padding;
+
+        & > ul{
+            margin:0;
+            padding:0;
+            list-style:none;
+
+            & > li{
+                float:left;
+                width:16%;
+
+                a{
+                    display:block;
+                    text-align: center;
+
+                    .icon{
+                        fill: white;
+                        width: 100%;
+                        height: 27px;
+                    }
+                }
+
+                & + li{ margin-left: 5%; }
+
+            }
+        }
+
+    }
+
+    &__build-together{
+        font-size: 1.4rem;
+        font-weight: $bold-weight;
+        color: rgba(#fff, 0.49);
+        position: absolute;
+        left: 0;
+        bottom: 36px;
+        width: 100%;
+        height: 43px;
+        background: url(/assets/images/build-together.png) center center no-repeat;
+        background-size: auto 100%;
+        text-align: center;
+        line-height: 43px;
+        margin: 0;
+        padding: 0;
+    }
+}

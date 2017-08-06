@@ -1,0 +1,354 @@
+// All the varz
+
+// ============================================================================
+//   Layerz
+// ============================================================================
+
+$layerz: (
+    ".site__content",
+    ".legal-section__nav--clone",
+    ".mobile-toc-select--clone",
+    ".site__footer",
+    ".site__header",
+    ".site__menu",
+    ".js__menu-hitbox",
+);
+$generate-layerz: true;
+
+// ============================================================================
+//   Margin and Padding classes (see helpers.scss)
+// ============================================================================
+
+$generate-margin-padding-classes: true;
+
+
+// ============================================================================
+//   Colors
+// ============================================================================
+::selection { background: black; color: white;}
+
+// blues
+$color-parse-blue: #169CEE !default;
+$color-denim: #117DBF !default;
+$color-picton-blue: #5DB6F0 !default;
+//$color-curious-blue: #1595E6 !default;
+$color-selago: #f8fcfe !default;
+
+$color-core-blue: #1494E3 !default;
+$color-push-blue: #148DD9 !default;
+$color-analytics-blue: #117EC2 !default;
+// purples
+$color-martinique: #3B2C48 !default;
+$color-comet: #555572 !default;
+$color-dolphin: #66637A !default;
+// grays
+$color-gun-powder: #434359 !default;
+$color-regent-gray: #7C8C9C !default;
+$color-bright-gray: #434359 !default;
+$color-shuttle-gray: #5A6b77 !default;
+$color-ebony: #070D12 !default;
+$color-ebony-lighter: #0E1B24 !default;
+$color-vista-white: #FDFAFB !default;
+$color-off-white: #FDFAFB !default;
+$color-charade: #2C2C3B !default;
+$color-mischka: #E0E0EA !default;
+$color-thunder: #110D11 !default;
+$color-pale-sky: #6D7A82 !default;
+// greens
+$color-carib-green: #00DB7C !default;
+$color-foam: #F2FEF9 !default;
+// reds
+$color-rad-red: #FF395E !default;
+
+// blog colors
+// $color-shuttle-gray: #5A6B77;
+// $color-parse-blue: #5298FC;
+$color-river-bed: #485864;
+$color-gallery-gray: #EDEDED;
+$color-heather-gray: #BFCCD5;
+$color-tundora-gray: #414141;
+$color-mine-shaft-gray: #212121;
+$color-cerulean-blue: #336BBB;
+$color-heliotrope-purple: #a952fc;
+$color-aquamarine-blue: #65D7DF;
+$color-pastel-green: #65DF7E;
+$color-carnation-red: #FC5252;
+$color-st-tropaz-blue: #295BA2;
+
+// palette usage
+$color-primary: $color-parse-blue;
+$color-positive: $color-carib-green;
+$color-negative: $color-rad-red;
+
+// bg colors
+$color-bg-body: $color-ebony-lighter !default;
+$color-bg-content: white !default;
+$color-bg-footer: $color-ebony-lighter !default;
+$color-bg-footer-main: $color-ebony !default;
+
+// text colors
+$color-text-body: $color-comet !default;
+$color-text-content: $color-comet !default;
+$color-text-footer: white !default;
+
+$defaultPlatform: $color-parse-blue;
+$iosPlatform: #5B707D;
+$osxPlatform: #9CAFBA;
+$androidPlatform: #00C26E;
+$jsPlatform: #F5A623;
+$dotnetPlatform: #922ADD;
+$unityPlatform: #11A4BA;
+$phpPlatform: #0E69A1;
+$restPlatform: #FF395E;
+$serverPlatform: #6D7A82;
+$embeddedPlatform: #15D0ED;
+
+
+// ============================================================================
+//   Breakpoints
+// ============================================================================
+
+$break-mobile: 320px;
+$break-mobile-max: 420px;
+$break-tablet: 760px;
+$break-tablet-max: 900px;
+$break-desktop: 1104px;
+$break-desktop-max: 1320px;
+$break-desktop-max-grid: 1180px;
+
+$break-mini-mobile-menu: 375px;
+
+$break-iphone6-landscape: 375px;
+$break-iphone6-plus-landscape: 414px;
+
+$break-switch-heros: $break-mobile;
+$break-switch-navs: $break-tablet;
+$break-switch-footers: $break-tablet;
+$break-switch-fonts: $break-tablet;
+$break-switch-blog-content: $break-tablet;
+
+
+// ============================================================================
+//   Container Padding
+// ============================================================================
+$container-padding-v-mobile: 0;
+$container-padding-v-tablet: 0;
+$container-padding-v-desktop: 0;
+
+$container-padding-h-mobile: 30px;
+$container-padding-h-tablet: 30px;
+$container-padding-h-desktop: 40px;
+
+$container-padding-mobile:  $container-padding-v-mobile $container-padding-h-mobile;
+$container-padding-tablet:  $container-padding-v-tablet $container-padding-h-tablet;
+$container-padding-desktop: $container-padding-v-desktop $container-padding-h-desktop;
+
+
+// ============================================================================
+//   Grid
+// ============================================================================
+
+$create-grid: true;
+
+$grid-cols: 9;
+$grid-cols-mobile: 2;
+$grid-cols-tablet: 6;
+$grid-cols-desktop: 9;
+
+$grid-gutters: 2%;
+$grid-gutters-mobile: $container-padding-h-mobile;
+$grid-gutters-tablet: $container-padding-h-tablet;
+$grid-gutters-desktop: $container-padding-h-desktop;
+
+
+// ============================================================================
+//   Animation Presets
+// ============================================================================
+
+$bezier-blog-menu: cubic-bezier(0.645, 0.045, 0.355, 1);
+$bezier-sweaty-elastic: cubic-bezier(0.25, 0.1, 0.44, 2);
+$bezier-medium-elastic: cubic-bezier(0.25, 0.1, 0.44, 1.75);
+$bezier-small-elastic: cubic-bezier(0.000, 0.075, 0.470, 1.275);
+
+// ============================================================================
+//   Sticky Footer
+// ============================================================================
+
+// sticky footer sizes
+$stickyfooter-height-mobile: 830px;
+$stickyfooter-height-tablet: 358px;
+
+$footer-padding: 24px 0 14px;
+$footer-padding-desktop: 24px 0 30px;
+
+$footer-maxwidth-desktop: 1110px;
+
+$footer-newsletter-col-width-tablet: 44%;
+$footer-link-cols-width-tablet: (($footer-newsletter-col-width-tablet - 100)*-1) / 2;
+$footer-newsletter-col-width-desktop: 50%;
+$footer-link-cols-width-desktop: (($footer-newsletter-col-width-desktop - 100)*-1) / 2;
+
+// ============================================================================
+//   Fonts / Typography
+// ============================================================================
+
+// stax
+$font-alright: "webfont_alright";
+//$font-alright-regular: "webfont_alright";
+//$font-alright-light: "webfont_alright";
+//$font-alright-medium: "webfont_alright";
+//$font-alright-bold: "webfont_alright";
+//$font-alright-black: "webfont_alright";
+$font-din: "webfont_din-regular";
+$font-input: "webfont_input";
+// $font-input-narrow: "Input Mono Narrow";
+
+$font-stack-default : $font-alright, "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !default;
+$font-stack-code: $font-input, Monaco, monospace;
+
+// rem base multipliers
+$font-size-html: ((100%/16)*10) !default; // base 10
+// $font-size-html-desktop: ((100%/16)*11) !default; // base 11
+
+$font-size-body-mobile: 1.6rem !default; // 16px
+$font-size-body-desktop: (16rem/11) !default; // 16px
+
+$light-weight: 300;
+$regular-weight: 400;
+$medium-weight: 500;
+$bold-weight: 700;
+$black-weight: 800;
+
+$para-size: 1.4rem;
+$para-size-large: 1.6rem;
+$para-lineheight: 1.6;
+
+
+$h1-color: $color-parse-blue;
+$h1-family: $font-alright;
+$h1-size: 4rem;
+$h1-size-large: 4.6rem;
+$h1-spacing: -0.1rem;
+$h1-spacing-large: -0.216rem;
+$h1-lineheight: 1.1;
+$h1-weight: $bold-weight;
+
+$h2-spacing: -0.075rem;
+$h2-spacing-large: -0.1rem;
+$h2-size: 2.4rem;
+$h2-size-large: 3.2rem;
+$h2-lineheight: 1.1875;
+$h2-weight: $regular-weight;
+$h2-margin-top: 0.5em;
+$h2-margin-bottom: $h2-margin-top;
+
+$h3-size: 2.1rem;
+$h3-size-large: 2.7rem;
+$h3-family: $font-alright;
+$h3-weight: $medium-weight;
+$h3-spacing: -0.075rem;
+$h3-spacing-large: -0.1rem;
+
+$h4-family: $font-din;
+$h4-size: 1.1rem;
+$h4-spacing: 0.4rem;
+$h4-weight: $regular-weight;
+$h4-size-large: 1.2rem;
+
+$h5-family: $h4-family;
+$h5-size: $h4-size;
+$h5-weight: $h4-weight;
+$h5-spacing: 0.225rem;
+$h5-padding: 0 15px;
+$h5-size-large: $h4-size-large;
+
+$h6-size: 1.8rem;
+$h6-size-large: 2rem;
+$h6-spacing: -0.06rem;
+$h6-lineheight: 1.2;
+$h6-weight: $medium-weight;
+
+
+// ============================================================================
+//   Navigations
+// ============================================================================
+
+// Mobile menu
+$menu-mobile-width: 310px;
+$menu-mobile-width-small: 250px;
+$menu-mobile-transition: transform 600ms $bezier-blog-menu,
+                        width 600ms $bezier-blog-menu;
+
+$menu-mobile-bg-from: $color-parse-blue;
+$menu-mobile-bg-to: $color-denim;
+
+$menu-mobile-link-size: 1.8rem;
+$menu-mobile-link-padding: 22px 20px 18px;
+$menu-mobile-link-border: 1px solid rgba(#FDFAFB, 0.3);
+$menu-mobile-link-border-onhover: 1px solid rgba(#FDFAFB, 0.5);
+
+$menu-mobile-build-height: 43px;
+$menu-mobile-build-bottom: 36px;
+
+$menu-mobile-socials-padding: 16px 20px ($menu-mobile-build-height + $menu-mobile-build-bottom + 40);
+
+
+// ============================================================================
+//   Header
+// ============================================================================
+
+$header-height-mobile: 80px;
+$header-height-mobile-fixed: 55px;
+$header-height-desktop: 120px;
+$header-height-desktop-fixed: 63px;
+
+$header-maxwidth-desktop: 1390px;
+
+$header-bg-color: white;
+$header-bg-opacity: 0.95;
+
+$header-logo-padding-mobile: 10px;
+$header-logo-width-mobile: 75px;
+$header-logo-height-mobile: 25px;
+
+$header-logo-padding-desktop: 0;
+$header-logo-width-desktop: 170px;
+$header-logo-height-desktop: 49px;
+
+$header-logo-type-width-desktop: 102px;
+$header-logo-type-height-desktop: 34px;
+
+$header-logo-glyph-width: 49px;
+$header-logo-glyph-height: $header-logo-glyph-width; // its a square
+
+$header-hamburger-width: 34px;
+$header-hamburger-height: 50px;
+
+$header-hamburger-line-height: 4px;
+
+
+
+// ============================================================================
+//   Forms
+// ============================================================================
+
+$form-input-radius: 4px;
+$form-input-font-size: 1.4rem;
+$form-input-padding: 13px 15px;
+$form-input-margin: 0;
+
+
+
+// ============================================================================
+//   Views
+// ============================================================================
+
+// Home ======================================
+
+$home-products-bg-from: $color-parse-blue;
+$home-products-bg-to: $color-denim;
+
+$home-pricing-bg-from: $color-comet;
+$home-pricing-bg-to: $color-gun-powder;
+
+$home-blog-recents-bg: $color-vista-white;

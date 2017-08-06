@@ -1,0 +1,115 @@
+.video-player{
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    position: relative;
+    margin: 2em 0;
+    border-radius: 4px;
+    overflow: hidden;
+
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__player{
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 */
+        // padding-top: 25px;
+        height: 0;
+
+        iframe,
+        .fb-video,
+        .fb-video > span,
+        video{
+            display:block;
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
+
+    &__cover{
+        display:block;
+        position: absolute;
+        left:0; top:0;
+        width: 100%;
+        height: 100%;
+
+        background: url('') center center no-repeat;
+        background-size: cover;
+        transition: transform 300ms ease-out,
+                    opacity 300ms ease-out;
+
+        &:before{
+            content: "";
+            display: block;
+            position:absolute;
+            left:0; top:0;
+            width: 100%; height: 100%;
+            background-color: $color-parse-blue;
+            opacity: 0.6;
+            transition: opacity 200ms ease;
+        }
+
+        &:hover{
+            transform: scale(1.05);
+
+            &:before{
+                opacity: 0.4;
+            }
+
+            .video-player__btn{
+                transform: translate(-50%, -50%) scale(1.1);
+                box-shadow: 0px 5px 10px rgba(black, 0.15);
+            }
+        }
+    }
+
+    &__btn{
+        position: absolute;
+        left: 50%; top:50%;
+        transform: translate(-50%, -50%);
+        transition: transform 300ms $bezier-medium-elastic,
+                    box-shadow 300ms $bezier-medium-elastic;
+
+        // box-shadow: 0px 5px 10px rgba(black, 0.15);
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    // @include break-min($break-tablet){}
+
+    // @include break-min($break-desktop){}
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    &.is-active{
+        .video-player__cover{
+            transform: scale(2);
+            opacity:0;
+        }
+    }
+    &.cover-hidden{
+        .video-player__cover{
+            display:none;
+        }
+    }
+
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+    // &--blue{}
+}

@@ -1,0 +1,290 @@
+// pricing cards
+
+.pricing-card{
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+    &s{ @include clearfix(); }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+    overflow:hidden;
+    margin-bottom: 30px;
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__header,
+    &__content,
+    &__footer{
+        max-width:300px;
+        margin: 0 auto;
+    }
+
+    &__header{
+        background: $color-comet;
+        padding: 18px 70px 16px 20px;
+        position: relative;
+        border-radius: 4px 4px 0 0;
+
+        .icon{
+            display: block;
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            width: 40px; height: 40px;
+            fill: #39394D;
+        }
+
+        .h3,
+        .h-tagline{
+            margin:0;
+            color:white;
+        }
+        .h-tagline{
+            @include overflow-ellipsis();
+            margin-top: -2px;
+            height: 14px; 
+        }
+    }
+
+    &__content{
+        background: white;
+    }
+
+    &__count{
+        height: 140px;
+
+        .count-content{
+            @include vertical-align();
+            text-align: center;
+            padding: 0 20px;
+        }
+        .count-value,
+        .count-label{
+            display:block;
+        }
+        .count-value{
+            font-family: $font-din;
+            font-size: 3.6rem;
+            letter-spacing: -0.1rem;
+            line-height:1;
+            margin-bottom: 4px;
+        }
+        .count-label{
+            color: $color-dolphin;
+            font-size: 1.2rem;
+
+            &--light{
+                opacity: 0.58;
+            }
+        }
+
+        .count-displays{
+            text-align: center;
+
+            .count-requests,
+            .count-cloudcode{
+                display: inline-block;
+
+                @media (min-width: $break-tablet) and (max-width: $break-desktop - 1){
+                  .count-label{ font-size: 0.9rem; }
+                }
+            }
+            .count-requests{
+                padding-right: 10px;
+            }
+            .count-cloudcode{
+                border-left: 1px solid rgba(#979797, 0.17);
+                padding-left: 10px;
+            }
+
+            @media (min-width: $break-tablet) and (max-width: $break-tablet-max - 1){
+              .count-cloudcode{
+                  border-left: none;
+                  padding-left: 0;
+              }
+            }
+
+            @include break-min($break-tablet-max){
+                .count-requests{
+                    padding-right: 20px;
+                }
+                .count-cloudcode{
+                    padding-left: 20px;
+                }
+            }
+        }
+        .count-range{
+            padding-top:6px;
+        }
+    }
+
+    &__list{
+        list-style: none;
+        margin:0; padding:0;
+        color: $color-dolphin;
+
+        &-heading{
+            margin:0;
+            padding: 0px 20px 0px;
+            background: rgba($color-dolphin, 0.1);
+            font-family: $font-din;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            height: 30px;
+            line-height: 31px;
+        }
+    }
+
+    &__list-entry{
+        font-family: $font-alright; font-weight: $bold-weight;
+        @include clearfix();
+        height:50px;
+        padding: 0 20px;
+
+        .entry-label,
+        .entry-value{
+            height:50px;
+            display: block;
+            float:left;
+        }
+        .entry-label{
+            width: 58%;
+            text-align: left;
+            font-size: 1.3rem;
+            @include overflow-ellipsis();
+            padding-top: 18px;
+        }
+        .entry-value{
+            width: 42%;
+            text-align: right;
+            font-size: 1.6rem;
+            padding-top:17px;
+            line-height: 1.1;
+
+            .price-breakdown{
+                display: block;
+                color: $color-regent-gray;
+                font-size: 1.1rem;
+                font-family: $font-alright;
+                font-weight: 400;
+            }
+
+            &--stacked{
+                padding-top: 11px;
+            }
+        }
+
+        & + &{
+            border-top: 1px solid #F0F0F2;
+        }
+    }
+
+    &__footer{
+        position: relative;
+        background: #1074B3;
+        color: white;
+        text-align: right;
+        padding: 11px 20px 12px;
+        border-radius: 0 0 4px 4px;
+        // height: 40px;
+        font-size: 1.6rem;
+        font-family: $font-din;
+
+        &:before{
+            display: block;
+            position:absolute;
+            left: 20px; top:16px;
+            content: "Monthly Cost";
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            font-size: 1rem;
+        }
+    }
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+    @include break-min($break-tablet){
+        float:left;
+        width: (100%/3);
+        margin-bottom: 0;
+        padding: 0 10px;
+
+        &__list-entry .entry-value .price-breakdown{
+          font-size: 0.9rem;
+        }
+    }
+    @include break-min($break-desktop){
+        padding: 0;
+
+        &__list-entry .entry-value .price-breakdown{
+          font-size: 1.2rem;
+        }
+
+        // html.no-touch &{
+        //     transition: margin 250ms ease,
+        //                 padding 250ms ease;
+        //
+        //     &:hover{
+        //         margin-top: -10px;
+        //         padding-bottom: 10px;
+        //         transition: margin 150ms $bezier-medium-elastic,
+        //                     padding 150ms $bezier-medium-elastic;
+        //     }
+        // }
+
+    }
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    // desktop-only hover state above in media queries block
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+
+    &--green{
+        .pricing-card__header{
+            background: $color-carib-green;
+            .icon{ fill: #00BF6C; }
+        }
+        .pricing-card__count .count-displays .count-requests{
+                    padding-right: 0px;
+                }
+        .pricing-card__count{ .count-value{ color: $color-carib-green; } }
+        .pricing-card__list-heading{ background: rgba($color-carib-green,0.1); }
+        .pricing-card__list-entry{ .entry-value{ color: $color-carib-green; } }
+
+
+        html:not(.lte-ie9) & input[type=range] {
+          background: linear-gradient(to right, $color-carib-green 10%, #E0E0EA 10%);
+        }
+    }
+    &--blue{
+        .pricing-card__header{
+            background: $color-picton-blue;
+            .icon{ fill: #509ACC; }
+        }
+        .pricing-card__count{ .count-value{ color: $color-picton-blue; } }
+        .pricing-card__list-heading{ background: rgba($color-picton-blue,0.1); }
+        .pricing-card__list-entry{ .entry-value{ color: $color-picton-blue; } }
+
+        html:not(.lte-ie9) & input[type=range] {
+          background: linear-gradient(to right, $color-picton-blue 10%, #E0E0EA 10%);
+        }
+    }
+}
+
+
+.section-styleguide--pricing-card{
+    background: $color-parse-blue;
+}

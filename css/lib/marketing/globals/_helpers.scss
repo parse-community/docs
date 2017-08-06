@@ -1,0 +1,175 @@
+// helper utility classes
+
+
+// ============================================================================
+//   Da Clearfix
+// ============================================================================
+
+.clearfix{ @include clearfix(); }
+
+// ============================================================================
+//   Floats
+// ============================================================================
+
+.pull-right{ float:right; }
+.pull-left{ float:left; }
+
+// ============================================================================
+//   Backgrounds
+// ============================================================================
+
+.bg{
+    &--dark,
+    &--comet{
+        background: $color-comet;
+    }
+    &--light{
+        background: $color-vista-white;
+    }
+    &--neutral{
+        background: rgba($color-comet,0.25);
+    }
+    &--blue{
+        background: $color-parse-blue;
+    }
+    &--blue-alt{
+        background: darken($color-parse-blue, 3%);
+    }
+    &--green{
+        background: $color-carib-green;
+    }
+    &--ebony{
+        background: $color-ebony;
+    }
+    &--midnight{
+        background: $color-ebony-lighter;
+    }
+}
+
+// ============================================================================
+//   Text formatting
+// ============================================================================
+.text-center{ text-align:center; }
+.text-justify{ text-align: justify; }
+.text-left{ text-align: left; }
+.text-right{ text-align: right; }
+.text-overflow{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.uppercase{ text-transform: uppercase; }
+.lowercase{ text-transform: lowercase; }
+.italic, .oblique{ font-style: italic; }
+.kerning-loose{ letter-spacing: 1px; }
+.kerning-tight{ letter-spacing:-1px; }
+
+
+
+// ============================================================================
+//   Vertical alignment (where supported, requires fixed-height parent)
+// ============================================================================
+html.csstransforms .vertically-centered,
+html.csstransforms .vertical-align{
+	@include vertical-align();
+}
+
+
+
+// ============================================================================
+//   Padding and margin utilities, by 10s (0-100)
+//
+//   ex. class="padding-left-20 padding-bottom-20 margin-right-20 margin-bottom-60"
+//   ex. clsas="pading-vertical-50 margin-horizontal-30"
+// ============================================================================
+
+@if $generate-margin-padding-classes{
+
+	// @debug "Create Utility Classes - ENABLED! This is not recommended unless you intend to use them (for examples see _helpers.scss, to enable/disable see _variables.scss).";
+
+	@for $i from 0 through 10 {
+		$tmpval: 10 * $i;
+
+		.margin-top-#{$tmpval} { margin-top: $tmpval + px; }
+		.margin-right-#{$tmpval} { margin-right: $tmpval + px; }
+		.margin-bottom-#{$tmpval} { margin-bottom: $tmpval + px; }
+		.margin-left-#{$tmpval} { margin-left: $tmpval + px; }
+
+		.margin-vertical-#{$tmpval} { margin-top: $tmpval + px; margin-bottom: $tmpval + px; }
+		.margin-horizontal-#{$tmpval} { margin-left: $tmpval + px; margin-right: $tmpval + px; }
+
+		.padding-top-#{$tmpval} { padding-top: $tmpval + px; }
+		.padding-right-#{$tmpval} { padding-right: $tmpval + px; }
+		.padding-bottom-#{$tmpval} { padding-bottom: $tmpval + px; }
+		.padding-left-#{$tmpval} { padding-left: $tmpval + px; }
+
+		.padding-vertical-#{$tmpval} { padding-top: $tmpval + px; padding-bottom: $tmpval + px; }
+		.padding-horizontal-#{$tmpval} { padding-left: $tmpval + px; padding-right: $tmpval + px; }
+	}
+
+}
+
+// ============================================================================
+//   Responsive Show/Hides
+// ============================================================================
+
+// hide alwayz
+.hidden { display:none !important; }
+
+// show or hide on touch devices (modernizr classes)
+html.touch .show-touch{ display:block; }
+html.no-touch .show-touch{ display:none; }
+html.touch .hide-touch{ display:none; }
+html.no-touch .hide-touch{ display:block; }
+
+// show depending on screen size
+.show-mobile{
+	display:block;
+
+	@include break-min($break-tablet){
+		display:none !important;
+	}
+}
+.show-tablet{
+	display:block;
+
+	@include break-max($break-tablet - 1){
+		display:none !important;
+	}
+	@include break-min($break-desktop){
+		display:none !important;
+	}
+}
+.show-desktop{
+	display: block;
+
+	@include break-max($break-desktop - 1){
+		display:none !important;
+	}
+}
+
+// hide depending on screen size
+.hide-mobile{
+	display:none;
+
+	@include break-min($break-tablet){
+		display:block !important;
+	}
+}
+.hide-tablet{
+	display:none;
+
+	@include break-max($break-tablet - 1){
+		display:block !important;
+	}
+	@include break-min($break-desktop){
+		display:block !important;
+	}
+}
+.hide-desktop{
+	display: none;
+
+	@include break-max($break-desktop - 1){
+		display:block !important;
+	}
+}

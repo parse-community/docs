@@ -1,0 +1,268 @@
+// view-home
+
+.view--home{
+  .h2 {
+    text-align: left;
+    padding-left: 0;
+
+    @include break-min($break-mobile-max){
+      padding-left: 28px;
+    }
+  }
+
+}
+
+.home-products{
+
+    @include gradient-vertical($home-products-bg-from, $home-products-bg-to);
+    text-align: center;
+    padding: 46px 0;
+
+    &__our-products,
+    &__cross-platform{
+        @include clearfix();
+    }
+    &__our-products{
+        padding-bottom: 54px;
+
+        @include break-min($break-desktop){
+            overflow: hidden;
+            padding-bottom: 117px;
+
+            .container{
+                height: 674px;
+
+                .copy-block{
+                    max-width: 453px;
+                    @include vertical-align();
+
+                    p{
+                        margin-left:0;
+                        max-width: 438px;
+                    }
+                }
+            }
+        }
+    }
+    &__cross-platform{
+        position:relative;
+        overflow:hidden;
+
+        @include break-min($break-desktop){
+            min-height: 1044px;
+            // .container{ position: static; }
+            .copy-block{
+                padding-top: 280px;
+                float:right;
+            }
+        }
+    }
+
+    @include break-min($break-desktop){
+        text-align: left;
+        padding: 157px 0 0;
+    }
+}
+
+.our-products__graphic{
+    display:block;
+    margin: 0 auto 34px;
+    width: 91%;
+    height: auto;
+    max-width: 531px;
+    max-height: 511px;
+
+    @include break-min($break-desktop){
+        margin-left: -50px;
+        left:50%; top:0;
+        position:absolute;
+        margin-bottom: 0;
+        max-width: none;
+        max-height:none;
+        width: 865px;
+        height: 646px;
+    }
+    @include break-min(1200px){
+        margin-left: -100px;
+    }
+}
+
+.home-customers{
+    // background: $color-parse-blue;
+    padding: 32px 0 30px;
+    text-align: center;
+
+    &__copy{
+        max-width: 633px;
+        margin: 0 auto;
+    }
+
+    @include break-min($break-tablet){
+        padding: 56px 0 58px;
+    }
+    @include break-min($break-desktop){
+        padding: 120px 0 110px;
+
+        .btn{ margin-top: 3em; }
+    }
+}
+
+.home-pricing{
+    @include gradient-vertical($home-pricing-bg-from, $home-pricing-bg-to);
+    position: relative;
+    text-align: center;
+    padding: 38px 0 40px;
+    overflow: hidden;
+
+    html.no-touch .btn--white--outline:hover{ color:$color-gun-powder; }
+    .btn--white{
+        color: $color-gun-powder;
+    }
+
+    &__push-count{
+        .container{ margin-top: 2em; }
+
+        &.scroll-reveal{
+            .push-count__graphic{
+              &__notifications{
+                  transform: scale(1);
+              }
+            }
+          }
+    }
+
+      @include break-min($break-tablet){
+        padding: 60px 0;
+      }
+
+    @include break-min($break-desktop){
+        padding: 130px 0 0;
+        &__push-count,
+        &__pricing{
+            &__copy{
+                text-align: left;
+                max-width: 398px;
+            }
+        }
+
+        &__push-count{
+            height: 655px;
+            position:relative;
+            margin-top: 82px;
+
+            .container{
+                @include clearfix();
+                margin-top: 0;
+                height: 655px;
+
+                .copy-block{
+                    @include vertical-align();
+                    float:right;
+                }
+            }
+        }
+
+        &__pricing{
+            .container{
+                z-index: 2;
+                height: 632px;
+
+                .copy-block{
+                    @include vertical-align();
+                }
+            }
+        }
+    }
+}
+
+
+.push-count__graphic{
+    position:relative;
+
+    &__notifications{
+        display: block;
+        position: relative;
+        width: 151px;
+        height: 151px;
+        margin: 0 auto;
+        transform: scale(0);
+        transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    &__icon{
+        position:absolute;
+        right: 50%;
+        top: 50px;
+        width: 374px;
+        height: 376px;
+        background: url(/assets/images/home/app-icon_mobile.png) center center no-repeat;
+        background-size: contain;
+        opacity:0.5;
+    }
+
+    @include break-min($break-desktop){
+        position: absolute;
+        right: 50%;
+        top: 0;
+        margin-right: -96px;
+
+        &__notifications{
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        &__icon{
+            background-image: url(/assets/images/home/app-icon.png);
+            width: 747px;
+            height: 706px;
+            top:102px;
+            opacity:1;
+        }
+    }
+}
+
+.home-community{
+    text-align: center;
+    padding: 0 0 56px;
+
+    .btn{
+        position:relative;
+
+        &:after{
+            display: block;
+            content: "";
+            position: absolute;
+            right: -24px;
+            bottom: -22px;
+            width: 73px;
+            height: 56px;
+            background: url(/assets/images/home/community-taco.png) center center no-repeat;
+            background-size: cover;
+            transform: rotate(10deg) translateZ(0);
+        }
+    }
+
+    @include break-min($break-tablet){
+        .btn:after{display:none;}
+    }
+    @include break-min($break-desktop){
+        text-align: left;
+        position:relative;
+        height: 725px;
+        padding:0;
+
+        .container{
+            @include vertical-align();
+        }
+    }
+}
+
+.blog-thumbs__panel{
+    background: $home-blog-recents-bg;
+    padding: 12px 0 35px;
+
+    @include break-min($break-tablet){
+        padding: 20px 0 30px;
+    }
+}

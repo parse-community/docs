@@ -1,0 +1,28 @@
+.view--product-analytics{}
+
+.section-product-analytics--growth{
+    padding: 20px 0 0;
+
+    figure{ margin: 2.5em 0; }
+
+    @include break-min($break-tablet){
+      padding: 70px 0 50px;
+
+      figure{ 
+        margin: 0 0 1.5em; 
+
+        svg{ 
+          max-width: 453px;
+          display: block;
+          margin: 0 auto; 
+        }
+      }
+
+      .copy-block--triplet{
+        margin-top: 70px;
+      }
+    }
+    @include break-min($break-desktop){
+      padding: 152px 0 78px;
+    }
+}

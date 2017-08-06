@@ -1,0 +1,131 @@
+// formz
+
+.field-group{
+    
+    &--newsletter{
+        position: relative;
+        
+        input{ text-align:center; }
+        .btn{ margin-top: 0.8rem; } 
+
+        @include break-min($break-switch-footers){
+            input[type="text"]{ 
+                text-align:left;
+                padding-right: 112px + 20px; 
+            }
+            .btn{ 
+                position:absolute;
+                top:0;
+                right:0;
+                height:100%;
+                margin-top: 0; 
+                border-radius: 0 4px 4px 0;
+                padding-left: 0;
+                padding-right: 0;
+                width: 113px;
+            }
+        }
+    }
+
+}
+
+input[type="text"]{
+    display:block;
+    width:100%;
+    border: none;
+    outline: none;
+    font-family: $font-alright;
+    font-size: $form-input-font-size;
+    border-radius: $form-input-radius;
+    margin: $form-input-margin;
+    padding: $form-input-padding;
+    background: white;
+    
+    &::placeholder{
+        color: rgba($color-dolphin, 0.4);
+        transition: color 150ms ease;
+    }
+
+    &:focus{
+        &::placeholder{
+            color: rgba($color-dolphin, 0.2);
+        }
+    }
+}
+
+.toggle-switch{
+    $toggle-switch-track-width: 40px;
+    $toggle-switch-track-height: 18px;
+    $toggle-switch-handle-size: $toggle-switch-track-height * (24/18); 
+    $toggle-switch-handle-spillover-horizontal: 3px;
+    $toggle-switch-track-label-spacing: 18px;
+    $toggle-switch-padding-left: $toggle-switch-track-width + $toggle-switch-track-label-spacing;
+    $toggle-transition-time: 150ms;
+    $toggle-transition-easing: ease-out;
+
+    position:relative;
+    margin: 1em 0;
+    padding:0;
+    
+    &__input{
+        display:none;
+    }
+
+    &__input:checked + &__display{
+        background-color: $color-carib-green;
+
+        &:after{
+            left: ($toggle-switch-track-width - $toggle-switch-handle-size) + $toggle-switch-handle-spillover-horizontal;
+        }
+    }
+
+    &__display{
+        position: absolute;
+        left:0; top: 50%;
+        display: block;
+        width: $toggle-switch-track-width;
+        height: $toggle-switch-track-height;
+        background-color: rgba(#000, 0.2);
+        border-radius: ($toggle-switch-track-height/2);
+        transform: translateY(-50%);
+
+        transition: background-color $toggle-transition-time $toggle-transition-easing;
+
+        &:after{
+            content: "";
+            position: absolute;
+            display: block;
+            left: ($toggle-switch-handle-spillover-horizontal * -1); top:50%;
+            width:100%; height: 100%;
+            margin: (($toggle-switch-handle-size/2)*-1) 0 0;
+            background-color: $color-carib-green;
+            width: $toggle-switch-handle-size;
+            height: $toggle-switch-handle-size;
+            border-radius: 50%;
+            background-color: $color-vista-white;
+            box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.12);
+
+            transition: left $toggle-transition-time $toggle-transition-easing;
+        }
+    }
+
+    &__label{
+        display: block;
+        position: relative;
+        padding: 8px 0 8px $toggle-switch-padding-left;
+        font-family: $font-din;
+        font-size: 1.3rem;
+    }
+
+
+    &--white{
+        .toggle-switch{
+            &__label{ color: white; }
+        }
+    }
+    &--surprise{
+        .toggle-switch__label{ color: rgba($color-comet, 0.37); }
+        .toggle-switch__input:checked + .toggle-switch__display{ background-color: $color-rad-red; }
+    }
+
+}// toggle switch

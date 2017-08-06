@@ -1,0 +1,26 @@
+// customers
+
+.view--customers{
+  .hero{
+    .h1{ max-width: 765px; }
+  }
+}
+
+.section-customers{
+    &--love{
+        padding-top: 30px;
+        padding-bottom: 30px;
+
+        .copy-block{
+            img{ max-width: 75px; }
+            .h1{ margin: 0.3em auto; }
+        }
+
+        @include break-min($break-tablet){
+            padding-top: 40px;
+            padding-bottom: 30px;
+        }
+    
+    }
+}
+

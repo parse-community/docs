@@ -1,0 +1,149 @@
+// sdk-versions (as seen on help page, bottom of it)
+
+.sdk-version{
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+
+    &s{
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    display: inline-block;
+    width: 70px;
+    margin: 10px 5px 15px;
+    color: white;
+
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__icon{
+        width: 100%;
+        height: 70px;
+        border-radius: 4px;
+        background-color: rgba(#d8d8d8, 0.06);
+        transition: background-color 150ms ease;
+
+        .icon{
+            position: relative;
+            top:50%;
+            transform: translateY(-50%);
+            fill: white;
+            width:auto;
+            height:auto;
+            max-width: 36px;
+            max-height: 30px;
+
+            transition: transform 200ms $bezier-medium-elastic;
+        }
+
+        &--new{
+            position: relative;
+
+            &:before{
+                position:absolute;
+                top: -10px;
+                left: 50%;
+                width: auto;
+                content: "New";
+                font-family: $font-din;
+                font-weight: $bold-weight;
+                font-size: 1rem;
+                letter-spacing: 0.2rem;
+                text-transform: uppercase;
+                background-color: $color-carib-green;
+                padding: 5px 8px;
+                border-radius: 4px;
+                color: $color-comet;
+                transform: translateX(-50%);
+                transition: transform 200ms $bezier-medium-elastic;
+            }
+        }
+    }
+
+    &__semver,
+    &__date{
+        display:block;
+        text-align: center;
+    }
+
+    &__semver{
+        font-weight: $bold-weight;
+        font-size: 1.6rem;
+        margin: 0.9em 0 0;
+    }
+    &__date{
+        font-family: $font-din;
+        font-size: 1.2rem;
+        opacity: 0.42;
+        transition: opacity 200ms ease;
+    }
+
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min(370px){
+        width: 90px;
+        margin-bottom: 20px;
+
+        &__icon{
+            height: 90px;
+
+            .icon{
+                max-width: 56px;
+                max-height: 50px;
+            }
+        }
+    }
+
+    @include break-min(404px){
+        width: 100px;
+
+        &__icon{
+            height:100px;
+        }
+    }
+
+    @include break-max($break-desktop - 1){
+      &s{ max-width: 600px; }
+    };
+
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    html.no-touch &:hover{
+        text-decoration: none;
+
+        .sdk-version__icon{
+            background-color: rgba(#d8d8d8, 0.12);
+
+            .icon{
+                transform: translateY(-50%) scale(1.2);
+            }
+        }
+        .sdk-version__icon--new{
+            &:before{ transform: translateX(-50%) translateY(-4px); }
+        }
+        .sdk-version__date{
+            opacity:0.6;
+        }
+
+        .sdk-version__semver{
+            text-decoration: underline;
+        }
+    }
+
+}

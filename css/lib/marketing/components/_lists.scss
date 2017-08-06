@@ -1,0 +1,174 @@
+// lists
+
+.basic-list{
+
+    // $basic-list-hover-link-color: rgba($color-parse-blue, 0.03);
+    $basic-list-hover-arrow-color: $color-parse-blue;
+
+    margin: 1.25em 0 1em;
+    padding:0;
+    list-style:none;
+    font-size: 1.8rem;
+
+    &__entry{
+
+        a{
+            position: relative;
+            color: $color-parse-blue;
+            display: block;
+            padding: 12px 0 11px;
+            transition: padding 180ms $bezier-medium-elastic;
+
+            &:before{
+                content: "";
+                position: absolute;
+                right: 0;
+                top: 50%;
+                width: 0;
+                height: 0;
+                border-style: solid;
+                border-width: 5.5px 0 5.5px 8px;
+                border-color: transparent transparent transparent $color-mischka;
+                transform: translateY(-50%);
+                transition: all 180ms ease;
+                opacity:0.37;
+            }
+
+            html.no-touch &:hover{
+              text-decoration: none;
+              // background-color: $basic-list-hover-link-color;
+              &:before{
+                opacity: 1;
+                border-left-color: $basic-list-hover-arrow-color;
+              }
+            }
+        }
+
+        & + & {
+            a{ border-top: 1px solid #f1eff0; }
+        }
+    }
+}
+
+.title-list{
+
+    margin: 1.25em 0 1em;
+    list-style: none;
+    padding: 0;
+
+    &__entry{
+        padding: 16px 0;
+
+        p{
+            line-height: 1.2;
+            color: $color-dolphin;
+        }
+
+        & + &{
+            border-top: 1px solid #f1eff0;
+        }
+    }
+
+    &__title{
+        display:block;
+        font-size: 1.8rem;
+        font-family: $font-alright; font-weight: $medium-weight;
+        color: $color-parse-blue;
+        letter-spacing: -0.075rem;
+    }
+
+    &__description{
+        margin: 3px 0 0;
+        letter-spacing: -0.067rem;
+    }
+
+    &__links{
+        margin: 5px 0 0;
+        font-family: $font-din;
+        font-size: 1.4rem;
+        color: $color-parse-blue;
+
+        a{
+            display:inline-block;
+
+            & + a{
+                margin-left: 8px;
+            }
+        }
+    }
+
+    &--apps{
+
+        $app-entry-padding-v: 16px;
+
+        $app-icon-square: 61px;
+        $app-icon-spacing: 15px;
+        $app-icon-minheight: $app-icon-square + ($app-entry-padding-v * 2);
+
+        .title-list__entry{
+            padding-left: ($app-icon-square + $app-icon-spacing);
+            position:relative;
+            min-height: $app-icon-minheight;
+        }
+
+        .title-list__description{
+            margin-top: 0;
+        }
+
+        &__icon{
+            position: absolute;
+            left:0; top: $app-entry-padding-v;
+            display:block;
+            width: $app-icon-square;
+            height: $app-icon-square;
+            background-color: $color-dolphin;
+            border-radius: 4px;
+            overflow:hidden;
+        }
+
+        @media (min-width: $break-tablet) and (max-width: $break-desktop - 1){
+          .title-list__entry{ padding-left:0; }
+          &__icon{ display:none; }
+        }
+    }
+
+}
+
+.prominent-list{
+    margin:0;
+    padding:0;
+    list-style: none;
+    counter-reset: promiment-list-counter;
+
+    li{
+        display:block;
+        margin: 1.5em auto;
+        max-width: 340px;
+        font-weight: $bold-weight;
+        font-size: 1.6rem;
+
+        &:before{
+            margin: 0 auto 0.8em;
+            width: 26px; height: 26px;
+            display:block;
+            border-radius: 50%;
+            line-height: 30px;
+
+            font-family: $font-din;
+            font-size: 1.6rem;
+            color: white;
+            background-color: #2B9BE1;
+
+            content: counter(promiment-list-counter);
+            counter-increment: promiment-list-counter;
+        }
+    }
+
+    &__description{
+        margin-top: 0.4em;
+        font-size: 1.4rem;
+        display:block;
+        font-weight: $regular-weight;
+        color: $color-mischka;
+    }
+}

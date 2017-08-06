@@ -1,0 +1,56 @@
+// view-about
+
+.section-about--timeline{
+    z-index:2;
+    position: relative;
+    margin-top: -44px;
+    margin-bottom: 130px;
+    
+    @include break-min($break-tablet){
+        margin-bottom: 190px;
+    }
+}
+
+.section-about--vision{
+    padding-bottom: 20px;
+}
+
+.section-about--team{
+    background-color: $color-parse-blue;
+    padding: 40px 0 40px;
+
+    .team-photos{ margin-top: 2em; }
+
+    @include break-min($break-tablet){
+        padding: 50px 0 69px;
+        .team-photos{ margin-top: 30px; }
+    }
+
+    @include break-min($break-desktop){
+        padding: 90px 0;
+
+        .team-photos{ margin-top: 0; }
+    }
+}
+
+.section-about--contact{
+    padding: 40px 0;
+
+    @include break-max($break-tablet - 1){
+        .grid-container{
+            margin-top: 3em;
+            
+            div + div{ margin-top: 2.5em; }    
+        }
+    }
+
+    @include break-min($break-tablet){
+        .container{
+            margin-top: 3em;
+        }
+        .grid-container{
+            margin-top: 4em;
+            margin-bottom: 4em;
+        }   
+    }
+}

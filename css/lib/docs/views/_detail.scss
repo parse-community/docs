@@ -1,0 +1,195 @@
+.p_docs .guide_content{
+
+    position: relative;
+    padding: 75px 0 0 0;
+
+    @include break-min($break-tablet){
+        padding-left: 210px;
+    }
+
+    @include break-min($break-desktop){
+        padding-left: 230px;
+        padding-right: 270px;
+    }
+
+    .helpful{
+        color: $color-dolphin;
+        font-size: 1.2rem;
+        margin: 2em 0 5em;
+
+        @include break-min($break-tablet){
+          margin: 2.25em 0 10em;
+        }
+        // the edit this section bit
+        > span{
+            display:block;
+        }
+        // the edit / vote divider, seems like this could easily have been a css border
+        hr{
+            width: 100%;
+            margin: 3.3em 0 2em;
+        }
+        // vote on helpfulness of section (yes/no)
+        .vote{
+            .label{
+                display:block;
+                float:left;
+                width: 40%;
+                font-family: $font-alright; font-weight: $bold-weight;
+                color: $color-comet;
+
+                @include break-min(365px){
+                  width: 50%;
+                  padding-top: 6px;
+                }
+            }
+            a{
+                display:block;
+                float: right;
+                font-family: $font-din;
+                font-size: 1.2rem;
+                width: 67px;
+                padding: 4px 4px 5px;
+                color: $color-parse-blue;
+                border: 1px solid $color-parse-blue;
+                border-radius:4px;
+                transition: all 180ms ease-out;
+                text-align: center;
+
+                &:hover{
+                    text-decoration: none;
+                    background-color: $color-parse-blue;
+                    color: white;
+                }
+
+                + a{ margin-right: 10px; }
+            }
+            .thanks{
+                display:none;
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+
+    .tip{
+        $tip-padding-left: 20px;
+        margin: 2em 0;
+        // position:relative;
+
+        > div{
+            position:relative;
+
+            padding-left: $tip-padding-left;
+            border-left: #e8e8e8 2px solid;
+
+            &, & > p{
+                font-size: 1.3rem;
+                letter-spacing: -0.1px;
+                line-height: 1.53;
+                code{ font-size: 1.3rem; }
+            }
+            p{ margin: 0; }
+
+            ul{
+                margin: 1em 0 0;
+                li{
+                    padding:0;
+                    margin: 0.3em 0;
+                    font-size: 1.3rem;
+                    a{ font-weight: $regular-weight; }
+
+                    &:before{ display:none; }
+                    &:first-child{ margin-top: 0; }
+                    &:last-child{ margin-bottom: 0; }
+                }
+            }
+
+            .tip__title{
+                display:block;
+                color: $color-dolphin;
+                font-family:$font-din;
+                font-size: 1rem;
+                margin: 0 0 1em;
+                letter-spacing: 0.2rem;
+                text-transform: uppercase;
+            }
+        }
+        &.info,
+        &.warning{
+            > div{
+                padding-top: 30px;
+
+                &:before{
+                    content: "";
+                    position: absolute;
+                    left: $tip-padding-left; top:0;
+                    width: 29px; height: 18px;
+                }
+
+                .tip__title{ color: $color-parse-blue; }
+            }
+        }
+        &.warning{
+            > div {
+                &:before{
+                    width: 18px; height: 16px;
+                }
+                .tip__title{ color: $color-rad-red; }
+
+                a{ color: $color-rad-red; }
+            }
+        }
+
+        @include break-min($break-desktop){
+            margin: 0;
+            > div{
+                position: absolute;
+                // left: 100%;
+                right:0;
+                width: 180px;
+            }
+        }
+    }
+
+    .toggles{
+        text-align: right;
+        padding-top: 15px;
+
+        .toggle-item{
+            display:inline-block;
+
+          &.selected{
+            a{
+              background-color: $color-parse-blue;
+              color: white;
+              opacity: 1;
+            }
+
+
+          }
+            a{
+                display:block;
+                text-decoration: none;
+                padding: 4px 12px 5px;
+                font-family: $font-din;
+                color: $color-parse-blue;
+                border: 1px solid $color-parse-blue;
+                border-radius: 4px;
+                font-size: 1.2rem;
+                opacity: .4;
+                &:hover{
+                    background-color: $color-parse-blue;
+                    color: white;
+                    opacity: 1;
+                }
+            }
+
+            + .toggle-item{
+                margin-left: 10px;
+            }
+        }
+    }
+
+
+}

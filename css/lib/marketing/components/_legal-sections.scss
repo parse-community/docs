@@ -1,0 +1,148 @@
+.legal-section{
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+    &s{ }
+
+    // ============================================================================
+    //   Single & Scoped
+    // ============================================================================
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 60px;
+
+    > div:after{
+        content: "";
+        background-color: $color-mischka;
+        display: block;
+        width: 268px;
+        height: 1px;
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    &:last-child > div:after{ display:none; }
+
+    & + &{
+        padding-top: 60px;
+    }
+
+    h1,h2,h3,h4,h5,h6{
+        position:relative;
+
+        $floating-anchor-width: 40px;
+        $floating-anchor-distance-right: 16px;
+
+        .floating-anchor{
+            position:absolute;
+            right:100%; top:0;
+            display: block;
+            height: 100%;
+            padding-right: $floating-anchor-distance-right;
+            opacity:0;
+            width:0;
+            overflow:hidden;
+
+            &:before{
+                content: "";
+                display:block;
+                position:absolute;
+                left:0; top:0;
+                width: $floating-anchor-width;
+                height: 100%;
+                background: url(/assets/svgs/link.svg) right 5px no-repeat;
+                background-size: auto 16px;
+                opacity: 0.25;
+                transition: opacity 180ms ease;
+            }
+        }
+        @include break-min($break-tablet){
+            html.no-touch &:hover{
+                .floating-anchor{
+                    width: $floating-anchor-width + $floating-anchor-distance-right;
+                    opacity:1;
+
+                    &:hover{
+                        &:before{ opacity: 0.666; }
+                    }
+                }
+            }
+        }
+    }
+
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    // tab navigation (as seen on policy page, styleguide)
+    &__nav{
+        
+        background: $color-vista-white;
+        border-bottom: 1px solid #E0E0EA;
+        text-align: center;
+        padding: 0 $container-padding-h-mobile 15px;
+        min-height: 60px;
+        position: relative;
+        // display: flex;
+        // justify-content: space-around;
+        // align-items: center;
+
+        a{
+            display: inline-block;
+            margin-top: 16px;
+            padding: 7px 10px 4px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.4rem;
+            transition: padding 180ms ease,
+                        background-color 180ms ease;
+
+            &:hover{
+                background-color: $color-mischka;
+            }
+            &.is-active{
+                padding-left: 28px;
+                padding-right: 28px;
+                background-color: $color-parse-blue;
+                color:white;
+            }
+
+            & + a{ margin-left: 5px; }
+        }
+
+        @include break-min($break-tablet){
+            a{
+                margin-top: 14px;
+                font-size: 1.6rem;
+                padding: 7px 18px 4px;
+            }
+        }
+
+        @include break-min($break-desktop){
+            padding-left: $container-padding-h-desktop;
+            padding-right: $container-padding-h-desktop;
+        }
+
+        &--clone{
+            position: fixed;
+            min-width: $break-mobile;
+            width:100%;
+            bottom: 0;
+            left:0;
+            transition: transform 600ms $bezier-blog-menu;
+            transform: translateY(100%);
+            backface-visibility: hidden;
+
+            &-reveal{
+                transition: transform 600ms $bezier-blog-menu;
+                transform: translateY(0);
+                bottom:0;
+            }
+        }
+    }
+
+}

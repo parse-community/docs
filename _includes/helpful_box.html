@@ -1,0 +1,6 @@
+{% capture directory %}{% if page.platform == "macos" %}ios{% else %}{{ page.platform }}{% endif %}{% endcapture %}
+
+<div class="helpful">
+	<span>Want to contribute to this doc? <a href="https://github.com/{{ site.repository }}/tree/gh-pages/_includes/{{ directory | downcase }}">Edit this section.</a></span>
+	<hr/>
+</div>

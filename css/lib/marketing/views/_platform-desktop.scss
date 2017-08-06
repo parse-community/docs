@@ -1,0 +1,105 @@
+.view--platform-desktop{}
+
+.section-platform-desktop--data{
+    padding: 40px 0;
+
+    // .copy-block--triplet{ margin-top: 40px; }
+    figure.inline-graphic{
+      margin: 2em 0;
+    }
+
+    .grid-container:first-child{
+      .h5{ margin-top:0; }
+      .h2{ margin: 0.5em 0; }
+    }
+
+    .btn{ margin-top: -0.7em; }
+
+    @include break-min($break-tablet){
+      padding: 140px 0 46px;
+
+      figure.inline-graphic{
+        margin: 0;
+        
+        img{ 
+          display: block;
+          width: 100%;
+          max-width: 570px; 
+          margin:0 auto; 
+        }
+      }
+
+      .copy-block--triplet{ margin-top: 50px; }
+
+      .btn{ margin-top: 1.1em; }
+    }
+
+    @include break-min($break-desktop){
+      figure.inline-graphic{ margin: -10px 0 0; }
+    }
+}
+
+.section-platform-desktop--analytics{
+  padding: 40px 0 30px;
+  background-color: #fff5f7;
+
+  figure{ 
+    margin: 0 0 2em; 
+    img{ width: 100%; }
+  }
+
+  // .grid-container{
+  //   height: 752px;
+
+  //   .col-lg--6{ @include vertical-align(); }
+  // }
+
+  .col-lg--3{
+    .h5{ margin-top:0; }
+    .h5 + .h2{ margin: 0.4em 0; }
+    .hr{ margin: 1.9em 0; }
+    .h6{ margin-bottom:0; }
+    .h6 + p{ margin-top: 1em; }
+    p + .btn{ margin-top: 1.5em; }
+  }
+
+  @include break-min($break-tablet){
+    padding: 60px 0;
+  }
+  @include break-min($break-desktop){
+    padding: 68px 0;
+    .col-lg--6{
+      height: 752px;
+
+      figure{
+        max-width: 637px;
+        margin:0;
+        @include vertical-align();
+      }
+    }
+    .col-lg--3{
+      .h2{ max-width: 284px; }
+      p + .btn{ margin-top: 0.7em; }
+    }
+  }
+}
+
+.section-platform-desktop--platforms{
+  padding-top: 40px;
+  padding-bottom: 10px;
+
+  .copy-block{ margin-bottom:3em; }
+
+  @include break-min($break-tablet){
+    padding-top: 60px;
+    padding-bottom: 60px;
+
+    .copy-block{ margin-bottom: 4em; }
+  }
+  @include break-min($break-desktop){
+    padding-top: 100px;
+    padding-bottom: 130px;
+
+    .copy-block{ margin-bottom:6em; }
+  }
+}

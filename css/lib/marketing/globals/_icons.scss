@@ -1,0 +1,14 @@
+.icon{
+    fill: $color-comet;
+    display:inline-block;
+    width: 32px; height:32px;
+
+    &#{&}{
+        &-scroll-hint,
+        &-pointer{
+            fill:none !important;
+            stroke: $color-comet;
+        }
+    }
+}
+svg use { pointer-events: none; }

@@ -1,0 +1,133 @@
+.blog-thumb{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    $blog-thumb-height-mobile: 180px;
+    $blog-thumb-height-desktop: 220px;
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+
+    &s{
+      @include clearfix();
+      margin: 2.5rem 0;
+      text-align: center;
+
+      &__panel{
+          display:none;
+
+          &--loaded{ display:block; }
+      }
+    }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    height: $blog-thumb-height-mobile;
+    position: relative;
+    display:block;
+    border-radius: 3px;
+    background: $color-parse-blue;
+    text-align: center;
+    padding: 5px 0;
+    overflow:hidden;
+
+    & + &{
+        margin-top: 2rem;
+    }
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__bg{
+        opacity: 0.2;
+        position:absolute;
+        left:0; top:0;
+        width:100%; height:100%;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center center;
+        transition: all 400ms ease-out;
+        transform: scale(1) translateZ(0);
+        backface-visibility: hidden;
+    }
+
+    .h5{
+      transition: all 400ms ease-out;
+    }
+
+    .h3{
+        padding: 0 40px;
+        margin:0;
+        position:absolute;
+        top:50%;
+        width: 100%;
+        transform: translateY(-50%);
+        transform: translateY(-50%) translateZ(0);
+
+        transition: all 400ms cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    html.no-touch &:hover{
+      // text-decoration: none;
+
+      .blog-thumb__bg{
+          opacity: 0.33;
+          transition: all 200ms cubic-bezier(0.645, 0.045, 0.355, 1);
+          transform: scale(1.05);
+//          filter: blur(2px);
+      }
+
+      .h5{
+//        opacity: 0.6;
+        transition: all 200ms ease;
+      }
+      .h3{
+        // opacity: 1;
+        transition: all 200ms ease;
+//        transform: translateY(-50%) scale(1.03);
+//        transform: translateY(-50%) scale(1.03) translateZ(0);
+      }
+
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+        &s{
+            margin: 1.7em 0 0.3em;
+            border-radius: 4px;
+        }
+
+        height: $blog-thumb-height-desktop;
+        display:inline-block;
+        width: 48%;
+        margin-bottom: 2rem;
+
+        &:before{
+            opacity: 0.8;
+        }
+
+        & + &{
+            margin-top: 0;
+            margin-left: 2%;
+        }
+    }
+    @include break-min($break-desktop){
+        width: 32%;
+        // margin-bottom: 0;
+    }
+
+}

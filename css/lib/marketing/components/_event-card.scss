@@ -1,0 +1,175 @@
+.event-card{
+
+    // ============================================================================
+    //   Variables
+    // ============================================================================
+
+    $event-card-height: 300px;
+    $event-card-spacing-h: 38px;
+
+    // ============================================================================
+    //   Group
+    // ============================================================================
+
+    &s{ @include clearfix(); }
+
+    // ============================================================================
+    //   Single
+    // ============================================================================
+
+    margin: 2em 0;
+
+    // ============================================================================
+    //   Child Elements
+    // ============================================================================
+
+    &__content{
+        position: relative;
+        display:block;
+        height: $event-card-height;
+
+        border-radius: 4px;
+        border: 1px solid $color-parse-blue;
+        text-decoration: none !important;
+
+        transition: transform 180ms ease;
+    }
+
+        &__map{
+            position:absolute;
+            left:0; top:0;
+            width: 100%; height:100%;
+            background: url('') center center no-repeat;
+            background-size: cover;
+        }
+
+        &__info{
+            position: absolute;
+            left:0; bottom:0;
+            width: 100%; height: auto;
+
+            background-color: $color-parse-blue;
+            color: white;
+            padding: 20px 18px;
+
+            transition: all 200ms ease;
+        }
+
+            &__date,
+            &__title{
+              display:block;
+
+              transition: all 200ms ease;
+            }
+
+            &__date{
+                font-size: 1.5rem;
+            }
+            &__title{
+                font-size: 1.8rem;
+                font-weight: $bold-weight;
+            }
+
+    // ============================================================================
+    //   States
+    // ============================================================================
+
+    html.no-touch &:hover{
+      // .event-card__date,
+      // .event-card__title{
+      //   opacity: 0.9;
+      // filter: blur(1px);
+      // }
+      .event-card__info{
+        background-color: rgba($color-parse-blue, 0.75);
+      }
+    }
+
+
+    // ============================================================================
+    //   Media Queries
+    // ============================================================================
+
+    @include break-min($break-tablet){
+        &s{
+            margin: 3em 0 3em (-$event-card-spacing-h);
+        }
+
+        margin:0;
+        float:left;
+        width: (100%/3);
+        padding: 0 0 0 $event-card-spacing-h;
+
+        // html.no-touch &:hover{
+        //     .event-card__content{ transform: scale(1.04);  }
+        // }
+    }
+
+
+    // ============================================================================
+    //   Modifiers
+    // ============================================================================
+
+    &--cta{
+        width:100%;
+
+        .event-card__content{
+            position:relative;
+            padding: 0 10px;
+
+            .btn{
+                position: absolute;
+                left: 50%;
+                bottom: 14px;
+                transform: translateX(-50%);
+            }
+        }
+
+        &__icon{
+            margin: 1.7em auto;
+            display:block;
+            width: 106px;
+        }
+
+        &__title,
+        &__copy{
+            text-align: center;
+            display:block;
+            max-width: 376px;
+        }
+
+        &__title{
+            margin: 0 auto;
+            font-family: $font-alright;
+            font-weight: $bold-weight;
+            color: $color-parse-blue;
+            font-size: 1.8rem;
+        }
+
+        &__copy{
+            margin: 0.4em auto 2.2em;
+            font-size:1.4rem;
+            line-height: 1.2;
+        }
+
+    }
+    &--cta-single{
+        @include break-min($break-tablet){
+            width: (100%/3);
+        }
+
+
+        .event-card--cta__title,
+        .event-card--cta__copy{ max-width: 232px; }
+    }
+    &--cta-double{
+        @include break-min($break-tablet){
+            width: ((100%/3) * 2);
+        }
+
+
+        .event-card--cta__title,
+        .event-card--cta__copy{ max-width: 232px; }
+    }
+
+}
