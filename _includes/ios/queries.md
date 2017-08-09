@@ -150,7 +150,7 @@ let predicate = NSPredicate(format:"playerName != 'Michael Yabuti' AND playerAge
 let query = PFQuery(className: "GameScore", predicate: predicate)
 </code></pre>
 
-You can limit the number of results by setting `limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1000, but Parse Server removed that constraint:
+You can limit the number of results by setting `limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
 <pre><code class="objectivec">
 query.limit = 10; // limit to at most 10 results
