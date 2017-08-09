@@ -1289,7 +1289,6 @@ There are some limits in place to ensure the API can provide the data you need i
 **Queries**
 
 * Queries return 100 objects by default. Use the `limit` parameter to change this.
-* Queries can only return up to 1,000 objects in a single result set. This includes any resolved pointers. You can use `skip` and `limit` to page through results.
 * Skips and limits can only be used on the outer query.
 * Constraints that collide with each other will result in only one of the constraint being applied. An example of this would be two `equalTo` constraints over the same key with two different values, which contradicts itself (perhaps you're looking for 'contains').
 * No geo-queries inside compound OR queries.
