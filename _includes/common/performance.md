@@ -996,7 +996,7 @@ If later on, you need to modify the underlying data model, your client call can 
 
 ## Avoid Count Operations
 
-When counting objects frequently, consider storing a count variable in the database that is incremented each time an object is added.
+When counting objects frequently, instead consider storing a count variable in the database that is incremented each time an object is added. Then, the count can quickly be retrieved by simply retrieving the variable stored.
 
 Suppose you are displaying movie information in your app and your data model consists of a Movie class and a Review class that contains a pointer to the corresponding movie. You might want to display the review count for each movie on the top-level navigation screen using a query like this:
 
