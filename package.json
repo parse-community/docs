@@ -9,8 +9,6 @@
     "dev-webpack": "./node_modules/.bin/webpack --watch",
     "webpack": "webpack -p",
     "dev": "npm run dev-webpack & npm run jekyll",
-    /*Use dev-win when running command on a Windows command prompt. In Bash, the & operator forks and runs processes separately
-     while in Windows MS-DOS, & just runs the command sequentally. Use start command to run commands in parallel*/
     "dev-win": "start npm run dev-webpack & start npm run jekyll",
     "prod": "npm run webpack & npm run jekyll",
     "test": "echo \"Error: no test specified\" && exit 1"
