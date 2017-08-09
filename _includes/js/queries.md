@@ -42,7 +42,7 @@ query.notEqualTo("playerName", "Michael Yabuti");
 query.greaterThan("playerAge", 18);
 </code></pre>
 
-You can limit the number of results by setting `limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
+You can limit the number of results by setting `limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
 <pre><code class="javascript">
 query.limit(10); // limit to at most 10 results
@@ -64,7 +64,7 @@ query.first({
 });
 </code></pre>
 
-You can skip the first results by setting `skip`. This can be useful for pagination:
+You can skip the first results by setting `skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
 
 <pre><code class="javascript">
 query.skip(10); // skip the first 10 results
@@ -221,7 +221,7 @@ query.find({
 });
 </code></pre>
 
-If you want to retrieve objects where a field contains a `Parse.Object` that matches a different query, you can use `matchesQuery`. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts containing images, you can do:
+If you want to retrieve objects where a field contains a `Parse.Object` that matches a different query, you can use `matchesQuery`. In order to find comments for posts containing images, you can do:
 
 <pre><code class="javascript">
 var Post = Parse.Object.extend("Post");
@@ -297,7 +297,7 @@ You can issue a query with multiple fields included by calling `include` multipl
 
 ## Counting Objects
 
-Caveat: Count queries are rate limited to a maximum of 160 requests per minute.  They can also return inaccurate results for classes with more than 1,000 objects.  Thus, it is preferable to architect your application to avoid this sort of count operation (by using counters, for example.)
+Note: In the old Parse hosted backend, count queries were rate limited to a maximum of 160 requests per minute. They also returned inaccurate results for classes with more than 1,000 objects. But, Parse Server has removed both constraints and can count objects well above 1,000.
 
 If you just need to count how many objects match a query, but you do not need to retrieve all the objects that match, you can use `count` instead of `find`. For example, to count how many games have been played by a particular player:
 
