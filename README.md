@@ -35,8 +35,14 @@ npm install
 
 Then run webpack and Jekyll:
 
+Start in Linux/OS X:
 ```
 npm start
+```
+
+Start in Windows command prompt:
+```
+npm run dev-win
 ```
 
 Finally, open http://localhost:4000/ in your web browser.
