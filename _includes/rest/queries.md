@@ -363,7 +363,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-You can use the `limit` and `skip` parameters for pagination. `limit` defaults to 100, but anything from 1 to 1000 is a valid limit. Thus, to retrieve 200 objects after skipping the first 400:
+You can use the `limit` and `skip` parameters for pagination.`limit` defaults to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint. Thus, to retrieve 200 objects after skipping the first 400:
 
 <pre><code class="bash">
 curl -X GET \
@@ -588,7 +588,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-If you want to retrieve objects where a field contains an object that matches another query, you can use the `$inQuery` operator. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. For example, imagine you have Post class and a Comment class, where each Comment has a pointer to its parent Post. You can find comments on posts with images by doing:
+If you want to retrieve objects where a field contains an object that matches another query, you can use the `$inQuery` operator. For example, imagine you have Post class and a Comment class, where each Comment has a pointer to its parent Post. You can find comments on posts with images by doing:
 
 <pre><code class="bash">
 curl -X GET \
@@ -766,7 +766,7 @@ You can issue a query with multiple fields included by passing a comma-separated
 
 ## Counting Objects
 
-Caveat: Count queries are rate limited to a maximum of 160 requests per minute.  They can also return inaccurate results for classes with more than 1,000 objects.  Thus, it is preferable to architect your application to avoid this sort of count operation (by using counters, for example.)
+Note: In the old Parse hosted backend, count queries were rate limited to a maximum of 160 requests per minute. They also returned inaccurate results for classes with more than 1,000 objects. But, Parse Server has removed both constraints and can count objects well above 1,000.
 
 If you are limiting your query, or if there are a very large number of results, and you want to know how many total results there are without returning them all, you can use the `count` parameter. For example, if you only care about the number of games played by a particular player:
 

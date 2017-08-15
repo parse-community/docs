@@ -36,13 +36,13 @@ query.whereEqualTo("leverDown", true);
 query.whereEqualTo("temperature", 100.0);
 ```
 
-You can limit the number of results by setting a limit. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
+You can limit the number of results by setting a limit. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
 ```cpp
 query.setLimit(10);
 ```
 
-You can skip the first results by setting `skip`. This can be useful for pagination:
+You can skip the first results by setting `skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
 
 ```cpp
 query.setSkip(10);
