@@ -9,6 +9,7 @@
     "dev-webpack": "./node_modules/.bin/webpack --watch",
     "webpack": "webpack -p",
     "dev": "npm run dev-webpack & npm run jekyll",
+    "dev-win": "start npm run dev-webpack & start npm run jekyll",
     "prod": "npm run webpack & npm run jekyll",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
