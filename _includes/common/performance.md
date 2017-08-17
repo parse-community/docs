@@ -694,7 +694,7 @@ Most of the use cases around using regular expressions involve implementing sear
 
 Writing restrictive queries allows you to return only the data that the client needs. This is critical in a mobile environment were data usage can be limited and network connectivity unreliable. You also want your mobile app to appear responsive and this is directly affected by the objects you send back to the client. The [Querying section](#queries) shows the types of constraints you can add to your existing queries to limit the data returned. When adding constraints, you want to pay attention and design efficient queries.
 
-You can limit the number of query results returned. The limit is 100 by default but anything from 1 to 1000 is a valid limit:
+You can use skip and limit to page through results and load the data as is needed. The query limit is 100 by default:
 
 ```javascript
 query.limit(10); // limit to at most 10 results
@@ -996,7 +996,7 @@ If later on, you need to modify the underlying data model, your client call can 
 
 ## Avoid Count Operations
 
-For classes with over 1,000 objects, count operations are limited by timeouts. Thus, it is preferable to architect your application to avoid this count operation.
+When counting objects frequently, instead consider storing a count variable in the database that is incremented each time an object is added. Then, the count can quickly be retrieved by simply retrieving the variable stored.
 
 Suppose you are displaying movie information in your app and your data model consists of a Movie class and a Review class that contains a pointer to the corresponding movie. You might want to display the review count for each movie on the top-level navigation screen using a query like this:
 
@@ -1288,17 +1288,12 @@ There are some limits in place to ensure the API can provide the data you need i
 
 **Queries**
 
-* Queries return 100 objects by default. Use the `limit` parameter to change this, up to a value of 1,000.
-* Queries can only return up to 1,000 objects in a single result set. This includes any resolved pointers. You can use `skip` and `limit` to page through results.
-* The maximum value accepted by `skip` is 10,000. If you need to get more objects, we recommend sorting the results and then using a constraint on the sort column to filter out the first 10,000 results. You will then be able to continue paging through results starting from a `skip` value of 0. For example, you can sort your results by `createdAt ASC` and then filter out any objects older than the `createdAt` value of the 10,000th object when starting again from 0.
-* Alternatively, you may use the `each()` method in the JavaScript SDK to page through all objects that match the query.
+* Queries return 100 objects by default. Use the `limit` parameter to change this.
 * Skips and limits can only be used on the outer query.
-* You may increase the limit of a inner query to 1,000, but skip cannot be used to get more results past the first 1,000.
 * Constraints that collide with each other will result in only one of the constraint being applied. An example of this would be two `equalTo` constraints over the same key with two different values, which contradicts itself (perhaps you're looking for 'contains').
 * No geo-queries inside compound OR queries.
 * Using `$exists: false` is not advised.
 * The `each` query method in the JavaScript SDK cannot be used in conjunction with queries using geo-point constraints.
-* A maximum of 500,000 objects will be scanned per query. If your constraints do not successfully limit the scope of the search, this can result in queries with incomplete results.  
 * A `containsAll` query constraint can only take up to 9 items in the comparison array.
 
 **Push Notifications**

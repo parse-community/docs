@@ -24,7 +24,7 @@ If you have any fixes or suggestions, simply send us a pull request!
 
 ### Running The Site Locally
 
-You will need Ruby, [Bundler](http://bundler.io/), and npm.
+You will need [Ruby](https://www.ruby-lang.org/en/documentation/installation/), [Bundler](http://bundler.io/), and [npm](https://www.npmjs.com/get-npm).
 
 Clone this repository, then install Jekyll and node packages:
 
@@ -35,8 +35,14 @@ npm install
 
 Then run webpack and Jekyll:
 
+Start in Linux/OS X:
 ```
 npm start
+```
+
+Start in Windows command prompt:
+```
+npm run dev-win
 ```
 
 Finally, open http://localhost:4000/ in your web browser.

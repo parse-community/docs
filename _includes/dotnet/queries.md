@@ -56,7 +56,7 @@ var query = ParseObject.GetQuery("GameScore")
     .WhereGreaterThan("playerAge", 18);
 ```
 
-You can limit the number of results by calling `Limit`. By default, results are limited to 100, but anything from 1 to 1000 is a valid limit:
+You can limit the number of results by calling `Limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
 ```cs
 query = query.Limit(10); // limit to at most 10 results
@@ -76,7 +76,7 @@ var query = ParseObject.GetQuery("GameScore")
 ParseObject obj = await query.FirstAsync();
 ```
 
-You can skip the first results by calling `Skip`. This can be useful for pagination:
+You can skip the first results by calling `Skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
 
 ```cs
 query = query.Skip(10); // skip the first 10 results
@@ -285,7 +285,7 @@ var query = ParseObject.GetQuery("Comment")
     .WhereEqualTo("post", ParseObject.CreateWithoutData("Post", "1zEcyElZ80"));
 ```
 
-If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `WhereMatchesQuery` or a `join` LINQ query. Note that the default limit of 100 and maximum limit of 1000 apply to the inner query as well, so with large data sets you may need to construct queries carefully to get the desired behavior. In order to find comments for posts with images, you can do:
+If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `WhereMatchesQuery` or a `join` LINQ query. In order to find comments for posts with images, you can do:
 
 ```cs
 var imagePosts = from post in ParseObject.GetQuery("Post")
@@ -388,7 +388,7 @@ You can issue a query with multiple fields included by calling `Include` multipl
 
 ## Counting Objects
 
-Caveat: Count queries are rate limited to a maximum of 160 requests per minute.  They can also return inaccurate results for classes with more than 1,000 objects.  Thus, it is preferable to architect your application to avoid this sort of count operation (by using counters, for example.)
+Note: In the old Parse hosted backend, count queries were rate limited to a maximum of 160 requests per minute. They also returned inaccurate results for classes with more than 1,000 objects. But, Parse Server has removed both constraints and can count objects well above 1,000.
 
 If you just need to count how many objects match a query, but you do not need to retrieve the objects that match, you can use `CountAsync` instead of `FindAsync`. For example, to count how many games have been played by a particular player:
 
