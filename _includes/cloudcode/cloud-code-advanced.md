@@ -569,11 +569,3 @@ Here's an example of the JSON data that would be sent in the request to this web
 ```
 
 After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
-
-### Resource Limits
-
-1.  All webhooks are limited to 30 seconds. Parse will time out the request after this time limit.
-2.  All webhooks have to handle the request as a POST request.
-3.  Cloud Code Webhooks require an HTTPS connection. Your server must have a valid SSL certificate. Self-signed certificates will not be accepted, for your security.
-4.  In cases where you define a webhook for a function or a trigger that you've also implemented in Cloud Code, Parse will only call your defined webhook. Priority will always be given to your webhook over Cloud Code.
-5.  In order to secure these requests and prevent others from executing this code on your server, we'll send a secret key known only to you and Parse in the `X-Parse-Webhook-Key` header. You should always check this value against your WebhookKey to authenticate that the webhook request is coming from Parse. You can find your Webhook key in the Keys section of your app dashboard.
