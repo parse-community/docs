@@ -148,7 +148,7 @@ The response object passed into the `success` and `error` will contain:
 * **`data`** - The parsed response, if Cloud Code knows how to parse the content-type that was sent.
 * **`cookies`** - The cookies sent by the server. They are [Parse.Cloud.Cookie]({{ site.apis.js }}/classes/Parse.Cloud.HTTPResponse.html) objects.
 
-## Cloud Code Webhooks
+# Cloud Code Webhooks
 
 Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`, and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
 
@@ -156,7 +156,7 @@ We've written an example Cloud Code Webhooks server, in Express.js, which you ca
 
 Note: At the current time, custom webhooks cannot be set for the special classes _User and _Installation.
 
-### Cloud Function Webhooks
+## Cloud Function Webhooks
 
 A webhook request for a Cloud function will contain the following parameters:
 
@@ -283,7 +283,7 @@ Set your webhook from the Dashboard UI. After that, it's available from all SDKs
 
 Webhooks are great when you want to use a specialized technology not available on Parse's Cloud Code. In this case we made use of an open source library and integrated with a separate data source where our billing info might be stored for legacy reasons.
 
-### beforeSave Webhooks
+## beforeSave Webhooks
 
 Let's write a `beforeSave` trigger to truncate movie review comments that are more than 140 characters long using our own Rails server and a webhook.
 
@@ -367,7 +367,7 @@ This response would indicate a success in the webhook:
 }
 ```
 
-### afterSave Webhooks
+## afterSave Webhooks
 
 Like we've seen in Cloud Code, it's also possible to run some code after an object has been saved using a webhook. The parameters sent to your webhook are the same as for `beforeSave` triggers but we'll repeat them here for clarity.
 
@@ -433,7 +433,7 @@ Here's an example of the JSON data that would be sent in the request to this web
 }
 ```
 
-### beforeDelete Webhooks
+## beforeDelete Webhooks
 
 You also use webhooks for `beforeDelete` triggers. The parameters sent to your webhook are the same as for `beforeSave` and  `afterSave` triggers but we'll repeat them here for clarity.
 
@@ -503,7 +503,7 @@ This response would indicate a success in the webhook:
 
 As with previous examples, for this example to work you would also need to set up the webhooks in the Dashboard for your app.
 
-### afterDelete Webhooks
+## afterDelete Webhooks
 
 The `afterDelete` trigger is also accessible via webhooks. The parameters sent to your webhook are the same as for other triggers but we'll repeat them here for clarity.
 
