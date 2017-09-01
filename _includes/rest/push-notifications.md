@@ -976,4 +976,5 @@ print result
 </code></pre>
 
 When setting the `alert-[lang|locale]` in the data, parse-server will find all installations that have that language or locale set. The language is usually the first part of the locale. This will have no impact on the query planning, as the localizations will be resolved just before the push is sent.
+
 If a custom localization is found, the `alert` value is replaced by the provided alert and all the localized keys are stripped out of the `data` part of the body.
