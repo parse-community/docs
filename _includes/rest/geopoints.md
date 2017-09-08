@@ -81,7 +81,7 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-This will return a list of results ordered by distance from 30.0 latitude and -20.0 longitude. The first result will be the nearest object. (Note that if an explicit `order` parameter is supplied, it will take precedence over the distance ordering.) For example, here are two results returned for the above query: 
+This will return a list of results ordered by distance from 30.0 latitude and -20.0 longitude. The first result will be the nearest object. (Note that if an explicit `order` parameter is supplied, it will take precedence over the distance ordering.) For example, here are two results returned for the above query:
 
 <pre><code class="json">
 {
@@ -197,6 +197,75 @@ params = urllib.urlencode({"where":json.dumps({
              }
            ]
          }
+       }
+     })})
+connection.connect()
+connection.request('GET', '/1/classes/PizzaPlaceObject?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+* Starting with Parse-Server 2.5.0
+
+It's also possible to query for the set of objects that are contained within or on the bounds of a polygon. `$polygon` allows for opened or closed paths, minimum of 3 `GeoPoint`'s.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={
+        "location": {
+          "$geoWithin": {
+            "$polygon": [
+              {
+                "__type": "GeoPoint",
+                "latitude": 25.774,
+                "longitude": -80.190
+              },
+              {
+                "__type": "GeoPoint",
+                "latitude": 18.466,
+                "longitude": -66.118
+              },
+              {
+                "__type": "GeoPoint",
+                "latitude": 32.321,
+                "longitude": -64.757
+              }
+            ]
+          }
+        }
+      }' \
+  https://api.parse.com/1/classes/PizzaPlaceObject
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "location": {
+         "$geoWithin": {
+            "$polygon": [
+              {
+                "__type": "GeoPoint",
+                "latitude": 25.774,
+                "longitude": -80.190
+              },
+              {
+                "__type": "GeoPoint",
+                "latitude": 18.466,
+                "longitude": -66.118
+              },
+              {
+                "__type": "GeoPoint",
+                "latitude": 32.321,
+                "longitude": -64.757
+              }
+            ]
+          }
        }
      })})
 connection.connect()
