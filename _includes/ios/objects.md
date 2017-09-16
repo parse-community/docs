@@ -37,8 +37,8 @@ var gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
 gameScore["cheatMode"] = false
-gameScore.saveInBackgroundWithBlock {
-  (success: Bool, error: NSError?) -> Void in
+gameScore.saveInBackground {
+  (success: Bool, error: Error?) in
   if (success) {
     // The object has been saved.
   } else {
@@ -298,8 +298,8 @@ To help with storing counter-type data, Parse provides methods that atomically i
 
 <pre><code class="swift">
 gameScore.incrementKey("score")
-gameScore.saveInBackgroundWithBlock {
-  (success: Bool, error: NSError?) -> Void in
+gameScore.saveInBackground {
+  (success: Bool, error: Error?) in
   if (success) {
     // The score key has been incremented
   } else {
