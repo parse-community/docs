@@ -137,6 +137,27 @@ $gameScore->save();
 Note that it is not currently possible to atomically add and remove items from an array in the same save.
     You will have to call `save` in between every different kind of array operation.
 
+## Encoding/Decoding
+
+Using version **1.3.0** or later of the php sdk gives you the ability to encode/decode instances of `ParseObject`.
+Encoding an object will give you a JSON encoded array that can be later decoded to get the original object back, unsaved changes included.
+<pre><code class="php">
+// create an object
+$obj = new ParseObject("YourClass");
+$obj->set('info', 'an encodable object');
+
+// encode this object
+$encoded = $obj->encode();
+
+// save this encoded object somewhere for later use...
+
+// decode to get our object as it was before,
+// unsaved changes included
+$decoded = ParseObject::decode($encoded);
+</code></pre>
+
+An object that is encoded can easily be stored away, sent across the wire or even saved as a value under another `ParseObject`.
+This can be used to create a snapshot of an object at a point in time (unsaved changes included), allowing you to later go back, decode and inspect that object later on.
 
 ## Destroying Objects
 
