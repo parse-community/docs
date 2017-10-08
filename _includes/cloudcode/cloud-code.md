@@ -98,7 +98,7 @@ curl -X POST \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "movie": "The Matrix" }' \
-  https://api.parse.com/1/functions/averageStars
+  https://YOUR.PARSE-SERVER.HERE/parse/functions/averageStars
 ```
 
 And finally, to call the same function from a JavaScript app:

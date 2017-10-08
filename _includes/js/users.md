@@ -464,7 +464,7 @@ Parse then verifies that the provided `authData` is valid and checks to see if a
 
 <pre><code class="javascript">
 Status: 200 OK
-Location: https://api.parse.com/1/users/uMz0YZeAqc
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 
 With a response body like:
@@ -492,7 +492,7 @@ If the user has never been linked with this account, you will instead receive a 
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/users/uMz0YZeAqc
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
 

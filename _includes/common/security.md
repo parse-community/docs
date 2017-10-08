@@ -456,9 +456,9 @@ There are some special classes in Parse that don't follow all of the same securi
 |Delete|normal behavior [5]|master key only [7]|
 |Add Field|normal behavior|normal behavior|
 
-1. Logging in, or `/1/login` in the REST API, does not respect the Get CLP on the user class. Login works just based on username and password, and cannot be disabled using CLPs.
+1. Logging in, or `/parse/login` in the REST API, does not respect the Get CLP on the user class. Login works just based on username and password, and cannot be disabled using CLPs.
 
-2. Retrieving the current user, or becoming a User based on a session token, which are both `/1/users/me` in the REST API, do not respect the Get CLP on the user class.
+2. Retrieving the current user, or becoming a User based on a session token, which are both `/parse/users/me` in the REST API, do not respect the Get CLP on the user class.
 
 3. Read ACLs do not apply to the logged in user. For example, if all users have ACLs with Read disabled, then doing a find query over users will still return the logged in user. However, if the Find CLP is disabled, then trying to perform a find on users will still return an error.
 

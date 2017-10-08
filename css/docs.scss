@@ -73,6 +73,7 @@ $svg-plus: "{{ '/assets/svgs/plus.svg' | prepend: site.baseurl }}";
 @import "lib/marketing/components/banner-ctas";
 
 @import "lib/docs/components/live-toc";
+@import "lib/docs/components/custom-server";
 @import "lib/docs/components/docs-platform";
 @import "lib/docs/components/docsearch";
 @import "lib/marketing/components/logo-stacks";

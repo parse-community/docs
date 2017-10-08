@@ -20,7 +20,7 @@ To create a new role, send a POST request to the roles root:
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -31,13 +31,13 @@ curl -X POST \
           }
         }
       }' \
-  https://api.parse.com/1/roles
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/roles', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>roles', json.dumps({
        "name": "Moderators",
        "ACL": {
          "*": {
@@ -45,7 +45,7 @@ connection.request('POST', '/1/roles', json.dumps({
          }
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -57,7 +57,7 @@ You can create a role with child roles or users by adding existing objects to th
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -88,13 +88,13 @@ curl -X POST \
           ]
         }
       }' \
-  https://api.parse.com/1/roles
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/roles', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>roles', json.dumps({
        "name": "Moderators",
        "ACL": {
          "*": {
@@ -122,7 +122,7 @@ connection.request('POST', '/1/roles', json.dumps({
          ]
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -134,7 +134,7 @@ When the creation is successful, the HTTP response is a `201 Created` and the Lo
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/roles/mrmBZvsErB
+Location: <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 
 The response body is a JSON object containing the `objectId` and `createdAt` timestamp of the newly-created object:
@@ -152,16 +152,16 @@ You can also retrieve the contents of a role object by sending a GET request to 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/1/roles/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -198,7 +198,7 @@ For example, we can add two users to the "Moderators" role created above like so
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -218,13 +218,13 @@ curl -X PUT \
           ]
         }
       }' \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', json.dumps({
        "users": {
          "__op": "AddRelation",
          "objects": [
@@ -241,7 +241,7 @@ connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
          ]
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
@@ -253,7 +253,7 @@ Similarly, we can remove a child role from the "Moderators" role created above l
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -268,13 +268,13 @@ curl -X PUT \
           ]
         }
       }' \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', json.dumps({
        "roles": {
          "__op": "RemoveRelation",
          "objects": [
@@ -286,7 +286,7 @@ connection.request('PUT', '/1/roles/mrmBZvsErB', json.dumps({
          ]
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })
@@ -303,16 +303,16 @@ To delete a role from the Parse Cloud, send a DELETE request to its URL.  For ex
 
 <pre><code class="bash">
 curl -X DELETE \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('DELETE', '/1/roles/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -323,17 +323,17 @@ Again, we pass the master key in order to bypass the ACL on the role itself.  Al
 
 <pre><code class="bash">
 curl -X DELETE \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "X-Parse-Session-Token: pnktnjyb996sj4p156gjtp4im" \
-  https://api.parse.com/1/roles/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('DELETE', '/1/roles/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im"
      })
@@ -373,7 +373,7 @@ These types of relationships are commonly found in applications with user-manage
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -383,30 +383,30 @@ curl -X PUT \
             {
               "__type": "Pointer",
               "className": "_Role",
-              "objectId": "<AdministratorsRoleObjectId>"
+              "objectId": "&lt;AdministratorsRoleObjectId&gt;"
             }
           ]
         }
       }' \
-  https://api.parse.com/1/roles/<ModeratorsRoleObjectId>
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/&lt;ModeratorsRoleObjectId&gt;
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/roles/<ModeratorsRoleObjectId>', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>roles/&lt;ModeratorsRoleObjectId&gt;', json.dumps({
        "roles": {
          "__op": "AddRelation",
          "objects": [
            {
              "__type": "Pointer",
              "className": "_Role",
-             "objectId": "<AdministratorsRoleObjectId>"
+             "objectId": "&lt;AdministratorsRoleObjectId&gt;"
            }
          ]
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-Master-Key": "${MASTER_KEY}",
        "Content-Type": "application/json"
      })

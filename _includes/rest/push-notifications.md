@@ -30,7 +30,7 @@ Creating an installation object is similar to creating a generic object, but the
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -40,20 +40,20 @@ curl -X POST \
           ""
         ]
       }' \
-  https://api.parse.com/1/installations
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/installations', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>installations', json.dumps({
        "deviceType": "ios",
        "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
        "channels": [
          ""
        ]
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -65,7 +65,7 @@ When the creation is successful, the HTTP response is a `201 Created` and the `L
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/installations/mrmBZvsErB
+Location: <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created installation:
@@ -88,7 +88,7 @@ You could create and object with these fields using a command like this:
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -100,13 +100,13 @@ curl -X POST \
           ""
         ]
       }' \
-  https://api.parse.com/1/installations
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/installations', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>installations', json.dumps({
        "deviceType": "android",
        "pushType": "gcm",
        "deviceToken": "APA91bFMvbrGg4cp3KUV_7dhU1gmwE_...",
@@ -115,7 +115,7 @@ connection.request('POST', '/1/installations', json.dumps({
          ""
        ]
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -131,16 +131,16 @@ You can retrieve the contents of an installation object by sending a GET request
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/1/installations/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -168,7 +168,7 @@ Installation objects can be updated by sending a PUT request to the installation
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -179,13 +179,13 @@ curl -X PUT \
           "foo"
         ]
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB', json.dumps({
        "deviceType": "ios",
        "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
        "channels": [
@@ -193,7 +193,7 @@ connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
          "foo"
        ]
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -211,16 +211,16 @@ Without any URL parameters, a GET request simply lists installations:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/installations
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/1/installations', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>installations', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -265,16 +265,16 @@ To delete an installation from the Parse Cloud, send a DELETE request to its URL
 
 <pre><code class="bash">
 curl -X DELETE \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('DELETE', '/1/installations/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-Master-Key": "${MASTER_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -299,7 +299,7 @@ Subscribing to a channel via the REST API can be done by updating the `Installat
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -307,18 +307,18 @@ curl -X PUT \
           "Giants"
         ]
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB', json.dumps({
        "channels": [
          "Giants"
        ]
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -338,7 +338,7 @@ With the REST API, the following code can be used to alert all subscribers of th
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -350,13 +350,13 @@ curl -X POST \
           "alert": "The Giants won against the Mets 2-3."
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "channels": [
          "Giants",
          "Mets"
@@ -365,7 +365,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "The Giants won against the Mets 2-3."
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -385,7 +385,7 @@ Storing arbitrary data on an `Installation` object is done in the same way we st
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -393,18 +393,18 @@ curl -X PUT \
         "gameResults": true,
         "injuryReports": true
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB', json.dumps({
        "scores": True,
        "gameResults": True,
        "injuryReports": True
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -416,7 +416,7 @@ You can even create relationships between your `Installation` objects and other 
 
 <pre><code class="bash">
 curl -X PUT \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -426,20 +426,20 @@ curl -X PUT \
           "objectId": "vmRZXZ1Dvo"
         }
       }' \
-  https://api.parse.com/1/installations/mrmBZvsErB
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '/1/installations/mrmBZvsErB', json.dumps({
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>installations/mrmBZvsErB', json.dumps({
        "user": {
          "__type": "Pointer",
          "className": "_User",
          "objectId": "vmRZXZ1Dvo"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -453,7 +453,7 @@ Once you have your data stored on your `Installation` objects, you can use a que
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -464,13 +464,13 @@ curl -X POST \
           "alert": "Willie Hayes injured by own pop fly."
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "injuryReports": True
        },
@@ -478,7 +478,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "Willie Hayes injured by own pop fly."
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -490,7 +490,7 @@ We can even use channels with our query. To send a push to all subscribers of th
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -502,13 +502,13 @@ curl -X POST \
           "alert": "The Giants scored a run! The score is now 2-2."
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "channels": "Giants",
          "scores": True
@@ -517,7 +517,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "The Giants scored a run! The score is now 2-2."
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -529,7 +529,7 @@ If we store relationships to other objects in our `Installation` class, we can a
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -551,13 +551,13 @@ curl -X POST \
           "alert": "Free hotdogs at the Parse concession stand!"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "user": {
            "$inQuery": {
@@ -576,7 +576,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "Free hotdogs at the Parse concession stand!"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -606,7 +606,7 @@ For example, to send a notification that increases the current badge number by 1
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -620,13 +620,13 @@ curl -X POST \
           "title": "Mets Score!"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "channels": [
          "Mets"
        ],
@@ -637,7 +637,7 @@ connection.request('POST', '/1/push', json.dumps({
          "title": "Mets Score!"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -651,9 +651,9 @@ It is also possible to specify your own data in this dictionary. As explained in
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "channels": [
          "Indians"
        ],
@@ -664,7 +664,7 @@ connection.request('POST', '/1/push', json.dumps({
          "newsItem": "Man bites dog"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -680,7 +680,7 @@ There are two parameters provided by Parse to allow setting an expiration date f
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -689,19 +689,19 @@ curl -X POST \
           "alert": "Season tickets on sale until March 19, 2015"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "expiration_time": "2015-03-19T22:05:08Z",
        "data": {
          "alert": "Season tickets on sale until March 19, 2015"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -713,7 +713,7 @@ Alternatively, you can use the `expiration_interval` parameter to specify a dura
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -723,20 +723,20 @@ curl -X POST \
           "alert": "Season tickets on sale until March 19, 2015"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "push_time": "2015-03-13T22:05:08Z",
        "expiration_interval": 518400,
        "data": {
          "alert": "Season tickets on sale until March 19, 2015"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -751,7 +751,7 @@ The following examples would send a different notification to Android, iOS, and 
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -762,13 +762,13 @@ curl -X POST \
           "alert": "Your suitcase has been filled with tiny robots!"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "deviceType": "android"
        },
@@ -776,7 +776,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "Your suitcase has been filled with tiny robots!"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -786,7 +786,7 @@ print result
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -797,13 +797,13 @@ curl -X POST \
           "alert": "Your suitcase has been filled with tiny apples!"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "deviceType": "ios"
        },
@@ -811,7 +811,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "Your suitcase has been filled with tiny apples!"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -821,7 +821,7 @@ print result
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -832,13 +832,13 @@ curl -X POST \
           "alert": "Your suitcase has been filled with tiny glass!"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "deviceType": "winrt"
        },
@@ -846,7 +846,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "Your suitcase has been filled with tiny glass!"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -856,7 +856,7 @@ print result
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -867,13 +867,13 @@ curl -X POST \
           "alert": "Your suitcase is very hip; very metro."
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "deviceType": "winphone"
        },
@@ -881,7 +881,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "Your suitcase is very hip; very metro."
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })
@@ -895,7 +895,7 @@ You can schedule a push in advance by specifying a `push_time`. For example, if 
 
 <pre><code class="bash">
 curl -X POST \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -907,13 +907,13 @@ curl -X POST \
           "alert": "You previously created a reminder for the game today"
         }
       }' \
-  https://api.parse.com/1/push
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '/1/push', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "user_id": "user_123"
        },
@@ -922,7 +922,7 @@ connection.request('POST', '/1/push', json.dumps({
          "alert": "You previously created a reminder for the game today"
        }
      }), {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}",
        "Content-Type": "application/json"
      })

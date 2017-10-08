@@ -9,6 +9,7 @@ redirect_from:
   - /rest/
 
 sections:
+- "common/server-customize.md"
 - "rest/getting-started.md"
 - "rest/quick-reference.md"
 - "rest/objects.md"
