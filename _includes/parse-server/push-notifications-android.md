@@ -3,7 +3,6 @@
 Add the following service and broadcast receiver definitions to `AndroidManifest.xml` immediately before the *closing* `</application>` tag:
 
 ```xml
-<service android:name="com.parse.PushService" />
 <receiver android:name="com.parse.ParsePushBroadcastReceiver"
 android:exported="false">
 <intent-filter>
