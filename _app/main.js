@@ -847,6 +847,37 @@ App.Views = {};
         }
       });
 
+      // set reset button
+      $('#parse-server-custom-values-reset').click(function() {
+        // reset defaults
+        let _default = $("#parse-server-custom-url").attr('defaultval');
+        $(".custom-parse-server-url").html(_default);
+        $("#parse-server-custom-url").val(_default);
+        localStorage.setItem('parse-server-custom-url', _default);
+
+        _default = $("#parse-server-custom-mount").attr('defaultval');
+        $(".custom-parse-server-mount").html("/"+_default+"/");
+        $("#parse-server-custom-mount").val(_default);
+        localStorage.setItem('parse-server-custom-mount', "/"+_default+"/");
+
+        _default = $("#parse-server-custom-protocol").attr('defaultval');
+        $(".custom-parse-server-protocol").html(_default);
+        $("#parse-server-custom-protocol").val(_default);
+        localStorage.setItem('parse-server-custom-protocol', _default);
+
+        _default = $("#parse-server-custom-appid").attr('defaultval');
+        $(".custom-parse-server-appid").html(_default);
+        $("#parse-server-custom-appid").val(_default);
+        localStorage.setItem('parse-server-custom-appid', _default);
+
+        _default = $("#parse-server-custom-clientkey").attr('defaultval');
+        $(".custom-parse-server-clientkey").html(_default);
+        $("#parse-server-custom-clientkey").val(_default);
+        localStorage.setItem('parse-server-custom-clientkey', _default);
+
+
+      });
+
     },
 
 		// we recalculate the header heights for the TOC
