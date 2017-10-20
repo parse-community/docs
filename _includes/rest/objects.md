@@ -45,7 +45,7 @@ Users have a special class-level url:
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 
-The operations specific to a single object are available a nested URL. For example, operations specific to the `GameScore` above with `objectId` equal to `Ed1nuqPvcm` would use the object URL:
+The operations specific to a single object are available as a nested URL. For example, operations specific to the `GameScore` above with `objectId` equal to `Ed1nuqPvcm` would use the object URL:
 
 <pre><code class="javascript">
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
