@@ -548,15 +548,16 @@ The ACL is formatted as a JSON object where the keys are either object ids or th
 
 For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
 
-<pre><code class="json">
-{
-  "3KmCvT7Zsb": {
-    "read": true,
-    "write": true
-  },
-  "*": {
-    "read": true
-  }
+<pre><code class="json">{
+	"ACL": {
+		"3KmCvT7Zsb": {
+			"read": true,
+			"write": true
+		},
+		"*": {
+			"read": true
+		}
+	}
 }
 </code></pre>
 
