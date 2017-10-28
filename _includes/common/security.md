@@ -407,16 +407,16 @@ For example, you want to allow your **authenticated users** to `find` and `get` 
   classLevelPermissions:
   {
     "find": {
-      "requireAuthentication": true,
+      "requiresAuthentication": true,
       "role:admin": true
     },
     "get": {
-      "requireAuthentication": true,
+      "requiresAuthentication": true,
       "role:admin": true
     },
     "create": { "role:admin": true },
     "update": { "role:admin": true },
-    "delete": { "role:admin": true },
+    "delete": { "role:admin": true }
   }
 }
 ```
