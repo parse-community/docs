@@ -944,7 +944,7 @@ Note that we do not, however, support GeoPoint or non-filtering constraints (e.g
 
 ## Distinct Queries
 
-* Starting with Parse-Server 3.0 (MasterKey Required)
+* Starting with Parse-Server 2.7.0 (requires masterKey)
 
 Finds unique values for a specified field.
 
