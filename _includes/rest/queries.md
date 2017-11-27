@@ -941,3 +941,161 @@ print result
 Any other constraints on the query are also applied to the object returned, so you can add other constraints to queries with `$or`.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. nearSphere, within, limit, skip, sort, include) in the subqueries of the compound query.
+
+## Distinct Queries
+
+* Starting with Parse-Server 3.0 (MasterKey Required)
+
+Finds unique values for a specified field.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'distinct=score' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"distinct":"score"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+Can be used with `where` parameter for constraining the value for keys.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"playerName":"Sean Plott"},distinct=score' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "playerName": "Sean Plott"
+     }),"distinct":"score"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+## Aggregate Queries
+
+* Starting with Parse-Server 3.0 (MasterKey Required)
+
+You can find objects using aggregate functions. This will compute result(s) for a set of input values.
+
+For a list of available operators please refer to Mongo Aggregate Documentation.
+
+<a href="https://docs.mongodb.com/v3.2/reference/operator/aggregation/">Mongo 3.2 Aggregate Operators</a>
+
+<a href="https://docs.mongodb.com/manual/reference/operator/aggregation/#aggregation-expression-operators">Mongo 3.4 Aggregate Operators</a>
+
+You can group the objects and apply an accumulator operator such as `$sum`, `$avg`, `$max`, `$min`. `group` is similar to `distinct`.
+
+Note: `_id` does not exist in parse-server. Please replace with `objectId`.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'group:{objectId:null,total:{$sum:'$score'}}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"group":json.dumps({
+       "objectId": null,
+       "total": {
+        "$sum":"$score"
+       }
+     }),"distinct":"score"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+You can add or remove existing fields with `project` parameter. `project` is similar to `keys`.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'project:{score:1}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"project":json.dumps({
+       "score": 1
+     })})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+You can filter out objects with `match` parameter. `match` is similar to `$eq`.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'match:{score:{$gt:15}}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"match":json.dumps({
+       "score": {
+        "$gt":15
+       }
+     })})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+You can also constraint by `limit`, `skip`, `sort`
