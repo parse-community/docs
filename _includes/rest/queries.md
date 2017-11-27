@@ -1000,7 +1000,7 @@ print result
 
 ## Aggregate Queries
 
-* Starting with Parse-Server 3.0 (MasterKey Required)
+* Starting with Parse-Server 2.7.0 (requires masterKey)
 
 You can find objects using aggregate functions. This will compute result(s) for a set of input values.
 
