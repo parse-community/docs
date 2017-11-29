@@ -363,7 +363,7 @@ query.find()
   });
 </code></pre>
 
-Sometimes world is complexer than this simple example and you may need an compound query of sub queries. You can use `Parse.Query.and` method to construct a query that is an AND of the queries passed in. For instance if you want to find users in the age of 16 or 18 who have either no friends or at least 2 friends, you can do:
+Sometimes the world is more complex than this simple example and you may need a compound query of sub queries. You can use `Parse.Query.and` method to construct a query that is an AND of the queries passed in. For instance if you want to find users in the age of 16 or 18 who have either no friends or at least 2 friends, you can do:
 
 <pre><code class="javascript">
 var age16Query = new Parse.Query("User");
