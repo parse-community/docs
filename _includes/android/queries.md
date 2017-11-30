@@ -152,6 +152,19 @@ losingUserQuery.findInBackground(new FindCallback<ParseUser>() {
   }
 });
 ```
+<p>To filter rows based on <code class="highlighter-rouge">objectId</code>’s from pointers in a second table, you can use dot notation:</p>
+
+```java
+ParseQuery<ParseObject> chartersOfTypeX = ParseQuery.getQuery("Charter");
+charterOfTypeX.equalTo('type', 'x');
+
+ParseQuery<ParseObject> groupsWithoutCharterX = ParseQuery.getQuery("Group");
+groupsWithoutCharterX.doesNotMatchKeyInQuery("objectId", "belongsTo.objectId", chartersOfTypeX);
+groupsWithoutCharterX.findInBackground(new FindCallback<ParseObject>() {
+  void done(List<ParseObject> results, ParseException e) {
+   // results has the list of groups without charter x
+ });
+```
 
 You can restrict the fields returned by calling `selectKeys` with a collection of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
