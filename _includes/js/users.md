@@ -77,7 +77,9 @@ There are three `emailVerified` states to consider:
 
 It would be bothersome if the user had to log in every time they open your app. You can avoid this by using the cached current `Parse.User` object.
 
-Whenever you use any signup or login methods, the user is cached in localStorage. You can treat this cache as a session, and automatically assume the user is logged in:
+Please note that this functionality is disabled by default on Node.js environments (such as React Native) to discourage stateful usages on server-side configurations. To bypass this behavior on this particular use case, call once `Parse.User.enableUnsafeCurrentUser()` right before using any cached-user related functionalities.
+
+Whenever you use any signup or login methods, the user is cached in localStorage, or in any storage you configured via the `Parse.setAsyncStorage` method. You can treat this cache as a session, and automatically assume the user is logged in:
 
 <pre><code class="javascript">
 var currentUser = Parse.User.current();
