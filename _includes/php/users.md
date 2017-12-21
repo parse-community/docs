@@ -71,6 +71,19 @@ There are three `emailVerified` states to consider:
 2.  `false` - at the time the `ParseUser` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `fetch` on the `ParseUser`.
 3.  _missing_ - the `ParseUser` was created when email verification was off or the `ParseUser` does not have an `email`.
 
+## Resending Verification Emails
+
+When email verification is enabled verification emails are automatically sent to a user's email address upon them signing up.
+
+Although this usually is good enough on it's own you may run into some issues, such as if the verification email was lost, expired due to [exceeding token validity](https://github.com/parse-community/parse-server/#email-verification-and-password-reset) or the user simple wants another request emailed to them for their own reasons.
+In any of those cases all you would need to do is call `ParseUser::requestVerificationEmail` with the email in question to have a verification email resent to them.
+
+<pre><code class="php">
+ParseUser::requestVerificationEmail('email@example.com');
+</code></pre>
+
+Note that this will only send if the account for the email requested has not already been verified.
+
 ## Current User
 
 It would be bothersome if the user had to log in every time they open your app. You can avoid this by using the cached current `ParseUser` object.
