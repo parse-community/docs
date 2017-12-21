@@ -64,8 +64,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 The PHP SDK currently supports modifying `Installation` objects via the `ParseInstallation` class, but it is not the primary function of this sdk. If you do need to modify installation objects take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-advanced-targeting), [Android]({{ site.baseUrl }}/android/guide/#using-advanced-targeting) or [REST]({{ site.baseUrl }}/rest/guide/#using-advanced-targeting) Push guide using the platform toggle at the top.
 
-
-Generally if you need to saving installation data it will be a modification to an existing installation. Considering this it is recommended you read the related SDK docs for that installation first before you start modifying them, as mentioned above
+Generally if you need to saving installation data it will be a modification to an existing installation. Considering this it is recommended you read the related SDK docs for that installation first before you start modifying them, as mentioned above.
 
 #### Sending Pushes to Queries
 
