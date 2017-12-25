@@ -26,6 +26,16 @@ For React Native applications, include `'parse/react-native'`:
 var Parse = require('parse/react-native');
 ```
 
+Additionally on React-Native / Expo environments, make sure to add the piece of code below :
+
+```js
+//Get your favorite AsyncStorage handler with import (ES6) or require
+import { AsyncStorage } from 'react-native'; 
+
+//Before using the SDK...
+Parse.setAsyncStorage(AsyncStorage);
+```
+
 To initialize your own Parse-Server with Javascript, you should replace your current initialization code with this
 
 
