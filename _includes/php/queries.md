@@ -22,6 +22,8 @@ for ($i = 0; $i < count($results); $i++) {
 
 ## Query Constraints
 
+### Basics
+
 There are several ways to put constraints on the objects found by a `ParseQuery`. You can filter out objects with a particular key-value pair with `notEqualTo`:
 
 <pre><code class="php">
@@ -35,11 +37,15 @@ $query->notEqualTo("playerName", "Michael Yabuti");
 $query->greaterThan("playerAge", 18);
 </code></pre>
 
+### Limit
+
 You can limit the number of results by setting `limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
 <pre><code class="php">
 $query->limit(10); // limit to at most 10 results
 </code></pre>
+
+### First
 
 If you want exactly one result, a more convenient alternative may be to use `first` instead of using `find`.
 
@@ -49,11 +55,15 @@ $query->equalTo("playerEmail", "dstemkoski@example.com");
 $object = $query->first();
 </code></pre>
 
+### Skip
+
 You can skip the first results by setting `skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
 
 <pre><code class="php">
 $query->skip(10); // skip the first 10 results
 </code></pre>
+
+### Ascending and Descending
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
 
@@ -64,6 +74,8 @@ $query->ascending("score");
 // Sorts the results in descending order by the score field
 $query->descending("score");
 </code></pre>
+
+### Less than Greater than
 
 For sortable types, you can also use comparisons in queries:
 
@@ -81,6 +93,8 @@ $query->greaterThan("wins", 50);
 $query->greaterThanOrEqualTo("wins", 50);
 </code></pre>
 
+### Within Polygon
+
 For sorting by `ParseGeoPoint` you can query for whether an object lies within a polygon of geo points:
 
 <pre><code class="php">
@@ -92,6 +106,8 @@ $geoPoint3 = new ParseGeoPoint();
 // restrict to any objects where `myGeoPoint` lies within a polygon made by 3 or more geo points
 $query->withinPolygon("myGeoPoint", [$geoPoint1, $geoPoint2, $geoPoint3]);
 </code></pre>
+
+### Contained In
 
 If you want to retrieve objects matching several different values, you can use `containedIn`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular array:
 
@@ -109,6 +125,8 @@ $query->notContainedIn("playerName",
                      ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
 </code></pre>
 
+### Exists
+
 If you want to retrieve objects that have a particular key set, you can use `exists`. Conversely, if you want to retrieve objects without a particular key set, you can use `doesNotExist`.
 
 <pre><code class="php">
@@ -118,6 +136,8 @@ $query->exists("score");
 // Finds objects that don't have the score set
 $query->doesNotExist("score");
 </code></pre>
+
+### Matches Key in Query
 
 You can use the `matchesKeyInQuery` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the array of users whose hometown teams have winning records.  The query would look like:
 
@@ -139,6 +159,8 @@ $results = $losingUserQuery->find();
 // results has the array of users with a hometown team with a losing record
 </code></pre>
 
+### Select
+
 You can restrict the fields returned by calling `select` with an array of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
 <pre><code class="php">
@@ -155,6 +177,79 @@ $result = $query->first();
 // only the selected fields of the object will now be available here.
 $result->fetch();
 // all fields of the object will now be available here.
+</code></pre>
+
+### Aggregate
+
+Queries can be made using aggregates, allowing you to retrieve objects over a set of input values. Note that the MasterKey is Required.
+
+For a list of available operators please refer to [Mongo Aggregate Documentation](https://docs.mongodb.com/v3.2/reference/operator/aggregation/).
+
+<pre><code class="php">
+// group pipeline is similar to distinct, can apply $sum, $avg, $max, $min
+// accumulate sum and store in total field
+$pipeline = [
+    'group' => [
+        'objectId' => null,
+        'total' => [ '$sum' => '$score']
+    ]
+];
+$results = $query->aggregate($pipeline);
+
+// project pipeline is similar to keys, add or remove existing fields
+// includes name key
+$pipeline = [
+    'project' => [
+        'name' => 1
+    ]
+];
+$results = $query->aggregate($pipeline);
+
+// match pipeline is similar to equalTo
+// filter out objects with score greater than 15
+ $pipeline = [
+    'match' => [
+        'score' => [ '$gt' => 15 ]
+    ]
+];
+$results = $query->aggregate($pipeline);
+</code></pre>
+
+### Distinct
+
+Queries can be made using distinct, allowing you find unique values for a specified field.
+Keep in mind that the MasterKey is required.
+
+<pre><code class="php">
+// finds score that are unique
+$results = $query->distinct('score');
+
+// can be used with equalTo
+$query = new ParseQuery('TestObject');
+$query->equalTo('name', 'foo');
+$results = $query->distinct('score');
+</code></pre>
+
+### Relative Time
+
+Queries can be made using relative time, allowing you to retrieve objects over a varying ranges of relative dates. Keep in mind that all relative queries are performed using the server's time and timezone.
+
+<pre><code class="php">
+// greater than 2 weeks ago
+$query->greaterThanRelativeTime('createdAt', '2 weeks ago');
+
+// less than 1 day in the future
+$query->lessThanRelativeTime('updatedAt', 'in 1 day');
+
+// can make queries to very specific points in time
+$query->greaterThanOrEqualToRelativeTime('createdAt', '1 year 2 weeks 30 days 2 hours 5 minutes 10 seconds ago');
+
+// can make queries based on right now
+// gets everything updated up to this point in time
+$query->lessThanOrEqualToRelativeTime('updatedAt', 'now');
+
+// shorthand keywords work as well
+$query->greaterThanRelativeTime('date', '1 yr 2 wks 30 d 2 hrs 5 mins 10 secs ago');
 </code></pre>
 
 ## Queries on Array Values

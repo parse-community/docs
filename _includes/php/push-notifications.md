@@ -62,7 +62,9 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 #### Saving Installation Data
 
-The PHP SDK does not currently support modifying `Installation` objects. Take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-advanced-targeting), [Android]({{ site.baseUrl }}/android/guide/#using-advanced-targeting) or [REST]({{ site.baseUrl }}/rest/guide/#using-advanced-targeting) Push guide using the platform toggle at the top.
+The PHP SDK currently supports modifying `Installation` objects via the `ParseInstallation` class, but it is not the primary function of this sdk. If you do need to modify installation objects take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-advanced-targeting), [Android]({{ site.baseUrl }}/android/guide/#using-advanced-targeting) or [REST]({{ site.baseUrl }}/rest/guide/#using-advanced-targeting) Push guide using the platform toggle at the top.
+
+Generally if you need to saving installation data it will be a modification to an existing installation. Considering this it is recommended you read the related SDK docs for that installation first before you start modifying them, as mentioned above.
 
 #### Sending Pushes to Queries
 
@@ -94,7 +96,7 @@ ParsePush::send(array(
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
- <pre><code class="php">
+<pre><code class="php">
 // Find users near a given location
 $userQuery = ParseUser::query();
 $userQuery->withinMiles("location", $stadiumLocation, 1.0);
@@ -111,6 +113,45 @@ ParsePush::send(array(
   )
 ), true);
 </code></pre>
+
+#### Sending Pushes to Audiences
+
+If you want to keep track of your sends when using queries you can use the `ParseAudience` class (available in sdk versions **1.4.0** and up).
+You can create and configure your Audience objects with a name and query.
+
+When you indicate it's being used in a push the `lastUsed` and `timesUsed` values are updated for you.
+
+<pre><code class="php">
+$iosQuery = ParseInstallation::getQuery();
+$iosQuery->equalTo("deviceType", "ios");
+
+// create & save your audience
+$audience = ParseAudience::createAudience(
+    'MyiOSAudience',
+    $iosQuery
+);
+$audience->save(true);
+
+// send a push using the query in this audience and it's id
+// The 'audience_id' is what allows parse to update 'lastUsed' and 'timesUsed'
+// You could use any audience_id with any query and it will still update that audience
+ParsePush::send([
+    'data'          => [
+        'alert' => 'hello ios users!'
+    ],
+    'where'         => $audience->getQuery(),
+    'audience_id'   => $audience->getObjectId()
+], true);
+
+// fetch changes to this audience
+$audience->fetch(true);
+
+// get last & times used for tracking
+$timesUsed = $audience->getTimesUsed();
+$lastUsed = $audience->getLastUsed();
+</code></pre>
+
+Audiences provide you with a convenient way to group your queries and keep track of how often and when you send to them.
 
 ## Sending Options
 
