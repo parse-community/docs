@@ -2,12 +2,20 @@
 
 Parse Server supports 3rd party authentication with
 
-* Twitter
-* Meetup
-* LinkedIn
+* Facebook
+* Github
 * Google
 * Instagram
-* Facebook
+* Janrain Capture
+* Janrain Engage
+* LinkedIn
+* Meetup
+* QQ
+* Spotify
+* Twitter
+* vKontakte
+* WeChat
+* Weibo
 
 Configuration options for these 3rd-party modules is done with the `auth` option passed to Parse Server:
 
@@ -21,6 +29,179 @@ Configuration options for these 3rd-party modules is done with the `auth` option
    facebook: {
      appIds: "FACEBOOK APP ID"
    }
+  }
+}
+```
+
+## Supported 3rd party authentications
+
+Below, you will find all expected payloads for logging in with a 3rd party auth.
+
+Note, most of them don't require a server configuration so you can use them directly, without particular server configuration.
+
+### Facebook `authData`
+
+```js
+{
+  "facebook": {
+    "id": "user's Facebook id number as a string",
+    "access_token": "an authorized Facebook access token for the user",
+    "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+  }
+}
+```
+Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
+
+### Twitter `authData`
+
+```js
+{
+  "twitter": {
+    "id": "user's Twitter id number as a string",
+    "screen_name": "user's Twitter screen name",
+    "consumer_key": "your application's consumer key",
+    "consumer_secret": "your application's consumer secret",
+    "auth_token": "an authorized Twitter token for the user with your application",
+    "auth_token_secret": "the secret associated with the auth_token"
+  }
+}
+```
+
+Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
+
+### Anonymous user `authData`
+
+```js
+{
+  "anonymous": {
+    "id": "random UUID with lowercase hexadecimal digits"
+  }
+}
+```
+
+### Github `authData`
+
+```js
+{
+  "github": {
+    "id": "user's Github id (string)",
+    "access_token": "an authorized Github access token for the user"
+  }
+}
+```
+
+### Google `authData`
+
+Google oauth supports validation of id_token's and access_token's.
+
+```js
+{
+  "google": {
+    "id": "user's Google id (string)",
+    "id_token": "an authorized Google id_token for the user (use when not using access_token)",
+    "access_token": "an authorized Google access_token for the user (use when not using id_token)"
+  }
+}
+```
+
+### Instagram `authData`
+
+```js
+{
+  "instagram": {
+    "id": "user's Instagram id (string)",
+    "access_token": "an authorized Instagram access token for the user"
+  }
+}
+```
+
+### LinkedIn `authData`
+
+```js
+{
+  "instagram": {
+    "id": "user's LinkedIn id (string)",
+    "access_token": "an authorized LinkedIn access token for the user",
+    "is_mobile_sdk": true|false // set to true if you acquired the token through LinkedIn mobile SDK
+  }
+}
+```
+
+### Meetup `authData`
+
+```js
+{
+  "meetup": {
+    "id": "user's Meetup id (string)",
+    "access_token": "an authorized Meetup access token for the user"
+  }
+}
+```
+
+### QQ `authData`
+
+```js
+{
+  "qq": {
+    "id": "user's QQ id (string)",
+    "access_token": "an authorized QQ access token for the user"
+  }
+}
+```
+
+### Spotify `authData`
+
+```js
+{
+  "spotify": {
+    "id": "user's spotify id (string)",
+    "access_token": "an authorized spotify access token for the user"
+  }
+}
+```
+
+### vKontakte `authData`
+
+```js
+{
+  "vkontakte": {
+    "id": "user's vkontakte id (string)",
+    "access_token": "an authorized vkontakte access token for the user"
+  }
+}
+```
+
+#### Configuring parse-server for vKontakte
+
+```js
+{
+  auth: {
+   vkontakte: {
+     appSecret: "", // REQUIRED, your vkontakte application secret
+     appIds: "" // REQUIRED, your vkontakte application id
+   },
+  }
+}
+```
+
+### WeChat `authData`
+
+```js
+{
+  "wechat": {
+    "id": "user's wechat id (string)",
+    "access_token": "an authorized wechat access token for the user"
+  }
+}
+```
+
+### Weibo `authData`
+
+```js
+{
+  "weibo": {
+    "id": "user's weibo id (string)",
+    "access_token": "an authorized weibo access token for the user"
   }
 }
 ```
