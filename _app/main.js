@@ -691,7 +691,7 @@ App.Views = {};
 			var h1s = this.scrollContent.getElementsByTagName('h1');
 			for (var i = 0; i < h1s.length; i++) {
 				// var anchor = h1s[i].getElementsByTagName('a')[0];
-				this.mobileToc.appendChild(UI.tag('option', { 'data-anchor': h1s[i].id }, [ h1s[i].textContent ]));
+				this.mobileToc.appendChild(UI.tag('option', { 'data-anchor': "#"+h1s[i].id }, [ h1s[i].textContent ]));
 			}
 			this.mobileToc.addEventListener('change', this.handleSelectChange.bind(this));
 			this.mobileToc.getElementsByTagName('option')[0].setAttribute('selected', true);
