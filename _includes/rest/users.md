@@ -107,6 +107,32 @@ There are three `emailVerified` states to consider:
 2.  `false` - at the time the `User` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider refreshing the `User` object.
 3.  _missing_ - the `User` was created when email verification was off or the `User` does not have an `email`.
 
+You can request a verification email to be sent by sending a POST request to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest</code>  with `email` in the body of the request:
+
+<pre><code class="bash">
+curl -X POST \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"email":"email@example.com"}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest
+</code></pre>
+<pre><code class="python">
+import json,httplib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+connection.connect()
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest', json.dumps({
+       "email": "email@example.com"
+     }), {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+Note that a verification email will not be sent if the email has already been successfully verified.
 
 ## Requesting A Password Reset
 
