@@ -90,6 +90,14 @@ if (currentUser) {
 }
 </code></pre>
 
+When using a platform with an async storage system you should call `currentAsync()` instead.
+
+<pre><code class="javascript">
+Parse.User.currentAsync().then(function(user) {
+    // do stuff with your user
+});
+</code></pre>
+
 You can clear the current user by logging them out:
 
 <pre><code class="javascript">
