@@ -57,7 +57,7 @@ query.find({
 });
 </code></pre>
 
-You can query for whether an object lies within / on a polygon of `Parse.GeoPoint` (minimum 3 points):
+You can query for whether an object lies within or on a polygon of `Parse.GeoPoint` (minimum 3 points):
 
 <pre><code class="javascript">
 query.withinPolygon("location", [geoPoint1, geoPoint2, geoPoint3]);
@@ -68,7 +68,7 @@ query.find({
 });
 </code></pre>
 
-You can query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
+You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
 
 <pre><code class="javascript">
 const p1 = [[0,0], [0,1], [1,1], [1,0]];

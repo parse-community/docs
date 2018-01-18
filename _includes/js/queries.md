@@ -207,11 +207,11 @@ Queries that have regular expression constraints are very expensive, especially 
 
 ### Full Text Search
 
-Use `fullText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
+You can use `fullText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
 
-* Note: Full Text Search can be resource expensive. As with all indexes ensure you have enough RAM. Speed comes at a cost.
+* Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
 
-Requires Parse Server 2.5.0+
+* Parse Server 2.5.0+
 
 <pre><code class="javascript">
 var query = new Parse.Query(BarbecueSauce);
@@ -429,7 +429,8 @@ mainQuery.find()
 
 Queries can be made using aggregates, allowing you to retrieve objects over a set of input values. The results will not be `Parse.Object`s since you will be aggregating your own fields
 
-* Note: MasterKey is Required. Parse Server 2.7.1+
+* Parse Server 2.7.1+
+* `MasterKey` is Required.
 
 Aggregates use stages to filter results by piping results from one stage to the next.
 
@@ -544,7 +545,8 @@ query.find()
 
 Queries can be made using distinct, allowing you find unique values for a specified field.
 
-* Note: MasterKey is required. Parse Server 2.7.1+
+* Parse Server 2.7.1+
+* `MasterKey` is required.
 
 <pre><code class="javascript">
 var query = new Parse.Query("User");

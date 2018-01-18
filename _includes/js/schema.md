@@ -8,8 +8,8 @@ types in the databrowser.
 
 This API allows you to access the schemas of your app.
 
+* Parse Server 2.7.1+
 * `MasterKey` is required.
-* Starting with Parse Server 2.7.1
 
 Schema will return an object similar to the following:
 
