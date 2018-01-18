@@ -22,6 +22,7 @@ sections:
 - "js/analytics.md"
 - "common/data.md"
 - "common/relations.md"
+- "js/schema.md"
 - "js/handling-errors.md"
 - "common/security.md"
 - "common/performance.md"

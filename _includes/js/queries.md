@@ -205,6 +205,39 @@ The above example will match any `BarbecueSauce` objects where the value in the 
 
 Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
 
+### Full Text Search
+
+You can use `fullText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
+
+* Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
+
+* Parse Server 2.5.0+
+
+<pre><code class="javascript">
+var query = new Parse.Query(BarbecueSauce);
+query.fullText('name', 'bbq');
+</code></pre>
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
+
+<pre><code class="javascript">
+// You can sort by weight / rank. ascending('') and select()
+var query = new Parse.Query(BarbecueSauce);
+query.fullText('name', 'bbq');
+query.ascending('$score');
+query.select('$score');
+query.find()
+  .then(function(results) {
+    // results contains a weight / rank in result.get('score')
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+
+
+For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
 
 ## Relational Queries
 
@@ -386,6 +419,156 @@ mainQuery.find()
   .then(function(results) {
     // results contains a list of users in the age of 16 or 18 who have either no friends or at least 2 friends
     // results: (age 16 or 18) and (0 or >2 friends)
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+## Aggregate
+
+Queries can be made using aggregates, allowing you to retrieve objects over a set of input values. The results will not be `Parse.Object`s since you will be aggregating your own fields
+
+* Parse Server 2.7.1+
+* `MasterKey` is Required.
+
+Aggregates use stages to filter results by piping results from one stage to the next.
+
+You can create a pipeline using an Array or an Object.
+
+The following example is a pipeline similar to `distinct` grouping by name field.
+
+<pre><code class="javascript">
+var pipelineObject = {
+  group: { objectId: '$name' }
+ };
+
+var pipelineArray = [
+  { group: { objectId: '$name' } }
+];
+</code></pre>
+
+For a list of available operators please refer to [Mongo Aggregate Documentation](https://docs.mongodb.com/v3.2/reference/operator/aggregation/).
+
+* Note: Most operations in Mongo Aggregate Documentation will work with Parse Server, but `_id` doesn't exist. Please replace with `objectId`.
+
+Group pipeline is similar to `distinct`.
+
+You can group by a field.
+
+<pre><code class="javascript">
+// score is the field. $ before score lets the database know this is a field
+var pipeline = [
+  group: { objectId: '$score' }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains unique score values
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+You can apply collective calculations like $sum, $avg, $max, $min.
+
+<pre><code class="javascript">
+// total will be a newly created field to hold the sum of score field
+var pipeline = [
+  group: { objectId: null, total: { $sum: '$score' } }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains sum of score field and stores it in results[0].total
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+Project pipeline is similar to `keys` or `select`, add or remove existing fields.
+
+<pre><code class="javascript">
+var pipeline = [
+  project: { name: 1 }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains only name field
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+Match pipeline is similar to `equalTo`.
+
+<pre><code class="javascript">
+var pipeline = [
+  { match: { name: 'BBQ' } }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains name that matches 'BBQ'
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+You can match by comparison.
+
+<pre><code class="javascript">
+var pipeline = [
+  match: { score: { $gt: 15 } }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains score greater than 15
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+## Distinct
+
+Queries can be made using distinct, allowing you find unique values for a specified field.
+
+* Parse Server 2.7.1+
+* `MasterKey` is required.
+
+<pre><code class="javascript">
+var query = new Parse.Query("User");
+query.distinct("age");
+query.find()
+  .then(function(results) {
+    // results contains unique age
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+You can also restrict results by using `equalTo`.
+
+<pre><code class="javascript">
+var query = new Parse.Query("User");
+query.equalTo("name", "foo");
+query.distinct("age");
+query.find()
+  .then(function(results) {
+    // results contains unique age where name is foo
   })
   .catch(function(error) {
     // There was an error.
