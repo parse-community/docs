@@ -9,7 +9,7 @@ types in the databrowser.
 This API allows you to access the schemas of your app.
 Note: This API can be only accessed using the `master key`.
 
-* Starting with Parse-Server 2.7.1 Index support added.
+* Starting with Parse Server 2.7.1 Index support added.
 
 ## Fetch the schema
 To fetch the Schema for all the classes of your app, run:

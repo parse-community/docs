@@ -209,7 +209,9 @@ Queries that have regular expression constraints are very expensive, especially 
 
 Use `fullText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
 
-Requires Parse-Server 2.5.0+
+* Note: Full Text Search can be resource expensive. As with all indexes ensure you have enough RAM. Speed comes at a cost.
+
+Requires Parse Server 2.5.0+
 
 <pre><code class="javascript">
 var query = new Parse.Query(BarbecueSauce);
@@ -236,8 +238,6 @@ query.find()
 
 
 For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
-
-* Note: Full Text Search can be expensive operations.
 
 ## Relational Queries
 
@@ -429,7 +429,7 @@ mainQuery.find()
 
 Queries can be made using aggregates, allowing you to retrieve objects over a set of input values. The results will not be `Parse.Object`s since you will be aggregating your own fields
 
-* Note: MasterKey is Required. Parse-Server 2.7.1+
+* Note: MasterKey is Required. Parse Server 2.7.1+
 
 Aggregates use stages to filter results by piping results from one stage to the next.
 
@@ -438,24 +438,44 @@ You can create a pipeline using an Array or an Object.
 The following example is a pipeline similar to `distinct` grouping by name field.
 
 <pre><code class="javascript">
-// Pipeline object
-const pipeline = {
+var pipelineObject = {
   group: { objectId: '$name' }
  };
 
-// Pipeline array
-const pipeline = [
+var pipelineArray = [
   { group: { objectId: '$name' } }
 ];
 </code></pre>
 
 For a list of available operators please refer to [Mongo Aggregate Documentation](https://docs.mongodb.com/v3.2/reference/operator/aggregation/).
 
-* Note: Most operation in Mongo Aggregate Documentation will work with Parse-Server, but `_id` doesn't exist. Please replace with `objectId`.
+* Note: Most operations in Mongo Aggregate Documentation will work with Parse Server, but `_id` doesn't exist. Please replace with `objectId`.
+
+Group pipeline is similar to `distinct`.
+
+You can group by a field.
 
 <pre><code class="javascript">
-// Can apply $sum, $avg, $max, $min
-const pipeline = [
+// score is the field. $ before score lets the database know this is a field
+var pipeline = [
+  group: { objectId: '$score' }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains unique score values
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+You can apply collective calculations like $sum, $avg, $max, $min.
+
+<pre><code class="javascript">
+// total will be a newly created field to hold the sum of score field
+var pipeline = [
   group: { objectId: null, total: { $sum: '$score' } }
 ];
 var query = new Parse.Query("User");
@@ -469,9 +489,10 @@ query.find()
   });
 </code></pre>
 
+Project pipeline is similar to `keys` or `select`, add or remove existing fields.
+
 <pre><code class="javascript">
-// project pipeline is similar to keys / select, add or remove existing fields
-const pipeline = [
+var pipeline = [
   project: { name: 1 }
 ];
 var query = new Parse.Query("User");
@@ -485,9 +506,27 @@ query.find()
   });
 </code></pre>
 
+Match pipeline is similar to `equalTo`.
+
 <pre><code class="javascript">
-// match pipeline is similar to equalTo
-const pipeline = [
+var pipeline = [
+  { match: { name: 'BBQ' } }
+];
+var query = new Parse.Query("User");
+query.aggregate(pipeline);
+query.find()
+  .then(function(results) {
+    // results contains name that matches 'BBQ'
+  })
+  .catch(function(error) {
+    // There was an error.
+  });
+</code></pre>
+
+You can match by comparison.
+
+<pre><code class="javascript">
+var pipeline = [
   match: { score: { $gt: 15 } }
 ];
 var query = new Parse.Query("User");
@@ -505,7 +544,7 @@ query.find()
 
 Queries can be made using distinct, allowing you find unique values for a specified field.
 
-* Note: MasterKey is required. Parse-Server 2.7.1+
+* Note: MasterKey is required. Parse Server 2.7.1+
 
 <pre><code class="javascript">
 var query = new Parse.Query("User");
@@ -519,7 +558,7 @@ query.find()
   });
 </code></pre>
 
-You can also restrict results by using `equalTo`
+You can also restrict results by using `equalTo`.
 
 <pre><code class="javascript">
 var query = new Parse.Query("User");

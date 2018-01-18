@@ -3,13 +3,13 @@
 Schema is the structure representing classes in your app. You can use the schema
 of an app to verify operations in a unit test, generate test data, generate test
 classes and then clean up after tests. The schema API can also be used to create
-custom views of your data. We use the schema API to display columns names and
+custom views of your data. We use the schema API to display column names and
 types in the databrowser.
 
 This API allows you to access the schemas of your app.
 
 * `MasterKey` is required.
-* Starting with Parse-Server 2.7.1
+* Starting with Parse Server 2.7.1
 
 Schema will return an object similar to the following:
 
@@ -17,12 +17,12 @@ Schema will return an object similar to the following:
 {
   className: 'MyClass',
   fields: {
-    //Default fields
+    // Default fields
     ACL: {type: 'ACL'},
     createdAt: {type: 'Date'},
     updatedAt: {type: 'Date'},
     objectId: {type: 'String'},
-    //Custom fields
+    // Custom fields
     aNumber: {type: 'Number'},
     aString: {type: 'String'},
     aBool: {type: 'Boolean'},
@@ -60,6 +60,8 @@ Schema will return an object similar to the following:
 </code></pre>
 
 Direct manipulation of the classes that are on your server is possible through ParseSchema. Although fields and classes can be automatically generated (the latter assuming client class creation is enabled) ParseSchema gives you explicit control over these classes and their fields.
+
+*With great power comes great responsibility. Altering the schema directly should be done with care, you can't go back to retrieve data if you remove a field and it's associated values.*
 
 <pre><code class="javascript">
 // create an instance to manage your class
@@ -136,7 +138,7 @@ mySchema.get().then((result) => {
 
 ## Purge
 
-All objects can be purged from a schema (class) via purge. But be careful! This can be considered an irreversible action. Only do this if you really need to delete all objects from a class, such as when you need to delete the class (as in the code example above).
+All objects can be purged from a schema (class) via purge. But *be careful*! This can be considered an irreversible action. Only do this if you really need to delete all objects from a class, such as when you need to delete the class (as in the code example above).
 
 <pre><code class="javascript">
 // delete all objects in the schema
