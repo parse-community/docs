@@ -210,6 +210,35 @@ The above example will match any `BarbecueSauce` objects where the value in the 
 
 Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#regular-expressions) for more details.
 
+### Full Text Search
+
+You can use `whereFullText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
+
+* Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
+
+* Parse Server 2.5.0+
+
+```java
+// Finds barbecue sauces that start with 'Big Daddy's'.
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereFullText("name", "Big Daddy's");
+```
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
+
+```java
+// You can sort by weight / rank. orderByAscending() and selectKeys()
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereFullText("name", "Big Daddy's");
+query.orderByAscending("$score");
+query.selectKeys(Arrays.asList("$score"));
+// results will contain $score, results[0].getInt("$score");
+List<ParseObject> results = query.find();
+```
+
+
+For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
+
 
 ## Relational Queries
 
@@ -365,7 +394,7 @@ final ParseQuery query = ...
 query.fromLocalDatastore().findInBackground().continueWithTask((task) -> {
   Exception error = task.getError();
   if (error instanceof ParseException && ((ParseException) error).getCode() == ParseException.CACHE_MISS) {
-    // No results from cache. Let's query the network.  
+    // No results from cache. Let's query the network.
     return query.fromNetwork().findInBackground();
   }
   return task;
