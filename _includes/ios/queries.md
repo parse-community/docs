@@ -509,6 +509,48 @@ The above example will match any `BarbecueSauce` objects where the value in the 
 
 Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#regular-expressions) for more details.
 
+### Full Text Search
+
+You can use `whereKey:matchesText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
+
+* Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
+
+* Parse Server 2.5.0+
+
+<pre><code class="objectivec">
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
+[query whereKey:@"name" matchesText:@"bbq"];
+</code></pre>
+<pre><code class="swift">
+// TODO
+</code></pre>
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
+
+<pre><code class="objectivec">
+// You can sort by weight / rank. orderByAscending and selectKeys
+PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
+[query whereKey:@"name" matchesText:@"bbq"];
+[query orderByAscending:@"$score"];
+[query selectKeys:@[@"$score"]];
+[query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+  if (!error) {
+    // The find succeeded.
+    for (PFObject *object in objects) {
+      NSLog(@"Successfully retrieved %d weight / rank.", object[@"$score"]);
+    }
+  } else {
+    // Log details of the failure
+    NSLog(@"Error: %@ %@", error, [error userInfo]);
+  }
+}];
+</code></pre>
+<pre><code class="swift">
+// TODO
+</code></pre>
+
+For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
+
 
 ## Relational Queries
 

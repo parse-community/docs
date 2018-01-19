@@ -89,6 +89,19 @@ query.find({
 });
 </code></pre>
 
+To efficiently find if a `Parse.Polygon` contains a `Parse.GeoPoint` without querying use `containsPoint`.
+
+<pre><code class="javascript">
+const points = [[0,0], [0,1], [1,1], [1,0]];
+const inside = new Parse.GeoPoint(0.5, 0.5);
+const outside = new Parse.GeoPoint(10, 10);
+const polygon = new Parse.Polygon(points);
+// Returns True
+polygon.containsPoint(inside);
+// Returns False
+polygon.containsPoint(outside);
+</code></pre>
+
 ## Caveats
 
 At the moment there are a couple of things to watch out for:

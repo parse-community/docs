@@ -221,7 +221,7 @@ query.fullText('name', 'bbq');
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
 
 <pre><code class="javascript">
-// You can sort by weight / rank. ascending('') and select()
+// You can sort by weight / rank. ascending() and select()
 var query = new Parse.Query(BarbecueSauce);
 query.fullText('name', 'bbq');
 query.ascending('$score');
@@ -235,9 +235,8 @@ query.find()
   });
 </code></pre>
 
-
-
 For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
+
 
 ## Relational Queries
 
