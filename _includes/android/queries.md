@@ -216,7 +216,7 @@ You can use `whereFullText` for efficient search capabilities. Text indexes are 
 
 * Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
 
-* Parse Server 2.5.0+
+* Requires Parse Server 2.5.0+
 
 ```java
 // Finds barbecue sauces that start with 'Big Daddy's'.

@@ -16,7 +16,7 @@ This point is then stored in the object as a regular field.
 placeObject.put("location", point);
 ```
 
-To retrieved `ParseGeoPoint` from an object
+To retrieved `ParseGeoPoint` from an object.
 
 ```java
 placeObject.getParseGeoPoint("location");
@@ -46,7 +46,7 @@ This point is then stored in the object as a regular field.
 placeObject.put("bounds", polygon);
 ```
 
-To retrieved `ParsePolygon` from an object
+To retrieved `ParsePolygon` from an object.
 
 ```java
 placeObject.getParsePolygon("bounds");
