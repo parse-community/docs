@@ -16,6 +16,42 @@ This point is then stored in the object as a regular field.
 placeObject.put("location", point);
 ```
 
+To retrieve a `ParseGeoPoint` from an object.
+
+```java
+placeObject.getParseGeoPoint("location");
+```
+
+## ParsePolygon
+
+Parse allows you to associate polygon coordinates with an object. Adding a `ParsePolygon` to a `ParseObject` allows queries to determine whether a `ParseGeoPoint` is within a `ParsePolygon` or if a `ParsePolygon` contains a `ParseGeoPoint` .
+
+* `ParsePolygon` must contain at least three coordinates.
+
+For example, to create a polygon with coordinates (0, 0), (0, 1), (1, 1), (1, 0).
+
+```java
+List<ParseGeoPoint> points = new ArrayList<ParseGeoPoint>();
+points.add(new ParseGeoPoint(0,0));
+points.add(new ParseGeoPoint(0,1));
+points.add(new ParseGeoPoint(1,1));
+points.add(new ParseGeoPoint(1,0));
+
+ParsePolygon polygon = new ParsePolygon(points);
+```
+
+This point is then stored in the object as a regular field.
+
+```java
+placeObject.put("bounds", polygon);
+```
+
+To retrieve a `ParsePolygon` from an object.
+
+```java
+placeObject.getParsePolygon("bounds");
+```
+
 ## Geo Queries
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `ParseQuery` using `whereNear`.  Getting a list of ten places that are closest to a user may look something like:
@@ -42,9 +78,46 @@ query.whereWithinGeoBox("location", southwestOfSF, northeastOfSF);
 query.findInBackground(new FindCallback<ParseObject>() { ... });
 ```
 
+You can query for whether an object lies within or on a polygon of `Parse.GeoPoint`.
+
+```java
+ParseGeoPoint point = new ParseGeoPoint(0.5, 0.5);
+ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceObject");
+query.wherePolygonContains("location", point);
+```
+
+You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`.
+
+```java
+ParseGeoPoint point = new ParseGeoPoint(0.5, 0.5);
+ParseQuery<ParseObject> query = ParseQuery.getQuery("PlaceObject");
+query.wherePolygonContains("location", point);
+```
+
+To efficiently find if a `ParsePolygon` contains a `ParseGeoPoint` without querying use `containsPoint`.
+
+```java
+List<ParseGeoPoint> points = new ArrayList<ParseGeoPoint>();
+points.add(new ParseGeoPoint(0, 0));
+points.add(new ParseGeoPoint(0, 1));
+points.add(new ParseGeoPoint(1, 1));
+points.add(new ParseGeoPoint(1, 0));
+
+ParseGeoPoint inside = new ParseGeoPoint(0.5, 0.5);
+ParseGeoPoint outside = new ParseGeoPoint(10, 10);
+
+ParsePolygon polygon = new ParsePolygon(points);
+
+// Returns True
+polygon.containsPoint(inside);
+
+// Returns False
+polygon.containsPoint(outside);
+```
+
 ## Parcelable
 
-As most public facing components of the SDK, `ParseGeoPoint` implements the `Parcelable` interface. This means you can retain a `ParseGeoPoint` during configuration changes, or pass it to other components of the app through `Bundles`. To achieve this, depending on the context, use either `Parcel#writeParcelable(Parcelable, int)` or `Bundle#putParcelable(String, Parcelable)`. For instance, in an Activity,
+As most public facing components of the SDK, `ParseGeoPoint` and `ParsePolygon` implements the `Parcelable` interface. This means you can retain a `ParseGeoPoint` and `ParsePolygon` during configuration changes, or pass it to other components of the app through `Bundles`. To achieve this, depending on the context, use either `Parcel#writeParcelable(Parcelable, int)` or `Bundle#putParcelable(String, Parcelable)`. For instance, in an Activity,
 
 ```java
 private ParseGeoPoint point;
@@ -54,11 +127,28 @@ protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putParcelable("point", point);
 }
-    
+
 @Override
 protected void onCreate(@Nullable Bundle savedInstanceState) {
   if (savedInstanceState != null) {
     point = (ParseGeoPoint) savedInstanceState.getParcelable("point");
+  }
+}
+```
+
+```java
+private ParsePolygon polygon;
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putParcelable("polygon", polygon);
+}
+
+@Override
+protected void onCreate(@Nullable Bundle savedInstanceState) {
+  if (savedInstanceState != null) {
+    polygon = (ParsePolygon) savedInstanceState.getParcelable("polygon");
   }
 }
 ```
