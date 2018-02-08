@@ -550,8 +550,7 @@ Queries can be made using distinct, allowing you find unique values for a specif
 
 <pre><code class="javascript">
 var query = new Parse.Query("User");
-query.distinct("age");
-query.find()
+query.distinct("age")
   .then(function(results) {
     // results contains unique age
   })
@@ -565,8 +564,7 @@ You can also restrict results by using `equalTo`.
 <pre><code class="javascript">
 var query = new Parse.Query("User");
 query.equalTo("name", "foo");
-query.distinct("age");
-query.find()
+query.distinct("age")
   .then(function(results) {
     // results contains unique age where name is foo
   })
