@@ -74,3 +74,16 @@ public class App extends Application {
  </application>
  ```
  
+ **Option 3:** Setup permissions in the Manifest
+
+You have to define `INTERNET`permissions in your `AndroidManifest.xml`:
+
+```xml
+<manifest ...>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application ...>
+      ...
+    </application>
+</manifest```
