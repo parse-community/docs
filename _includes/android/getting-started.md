@@ -66,7 +66,7 @@ public class App extends Application {
 ```
 
  For either option, the custom `Application` class must be registered in `AndroidManifest.xml`:
- ```
+ ```xml
  <application
    android:name=".App"
    ...>
@@ -86,4 +86,5 @@ You have to define `INTERNET`permissions in your `AndroidManifest.xml`:
     <application ...>
       ...
     </application>
-</manifest```
+</manifest>
+```
