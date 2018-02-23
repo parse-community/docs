@@ -3,6 +3,7 @@
 Parse Server supports 3rd party authentication with
 
 * Facebook
+* Facebook AccountKit
 * Github
 * Google
 * Instagram
@@ -51,6 +52,33 @@ Note, most of them don't require a server configuration so you can use them dire
 }
 ```
 Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
+
+### Facebook AccountKit `authData`
+```js
+{
+  "facebookaccountkit": {
+    "id": "user's Facebook Account Kit id number as a string",
+    "access_token": "an authorized Facebook Account Kit access token for the user",
+    // optional, access token via authorization code does not seem to have this in response
+    "last_refresh": "time stamp at which token was last refreshed"
+  }
+}
+```
+The options passed to Parse server:
+```js
+{
+  auth: {
+   facebookaccountkit: {
+     // your facebook app id
+     appIds: ["id1", "id2"],
+     // optional, if you have enabled the 'Require App Secret' setting in your app's dashboards
+     appSecret: "App secret from Account Kit setting"
+   }
+  }
+}
+```
+Learn more about [Facobook Account Kit](https://developers.facebook.com/docs/accountkit)   
+Two ways to [retrieve access token](https://developers.facebook.com/docs/accountkit/accesstokens)
 
 ### Twitter `authData`
 
