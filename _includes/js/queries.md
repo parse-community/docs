@@ -462,8 +462,7 @@ var pipeline = [
   group: { objectId: '$score' }
 ];
 var query = new Parse.Query("User");
-query.aggregate(pipeline);
-query.find()
+query.aggregate(pipeline)
   .then(function(results) {
     // results contains unique score values
   })
@@ -480,8 +479,7 @@ var pipeline = [
   group: { objectId: null, total: { $sum: '$score' } }
 ];
 var query = new Parse.Query("User");
-query.aggregate(pipeline);
-query.find()
+query.aggregate(pipeline)
   .then(function(results) {
     // results contains sum of score field and stores it in results[0].total
   })
@@ -497,8 +495,7 @@ var pipeline = [
   project: { name: 1 }
 ];
 var query = new Parse.Query("User");
-query.aggregate(pipeline);
-query.find()
+query.aggregate(pipeline)
   .then(function(results) {
     // results contains only name field
   })
@@ -514,8 +511,7 @@ var pipeline = [
   { match: { name: 'BBQ' } }
 ];
 var query = new Parse.Query("User");
-query.aggregate(pipeline);
-query.find()
+query.aggregate(pipeline)
   .then(function(results) {
     // results contains name that matches 'BBQ'
   })
@@ -531,8 +527,7 @@ var pipeline = [
   match: { score: { $gt: 15 } }
 ];
 var query = new Parse.Query("User");
-query.aggregate(pipeline);
-query.find()
+query.aggregate(pipeline)
   .then(function(results) {
     // results contains score greater than 15
   })
