@@ -83,7 +83,7 @@ There are three ways to customize the login library:
 
 We provide the following options for easily customizing the ParseLoginActivity in your app's `AndroidManifest.xml`:
 
-*   `APP_LOGO`: Drawable` resource for app logo.
+*   `APP_LOGO`: `Drawable` resource for app logo.
 *   `PARSE_LOGIN_ENABLED`: `Boolean` for whether to enable the Parse username/password login (default = false)
 *   `PARSE_LOGIN_BUTTON_TEXT`: `String` to display on the login button (default = “Log in”)
 *   `PARSE_SIGNUP_BUTTON_TEXT`: `String` to display on the signup button on the login screen (default = "Sign up")
