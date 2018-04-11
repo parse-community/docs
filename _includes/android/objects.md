@@ -317,7 +317,7 @@ You can nest `JSONObject` and `JSONArray` objects to store more structured data 
 
 * String => `String`
 * Number => primitive numeric values such as `int`s, `double`s, `long`s, or `float`s
-* Bool => `bool`
+* Bool => `boolean`
 * Array => `JSONArray`
 * Object => `JSONObject`
 * Date => `java.util.Date`
