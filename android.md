@@ -4,7 +4,7 @@ permalink: /android/guide/
 layout: guide
 platform: android
 display_platform: Android
-api_reference: https://parse-community.github.io/Parse-SDK-Android/api
+api_reference: https://javadoc.io/doc/com.parse/parse-android/
 
 sections:
 - "android/getting-started.md"
