@@ -207,4 +207,4 @@ Since the whole LiveQuery feature relies on the WebSocket connection to the Live
 ***
 
 ## SessionToken
-We send `sessionToken` to the LiveQuery server when you subscribe to a `ParseQuery`. For the standard API, we use the `sessionToken` of the current user by default. For the advanced API, you can use any `sessionToken` when you subscribe a `ParseQuery`. An important thing to be aware of is when you log out or the `sessionToken` you are using is invalid, you should unsubscribe the subscription and subscribe to the `ParseQuery` again. Otherwise you may face a security issue since you'll get events which shouldn't be sent to you.
+We send `sessionToken` to the LiveQuery server when you subscribe to a `ParseQuery`. For the standard API, we use the `sessionToken` of the current user by default. For the advanced API, you can use any `sessionToken` when you subscribe to a `ParseQuery`. An important thing to be aware of is when you log out or the `sessionToken` you are using is invalid, you should unsubscribe the subscription and subscribe to the `ParseQuery` again. Otherwise you may face a security issue since you'll get events which shouldn't be sent to you.

@@ -18,7 +18,7 @@ Cloud functions accept a JSON parameters dictionary on the `request` object, so 
 Parse.Cloud.define("averageStars", function(request, response) {
   const query = new Parse.Query("Review");
   query.equalTo("movie", request.params.movie);
-    .find()
+  query.find()
     .then((results) => {
       let sum = 0;
       for (let i = 0; i < results.length; ++i) {
@@ -98,7 +98,7 @@ curl -X POST \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{ "movie": "The Matrix" }' \
-  https://api.parse.com/1/functions/averageStars
+  https://YOUR.PARSE-SERVER.HERE/parse/functions/averageStars
 ```
 
 And finally, to call the same function from a JavaScript app:

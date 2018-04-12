@@ -9,7 +9,7 @@ Add dependency to the application level `build.gradle` file.
 
 ```groovy
 dependencies {
-  compile 'com.parse:parse-android:1.15.7'
+  compile 'com.parse:parse-android:1.16.7'
 }
 ```
 
@@ -63,4 +63,28 @@ public class App extends Application {
     );
   }
 }
+```
+
+ For either option, the custom `Application` class must be registered in `AndroidManifest.xml`:
+ ```xml
+ <application
+   android:name=".App"
+   ...>
+   ...
+ </application>
+ ```
+ 
+ **Option 3:** Setup permissions in the Manifest
+
+You have to define `INTERNET`permissions in your `AndroidManifest.xml`:
+
+```xml
+<manifest ...>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application ...>
+      ...
+    </application>
+</manifest>
 ```

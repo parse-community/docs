@@ -114,6 +114,8 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 
 Unlike the S3 adapter, you must create a new Cloud Storage bucket, as this is not created automatically. See the Google Cloud guide on [Authentication](https://googlecloudplatform.github.io/google-cloud-node/#/docs/google-cloud/master/guides/authentication) for more details.
 
+To generate a private key in the Cloud Platform Console follow [these instructions](https://cloud.google.com/storage/docs/authentication#generating-a-private-key).
+
 ### Installation
 
 Starting 2.2.6, GCS Adapter is not provided by default by parse-server. To install run:
@@ -145,7 +147,7 @@ If you're using Node.js/Express:
 
 ```javascript
 ...
-var GCSAdapter = require('parse-server-gcs-adatper');
+var GCSAdapter = require('parse-server-gcs-adapter');
 
 var api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',

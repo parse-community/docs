@@ -77,7 +77,9 @@ There are three `emailVerified` states to consider:
 
 It would be bothersome if the user had to log in every time they open your app. You can avoid this by using the cached current `Parse.User` object.
 
-Whenever you use any signup or login methods, the user is cached in localStorage. You can treat this cache as a session, and automatically assume the user is logged in:
+Please note that this functionality is disabled by default on Node.js environments (such as React Native) to discourage stateful usages on server-side configurations. To bypass this behavior on this particular use case, call once `Parse.User.enableUnsafeCurrentUser()` right before using any cached-user related functionalities.
+
+Whenever you use any signup or login methods, the user is cached in localStorage, or in any storage you configured via the `Parse.setAsyncStorage` method. You can treat this cache as a session, and automatically assume the user is logged in:
 
 <pre><code class="javascript">
 var currentUser = Parse.User.current();
@@ -86,6 +88,14 @@ if (currentUser) {
 } else {
     // show the signup or login page
 }
+</code></pre>
+
+When using a platform with an async storage system you should call `currentAsync()` instead.
+
+<pre><code class="javascript">
+Parse.User.currentAsync().then(function(user) {
+    // do stuff with your user
+});
 </code></pre>
 
 You can clear the current user by logging them out:
@@ -464,7 +474,7 @@ Parse then verifies that the provided `authData` is valid and checks to see if a
 
 <pre><code class="javascript">
 Status: 200 OK
-Location: https://api.parse.com/1/users/uMz0YZeAqc
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 
 With a response body like:
@@ -492,7 +502,7 @@ If the user has never been linked with this account, you will instead receive a 
 
 <pre><code class="javascript">
 Status: 201 Created
-Location: https://api.parse.com/1/users/uMz0YZeAqc
+Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 </code></pre>
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
 

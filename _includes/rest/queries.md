@@ -6,16 +6,16 @@ You can retrieve multiple objects at once by sending a GET request to the class 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('GET', '/1/classes/GameScore', '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore', '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -54,22 +54,22 @@ There are several ways to put constraints on the objects found, using the `where
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"playerName":"Sean Plott","cheatMode":false}' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "playerName": "Sean Plott",
        "cheatMode": False
      })})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -92,20 +92,21 @@ The values of the `where` parameter also support comparisons besides exact match
 | $dontSelect | Requires that a key's value not match a value for a key in the result of a different query |
 | $all        | Contains all of the given values |
 | $regex      | Requires that a key's value match a regular expression |
+| $text       | Performs a full text search on indexed fields |
 
 For example, to retrieve scores between 1000 and 3000, including the endpoints, we could issue:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"score":{"$gte":1000,"$lte":3000}}' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "score": {
          "$gte": 1000,
@@ -113,8 +114,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -125,15 +126,15 @@ To retrieve scores equal to an odd number below 10, we could issue:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"score":{"$in":[1,3,5,7,9]}}' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "score": {
          "$in": [
@@ -146,8 +147,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -158,7 +159,7 @@ To retrieve scores not by a given list of players we could issue:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={
@@ -170,11 +171,11 @@ curl -X GET \
      ]
    }
   }' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "playerName": {
          "$nin": [
@@ -185,8 +186,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -197,23 +198,23 @@ To retrieve documents with the score set, we could issue:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"score":{"$exists":true}}' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "score": {
          "$exists": True
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -224,23 +225,23 @@ To retrieve documents without the score set, we could issue:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"score":{"$exists":false}}' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "score": {
          "$exists": False
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -251,15 +252,15 @@ If you have a class containing sports teams and you store a user's hometown in t
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"hometown":{"$select":{"query":{"className":"Team","where":{"winPct":{"$gt":0.5}}},"key":"city"}}}' \
-  https://api.parse.com/1/classes/_User
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/_User
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "hometown": {
          "$select": {
@@ -276,8 +277,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/_User?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/_User?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -298,19 +299,19 @@ You can use the `order` parameter to specify a field to sort by. Prefixing with 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'order=score' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"order":"score"})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -321,19 +322,19 @@ And to retrieve scores in descending order:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'order=-score' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"order":"-score"})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -344,19 +345,19 @@ You can sort by multiple fields by passing `order` a comma-separated list. To re
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'order=score,-name' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"order":"score,-name"})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -367,20 +368,20 @@ You can use the `limit` and `skip` parameters for pagination.`limit` defaults to
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'limit=200' \
   --data-urlencode 'skip=400' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"limit":200,"skip":400})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -391,19 +392,19 @@ You can restrict the fields returned by passing `keys` a comma-separated list. T
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'keys=score,playerName' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"keys":"score,playerName"})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -414,7 +415,7 @@ All of these parameters can be used in combination with each other. For example:
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={
@@ -430,11 +431,11 @@ curl -X GET \
   --data-urlencode 'limit=200' \
   --data-urlencode 'skip=400' \
   --data-urlencode 'keys=score,playerName' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({
     "where":json.dumps({
       "playerName": {
@@ -450,8 +451,8 @@ params = urllib.urlencode({
     "skip":400,
     "keys":"score,playerName"})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -465,21 +466,21 @@ For keys with an array type, you can find objects where the key's array value co
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"arrayKey":2}' \
-  https://api.parse.com/1/classes/RandomObject
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/RandomObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "arrayKey": 2
      })})
 connection.connect()
-connection.request('GET', '/1/classes/RandomObject?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/RandomObject?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -490,15 +491,15 @@ You can also use the `$all` operator to find objects with an array field which c
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"arrayKey":{"$all":[2,3,4]}}' \
-  https://api.parse.com/1/classes/RandomObject
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/RandomObject
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "arrayKey": {
          "$all": [
@@ -509,8 +510,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/RandomObject?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/RandomObject?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -528,19 +529,77 @@ Use the `$regex` operator to restrict to string values that match a regular expr
 <pre><code class="bash">
 # Finds barbecue sauces that start with "Big Daddy"
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"name":{"$regex":"^Big Daddy"}}' \
-  https://api.parse.com/1/classes/BarbecueSauce
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/BarbecueSauce
 </code></pre>
 <pre><code class="python">
 # Finds barbecue sauces that start with "Big Daddy"
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "name": {
          "$regex": "^Big Daddy"
+       }
+     })})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/BarbecueSauce?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy". For example, both "Big Daddy" and "Big Daddy's" will match, but "big daddy" or "BBQ Sauce: Big Daddy's" will not.
+
+Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
+
+* Starting with Parse-Server 2.5.0
+
+For efficient search capabilities use the `$text` operator. By creating indexes on one or more columns your strings are turned into tokens for full text search functionality.
+
+The format `{"$text": {"$search": {parameters}}}`
+
+| Parameter           | Use                                                            |
+|--------------------------------------------------------------------------------------|
+| $term               | Specify a field to search (Required)                           |
+| $language           | Determines the list of stop words and the rules for tokenizer. |
+| $caseSensitive      | Enable or disable case sensitive search.     |
+| $diacriticSensitive | Enable or disable diacritic sensitive search |
+
+Please refer to your database documentation on Full Text Search to setup your indexes, weights and limitations.
+
+<a href="https://docs.mongodb.com/v3.2/text-search/">Mongo 3.2 Full Text Search</a>
+
+<a href="https://docs.mongodb.com/manual/reference/operator/query/text/">Mongo 3.4 Full Text Search</a>
+
+<a href="https://www.postgresql.org/docs/9.5/static/textsearch.html">Postgres 9.5 Full Text Search</a>
+
+Note: Postgres doesn't support `$caseSensitive` for Full Text Search, please use `$regex` above or create a lowercase column in your DB. Postgres supports `$diacriticSensitive: true` by default but `$diacriticSensitive: false` is not supported. To use false automatically, please install Postgres Unaccent Extension and update your text search configuration.
+
+<pre><code class="bash">
+# Finds strings that contains "Daddy"
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"name":{"$text":{"$search":{"$term":"Daddy"}}}}' \
+  https://api.parse.com/1/classes/BarbecueSauce
+</code></pre>
+<pre><code class="python">
+# Finds barbecue sauces that contains "Daddy"
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "name": {
+         "$text": {
+          "$search": {
+           "$term": "Daddy"
+          }
+         }
        }
      })})
 connection.connect()
@@ -552,10 +611,45 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 
-The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy". For example, both "Big Daddy" and "Big Daddy's" will match, but "big daddy" or "BBQ Sauce: Big Daddy's" will not.
+`$text` allows for sorting by `$score`. The text score signifies how well the string matched the search term(s) based on weights.
 
-Queries that have regular expression constraints are very expensive, especially for classes with over 100,000 records. Parse restricts how many such operations can be run on a particular app at any given time.
+<pre><code class="bash">
+# Finds strings that contains "Daddy" ordered by relevance
+curl -X GET \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"name":{"$text":{"$search":{"$term":"Daddy"}}}}' \
+  --data-urlencode 'order="$score"' \
+  --data-urlencode 'key="$score"' \
+  https://api.parse.com/1/classes/BarbecueSauce
+</code></pre>
+<pre><code class="python">
+# Finds string that contains "Daddy" ordered by relevance
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "name": {
+         "$text": {
+          "$search": {
+           "$term": "Daddy"
+          }
+         }
+       }
+     }),
+     "order":"$score",
+     "keys":"$score",
+     })
+connection.connect()
+connection.request('GET', '/1/classes/BarbecueSauce?%s' % params, '', {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
 
+Note: Both keys and order are required to sort by `$score`. You have to manually set weights on Postgres to use `$score`.
 
 ## Relational Queries
 
@@ -563,15 +657,15 @@ There are several ways to issue queries for relational data. If you want to retr
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"post":{"__type":"Pointer","className":"Post","objectId":"8TOXdXf3tz"}}' \
-  https://api.parse.com/1/classes/Comment
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "post": {
          "__type": "Pointer",
@@ -580,8 +674,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/Comment?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -592,15 +686,15 @@ If you want to retrieve objects where a field contains an object that matches an
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"post":{"$inQuery":{"where":{"image":{"$exists":true}},"className":"Post"}}}' \
-  https://api.parse.com/1/classes/Comment
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "post": {
          "$inQuery": {
@@ -614,8 +708,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/Comment?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -626,15 +720,15 @@ If you want to retrieve objects where a field contains an object that does not m
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"post":{"$notInQuery":{"where":{"image":{"$exists":true}},"className":"Post"}}}' \
-  https://api.parse.com/1/classes/Comment
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "post": {
          "$notInQuery": {
@@ -648,8 +742,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/classes/Comment?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -660,15 +754,15 @@ If you want to retrieve objects that are members of `Relation` field of a parent
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"$relatedTo":{"object":{"__type":"Pointer","className":"Post","objectId":"8TOXdXf3tz"},"key":"likes"}}' \
-  https://api.parse.com/1/users
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "$relatedTo": {
          "object": {
@@ -680,8 +774,8 @@ params = urllib.urlencode({"where":json.dumps({
        }
      })})
 connection.connect()
-connection.request('GET', '/1/users?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -692,21 +786,21 @@ In some situations, you want to return multiple types of related objects in one 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'order=-createdAt' \
   --data-urlencode 'limit=10' \
   --data-urlencode 'include=post' \
-  https://api.parse.com/1/classes/Comment
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"order":"-createdAt","limit":10,"include":"post"})
 connection.connect()
-connection.request('GET', '/1/classes/Comment?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -740,21 +834,21 @@ You can also do multi level includes using dot notation.  If you wanted to inclu
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'order=-createdAt' \
   --data-urlencode 'limit=10' \
   --data-urlencode 'include=post.author' \
-  https://api.parse.com/1/classes/Comment
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"order":"-createdAt","limit":10,"include":"post.author"})
 connection.connect()
-connection.request('GET', '/1/classes/Comment?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -772,23 +866,23 @@ If you are limiting your query, or if there are a very large number of results, 
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"playerName":"Jonathan Walsh"}' \
   --data-urlencode 'count=1' \
   --data-urlencode 'limit=0' \
-  https://api.parse.com/1/classes/GameScore
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "playerName": "Jonathan Walsh"
      }),"count":1,"limit":0})
 connection.connect()
-connection.request('GET', '/1/classes/GameScore?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -812,15 +906,15 @@ With a nonzero limit, that request would return results as well as the count.
 
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
   --data-urlencode 'where={"$or":[{"wins":{"$gt":150}},{"wins":{"$lt":5}}]}' \
-  https://api.parse.com/1/classes/Player
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Player
 </code></pre>
 <pre><code class="python">
 import json,httplib,urllib
-connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.urlencode({"where":json.dumps({
        "$or": [
          {
@@ -836,8 +930,8 @@ params = urllib.urlencode({"where":json.dumps({
        ]
      })})
 connection.connect()
-connection.request('GET', '/1/classes/Player?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "${REST_API_KEY}"
      })
 result = json.loads(connection.getresponse().read())
@@ -847,3 +941,161 @@ print result
 Any other constraints on the query are also applied to the object returned, so you can add other constraints to queries with `$or`.
 
 Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. nearSphere, within, limit, skip, sort, include) in the subqueries of the compound query.
+
+## Distinct Queries
+
+* Starting with Parse-Server 2.7.0 (requires masterKey)
+
+Finds unique values for a specified field.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'distinct=score' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"distinct":"score"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+Can be used with `where` parameter for constraining the value for keys.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'where={"playerName":"Sean Plott"},distinct=score' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"where":json.dumps({
+       "playerName": "Sean Plott"
+     }),"distinct":"score"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+## Aggregate Queries
+
+* Starting with Parse-Server 2.7.0 (requires masterKey)
+
+You can find objects using aggregate functions. This will compute result(s) for a set of input values.
+
+For a list of available operators please refer to Mongo Aggregate Documentation.
+
+<a href="https://docs.mongodb.com/v3.2/reference/operator/aggregation/">Mongo 3.2 Aggregate Operators</a>
+
+<a href="https://docs.mongodb.com/manual/reference/operator/aggregation/#aggregation-expression-operators">Mongo 3.4 Aggregate Operators</a>
+
+You can group the objects and apply an accumulator operator such as `$sum`, `$avg`, `$max`, `$min`. `group` is similar to `distinct`.
+
+Note: `_id` does not exist in parse-server. Please replace with `objectId`.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'group:{"objectId":null,"total":{"$sum":"$score"}}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"group":json.dumps({
+       "objectId": null,
+       "total": {
+        "$sum":"$score"
+       }
+     }),"distinct":"score"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+You can add or remove existing fields with `project` parameter. `project` is similar to `keys`.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'project={"score":1}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"project":json.dumps({
+       "score": 1
+     })})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+You can filter out objects with `match` parameter. `match` is similar to `$eq`.
+
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -G \
+  --data-urlencode 'match={"score":{"$gt":15}}' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"match":json.dumps({
+       "score": {
+        "$gt":15
+       }
+     })})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/Player?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+You can also constraint by `limit`, `skip`, `sort`

@@ -42,7 +42,7 @@ You will need to obtain some credentials from GCM and APNS in order to send push
 
 #### APNS (iOS)
 
-If you are setting up push notifications on iOS, tvOS or macOS for the first time, we recommend you visit the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate. Parse has always guided users to export a PFX (`.p12`) file from Keychain Access, and we support that format in Parse Server as well. Optionally, the module supports accepting the push certificate and key in `.pem` format. Token-based authentication instead of a certificate is not supported yet.
+If you are setting up push notifications on iOS, tvOS or macOS for the first time, we recommend you visit the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate. Parse Server supports the PFX (`.p12`) file exported from Keychain Access. Parse Server also supports the push certificate and key in `.pem` format. Token-based authentication instead of a certificate is supported as well.
 
 #### GCM (Android)
 
@@ -90,13 +90,29 @@ push: {
     passphrase: '', // optional password to your p12
     cert: '', // If not using the .p12 format, the path to the certificate PEM to load from disk
     key: '', // If not using the .p12 format, the path to the private key PEM to load from disk
-    bundleId: '', // The bundle identifier associate with your app
+    bundleId: '', // The bundle identifier associated with your app
     production: false // Specifies which APNS environment to connect to: Production (if true) or Sandbox
   }
 }
 ```
 
-For iOS, if you need to support both the dev and prod certificates, you can provide an array of configurations like
+For iOS, if you would like to use token-based authentication instead of certificates, you should use the following configuration format
+
+```
+push: {
+  ios: {
+    token: {
+      key: '/file/path/to/AuthKey_XXXXXXXXXX.p8',
+      keyId: "XXXXXXXXXX",
+      teamId: "YYYYYYYYYY" // The Team ID for your developer account
+    },
+    topic: 'com.domain.appname', // The bundle identifier associated with your app
+    production: false
+  }
+}
+```
+
+If you would like to support both the dev and prod certificates, you can provide an array of configurations like
 
 ```js
 push: {

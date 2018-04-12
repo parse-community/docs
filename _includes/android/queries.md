@@ -210,6 +210,35 @@ The above example will match any `BarbecueSauce` objects where the value in the 
 
 Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide](#regular-expressions) for more details.
 
+### Full Text Search
+
+You can use `whereFullText` for efficient search capabilities. Text indexes are automatically created for you. Your strings are turned into tokens for fast searching.
+
+* Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
+
+* Requires Parse Server 2.5.0+
+
+```java
+// Finds barbecue sauces that start with 'Big Daddy's'.
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereFullText("name", "Big Daddy's");
+```
+
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
+
+```java
+// You can sort by weight / rank. orderByAscending() and selectKeys()
+ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
+query.whereFullText("name", "Big Daddy's");
+query.orderByAscending("$score");
+query.selectKeys(Arrays.asList("$score"));
+// results will contain $score, results[0].getInt("$score");
+List<ParseObject> results = query.find();
+```
+
+
+For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
+
 
 ## Relational Queries
 
@@ -311,6 +340,8 @@ You can query from the local datastore using exactly the same kinds of queries y
 
 ## Caching Queries
 
+### With Local Datastore enabled
+
 It's often useful to cache the result of a query on a device. This lets you show data when the user's device is offline, or when the app has just started and network requests have not yet had time to complete. The easiest way to do this is with the local datastore. When you pin objects, you can attach a label to the pin, which lets you manage a group of objects together. For example, to cache the results of the query above, you can call `pinAllInBackground` and give it a label.
 
 ```java
@@ -340,7 +371,40 @@ query.findInBackground(new FindCallback<ParseObject>() {
 });
 ```
 
-Now when you do any query with `fromLocalDatastore`, these objects will be included in the results if they still match the query.
+Now when you do any query with `fromLocalDatastore`, these objects will be included in the results if they still match the query. `ParseQuery` lets you choose whether to query the network (`fromNetwork`) or the local datastore (`fromLocalDatastore` or `fromPin(label)` to query just a subset). It is also possible to chain both requests, or execute them in parallel.
+
+For instance, to query the cache first and then the network,
+
+```java
+final ParseQuery query = ...
+query.fromLocalDatastore().findInBackground().continueWithTask((task) -> {
+  // Update UI with results from Local Datastore ...
+  // Now query the network:
+  return query.fromNetwork().findInBackground();
+}, Task.UI_EXECUTOR).continueWithTask((task) -> {
+  // Update UI with results from Network ...
+  return task;
+}, Task.UI_EXECUTOR);
+```
+
+Or you might want to query the cache, and if that fails, fire a network call:
+
+```java
+final ParseQuery query = ...
+query.fromLocalDatastore().findInBackground().continueWithTask((task) -> {
+  Exception error = task.getError();
+  if (error instanceof ParseException && ((ParseException) error).getCode() == ParseException.CACHE_MISS) {
+    // No results from cache. Let's query the network.
+    return query.fromNetwork().findInBackground();
+  }
+  return task;
+}).continueWithTask((task) -> {
+  // Update UI with results ...
+  return task;
+}, Task.UI_EXECUTOR);
+```
+
+### Without Local Datastore
 
 If you aren't using the local datastore, you can use the per-query cache for `ParseQuery` instead. The default query behavior doesn't use the cache, but you can enable caching with `setCachePolicy`. For example, to try the network and then fall back to cached data if the network is not available:
 

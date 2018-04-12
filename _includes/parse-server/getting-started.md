@@ -39,7 +39,7 @@ Now that you're running Parse Server, it is time to save your first object. We'l
 curl -X POST \
 -H "X-Parse-Application-Id: APPLICATION_ID" \
 -H "Content-Type: application/json" \
--d '{"score":1337,"playerName":"Sean Plott","cheatMode":false}' \
+-d '{"score":123,"playerName":"Sean Plott","cheatMode":false}' \
 http://localhost:1337/parse/classes/GameScore
 ```
 
@@ -64,7 +64,7 @@ $ curl -X GET \
 // Response
 {
   "objectId": "2ntvSpRGIK",
-  "score": 1337,
+  "score": 123,
   "playerName": "Sean Plott",
   "cheatMode": false,
   "updatedAt": "2016-03-11T23:51:48.050Z",
@@ -86,7 +86,7 @@ $ curl -X GET \
   "results": [
     {
       "objectId": "2ntvSpRGIK",
-      "score": 1337,
+      "score": 123,
       "playerName": "Sean Plott",
       "cheatMode": false,
       "updatedAt": "2016-03-11T23:51:48.050Z",

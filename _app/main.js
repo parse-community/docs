@@ -650,6 +650,9 @@ App.Views = {};
 			// deal with common-lang-blocks
 			this.toggleCommonLangBlocks();
 
+      // setup the server/mount path editor
+      this.setupServerFieldCustomization();
+
 			// add toggles to code blocks if necessary
 			if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
 				new App.Views.Docs.Toggle({
@@ -688,7 +691,7 @@ App.Views = {};
 			var h1s = this.scrollContent.getElementsByTagName('h1');
 			for (var i = 0; i < h1s.length; i++) {
 				// var anchor = h1s[i].getElementsByTagName('a')[0];
-				this.mobileToc.appendChild(UI.tag('option', { 'data-anchor': h1s[i].id }, [ h1s[i].textContent ]));
+				this.mobileToc.appendChild(UI.tag('option', { 'data-anchor': "#"+h1s[i].id }, [ h1s[i].textContent ]));
 			}
 			this.mobileToc.addEventListener('change', this.handleSelectChange.bind(this));
 			this.mobileToc.getElementsByTagName('option')[0].setAttribute('selected', true);
@@ -729,6 +732,154 @@ App.Views = {};
 			}
 		},
 
+    setupServerFieldCustomization: function setupServerFieldCustomization() {
+
+		  if(!document.getElementById('parse-server-custom-url')) {
+		    // no customization available on this page
+		    return;
+      }
+
+      if (typeof(Storage) !== "undefined") {
+        // apply previous values from local storage
+        const _url        = localStorage.getItem('parse-server-custom-url');
+        const _mount      = localStorage.getItem('parse-server-custom-mount');
+        const _protocol   = localStorage.getItem('parse-server-custom-protocol');
+        const _appId      = localStorage.getItem('parse-server-custom-appid');
+        const _clientKey  = localStorage.getItem('parse-server-custom-clientkey');
+
+        // set existing entries
+        if (_url) {
+          $(".custom-parse-server-url").html(_url);
+          $("#parse-server-custom-url").val(_url);
+        }
+        if (_mount) {
+          $(".custom-parse-server-mount").html(_mount);
+          $("#parse-server-custom-mount").val(_mount);
+        }
+        if (_protocol) {
+          $(".custom-parse-server-protocol").html(_protocol);
+          $("#parse-server-custom-protocol").val(_protocol);
+        }
+        if (_appId) {
+          $(".custom-parse-server-appid").html(_appId);
+          $("#parse-server-custom-appid").val(_appId);
+        }
+        if (_clientKey) {
+          $(".custom-parse-server-clientkey").html(_clientKey);
+          $("#parse-server-custom-clientkey").val(_clientKey);
+        }
+      }
+
+      // set url listener
+      $('#parse-server-custom-url').keyup(function() {
+        const url = $('#parse-server-custom-url').val();
+        if(!url.match(/^[-_a-z0-9\.]+(?::[0-9]+)?$/i)) {
+          // not a valid url
+          return;
+        }
+        $(".custom-parse-server-url").html(url);
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem('parse-server-custom-url', url);
+        }
+      });
+
+      // set mount listener
+      $('#parse-server-custom-mount').keyup(function() {
+        var mount = $('#parse-server-custom-mount').val();
+        if(!mount.match(/^[-_a-z0-9\/]+$/i) && mount !== '') {
+          // not a valid mount path, and not empty
+          return;
+        }
+        if(!mount.match(/^\//)) {
+          // add leading slash
+          mount = '/'+mount;
+        }
+        if(!mount.match(/\/$/)) {
+          // add trailing slash
+          mount = mount+'/';
+        }
+        $(".custom-parse-server-mount").html(mount);
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem('parse-server-custom-mount', mount);
+        }
+      });
+
+      // set protocol listener
+      $('#parse-server-custom-protocol').change(function() {
+        const protocol = $('#parse-server-custom-protocol').val();
+        if(!protocol.match(/^[a-z]+$/)) {
+          // not a valid protocol
+          return;
+        }
+        $(".custom-parse-server-protocol").html(protocol);
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem('parse-server-custom-protocol', protocol);
+        }
+      });
+
+      // set appId listener
+      $('#parse-server-custom-appid').keyup(function() {
+        var appId = $('#parse-server-custom-appid').val();
+        if(!appId.match(/^[^\s]+$/i)) {
+          // not a valid appId
+          return;
+        }
+        // encode any html
+        appId = appId.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        $(".custom-parse-server-appid").html(appId);
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem('parse-server-custom-appid', appId);
+        }
+      });
+
+      // set clientKey listener
+      $('#parse-server-custom-clientkey').keyup(function() {
+        var clientKey = $('#parse-server-custom-clientkey').val();
+        if(!clientKey.match(/^[^\s]+$/i)) {
+          // not a valid appId
+          return;
+        }
+        // encode any html
+        clientKey = clientKey.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        $(".custom-parse-server-clientkey").html(clientKey);
+        if (typeof(Storage) !== "undefined") {
+          localStorage.setItem('parse-server-custom-clientkey', clientKey);
+        }
+      });
+
+      // set reset button
+      $('#parse-server-custom-values-reset').click(function() {
+        // reset defaults
+        let _default = $("#parse-server-custom-url").attr('defaultval');
+        $(".custom-parse-server-url").html(_default);
+        $("#parse-server-custom-url").val(_default);
+        localStorage.setItem('parse-server-custom-url', _default);
+
+        _default = $("#parse-server-custom-mount").attr('defaultval');
+        $(".custom-parse-server-mount").html("/"+_default+"/");
+        $("#parse-server-custom-mount").val(_default);
+        localStorage.setItem('parse-server-custom-mount', "/"+_default+"/");
+
+        _default = $("#parse-server-custom-protocol").attr('defaultval');
+        $(".custom-parse-server-protocol").html(_default);
+        $("#parse-server-custom-protocol").val(_default);
+        localStorage.setItem('parse-server-custom-protocol', _default);
+
+        _default = $("#parse-server-custom-appid").attr('defaultval');
+        $(".custom-parse-server-appid").html(_default);
+        $("#parse-server-custom-appid").val(_default);
+        localStorage.setItem('parse-server-custom-appid', _default);
+
+        _default = $("#parse-server-custom-clientkey").attr('defaultval');
+        $(".custom-parse-server-clientkey").html(_default);
+        $("#parse-server-custom-clientkey").val(_default);
+        localStorage.setItem('parse-server-custom-clientkey', _default);
+
+
+      });
+
+    },
+
 		// we recalculate the header heights for the TOC
 		// highlighting when the height of the content changes
 		handleToggleChange: function() {
@@ -753,7 +904,7 @@ $('pre code').each(function(i, block) {
   hljs.highlightBlock(block);
 });
 
-var platform = window.location.pathname.split('/')[2];
+var platform = window.location.pathname.split('/')[1];
 if (platform) {
   new App.Views.Docs.Main({
     language: 'en',
