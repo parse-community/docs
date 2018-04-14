@@ -9,7 +9,7 @@ Add dependency to the application level `build.gradle` file.
 
 ```groovy
 dependencies {
-  compile 'com.parse:parse-android:1.16.7'
+  implementation 'com.parse:parse-android:1.16.7'
 }
 ```
 
