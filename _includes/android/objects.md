@@ -311,7 +311,7 @@ ParseQuery<ParseObject> query = relation.getQuery();
 
 ## Data Types
 
-So far we've used values with type `String`, `Integer`, `bool`, and `ParseObject`. Parse also supports `float`, `java.util.Date`, and `JSONObject.NULL`.
+So far we've used values with type `String`, `Integer`, `boolean`, and `ParseObject`. Parse also supports `float`, `java.util.Date`, and `JSONObject.NULL`.
 
 You can nest `JSONObject` and `JSONArray` objects to store more structured data within a single `ParseObject`. Overall, the following types are allowed for each field in your object:
 
