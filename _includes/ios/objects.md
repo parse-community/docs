@@ -107,14 +107,14 @@ The four special values are provided as properties:
 NSString *objectId = gameScore.objectId;
 NSDate *updatedAt = gameScore.updatedAt;
 NSDate *createdAt = gameScore.createdAt;
-PFACL *ACL = gameScore.acl;
+PFACL *ACL = gameScore.ACL;
 </code></pre>
 
 <pre><code class="swift">
 let objectId = gameScore.objectId
 let updatedAt = gameScore.updatedAt
 let createdAt = gameScore.createdAt
-let acl = gameScore.acl
+let acl = gameScore.ACL
 </code></pre>
 
 If you need to refresh an object you already have with the latest data that
