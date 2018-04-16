@@ -45,7 +45,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the object using a query:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If the object has been uploaded to the cloud, you can use the `objectId` to retrieve it using a query:
 
 ```cpp
 ParseObjectGet get;
