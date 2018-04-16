@@ -148,7 +148,7 @@ gameScore.save({
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `Parse.Object` using a `Parse.Query`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `Parse.Object` has been uploaded to the server, you can use the `objectId` to get it using a `Parse.Query`:
 
 <pre><code class="javascript">
 var GameScore = Parse.Object.extend("GameScore");
@@ -172,12 +172,13 @@ var playerName = gameScore.get("playerName");
 var cheatMode = gameScore.get("cheatMode");
 </code></pre>
 
-The three special reserved values are provided as properties and cannot be retrieved using the 'get' method nor modified with the 'set' method:
+The four special reserved values are provided as properties and cannot be retrieved using the 'get' method nor modified with the 'set' method:
 
 <pre><code class="javascript">
 var objectId = gameScore.id;
 var updatedAt = gameScore.updatedAt;
 var createdAt = gameScore.createdAt;
+var acl = gamescore.ACL;
 </code></pre>
 
 If you need to refresh an object you already have with the latest data that
