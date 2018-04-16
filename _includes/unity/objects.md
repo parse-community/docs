@@ -80,7 +80,7 @@ For more information about how Parse handles data, check out our documentation o
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `ObjectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `ParseObject` has been uploaded to the server, you can retrieve it with its `ObjectId` using a `ParseQuery`:
 
 ```cs
 ParseQuery<ParseObject> query = ParseObject.GetQuery("GameScore");
@@ -121,12 +121,13 @@ foreach (var key in dictionary.Keys) {
 }
 ```
 
-The three special values are provided as properties:
+The four special values are provided as properties:
 
 ```cs
 string objectId = gameScore.ObjectId;
 DateTime? updatedAt = gameScore.UpdatedAt;
 DateTime? createdAt = gameScore.CreatedAt;
+ParseACL? parseACL = gamescore.ParseACL;
 ```
 
 If you need to get an object's latest data from Parse, you can call the `FetchAsync` method like so:
