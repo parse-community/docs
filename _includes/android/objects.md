@@ -39,7 +39,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, which is available once the `ParseObject` been uploaded to the server, you can retrieve the whole `ParseObject` using a `ParseQuery`:
 
 ```java
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
@@ -64,12 +64,13 @@ boolean cheatMode = gameScore.getBoolean("cheatMode");
 
 If you don't know what type of data you're getting out, you can call `get(key)`, but then you probably have to cast it right away anyways. In most situations you should use the typed accessors like `getString`.
 
-The three special values have their own accessors:
+The four special values have their own accessors:
 
 ```java
 String objectId = gameScore.getObjectId();
 Date updatedAt = gameScore.getUpdatedAt();
 Date createdAt = gameScore.getCreatedAt();
+ParseACL acl = gameScore.getACL();
 ```
 
 If you need to refresh an object you already have with the latest data that
