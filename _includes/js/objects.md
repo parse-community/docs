@@ -178,7 +178,7 @@ The four special reserved values are provided as properties and cannot be retrie
 var objectId = gameScore.id;
 var updatedAt = gameScore.updatedAt;
 var createdAt = gameScore.createdAt;
-var acl = gamescore.ACL;
+var acl = gameScore.getACL();
 </code></pre>
 
 If you need to refresh an object you already have with the latest data that
