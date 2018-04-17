@@ -101,7 +101,7 @@ The four special values are provided as properties:
 string objectId = gameScore.ObjectId;
 DateTime? updatedAt = gameScore.UpdatedAt;
 DateTime? createdAt = gameScore.CreatedAt;
-string? acl = gameScore.ACL;
+ParseACL? acl = gameScore.ParseACL;
 ```
 
 If you need to get an object's latest data from Parse, you can call the `FetchAsync` method like so:
