@@ -62,7 +62,7 @@ Note: You can use the `saveInBackgroundWithBlock` method to provide additional l
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `PFObject` using a `PFQuery`.  This is an asynchronous method, with variations for using either blocks or callback methods:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `PFObject` has been uploaded to the server, you can retrieve it with its `objectId` by using a `PFQuery`. This is an asynchronous method, with variations for using either blocks or callback methods:
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
@@ -101,18 +101,20 @@ let playerName = gameScore["playerName"] as String
 let cheatMode = gameScore["cheatMode"] as Bool
 </code></pre>
 
-The three special values are provided as properties:
+The four special values are provided as properties:
 
 <pre><code class="objectivec">
 NSString *objectId = gameScore.objectId;
 NSDate *updatedAt = gameScore.updatedAt;
 NSDate *createdAt = gameScore.createdAt;
+PFACL *ACL = gameScore.ACL;
 </code></pre>
 
 <pre><code class="swift">
 let objectId = gameScore.objectId
 let updatedAt = gameScore.updatedAt
 let createdAt = gameScore.createdAt
+let acl = gameScore.ACL
 </code></pre>
 
 If you need to refresh an object you already have with the latest data that

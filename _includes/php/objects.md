@@ -46,7 +46,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 ## Retrieving Objects
 
-Saving data to the cloud is fun, but it's even more fun to get that data out again. If you have the `objectId`, you can retrieve the whole `ParseObject` using a `ParseQuery`:
+Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `ParseObject` has been uploaded to the server, you can retrieve it with its `objectId` using a `ParseQuery`:
 
 <pre><code class="php">
 $query = new ParseQuery("GameScore");
@@ -67,12 +67,13 @@ $playerName = $gameScore->get("playerName");
 $cheatMode = $gameScore->get("cheatMode");
 </code></pre>
 
-The three special values are provided as the result of methods:
+The four special values are provided as the result of methods:
 
 <pre><code class="php">
 $objectId = $gameScore->getObjectId();
 $updatedAt = $gameScore->getUpdatedAt();
 $createdAt = $gameScore->getCreatedAt();
+$acl = $gameScore->getACL();
 </code></pre>
 
 If you need to refresh an object you already have with the latest data that
