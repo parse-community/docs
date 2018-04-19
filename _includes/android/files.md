@@ -71,7 +71,7 @@ You can delete files that are referenced by objects using the [REST API]({{ site
 
 If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app's Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.
 
-## Parcelable
+## Using Parcelable
 
 As most public facing components of the SDK, `ParseFile` implements the `Parcelable` interface. This means you can retain a `ParseFile` during configuration changes, or pass it to other components of the app through `Bundles`. To achieve this, depending on the context, use either `Parcel#writeParcelable(Parcelable, int)` or `Bundle#putParcelable(String, Parcelable)`. For instance, in an Activity,
 
@@ -85,7 +85,7 @@ protected void onSaveInstanceState(Bundle outState) {
       outState.putParcelable("file", file);
     }
 }
-    
+
 @Override
 protected void onCreate(@Nullable Bundle savedInstanceState) {
   if (savedInstanceState != null) {

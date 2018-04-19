@@ -115,7 +115,7 @@ polygon.containsPoint(inside);
 polygon.containsPoint(outside);
 ```
 
-## Parcelable
+## Utilizing Parcelable
 
 As most public facing components of the SDK, `ParseGeoPoint` and `ParsePolygon` implements the `Parcelable` interface. This means you can retain a `ParseGeoPoint` and `ParsePolygon` during configuration changes, or pass it to other components of the app through `Bundles`. To achieve this, depending on the context, use either `Parcel#writeParcelable(Parcelable, int)` or `Bundle#putParcelable(String, Parcelable)`. For instance, in an Activity,
 
