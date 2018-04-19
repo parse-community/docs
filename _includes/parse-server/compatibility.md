@@ -153,7 +153,7 @@ There is no background job functionality in Parse Server. If you have scheduled 
 
 Push notification support for the Parse IoT SDKs is provided through the Parse Push Notification Service (PPNS). PPNS is a push notification service for Android and IoT devices maintained by Parse. This service will be retired on January 28, 2017. [This page](https://github.com/parse-community/parse-server/wiki/PPNS-Protocol-Specification) documents the PPNS protocol for users that wish to create their own PPNS-compatible server for use with their Parse IoT devices.
 
-## Push Notifications
+## Push Notifications Compatibility
 
 ### Client Push
 
