@@ -4,7 +4,7 @@ Parse Server provides basic push notification functionality for iOS, macOS, tvOS
 
 * Target installations by platform
 * Target installations by a `ParseQuery`
-* Send push notifications to Android devices through [Google Cloud Messaging (GCM)](https://developers.google.com/cloud-messaging/)
+* Send push notifications to Android devices through [Firebase Cloud Messaging (FCM)](https://firebase.google.com/docs/cloud-messaging/)
 * Send push notifications to iOS, tvOS and macOS devices through [Apple Push Notification Service (APNS)](https://developer.apple.com/library/content/documentation/NetworkingInternet/Conceptual/RemoteNotificationsPG/APNSOverview.html#//apple_ref/doc/uid/TP40008194-CH8-SW1)
 * Use most of the sending options
 
@@ -36,21 +36,17 @@ Here is the list of sending options we do not support yet:
 
 ## Push Notifications Quick Start
 
-### 1. Prepare APNS and GCM Credentials
+### 1. Prepare APNS and FCM Credentials
 
-You will need to obtain some credentials from GCM and APNS in order to send push notifications.
+You will need to obtain some credentials from FCM and APNS in order to send push notifications.
 
 #### APNS (iOS)
 
 If you are setting up push notifications on iOS, tvOS or macOS for the first time, we recommend you visit the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate. Parse Server supports the PFX (`.p12`) file exported from Keychain Access. Parse Server also supports the push certificate and key in `.pem` format. Token-based authentication instead of a certificate is supported as well.
 
-#### GCM (Android)
+#### FCM (Android)
 
-To get your GCM sender ID, enable GCM for your Android project in the [Google Developer Console](https://console.developers.google.com). Take note of your project number. It should be a large integer like 123427208255. This project number is your GCM sender ID.
-
-To get your GCM API key, go to the [Google developer credentials](https://console.developers.google.com/apis/credentials) page, and either create a new API key or reuse an existing one.
-
-By default, the hosted Parse service (parse.com) sends pushes to your Android app with its own GCM sender ID. With your Parse Server, this setup will no longer work. Instead, your Parse Server will send GCM pushes with its own GCM sender ID and API key.  You should register a GCM sender ID and update your app as soon as possible.  Until users update, you can continue sending push notifications through Parse.com.
+To get your FCM API key, go to the [Firebase console](https://console.developers.google.com/apis/credentials) and navigate to the project. Navigate to the settings of the project, and within the "Cloud Messaging" tab, you will find it, labeled "Server key"
 
 ### 2. Configure Parse Server
 
@@ -64,7 +60,6 @@ var server = new ParseServer({
   masterKey: '...',
   push: {
     android: {
-      senderId: '...',
       apiKey: '...'
     },
     ios: {
@@ -82,8 +77,7 @@ The configuration format is
 ```js
 push: {
   android: {
-    senderId: '', // The Sender ID of GCM
-    apiKey: '' // The Server API Key of GCM
+    apiKey: '' // The Server API Key of FCM
   },
   ios: {
     pfx: '', // The filename of private key and certificate in PFX or PKCS12 format from disk  
@@ -141,7 +135,6 @@ var server = new ParseServer({
   masterKey: '...',
   push: {
     android: {
-      senderId: '...',
       apiKey: '...'
     },
     ios: {
@@ -237,7 +230,7 @@ After sending this to your Parse Server, you should see the push notifications s
 In your Parse Server logs, you can see something similar to
 
 ```json
-GCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
+FCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
 ```
 
 ```json
@@ -245,11 +238,11 @@ APNS Connected
 APNS Notification transmitted to:7a7d2864598e1f65e6e02135245b7daf8ea510514e6376f072dc29d53facaa41
 ```
 
-These logs mean that the GCM and APNS connections are working.
+These logs mean that the FCM and APNS connections are working.
 
 ## Push Adapter
 
-Parse Server provides a `PushAdapter` which abstracts the way we actually send push notifications. The default implementation is `ParsePushAdapter`, which uses GCM for Android push and APNS for iOS push. However, if you want to use other push providers, you can implement your own `PushAdapter`. Your adapter needs to implement `send(data, installations)`, which is used for sending data to the installations. You can use `ParsePushAdapter` as a reference. After you implement your `PushAdapter`, you can pass that instance to Parse Server like this
+Parse Server provides a `PushAdapter` which abstracts the way we actually send push notifications. The default implementation is `ParsePushAdapter`, which uses FCM for Android push and APNS for iOS push. However, if you want to use other push providers, you can implement your own `PushAdapter`. Your adapter needs to implement `send(data, installations)`, which is used for sending data to the installations. You can use `ParsePushAdapter` as a reference. After you implement your `PushAdapter`, you can pass that instance to Parse Server like this
 
 ```js
 var server = new ParseServer({

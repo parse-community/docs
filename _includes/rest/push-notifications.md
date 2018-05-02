@@ -14,10 +14,9 @@ An installation object represents an instance of your app being installed on a d
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
 *   **`timeZone`**: The current time zone where the target device is located. This should be an [IANA time zone identifier](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet"_(readonly)_.
-*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
-*   **`GCMSenderId`**: This field only has meaning for Android installations that use the GCM push type. It is reserved for directing Parse to send pushes to this installation with an alternate GCM sender ID. This field should generally not be set unless you are uploading installation data from another push provider. If you set this field, then you must set the GCM API key corresponding to this GCM sender ID in your Parse application's push settings.
+*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via FCM, this field will be marked "gcm". If this device is not using FCM, and is using Parse's push notification service, it will be blank _(readonly)_.
 *   **`installationId`**: Universally Unique Identifier (UUID) for the device used by Parse. It must be unique across all of an app's installations. _(readonly)_.
-*   **`deviceToken`**: The Apple or Google generated token used to deliver messages to the APNs or GCM push networks respectively.
+*   **`deviceToken`**: The Apple or Google generated token used to deliver messages to the APNs or FCM push networks respectively.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices.
 *   **`appName`**: The display name of the client application to which this installation belongs.
 *   **`appVersion`**: The version string of the client application to which this installation belongs.
@@ -77,12 +76,11 @@ The response body is a JSON object containing the `objectId` and the `createdAt`
 }
 </code></pre>
 
-When creating Android installation objects containing GCM (Google Cloud Messaging) credentials, you must have at least the following fields in your installation object:
+When creating Android installation objects containing FCM (Firebase Cloud Messaging) credentials, you must have at least the following fields in your installation object:
 
 *   A `deviceType` set to `android`.
 *   A `pushType` set to `gcm`.
-*   A GCM registration ID in the `deviceToken` field.
-*   The GCM sender ID associated with this registration ID in the `GCMSenderId` field.
+*   A FCM registration token in the `deviceToken` field.
 
 You could create and object with these fields using a command like this:
 
@@ -95,7 +93,6 @@ curl -X POST \
         "deviceType": "android",
         "pushType": "gcm",
         "deviceToken": "APA91bFMvbrGg4cp3KUV_7dhU1gmwE_...",
-        "GCMSenderId": "56712320625545",
         "channels": [
           ""
         ]
@@ -110,7 +107,6 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "deviceType": "android",
        "pushType": "gcm",
        "deviceToken": "APA91bFMvbrGg4cp3KUV_7dhU1gmwE_...",
-       "GCMSenderId": "56712320625545",
        "channels": [
          ""
        ]
@@ -122,8 +118,6 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
-
-If you upload Android installations with GCM credentials, then you must also set the GCM API Key associated with this GCM sender ID in your application's push settings.
 
 ### Retrieving Installations
 
