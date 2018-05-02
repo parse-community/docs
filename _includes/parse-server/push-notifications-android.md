@@ -1,67 +1,48 @@
-#### Configure Broadcast Receiver and Permissions
+#### FCM Push Setup
 
-Add the following service and broadcast receiver definitions to `AndroidManifest.xml` immediately before the *closing* `</application>` tag:
+Add dependency to the application level `build.gradle` file.
 
+```groovy
+dependencies {
+    implementation 'com.parse:parse-android-fcm:latest.version.here'
+}
+```
+Then, follow Google's docs for [setting up an Firebase app](https://firebase.google.com/docs/android/setup). Although the steps are different for setting up FCM with Parse, it is also a good idea to read over the [Firebase FCM Setup](https://firebase.google.com/docs/cloud-messaging/android/client).
+
+You will then need to register some services in your manifest, specifically:
 ```xml
-<service android:name="com.parse.PushService" />
-<receiver android:name="com.parse.ParsePushBroadcastReceiver"
-android:exported="false">
-<intent-filter>
-<action android:name="com.parse.push.intent.RECEIVE" />
-<action android:name="com.parse.push.intent.DELETE" />
-<action android:name="com.parse.push.intent.OPEN" />
-</intent-filter>
+<service
+    android:name="com.parse.fcm.ParseFirebaseInstanceIdService"
+    android:exported="true">
+    <intent-filter>
+        <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+    </intent-filter>
+</service>
+```
+Additional, you will register:
+```xml
+<service
+    android:name="com.parse.fcm.ParseFirebaseMessagingService">
+    <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+    </intent-filter>
+</service>
+```
+After these services are registered in the Manifest, you then need to register the push broadcast receiver:
+```xml
+<receiver
+    android:name="com.parse.ParsePushBroadcastReceiver"
+    android:exported="false">
+    <intent-filter>
+        <action android:name="com.parse.push.intent.RECEIVE" />
+        <action android:name="com.parse.push.intent.DELETE" />
+        <action android:name="com.parse.push.intent.OPEN" />
+    </intent-filter>
 </receiver>
-<receiver android:name="com.parse.GcmBroadcastReceiver"
-android:permission="com.google.android.c2dm.permission.SEND">
-<intent-filter>
-<action android:name="com.google.android.c2dm.intent.RECEIVE" />
-<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-<!--
-IMPORTANT: Change "com.parse.starter" to match your app's package name.
--->
-<category android:name="com.parse.starter" />
-</intent-filter>
-</receiver>
-
-<!--
-IMPORTANT: Change "YOUR_SENDER_ID" to your GCM Sender Id.
--->
-<meta-data android:name="com.parse.push.gcm_sender_id"
-  android:value="id:YOUR_SENDER_ID" />;
 ```
 
-Change the `android:name` attribute of `<category>` element above to match your application's package name.
-
-Change "YOUR_SENDER_ID" to the GCM Sender Id you obtained back in Step 1. See our [Android push guide]({{ site.baseUrl }}/android/guide/#setting-up-push) for more details on this attribute.
-
-**Migrating a hosted Parse app?** Note that you cannot send GCM pushes to old versions of your app that do not contain the `com.parse.push.gcm_sender_id` attribute in your app manifest, since those versions of the app haven't registered for push using your GCM sender ID.
-
-Also add the permissions below, typically immediately before the *opening* `<application>` tag:
-
-```xml
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-<uses-permission android:name="android.permission.VIBRATE" />
-<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-<!--
-GET_ACCOUNTS is only required for GCM on devices running Android lower than
-4.0.4. You may leave out this permission if you are targetting 4.0.4+.
--->
-<uses-permission android:name="android.permission.GET_ACCOUNTS" />
-
-<!--
-IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
-to match your app's package name + ".permission.C2D_MESSAGE".
--->
-<permission android:protectionLevel="signature"
-  android:name="com.parse.starter.permission.C2D_MESSAGE" />
-<uses-permission android:name="com.parse.starter.permission.C2D_MESSAGE" />
-```
-
-Change the `android:name` attribute in the last two lines of the snippet above to match your application's package name.
+## Custom Notifications
+If you need to customize the notification that is sent out from a push, you can do so by extending `ParsePushBroadcastReceiver` with your own class and registering it instead in the Manifest.
 
 #### Register Device for Push Notifications
 
@@ -105,3 +86,5 @@ curl -X GET \
 ```
 
 ##### Proceed to [Step 4](http://docs.parseplatform.org/parse-server/guide/#4-send-push-notifications).
+
+Note that GCM push support is [deprecated](https://android-developers.googleblog.com/2018/04/time-to-upgrade-from-gcm-to-fcm.html) and FCM should be used instead, but instructions for GCM setup can be found [here](https://github.com/parse-community/Parse-SDK-Android/tree/master/gcm)

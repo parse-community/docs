@@ -55,7 +55,7 @@ While it is possible to modify a `PFInstallation` just like you would a `PFObjec
 *   **`badge`**: The current value of the icon badge for iOS/OS X apps. Changing this value on the `PFInstallation` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
 *   **`installationId`**: Unique Id for the device used by Parse _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "osx", "android", "winrt", "winphone", "dotnet", or "embedded". On iOS and OS X devices, this field will be set to "ios" and "osx", respectively _(readonly)_.
-*   **`deviceToken`**: The Apple generated token used for iOS/OS X devices. On Android devices, this is the token used by GCM to keep track of registration ID _(readonly)_.
+*   **`deviceToken`**: The Apple generated token used for iOS/OS X devices. On Android devices, this is the token used by FCM to keep track of registration ID _(readonly)_.
 *   **`appName`**: The display name of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleNameKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`appVersion`**: The version string of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleVersionKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`appIdentifier`**: A unique identifier for this installation's client application. In iOS/OS X, this value is obtained from `kCFBundleIdentifierKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
@@ -63,7 +63,6 @@ While it is possible to modify a `PFInstallation` just like you would a `PFObjec
 *   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used for Android devices. This parameter is not supported in iOS/OS X devices _(readonly)_.
-*   **`GCMSenderId`**: This field only has meaning for Android `PFInstallation`s that use the GCM push type. This parameter is not supported in iOS/OS X devices.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices _(readonly)_.
 
 The Parse SDK will avoid making unnecessary requests. If a `PFInstallation` is saved on the device, a request to the Parse servers will only be made if one of the `PFInstallation`'s fields has been explicitly updated.
