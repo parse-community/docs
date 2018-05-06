@@ -2,14 +2,22 @@
 
 Add dependency to the application level `build.gradle` file.
 
+[![Bintray][bintray-svg]][bintray-link]
+
 ```groovy
 dependencies {
     implementation 'com.parse:parse-android-fcm:latest.version.here'
 }
 ```
-Then, follow Google's docs for [setting up an Firebase app](https://firebase.google.com/docs/android/setup). Although the steps are different for setting up FCM with Parse, it is also a good idea to read over the [Firebase FCM Setup](https://firebase.google.com/docs/cloud-messaging/android/client).
 
-You will then need to register some services in your manifest, specifically:
+Then, follow Google's docs for [setting up an Firebase app](https://firebase.google.com/docs/android/setup). Although the steps are different for setting up FCM with Parse, it is also a good idea to read over the [Firebase FCM Setup](https://firebase.google.com/docs/cloud-messaging/android/client).  You will need to do the following:
+  - [ ] Add app to [Firebase console](https://console.firebase.google.com/).
+  - [ ] Add the `com.google.gms.google-services` Gradle plugin (see [setup guide](https://firebase.google.com/docs/android/setup))
+  - [ ] Download and add [google-services.json](https://support.google.com/firebase/answer/7015592) to your `app/` dir.   
+  - [ ] Removed `GcmBroadcastReceiver`, `PushService`, `com.parse.push.gcm_sender_id` if upgrading from GCM.
+  - [ ] Added ParseFirebaseInstanceIdService and ParseFirebaseMessagingService to your AndroidManifest.xml file (as shown below):
+
+You will need to register some services in your manifest, specifically:
 ```xml
 <service
     android:name="com.parse.fcm.ParseFirebaseInstanceIdService"
@@ -88,3 +96,6 @@ curl -X GET \
 ##### Proceed to [Step 4](http://docs.parseplatform.org/parse-server/guide/#4-send-push-notifications).
 
 Note that GCM push support is [deprecated](https://android-developers.googleblog.com/2018/04/time-to-upgrade-from-gcm-to-fcm.html) and FCM should be used instead, but instructions for GCM setup can be found [here](https://github.com/parse-community/Parse-SDK-Android/tree/master/gcm)
+
+[bintray-svg]: https://api.bintray.com/packages/parse/maven/com.parse:parse-android/images/download.svg
+[bintray-link]: https://bintray.com/parse/maven/com.parse:parse-android
