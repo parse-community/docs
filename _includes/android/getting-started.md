@@ -7,6 +7,8 @@ Note that we support Android 2.3 and higher. You can also check out our [API Ref
 
 Add dependency to the application level `build.gradle` file.
 
+[![Bintray][bintray-svg]][bintray-link]
+
 ```groovy
 dependencies {
   implementation 'com.parse:parse-android:latest.version.here'
@@ -41,3 +43,6 @@ public class App extends Application {
    ...
  </application>
  ```
+
+ [bintray-svg]: https://api.bintray.com/packages/parse/maven/com.parse:parse-android/images/download.svg
+ [bintray-link]: https://bintray.com/parse/maven/com.parse:parse-android
