@@ -34,6 +34,7 @@ Next, navigate to the newly downloaded directory and run a few commands to build
 
 ```bash
 cd parse-embedded-sdks
+touch README
 autoreconf -fi
 ./configure --prefix=/usr
 make
