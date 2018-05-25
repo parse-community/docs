@@ -26,9 +26,9 @@ This class has several special fields that help you manage and target devices.
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
 *   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time an `Installation` object is saved from the device.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet"_(readonly)_.
-*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device      is registered to receive pushes via GCM, this field will be marked "gcm". If this device is not using GCM, and is using Parse's push notification service, it will be blank _(readonly)_.
+*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device      is registered to receive pushes via FCM, this field will be marked "gcm". If this device is not using FCM, and is using Parse's push notification service, it will be blank _(readonly)_.
 *   **`installationId`**: Universally Unique Identifier (UUID) for the device used by Parse. It must be unique across all of an app's installations. _(readonly)_.
-*   **`deviceToken`**: The Apple or Google generated token used to deliver messages to the APNs or GCM push networks respectively.
+*   **`deviceToken`**: The Apple or Google generated token used to deliver messages to the APNs or FCM push networks respectively.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices.
 *   **`appName`**: The display name of the client application to which this installation belongs.
 *   **`appVersion`**: The version string of the client application to which this installation belongs.
