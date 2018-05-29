@@ -6,7 +6,7 @@ Add dependency to the application level `build.gradle` file.
 
 ```groovy
 dependencies {
-    implementation 'com.parse:parse-android-fcm:latest.version.here'
+    implementation 'com.parse:parse-fcm-android:latest.version.here'
 }
 ```
 
