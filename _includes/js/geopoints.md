@@ -95,4 +95,5 @@ At the moment there are a couple of things to watch out for:
 
 1.  Each Parse.Object class may only have one key with a Parse.GeoPoint object.
 2.  Using the `near` constraint will also limit results to within 100 miles.
-3.  Points should not equal or exceed the extreme ends of the ranges.  Latitude should not be -90.0 or 90.0.  Longitude should not be -180.0 or 180.0.  Attempting to set latitude or longitude out of bounds will cause an error.
+3.  Using the `near` constraint combined with an `ascending` or `descending` constraint is not recommended due to performance. This is because `$near` sorts objects by distance and an additional sort constraint re-orders the matching objects, effectively overriding the sort operation already performed.
+4.  Points should not equal or exceed the extreme ends of the ranges.  Latitude should not be -90.0 or 90.0.  Longitude should not be -180.0 or 180.0.  Attempting to set latitude or longitude out of bounds will cause an error.
