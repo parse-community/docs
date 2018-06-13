@@ -40,7 +40,40 @@ query.find({
 
  At this point `placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `userGeoPoint`. Note that if an additional `ascending()`/`descending()` order-by constraint is applied, it will take precedence over the distance ordering.
 
-To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`.
+To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`. Use the `sorted` parameter to sort the results by distance ascending.
+
+<pre><code class="javascript">
+var location = new Parse.GeoPoint(37.708813, -122.526398);
+var distance = 5;
+var sorted = true;
+
+var query = new Parse.Query(PizzaPlaceObject);
+query.withinKilometers("location", location, distance, sorted);
+query.find({
+  success: function(pizzaPlacesInSF) {
+    // Pizza places within 5km sorted by distance
+    ...
+  }
+});
+</code></pre>
+
+If you add an additional sorting constraint set the `sorting` parameter to `false` for better query performance.
+
+<pre><code class="javascript">
+var location = new Parse.GeoPoint(37.708813, -122.526398);
+var distance = 5;
+var sorted = false;
+
+var query = new Parse.Query(PizzaPlaceObject);
+query.withinKilometers("location", location, distance, sorted);
+query.descending("rating");
+query.find({
+  success: function(pizzaPlacesInSF) {
+    // Pizza places within 5km sorted by rating
+    ...
+  }
+});
+</code></pre>
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `Parse.Query`.
 
