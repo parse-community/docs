@@ -117,7 +117,7 @@ curl -X POST \
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>schemas/Game', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>schemas/City', json.dumps({
        "className":"City","fields":{"name":{"type":"String"} }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -155,7 +155,7 @@ curl -X POST \
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>schemas/Game', json.dumps({
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>schemas/City', json.dumps({
        "className":"City","fields":{"name":{"type":"String"},"indexes":{"indexName":{"name":1} }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -233,7 +233,7 @@ curl -X PUT \
 import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>schemas/Game', json.dumps(
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>schemas/City', json.dumps(
        "className":"City","fields":{"population":{"__op" : "Delete"},"indexes":{"population_index":{"__op" : "Delete"} }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
