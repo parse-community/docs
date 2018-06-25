@@ -364,3 +364,14 @@ Parse.Cloud.beforeFind('MyObject', function(req) {
   return Promise.reject('error');
 });
 ```
+
+# Using the Master Key in cloud code 
+Set `useMasterKey:true` in the reqeusts that require master key. 
+
+## Examples:
+
+```javascript
+query.find({useMasterKey:true});
+object.save(null,{useMasterKey:true});
+Parse.Object.saveAll(objects,{useMasterKey:true});
+```
