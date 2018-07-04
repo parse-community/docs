@@ -754,7 +754,7 @@ To start using Twitter with Parse, you need to:
 
 1.  [Set up a Twitter app](https://dev.twitter.com/apps), if you haven't already.
 2.  Add your application's Twitter consumer key on your Parse application's settings page.
-3.  When asked to specify a "Callback URL" for your Twitter app, please insert a valid URL. This value will not be used by your iOS or Android application, but is necessary in order to enable authentication through Twitter.
+3.  When asked to specify a "Callback URL" for your Twitter app, please insert a valid URL like `http://twitter-oauth.callback`. This value will not be used by your iOS or Android application, but is necessary in order to enable authentication through Twitter. (See this [issue](https://github.com/parse-community/Parse-SDK-iOS-OSX/issues/1310))
 4.  Add the `Accounts.framework` and `Social.framework` libraries to your Xcode project.
 5.  Add the following where you initialize the Parse SDK, such as in `application:didFinishLaunchingWithOptions:`.
 <pre><code class="objectivec">
