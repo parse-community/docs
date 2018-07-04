@@ -147,7 +147,7 @@ Google oauth supports validation of id_token's and access_token's.
 
 ```js
 {
-  "instagram": {
+  "linkedin": {
     "id": "user's LinkedIn id (string)",
     "access_token": "an authorized LinkedIn access token for the user",
     "is_mobile_sdk": true|false // set to true if you acquired the token through LinkedIn mobile SDK
