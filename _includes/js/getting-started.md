@@ -46,7 +46,7 @@ Parse.initialize("YOUR_APP_ID", "YOUR_JAVASCRIPT_KEY");
 Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse'
 ```
 
-If the Masterkey needs to be provided, use the following. Please note that the master key should only be used in safe environments and never on client side. 
+⚠️ If the Masterkey needs to be provided, use the following. Please note that the master key should only be used in safe environments and never on client side ‼️ 
 
 
 ```js
