@@ -24,7 +24,8 @@ Parse will auto-detect the type of file you are uploading based on the file exte
 var file = new Parse.File("myfile.zzz", fileData, "image/png");
 </code></pre>
 
-But most commonly for HTML5 apps, you'll want to use an html form with a file upload control. On modern browsers, this is easy. Create a file input tag which allows the user to pick a file from their local drive to upload:
+### Client Side
+In a browser, you'll want to use an html form with a file upload control. To do this, create a file input tag which allows the user to pick a file from their local drive to upload:
 
 <pre><code>
 &lt;input type="file" id="profilePhotoFileUpload"&gt;
@@ -57,6 +58,33 @@ parseFile.save().then(function() {
 });
 </code></pre>
 
+### Server Side
+In Cloud Code you can fetch images or other files and store them as a `Parse.File`.
+
+```js
+const request = require('request-promise');
+const Parse = require('parse/node');
+
+....
+
+const options = {
+  uri: 'https://bit.ly/2zD8fgm',
+  resolveWithFullResponse: true,
+  encoding: null, // <-- this is important for binary data like images.
+};
+
+request(options)
+  .then((response) => {
+    const data = Array.from(Buffer.from(response.body, 'binary'));
+    const contentType = response.headers['content-type'];
+    const file = new Parse.File('logo', data, contentType);
+    return file.save();
+  })
+  .then((file => console.log(file.url())))
+  .catch(console.error);
+```
+
+### Embedding files in other objects
 Finally, after the save completes, you can associate a `Parse.File` with a `Parse.Object` just like any other piece of data:
 
 <pre><code class="javascript">
@@ -85,4 +113,4 @@ Parse.Cloud.httpRequest({ url: profilePhoto.url() }).then(function(response) {
 
 You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 
-If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app's Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.
+If your files are not referenced by any object in your app, it is not possible to delete them through the REST API.
