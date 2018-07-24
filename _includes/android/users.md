@@ -522,3 +522,19 @@ ParseTwitterUtils.unlinkInBackground(user, new SaveCallback() {
   }
 });
 ```
+
+### Twitter API Calls 
+ 
+Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/rest/public) when your app has a Twitter-linked `ParseUser`.  To make a request using OkHttp, you can use the `Twitter` singleton provided by `ParseTwitterUtils`: 
+
+```java 
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+      .url("https://api.twitter.com/1.1/account/verify_credentials.json")
+      .build();
+
+OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(Twitter.getConsumerKey(), Twitter.getConsumerSecret());
+Request signedRequest = (Request) consumer.sign(request).unwrap();
+// or enqueue
+Response response = client.newCall(signedRequest).execute();
+```
