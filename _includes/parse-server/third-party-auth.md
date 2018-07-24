@@ -251,7 +251,7 @@ It is possible to leverage the OAuth support with any 3rd party authentication t
 }
 ```
 
-On this module, you need to implement and export those two functions `validateAuthData(authData, options) {} ` and `validateAppId(appIds, authData) {}`.
+On this module, you need to implement and export those two functions `validateAuthData(authData, options) {} ` and `validateAppId(appIds, authData, options) {}`.
 
 For more information about custom auth please see the examples:
 
