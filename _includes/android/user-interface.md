@@ -177,3 +177,146 @@ You can override any layout resources by having files with the same name as thos
 *   `com_parse_ui_parse_login_help_fragment.xml`: You can change the message for password reset.
 
 We've provided another sample app, [ParseLoginSampleLayoutOverride](https://github.com/parse-community/ParseUI-Android) showing how to do this.  This sample app only has a Facebook login button in `com_parse_ui_parse_login_fragment.xml`, and adds a background image to the login screens.
+
+## ParseQueryAdapter (Deprecated 0.0.4)
+
+Since `RecyclerView` is now favorable over `ListView`, it is recommended to use a custom RecyclerView.Adapter instead of using `ParseQueryAdapter`.
+ 
+To display collections of data, we provide an implementation of `Adapter` in the Parse Android SDK. Instead of using a basic `ListAdapter` backed by a static array of objects, our `ParseQueryAdapter` provides a layer of abstraction and allows you to easily display data from one of your Parse classes in your `AdapterView` of choice (e.g. `ListView` or `GridView`). 
+ 
+To use a `ParseQueryAdapter` to display data in an `Activity`, follow the steps outlined below in your `Activity`'s `onCreate`: 
+ 
+1.  Instantiate a `ParseQueryAdapter`. 
+2. Customize it as necessary (see the below subsections for detailed instructions to display data from specific queries, change the UI of the `View`s to be displayed, and more). 
+3.  Set your new `Adapter` on your `AdapterView` with `setAdapter()`. 
+ 
+When the AdapterView is attached to the window, your `ParseQueryAdapter` will automatically fetch the first set of data. This subclass simplifies the code that would otherwise be involved with: 
+ 
+1.  Pagination, with a row that can be tapped to load the next page. 
+2.  Configurable downloading and displaying of remote images within rows. 
+3.  Automatic loading and management of the Parse objects array. 
+4.  Callbacks from major events in the data cycle. 
+ 
+Consider the following code, which sets up a very simple `ParseQueryAdapter` to display data in a `ListView`. You can be up and running with a functional `ListView` full of data with very little configuration. 
+ 
+```java 
+// Inside an Activity 
+public void onCreate(Bundle savedInstanceState) { 
+  super.onCreate(savedInstanceState); 
+  // Uses a layout with a ListView (id: "listview"), which uses our Adapter. 
+  setContentView(R.layout.main); 
+ 
+  ParseQueryAdapter<ParseObject> adapter = new ParseQueryAdapter<ParseObject>(this, "Instrument"); 
+  adapter.setTextKey("name"); 
+  adapter.setImageKey("photo"); 
+ 
+  ListView listView = (ListView) findViewById(R.id.listview); 
+  listView.setAdapter(adapter); 
+} 
+``` 
+ 
+This view will display a list of Instruments by name. Notice all the code that we're not writing: we can skip the logic to fetch each consecutive page of results, to manually update and maintain the backing data array, to download images in the background and set the image data on UI widgets, and to handle touch events to trigger loading the next page of results. 
+ 
+The `ParseQueryAdapter` can be configured to customize what data to use, how to display it, and what to do before and after it's been fetched. Read on to see what you can do, and how to tweak a `ParseQueryAdapter` to fit all of your needs. 
+ 
+## Customizing the Query 
+ 
+By default, the simplest `ParseQueryAdapter` constructor takes a `Context` and a Parse class name. All `ParseObject`s in that class are then fetched and displayed in order of their `createdAt` timestamps. 
+ 
+To change this behavior, we drew from the functionality of an `ArrayAdapter`: but instead of taking in a vanilla array of objects to be displayed by the adapter, `ParseQueryAdapter` can also take a `QueryFactory` class which returns a `ParseQuery` you define. Pass that into the constructor, and the adapter will then use that query to determine which objects to fetch and display. 
+ 
+See below for an example setting up a `ParseQueryAdapter` to display only punk and metal bands with four or more members, ordered by number of records sold: 
+ 
+```java 
+ParseQueryAdapter<ParseObject> adapter = 
+  new ParseQueryAdapter<ParseObject>(this, new ParseQueryAdapter.QueryFactory<ParseObject>() { 
+    public ParseQuery<ParseObject> create() { 
+      // Here we can configure a ParseQuery to our heart's desire. 
+      ParseQuery query = new ParseQuery("Band"); 
+      query.whereContainedIn("genre", Arrays.asList({ "Punk", "Metal" })); 
+      query.whereGreaterThanOrEqualTo("memberCount", 4); 
+      query.orderByDescending("albumsSoldCount"); 
+      return query; 
+    } 
+  }); 
+``` 
+ 
+## Customizing the Rows 
+ 
+The default layout for the individual `View`s in your `AdapterView` is a simple `LinearLayout` with a `ParseImageView` and a `TextView`. If `setTextKey(String)` is used with the `ParseQueryAdapter`, its parameter will be used to select which key on your `ParseObject` is displayed in the `TextView`. Similarly, if `setImageKey(String)` is used, its parameter will be used to determine the image displayed in the ImageView. 
+ 
+One way to customize the rows is to override `getItemView(ParseObject, View, ViewGroup)` or `getNextPageView(View, ViewGroup)` and call the superclass's implementation of the appropriate method to do the heavy lifting. If you provide your own layout to the superclass's implementation, note that `getItemView(ParseObject, View, ViewGroup)` and `getNextPageView(View, ViewGroup)` expect a `TextView` (id: `android.R.id.text1`) if the `textKey` is set and a `ParseImageView` (id: `android.R.id.icon`) if the `imageKey` is set. 
+ 
+Here, we inflate and configure a layout of our own, with a `TextView`, a `ParseImageView`, and an extra "description" `TextView` (id: `R.id.description`): 
+ 
+```java 
+@Override 
+public View getItemView(ParseObject object, View v, ViewGroup parent) { 
+  if (v == null) { 
+    v = View.inflate(getContext(), R.layout.adapter_item, null); 
+  } 
+ 
+  // Take advantage of ParseQueryAdapter's getItemView logic for 
+  // populating the main TextView/ImageView. 
+  // The IDs in your custom layout must match what ParseQueryAdapter expects 
+  // if it will be populating a TextView or ImageView for you. 
+  super.getItemView(object, v, parent); 
+ 
+  // Do additional configuration before returning the View. 
+  TextView descriptionView = (TextView) v.findViewById(R.id.description); 
+  descriptionView.setText(object.getString("description")); 
+  return v; 
+} 
+``` 
+ 
+Another way to customize the rows is to have complete control over the look of the rows by overriding `ParseQueryAdapter`'s methods and ignoring the superclass's implementation entirely. In this example, our item views are simply rows where the color is defined by the `ParseObject`: 
+ 
+```java 
+@Override 
+public View getItemView(ParseObject object, View v, ViewGroup parent) { 
+  if (v == null) { 
+    v = View.inflate(getContext(), R.layout.adapter_item, null); 
+  } 
+  v.setBackgroundColor(object.getInt("color")); 
+  return v; 
+} 
+ 
+@Override 
+public View getNextPageView(View v, ViewGroup parent) { 
+  if (v == null) { 
+    // R.layout.adapter_next_page contains an ImageView with a custom graphic 
+    // and a TextView. 
+    v = View.inflate(getContext(), R.layout.adapter_next_page, null); 
+  } 
+  TextView textView = (TextView) v.findViewById(R.id.nextPageTextViewId); 
+  textView.setText("Loaded " + getCount() + " rows. Get more!"); 
+  return v; 
+} 
+ 
+``` 
+ 
+## Loading Remote Images in Rows 
+ 
+`ParseQueryAdapter` makes it simple to display remote images. By calling `setImageKey(String)`, you can pass in a key name on your `ParseObject` which should contain a `ParseFile` containing an image to be fetched from Parse and loaded into the `ParseImageView` of the corresponding row. 
+ 
+The image will download asynchronously, and the appropriate `ParseImageView` will be updated in the background. As the user scrolls and rows are recycled by the adapter, images will be fetched as rows become visible and assigned `ParseObject`s. 
+ 
+You can define a placeholder image to be used when the image fetch has not yet completed. Call `setPlaceholder(Drawable)` on your `ParseQueryAdapter` to use the specified `Drawable` as a fallback image. 
+ 
+## Lifecycle Methods 
+ 
+We expose two hooks in the data lifecycle of the Adapter for you to execute custom logic &mdash; right before we query Parse for your data and right after the fetched objects have been loaded from the query. These methods are particularly useful for toggling some loading UI. 
+ 
+An `OnQueryLoadListener` can be set via `setOnQueryLoadListener(OnQueryLoadListener)`, which provides `onLoading()` and `onLoaded(List<ParseObject>, Exception)` methods for implementation. 
+ 
+## Pagination 
+ 
+Pagination ensures that the table only gets one page of objects at a time. You can set the number of objects are in a page by calling `setObjectsPerPage(int)`. 
+ 
+The query is automatically altered to apply pagination, and a pagination row appears at the bottom of the `AdapterView` to allow users to load the next page. 
+ 
+Pagination is turned on by default. To turn it off, call `setPaginationEnabled(false)`. With pagination turned off, the `ParseQueryAdapter` will use the default `ParseQuery` limit of 100 items. 
+ 
+## Auto-loading of Data 
+ 
+When the `AdapterView` that your `ParseQueryAdapter` is set on is attached to a window, the `ParseQueryAdapter`'s `loadObjects()` method is automatically called, triggering the fetching of the first page of results. To disable this behavior (perhaps to delay the fetching of data, or run some custom logic ahead of time), just call `setAutoload(false)` and call `loadObjects()` manually if autoload is disabled. 
