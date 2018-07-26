@@ -52,7 +52,7 @@ ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.fromLocalDatastore();
 ```
 
-The only difference is that you won’t be able to access any data protected by Role based ACLs due to the fact that the Roles are stored on the server. To access this data protected by Role based ACLs, you will need to ignore ACLs when executing a Local Datastore query.
+The only difference is that you won’t be able to access any data protected by Role based ACLs due to the fact that the Roles are stored on the server. To access this data protected by Role based ACLs, you may need to ignore ACLs when executing a Local Datastore query by calling the `ignoreAcls` method on the query. Note that after calling this, you cannot subsequently use the same query to load from the network.
 
 ```java
 // If data is protected by Role based ACLs:
