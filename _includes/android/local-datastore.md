@@ -45,11 +45,23 @@ ParseObject.pinAllInBackground(listOfObjects);
 
 ## Retrieving
 
-Storing objects is great, but it's only useful if you can then get the objects back out later. Retrieving an object from the local datastore works just like retrieving one over the network. The only difference is calling the `fromLocalDatastore` method to tell the `ParseQuery` where to look for its results.
+Storing objects is great, but it's only useful if you can then get the objects back out later. To retrieve an object from the local datastore, call the `fromLocalDatastore` method to tell the `ParseQuery` where to look for its results.
 
 ```java
-ParseQuery<ParseObject> query = ParseQuery.getQuery(“GameScore");
+ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.fromLocalDatastore();
+```
+
+The only difference is that you won’t be able to access any data protected by Role based ACLs due to the fact that the Roles are stored on the server. To access this data protected by Role based ACLs, you will need to ignore ACLs when executing a Local Datastore query.
+
+```java
+// If data is protected by Role based ACLs:
+query.ignoreAcls();
+```
+
+You can then retrieve objects as normal.
+
+```java
 query.getInBackground("xWMyZ4YE", new GetCallback<ParseObject>() {
     public void done(ParseObject object, ParseException e) {
         if (e == null) {
@@ -69,6 +81,8 @@ Often, you'll want to find a whole list of objects that match certain criteria, 
 ParseQuery<ParseObject> query = ParseQuery.getQuery("GameScore");
 query.whereEqualTo("playerName", "Joe Bob");
 query.fromLocalDatastore();
+// If data is protected by Role based ACLs:
+query.ignoreAcls();
 query.findInBackground(new FindCallback<ParseObject>() {
     public void done(List<ParseObject> scoreList,
                      ParseException e) {
