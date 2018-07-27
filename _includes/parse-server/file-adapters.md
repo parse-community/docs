@@ -164,6 +164,46 @@ var api = new ParseServer({
 });
 ```
 
+##### S3Adapter configuration for Digital Ocean Spaces
+
+Spaces is an S3 equivalent prodivided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
+You just need to change the AWS Endpoint to point to your Spaces endpoint.
+
+```javascript
+...
+var S3Adapter = require('parse-server').S3Adapter;
+var AWS = require("aws-sdk");
+
+//Set Digital Ocean Spaces EndPoint
+const spacesEndpoint = new AWS.Endpoint(process.env.SPACES_ENDPOINT);
+//Define S3 options
+var s3Options = {
+  bucket: process.env.SPACES_BUCKET_NAME,
+  baseUrl: process.env.SPACES_BASE_URL,
+  region: process.env.SPACES_REGION,
+  directAccess: true,
+  globalCacheControl: "public, max-age=31536000",
+  bucketPrefix: process.env.SPACES_BUCKET_PREFIX,
+  s3overrides: {
+    accessKeyId: process.env.SPACES_ACCESS_KEY,
+    secretAccessKey: process.env.SPACES_SECRET_KEY,
+    endpoint: spacesEndpoint
+  }
+};
+
+var s3Adapter = new S3Adapter(s3Options);
+
+var api = new ParseServer({
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  appId: process.env.APP_ID || 'APPLICATION_ID',
+  masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
+  ...
+  filesAdapter: s3Adapter
+  ...
+});
+```
+
+
 ##### GCSAdapter constructor options
 
 ```js
