@@ -26,7 +26,7 @@ var api = new ParseServer({
 });
 ```
 
-The `redisOptions` are passed directly to the redis.createClient method. For more informations, refer to the [redis.createClient](https://www.npmjs.com/package/redis#rediscreateclient) documentation.
+The `redisOptions` are passed directly to the redis.createClient method. For more information refer to the [redis.createClient](https://www.npmjs.com/package/redis#rediscreateclient) documentation.
 
 Note that at the moment, only passing a single argument is supported.
 
