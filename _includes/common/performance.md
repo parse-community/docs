@@ -1290,7 +1290,7 @@ There are some limits in place to ensure the API can provide the data you need i
 
 * Queries return 100 objects by default. Use the `limit` parameter to change this.
 * Skips and limits can only be used on the outer query.
-* Constraints that collide with each other will result in only one of the constraint being applied. An example of this would be two `equalTo` constraints over the same key with two different values, which contradicts itself (perhaps you're looking for 'contains').
+* Constraints that collide with each other will result in only one of the constraints being applied. An example of this would be two `equalTo` constraints over the same key with two different values, which contradicts itself (perhaps you're looking for 'contains').
 * No geo-queries inside compound OR queries.
 * Using `$exists: false` is not advised.
 * The `each` query method in the JavaScript SDK cannot be used in conjunction with queries using geo-point constraints.
