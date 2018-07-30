@@ -1,19 +1,29 @@
 # Getting Started
 
-Note that we support Android 2.3 and higher. You can also check out our [API Reference]({{ site.apis.android }}) for more detailed information about our SDK.
+Note that we support Android 4.0 and higher. You can also check out our [API Reference]({{ site.apis.android }}) for more detailed information about our SDK.
 
 ## Installation
 **Step 1:** Download `Parse-SDK-Android`
 
-Add dependency to the application level `build.gradle` file.
+## Dependency
+Add this in your root `build.gradle` file (**not** your module `build.gradle` file):
 
-[![Bintray][bintray-svg]][bintray-link]
-
-```groovy
-dependencies {
-  implementation 'com.parse:parse-android:latest.version.here'
+```gradle
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
 }
 ```
+
+Then, add the library to your project `build.gradle`
+```gradle
+dependencies {
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:latest.version.here"
+}
+```
+with the latest version being [![](https://jitpack.io/v/parse-community/Parse-SDK-Android.svg)](https://jitpack.io/#parse-community/Parse-SDK-Android)
 
 **Step 2:** Setup Parse
 Initialize Parse using your server configuration:
@@ -27,6 +37,7 @@ public class App extends Application {
     super.onCreate();
     Parse.initialize(new Parse.Configuration.Builder(this)
       .applicationId("YOUR_APP_ID")
+      // if defined
       .clientKey("YOUR_CLIENT_KEY")
       .server("http://localhost:1337/parse/")
       .build()
@@ -43,6 +54,3 @@ public class App extends Application {
    ...
  </application>
  ```
-
- [bintray-svg]: https://api.bintray.com/packages/parse/maven/com.parse:parse-android/images/download.svg
- [bintray-link]: https://bintray.com/parse/maven/com.parse:parse-android

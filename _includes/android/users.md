@@ -338,7 +338,7 @@ To start using Facebook with Parse, you need to:
 1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already.
 2.  Add your application's Facebook Application ID on your Parse application's settings page.
 3.  Follow Facebook's instructions for [getting started with the Facebook SDK](https://developers.facebook.com/docs/android/getting-started) to create an app linked to the Facebook SDK.  Once you get to Step 6, stop after linking the Facebook SDK project and configuring the Facebook app ID. You can use our guide to attach your Parse users to Facebook accounts when logging in.
-4.  Add `com.parse:parsefacebookutils-v4-android:X.X.X` to your Gradle dependencies (X.X.X should be[![Bintray][bintray-svg]][bintray-link])
+4.  Add `'com.github.parse-community:ParseFacebookUtils-Android:latest.version.here'` to your Gradle dependencies (X.X.X should be [![](https://jitpack.io/v/parse-community/Parse-SDK-Android.svg)](https://jitpack.io/#parse-community/Parse-SDK-Android))
 5.  Add the following where you initialize the Parse SDK in your `Application.onCreate()`:
 
   ```java
@@ -451,8 +451,8 @@ To start using Twitter with Parse, you need to:
 
 1.  [Set up a Twitter app](https://dev.twitter.com/apps), if you haven't already.
 2.  Add your application's Twitter consumer key on your Parse application's settings page.
-3.  When asked to specify a "Callback URL" for your Twitter app, please insert a valid URL. This value will not be used by your iOS or Android application, but is necessary in order to enable authentication through Twitter.
-4.  Add `compile 'com.parse:parsetwitterutils-android:1.10.+'` to your Gradle dependencies. This includes the contents of the `Parse-*.jar` and the `com.parse:parse-android:1.10.+` repository, so be sure to remove as needed to prevent duplicate dependencies, otherwise a `com.android.dex.DexException` will be thrown.
+3.  When asked to specify a "Callback URL" for your Twitter app, please insert `twittersdk://`. This is necessary in order to enable authentication through Twitter.
+4.  Add `'com.github.parse-community:ParseTwitterUtils-Android:latest.version.here'` to your Gradle dependencies.
 5.  Add the following where you initialize the Parse SDK in your `Application.onCreate()`
 
 ```java
@@ -523,17 +523,18 @@ ParseTwitterUtils.unlinkInBackground(user, new SaveCallback() {
 });
 ```
 
-### Twitter API Calls
+### Twitter API Calls 
+ 
+Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/rest/public) when your app has a Twitter-linked `ParseUser`.  To make a request using OkHttp, you can use the `Twitter` singleton provided by `ParseTwitterUtils`: 
 
-Our SDK provides a straightforward way to sign your API HTTP requests to the [Twitter REST API](https://dev.twitter.com/rest/public) when your app has a Twitter-linked `ParseUser`.  To make a request through our API, you can use the `Twitter` singleton provided by `ParseTwitterUtils`:
+```java 
+OkHttpClient client = new OkHttpClient();
+Request request = new Request.Builder()
+      .url("https://api.twitter.com/1.1/account/verify_credentials.json")
+      .build();
 
-```java
-HttpClient client = new DefaultHttpClient();
-HttpGet verifyGet = new HttpGet(
-        "https://api.twitter.com/1.1/account/verify_credentials.json");
-ParseTwitterUtils.getTwitter().signRequest(verifyGet);
-HttpResponse response = client.execute(verifyGet);
+OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(Twitter.getConsumerKey(), Twitter.getConsumerSecret());
+Request signedRequest = (Request) consumer.sign(request).unwrap();
+// or enqueue
+Response response = client.newCall(signedRequest).execute();
 ```
-
-[bintray-svg]: https://api.bintray.com/packages/parse/maven/ParseFacebookUtils-Android/images/download.svg
-[bintray-link]: https://bintray.com/parse/maven/ParseFacebookUtils-Android/
