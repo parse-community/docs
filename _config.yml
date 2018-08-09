@@ -33,7 +33,7 @@ sass:
     sass_dir: css
 
 # Gems
-gems:
+plugins:
   - jekyll-redirect-from
 
 whitelist:
