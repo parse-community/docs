@@ -77,8 +77,9 @@ The options passed to Parse server:
   }
 }
 ```
-Learn more about [Facobook Account Kit](https://developers.facebook.com/docs/accountkit)   
-Two ways to [retrieve access token](https://developers.facebook.com/docs/accountkit/accesstokens)
+Learn more about [Facebook Account Kit](https://developers.facebook.com/docs/accountkit).
+
+Two ways to [retrieve access token](https://developers.facebook.com/docs/accountkit/accesstokens).
 
 ### Twitter `authData`
 
