@@ -20,6 +20,7 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="parse-server/guide/">Guide</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.parse-server }}">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
               <a href="https://npmjs.com/package/parse-server" class="btn btn--outline">Latest Downloads</a>

@@ -19,11 +19,12 @@ stackoverflow_tag: parse.com
 serverfault_tag:   parse
 support_url: https://www.parse.com/help
 apis:
-  osx: http://parseplatform.org/Parse-SDK-iOS-OSX/api/
-  android: http://parseplatform.org/Parse-SDK-Android/api/
-  js: http://parseplatform.org/Parse-SDK-JS/api/
-  php: http://parseplatform.org/parse-php-sdk/namespaces/Parse.html
-  dotnet: http://parseplatform.org/Parse-SDK-dotNET/api/
+  osx: https://parseplatform.org/Parse-SDK-iOS-OSX/api/
+  android: https://parseplatform.org/Parse-SDK-Android/api/
+  js: https://parseplatform.org/Parse-SDK-JS/api/
+  php: https://parseplatform.org/parse-php-sdk/namespaces/Parse.html
+  dotnet: https://parseplatform.org/Parse-SDK-dotNET/api/
+  parse-server: https://parseplatform.org/parse-server/api/
 
 # Build settings
 markdown: kramdown
