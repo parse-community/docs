@@ -8,25 +8,27 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react']
-        }
-      }
+        exclude: /node_modules/,
+        use: { 
+          loader: 'babel-loader', 
+          query: {
+            presets: ['es2015', 'react']
+          }
+        },
+      },
     ]
   },
   resolve: {
-    extensions: ['', '.js', '.json'],
+    extensions: ['.js', '.json'],
     alias: {
         jquery: "jquery/src/jquery"
     }
   },
 
   plugins: [
-    new webpack.BannerPlugin("---\n---\n\n", { raw: true }),
     new webpack.ProvidePlugin({
       "_": "underscore",
       $: "jquery",
