@@ -40,7 +40,40 @@ query.find({
 
  At this point `placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `userGeoPoint`. Note that if an additional `ascending()`/`descending()` order-by constraint is applied, it will take precedence over the distance ordering.
 
-To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`.
+To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`. Use the `sorted` parameter to sort the results by distance ascending.
+
+<pre><code class="javascript">
+var location = new Parse.GeoPoint(37.708813, -122.526398);
+var distance = 5;
+var sorted = true;
+
+var query = new Parse.Query(PizzaPlaceObject);
+query.withinKilometers("location", location, distance, sorted);
+query.find({
+  success: function(pizzaPlacesInSF) {
+    // Pizza places within 5km sorted by distance
+    ...
+  }
+});
+</code></pre>
+
+If you add an additional sorting constraint set the `sorting` parameter to `false` for better query performance.
+
+<pre><code class="javascript">
+var location = new Parse.GeoPoint(37.708813, -122.526398);
+var distance = 5;
+var sorted = false;
+
+var query = new Parse.Query(PizzaPlaceObject);
+query.withinKilometers("location", location, distance, sorted);
+query.descending("rating");
+query.find({
+  success: function(pizzaPlacesInSF) {
+    // Pizza places within 5km sorted by rating
+    ...
+  }
+});
+</code></pre>
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `Parse.Query`.
 
@@ -95,4 +128,5 @@ At the moment there are a couple of things to watch out for:
 
 1.  Each Parse.Object class may only have one key with a Parse.GeoPoint object.
 2.  Using the `near` constraint will also limit results to within 100 miles.
-3.  Points should not equal or exceed the extreme ends of the ranges.  Latitude should not be -90.0 or 90.0.  Longitude should not be -180.0 or 180.0.  Attempting to set latitude or longitude out of bounds will cause an error.
+3.  Using the `near` constraint combined with an `ascending` or `descending` constraint is not recommended due to performance. This is because `$near` sorts objects by distance and an additional sort constraint re-orders the matching objects, effectively overriding the sort operation already performed.
+4.  Points should not equal or exceed the extreme ends of the ranges.  Latitude should not be -90.0 or 90.0.  Longitude should not be -180.0 or 180.0.  Attempting to set latitude or longitude out of bounds will cause an error.
