@@ -28,16 +28,13 @@ user.set("email", "email@example.com");
 
 // other fields can be set just like with Parse.Object
 user.set("phone", "415-392-0202");
-
-user.signUp(null, {
-  success: function(user) {
-    // Hooray! Let them use the app now.
-  },
-  error: function(user, error) {
-    // Show the error message somewhere and let the user try again.
-    alert("Error: " + error.code + " " + error.message);
-  }
-});
+try {
+  await user.signUp();
+  // Hooray! Let them use the app now.
+} catch (error) {
+  // Show the error message somewhere and let the user try again.
+  alert("Error: " + error.code + " " + error.message);
+}
 </code></pre>
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
@@ -53,14 +50,8 @@ You are free to use an email address as the username. Simply ask your users to e
 Of course, after you allow users to sign up, you need to let them log in to their account in the future. To do this, you can use the class method `logIn`.
 
 <pre><code class="javascript">
-Parse.User.logIn("myname", "mypass", {
-  success: function(user) {
-    // Do stuff after successful login.
-  },
-  error: function(user, error) {
-    // The login failed. Check error to see why.
-  }
-});
+const user = await Parse.User.logIn("myname", "mypass");
+// Do stuff after successful login.
 </code></pre>
 
 ## Verifying Emails
@@ -127,30 +118,18 @@ Specifically, you are not able to invoke any of the `save` or `delete` methods u
 The following illustrates this security policy:
 
 <pre><code class="javascript">
-var user = Parse.User.logIn("my_username", "my_password", {
-  success: function(user) {
-    user.set("username", "my_new_username");  // attempt to change username
-    user.save(null, {
-      success: function(user) {
-        // This succeeds, since the user was authenticated on the device
+const user = await Parse.User.logIn("my_username", "my_password");
+user.set("username", "my_new_username");
+await user.save();
+// This succeeds, since the user was authenticated on the device
 
-        // Get the user from a non-authenticated method
-        var query = new Parse.Query(Parse.User);
-        query.get(user.objectId, {
-          success: function(userAgain) {
-            userAgain.set("username", "another_username");
-            userAgain.save(null, {
-              error: function(userAgain, error) {
-                // This will error, since the Parse.User is not authenticated
-              }
-            });
-          }
-        });
-      }
-    });
-  }
+// Get the user from a non-authenticated method
+const query = new Parse.Query(Parse.User);
+const userAgain = await query.get(user.objectId);
+userAgain.set("username", "another_username");
+await userAgain.save().catch(error => {
+  // This will error, since the Parse.User is not authenticated
 });
-
 </code></pre>
 
 The `Parse.User` obtained from `Parse.User.current()` will always be authenticated.
@@ -209,14 +188,12 @@ It's a fact that as soon as you introduce passwords into a system, users will fo
 To kick off the password reset flow, ask the user for their email address, and call:
 
 <pre><code class="javascript">
-Parse.User.requestPasswordReset("email@example.com", {
-  success: function() {
+Parse.User.requestPasswordReset("email@example.com")
+.then(() => {
   // Password reset request was sent successfully
-  },
-  error: function(error) {
-    // Show the error message somewhere
-    alert("Error: " + error.code + " " + error.message);
-  }
+}).catch((error) => {
+  // Show the error message somewhere
+  alert("Error: " + error.code + " " + error.message);
 });
 </code></pre>
 
@@ -236,13 +213,9 @@ Note that the messaging in this flow will reference your app by the name that yo
 To query for users, you can simple create a new `Parse.Query` for `Parse.User`s:
 
 <pre><code class="javascript">
-var query = new Parse.Query(Parse.User);
+const query = new Parse.Query(Parse.User);
 query.equalTo("gender", "female");  // find all the women
-query.find({
-  success: function(women) {
-    // Do stuff
-  }
-});
+const women = await query.find();
 </code></pre>
 
 ## Associations
@@ -258,17 +231,12 @@ var post = new Post();
 post.set("title", "My New Post");
 post.set("body", "This is some great content.");
 post.set("user", user);
-post.save(null, {
-  success: function(post) {
-    // Find all posts by the current user
-    var query = new Parse.Query(Post);
-    query.equalTo("user", user);
-    query.find({
-      success: function(usersPosts) {
-        // userPosts contains all of the posts by the current user.
-      }
-    });
-  }
+await post.save();
+// Find all posts by the current user
+const query = new Parse.Query(Post);
+query.equalTo("user", user);
+const userPosts = await query.find();
+// userPosts contains all of the posts by the current user.
 });
 </code></pre>
 
@@ -328,18 +296,16 @@ There are two main ways to use Facebook with your Parse users: (1) logging in as
 `Parse.FacebookUtils` provides a way to allow your `Parse.User`s to log in or sign up through Facebook. This is accomplished using the `logIn()` method:
 
 <pre><code class="javascript">
-Parse.FacebookUtils.logIn(null, {
-  success: function(user) {
-    if (!user.existed()) {
-      alert("User signed up and logged in through Facebook!");
-    } else {
-      alert("User logged in through Facebook!");
-    }
-  },
-  error: function(user, error) {
-    alert("User cancelled the Facebook login or did not fully authorize.");
+try {
+  const users = await = Parse.FacebookUtils.logIn();
+  if (!user.existed()) {
+    alert("User signed up and logged in through Facebook!");
+  } else {
+    alert("User logged in through Facebook!");
   }
-});
+} catch(error) {
+  alert("User cancelled the Facebook login or did not fully authorize.");
+}
 </code></pre>
 
 When this code is run, the following happens:
@@ -352,14 +318,7 @@ When this code is run, the following happens:
 You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
 
 <pre><code class="javascript">
-Parse.FacebookUtils.logIn("user_likes,email", {
-  success: function(user) {
-    // Handle successful login
-  },
-  error: function(user, error) {
-    // Handle errors and cancellation
-  }
-});
+const user = await Parse.FacebookUtils.logIn("user_likes,email");
 </code></pre>
 
 `Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
@@ -375,13 +334,11 @@ If you want to associate an existing `Parse.User` to a Facebook account, you can
 
 <pre><code class="javascript">
 if (!Parse.FacebookUtils.isLinked(user)) {
-  Parse.FacebookUtils.link(user, null, {
-    success: function(user) {
-      alert("Woohoo, user logged in with Facebook!");
-    },
-    error: function(user, error) {
-      alert("User cancelled the Facebook login or did not fully authorize.");
-    }
+  try  {
+    await Parse.FacebookUtils.link(user);
+    alert("Woohoo, user logged in with Facebook!");
+  } catch(error) {}
+    alert("User cancelled the Facebook login or ddid not fully authorize.");
   });
 }
 </code></pre>
@@ -391,11 +348,8 @@ The steps that happen when linking are very similar to log in. The difference is
 If you want to unlink Facebook from a user, simply do this:
 
 <pre><code class="javascript">
-Parse.FacebookUtils.unlink(user, {
-  success: function(user) {
-    alert("The user is no longer associated with their Facebook account.");
-  }
-});
+await Parse.FacebookUtils.unlink(user);
+alert("The user is no longer associated with their Facebook account.");
 </code></pre>
 
 ### Facebook SDK and Parse

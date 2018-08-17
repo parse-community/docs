@@ -67,13 +67,11 @@ Parse.Push.send({
   data: {
     alert: "The Giants won against the Mets 2-3."
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -101,13 +99,11 @@ Parse.Push.send({
   data: {
     alert: "Willie Hayes injured by own pop fly."
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -123,13 +119,11 @@ Parse.Push.send({
   data: {
     alert: "Giants scored against the A's! It's now 2-2."
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -150,13 +144,11 @@ Parse.Push.send({
   data: {
     alert: "Free hotdogs at the Parse concession stand!"
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -187,13 +179,11 @@ Parse.Push.send({
     sound: "cheering.caf",
     title: "Mets Score!"
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -212,13 +202,11 @@ Parse.Push.send({
     name: "Vaughn",
     newsItem: "Man bites dog"
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -237,13 +225,11 @@ Parse.Push.send({
   data: {
     alert: "Season tickets on sale until next week!"
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -259,13 +245,11 @@ Parse.Push.send({
   data: {
     alert: "Season tickets on sale until next week!"
   }
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 
@@ -337,13 +321,11 @@ Parse.Push.send({
     alert: "You previously created a reminder for the game today"
   },
   push_time: tomorrowDate
-}, {
-  success: function() {
-    // Push was successful
-  },
-  error: function(error) {
-    // Handle error
-  }
+})
+.then(function() {
+  // Push was successful
+}, function(error) {
+  // Handle error
 });
 </code></pre>
 

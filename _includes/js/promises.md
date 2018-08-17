@@ -173,37 +173,17 @@ query.find().then(function(students) {
 
 It's often convenient to have a long chain of success callbacks with only one error handler at the end.
 
-## Creating Promises
-
-When you're getting started, you can just use the promises returned from methods like `find` or `save`. However, for more advanced scenarios, you may want to make your own promises. After you create a `Promise`, you'll need to call `resolve` or `reject` to trigger its callbacks.
-
-<pre><code class="javascript">
-var successful = new Parse.Promise();
-successful.resolve("The good result.");
-
-var failed = new Parse.Promise();
-failed.reject("An error message.");
-</code></pre>
-
-If you know the result of a promise at the time it is created, there are some convenience methods you can use.
-
-<pre><code class="javascript">
-var successful = Parse.Promise.as("The good result.");
-
-var failed = Parse.Promise.error("An error message.");
-</code></pre>
-
 ## Promises in Series
 
 Promises are convenient when you want to do a series of tasks in a row, each one waiting for the previous to finish. For example, imagine you want to delete all of the comments on your blog.
 
 <pre><code class="javascript">
-var query = new Parse.Query("Comments");
+const query = new Parse.Query("Comments");
 query.equalTo("post", post);
 
 query.find().then(function(results) {
   // Create a trivial resolved promise as a base case.
-  var promise = Parse.Promise.as();
+  let promise = Promise.resolve();
   _.each(results, function(result) {
     // For each item, extend the promise with a function to delete it.
     promise = promise.then(function() {
@@ -222,18 +202,18 @@ query.find().then(function(results) {
 You can also use promises to perform several tasks in parallel, using the `when` method. You can start multiple operations at once, and use `Parse.Promise.when` to create a new promise that will be resolved when all of its input promises is resolved. The new promise will be successful if none of the passed-in promises fail; otherwise, it will fail with the last error. Performing operations in parallel will be faster than doing them serially, but may consume more system resources and bandwidth.
 
 <pre><code class="javascript">
-var query = new Parse.Query("Comments");
+const query = new Parse.Query("Comments");
 query.equalTo("post", post);
 
 query.find().then(function(results) {
   // Collect one promise for each delete into an array.
-  var promises = [];
+  let promises = [];
   _.each(results, function(result) {
     // Start this delete immediately and add its promise to the list.
     promises.push(result.destroy());
   });
   // Return a new promise that is resolved when all of the deletes are finished.
-  return Parse.Promise.when(promises);
+  return Promise.all(promises);
 
 }).then(function() {
   // Every comment was deleted.
@@ -245,11 +225,9 @@ With these tools, it's easy to make your own asynchronous functions that return 
 
 <pre><code class="javascript">
 var delay = function(millis) {
-  var promise = new Parse.Promise();
-  setTimeout(function() {
-    promise.resolve();
-  }, millis);
-  return promise;
+  return new Promise((resolve) => {
+    setTimeout(resolve, millis);
+  });
 };
 
 delay(100).then(function() {
