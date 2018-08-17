@@ -61,7 +61,7 @@ Sending notifications is often done from the Parse.com push console, the [REST A
 
 However, be sure you understand that enabling Client Push can lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/). We recommend that you enable Client Push for testing purposes only, and move your push notification logic into Cloud Code when your app is ready to go into production.
 
-![]({{ '/assets/images/client_push_settings.png' | prepend: site.baseurl }})
+<img alt="Settings for the Push client" data-echo="{{ '/assets/images/client_push_settings.png' | prepend: site.baseurl }}"/>
 
 You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push. For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.
 
@@ -98,7 +98,7 @@ await ParsePush.SubscribeAsync("Giants");
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
 
-![]({{ '/assets/images/installation_channel.png' | prepend: site.baseurl }})
+<img alt="Installation object's channels" data-echo="{{ '/assets/images/installation_channel.png' | prepend: site.baseurl }}"/>
 
 Unsubscribing from a channel is just as easy:
 
@@ -422,15 +422,15 @@ Our web push console guides you through every step of setting up an A/B test.
 
 For each push campaign sent through the Parse web push console, you can allocate a subset of your devices to be in the experiment's test audience, which Parse will automatically split into two equally-sized experiment groups. For each experiment group, you can specify a different push message. The remaining devices will be saved so that you can send the winning message to them later. Parse will randomly assign devices to each group to minimize the chance for a test to affect another test's results (although we still don't recommend running multiple A/B tests over the same devices on the same day).
 
-![]({{ '/assets/images/experiment_enable.png' | prepend: site.baseurl }})
+<img alt="Enabling experiments" data-echo="{{ '/assets/images/experiment_enable.png' | prepend: site.baseurl }}"/>
 
 After you send the push, you can come back to the push console to see in real time which version resulted in more push opens, along with other metrics such as statistical confidence interval. It's normal for the number of recipients in each group to be slightly different because some devices that we had originally allocated to that experiment group may have uninstalled the app. It's also possible for the  random group assignment to be slightly uneven when the test audience size is small. Since we calculate open rate separately for each group based on recipient count, this should not significantly affect your experiment results.
 
-![]({{ '/assets/images/experiment_results.png' | prepend: site.baseurl }})
+<img alt="Getting experiment results" data-echo="{{ '/assets/images/experiment_results_.png' | prepend: site.baseurl }}"/>
 
 If you are happy with the way one message performed, you can send that to the rest of your app's devices (i.e. the “Launch Group”). This step only applies to A/B tests where you vary the message.
 
-![]({{ '/assets/images/experiment_launch.png' | prepend: site.baseurl }})
+<img alt="Launching push experiment" data-echo="{{ '/assets/images/experiment_launch.png' | prepend: site.baseurl }}"/>
 
 Push experiments are supported on all recent Parse SDKs (iOS v1.2.13+, Android v1.4.0+, .NET v1.2.7+). Before running experiments, you must instrument your app with [push open tracking](#receiving-pushes).
 

@@ -7,7 +7,7 @@
     "start": "npm run dev",
     "jekyll": "bundle exec jekyll serve",
     "dev-webpack": "webpack --mode development --watch",
-    "webpack": "webpack -p",
+    "webpack": "webpack --mode production",
     "dev": "npm run dev-webpack & npm run jekyll",
     "dev-win": "start npm run dev-webpack & start npm run jekyll",
     "prod": "npm run webpack & npm run jekyll",

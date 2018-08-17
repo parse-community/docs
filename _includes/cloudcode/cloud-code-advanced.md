@@ -226,7 +226,7 @@ This response would indicate an error in the webhook:
 
 You can activate this webhook from the Dashboard UI.
 
-![]({{ '/assets/images/new_webhook.png' | prepend: site.baseurl }})
+<img alt="" data-echo="{{ '/assets/images/new_webhook.png' | prepend: site.baseurl }}"/>
 
 Once the webhook is set, you can call it from any of our SDKs or from the REST API, the same way you would a normal Cloud function.
 

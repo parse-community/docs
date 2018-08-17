@@ -2,9 +2,12 @@
 <html>
   {% include head.html %}
   {{ content }}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.2/anchor.min.js"></script>
   <script>
     anchors.options = {
-      placement: 'left'
+      placement: 'left',
+      icon: '#'
     };
     anchors.add();
   </script>
