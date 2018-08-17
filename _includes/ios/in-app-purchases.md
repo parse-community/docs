@@ -150,7 +150,7 @@ if let product = productQuery.findObjects.lastObject as? PFProduct {}
 
 ## PFProductTableViewController
 
-<img src="{{ site.baseUrl }}/assets/images/products_table_screenshot.png" style="max-width: 200px"/>
+<img data-echo="{{ site.baseUrl }}/assets/images/products_table_screenshot.png" style="max-width: 200px"/>
 
 `PFProductTableViewController` is a subclass of `PFQueryTableViewController` that displays all IAP products in a table view. Some content apps, such as an app that sells comic books or video tutorials, may find it handy to use `PFProductTableViewController` to sell the products. By default, each cell is a product, and tapping on a cell initiates the purchase for the product. If the product has associated downloadable content, the download will start when the cell is selected and a progress bar is displayed to indicate the progress of the download.
 

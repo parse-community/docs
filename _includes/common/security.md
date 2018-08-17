@@ -433,7 +433,7 @@ Effects:
 
 Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful tools for securing your app, but they don't always interact exactly how you might expect. They actually represent two separate layers of security that each request has to pass through to return the correct information or make the intended change. These layers, one at the class level, and one at the object level, are shown below. A request must pass through BOTH layers of checks in order to be authorized. Note that despite acting similarly to ACLs, [Pointer Permissions](#pointer-permissions) are a type of class level permission, so a request must pass the pointer permission check in order to pass the CLP check.
 
-![]({{ '/assets/images/clp_vs_acl_diagram.png' || prepend: site.baseurl }})
+<img alt="CLP vs ACL Diagram" data-echo="{{ '/assets/images/clp_vs_acl_diagram.png' | prepend: site.baseurl }}"/>
 
 As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let's look at an example to get a better sense of how CLPs and ACLs can interact. Say we have a `Photo` class, with an object, `photoObject`. There are 2 users in our app, `user1` and `user2`. Now lets say we set a Get CLP on the `Photo` class, disabling public Get, but allowing `user1` to perform Get. Now let's also set an ACL on `photoObject` to allow Read - which includes GET - for only `user2`.
 

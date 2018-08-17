@@ -23,7 +23,7 @@ To share your local data between app and extensions you need to do the following
 
 *   Enable **App Groups** and **Keychain Sharing** in **both** your app and extension capabilities in Xcode.
     Please note, that App Group identifier and Keychain Group should be the same between your app and all extensions for data sharing to work.
-    ![]({{site.baseUrl}}/assets/images/extensions_capabilities.png)
+    <img alt="Configuring iOS extenstions" data-echo="{{ '/assets/images/extensions_capabilities.png' | prepend: site.baseurl }}"/>
 *   Add the following before you initialize Parse in your Main App:
 
 <pre><code class="objectivec">

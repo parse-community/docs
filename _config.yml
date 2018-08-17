@@ -30,7 +30,7 @@ apis:
 markdown: kramdown
 exclude: [ Gemfile, Gemfile.lock, README.md, config.codekit, webpack.config.js, node_modules, npm-debug.log, package.json ]
 sass:
-    sass_dir: css
+  sass_dir: css
 
 # Gems
 plugins:

@@ -355,11 +355,6 @@ App.Views = {};
 			for (var i = 0; i < headers.length; i++) {
 				var el = headers[i];
 				var text = $(el).text();
-				// var anchor = el.getElementsByTagName('a')[0];
-				// if (anchor === undefined) {
-				// 	continue;
-				// }
-				// var name = anchor.name;
         var name = el.id;
 
 				// Build main table of contents list from h1 tags
