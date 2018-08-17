@@ -449,6 +449,9 @@ App.Views = {};
 
 				// set newly selected item and add the class
 				this.currentItem = this.node.querySelector('[data-name="' + best + '"]');
+				if (this.currentItem === null) {
+					return;
+				}
 				UI.addClass(this.currentItem, 'selected');
 
 				// if the item was a minor header, also select parent (major header)

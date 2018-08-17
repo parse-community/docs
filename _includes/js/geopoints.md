@@ -24,18 +24,15 @@ Now that you have a bunch of objects with spatial coordinates, it would be nice 
 
 <pre><code class="javascript">
 // User's location
-var userGeoPoint = userObject.get("location");
+const userGeoPoint = userObject.get("location");
 // Create a query for places
-var query = new Parse.Query(PlaceObject);
+const query = new Parse.Query(PlaceObject);
 // Interested in locations near user.
 query.near("location", userGeoPoint);
 // Limit what could be a lot of points.
 query.limit(10);
 // Final list of objects
-query.find({
-  success: function(placesObjects) {
-  }
-});
+const placesObjects = await query.find();
 </code></pre>
 
  At this point `placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `userGeoPoint`. Note that if an additional `ascending()`/`descending()` order-by constraint is applied, it will take precedence over the distance ordering.
@@ -43,36 +40,28 @@ query.find({
 To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`. Use the `sorted` parameter to sort the results by distance ascending.
 
 <pre><code class="javascript">
-var location = new Parse.GeoPoint(37.708813, -122.526398);
-var distance = 5;
-var sorted = true;
+const location = new Parse.GeoPoint(37.708813, -122.526398);
+const distance = 5;
+const sorted = true;
 
-var query = new Parse.Query(PizzaPlaceObject);
+const query = new Parse.Query(PizzaPlaceObject);
 query.withinKilometers("location", location, distance, sorted);
-query.find({
-  success: function(pizzaPlacesInSF) {
-    // Pizza places within 5km sorted by distance
-    ...
-  }
-});
+// Pizza places within 5km sorted by distance
+const pizzaPlacesInSF = await query.find();
 </code></pre>
 
 If you add an additional sorting constraint set the `sorting` parameter to `false` for better query performance.
 
 <pre><code class="javascript">
-var location = new Parse.GeoPoint(37.708813, -122.526398);
-var distance = 5;
-var sorted = false;
+const location = new Parse.GeoPoint(37.708813, -122.526398);
+const distance = 5;
+const sorted = false;
 
-var query = new Parse.Query(PizzaPlaceObject);
+const query = new Parse.Query(PizzaPlaceObject);
 query.withinKilometers("location", location, distance, sorted);
 query.descending("rating");
-query.find({
-  success: function(pizzaPlacesInSF) {
-    // Pizza places within 5km sorted by rating
-    ...
-  }
-});
+// Pizza places within 5km sorted by rating
+const pizzaPlacesInSF = query.find();
 </code></pre>
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `Parse.Query`.
@@ -83,22 +72,14 @@ var northeastOfSF = new Parse.GeoPoint(37.822802, -122.373962);
 
 var query = new Parse.Query(PizzaPlaceObject);
 query.withinGeoBox("location", southwestOfSF, northeastOfSF);
-query.find({
-  success: function(pizzaPlacesInSF) {
-    ...
-  }
-});
+const pizzaPlacesInSF = await query.find();
 </code></pre>
 
 You can query for whether an object lies within or on a polygon of `Parse.GeoPoint` (minimum 3 points):
 
 <pre><code class="javascript">
 query.withinPolygon("location", [geoPoint1, geoPoint2, geoPoint3]);
-query.find({
-  success: function(objectsWithGeoPointInPolygon) {
-    ...
-  }
-});
+const robjectsWithGeoPointInPolygon = await query.find();
 </code></pre>
 
 You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
@@ -115,11 +96,8 @@ const polygon3 = new Parse.Polygon(p3);
 const point = new Parse.GeoPoint(0.5, 0.5);
 const query = new Parse.Query(TestObject);
 query.polygonContains('polygon', point);
-query.find({
-  success: function(results) {
-    // objects contains polygon1 and polygon2
-  }
-});
+// objects contains polygon1 and polygon2
+const results = await query.find();
 </code></pre>
 
 ## Caveats

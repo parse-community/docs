@@ -94,23 +94,21 @@ Parse.Object.registerSubclass('Monster', Monster);
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `Backbone.Model`, including the `save` method:
 
 <pre><code class="javascript">
-var GameScore = Parse.Object.extend("GameScore");
-var gameScore = new GameScore();
+const GameScore = Parse.Object.extend("GameScore");
+const gameScore = new GameScore();
 
 gameScore.set("score", 1337);
 gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 
-gameScore.save(null, {
-  success: function(gameScore) {
-    // Execute any logic that should take place after the object is saved.
-    alert('New object created with objectId: ' + gameScore.id);
-  },
-  error: function(gameScore, error) {
-    // Execute any logic that should take place if the save fails.
-    // error is a Parse.Error with an error code and message.
-    alert('Failed to create new object, with error code: ' + error.message);
-  }
+gameScore.save()
+.then((gameScore) => {
+  // Execute any logic that should take place after the object is saved.
+  alert('New object created with objectId: ' + gameScore.id);
+}, (error) => {
+  // Execute any logic that should take place if the save fails.
+  // error is a Parse.Error with an error code and message.
+  alert('Failed to create new object, with error code: ' + error.message);
 });
 </code></pre>
 
@@ -135,14 +133,12 @@ gameScore.save({
   score: 1337,
   playerName: "Sean Plott",
   cheatMode: false
-}, {
-  success: function(gameScore) {
-    // The object was saved successfully.
-  },
-  error: function(gameScore, error) {
-    // The save failed.
-    // error is a Parse.Error with an error code and message.
-  }
+})
+.then((gameScore) => {
+  // The object was saved successfully.
+}, (error) => {
+  // The save failed.
+  // error is a Parse.Error with an error code and message.
 });
 </code></pre>
 
@@ -153,14 +149,12 @@ Saving data to the cloud is fun, but it's even more fun to get that data out aga
 <pre><code class="javascript">
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
-query.get("xWMyZ4YEGZ", {
-  success: function(gameScore) {
-    // The object was retrieved successfully.
-  },
-  error: function(object, error) {
-    // The object was not retrieved successfully.
-    // error is a Parse.Error with an error code and message.
-  }
+query.get("xWMyZ4YEGZ")
+.then((gameScore) => {
+  // The object was retrieved successfully.
+}, (error) => {
+  // The object was not retrieved successfully.
+  // error is a Parse.Error with an error code and message.
 });
 </code></pre>
 
@@ -185,14 +179,11 @@ If you need to refresh an object you already have with the latest data that
     is in the Parse Cloud, you can call the `fetch` method like so:
 
 <pre><code class="javascript">
-myObject.fetch({
-  success: function(myObject) {
-    // The object was refreshed successfully.
-  },
-  error: function(myObject, error) {
-    // The object was not refreshed successfully.
-    // error is a Parse.Error with an error code and message.
-  }
+myObject.fetch().then((myObject) => {
+  // The object was refreshed successfully.
+}, (error) => {
+  // The object was not refreshed successfully.
+  // error is a Parse.Error with an error code and message.
 });
 </code></pre>
 
@@ -210,14 +201,12 @@ gameScore.set("playerName", "Sean Plott");
 gameScore.set("cheatMode", false);
 gameScore.set("skills", ["pwnage", "flying"]);
 
-gameScore.save(null, {
-  success: function(gameScore) {
-    // Now let's update it with some new data. In this case, only cheatMode and score
-    // will get sent to the cloud. playerName hasn't changed.
-    gameScore.set("cheatMode", true);
-    gameScore.set("score", 1338);
-    gameScore.save();
-  }
+gameScore.save().then((gameScore) => {
+  // Now let's update it with some new data. In this case, only cheatMode and score
+  // will get sent to the cloud. playerName hasn't changed.
+  gameScore.set("cheatMode", true);
+  gameScore.set("score", 1338);
+  return gameScore.save();
 });
 </code></pre>
 
@@ -259,14 +248,11 @@ Note that it is not currently possible to atomically add and remove items from a
 To delete an object from the cloud:
 
 <pre><code class="javascript">
-myObject.destroy({
-  success: function(myObject) {
-    // The object was deleted from the Parse Cloud.
-  },
-  error: function(myObject, error) {
-    // The delete failed.
-    // error is a Parse.Error with an error code and message.
-  }
+myObject.destroy().then((myObject) => {
+  // The object was deleted from the Parse Cloud.
+}, (error) => {
+  // The delete failed.
+  // error is a Parse.Error with an error code and message.
 });
 </code></pre>
 
@@ -326,12 +312,9 @@ myComment.set("parent", post);
 By default, when fetching an object, related `Parse.Object`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
 <pre><code class="javascript">
-var post = fetchedComment.get("parent");
-post.fetch({
-  success: function(post) {
-    var title = post.get("title");
-  }
-});
+const post = fetchedComment.get("parent");
+await post.fetch();
+const title = post.get("title");
 </code></pre>
 
 ### Many-to-Many Relationships

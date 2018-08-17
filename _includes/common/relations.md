@@ -447,11 +447,8 @@ var userQuery = new Parse.Query(Parse.User);
 userQuery.include("weaponsList");
 
 // execute the query
-userQuery.find({
-  success: function(results){
-    // results contains all of the User objects, and their associated Weapon objects, too
-  }
-});
+// results contains all of the User objects, and their associated Weapon objects, too
+const results = await userQuery.find();
 ```
 {: .common-lang-block .js }
 
@@ -1038,13 +1035,9 @@ IEnumerable<ParseObject> results = await query.FindAsync();
 {: .common-lang-block .cs }
 
 ```js
-var query = new Parse.Query("Follow");
+const query = new Parse.Query("Follow");
 query.equalTo("from", Parse.User.current());
-query.find({
-  success: function(users){
-    ...
-  }
-});
+const users = await query.find();
 ```
 {: .common-lang-block .js }
 
@@ -1132,13 +1125,9 @@ IEnumerable<ParseObject> results = await query.FindAsync();
 
 ```js
 // create an entry in the Follow table
-var query = new Parse.Query("Follow");
+const query = new Parse.Query("Follow");
 query.equalTo("to", Parse.User.current());
-query.find({
-  success: function(users){
-    ...
-  }
-});
+const users = query.find();
 ```
 {: .common-lang-block .js }
 
@@ -1321,18 +1310,14 @@ IEnumerable<ParseObject> books= await bookQuery.FindAsync();
 
 ```js
 // set up our query for the Book object
-var bookQuery = new Parse.Query("Book");
+cosnt bookQuery = new Parse.Query("Book");
 
 // configure any constraints on your query...
 // tell the query to fetch all of the Author objects along with the Book
 bookQuery.include("authors");
 
 // execute the query
-bookQuery.find({
-  success: function(books){
-    ...
-  }
-});
+const books = await bookQuery.find();
 ```
 {: .common-lang-block .js }
 
@@ -1491,11 +1476,7 @@ bookQuery.equalTo("authors", author);
 bookQuery.include("authors");
 
 // execute the query
-bookQuery.find({
-  success: function(books){
-    ...
-  }
-});
+const books = await bookQuery.find();
 ```
 {: .common-lang-block .js }
 

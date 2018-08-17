@@ -9,22 +9,16 @@ In many cases, `get` isn't powerful enough to specify which objects you want to 
 The general pattern is to create a `Parse.Query`, put conditions on it, and then retrieve an `Array` of matching `Parse.Object`s using `find`. For example, to retrieve the scores that have a particular `playerName`, use the `equalTo` method to constrain the value for a key.
 
 <pre><code class="javascript">
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
+const GameScore = Parse.Object.extend("GameScore");
+const query = new Parse.Query(GameScore);
 query.equalTo("playerName", "Dan Stemkoski");
-query.find({
-  success: function(results) {
-    alert("Successfully retrieved " + results.length + " scores.");
-    // Do something with the returned Parse.Object values
-    for (var i = 0; i < results.length; i++) {
-      var object = results[i];
-      alert(object.id + ' - ' + object.get('playerName'));
-    }
-  },
-  error: function(error) {
-    alert("Error: " + error.code + " " + error.message);
-  }
-});
+const results = await query.find();
+alert("Successfully retrieved " + results.length + " scores.");
+// Do something with the returned Parse.Object values
+for (let i = 0; i < results.length; i++) {
+  var object = results[i];
+  alert(object.id + ' - ' + object.get('playerName'));
+} 
 </code></pre>
 
 ## Query Constraints
@@ -51,17 +45,10 @@ query.limit(10); // limit to at most 10 results
 If you want exactly one result, a more convenient alternative may be to use `first` instead of using `find`.
 
 <pre><code class="javascript">
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
+const GameScore = Parse.Object.extend("GameScore");
+const query = new Parse.Query(GameScore);
 query.equalTo("playerEmail", "dstemkoski@example.com");
-query.first({
-  success: function(object) {
-    // Successfully retrieved the object.
-  },
-  error: function(error) {
-    alert("Error: " + error.code + " " + error.message);
-  }
-});
+const object = await query.first();
 </code></pre>
 
 You can skip the first results by setting `skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
@@ -125,16 +112,13 @@ query.doesNotExist("score");
 You can use the `matchesKeyInQuery` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
 
 <pre><code class="javascript">
-var Team = Parse.Object.extend("Team");
-var teamQuery = new Parse.Query(Team);
+const Team = Parse.Object.extend("Team");
+const teamQuery = new Parse.Query(Team);
 teamQuery.greaterThan("winPct", 0.5);
-var userQuery = new Parse.Query(Parse.User);
+const userQuery = new Parse.Query(Parse.User);
 userQuery.matchesKeyInQuery("hometown", "city", teamQuery);
-userQuery.find({
-  success: function(results) {
-    // results has the list of users with a hometown team with a winning record
-  }
-});
+// results has the list of users with a hometown team with a winning record
+const results = await userQuery.find();
 </code></pre>
 
 Conversely, to get objects where a key does not match the value of a key in a set of objects resulting from another query, use `doesNotMatchKeyInQuery`. For example, to find users whose hometown teams have losing records:
@@ -142,11 +126,8 @@ Conversely, to get objects where a key does not match the value of a key in a se
 <pre><code class="javascript">
 var losingUserQuery = new Parse.Query(Parse.User);
 losingUserQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
-losingUserQuery.find({
-  success: function(results) {
-    // results has the list of users with a hometown team with a losing record
-  }
-});
+// results has the list of users with a hometown team with a losing record
+const results = await losingUserQuery.find();
 </code></pre>
 
 You can restrict the fields returned by calling `select` with a list of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
@@ -247,11 +228,8 @@ There are several ways to issue queries for relational data. If you want to retr
 // Assume Parse.Object myPost was previously created.
 var query = new Parse.Query(Comment);
 query.equalTo("post", myPost);
-query.find({
-  success: function(comments) {
-    // comments now contains the comments for myPost
-  }
-});
+// comments now contains the comments for myPost
+const comments = await query.find();
 </code></pre>
 
 If you want to retrieve objects where a field contains a `Parse.Object` that matches a different query, you can use `matchesQuery`. In order to find comments for posts containing images, you can do:
@@ -263,11 +241,8 @@ var innerQuery = new Parse.Query(Post);
 innerQuery.exists("image");
 var query = new Parse.Query(Comment);
 query.matchesQuery("post", innerQuery);
-query.find({
-  success: function(comments) {
-    // comments now contains the comments for posts with images.
-  }
-});
+// comments now contains the comments for posts with images.
+const comments = await query.find();
 </code></pre>
 
 If you want to retrieve objects where a field contains a `Parse.Object` that does not match a different query, you can use `doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
@@ -279,11 +254,8 @@ var innerQuery = new Parse.Query(Post);
 innerQuery.exists("image");
 var query = new Parse.Query(Comment);
 query.doesNotMatchQuery("post", innerQuery);
-query.find({
-  success: function(comments) {
-    // comments now contains the comments for posts without images.
-  }
-});
+// comments now contains the comments for posts without images.
+const comments = await query.find();
 </code></pre>
 
 You can also do relational queries by `objectId`:
@@ -308,16 +280,13 @@ query.limit(10);
 // Include the post data with each comment
 query.include("post");
 
-query.find({
-  success: function(comments) {
-    // Comments now contains the last ten comments, and the "post" field
-    // has been populated. For example:
-    for (var i = 0; i < comments.length; i++) {
-      // This does not require a network access.
-      var post = comments[i].get("post");
-    }
-  }
-});
+// Comments now contains the last ten comments, and the "post" field
+const comments = await query.find();
+// has been populated. For example:
+for (var i = 0; i < comments.length; i++) {
+  // This does not require a network access.
+  var post = comments[i].get("post");
+}
 </code></pre>
 
 You can also do multi level includes using dot notation.  If you wanted to include the post for a comment and the post's author as well you can do:
@@ -338,15 +307,8 @@ If you just need to count how many objects match a query, but you do not need to
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.equalTo("playerName", "Sean Plott");
-query.count({
-  success: function(count) {
-    // The count request succeeded. Show the count
-    alert("Sean has played " + count + " games");
-  },
-  error: function(error) {
-    // The request failed
-  }
-});
+const count = await query.count();
+alert("Sean has played " + count + " games");
 </code></pre>
 
 

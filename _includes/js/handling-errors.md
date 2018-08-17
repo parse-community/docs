@@ -5,18 +5,28 @@ Most Parse JavaScript functions report their success or failure using an object 
 `error` is called for any kind of error that occurs when interacting with the Parse Cloud over the network. These errors are either related to problems connecting to the cloud or problems performing the requested operation. Let's take a look at another example.  In the code below, we try to fetch an object with a non-existent `objectId`. The Parse Cloud will return an error - so here's how to handle it properly in your callback:
 
 <pre><code class="javascript">
-var query = new Parse.Query(Note);
-query.get("aBcDeFgH", {
-  success: function(results) {
-    // This function will *not* be called.
-    alert("Everything went fine!");
-  },
-  error: function(model, error) {
-    // This will be called.
-    // error is an instance of Parse.Error with details about the error.
-    if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
-      alert("Uh oh, we couldn't find the object!");
-    }
+const query = new Parse.Query(Note);
+query.get("aBcDeFgH").then((results) => {
+  // This function will *not* be called.
+  alert("Everything went fine!");
+}, (error) => {
+  // This will be called.
+  // error is an instance of Parse.Error with details about the error.
+  if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
+    alert("Uh oh, we couldn't find the object!");
+  }
+});
+
+// You can also use `.catch`
+
+query.get("aBcDeFgH").then((results) => {
+  // This function will *not* be called.
+  alert("Everything went fine!");
+}).catch((error) => {
+  // This will be called.
+  // error is an instance of Parse.Error with details about the error.
+  if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
+    alert("Uh oh, we couldn't find the object!");
   }
 });
 </code></pre>
@@ -24,20 +34,18 @@ query.get("aBcDeFgH", {
 The query might also fail because the device couldn't connect to the Parse Cloud. Here's the same callback but with a bit of extra code to handle that scenario:
 
 <pre><code class="javascript">
-var query = new Parse.Query(Note);
-query.get("thisObjectIdDoesntExist", {
-  success: function(results) {
-    // This function will *not* be called.
-    alert("Everything went fine!");
-  },
-  error: function(model, error) {
-    // This will be called.
-    // error is an instance of Parse.Error with details about the error.
-    if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
-      alert("Uh oh, we couldn't find the object!");
-    } else if (error.code === Parse.Error.CONNECTION_FAILED) {
-      alert("Uh oh, we couldn't even connect to the Parse Cloud!");
-    }
+const query = new Parse.Query(Note);
+query.get("thisObjectIdDoesntExist")
+.then((results) => {
+  // This function will *not* be called.
+  alert("Everything went fine!");
+}, (error) => {
+  // This will be called.
+  // error is an instance of Parse.Error with details about the error.
+  if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
+    alert("Uh oh, we couldn't find the object!");
+  } else if (error.code === Parse.Error.CONNECTION_FAILED) {
+    alert("Uh oh, we couldn't even connect to the Parse Cloud!");
   }
 });
 </code></pre>
