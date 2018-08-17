@@ -184,9 +184,9 @@ query.equalTo("post", post);
 query.find().then(function(results) {
   // Create a trivial resolved promise as a base case.
   let promise = Promise.resolve();
-  _.each(results, function(result) {
+  results.forEach((result) =>  {
     // For each item, extend the promise with a function to delete it.
-    promise = promise.then(function() {
+    promise = promise.then(() => {
       // Return a promise that will be resolved when the delete is finished.
       return result.destroy();
     });
@@ -207,10 +207,10 @@ query.equalTo("post", post);
 
 query.find().then(function(results) {
   // Collect one promise for each delete into an array.
-  let promises = [];
-  _.each(results, function(result) {
+  const promises = [];
+  const promises = results.map((result) => {
     // Start this delete immediately and add its promise to the list.
-    promises.push(result.destroy());
+    return result.destroy();
   });
   // Return a new promise that is resolved when all of the deletes are finished.
   return Promise.all(promises);

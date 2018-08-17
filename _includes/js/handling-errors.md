@@ -16,6 +16,19 @@ query.get("aBcDeFgH").then((results) => {
     alert("Uh oh, we couldn't find the object!");
   }
 });
+
+// You can also use `.catch`
+
+query.get("aBcDeFgH").then((results) => {
+  // This function will *not* be called.
+  alert("Everything went fine!");
+}).catch((error) => {
+  // This will be called.
+  // error is an instance of Parse.Error with details about the error.
+  if (error.code === Parse.Error.OBJECT_NOT_FOUND) {
+    alert("Uh oh, we couldn't find the object!");
+  }
+});
 </code></pre>
 
 The query might also fail because the device couldn't connect to the Parse Cloud. Here's the same callback but with a bit of extra code to handle that scenario:
