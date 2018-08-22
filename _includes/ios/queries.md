@@ -515,7 +515,7 @@ You can use `whereKey:matchesText` for efficient search capabilities. Text index
 
 * Note: Full Text Search can be resource intensive. Ensure the cost of using indexes is worth the benefit, see [storage requirements & performance costs of text indexes.](https://docs.mongodb.com/manual/core/index-text/#storage-requirements-and-performance-costs).
 
-* Parse Server 2.5.0+
+* Requires Parse Server 2.5.0+
 
 <pre><code class="objectivec">
 PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
