@@ -522,7 +522,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
 [query whereKey:@"name" matchesText:@"bbq"];
 </code></pre>
 <pre><code class="swift">
-// TODO
+let query = PFQuery(className: "BarbecueSauce")
+query.whereKey("name", matchesText: "bbq")
 </code></pre>
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
@@ -546,7 +547,18 @@ PFQuery *query = [PFQuery queryWithClassName:@"BarbecueSauce"];
 }];
 </code></pre>
 <pre><code class="swift">
-// TODO
+let query = PFQuery(className: "BarbecueSauce")
+query.whereKey("name", matchesText: "bbq")
+query.order(byAscending: "$score")
+query.selectKeys(["$score"])
+query.findObjectsInBackground { (objects, error) in
+  guard let objects = objects else {
+    return
+  }
+  objects.forEach { (object) in
+    print("Successfully retrieved \(object["$score"]) weight / rank.");
+  }
+}
 </code></pre>
 
 For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
