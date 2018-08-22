@@ -65,7 +65,8 @@ NSArray *points = @[@[@0,@0],@[@0,@1],@[@1,@1],@[@1,@0]];
 PFPolygon *polygon = [PFPolygon polygonWithCoordinates:points];
 </code></pre>
 <pre><code class="swift">
-// TODO
+let points = [[0,0], [0,1], [1,1], [1,0]]
+let polygon = PFPolygon(coordinates: points)
 </code></pre>
 
 This polygon is then stored in the object as a regular field.
@@ -137,7 +138,11 @@ PFQuery *query = [PFQuery queryWithClassName:@"Locations"];
 [query whereKey:@"location" withinPolygon:@[geoPoint1, geoPoint2, geoPoint3]];
 </code></pre>
 <pre><code class="swift">
-// TODO
+let geoPoint1 = PFGeoPoint(latitude: 10.0, longitude: 20.0)
+let geoPoint2 = PFGeoPoint(latitude: 20.0, longitude: 30.0)
+let geoPoint3 = PFGeoPoint(latitude: 30.0, longitude: 40.0)
+let query = PFQuery(className: "Locations")
+query.whereKey("location", withinPolygon: [geoPoint1, geoPoint2, geoPoint3])
 </code></pre>
 
 You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
@@ -148,7 +153,9 @@ PFQuery *query = [PFQuery queryWithClassName:@"Locations"];
 [query whereKey:@"bounds" polygonContains:geoPoint];
 </code></pre>
 <pre><code class="swift">
-// TODO
+let geoPoint = PFGeoPoint(latitude: 0.5, longitude: 0.5)
+let query = PFQuery(className: "Locations")
+query.whereKey("bounds", polygonContains: geoPoint)
 </code></pre>
 
 To efficiently find if a `PFPolygon` contains a `PFGeoPoint` without querying use `containsPoint`.
@@ -164,7 +171,14 @@ PFGeoPoint *outside = [PFGeoPoint geoPointWithLatitude:10 longitude:10];
 [polygon containsPoint:outside];
 </code></pre>
 <pre><code class="swift">
-// TODO
+let points = [[0,0], [0,1], [1,1], [1,0]]
+let polygon = PFPolygon(coordinates: points)
+let inside = PFGeoPoint(latitude: 0.5, longitude: 0.5)
+let outside = PFGeoPoint(latitude: 10, longitude: 10)
+// Returns true
+polygon.contains(inside)
+// Returns false
+polygon.contains(outside)
 </code></pre>
 
 ## Caveats
