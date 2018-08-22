@@ -56,7 +56,7 @@ For those who choose to use `CLLocationManager` directly, we also provide a `+ge
 
 Parse allows you to associate polygon coordinates with an object.  Adding a `PFPolygon` to a `PFObject` allows queries to determine whether a `PFGeoPoint` is within a `PFPolygon` or if a `PFPolygon` contains a `PFGeoPoint` .
 
-* PFPolygon must contain at least three coordinates
+* PFPolygon must contain at least three coordinates.
 
 For example, to create a polygon with coordinates (0, 0), (0, 1), (1, 1), (1, 0).
 
@@ -128,7 +128,7 @@ query.whereKey("location", withinGeoBoxFromSouthwest:swOfSF, toNortheast:neOfSF)
 var pizzaPlacesInSF = query.findObjects()
 </code></pre>
 
-You can query for whether an object `PFGeoPoint` lies within or on a polygon of `Parse.GeoPoint`
+You can query for whether an object's `PFGeoPoint` lies within or on a polygon formed of `Parse.GeoPoint`:
 
 <pre><code class="objectivec">
 PFGeoPoint *geoPoint1 = [PFGeoPoint geoPointWithLatitude:10.0 longitude:20.0];
