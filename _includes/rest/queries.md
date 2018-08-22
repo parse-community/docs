@@ -1020,7 +1020,7 @@ curl -X GET \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
   -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
   -G \
-  --data-urlencode 'group:{"objectId":null,"total":{"$sum":"$score"}}' \
+  --data-urlencode 'group={"objectId":null,"total":{"$sum":"$score"}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
 </code></pre>
 <pre><code class="python">
