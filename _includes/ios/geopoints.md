@@ -52,6 +52,32 @@ When this code is run, the following happens:
 
 For those who choose to use `CLLocationManager` directly, we also provide a `+geoPointWithLocation:` constructor to transform `CLLocation`s directly into `PFGeoPoint`s - great for apps that require constant polling.
 
+## PFPolygon
+
+Parse allows you to associate polygon coordinates with an object.  Adding a `PFPolygon` to a `PFObject` allows queries to determine whether a `PFGeoPoint` is within a `PFPolygon` or if a `PFPolygon` contains a `PFGeoPoint` .
+
+* PFPolygon must contain at least three coordinates.
+
+For example, to create a polygon with coordinates (0, 0), (0, 1), (1, 1), (1, 0).
+
+<pre><code class="objectivec">
+NSArray *points = @[@[@0,@0],@[@0,@1],@[@1,@1],@[@1,@0]];
+PFPolygon *polygon = [PFPolygon polygonWithCoordinates:points];
+</code></pre>
+<pre><code class="swift">
+let points = [[0,0], [0,1], [1,1], [1,0]]
+let polygon = PFPolygon(coordinates: points)
+</code></pre>
+
+This polygon is then stored in the object as a regular field.
+
+<pre><code class="objectivec">
+placeObject[@"bounds"] = polygon;
+</code></pre>
+<pre><code class="swift">
+placeObject["bounds"] = polygon
+</code></pre>
+
 ## Geo Queries
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to `PFQuery` using `whereKey:nearGeoPoint:`. Getting a list of ten places that are closest to a user may look something like:
@@ -100,6 +126,59 @@ let neOfSF = PFGeoPoint(latitude:37.822802, longitude:-122.373962)
 var query = PFQuery(className:"PizzaPlaceObject")
 query.whereKey("location", withinGeoBoxFromSouthwest:swOfSF, toNortheast:neOfSF)
 var pizzaPlacesInSF = query.findObjects()
+</code></pre>
+
+You can query for whether an object's `PFGeoPoint` lies within or on a polygon formed of `Parse.GeoPoint`:
+
+<pre><code class="objectivec">
+PFGeoPoint *geoPoint1 = [PFGeoPoint geoPointWithLatitude:10.0 longitude:20.0];
+PFGeoPoint *geoPoint2 = [PFGeoPoint geoPointWithLatitude:20.0 longitude:30.0];
+PFGeoPoint *geoPoint3 = [PFGeoPoint geoPointWithLatitude:30.0 longitude:40.0];
+PFQuery *query = [PFQuery queryWithClassName:@"Locations"];
+[query whereKey:@"location" withinPolygon:@[geoPoint1, geoPoint2, geoPoint3]];
+</code></pre>
+<pre><code class="swift">
+let geoPoint1 = PFGeoPoint(latitude: 10.0, longitude: 20.0)
+let geoPoint2 = PFGeoPoint(latitude: 20.0, longitude: 30.0)
+let geoPoint3 = PFGeoPoint(latitude: 30.0, longitude: 40.0)
+let query = PFQuery(className: "Locations")
+query.whereKey("location", withinPolygon: [geoPoint1, geoPoint2, geoPoint3])
+</code></pre>
+
+You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
+
+<pre><code class="objectivec">
+PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:0.5 longitude:0.5];
+PFQuery *query = [PFQuery queryWithClassName:@"Locations"];
+[query whereKey:@"bounds" polygonContains:geoPoint];
+</code></pre>
+<pre><code class="swift">
+let geoPoint = PFGeoPoint(latitude: 0.5, longitude: 0.5)
+let query = PFQuery(className: "Locations")
+query.whereKey("bounds", polygonContains: geoPoint)
+</code></pre>
+
+To efficiently find if a `PFPolygon` contains a `PFGeoPoint` without querying use `containsPoint`.
+
+<pre><code class="objectivec">
+NSArray *points = @[@[@0,@0],@[@0,@1],@[@1,@1],@[@1,@0]];
+PFPolygon *polygon = [PFPolygon polygonWithCoordinates:points];
+PFGeoPoint *inside = [PFGeoPoint geoPointWithLatitude:0.5 longitude:0.5];
+PFGeoPoint *outside = [PFGeoPoint geoPointWithLatitude:10 longitude:10];
+// Returns True
+[polygon containsPoint:inside];
+// Returns False
+[polygon containsPoint:outside];
+</code></pre>
+<pre><code class="swift">
+let points = [[0,0], [0,1], [1,1], [1,0]]
+let polygon = PFPolygon(coordinates: points)
+let inside = PFGeoPoint(latitude: 0.5, longitude: 0.5)
+let outside = PFGeoPoint(latitude: 10, longitude: 10)
+// Returns true
+polygon.contains(inside)
+// Returns false
+polygon.contains(outside)
 </code></pre>
 
 ## Caveats
