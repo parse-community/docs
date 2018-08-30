@@ -74,11 +74,6 @@
           }
         }
 
-        .iframe-login{
-            border-left-color: rgba(white, 0.15);
-
-        }
-
         .header-nav{
             a{
                 opacity: 0.5;
@@ -166,8 +161,6 @@
         }
 
         .header-subnav{ display:none; }
-
-        .iframe-login{ display:none;}
 
         .header-hamburger{
             .header-hamburger__line--top,
@@ -315,16 +308,8 @@
     li{
         display:none;
         position:relative;
-        &.iframe-login{
-            display: inline-block;
-          margin-top: 15px;
-        }
         @include break-min($break-switch-navs){
           display:inline-block;
-          &.iframe-login{
-            border-left: 1px solid #E0E0EA;
-            margin-top: 0px;
-          }
         }
       
         @include break-max(550px){
@@ -341,32 +326,7 @@
             position: relative;
         }
 
-        // &:hover{
-        //     & > .header-subnav{
-        //         height: 20px;
-        //     }
-        // }
-
         & + li{ margin-left: 10px; }
-    }
-
-    .iframe-login{
-        margin-left: 22px;
-        padding-left: 26px;
-        
-        height: 50px;
-        iframe{
-            width: 150px;
-            height: 36px;
-            outline: 0;
-            border: 0;
-            padding: 0;
-            margin: 0;
-            top: 0;
-            position: relative;
-
-          }
-        a{ display:inline-block; }
     }
 }
 

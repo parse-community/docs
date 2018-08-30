@@ -23,48 +23,38 @@
 @import "lib/multisite/variables";
 @import "lib/multisite/mixins";
 
-// These have to be defined in the top SCSS as Liquid tags require YAML frontmatter, and using frontmatter in an imported file will confuse the sass compiler.
 $svg-plus: "{{ '/assets/svgs/plus.svg' | prepend: site.baseurl }}";
-
-// ============================================================================
-//   Cross-Browser Normalize
-// ============================================================================
-
-@import "lib/multisite/normalize";
-
-// ============================================================================
-//   Default Styles & Keyframes
-// ============================================================================
-
-@import "lib/marketing/globals/defaults";
-
-// ============================================================================
-//   Type & Icons
-// ============================================================================
-
-@import "lib/multisite/fonts";
-@import "lib/marketing/globals/typography";
-@import "lib/marketing/globals/icons";
-@import "lib/marketing/globals/helpers";
-
-// ============================================================================
-//   Grid System
-// ============================================================================
-
-@import "lib/multisite/grid";
 
 // ============================================================================
 //   Base-Layout
 // ============================================================================
 
-@import "lib/multisite/base-layout";
-@import "lib/multisite/header";
+// Maybe later
+// @import "lib/multisite/footer";
+// @import "lib/multisite/menu";
+// unused
+//  @import "lib/multisite/codebook";
 
 // ============================================================================
 //   UI Components
 // ============================================================================
 
-@import "lib/marketing/components/buttons";
-@import "lib/marketing/components/heros";
+@import "lib/marketing/components/herosDocs";
+@import "lib/marketing/components/forms";
 
-@import "lib/docs/components/docs-platform";
+@import "lib/docs/components/live-toc";
+@import "lib/docs/components/custom-server";
+@import "lib/docs/components/docsearch";
+
+// ============================================================================
+//   Views
+// ============================================================================
+
+@import "lib/docs/views/detail";
+
+// ============================================================================
+//   Utilities & Noverriders
+// ============================================================================
+
+@import "lib/marketing/globals/helpers";
+@import "lib/multisite/wysiwyg";

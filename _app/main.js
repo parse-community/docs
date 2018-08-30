@@ -898,9 +898,34 @@ App.Views = {};
 
 })(UI, _);
 
-$('pre code').each(function(i, block) {
-  hljs.highlightBlock(block);
-});
+function loadHljs() {
+  $('pre code').each(function(i, block) {
+    if (isScrolledIntoView(block)) {
+      // Block is already injected
+      if (block.className.indexOf('hljs') >= 0) {
+        return;
+      }
+      if (block.className.indexOf('objectivec') >= 0 
+          && block.className.indexOf('objective_c') < 0) {
+        block.className = `${block.className} objective_c`;
+      }
+      hljs.highlightBlock(block);
+    }
+  });
+}
+
+function isScrolledIntoView(elem){
+  var $elem = $(elem);
+  var $window = $(window);
+
+  var docViewTop = $window.scrollTop();
+  var docViewBottom = docViewTop + $window.height();
+
+  var elemTop = $elem.offset().top;
+  var elemBottom = elemTop + $elem.height();
+
+  return ((elemBottom <= (docViewBottom + 100)) && (elemTop >= docViewTop - 100));
+}
 
 var platform = window.location.pathname.split('/')[1];
 if (platform) {
@@ -909,3 +934,10 @@ if (platform) {
     platform: platform
   });
 }
+
+$(function () {
+  loadHljs();
+  window.onscroll = window.onresize = function() {
+    loadHljs();
+  }
+})

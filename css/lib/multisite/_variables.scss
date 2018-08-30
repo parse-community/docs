@@ -19,7 +19,7 @@ $generate-layerz: true;
 //   Margin and Padding classes (see helpers.scss)
 // ============================================================================
 
-$generate-margin-padding-classes: true;
+$generate-margin-padding-classes: false;
 
 
 // ============================================================================
@@ -194,11 +194,6 @@ $footer-link-cols-width-desktop: (($footer-newsletter-col-width-desktop - 100)*-
 
 // stax
 $font-alright: "webfont_alright";
-//$font-alright-regular: "webfont_alright";
-//$font-alright-light: "webfont_alright";
-//$font-alright-medium: "webfont_alright";
-//$font-alright-bold: "webfont_alright";
-//$font-alright-black: "webfont_alright";
 $font-din: "webfont_din-regular";
 $font-input: "webfont_input";
 // $font-input-narrow: "Input Mono Narrow";

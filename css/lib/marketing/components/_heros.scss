@@ -10,8 +10,8 @@
     padding-top: 20px;
 
     text-align: center;
-    position:relative;
-    background: $color-parse-blue url('') center center no-repeat;
+    position: relative;
+    background: $color-parse-blue center center no-repeat;
     background-size: cover;
 
     overflow:hidden;
@@ -272,136 +272,6 @@
       }
     }
 
-    &--policies{
-        padding-top: 120px;
-        height: auto;
-
-        .container{
-            top:0;
-            transform: none;
-            position: relative;
-
-            .h1{ margin: 0.5em auto 0.25em; }
-            .p{ margin: 0 auto; }
-        }
-
-        &__numbered-list{
-            margin-top: 32px;
-            padding: 20px 0;
-            z-index:2;
-            position: relative;
-            background-color: #1490DE;
-            color: white;
-        }
-
-        @include break-min($break-switch-heros){
-            padding-top: 136px;
-
-            &__numbered-list{ padding: 30px 0 23px; }
-        }
-    }
-
-    &--docs{
-        padding-top:0;
-        height: 250px;
-        background-color: $color-pale-sky;
-        text-align:left;
-        overflow:hidden;
-
-        &:before{ display:none; }
-
-        &.server_docs_header{
-          background-color: $defaultPlatform;
-        }
-        &.ios_docs_header{
-          background-color: $iosPlatform;
-        }
-        &.android_docs_header{
-          background-color: $androidPlatform;
-        }
-        &.cloudcode_docs_header{
-          background-color: $defaultPlatform;
-        }
-        &.js_docs_header{
-          background-color: $jsPlatform;
-        }
-        &.osx_docs_header{
-          background-color: $osxPlatform;
-        }
-        &.unity_docs_header{
-          background-color: $unityPlatform;
-        }
-        &.php_docs_header{
-          background-color: $phpPlatform;
-        }
-        &.dotnet_docs_header{
-          background-color: $dotnetPlatform;
-        }
-        &.arduino_docs_header{
-          background-color: $defaultPlatform;
-        }
-        &.embedded_c_docs_header{
-          background-color: $embeddedPlatform;
-        }
-        &.rest_docs_header{
-          background-color: $restPlatform;
-        }
-
-        .grid-container{
-            top:0;
-            padding-top: 150px;
-            transform: none
-
-            div{
-                position: relative;
-            }
-        }
-
-        .h1{
-            max-width: none;
-            position: relative;
-            margin:0;
-            letter-spacing: -1px;
-
-            em{
-                display:block;
-                font-style: normal;
-                font-family: $font-alright;
-                font-weight: $light-weight;
-                // font-width: 400;
-            }
-
-            .btn{
-                position:absolute;
-                right:0;
-                bottom:0;
-                font-family: $font-din;
-                letter-spacing: 0;
-                background-color: rgba(#000, 0.28);
-                font-weight: $regular-weight;
-
-                html.no-touch &:hover{ background-color: rgba(#000, 0.5); }
-            }
-        }
-
-        svg{
-            fill: white;
-            opacity: 0.1;
-            position: absolute;
-            left: -60px;
-            bottom: -16px;
-            width: 130px;
-            height: 130px;
-        }
-
-        @include break-min($break-tablet){
-            .grid-container{ padding-top: 180px; }
-            .h1{
-                em{ display:inline; }
-            }
-        }
-    }
-
     &--docs-landing{
         padding: 166px 0 12px;
         height: auto;
@@ -420,32 +290,6 @@
                 text-align: left;
             }
         }
-        &__languages{
-            a {
-                font-size: 1.4rem;
-                opacity: 0.41;
-                color: white;
-                line-height: 2;
-                transition: opacity 180ms ease;
-
-                &.selected,
-                &:hover{
-                    text-decoration:none;
-                    opacity:1;
-                }
-
-                & + a{ margin-left: 10px; }
-            }
-        }
-        &__quickstart{
-            display:none;
-            position: absolute;
-            right: 0;
-            bottom: 6px;
-            font-size: 1.6rem;
-
-            span{ margin-right: 16px; }
-        }
 
         @include break-min($break-tablet-max){
             &__quickstart{
@@ -453,53 +297,4 @@
             }
         }
     }
-
-    &--platform-mobile{
-      background-image: url(/assets/images/heros/mobile.jpg);
-      background-color: $color-carib-green;
-      background-size: auto 82%;
-      background-position: center bottom;
-
-      &:before{ display:none !important; }
-    }
-
-    &--platform-desktop{
-        background-image: url(/assets/images/heros/desktop.jpg);
-        background-color: $color-rad-red;
-        background-size: auto 55%;
-        background-position: center 199px;
-
-        &:before{ display:none !important; }
-    }
-
-    &--product-core{
-      background-image: url(/assets/images/heros/core.png);
-      background-color: $color-core-blue;
-      background-size: auto 77%;
-      background-position: center 90%;
-
-      &:before{ display:none !important; }
-    }
-
-    &--product-push{
-        background-image: url(/assets/images/heros/push.jpg);
-        background-color: $color-push-blue;
-        background-size: auto 72%;
-        background-position: center center;
-
-        .h1{ max-width: 490px; }
-
-        &:before{ display:none !important; }
-    }
-
-    &--product-analytics{
-        background-image: url(/assets/images/heros/analytics.jpg);
-        background-color: $color-analytics-blue;
-        background-size: auto 72%;
-        background-position: center 126px;
-
-        &:before{ display:none !important; }
-    }
-
-
 }

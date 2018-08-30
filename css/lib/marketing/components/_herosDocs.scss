@@ -1,0 +1,139 @@
+// heroz
+
+.hero{
+    &--docs{
+        padding-top:0;
+        height: 250px;
+        background-color: $color-pale-sky;
+        text-align:left;
+        overflow:hidden;
+
+        &:before{ display:none; }
+
+        &.server_docs_header{
+          background-color: $defaultPlatform;
+        }
+        &.ios_docs_header{
+          background-color: $iosPlatform;
+        }
+        &.android_docs_header{
+          background-color: $androidPlatform;
+        }
+        &.cloudcode_docs_header{
+          background-color: $defaultPlatform;
+        }
+        &.js_docs_header{
+          background-color: $jsPlatform;
+        }
+        &.osx_docs_header{
+          background-color: $osxPlatform;
+        }
+        &.unity_docs_header{
+          background-color: $unityPlatform;
+        }
+        &.php_docs_header{
+          background-color: $phpPlatform;
+        }
+        &.dotnet_docs_header{
+          background-color: $dotnetPlatform;
+        }
+        &.arduino_docs_header{
+          background-color: $defaultPlatform;
+        }
+        &.embedded_c_docs_header{
+          background-color: $embeddedPlatform;
+        }
+        &.rest_docs_header{
+          background-color: $restPlatform;
+        }
+
+        .grid-container{
+            top:0;
+            padding-top: 150px;
+            transform: none
+
+            div{
+                position: relative;
+            }
+        }
+
+        .h1{
+            max-width: none;
+            position: relative;
+            margin:0;
+            letter-spacing: -1px;
+
+            em{
+                display:block;
+                font-style: normal;
+                font-family: $font-alright;
+                font-weight: $light-weight;
+                // font-width: 400;
+            }
+
+            .btn{
+                position:absolute;
+                right:0;
+                bottom:0;
+                font-family: $font-din;
+                letter-spacing: 0;
+                background-color: rgba(#000, 0.28);
+                font-weight: $regular-weight;
+
+                html.no-touch &:hover{ background-color: rgba(#000, 0.5); }
+            }
+        }
+
+        svg{
+            fill: white;
+            opacity: 0.1;
+            position: absolute;
+            left: -60px;
+            bottom: -16px;
+            width: 130px;
+            height: 130px;
+        }
+
+        @include break-min($break-tablet){
+            .grid-container{ padding-top: 180px; }
+            .h1{
+                em{ display:inline; }
+            }
+        }
+    }
+
+    &--docs-landing{
+        &__languages{
+            a {
+                font-size: 1.4rem;
+                opacity: 0.41;
+                color: white;
+                line-height: 2;
+                transition: opacity 180ms ease;
+
+                &.selected,
+                &:hover{
+                    text-decoration:none;
+                    opacity:1;
+                }
+
+                & + a{ margin-left: 10px; }
+            }
+        }
+        &__quickstart{
+            display:none;
+            position: absolute;
+            right: 0;
+            bottom: 6px;
+            font-size: 1.6rem;
+
+            span{ margin-right: 16px; }
+        }
+
+        @include break-min($break-tablet-max){
+            &__quickstart{
+                display:block;
+            }
+        }
+    }
+}

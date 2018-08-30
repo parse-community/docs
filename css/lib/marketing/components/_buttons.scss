@@ -111,60 +111,6 @@
 //            }
         }
     }
-    &--dark{
-        opacity: 0.5;
-        background: $color-ebony;
-        color: white;
-
-        &--outline{
-            opacity: 0.5;
-            background:none;
-            padding: $btn-padding-outline;
-            border: 1px solid $color-ebony;
-            color: $color-ebony;
-
-            html.no-touch &:hover{
-              background: $color-ebony;
-              color:white;
-            }
-        }
-    }
-
-    &--green{
-        background: $color-carib-green;
-
-        html.no-touch &:hover{ background: darken($color-carib-green, 5%); }
-
-        &--outline{
-            background:none;
-            padding: $btn-padding-outline;
-            border: 1px solid $color-carib-green;
-            color: $color-carib-green;
-
-            html.no-touch &:hover{
-              background: $color-carib-green;
-              color:white;
-            }
-        }
-    }
-
-    &--red{
-        background: $color-rad-red;
-
-        html.no-touch &:hover{ background: darken($color-rad-red, 5%); }
-
-        &--outline{
-            padding: $btn-padding-outline;
-            background: none;
-            color: $color-rad-red;
-            border: 1px solid $color-rad-red;
-
-            html.no-touch &:hover{
-              background: $color-rad-red;
-              color:white;
-            }
-        }
-    }
 
     &--wide{
         min-width: 231px;
