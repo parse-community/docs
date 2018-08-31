@@ -335,10 +335,10 @@ App.Views = {};
 
 			// build a mapping of the table of content based on the
 			// h1s and h2s in the content
-			var toc = this.buildTOC();
+      var toc = this.buildTOC();
 
 			// add toc data
-			this.node = UI.tag('ul', { className: 'ui_live_toc' }, toc);
+			this.node = UI.tag('ul', { className: 'ui_live_toc' }, [toc]);
 
 			// calculate the cached heights of each header in the text
 			$(document).ready(function(e) {
@@ -349,8 +349,8 @@ App.Views = {};
 		// find all the h1s and h2s in the content and build the TOC elements
 		buildTOC: function() {
 			var headers = this.content.querySelectorAll('h1, h2, h3');
-			var toc = [];
 			var latestMajor, latestMinor;
+      var toc = document.createDocumentFragment();
 
 			for (var i = 0; i < headers.length; i++) {
 				var el = headers[i];
@@ -359,8 +359,8 @@ App.Views = {};
 
 				// Build main table of contents list from h1 tags
 				if (el.tagName === 'H1') {
-					latestMajor = UI.tag('ul', { className: 'ui_live_toc_major_list' });
-					toc.push(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_main' }, [
+          latestMajor = UI.tag('ul', { className: 'ui_live_toc_major_list' });
+          toc.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_main' }, [
 						UI.tag('a', { href: '#' + name }, text),
 						latestMajor
 					]));
@@ -627,8 +627,10 @@ App.Views = {};
 				content: document.getElementsByClassName('guide_content')[0]
 			});
 
-			// deal with common-lang-blocks
-			this.toggleCommonLangBlocks();
+      process.nextTick(() => {
+        // deal with common-lang-blocks
+			  this.toggleCommonLangBlocks();
+      });
 
       // setup the server/mount path editor
       this.setupServerFieldCustomization();
@@ -668,11 +670,14 @@ App.Views = {};
 		},
 
 		renderMobileTOC: function() {
-			var h1s = this.scrollContent.getElementsByTagName('h1');
+      var h1s = this.scrollContent.getElementsByTagName('h1');
+      var fragment = document.createDocumentFragment();
 			for (var i = 0; i < h1s.length; i++) {
-				// var anchor = h1s[i].getElementsByTagName('a')[0];
-				this.mobileToc.appendChild(UI.tag('option', { 'data-anchor': "#"+h1s[i].id }, [ h1s[i].textContent ]));
-			}
+        // var anchor = h1s[i].getElementsByTagName('a')[0];
+        var optionElement = UI.tag('option', { 'data-anchor': "#"+h1s[i].id }, [ h1s[i].textContent ]);
+        fragment.appendChild(optionElement);
+      }
+      this.mobileToc.appendChild(fragment);
 			this.mobileToc.addEventListener('change', this.handleSelectChange.bind(this));
 			this.mobileToc.getElementsByTagName('option')[0].setAttribute('selected', true);
 		},
@@ -879,10 +884,13 @@ App.Views = {};
 
 })(UI, _);
 
-var platform = window.location.pathname.split('/')[1];
-if (platform) {
-  new App.Views.Docs.Main({
-    language: 'en',
-    platform: platform
-  });
-}
+$(function() {
+  var platform = window.location.pathname.split('/')[1];
+  if (platform) {
+    new App.Views.Docs.Main({
+      language: 'en',
+      platform: platform
+    });
+  }
+});
+

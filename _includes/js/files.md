@@ -27,8 +27,8 @@ var file = new Parse.File("myfile.zzz", fileData, "image/png");
 ### Client Side
 In a browser, you'll want to use an html form with a file upload control. To do this, create a file input tag which allows the user to pick a file from their local drive to upload:
 
-<pre><code>
-&lt;input type="file" id="profilePhotoFileUpload"&gt;
+```html
+<input type="file" id="profilePhotoFileUpload">
 ```
 
 Then, in a click handler or other function, get a reference to that file:
