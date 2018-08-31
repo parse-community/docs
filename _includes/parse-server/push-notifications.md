@@ -92,7 +92,7 @@ push: {
 
 For iOS, if you would like to use token-based authentication instead of certificates, you should use the following configuration format
 
-```
+```js
 push: {
   ios: {
     token: {
@@ -229,11 +229,12 @@ After sending this to your Parse Server, you should see the push notifications s
 
 In your Parse Server logs, you can see something similar to
 
-```json
-FCM request and response {"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
+```js
+// FCM request and response
+{"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
 ```
 
-```json
+```sh
 APNS Connected
 APNS Notification transmitted to:7a7d2864598e1f65e6e02135245b7daf8ea510514e6376f072dc29d53facaa41
 ```

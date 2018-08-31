@@ -29,7 +29,7 @@ First you will create a bucket in S3 to hold these files.
 9. Select **Create Your Own Policy**, fill out a **Policy Name**.
 10. Copy the following config in **Policy Document**, changing **BUCKET_NAME** for the name of the bucket you created earlier. (note: this is a little more permissive than Parse Server needs, but it works for now)
 
-    ```json
+    ```js
     {
         "Version": "2012-10-17",
         "Statement": [

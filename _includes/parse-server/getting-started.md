@@ -60,7 +60,7 @@ $ curl -X GET \
   http://localhost:1337/parse/classes/GameScore/2ntvSpRGIK
 ```
 
-```json
+```js
 // Response
 {
   "objectId": "2ntvSpRGIK",
@@ -80,7 +80,7 @@ $ curl -X GET \
   http://localhost:1337/parse/classes/GameScore
 ```
 
-```json
+```js
 // The response will provide all the matching objects within the `results` array:
 {
   "results": [

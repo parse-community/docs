@@ -6,20 +6,20 @@ Normally, when you run a standalone Parse Server, the [latest release that has b
 
 First, you will need to clone this repo if you haven't done so yet.
 
-```
+```sh
 git clone https://github.com/parse-community/parse-server.git
 ```
 
 You can then link the parse-server module to the cloned repo and run `npm install`:
 
-```
+```sh
 npm link parse-server path/to/cloned/repo
 npm install
 ```
 
 You can now start Parse Server using `npm start`:
 
-```
+```sh
 npm start -- --appId APPLICATION_ID --masterKey MASTER_KEY --serverURL http://localhost:1337/parse
 ```
 
