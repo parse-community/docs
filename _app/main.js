@@ -4,7 +4,7 @@ var echo = require('./echo');
 var UI = require('./UI');
 
 (function() {
-  window.onscroll = window.onresize = function() {
+  function updateTocPosition() {
     var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
     var windowWidth = window.innerWidth || document.body.clientWidth;
     var toc = document.getElementById('toc');
@@ -21,6 +21,9 @@ var UI = require('./UI');
       toc.style.left = '0';
     }
   }
+
+  window.onscroll = window.onresize = updateTocPosition;
+  updateTocPosition();
 })();
 
 // application.js
@@ -74,57 +77,20 @@ App.Views = {};
 			// we really need this to calculate header heights
 			this.scrollContent.style.position = "relative";
 
-			// build a mapping of the table of content based on the
-			// h1s and h2s in the content
-      var toc = this.buildTOC();
-
 			// add toc data
-			this.node = UI.tag('ul', { className: 'ui_live_toc' }, [toc]);
+			this.node = document.getElementsByClassName('ui_live_toc')[0];
 
 			// calculate the cached heights of each header in the text
 			$(document).ready(function(e) {
-				this.updateHeights();
-			}.bind(this));
-		},
-
-		// find all the h1s and h2s in the content and build the TOC elements
-		buildTOC: function() {
-			var headers = this.content.querySelectorAll('h1, h2, h3');
-			var latestMajor, latestMinor;
-      var toc = document.createDocumentFragment();
-
-			for (var i = 0; i < headers.length; i++) {
-				var el = headers[i];
-				var text = $(el).text();
-        var name = el.id;
-
-				// Build main table of contents list from h1 tags
-				if (el.tagName === 'H1') {
-          latestMajor = UI.tag('ul', { className: 'ui_live_toc_major_list' });
-          toc.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_main' }, [
-						UI.tag('a', { href: '#' + name }, text),
-						latestMajor
-					]));
-					latestMinor = undefined;
-
-				// Build collapsable sublist with h2 tags. We skip any H2s
-				// that appear before the first H1.
-				} else if (el.tagName === 'H2' && latestMajor !== undefined) {
-					latestMinor = UI.tag('ul', { className: 'ui_live_toc_minor_list' });
-					latestMajor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_major' }, [
-							UI.tag('a', { href: '#' + name }, text),
-							latestMinor
-					]));
-
-				// Build deeper collapsable sublist with h3 tags. We skip any
-				// H3s that appear before the first H1 or directly after any H1
-				} else if (el.tagName === 'H3' && latestMajor !== undefined && latestMinor !== undefined) {
-					latestMinor.appendChild(UI.tag('li', { 'data-name': name, className: 'ui_live_toc_minor' }, [
-						UI.tag('a', { href: '#' + name }, text.toLowerCase())
-					]));
-				}
-			}
-			return toc;
+        this.updateHeights();
+        if (window.location.hash) {
+          this.hashChanged = true;
+        }
+        this.handleScroll();
+      }.bind(this));
+      $(window).on('hashchange', function() {
+        this.hashChanged = true;
+      }.bind(this));
 		},
 
 		// Update the internal tracking of header heights. Should be called when
@@ -143,17 +109,15 @@ App.Views = {};
 			}
 			this._headerHeights = headerHeights;
 			this._sortedHeights = sortedHeights.sort(function(a,b) { return a - b; });
-		},
-
-		// find out what item to highlight in the TOC and what section
-		// to collapse/expand
-		handleScroll: function() {
-			var fromTop = this.scrollContent.scrollTop;
+    },
+    
+    findBestLink: function() {
+      var fromTop = this.scrollContent.scrollTop;
 			// firefox doesn't like this so we fallback to window
 			if (fromTop === 0) {
 				fromTop = $(window).scrollTop();
-			}
-			var renderedHeight = this.scrollContent.offsetHeight;
+      }
+      var renderedHeight = this.scrollContent.offsetHeight;
 
 			var cur;
 			if (this.alignment === 'top') {
@@ -173,7 +137,20 @@ App.Views = {};
 				bestHeight = this._sortedHeights[i];
 			}
 
-			var best = this._headerHeights[bestHeight];
+      var best = this._headerHeights[bestHeight];
+      return best;
+    },
+
+		// find out what item to highlight in the TOC and what section
+		// to collapse/expand
+		handleScroll: function() {
+      var best;
+      if (this.hashChanged) {
+        this.hashChanged = false;
+        best = window.location.hash.replace('#', '');
+      } else {
+        best = this.findBestLink();
+      }
 
 			// only render if nothing is selected or selection has changed
 			if (this.currentItem === null || this.currentItem.getAttribute('data-name') !== best) {
@@ -184,20 +161,28 @@ App.Views = {};
 				}
 
 				// set newly selected item and add the class
-				this.currentItem = this.node.querySelector('[data-name="' + best + '"]');
+        var foundLink = this.node.querySelector('[href="#' + best + '"]');
+        if (!foundLink) {
+          return;
+        }
+        this.currentItem = foundLink.parentElement;
 				if (this.currentItem === null) {
 					return;
-				}
+        }
+        // set back the attribute on the item for debouncing
+        if (this.currentItem.dataset) {
+          this.currentItem.dataset.name = best;
+        }
 				UI.addClass(this.currentItem, 'selected');
 
 				// if the item was a minor header, also select parent (major header)
-				if (UI.hasClass(this.currentItem, 'ui_live_toc_minor')) {
+				if (UI.hasClass(this.currentItem, 'ui_live_toc_3')) {
 					UI.addClass(this.currentMajorSection(), 'selected');
 				}
 
 				// if the item was a major header or minor header, also select parent (main header)
-				if (UI.hasClass(this.currentItem, 'ui_live_toc_major') ||
-					UI.hasClass(this.currentItem, 'ui_live_toc_minor'))
+				if (UI.hasClass(this.currentItem, 'ui_live_toc_2') ||
+					UI.hasClass(this.currentItem, 'ui_live_toc_3'))
 				{
 					UI.addClass(this.currentMainSection(), 'selected');
 				}
@@ -209,7 +194,7 @@ App.Views = {};
 		// find the current main section expanded (this is tied to H1s)
 		currentMainSection: function() {
 			var cur = this.currentItem;
-			while (cur && !UI.hasClass(cur, 'ui_live_toc_main')) {
+			while (cur && !UI.hasClass(cur, 'ui_live_toc_1')) {
 				cur = cur.parentElement;
 			}
 			return cur;
@@ -217,12 +202,12 @@ App.Views = {};
 
 		// find the current major section expanded (this is tied to H2s)
 		currentMajorSection: function() {
-			if (UI.hasClass(this.currentItem, 'ui_live_toc_main')) {
+			if (UI.hasClass(this.currentItem, 'ui_live_toc_1')) {
 				return false;
 			}
 
 			var cur = this.currentItem;
-			while (!UI.hasClass(cur, 'ui_live_toc_major')) {
+			while (!UI.hasClass(cur, 'ui_live_toc_2')) {
 				cur = cur.parentElement;
 			}
 			return cur;
@@ -362,52 +347,50 @@ App.Views = {};
 		render: function() {
 			// create the TOC
 			this.scrollContent = document.getElementsByTagName('body')[0];
-			this.toc = new UI.LiveTOC({
-				parent: document.getElementById('toc'),
-				scrollContent: this.scrollContent,
-				content: document.getElementsByClassName('guide_content')[0]
-			});
 
-      process.nextTick(() => {
-        // deal with common-lang-blocks
-			  this.toggleCommonLangBlocks();
-      });
-
-      // setup the server/mount path editor
-      this.setupServerFieldCustomization();
-
-			// add toggles to code blocks if necessary
-			if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
-				new App.Views.Docs.Toggle({
-					parent: this.scrollContent,
-					opt1: 'objective_c',
-					opt2: 'swift',
-					label1: 'Objective-C',
-					label2: 'Swift',
-					onChange: this.handleToggleChange.bind(this)
-				});
-			} else if (this.platform === "rest") {
-				new App.Views.Docs.Toggle({
-					parent: this.scrollContent,
-					opt1: 'bash',
-					opt2: 'python',
-					label1: 'cURL',
-					label2: 'Python',
-					onChange: this.handleToggleChange.bind(this)
-				});
-			}
-
-			this.mobileToc = document.getElementById('mobile_toc').getElementsByTagName('select')[0];
-			this.renderMobileTOC();
+      this.toggleCommonLangBlocks();
+      
+      // add toggles to code blocks if necessary
+      if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
+        new App.Views.Docs.Toggle({
+          parent: this.scrollContent,
+          opt1: 'objective_c',
+          opt2: 'swift',
+          label1: 'Objective-C',
+          label2: 'Swift',
+          onChange: this.handleToggleChange.bind(this)
+        });
+      } else if (this.platform === "rest") {
+        new App.Views.Docs.Toggle({
+          parent: this.scrollContent,
+          opt1: 'bash',
+          opt2: 'python',
+          label1: 'cURL',
+          label2: 'Python',
+          onChange: this.handleToggleChange.bind(this)
+        });
+      }
 
 			// move the TOC with the content. Since it's fixed, we can't just do it in css :(
-			$(window).on('resize', _.throttle(this.handleWindowResize.bind(this), 300));
-			this.handleWindowResize();
-			// calculate final position of headers for the TOC once
-			// the DOM is loaded (including images)
-			$(window).on('load', function() {
-				this.toc.updateHeights();
-			}.bind(this));
+      $(window).on('resize', _.throttle(this.handleWindowResize.bind(this), 300));
+      // calculate final position of headers for the TOC once
+      // the DOM is loaded (including images)
+      $(window).on('load', function() {
+        this.toc.updateHeights();
+      }.bind(this));
+
+      $(function() {
+        this.toc = new UI.LiveTOC({
+          parent: document.getElementById('toc'),
+          scrollContent: this.scrollContent,
+          content: document.getElementsByClassName('guide_content')[0]
+        });
+        // setup the server/mount path editor
+        this.setupServerFieldCustomization();
+        this.mobileToc = document.getElementById('mobile_toc').getElementsByTagName('select')[0];
+        this.renderMobileTOC();
+        this.handleWindowResize();
+      }.bind(this));
 		},
 
 		renderMobileTOC: function() {
@@ -625,14 +608,15 @@ App.Views = {};
 
 })(UI, _);
 
+var platform = window.location.pathname.split('/')[1];
+if (platform) {
+  new App.Views.Docs.Main({
+    language: 'en',
+    platform: platform
+  });
+}
+
 $(function() {
-  var platform = window.location.pathname.split('/')[1];
-  if (platform) {
-    new App.Views.Docs.Main({
-      language: 'en',
-      platform: platform
-    });
-  }
   echo.init({
     offset: 2500,
     throttle: 250,
