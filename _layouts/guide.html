@@ -60,10 +60,10 @@ layout: default
                     {% capture section_include %}{% include {{ section }} %}{% endcapture %}
                     <div data-source="{{ section }}">
                       {{ section_include | markdownify }}
-                      {% include helpful_box.html %}
+                      {% include helpful_box.html section=section %}
                     </div>
                   {% endfor %}
-                  
+                  {{ content }}
                 </div>
 
               </div>
@@ -76,7 +76,7 @@ layout: default
   </div><!-- /.site__wrapper -->
 
   <script src="{{ site.baseurl }}/assets/js/bundle.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
+  <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
   <script type="text/javascript"> docsearch({
     apiKey: '3d4445ed639f81888d1a5987d54fb68e',
     indexName: 'parse',
@@ -84,6 +84,6 @@ layout: default
     algoliaOptions: { 'facetFilters': ["tags:{{ page.platform | downcase }}"] }, // android, arduino, cloudcode, dotnet, embedded_c, ios, js, macos, parse-server, php, rest, unity
     debug: false // Set debug to true if you want to inspect the dropdown
   });
-  </script>
+  </script> -->
   {% include lazyload.html %}
 </body>
