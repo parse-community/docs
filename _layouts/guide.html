@@ -58,11 +58,12 @@ layout: default
                 <div class="wysiwyg-content">
                   {% for section in page.sections %}
                     {% capture section_include %}{% include {{ section }} %}{% endcapture %}
-                    {{ section_include | markdownify }}
-
-                    {% include helpful_box.html %}
+                    <div data-source="{{ section }}">
+                      {{ section_include | markdownify }}
+                      {% include helpful_box.html %}
+                    </div>
                   {% endfor %}
-                  {{ content }}
+                  
                 </div>
 
               </div>
@@ -74,8 +75,6 @@ layout: default
     </div><!-- /.site__content -->
   </div><!-- /.site__wrapper -->
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
   <script src="{{ site.baseurl }}/assets/js/bundle.js"></script>
   <script type="text/javascript" src="https://cdn.jsdelivr.net/docsearch.js/2/docsearch.min.js"></script>
   <script type="text/javascript"> docsearch({

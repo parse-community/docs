@@ -12,6 +12,7 @@ You can ask Parse to verify user email addresses in your application settings pa
 
 To sign up a new user, send a POST request to the users root. You may add any additional fields. For example, to create a user with a specific phone number:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -38,6 +39,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new user:
 
@@ -48,18 +50,19 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The response body is a JSON object containing the `objectId`, the `createdAt` timestamp of the newly-created object, and the `sessionToken` which can be used to authenticate subsequent requests as this user:
 
-<pre><code class="json">
+```json
 {
   "createdAt": "2011-11-07T20:58:34.448Z",
   "objectId": "g7y9tkhB7O",
   "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
-</code></pre>
+```
 
 ## Logging In
 
 After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code> endpoint with `username` and `password` as URL-encoded parameters:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -83,10 +86,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, `objectId`, and `sessionToken` fields:
 
-<pre><code class="json">
+```json
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
@@ -95,7 +99,7 @@ The response body is a JSON object containing all the user-provided fields excep
   "objectId": "g7y9tkhB7O",
   "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
-</code></pre>
+```
 
 ## Verifying Emails
 
@@ -109,6 +113,7 @@ There are three `emailVerified` states to consider:
 
 You can request a verification email to be sent by sending a POST request to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest</code>  with `email` in the body of the request:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -131,6 +136,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Note that a verification email will not be sent if the email has already been successfully verified.
 
@@ -138,6 +144,7 @@ Note that a verification email will not be sent if the email has already been su
 
 You can initiate password resets for users who have emails associated with their account. To do this, send a POST request to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>requestPasswordReset</code> endpoint with `email` in the body of the request:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -160,6 +167,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If successful, the response body is an empty JSON object.
 
@@ -168,6 +176,7 @@ If successful, the response body is an empty JSON object.
 
 You can also retrieve the contents of a user object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the user created above:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -185,10 +194,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, and `objectId` fields:
 
-<pre><code class="json">
+```json
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
@@ -196,12 +206,13 @@ The response body is a JSON object containing all the user-provided fields excep
   "updatedAt": "2011-11-07T20:58:34.448Z",
   "objectId": "g7y9tkhB7O"
 }
-</code></pre>
+```
 
 ## Validating Session Tokens / Retrieving Current User
 
 With a valid session token, you can send a GET request to the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>users/me</code> endpoint to retrieve the user associated with that session token:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -221,15 +232,16 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The response matches the JSON object above for retrieving users.  If the session token is not valid, an error object is returned:
 
-<pre><code class="json">
+```json
 {
   "code": 209,
   "error": "invalid session token"
 }
-</code></pre>
+```
 
 ## Updating Users
 
@@ -239,6 +251,7 @@ To change the data on a user that already exists, send a PUT request to the user
 
 For example, if we wanted to change the phone number for `cooldude6`:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -263,19 +276,21 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The response body is a JSON object containing just an `updatedAt` field with the timestamp of the update.
 
-<pre><code class="json">
+```json
 {
   "updatedAt": "2011-11-07T21:25:10.623Z"
 }
-</code></pre>
+```
 
 ## Querying
 
 You can retrieve multiple users at once by sending a GET request to the root users URL. Without any URL parameters, this simply lists users:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -293,10 +308,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
 
-<pre><code class="json">
+```json
 {
   "results": [
     {
@@ -315,7 +331,7 @@ The return value is a JSON object that contains a `results` field with a JSON ar
     }
   ]
 }
-</code></pre>
+```
 
 All of the options for queries that work for regular objects also work for user objects, so check the section on [Querying Objects](#basic-queries) for more details.
 
@@ -324,6 +340,7 @@ All of the options for queries that work for regular objects also work for user 
 
 To delete a user from the Parse Cloud, send a DELETE request to its URL. You must provide the `X-Parse-Session-Token` header to authenticate. For example:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -343,6 +360,7 @@ connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</s
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Linking Users
 
@@ -352,7 +370,7 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
 
 ### Facebook `authData`
 
-<pre><code class="json">
+```json
 {
   "facebook": {
     "id": "user's Facebook id number as a string",
@@ -360,12 +378,13 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
     "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
   }
 }
-</code></pre>
+```
+
 Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
 
 ### Twitter `authData`
 
-<pre><code class="json">
+```json
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
@@ -376,24 +395,25 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
     "auth_token_secret": "the secret associated with the auth_token"
   }
 }
-</code></pre>
+```
 
 Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
 
 ### Anonymous user `authData`
 
-<pre><code class="json">
+```json
 {
   "anonymous": {
     "id": "random UUID with lowercase hexadecimal digits"
   }
 }
-</code></pre>
+```
 
 ### Signing Up and Logging In
 
 Signing a user up with a linked service and logging them in with that service uses the same POST request, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -438,6 +458,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
@@ -448,7 +469,7 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 With a response body like:
 
-<pre><code class="json">
+```json
 {
   "username": "Parse",
   "createdAt": "2012-02-28T23:49:36.353Z",
@@ -466,7 +487,7 @@ With a response body like:
     }
   }
 }
-</code></pre>
+```
 
 If the user has never been linked with this account, you will instead receive a status code of `201 Created`, indicating that a new user was created:
 
@@ -477,19 +498,20 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
 
-<pre><code class="json">
+```json
 {
   "username": "iwz8sna7sug28v4eyu7t89fij",
   "createdAt": "2012-02-28T23:49:36.353Z",
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
 }
-</code></pre>
+```
 
 ### Linking
 
 Linking an existing user with a service like Facebook or Twitter uses a PUT request to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -528,6 +550,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 After linking your user to a service, you can authenticate them using matching `authData`.
 
@@ -535,6 +558,7 @@ After linking your user to a service, you can authenticate them using matching `
 
 Unlinking an existing user with a service also uses a PUT request to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -565,6 +589,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## `User` Security
 
@@ -574,7 +599,7 @@ The ACL is formatted as a JSON object where the keys are either object ids or th
 
 For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
 
-<pre><code class="json">{
+```json
 	"ACL": {
 		"3KmCvT7Zsb": {
 			"read": true,
@@ -585,6 +610,6 @@ For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write 
 		}
 	}
 }
-</code></pre>
+```
 
 If you want to access your data ignoring all ACLs, you can use the master key provided on the Dashboard. Instead of the `X-Parse-REST-API-Key` header, set the `X-Parse-Master-Key` header. For backward compatibility, you can also do master-level authentication using HTTP Basic Auth, passing the application id as the username and the master key as the password. For security, the master key should not be distributed to end users, but if you are running code in a trusted environment, feel free to use the master key for authentication.

@@ -8,14 +8,14 @@ Without having to implement any client-side logic, you can view real-time graphs
 
 The current server time will be used for all analytics requests. To explicitly set the time associated with a given event, an optional `at` parameter can be provided in ISO 8601 format.
 
-<pre><code class="json">
+```bash
 -d '{
     "at": {
       "__type": "Date",
       "iso": "2015-03-01T15:59:11-07:00"
     }
-  }
-</code></pre>
+  }'
+```
 
 ## App-Open Analytics
 
@@ -23,6 +23,7 @@ Our analytics hook allows you to track your application being launched. By makin
 
 In the example below, the `at` parameter is optional. If omitted, the current server time will be used instead.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -45,6 +46,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Graphs and breakdowns of your statistics are accessible from your app's Dashboard.
 
@@ -55,6 +57,7 @@ Parse Analytics also allows you to track free-form events, with a handful of str
 
 Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -87,9 +90,11 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Parse Analytics can even be used as a lightweight error tracker — simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -118,5 +123,6 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Note that Parse currently only stores the first eight dimension pairs per call to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>events/&lt;eventName&gt;</code>.

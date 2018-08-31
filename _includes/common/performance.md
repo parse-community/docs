@@ -42,19 +42,19 @@ query.containedIn("playerName",
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"score" equalTo:@50];
 [query whereKey:@"playerName"
     containedIn:@[@"Jonathan Walsh", @"Dario Wunsch", @"Shawn Simon"]];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("score", equalTo: 50)
 query.whereKey("playerName", containedIn: ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"])
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -100,14 +100,14 @@ query.equalTo("cheatMode", false);
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"cheatMode" equalTo:@NO];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("cheatMode", equalTo: false)
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -175,7 +175,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query whereKey:@"playerName" notEqualTo:@"Michael Yabuti"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -183,10 +183,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.whereKey("playerName", notEqualTo: "Michael Yabuti")
 query.findObjectsInBackgroundWithBlock {
@@ -195,7 +195,7 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -251,16 +251,16 @@ query.notEqualTo("state", "Invited");
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notEqualTo:@"Invited"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 var query = PFUser.query()
 query.whereKey("state", notEqualTo: "Invited")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -299,15 +299,15 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"state"
     containedIn:@[@"SignedUp", @"Verified"]];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -348,7 +348,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // Previously retrieved highScore for Michael Yabuti
 [query whereKey:@"score" greaterThan:highScore];
@@ -357,10 +357,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // Retrieved scores successfully
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("GameScore")
 // Previously retrieved highScore for Michael Yabuti
 query.whereKey("score", greaterThan: highScore)
@@ -370,7 +370,7 @@ query.findObjectsInBackgroundWithBlock {
     // Retrieved scores successfully
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -429,16 +429,16 @@ query.notContainedIn("state", ["Invited", "Blocked"]);
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFUser query];
 [query whereKey:@"state" notContainedIn:@[@"Invited", @"Blocked"]];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 var query = PFUser.query()
 query.whereKey("state", notContainedIn: ["Invited", "Blocked"])
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -477,14 +477,14 @@ query.containedIn("state", ["SignedUp", "Verified"]);
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"state" containedIn:@[@"SignedUp", @"Verified"]];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("state", containedIn: ["SignedUp", "Verified"])
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -525,14 +525,14 @@ query.matches("playerName", "Michael", “i”);
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"playerName" matchesRegex:@"Michael" modifiers:@"i"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("playerName", matchesRegex: "Michael", modifiers: "i")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -567,14 +567,14 @@ query.contains("playerName", "Michael");
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"playerName" containsString:@"Michael"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("playerName", containsString: "Michael")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -609,14 +609,14 @@ query.startsWith("playerName", "Michael");
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"playerName" hasPrefix:@"Michael"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("playerName", hasPrefix: "Michael")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -653,14 +653,14 @@ query.matches("playerName", "^Michael");
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [query whereKey:@"playerName" matchesRegex:@"^Michael"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.whereKey("playerName", matchesRegex: "^Michael")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -701,14 +701,14 @@ query.limit(10); // limit to at most 10 results
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 query.limit = 10; // limit to at most 10 results
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 query.limit = 10 // limit to at most 10 results
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -747,7 +747,7 @@ query.find().then(function(placesObjects) {
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"Place"];
 [query whereKey:@"location" nearGeoPoint:userGeoPoint withinMiles:10.0];
 [query findObjectsInBackgroundWithBlock:^(NSArray *places, NSError *error) {
@@ -755,10 +755,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Place"];
     // List of objects within 10 miles of a user's location
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("Place")
 query.whereKey("location", nearGeoPoint: userGeoPoint, withinMiles: 10.0)
 query.findObjectsInBackgroundWithBlock {
@@ -767,7 +767,7 @@ query.findObjectsInBackgroundWithBlock {
     // List of places within 10 miles of a user's location
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -823,7 +823,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query selectKeys:@[@"score", @"playerName"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -831,10 +831,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     // each of results will only have the selected fields available.
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("GameScore")
 query.selectKeys(["score", "playerName"])
 query.findObjectsInBackgroundWithBlock {
@@ -843,7 +843,7 @@ query.findObjectsInBackgroundWithBlock {
     // each of results will only have the selected fields available.
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -928,7 +928,7 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 [PFCloud callFunctionInBackground:@"averageStars"
                   withParameters:@{@"movie": @"The Matrix"}
                            block:^(NSNumber *ratings, NSError *error) {
@@ -936,17 +936,17 @@ Parse.Cloud.run("averageStars", { "movie": "The Matrix" }).then(function(ratings
     // ratings is 4.5
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 PFCloud.callFunctionInBackground("averageStars", withParameters: ["movie": "The Matrix"]) {
   (ratings, error) in
   if !error {
     // ratings is 4.5
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -1010,7 +1010,7 @@ query.count().then(function(count) {
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"Review"];
 [query whereKey:@"movie" equalTo:movie];
 [query countObjectsInBackgroundWithBlock:^(int number, NSError *error) {
@@ -1018,10 +1018,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Review"];
     // Request succeeded
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("Review")
 query.whereKey("movie", equalTo: movie)
 query.countObjectsInBackgroundWithBlock {
@@ -1030,7 +1030,7 @@ query.countObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -1108,17 +1108,17 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .js }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"Movie"];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
   if (!error) {
     // Results include the reviews count field
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("Movie")
 query.findObjectsInBackgroundWithBlock {
   (objects, error) in
@@ -1126,7 +1126,7 @@ query.findObjectsInBackgroundWithBlock {
     // Results include the reviews count field
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java
@@ -1212,7 +1212,7 @@ query.find().then(function(results) {
 ```
 {: .common-lang-block .js}
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"Post"];
 [query whereKey:@"hashtags" containsAllObjectsInArray:@[@"#parse", @"#ftw"]];
 [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
@@ -1220,10 +1220,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Post"];
     // Request succeeded
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let query = PFQuery.queryWithClassName("Post")
 query.whereKey("hashtags", containsAllObjectsInArray: ["#parse", "#ftw"])
 query.findObjectsInBackgroundWithBlock {
@@ -1232,7 +1232,7 @@ query.findObjectsInBackgroundWithBlock {
     // Request succeeded
   }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```java

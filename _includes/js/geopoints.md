@@ -6,15 +6,15 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you first need to create a `Parse.GeoPoint`.  For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:
 
-<pre><code class="javascript">
+```javascript
 var point = new Parse.GeoPoint({latitude: 40.0, longitude: -30.0});
-</code></pre>
+```
 
 This point is then stored in the object as a regular field.
 
-<pre><code class="javascript">
+```javascript
 placeObject.set("location", point);
-</code></pre>
+```
 
 Note: Currently only one key in a class may be a `Parse.GeoPoint`.
 
@@ -22,7 +22,7 @@ Note: Currently only one key in a class may be a `Parse.GeoPoint`.
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by adding another restriction to `Parse.Query` using `near`.  Getting a list of ten places that are closest to a user may look something like:
 
-<pre><code class="javascript">
+```javascript
 // User's location
 const userGeoPoint = userObject.get("location");
 // Create a query for places
@@ -33,13 +33,13 @@ query.near("location", userGeoPoint);
 query.limit(10);
 // Final list of objects
 const placesObjects = await query.find();
-</code></pre>
+```
 
  At this point `placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `userGeoPoint`. Note that if an additional `ascending()`/`descending()` order-by constraint is applied, it will take precedence over the distance ordering.
 
 To limit the results using distance, check out `withinMiles`, `withinKilometers`, and `withinRadians`. Use the `sorted` parameter to sort the results by distance ascending.
 
-<pre><code class="javascript">
+```javascript
 const location = new Parse.GeoPoint(37.708813, -122.526398);
 const distance = 5;
 const sorted = true;
@@ -48,11 +48,11 @@ const query = new Parse.Query(PizzaPlaceObject);
 query.withinKilometers("location", location, distance, sorted);
 // Pizza places within 5km sorted by distance
 const pizzaPlacesInSF = await query.find();
-</code></pre>
+```
 
 If you add an additional sorting constraint set the `sorting` parameter to `false` for better query performance.
 
-<pre><code class="javascript">
+```javascript
 const location = new Parse.GeoPoint(37.708813, -122.526398);
 const distance = 5;
 const sorted = false;
@@ -62,29 +62,29 @@ query.withinKilometers("location", location, distance, sorted);
 query.descending("rating");
 // Pizza places within 5km sorted by rating
 const pizzaPlacesInSF = query.find();
-</code></pre>
+```
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add the `withinGeoBox` restriction to your `Parse.Query`.
 
-<pre><code class="javascript">
+```javascript
 var southwestOfSF = new Parse.GeoPoint(37.708813, -122.526398);
 var northeastOfSF = new Parse.GeoPoint(37.822802, -122.373962);
 
 var query = new Parse.Query(PizzaPlaceObject);
 query.withinGeoBox("location", southwestOfSF, northeastOfSF);
 const pizzaPlacesInSF = await query.find();
-</code></pre>
+```
 
 You can query for whether an object lies within or on a polygon of `Parse.GeoPoint` (minimum 3 points):
 
-<pre><code class="javascript">
+```javascript
 query.withinPolygon("location", [geoPoint1, geoPoint2, geoPoint3]);
 const robjectsWithGeoPointInPolygon = await query.find();
-</code></pre>
+```
 
 You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
 
-<pre><code class="javascript">
+```javascript
 const p1 = [[0,0], [0,1], [1,1], [1,0]];
 const p2 = [[0,0], [0,2], [2,2], [2,0]];
 const p3 = [[10,10], [10,15], [15,15], [15,10], [10,10]];
@@ -98,11 +98,11 @@ const query = new Parse.Query(TestObject);
 query.polygonContains('polygon', point);
 // objects contains polygon1 and polygon2
 const results = await query.find();
-</code></pre>
+```
 
 To efficiently find if a `Parse.Polygon` contains a `Parse.GeoPoint` without querying use `containsPoint`.
 
-<pre><code class="javascript">
+```javascript
 const points = [[0,0], [0,1], [1,1], [1,0]];
 const inside = new Parse.GeoPoint(0.5, 0.5);
 const outside = new Parse.GeoPoint(10, 10);
@@ -111,7 +111,7 @@ const polygon = new Parse.Polygon(points);
 polygon.containsPoint(inside);
 // Returns False
 polygon.containsPoint(outside);
-</code></pre>
+```
 
 ## Caveats
 

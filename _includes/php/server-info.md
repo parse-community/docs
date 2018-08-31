@@ -8,16 +8,16 @@ You can leverage `ParseServerInfo` (present in sdk version **1.4.0** and up) to 
 
 You can get the current version of the server you are connected to. Do keep in mind that server must be at version **2.1.4** or above for this to work.
 
-<pre><code class="php">
+```php
 // get the current version of the server you are connected to (2.6.5, 2.5.4, etc.)
 $version = ParseServerInfo::getVersion();
-</code></pre>
+```
 
 ## Features
 
 Check which features your server has and how they are configured in some cases.
 
-<pre><code class="php">
+```php
 // get various features
 $globalConfigFeatures = ParseServerInfo::getGlobalConfigFeatures();
 /**
@@ -32,11 +32,11 @@ $globalConfigFeatures = ParseServerInfo::getGlobalConfigFeatures();
 
  // you can always get all feature data
  $data = ParseServerInfo::getFeatures();
-</code></pre>
+```
 
 For your convenience we've added getters for the following features in particular:
 
-<pre><code class="php">
+```php
 ParseServerInfo::getHooksFeatures();
 ParseServerInfo::getCloudCodeFeatures();
 ParseServerInfo::getLogsFeatures();
@@ -45,4 +45,4 @@ ParseServerInfo::getSchemasFeatures();
 
 // additional features can be obtained manually using 'get'
 $feature = ParseServerInfo::get('new-feature');
-</code></pre>
+```

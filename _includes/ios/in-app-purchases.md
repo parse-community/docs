@@ -17,24 +17,27 @@ Note that this is a tricky setup process so please ensure you follow Apple's doc
 Once the setup above is complete, you can begin working with in-app purchases.
 
 On the main thread, register the handlers for the products:
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // Use the product identifier from iTunes to register a handler.
 [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
     // Write business logic that should run once this product is purchased.
     isPro = YES;
 }];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 // Use the product identifier from iTunes to register a handler.
 PFPurchase.addObserverForProduct("Pro") {
     (transaction: SKPaymentTransaction?) -> Void in
     // Write business logic that should run once this product is purchased.
     isPro = YES;
 }
-</code></pre>
+```
+</div>
 Note that this does not make the purchase, but simply registers a block to be run if a purchase is made later. This registration must be done on the main thread, preferably as soon as the app is launched, i.e. in `application:didFinishLaunchingWithOptions:`. If there are multiple products, we recommend registering all product handlers in the same method, such as `application:didFinishLaunchingWithOptions`:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     ...
     [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
@@ -44,8 +47,8 @@ Note that this does not make the purchase, but simply registers a block to be ru
         isVip = YES;
     }];
 }
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 PFPurchase.addObserverForProduct("Pro") {
     (transaction: SKPaymentTransaction?) -> Void in
     isPro = YES;
@@ -54,24 +57,27 @@ PFPurchase.addObserverForProduct("VIP") {
     (transaction: SKPaymentTransaction?) -> Void in
     isVip = YES;
 }
-</code></pre>
+```
+</div>
 
 To initiate a purchase, use the `+[PFPurchase buyProduct:block:]` method:
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
     if (!error) {
         // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 PFPurchase.buyProduct("Pro") {
     (error: NSError?) -> Void in
     if error == nil {
         // Run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }
-</code></pre>
+```
+</div>
 
 The call to `buyProduct:block:` brings up a dialogue that asks users to enter their Apple credentials. When the user's identity is verified, the product will be purchased. If the product is non-consumable and has been purchased by the user before, the user will not be charged.
 
@@ -88,7 +94,8 @@ Many IAP products such as books and movies have associated content files that sh
  5.  `order`: the order this product should appear in `PFProductTableViewController`. This is used only in `PFProductTableViewController`; fill in 0 if the order is not important,
  6.  `download`: the downloadable content file. Note that the file uploaded in `download` is not publicly accessible, and only becomes available for download when a purchase is made. `downloadName` is the name of the file on disk once downloaded. You don't need to fill this in.
 3.  Next, you need to register the product handler:
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [PFPurchase addObserverForProduct:@"Pro" block:^(SKPaymentTransaction *transaction) {
     [PFPurchase downloadAssetForTransaction:transaction completion:^(NSString *filePath, NSError *error) {
         if (!error) {
@@ -96,8 +103,8 @@ Many IAP products such as books and movies have associated content files that sh
         }
     }];
 }];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 PFPurchase.addObserverForProduct("Pro") {
     (transaction: SKPaymentTransaction?) -> Void in
     if let transaction = transaction {
@@ -109,24 +116,27 @@ PFPurchase.addObserverForProduct("Pro") {
         }
     }
 }
-</code></pre>
+```
+</div>
 Note that this does not make the purchase, but simply registers a block to be run if a purchase is made later. The call to `downloadAssetForTransaction:completion:` passes the receipt of the purchase to the Parse Cloud, which then verifies with Apple that the purchase was made. Once the receipt is verified, the purchased file is downloaded.
 
 To make the purchase:
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [PFPurchase buyProduct:@"Pro" block:^(NSError *error) {
     if (!error) {
         // run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 PFPurchase.buyProduct("Pro") {(error: NSError?) -> Void in
     if error == nil {
         // run UI logic that informs user the product has been purchased, such as displaying an alert view.
     }
 }
-</code></pre>
+```
+</div>
 
 The call to `buyProduct:block:` brings up a dialogue that asks users to enter their Apple credentials. When the user's identity is verified, the product will be purchased.
 
@@ -136,17 +146,19 @@ You can query the product objects created in the data browser using `PFProduct`.
 
 For example, here's a simple query to get a product:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFQuery *productQuery = [PFProduct query];
 PFProduct *product = [[productQuery findObjects] lastObject];
 NSLog(@"%@, %@", product.productIdentifier, product.title);
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let productQuery = PFProduct.query()
 if let product = productQuery.findObjects.lastObject as? PFProduct {}
   print(product.productIdentifier, product.title)
 }
-</code></pre>
+```
+</div>
 
 ## PFProductTableViewController
 

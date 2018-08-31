@@ -6,6 +6,7 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you will need to embed a `GeoPoint` data type into your object.  This is done by using a JSON object with `__type` set to the string `GeoPoint` and numeric values being set for the `latitude` and `longitude` keys.  For example, to create an object containing a point under the "location" key with a latitude of 40.0 degrees and -30.0 degrees longitude:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -38,11 +39,13 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Geo Queries
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point.  This can be done by using a `GeoPoint` data type with query on the field using `$nearSphere`.  Getting a list of ten places that are closest to a user may look something like:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -80,10 +83,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 This will return a list of results ordered by distance from 30.0 latitude and -20.0 longitude. The first result will be the nearest object. (Note that if an explicit `order` parameter is supplied, it will take precedence over the distance ordering.) For example, here are two results returned for the above query:
 
-<pre><code class="json">
+```json
 {
   "results": [
     {
@@ -108,10 +112,11 @@ This will return a list of results ordered by distance from 30.0 latitude and -2
     }
   ]
 }
-</code></pre>
+```
 
 To limit the search to a maximum distance add a `$maxDistanceInMiles` (for miles), `$maxDistanceInKilometers` (for kms), or `$maxDistanceInRadians` (for radian angle), term to the key constraint.  For example, the following limits the radius to 10 miles:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -150,9 +155,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 It's also possible to query for the set of objects that are contained within a particular area.  To find the objects in a rectangular bounding box, add a clause to the key constraint with the format `{"$within": {"$box": {[southwestGeoPoint, northeastGeoPoint]}}}`.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -207,11 +214,13 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 * Starting with Parse-Server 2.5.0
 
 It's also possible to query for the set of objects that are contained within or on the bounds of a polygon. `$polygon` allows for opened or closed paths, minimum of 3 `GeoPoint`'s.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -276,6 +285,7 @@ connection.request('GET', '/1/classes/PizzaPlaceObject?%s' % params, '', {
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Caveats
 

@@ -4,6 +4,8 @@
 
 Cloud Functions can be called using the REST API. For example, to call the Cloud Function named `hello`:
 
+<div class="language-toggle">
+
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -25,6 +27,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ##  Triggering Background Jobs
 
@@ -34,6 +37,7 @@ Similarly, you can trigger a background job from the REST API. For example, to t
   Take a look at the <a href="/cloudcode/guide/#cloud-functions">Cloud Code Guide</a> to learn more about Cloud Functions and Background Jobs.
 </div></div>
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -56,3 +60,4 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>

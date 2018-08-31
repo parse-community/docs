@@ -21,24 +21,27 @@ The `PFRole` uses the same security scheme (ACLs) as all other objects on Parse,
 
 To create a new `PFRole`, you would write:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 PFACL *roleACL = [PFACL ACL];
 [roleACL setPublicReadAccess:YES];
 PFRole *role = [PFRole roleWithName:@"Administrator" acl:roleACL];
 [role saveInBackground];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 // By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 var roleACL = PFACL.ACL()
 roleACL.setPublicReadAccess(true)
 var role = PFRole.roleWithName("Administrator", acl:roleACL)
 role.saveInBackground()
-</code></pre>
+```
+</div>
 
 You can add users and roles that should inherit your new role's permissions through the "users" and "roles" relations on `PFRole`:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFRole *role = [PFRole roleWithName:roleName acl:roleACL];
 for (PFUser *user in usersToAddToRole) {
   [role.users addObject:user];
@@ -47,8 +50,8 @@ for (PFRole *childRole in rolesToAddToRole) {
   [role.roles addObject:childRole];
 }
 [role saveInBackground];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 var role = PFRole.roleWithName(roleName, acl:roleACL)
 for user in usersToAddToRole {
   role.users.addObject(user)
@@ -57,7 +60,8 @@ for childRole in rolesToAddToRole {
   role.roles.addObject(childRole)
 }
 role.saveInBackground()
-</code></pre>
+```
+</div>
 
 Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
@@ -68,43 +72,48 @@ Now that you have created a set of roles for use in your application, you can us
 
 Giving a role read or write permission to an object is straightforward.  You can either use the `PFRole`:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFRole *moderators = /* Query for some PFRole */;
 PFObject *wallPost = [PFObject objectWithClassName:@"WallPost"];
 PFACL *postACL = [PFACL ACL];
 [postACL setWriteAccess:YES forRole:moderators];
 wallPost.ACL = postACL;
 [wallPost saveInBackground];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 var moderators = /* Query for some PFRole */
 var wallPost = PFObject(className:"WallPost")
 var postACL = PFACL.ACL()
 postACL.setWriteAccess(true, forRole:moderators)
 wallPost.ACL = postACL
 wallPost.saveInBackground()
-</code></pre>
+```
+</div>
 
 You can avoid querying for a role by specifying its name for the ACL:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFObject *wallPost = [PFObject objectWithClassName:@"WallPost"];
 PFACL *postACL = [PFACL ACL];
 [postACL setWriteAccess:YES forRoleWithName:@"Moderators"];
 wallPost.ACL = postACL;
 [wallPost saveInBackground];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 var wallPost = PFObject(className:"WallPost")
 var postACL = PFACL.ACL()
 postACL.setWriteAccess(true, forRoleWithName:"Moderators")
 wallPost.ACL = postACL
 wallPost.saveInBackground()
-</code></pre>
+```
+</div>
 
 Role-based `PFACL`s can also be used when specifying default ACLs for your application, making it easy to protect your users' data while granting access to users with additional privileges.  For example, a moderated forum application might specify a default ACL like this:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFACL *defaultACL = [PFACL ACL];
 // Everybody can read objects created by this user
 [defaultACL setPublicReadAccess:YES];
@@ -112,8 +121,8 @@ PFACL *defaultACL = [PFACL ACL];
 [defaultACL setWriteAccess:YES forRoleWithName:@"Moderators"];
 // And the user can read and modify its own objects
 [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 var defaultACL = PFACL.ACL()
 // Everybody can read objects created by this user
 defaultACL.setPublicReadAccess(true)
@@ -121,7 +130,8 @@ defaultACL.setPublicReadAccess(true)
 defaultACL.setWriteAccess(true, forRoleWithName:"Moderators")
 // And the user can read and modify its own objects
 PFACL.setDefaultACL(defaultACL, withAccessForCurrentUser:true)
-</code></pre>
+```
+</div>
 
 ## Role Hierarchy
 
@@ -129,15 +139,17 @@ As described above, one role can contain another, establishing a parent-child re
 
 These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators", like this:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFRole *administrators = /* Your "Administrators" role */;
 PFRole *moderators = /* Your "Moderators" role */;
 [moderators.roles addObject:administrators];
 [moderators saveInBackground];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 var administrators = /* Your "Administrators" role */
 var moderators = /* Your "Moderators" role */
 moderators.roles.addObject(administrators)
 moderators.saveInBackground()
-</code></pre>
+```
+</div>

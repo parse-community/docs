@@ -514,22 +514,39 @@ App.Views = {};
 
 	Toggle.prototype = {
 		render: function() {
-			var opt1Els = this.parent.getElementsByClassName('hljs ' + this.opt1);
-			for (var i = 0; i < opt1Els.length; i++) {
-        if (opt1Els[i].parentElement.parentElement.getAttribute("class").indexOf("common-lang-block")===-1) {
-          UI.addClass(opt1Els[i], 'has_toggles');
-  				opt1Els[i].appendChild(this.renderToggle(true));
-        }
-			}
+      var opt1 = this.opt1;
+      var self = this;
+      $('.language-toggle').each(function(i, block) {
+        $(block.children).each(function(i, node) {
+          // manually rendered 
+          var isOpt1 = false;
+          var isOpt2 = false;
+          var toggleTarget;
+          if (node.tagName === 'PRE') {
+            isOpt1 = node.firstChild.className.indexOf(self.opt1) >= 0;
+            isOpt2 = node.firstChild.className.indexOf(self.opt2) >= 0;
+            if (isOpt1) {
+              $(node).addClass(`language-${self.opt1}`);
+            }
+            if (isOpt2) {
+              $(node).addClass(`language-${self.opt2}`);
+            }
+            toggleTarget = node;
+          } else {
+            // pre-rendered through markdown
+            isOpt1 = node.className.indexOf(self.opt1) >= 0
+            isOpt2 = node.className.indexOf(self.opt2) >= 0
+            toggleTarget = $(node).find('pre.highlight').first();
+          }
 
-			var opt2Els = this.parent.getElementsByClassName('hljs ' + this.opt2);
-			for (i = 0; i < opt2Els.length; i++) {
-        if (opt2Els[i].parentElement.parentElement.getAttribute("class").indexOf("common-lang-block")===-1) {
-          UI.addClass(opt2Els[i], 'has_toggles');
-  				opt2Els[i].appendChild(this.renderToggle(false));
-        }
-			}
-
+          if (isOpt1) {
+            toggleTarget.append(self.renderToggle(true));
+          } else if (isOpt2) {
+            toggleTarget.append(self.renderToggle(false));
+          }
+          UI.addClass(node, 'has_toggles');
+        });
+      });
 			$('.' + this.opt2 + '-toggle').on('click', this.showOpt2.bind(this));
 			$('.' + this.opt1 + '-toggle').on('click', this.showOpt1.bind(this));
 			this.toggleOpt(true);
@@ -555,61 +572,26 @@ App.Views = {};
 		},
 
 		showOpt1: function(e) {
-			e.preventDefault();
+			e && e.preventDefault();
 
-			// make sure it's the right toggle
-			if ($(e.target).parent().hasClass('selected')) {
-				return false;
-			}
-
-			var $pre = $(e.target).closest('pre');
-			var distance = $(window).scrollTop() - $pre[0].offsetTop;
-
-
-			// flash the border
-			var $code = $pre.prev().children('code');
-			$code.addClass('code_flash');
-			setTimeout(function(){
-				$code.removeClass('code_flash');
-			}, 2000);
-
-			// scroll to the code block
-			var el = $pre.prev()[0];
-			this.toggleOpt(true);
-			$(window).scrollTop(el.offsetTop + distance);
+      $(`.language-toggle .language-${this.opt2}`).hide();
+      $(`.language-toggle .language-${this.opt1}`).show();
 		},
 
 		showOpt2: function(e) {
-			e.preventDefault();
+			e && e.preventDefault();
 
-			// make sure it's the right toggle
-			if ($(e.target).parent().hasClass('selected')) {
-				return false;
-			}
-
-			var $pre = $(e.target).closest('pre');
-			var distance = $(window).scrollTop() - $pre[0].offsetTop;
-
-			// flash the border
-			var $code = $pre.next().children('code');
-			$code.addClass('code_flash');
-			setTimeout(function(){
-				$code.removeClass('code_flash');
-			}, 2000);
-
-			// scroll to the code block
-			var el = $pre.next()[0];
-			this.toggleOpt(false);
-			$(window).scrollTop(el.offsetTop + distance);
+      $(`.language-toggle .language-${this.opt2}`).show();
+      $(`.language-toggle .language-${this.opt1}`).hide();
 		},
 
 		toggleOpt: function(showOpt1) {
 			if (showOpt1 === true) {
-				$('.hljs.' + this.opt2).parent().hide();
-				$('.hljs.' + this.opt1).parent().show();
+        $(`.language-toggle .language-${this.opt2}`).hide();
+        $(`.language-toggle .language-${this.opt1}`).show();
 			} else {
-				$('.hljs.' + this.opt2).parent().show();
-				$('.hljs.' + this.opt1).parent().hide();
+        $(`.language-toggle .language-${this.opt2}`).show();
+        $(`.language-toggle .language-${this.opt1}`).hide();
 			}
 			this.onChange();
 		}
@@ -655,7 +637,7 @@ App.Views = {};
 			if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
 				new App.Views.Docs.Toggle({
 					parent: this.scrollContent,
-					opt1: 'objectivec',
+					opt1: 'objective_c',
 					opt2: 'swift',
 					label1: 'Objective-C',
 					label2: 'Swift',
@@ -889,7 +871,6 @@ App.Views = {};
 		},
 
 		handleWindowResize: function(e) {
-			this.toc.parent.style.left = $(".guide").css("margin-left");
 			this.toc.updateHeights();
 		}
 	};
@@ -897,10 +878,6 @@ App.Views = {};
 	_.extend(Docs.prototype, UI.ComponentProto);
 
 })(UI, _);
-
-$('pre code').each(function(i, block) {
-  hljs.highlightBlock(block);
-});
 
 var platform = window.location.pathname.split('/')[1];
 if (platform) {

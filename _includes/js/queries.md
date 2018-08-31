@@ -8,7 +8,7 @@ In many cases, `get` isn't powerful enough to specify which objects you want to 
 
 The general pattern is to create a `Parse.Query`, put conditions on it, and then retrieve an `Array` of matching `Parse.Object`s using `find`. For example, to retrieve the scores that have a particular `playerName`, use the `equalTo` method to constrain the value for a key.
 
-<pre><code class="javascript">
+```javascript
 const GameScore = Parse.Object.extend("GameScore");
 const query = new Parse.Query(GameScore);
 query.equalTo("playerName", "Dan Stemkoski");
@@ -19,57 +19,57 @@ for (let i = 0; i < results.length; i++) {
   var object = results[i];
   alert(object.id + ' - ' + object.get('playerName'));
 } 
-</code></pre>
+```
 
 ## Query Constraints
 
 There are several ways to put constraints on the objects found by a `Parse.Query`. You can filter out objects with a particular key-value pair with `notEqualTo`:
 
-<pre><code class="javascript">
+```javascript
 query.notEqualTo("playerName", "Michael Yabuti");
-</code></pre>
+```
 
 You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
 
-<pre><code class="javascript">
+```javascript
 query.notEqualTo("playerName", "Michael Yabuti");
 query.greaterThan("playerAge", 18);
-</code></pre>
+```
 
 You can limit the number of results by setting `limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
-<pre><code class="javascript">
+```javascript
 query.limit(10); // limit to at most 10 results
-</code></pre>
+```
 
 If you want exactly one result, a more convenient alternative may be to use `first` instead of using `find`.
 
-<pre><code class="javascript">
+```javascript
 const GameScore = Parse.Object.extend("GameScore");
 const query = new Parse.Query(GameScore);
 query.equalTo("playerEmail", "dstemkoski@example.com");
 const object = await query.first();
-</code></pre>
+```
 
 You can skip the first results by setting `skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
 
-<pre><code class="javascript">
+```javascript
 query.skip(10); // skip the first 10 results
-</code></pre>
+```
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
 
-<pre><code class="javascript">
+```javascript
 // Sorts the results in ascending order by the score field
 query.ascending("score");
 
 // Sorts the results in descending order by the score field
 query.descending("score");
-</code></pre>
+```
 
 For sortable types, you can also use comparisons in queries:
 
-<pre><code class="javascript">
+```javascript
 // Restricts to wins < 50
 query.lessThan("wins", 50);
 
@@ -81,37 +81,37 @@ query.greaterThan("wins", 50);
 
 // Restricts to wins >= 50
 query.greaterThanOrEqualTo("wins", 50);
-</code></pre>
+```
 
 If you want to retrieve objects matching any of the values in a list of values, you can use `containedIn`, providing an array of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
 
-<pre><code class="javascript">
+```javascript
 // Finds scores from any of Jonathan, Dario, or Shawn
 query.containedIn("playerName",
                   ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
-</code></pre>
+```
 
 If you want to retrieve objects that do not match any of  several values you can use `notContainedIn`, providing an array of acceptable values.  For example if you want to retrieve scores from players besides those in a list:
 
-<pre><code class="javascript">
+```javascript
 // Finds scores from anyone who is neither Jonathan, Dario, nor Shawn
 query.notContainedIn("playerName",
                      ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
-</code></pre>
+```
 
 If you want to retrieve objects that have a particular key set, you can use `exists`. Conversely, if you want to retrieve objects without a particular key set, you can use `doesNotExist`.
 
-<pre><code class="javascript">
+```javascript
 // Finds objects that have the score set
 query.exists("score");
 
 // Finds objects that don't have the score set
 query.doesNotExist("score");
-</code></pre>
+```
 
 You can use the `matchesKeyInQuery` method to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
 
-<pre><code class="javascript">
+```javascript
 const Team = Parse.Object.extend("Team");
 const teamQuery = new Parse.Query(Team);
 teamQuery.greaterThan("winPct", 0.5);
@@ -119,54 +119,54 @@ const userQuery = new Parse.Query(Parse.User);
 userQuery.matchesKeyInQuery("hometown", "city", teamQuery);
 // results has the list of users with a hometown team with a winning record
 const results = await userQuery.find();
-</code></pre>
+```
 
 Conversely, to get objects where a key does not match the value of a key in a set of objects resulting from another query, use `doesNotMatchKeyInQuery`. For example, to find users whose hometown teams have losing records:
 
-<pre><code class="javascript">
+```javascript
 var losingUserQuery = new Parse.Query(Parse.User);
 losingUserQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
 // results has the list of users with a hometown team with a losing record
 const results = await losingUserQuery.find();
-</code></pre>
+```
 
 You can restrict the fields returned by calling `select` with a list of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
-<pre><code class="javascript">
+```javascript
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.select("score", "playerName");
 query.find().then(function(results) {
   // each of results will only have the selected fields available.
 });
-</code></pre>
+```
 
 The remaining fields can be fetched later by calling `fetch` on the returned objects:
 
-<pre><code class="javascript">
+```javascript
 query.first().then(function(result) {
   // only the selected fields of the object will now be available here.
   return result.fetch();
 }).then(function(result) {
   // all fields of the object will now be available here.
 });
-</code></pre>
+```
 
 ## Queries on Array Values
 
 For keys with an array type, you can find objects where the key's array value contains 2 by:
 
-<pre><code class="javascript">
+```javascript
 // Find objects where the array in arrayKey contains 2.
 query.equalTo("arrayKey", 2);
-</code></pre>
+```
 
 You can also find objects where the key's array value contains each of the elements 2, 3, and 4 with the following:
 
-<pre><code class="javascript">
+```javascript
 // Find objects where the array in arrayKey contains all of the elements 2, 3, and 4.
 query.containsAll("arrayKey", [2, 3, 4]);
-</code></pre>
+```
 
 ## Queries on String Values
 
@@ -176,11 +176,11 @@ query.containsAll("arrayKey", [2, 3, 4]);
 
 Use `startsWith` to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
 
-<pre><code class="javascript">
+```javascript
 // Finds barbecue sauces that start with "Big Daddy's".
 var query = new Parse.Query(BarbecueSauce);
 query.startsWith("name", "Big Daddy's");
-</code></pre>
+```
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
 
@@ -194,14 +194,14 @@ You can use `fullText` for efficient search capabilities. Text indexes are autom
 
 * Parse Server 2.5.0+
 
-<pre><code class="javascript">
+```javascript
 var query = new Parse.Query(BarbecueSauce);
 query.fullText('name', 'bbq');
-</code></pre>
+```
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.
 
-<pre><code class="javascript">
+```javascript
 // You can sort by weight / rank. ascending() and select()
 var query = new Parse.Query(BarbecueSauce);
 query.fullText('name', 'bbq');
@@ -214,7 +214,7 @@ query.find()
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
 
@@ -223,17 +223,17 @@ For Case or Diacritic Sensitive search, please use the [REST API](http://docs.pa
 
 There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `Parse.Object`, you can use `equalTo` just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
-<pre><code class="javascript">
+```javascript
 // Assume Parse.Object myPost was previously created.
 var query = new Parse.Query(Comment);
 query.equalTo("post", myPost);
 // comments now contains the comments for myPost
 const comments = await query.find();
-</code></pre>
+```
 
 If you want to retrieve objects where a field contains a `Parse.Object` that matches a different query, you can use `matchesQuery`. In order to find comments for posts containing images, you can do:
 
-<pre><code class="javascript">
+```javascript
 var Post = Parse.Object.extend("Post");
 var Comment = Parse.Object.extend("Comment");
 var innerQuery = new Parse.Query(Post);
@@ -242,11 +242,11 @@ var query = new Parse.Query(Comment);
 query.matchesQuery("post", innerQuery);
 // comments now contains the comments for posts with images.
 const comments = await query.find();
-</code></pre>
+```
 
 If you want to retrieve objects where a field contains a `Parse.Object` that does not match a different query, you can use `doesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
-<pre><code class="javascript">
+```javascript
 var Post = Parse.Object.extend("Post");
 var Comment = Parse.Object.extend("Comment");
 var innerQuery = new Parse.Query(Post);
@@ -255,19 +255,19 @@ var query = new Parse.Query(Comment);
 query.doesNotMatchQuery("post", innerQuery);
 // comments now contains the comments for posts without images.
 const comments = await query.find();
-</code></pre>
+```
 
 You can also do relational queries by `objectId`:
 
-<pre><code class="javascript">
+```javascript
 var post = new Post();
 post.id = "1zEcyElZ80";
 query.equalTo("post", post);
-</code></pre>
+```
 
 In some situations, you want to return multiple types of related objects in one query. You can do this with the `include` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
 
-<pre><code class="javascript">
+```javascript
 var query = new Parse.Query(Comment);
 
 // Retrieve the most recent ones
@@ -286,13 +286,13 @@ for (var i = 0; i < comments.length; i++) {
   // This does not require a network access.
   var post = comments[i].get("post");
 }
-</code></pre>
+```
 
 You can also do multi level includes using dot notation.  If you wanted to include the post for a comment and the post's author as well you can do:
 
-<pre><code class="javascript">
+```javascript
 query.include(["post.author"]);
-</code></pre>
+```
 
 You can issue a query with multiple fields included by calling `include` multiple times. This functionality also works with Parse.Query helpers like `first` and `get`.
 
@@ -302,13 +302,13 @@ Note: In the old Parse hosted backend, count queries were rate limited to a maxi
 
 If you just need to count how many objects match a query, but you do not need to retrieve all the objects that match, you can use `count` instead of `find`. For example, to count how many games have been played by a particular player:
 
-<pre><code class="javascript">
+```javascript
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.equalTo("playerName", "Sean Plott");
 const count = await query.count();
 alert("Sean has played " + count + " games");
-</code></pre>
+```
 
 
 ## Compound Queries
@@ -322,7 +322,7 @@ Note that we do not support GeoPoint or non-filtering constraints (e.g. `near`, 
 
 If you want to find objects that match one of several queries, you can use `Parse.Query.or` method to construct a query that is an OR of the queries passed in.  For instance if you want to find players who either have a lot of wins or a few wins, you can do:
 
-<pre><code class="javascript">
+```javascript
 var lotsOfWins = new Parse.Query("Player");
 lotsOfWins.greaterThan("wins", 150);
 
@@ -337,14 +337,14 @@ mainQuery.find()
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 
 ### AND-ed query constraints
 
 If you want to find objects that match all conditions, you normally would use just one query. You can add additional constraints to the newly created `Parse.Query` that act as an 'and' operator.
 
-<pre><code class="javascript">
+```javascript
 var query = new Parse.Query("User");
 query.greaterThan("age", 18);
 query.greaterThan("friends", 0);
@@ -355,11 +355,11 @@ query.find()
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 Sometimes the world is more complex than this simple example and you may need a compound query of sub queries. You can use `Parse.Query.and` method to construct a query that is an AND of the queries passed in. For instance if you want to find users in the age of 16 or 18 who have either no friends or at least 2 friends, you can do:
 
-<pre><code class="javascript">
+```javascript
 var age16Query = new Parse.Query("User");
 age16Query.equalTo("age", 16);
 
@@ -384,7 +384,7 @@ mainQuery.find()
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 ## Aggregate
 
@@ -399,7 +399,7 @@ You can create a pipeline using an Array or an Object.
 
 The following example is a pipeline similar to `distinct` grouping by name field.
 
-<pre><code class="javascript">
+```javascript
 var pipelineObject = {
   group: { objectId: '$name' }
  };
@@ -407,7 +407,7 @@ var pipelineObject = {
 var pipelineArray = [
   { group: { objectId: '$name' } }
 ];
-</code></pre>
+```
 
 For a list of available operators please refer to [Mongo Aggregate Documentation](https://docs.mongodb.com/v3.2/reference/operator/aggregation/).
 
@@ -417,7 +417,7 @@ Group pipeline is similar to `distinct`.
 
 You can group by a field.
 
-<pre><code class="javascript">
+```javascript
 // score is the field. $ before score lets the database know this is a field
 var pipeline = [
   group: { objectId: '$score' }
@@ -430,11 +430,11 @@ query.aggregate(pipeline)
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 You can apply collective calculations like $sum, $avg, $max, $min.
 
-<pre><code class="javascript">
+```javascript
 // total will be a newly created field to hold the sum of score field
 var pipeline = [
   group: { objectId: null, total: { $sum: '$score' } }
@@ -447,11 +447,11 @@ query.aggregate(pipeline)
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 Project pipeline is similar to `keys` or `select`, add or remove existing fields.
 
-<pre><code class="javascript">
+```javascript
 var pipeline = [
   project: { name: 1 }
 ];
@@ -463,11 +463,11 @@ query.aggregate(pipeline)
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 Match pipeline is similar to `equalTo`.
 
-<pre><code class="javascript">
+```javascript
 var pipeline = [
   { match: { name: 'BBQ' } }
 ];
@@ -479,11 +479,11 @@ query.aggregate(pipeline)
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 You can match by comparison.
 
-<pre><code class="javascript">
+```javascript
 var pipeline = [
   match: { score: { $gt: 15 } }
 ];
@@ -495,7 +495,7 @@ query.aggregate(pipeline)
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 ## Distinct
 
@@ -504,7 +504,7 @@ Queries can be made using distinct, allowing you find unique values for a specif
 * Parse Server 2.7.1+
 * `MasterKey` is required.
 
-<pre><code class="javascript">
+```javascript
 var query = new Parse.Query("User");
 query.distinct("age")
   .then(function(results) {
@@ -513,11 +513,11 @@ query.distinct("age")
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```
 
 You can also restrict results by using `equalTo`.
 
-<pre><code class="javascript">
+```javascript
 var query = new Parse.Query("User");
 query.equalTo("name", "foo");
 query.distinct("age")
@@ -527,4 +527,4 @@ query.distinct("age")
   .catch(function(error) {
     // There was an error.
   });
-</code></pre>
+```

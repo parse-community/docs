@@ -45,14 +45,14 @@ The PHP SDK does not currently support subscribing iOS and Android devices for p
 
 With the PHP SDK, the following code can be used to alert all subscribers of the "Giants" and "Mets" channels about the results of the game. This will display a notification center alert to iOS users and a system tray notification to Android users.
 
-<pre><code class="php">
+```php
 $data = array("alert" => "Hi!");
 
 ParsePush::send(array(
   "channels" => ["PHPFans"],
   "data" => $data
 ), true);
-</code></pre>
+```
 
 ### Using Advanced Targeting
 
@@ -70,18 +70,18 @@ Generally if you need to saving installation data it will be a modification to a
 
 Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Parse.Installation` queries work just like any other [Parse query]({{ site.baseUrl }}/php/guide/#queries).
 
-<pre><code class="php">
+```php
 $query = ParseInstallation::query();
 $query->equalTo("design", "rad");
 ParsePush::send(array(
   "where" => $query,
   "data" => $data
 ), true);
-</code></pre>
+```
 
 We can even use channels with our query. To send a push to all subscribers of the "Giants" channel but filtered by those who want score update, we can do the following:
 
-<pre><code class="php">
+```php
 $query = ParseInstallation::query();
 $query->equalTo("channels", "Giants");
 $query->equalTo("scores", true);
@@ -92,11 +92,11 @@ ParsePush::send(array(
     "alert" => "Giants scored against the A's! It's now 2-2."
   )
 ), true);
-</code></pre>
+```
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
-<pre><code class="php">
+```php
 // Find users near a given location
 $userQuery = ParseUser::query();
 $userQuery->withinMiles("location", $stadiumLocation, 1.0);
@@ -112,7 +112,7 @@ ParsePush::send(array(
     "alert" => "Free hotdogs at the Parse concession stand!"
   )
 ), true);
-</code></pre>
+```
 
 #### Sending Pushes to Audiences
 
@@ -121,7 +121,7 @@ You can create and configure your Audience objects with a name and query.
 
 When you indicate it's being used in a push the `lastUsed` and `timesUsed` values are updated for you.
 
-<pre><code class="php">
+```php
 $iosQuery = ParseInstallation::getQuery();
 $iosQuery->equalTo("deviceType", "ios");
 
@@ -149,7 +149,7 @@ $audience->fetch(true);
 // get last & times used for tracking
 $timesUsed = $audience->getTimesUsed();
 $lastUsed = $audience->getLastUsed();
-</code></pre>
+```
 
 Audiences provide you with a convenient way to group your queries and keep track of how often and when you send to them.
 
@@ -171,7 +171,7 @@ If you want to send more than just a message, you can set other fields in the `d
 
 For example, to send a notification that increases the current badge number by 1 and plays a custom sound for iOS devices, and displays a particular title for Android users, you can do the following:
 
-<pre><code class="php">
+```php
 ParsePush::send(array(
   "channels" => [ "Mets" ],
   "data" => array(
@@ -181,11 +181,11 @@ ParsePush::send(array(
     "title" => "Mets Score!"
   )
 ), true);
-</code></pre>
+```
 
 It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide/#receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
-<pre><code class="php">
+```php
 $query = ParseInstallation::query();
 $query->equalTo('channels', 'Indians');
 $query->equalTo('injuryReports', true);
@@ -199,7 +199,7 @@ ParsePush::send(array(
     "newsItem" => "Man bites dog"
   )
 ), true);
-</code></pre>
+```
 
 ### Setting an Expiration Date
 
@@ -215,7 +215,7 @@ If you build a cross platform app, it is possible you may only want to target iO
 
 The following examples would send a different notification to Android and iOS users.
 
-<pre><code class="php">
+```php
 // Notification for Android users
 $queryAndroid = ParseInstallation::query();
 $queryAndroid->equalTo('deviceType', 'android');
@@ -259,7 +259,7 @@ ParsePush::send(array(
     "alert" => "Your suitcase is very hip; very metro."
   )
 ), true);
-</code></pre>
+```
 
 ## Scheduling Pushes
 
@@ -275,7 +275,7 @@ If the version of ParseServer you are running supports it you can retrieve a `Pu
 
 From that you can fetch the status message of the push request, number of pushes sent, number failed, and more.
 
-<pre><code class="php">
+```php
 $data = array("alert" => "Hi!");
 
 $response = ParsePush::send(array(
@@ -310,7 +310,7 @@ if(ParsePush::hasStatus($response)) {
     $failed = $pushStatus->getPushesFailed();
     
 }
-</code></pre>
+```
 
 ## Receiving Pushes
 

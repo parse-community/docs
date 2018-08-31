@@ -4,6 +4,7 @@
 
 You can retrieve multiple objects at once by sending a GET request to the class URL. Without any URL parameters, this simply lists objects in the class:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -21,10 +22,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
 
-<pre><code class="json">
+```json
 {
   "results": [
     {
@@ -45,13 +47,13 @@ The return value is a JSON object that contains a `results` field with a JSON ar
     }
   ]
 }
-</code></pre>
-
+```
 
 ## Query Constraints
 
 There are several ways to put constraints on the objects found, using the `where` URL parameter. The value of the `where` parameter should be encoded JSON. Thus, if you look at the actual URL requested, it would be JSON-encoded, then URL-encoded. The simplest use of the `where` parameter is constraining the value for keys. For example, if we wanted to retrieve Sean Plott's scores that were not in cheat mode, we could do:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -75,6 +77,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The values of the `where` parameter also support comparisons besides exact matching. Instead of an exact value, provide a hash with keys corresponding to the comparisons to do. The `where` parameter supports these options:
 
@@ -96,6 +99,7 @@ The values of the `where` parameter also support comparisons besides exact match
 
 For example, to retrieve scores between 1000 and 3000, including the endpoints, we could issue:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -121,9 +125,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 To retrieve scores equal to an odd number below 10, we could issue:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -154,9 +160,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 To retrieve scores not by a given list of players we could issue:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -193,9 +201,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 To retrieve documents with the score set, we could issue:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -220,9 +230,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 To retrieve documents without the score set, we could issue:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -247,9 +259,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -284,6 +298,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 In addition to `where`, there are several parameters you can use to configure what types of results are returned by the query.
 
@@ -297,6 +312,7 @@ In addition to `where`, there are several parameters you can use to configure wh
 
 You can use the `order` parameter to specify a field to sort by. Prefixing with a negative sign reverses the order. Thus, to retrieve scores in ascending order:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -317,9 +333,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 And to retrieve scores in descending order:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -340,9 +358,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can sort by multiple fields by passing `order` a comma-separated list. To retrieve documents that are ordered by scores in ascending order and the names in descending order:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -363,9 +383,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can use the `limit` and `skip` parameters for pagination.`limit` defaults to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint. Thus, to retrieve 200 objects after skipping the first 400:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -387,9 +409,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can restrict the fields returned by passing `keys` a comma-separated list. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -410,9 +434,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 All of these parameters can be used in combination with each other. For example:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -458,12 +484,14 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 
 ##  Queries on Array Values
 
 For keys with an array type, you can find objects where the key's array value contains 2 by:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -486,9 +514,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can also use the `$all` operator to find objects with an array field which contains each of the values 2, 3, and 4 by:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -517,6 +547,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Queries on String Values
 
@@ -526,6 +557,7 @@ print result
 
 Use the `$regex` operator to restrict to string values that match a regular expression. Most regular expression queries in Parse are heavily throttled due to performance considerations. Use case sensitive, anchored queries where possible. Similar to a MySQL LIKE operator, anchored queries are indexed so they are efficient for large datasets. For example:
 
+<div class="language-toggle">
 <pre><code class="bash">
 # Finds barbecue sauces that start with "Big Daddy"
 curl -X GET \
@@ -552,6 +584,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy". For example, both "Big Daddy" and "Big Daddy's" will match, but "big daddy" or "BBQ Sauce: Big Daddy's" will not.
 
@@ -580,6 +613,7 @@ Please refer to your database documentation on Full Text Search to setup your in
 
 Note: Postgres doesn't support `$caseSensitive` for Full Text Search, please use `$regex` above or create a lowercase column in your DB. Postgres supports `$diacriticSensitive: true` by default but `$diacriticSensitive: false` is not supported. To use false automatically, please install Postgres Unaccent Extension and update your text search configuration.
 
+<div class="language-toggle">
 <pre><code class="bash">
 # Finds strings that contains "Daddy"
 curl -X GET \
@@ -610,9 +644,11 @@ connection.request('GET', '/1/classes/BarbecueSauce?%s' % params, '', {
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 `$text` allows for sorting by `$score`. The text score signifies how well the string matched the search term(s) based on weights.
 
+<div class="language-toggle">
 <pre><code class="bash">
 # Finds strings that contains "Daddy" ordered by relevance
 curl -X GET \
@@ -648,6 +684,7 @@ connection.request('GET', '/1/classes/BarbecueSauce?%s' % params, '', {
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Note: Both keys and order are required to sort by `$score`. You have to manually set weights on Postgres to use `$score`.
 
@@ -655,6 +692,7 @@ Note: Both keys and order are required to sort by `$score`. You have to manually
 
 There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular object, you can use a `where` clause with a `Pointer` encoded with `__type` just like you would use other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -681,9 +719,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If you want to retrieve objects where a field contains an object that matches another query, you can use the `$inQuery` operator. For example, imagine you have Post class and a Comment class, where each Comment has a pointer to its parent Post. You can find comments on posts with images by doing:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -715,9 +755,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If you want to retrieve objects where a field contains an object that does not match another query, you can use the `$notInQuery` operator.  Imagine you have Post class and a Comment class, where each Comment has a pointer to its parent Post.  You can find comments on posts without images by doing:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -749,9 +791,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If you want to retrieve objects that are members of `Relation` field of a parent object, you can use the `$relatedTo` operator.  Imagine you have a Post class and User class, where each Post can be liked by many users.  If the Users that liked a Post were stored in a `Relation` on the post under the key "likes", you can find the users that liked a particular post by:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -781,9 +825,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 In some situations, you want to return multiple types of related objects in one query. You can do this by passing the field to include in the `include` parameter. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -806,20 +852,21 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Instead of being represented as a `Pointer`, the `post` field is now expanded into the whole object. `__type` is set to `Object` and `className` is provided as well. For example, a `Pointer` to a `Post` could be represented as:
 
-<pre><code class="json">
+```json
 {
   "__type": "Pointer",
   "className": "Post",
   "objectId": "8TOXdXf3tz"
 }
-</code></pre>
+```
 
 When the query is issued with an `include` parameter for the key holding this pointer, the pointer will be expanded to:
 
-<pre><code class="json">
+```json
 {
   "__type": "Object",
   "className": "Post",
@@ -828,10 +875,11 @@ When the query is issued with an `include` parameter for the key holding this po
   "updatedAt": "2011-12-06T20:59:34.428Z",
   "otherFields": "willAlsoBeIncluded"
 }
-</code></pre>
+```
 
 You can also do multi level includes using dot notation.  If you wanted to include the post for a comment and the post's author as well you can do:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -864,6 +912,7 @@ Note: In the old Parse hosted backend, count queries were rate limited to a maxi
 
 If you are limiting your query, or if there are a very large number of results, and you want to know how many total results there are without returning them all, you can use the `count` parameter. For example, if you only care about the number of games played by a particular player:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -891,12 +940,12 @@ print result
 
 Since this requests a count as well as limiting to zero results, there will be a count but no results in the response.
 
-<pre><code class="json">
+```json
 {
   "results": [],
   "count": 1337
 }
-</code></pre>
+```
 
 With a nonzero limit, that request would return results as well as the count.
 
@@ -904,6 +953,7 @@ With a nonzero limit, that request would return results as well as the count.
 
  If you want to find objects that match one of several queries, you can use `$or` operator, with a JSONArray as its value.  For instance, if you want to find players with either have a lot of wins or a few wins, you can do:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -948,6 +998,7 @@ Note that we do not, however, support GeoPoint or non-filtering constraints (e.g
 
 Finds unique values for a specified field.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -973,6 +1024,7 @@ print result
 
 Can be used with `where` parameter for constraining the value for keys.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -1014,6 +1066,7 @@ You can group the objects and apply an accumulator operator such as `$sum`, `$av
 
 Note: `_id` does not exist in parse-server. Please replace with `objectId`.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -1044,6 +1097,7 @@ print result
 
 You can add or remove existing fields with `project` parameter. `project` is similar to `keys`.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -1071,6 +1125,7 @@ print result
 
 You can filter out objects with `match` parameter. `match` is similar to `$eq`.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \

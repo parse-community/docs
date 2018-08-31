@@ -6,6 +6,7 @@
 
 After that you will be able to fetch the config on the client by sending a `GET` request to config URL. Here is a simple example that will fetch the `Parse.Config`:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -23,20 +24,22 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The response body is a JSON object containing all the configuration parameters in the `params` field.
 
-<pre><code class="json">
+```json
 {
   "params": {
     "welcomeMessage": "Welcome to The Internet!",
     "winningNumber": 42
   }
 }
-</code></pre>
+```
 
 You can also update the config by sending a `PUT` request to config URL. Here is a simple example that will update the `Parse.Config`:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -59,11 +62,12 @@ return request({
   }
 })
 </code></pre>
+</div>
 
 The response body is a JSON object containing a simple boolean value in the `result` field.
 
-<pre><code class="json">
+```json
 {
   "result": true
 }
-</code></pre>
+```

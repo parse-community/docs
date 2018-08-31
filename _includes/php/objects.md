@@ -6,9 +6,9 @@ Storing data on Parse is built around the `ParseObject`. Each `ParseObject` cont
 
 For example, let's say you're tracking high scores for a game. A single `ParseObject` could contain:
 
-<pre><code class="php">
+```php
 score: 1337, playerName: "Sean Plott", cheatMode: false
-</code></pre>
+```
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even sequential arrays and associative arrays - anything that can be JSON-encoded.  Note however that Arrays and Associative Arrays require separate methods to set them on a `ParseObject`.
 
@@ -16,7 +16,7 @@ Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or 
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a our other SDKs, including the `save` method:
 
-<pre><code class="php">
+```php
 $gameScore = new ParseObject("GameScore");
 
 $gameScore->set("score", 1337);
@@ -31,14 +31,14 @@ try {
   // error is a ParseException object with an error code and message.
   echo 'Failed to create new object, with error message: ' . $ex->getMessage();
 }
-</code></pre>
+```
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
-<pre><code class="json">
+```json
 objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
-</code></pre>
+```
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
@@ -48,7 +48,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `ParseObject` has been uploaded to the server, you can retrieve it with its `objectId` using a `ParseQuery`:
 
-<pre><code class="php">
+```php
 $query = new ParseQuery("GameScore");
 try {
   $gameScore = $query->get("xWMyZ4YEGZ");
@@ -57,37 +57,37 @@ try {
   // The object was not retrieved successfully.
   // error is a ParseException with an error code and message.
 }
-</code></pre>
+```
 
 To get the values out of the `ParseObject`, use the `get` method.
 
-<pre><code class="php">
+```php
 $score = $gameScore->get("score");
 $playerName = $gameScore->get("playerName");
 $cheatMode = $gameScore->get("cheatMode");
-</code></pre>
+```
 
 The four special values are provided as the result of methods:
 
-<pre><code class="php">
+```php
 $objectId = $gameScore->getObjectId();
 $updatedAt = $gameScore->getUpdatedAt();
 $createdAt = $gameScore->getCreatedAt();
 $acl = $gameScore->getACL();
-</code></pre>
+```
 
 If you need to refresh an object you already have with the latest data that
     is in the Parse Cloud, you can call the `fetch` method like so:
 
-<pre><code class="php">
+```php
 $gameScore->fetch();
-</code></pre>
+```
 
 ## Updating Objects
 
 Updating an object is simple. Just set some new data on it and call the save method. For example:
 
-<pre><code class="php">
+```php
 // Create the object.
 $gameScore = new ParseObject("GameScore");
 
@@ -102,7 +102,7 @@ $gameScore->save();
 $gameScore->set("cheatMode", true);
 $gameScore->set("score", 1338);
 $gameScore->save();
-</code></pre>
+```
 
 Parse automatically figures out which data has changed so only "dirty" fields will be sent to the Parse Cloud. You don't need to worry about squashing data that you didn't intend to update.
 
@@ -112,10 +112,10 @@ The above example contains a common use case. The "score" field is a counter tha
 
 To help with storing counter-type data, Parse provides methods that atomically increment (or decrement) any number field. So, the same update can be rewritten as:
 
-<pre><code class="php">
+```php
 $gameScore->increment("score");
 $gameScore->save();
-</code></pre>
+```
 
 You can also increment by any amount by passing in a second argument to `increment`. When no amount is specified, 1 is used by default.
 
@@ -129,11 +129,11 @@ To help with storing array data, there are three operations that can be used to 
 
 For example, we can add items to the set-like "skills" field like so:
 
-<pre><code class="php">
+```php
 $gameScore->addUnique("skills", ["flying"]);
 $gameScore->addUnique("skills", ["kungfu"]);
 $gameScore->save();
-</code></pre>
+```
 
 Note that it is not currently possible to atomically add and remove items from an array in the same save.
     You will have to call `save` in between every different kind of array operation.
@@ -142,7 +142,7 @@ Note that it is not currently possible to atomically add and remove items from a
 
 Using version **1.3.0** or later of the php sdk gives you the ability to encode/decode instances of `ParseObject`.
 Encoding an object will give you a JSON encoded array that can be later decoded to get the original object back, unsaved changes included.
-<pre><code class="php">
+```php
 // create an object
 $obj = new ParseObject("YourClass");
 $obj->set('info', 'an encodable object');
@@ -155,7 +155,7 @@ $encoded = $obj->encode();
 // decode to get our object as it was before,
 // unsaved changes included
 $decoded = ParseObject::decode($encoded);
-</code></pre>
+```
 
 An object that is encoded can easily be stored away, sent across the wire or even saved as a value under another `ParseObject`.
 This can be used to create a snapshot of an object at a point in time (unsaved changes included), allowing you to later go back, decode and inspect that object later on.
@@ -164,19 +164,19 @@ This can be used to create a snapshot of an object at a point in time (unsaved c
 
 To delete an object from the cloud:
 
-<pre><code class="php">
+```php
 $gameScore->destroy();
-</code></pre>
+```
 
 You can delete a single field from an object with the `delete` method:
 
-<pre><code class="php">
+```php
 // After this, the playerName field will be empty
 $gameScore->delete("playerName");
 
 // Saves the field deletion to the Parse Cloud
 $gameScore->save();
-</code></pre>
+```
 
 ## Relational Data
 
@@ -188,7 +188,7 @@ One-to-one and one-to-many relationships are modeled by saving a `ParseObject` a
 
 To create a new `Post` with a single `Comment`, you could write:
 
-<pre><code class="php">
+```php
 // Create the post
 $myPost = new ParseObject("Post");
 $myPost->set("title", "I'm Hungry");
@@ -203,72 +203,72 @@ $myComment->set("parent", $myPost);
 
 // This will save both myPost and myComment
 $myComment->save();
-</code></pre>
+```
 
 Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency. You can also link objects using just their `objectId`s like so:
 
-<pre><code class="php">
+```php
 $post = new ParseObject("Post", "1zEcyElZ80");
 
 $myComment->set("parent", $post);
-</code></pre>
+```
 
 By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
-<pre><code class="php">
+```php
 $post = $fetchedComment->get("parent");
 $post->fetch();
 $title = $post->get("title");
-</code></pre>
+```
 
 ### Many-to-Many Relationships
 
 Many-to-many relationships are modeled using `ParseRelation`. This works similar to storing an array of `ParseObject`s in a key, except that you don't need to fetch all of the objects in a relation at once.  In addition, this allows `ParseRelation` to scale to many more objects than the array of `ParseObject` approach.  For example, a `User` may have many `Posts` that she might like. In this case, you can store the set of `Posts` that a `User` likes using `relation`.  In order to add a `Post` to the "likes" array of the `User`, you can do:
 
-<pre><code class="php">
+```php
 $user = ParseUser::getCurrentUser();
 $relation = $user->getRelation("likes");
 $relation->add($post);
 $user->save();
-</code></pre>
+```
 
  You can remove a post from a `ParseRelation`:
 
-<pre><code class="php">
+```php
 $relation->remove($post);
 $user->save();
-</code></pre>
+```
 
 You can call `add` and `remove` multiple times before calling save:
 
-<pre><code class="php">
+```php
 $relation->remove($post1);
 $relation->remove($post2);
 $user->save();
-</code></pre>
+```
 
 You can also pass in an array of `ParseObject` to `add` and `remove`:
 
-<pre><code class="php">
+```php
 $relation->add([$post1, $post2, $post3]);
 $user->save();
-</code></pre>
+```
 
 By default, the array of objects in this relation are not downloaded.  You can get an array of the posts that a user likes by using the `ParseQuery` returned by `getQuery`.  The code looks like:
 
-<pre><code class="php">
+```php
 $postsLiked = $relation->getQuery()->find();
 // $postsLiked contains the posts that the current user likes.
-</code></pre>
+```
 
 If you want only a subset of the Posts, you can add extra constraints to the `ParseQuery` returned by query like this:
 
-<pre><code class="php">
+```php
 $query = $relation->getQuery();
 $query->equalTo("title", "I'm Hungry");
 $postsLiked = $query->find();
 // $postsLiked contains post liked by the current user which have the title "I'm Hungry".
-</code></pre>
+```
 
 For more details on `ParseQuery`, please look at the query portion of this guide. A `ParseRelation` behaves similar to an array of `ParseObject` for querying purposes, so any query you can do on an array of objects, you can do on a `ParseRelation`.
 
@@ -291,7 +291,7 @@ So far we've used values with type `String`, `Integer`, and `ParseObject`. Parse
 
 Some examples:
 
-<pre><code class="php">
+```php
 $number = 42;
 $string = "the number is " . $number;
 $date = new DateTime();
@@ -308,7 +308,7 @@ $bigObject->setAssociativeArray("myObject", $object);
 $bigObject->set("myGeoPoint", $geoPoint);
 $bigObject->set("anyKey", null); // this value can only be saved to an existing key
 $bigObject->save();
-</code></pre>
+```
 
 We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See [Files](#files) for more details.
 
@@ -320,24 +320,24 @@ Each `ParseObject` is an instance of a specific subclass with a class name that 
 
 To create a new subclass, create a new class which extends the `ParseObject` class, add the `$parseClassName` static property, and call the `registerSubclass` method before use.  Any `ParseQuery` will return instances of the new class for any `ParseObject` with the same class name.
 
-<pre><code class="php">
+```php
 class GameScore extends ParseObject
 {
   public static $parseClassName = "GameScore";
 }
-</code></pre>
+```
 
-<pre><code class="php">
+```php
 // Do this once, at the start of your app, before ParseClient::initialize(...);
 GameScore::registerSubclass();
 
 // Create a new instance of that class.
 $gameScore = new GameScore();
-</code></pre>
+```
 
 You can add additional methods and properties to your subclasses of `ParseObject`.
 
-<pre><code class="php">
+```php
 // A complex subclass of ParseObject
 class Monster extends ParseObject
 {
@@ -353,17 +353,17 @@ class Monster extends ParseObject
     return $monster;
   }
 }
-</code></pre>
+```
 
-<pre><code class="php">
+```php
 $monster = Monster::spawn(200);
 echo monster->strength();  // Displays 200.
 echo monster->hasSuperHumanStrength();  // Displays true.
-</code></pre>
+```
 
 If you want to override the __construct method, make sure the first three params are exactly as same as the parent ParseObject constructor:
 
-<pre><code class="php">
+```php
 class GameScore extends ParseObject
 {
   public static $parseClassName = "GameScore";
@@ -373,4 +373,4 @@ class GameScore extends ParseObject
     // ...
   }
 }
-</code></pre>
+```

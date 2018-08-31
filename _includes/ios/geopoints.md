@@ -6,21 +6,25 @@ Parse allows you to associate real-world latitude and longitude coordinates with
 
 To associate a point with an object you first need to create a `PFGeoPoint`. For example, to create a point with latitude of 40.0 degrees and -30.0 degrees longitude:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFGeoPoint *point = [PFGeoPoint geoPointWithLatitude:40.0 longitude:-30.0];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let point = PFGeoPoint(latitude:40.0, longitude:-30.0)
-</code></pre>
+```
+</div>
 
 This point is then stored in the object as a regular field.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 placeObject[@"location"] = point;
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 placeObject["location"] = point
-</code></pre>
+```
+</div>
 
 Note: Currently only one key in a class may be a `PFGeoPoint`.
 
@@ -28,21 +32,23 @@ Note: Currently only one key in a class may be a `PFGeoPoint`.
 
 `PFGeoPoint` also provides a helper method for fetching the user's current location. This is accomplished via `geoPointForCurrentLocationInBackground`:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [PFGeoPoint geoPointForCurrentLocationInBackground:^(PFGeoPoint *geoPoint, NSError *error) {
     if (!error) {
         // do something with the new geoPoint
     }
 }];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 PFGeoPoint.geoPointForCurrentLocationInBackground {
   (geoPoint: PFGeoPoint?, error: NSError?) -> Void in
   if error == nil {
     // do something with the new geoPoint
   }
 }
-</code></pre>
+```
+</div>
 
 When this code is run, the following happens:
 
@@ -60,29 +66,34 @@ Parse allows you to associate polygon coordinates with an object.  Adding a `PFP
 
 For example, to create a polygon with coordinates (0, 0), (0, 1), (1, 1), (1, 0).
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 NSArray *points = @[@[@0,@0],@[@0,@1],@[@1,@1],@[@1,@0]];
 PFPolygon *polygon = [PFPolygon polygonWithCoordinates:points];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let points = [[0,0], [0,1], [1,1], [1,0]]
 let polygon = PFPolygon(coordinates: points)
-</code></pre>
+```
+</div>
 
 This polygon is then stored in the object as a regular field.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 placeObject[@"bounds"] = polygon;
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 placeObject["bounds"] = polygon
-</code></pre>
+```
+</div>
 
 ## Geo Queries
 
 Now that you have a bunch of objects with spatial coordinates, it would be nice to find out which objects are closest to a point. This can be done by adding another restriction to `PFQuery` using `whereKey:nearGeoPoint:`. Getting a list of ten places that are closest to a user may look something like:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // User's location
 PFGeoPoint *userGeoPoint = userObject[@"location"];
 // Create a query for places
@@ -93,8 +104,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"PlaceObject"];
 query.limit = 10;
 // Final list of objects
 placesObjects = [query findObjects];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 // User's location
 let userGeoPoint = userObject["location"] as PFGeoPoint
 // Create a query for places
@@ -105,7 +116,8 @@ query.whereKey("location", nearGeoPoint:userGeoPoint)
 query.limit = 10
 // Final list of objects
 placesObjects = query.findObjects()
-</code></pre>
+```
+</div>
 
  At this point `placesObjects` will be an array of objects ordered by distance (nearest to farthest) from `userGeoPoint`. Note that if an additional `orderByAscending:`/`orderByDescending:` constraint is applied, it will take precedence over the distance ordering.
 
@@ -113,54 +125,61 @@ placesObjects = query.findObjects()
 
 It's also possible to query for the set of objects that are contained within a particular area. To find the objects in a rectangular bounding box, add the `whereKey:withinGeoBoxFromSouthwest:toNortheast:` restriction to your `PFQuery`.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFGeoPoint *swOfSF = [PFGeoPoint geoPointWithLatitude:37.708813 longitude:-122.526398];
 PFGeoPoint *neOfSF = [PFGeoPoint geoPointWithLatitude:37.822802 longitude:-122.373962];
 PFQuery *query = [PFQuery queryWithClassName:@"PizzaPlaceObject"];
 [query whereKey:@"location" withinGeoBoxFromSouthwest:swOfSF toNortheast:neOfSF];
 NSArray *pizzaPlacesInSF = [query findObjects];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let swOfSF = PFGeoPoint(latitude:37.708813, longitude:-122.526398)
 let neOfSF = PFGeoPoint(latitude:37.822802, longitude:-122.373962)
 var query = PFQuery(className:"PizzaPlaceObject")
 query.whereKey("location", withinGeoBoxFromSouthwest:swOfSF, toNortheast:neOfSF)
 var pizzaPlacesInSF = query.findObjects()
-</code></pre>
+```
+</div>
 
 You can query for whether an object's `PFGeoPoint` lies within or on a polygon formed of `Parse.GeoPoint`:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFGeoPoint *geoPoint1 = [PFGeoPoint geoPointWithLatitude:10.0 longitude:20.0];
 PFGeoPoint *geoPoint2 = [PFGeoPoint geoPointWithLatitude:20.0 longitude:30.0];
 PFGeoPoint *geoPoint3 = [PFGeoPoint geoPointWithLatitude:30.0 longitude:40.0];
 PFQuery *query = [PFQuery queryWithClassName:@"Locations"];
 [query whereKey:@"location" withinPolygon:@[geoPoint1, geoPoint2, geoPoint3]];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let geoPoint1 = PFGeoPoint(latitude: 10.0, longitude: 20.0)
 let geoPoint2 = PFGeoPoint(latitude: 20.0, longitude: 30.0)
 let geoPoint3 = PFGeoPoint(latitude: 30.0, longitude: 40.0)
 let query = PFQuery(className: "Locations")
 query.whereKey("location", withinPolygon: [geoPoint1, geoPoint2, geoPoint3])
-</code></pre>
+```
+</div>
 
 You can also query for whether an object `Parse.Polygon` contains a `Parse.GeoPoint`:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFGeoPoint *geoPoint = [PFGeoPoint geoPointWithLatitude:0.5 longitude:0.5];
 PFQuery *query = [PFQuery queryWithClassName:@"Locations"];
 [query whereKey:@"bounds" polygonContains:geoPoint];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let geoPoint = PFGeoPoint(latitude: 0.5, longitude: 0.5)
 let query = PFQuery(className: "Locations")
 query.whereKey("bounds", polygonContains: geoPoint)
-</code></pre>
+```
+</div>
 
 To efficiently find if a `PFPolygon` contains a `PFGeoPoint` without querying use `containsPoint`.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 NSArray *points = @[@[@0,@0],@[@0,@1],@[@1,@1],@[@1,@0]];
 PFPolygon *polygon = [PFPolygon polygonWithCoordinates:points];
 PFGeoPoint *inside = [PFGeoPoint geoPointWithLatitude:0.5 longitude:0.5];
@@ -169,8 +188,8 @@ PFGeoPoint *outside = [PFGeoPoint geoPointWithLatitude:10 longitude:10];
 [polygon containsPoint:inside];
 // Returns False
 [polygon containsPoint:outside];
-</code></pre>
-<pre><code class="swift">
+```
+```swift
 let points = [[0,0], [0,1], [1,1], [1,0]]
 let polygon = PFPolygon(coordinates: points)
 let inside = PFGeoPoint(latitude: 0.5, longitude: 0.5)
@@ -179,7 +198,8 @@ let outside = PFGeoPoint(latitude: 10, longitude: 10)
 polygon.contains(inside)
 // Returns false
 polygon.contains(outside)
-</code></pre>
+```
+</div>
 
 ## Caveats
 

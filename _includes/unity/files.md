@@ -38,7 +38,7 @@ var applicantResumeFile = anotherApplication.Get<ParseFile>("applicantResumeFile
 var resumeTextRequest = new WWW(applicantResumeFile.Url.AbsoluteUri);
 yield return resumeTextRequest;
 string resumeText = resumeTextRequest.text;
-</code></pre>
+```
 
 ## Progress
 

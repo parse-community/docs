@@ -152,12 +152,12 @@ The response format for all requests is a JSON object.
 
 Whether a request succeeded is indicated by the HTTP status code. A 2xx status code indicates success, whereas a 4xx status code indicates failure. When a request fails, the response body is still JSON, but always contains the fields `code` and `error` which you can inspect to use for debugging. For example, trying to save an object with invalid keys will return the message:
 
-<pre><code class="json">
+```json
 {
   "code": 105,
   "error": "invalid field name: bl!ng"
 }
-</code></pre>
+```
 
 ## Calling from Client Apps
 

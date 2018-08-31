@@ -21,7 +21,7 @@ We'll go through each of these in detail as we run through the various use cases
 
 The first thing your app will do is probably ask the user to sign up. The following code illustrates a typical sign up:
 
-<pre><code class="php">
+```php
 
 $user = new ParseUser();
 $user->set("username", "my name");
@@ -38,7 +38,7 @@ try {
   // Show the error message somewhere and let the user try again.
   echo "Error: " . $ex->getCode() . " " . $ex->getMessage();
 }
-</code></pre>
+```
 
 This call will asynchronously create a new user in your Parse App. Before it does this, it also checks to make sure that both the username and email are unique. Also, it securely hashes the password in the cloud using bcrypt. We never store passwords in plaintext, nor will we ever transmit passwords back to the client in plaintext.
 
@@ -52,14 +52,14 @@ You are free to use an email address as the username. Simply ask your users to e
 
 Of course, after you allow users to sign up, you need to let them log in to their account in the future. To do this, you can use the class method `logIn`.
 
-<pre><code class="php">
+```php
 try {
   $user = ParseUser::logIn("myname", "mypass");
   // Do stuff after successful login.
 } catch (ParseException $error) {
   // The login failed. Check error to see why.
 }
-</code></pre>
+```
 
 ## Verifying Emails
 
@@ -78,9 +78,9 @@ When email verification is enabled verification emails are automatically sent to
 Although this usually is good enough on it's own you may run into some issues, such as if the verification email was lost, expired due to [exceeding token validity](https://github.com/parse-community/parse-server/#email-verification-and-password-reset) or the user simple wants another request emailed to them for their own reasons.
 In any of those cases all you would need to do is call `ParseUser::requestVerificationEmail` with the email in question to have a verification email resent to them.
 
-<pre><code class="php">
+```php
 ParseUser::requestVerificationEmail('email@example.com');
-</code></pre>
+```
 
 Note that this will only send if the account for the email requested has not already been verified.
 
@@ -90,43 +90,43 @@ It would be bothersome if the user had to log in every time they open your app. 
 
 By default, whenever you use any signup or login methods, the user will be saved in PHP Session storage (The `$_SESSION` superglobal.)
 
-<pre><code class="php">
+```php
 $currentUser = ParseUser::getCurrentUser();
 if ($currentUser) {
     // do stuff with the user
 } else {
     // show the signup or login page
 }
-</code></pre>
+```
 
 You can clear the current user by logging them out:
 
-<pre><code class="php">
+```php
 ParseUser::logOut();
 
 $currentUser = ParseUser::getCurrentUser();  // this will now be null
-</code></pre>
+```
 
 ## Setting the Current User
 
 If you’ve created your own authentication routines, or otherwise logged in a user on the server side, you can now pass the session token to the client and use the `become` method. This method will ensure the session token is valid before setting the current user.
 
-<pre><code class="php">
+```php
 try {
   $user = ParseUser::become("session-token-here");
   // The current user is now set to user.
 } catch (ParseException $ex) {
   // The token could not be validated.
 }
-</code></pre>
+```
 
 ## Session Storage Interface
 
 If you do not want to use the default PHP `$_SESSION` for storage, you can add your own storage mechanism.  We provide the `ParseSessionStorageInterface` and a default implementation, `ParseSessionStorage`.  Simply create your own storage class that implements `ParseSessionStorageInterface` and inject it to the SDK when you initialize:
 
-<pre><code class="php">
+```php
     ParseClient::setStorage(new MyStorageClass());
-</code></pre>
+```
 
 ## Security For User Objects
 
@@ -136,7 +136,7 @@ Specifically, you are not able to invoke any of the `save` or `delete` methods u
 
 The following illustrates this security policy:
 
-<pre><code class="php">
+```php
 $user = ParseUser::logIn("my_username", "my_password");
 $user->set("username", "my_new_username");  // attempt to change username
 $user->save();
@@ -148,7 +148,7 @@ $userAgain = $query->get($user->getObjectId());
 $userAgain->set("username", "another_username");
 // This will throw a ParseException, since the ParseUser is not authenticated
 $userAgain->save();
-</code></pre>
+```
 
 The `ParseUser` obtained from `ParseUser::getCurrentUser()` will always be authenticated.
 
@@ -160,18 +160,18 @@ The same security model that applies to the `ParseUser` can be applied to other 
 
 The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, `new ParseACL::createACLWithUser($user)` generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
-<pre><code class="php">
+```php
 $privateNote = new ParseObject("Note");
 $privateNote->set("content", "This note is private!");
 $privateNote->setACL(ParseACL::createACLWithUser(ParseUser::getCurrentUser()));
 $privateNote->save();
-</code></pre>
+```
 
 This note will then only be accessible to the current user, although it will be accessible to any device where that user is signed in. This functionality is useful for applications where you want to enable access to user data across multiple devices, like a personal todo list.
 
 Permissions can also be granted on a per-user basis. You can add permissions individually to a `ParseACL` using `setReadAccess` and `setWriteAccess`. For example, let's say you have a message that will be sent to a group of several users, where each of them have the rights to read and delete that message:
 
-<pre><code class="php">
+```php
 $groupMessage = new ParseObject("Message");
 $groupACL = new ParseACL();
 
@@ -183,17 +183,17 @@ for ($i = 0; $i < count($userList); $i++) {
 
 $groupMessage->setACL($groupACL);
 $groupMessage->save();
-</code></pre>
+```
 
 You can also grant permissions to all users at once using `setPublicReadAccess` and `setPublicWriteAccess`. This allows patterns like posting comments on a message board. For example, to create a post that can only be edited by its author, but can be read by anyone:
 
-<pre><code class="php">
+```php
 $publicPost = new ParseObject("Post");
 $postACL = ParseACL::createACLWithUser(ParseUser::getCurrentUser());
 $postACL->setPublicReadAccess(true);
 $publicPost->setACL($postACL);
 $publicPost->save();
-</code></pre>
+```
 
 Operations that are forbidden, such as deleting an object that you do not have write access to, result in a `ParseError.OBJECT_NOT_FOUND` error code. For security purposes, this prevents clients from distinguishing which object ids exist but are secured, versus which object ids do not exist at all.
 
@@ -203,14 +203,14 @@ It's a fact that as soon as you introduce passwords into a system, users will fo
 
 To kick off the password reset flow, ask the user for their email address, and call:
 
-<pre><code class="php">
+```php
 try {
   ParseUser::requestPasswordReset("email@example.com");
 	// Password reset request was sent successfully
 } catch (ParseException $ex) {
   // Password reset failed, check the exception message
 }
-</code></pre>
+```
 
 This will attempt to match the given email with the user's email or username field, and will send them a password reset email. By doing this, you can opt to have users use their email as their username, or you can collect it separately and store it in the email field.
 
@@ -227,17 +227,17 @@ Note that the messaging in this flow will reference your app by the name that yo
 
 To query for users, you can get a new `ParseQuery` for `ParseUser`s:
 
-<pre><code class="php">
+```php
 $query = ParseUser::query();
 $query->equalTo("gender", "female"); 
 $results = $query->find();
-</code></pre>
+```
 
 ## Associations
 
 Associations involving a `ParseUser` work right out of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all of their posts:
 
-<pre><code class="php">
+```php
 $user = ParseUser::getCurrentUser()
 
 // Make a new post
@@ -252,4 +252,4 @@ $query = new ParseQuery("Post");
 $query->equalTo("user", $user);
 $userPosts = $query->find();
 // $userPosts contains all of the posts by the current user.
-</code></pre>
+```

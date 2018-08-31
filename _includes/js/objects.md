@@ -6,9 +6,9 @@ Storing data on Parse is built around `Parse.Object`. Each `Parse.Object` contai
 
 For example, let's say you're tracking high scores for a game. A single `Parse.Object` could contain:
 
-<pre><code class="javascript">
+```javascript
 score: 1337, playerName: "Sean Plott", cheatMode: false
-</code></pre>
+```
 
 Keys must be alphanumeric strings. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
 
@@ -16,7 +16,7 @@ Each `Parse.Object` is an instance of a specific subclass with a class name that
 
 To create a new subclass, use the `Parse.Object.extend` method.  Any `Parse.Query` will return instances of the new class for any `Parse.Object` with the same classname.  If you're familiar with `Backbone.Model`, then you already know how to use `Parse.Object`.  It's designed to be created and modified in the same ways.
 
-<pre><code class="javascript">
+```javascript
 // Simple syntax to create a new subclass of Parse.Object.
 var GameScore = Parse.Object.extend("GameScore");
 
@@ -27,11 +27,11 @@ var gameScore = new GameScore();
 var Achievement = Parse.Object.extend({
   className: "Achievement"
 });
-</code></pre>
+```
 
 You can add additional methods and properties to your subclasses of `Parse.Object`.
 
-<pre><code class="javascript">
+```javascript
 
 // A complex subclass of Parse.Object
 var Monster = Parse.Object.extend("Monster", {
@@ -55,13 +55,13 @@ var Monster = Parse.Object.extend("Monster", {
 var monster = Monster.spawn(200);
 alert(monster.get('strength'));  // Displays 200.
 alert(monster.sound); // Displays Rawr.
-</code></pre>
+```
 
 To create a single instance of any Parse Object class, you can also use the `Parse.Object` constructor directly. `new Parse.Object(className)` will create a single Parse Object with that class name.
 
 If you’re already using ES6 in your codebase, good news! From version 1.6.0 onwards, the JavaScript SDK is compatible with ES6 classes. You can subclass `Parse.Object` with the `extends` keyword:
 
-<pre><code class="javascript">
+```javascript
 class Monster extends Parse.Object {
   constructor() {
     // Pass the ClassName to the Parse.Object constructor
@@ -80,20 +80,20 @@ class Monster extends Parse.Object {
     return monster;
   }
 }
-</code></pre>
+```
 
 However, when using `extends`, the SDK is not automatically aware of your subclass. If you want objects returned from queries to use your subclass of `Parse.Object`, you will need to register the subclass, similar to what we do on other platforms.
 
-<pre><code class="javascript">
+```javascript
 // After specifying the Monster subclass...
 Parse.Object.registerSubclass('Monster', Monster);
-</code></pre>
+```
 
 ## Saving Objects
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `Backbone.Model`, including the `save` method:
 
-<pre><code class="javascript">
+```javascript
 const GameScore = Parse.Object.extend("GameScore");
 const gameScore = new GameScore();
 
@@ -110,14 +110,14 @@ gameScore.save()
   // error is a Parse.Error with an error code and message.
   alert('Failed to create new object, with error code: ' + error.message);
 });
-</code></pre>
+```
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
-<pre><code class="json">
+```json
 objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
-</code></pre>
+```
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
@@ -125,7 +125,7 @@ There are also a few fields you don't need to specify that are provided as a con
 
 If you prefer, you can set attributes directly in your call to `save` instead.
 
-<pre><code class="javascript">
+```javascript
 var GameScore = Parse.Object.extend("GameScore");
 var gameScore = new GameScore();
 
@@ -140,13 +140,13 @@ gameScore.save({
   // The save failed.
   // error is a Parse.Error with an error code and message.
 });
-</code></pre>
+```
 
 ## Retrieving Objects
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `Parse.Object` has been uploaded to the server, you can use the `objectId` to get it using a `Parse.Query`:
 
-<pre><code class="javascript">
+```javascript
 var GameScore = Parse.Object.extend("GameScore");
 var query = new Parse.Query(GameScore);
 query.get("xWMyZ4YEGZ")
@@ -156,42 +156,42 @@ query.get("xWMyZ4YEGZ")
   // The object was not retrieved successfully.
   // error is a Parse.Error with an error code and message.
 });
-</code></pre>
+```
 
 To get the values out of the `Parse.Object`, use the `get` method.
 
-<pre><code class="javascript">
+```javascript
 var score = gameScore.get("score");
 var playerName = gameScore.get("playerName");
 var cheatMode = gameScore.get("cheatMode");
-</code></pre>
+```
 
 The four special reserved values are provided as properties and cannot be retrieved using the 'get' method nor modified with the 'set' method:
 
-<pre><code class="javascript">
+```javascript
 var objectId = gameScore.id;
 var updatedAt = gameScore.updatedAt;
 var createdAt = gameScore.createdAt;
 var acl = gameScore.getACL();
-</code></pre>
+```
 
 If you need to refresh an object you already have with the latest data that
     is in the Parse Cloud, you can call the `fetch` method like so:
 
-<pre><code class="javascript">
+```javascript
 myObject.fetch().then((myObject) => {
   // The object was refreshed successfully.
 }, (error) => {
   // The object was not refreshed successfully.
   // error is a Parse.Error with an error code and message.
 });
-</code></pre>
+```
 
 ## Updating Objects
 
 Updating an object is simple. Just set some new data on it and call the save method. For example:
 
-<pre><code class="javascript">
+```javascript
 // Create the object.
 var GameScore = Parse.Object.extend("GameScore");
 var gameScore = new GameScore();
@@ -208,7 +208,7 @@ gameScore.save().then((gameScore) => {
   gameScore.set("score", 1338);
   return gameScore.save();
 });
-</code></pre>
+```
 
 Parse automatically figures out which data has changed so only "dirty" fields will be sent to the Parse Cloud. You don't need to worry about squashing data that you didn't intend to update.
 
@@ -218,10 +218,10 @@ The above example contains a common use case. The "score" field is a counter tha
 
 To help with storing counter-type data, Parse provides methods that atomically increment (or decrement) any number field. So, the same update can be rewritten as:
 
-<pre><code class="javascript">
+```javascript
 gameScore.increment("score");
 gameScore.save();
-</code></pre>
+```
 
 You can also increment by any amount by passing in a second argument to `increment`. When no amount is specified, 1 is used by default.
 
@@ -235,11 +235,11 @@ To help with storing array data, there are three operations that can be used to 
 
 For example, we can add items to the set-like "skills" field like so:
 
-<pre><code class="javascript">
+```javascript
 gameScore.addUnique("skills", "flying");
 gameScore.addUnique("skills", "kungfu");
 gameScore.save();
-</code></pre>
+```
 
 Note that it is not currently possible to atomically add and remove items from an array in the same save. You will have to call `save` in between every different kind of array operation.
 
@@ -247,25 +247,25 @@ Note that it is not currently possible to atomically add and remove items from a
 
 To delete an object from the cloud:
 
-<pre><code class="javascript">
+```javascript
 myObject.destroy().then((myObject) => {
   // The object was deleted from the Parse Cloud.
 }, (error) => {
   // The delete failed.
   // error is a Parse.Error with an error code and message.
 });
-</code></pre>
+```
 
 You can delete a single field from an object with the `unset` method:
 
-<pre><code class="javascript">
+```javascript
 // After this, the playerName field will be empty
 myObject.unset("playerName");
 
 // Saves the field deletion to the Parse Cloud.
 // If the object's field is an array, call save() after every unset() operation.
 myObject.save();
-</code></pre>
+```
 
 Please note that use of object.set(null) to remove a field from an object is not recommended and will result in unexpected functionality.
 
@@ -279,7 +279,7 @@ One-to-one and one-to-many relationships are modeled by saving a `Parse.Object` 
 
 To create a new `Post` with a single `Comment`, you could write:
 
-<pre><code class="javascript">
+```javascript
 // Declare the types.
 var Post = Parse.Object.extend("Post");
 var Comment = Parse.Object.extend("Comment");
@@ -298,71 +298,71 @@ myComment.set("parent", myPost);
 
 // This will save both myPost and myComment
 myComment.save();
-</code></pre>
+```
 
 Internally, the Parse framework will store the referred-to object in just one place, to maintain consistency. You can also link objects using just their `objectId`s like so:
 
-<pre><code class="javascript">
+```javascript
 var post = new Post();
 post.id = "1zEcyElZ80";
 
 myComment.set("parent", post);
-</code></pre>
+```
 
 By default, when fetching an object, related `Parse.Object`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
-<pre><code class="javascript">
+```javascript
 const post = fetchedComment.get("parent");
 await post.fetch();
 const title = post.get("title");
-</code></pre>
+```
 
 ### Many-to-Many Relationships
 
 Many-to-many relationships are modeled using `Parse.Relation`. This works similar to storing an array of `Parse.Object`s in a key, except that you don't need to fetch all of the objects in a relation at once.  In addition, this allows `Parse.Relation` to scale to many more objects than the array of `Parse.Object` approach.  For example, a `User` may have many `Posts` that she might like. In this case, you can store the set of `Posts` that a `User` likes using `relation`.  In order to add a `Post` to the "likes" list of the `User`, you can do:
 
-<pre><code class="javascript">
+```javascript
 var user = Parse.User.current();
 var relation = user.relation("likes");
 relation.add(post);
 user.save();
-</code></pre>
+```
 
 You can remove a post from a `Parse.Relation`:
 
-<pre><code class="javascript">
+```javascript
 relation.remove(post);
 user.save();
-</code></pre>
+```
 
 You can call `add` and `remove` multiple times before calling save:
 
-<pre><code class="javascript">
+```javascript
 relation.remove(post1);
 relation.remove(post2);
 user.save();
-</code></pre>
+```
 
 You can also pass in an array of `Parse.Object` to `add` and `remove`:
 
-<pre><code class="javascript">
+```javascript
 relation.add([post1, post2, post3]);
 user.save();
-</code></pre>
+```
 
 By default, the list of objects in this relation are not downloaded.  You can get a list of the posts that a user likes by using the `Parse.Query` returned by `query`.  The code looks like:
 
-<pre><code class="javascript">
+```javascript
 relation.query().find({
   success: function(list) {
     // list contains the posts that the current user likes.
   }
 });
-</code></pre>
+```
 
 If you want only a subset of the Posts, you can add extra constraints to the `Parse.Query` returned by query like this:
 
-<pre><code class="javascript">
+```javascript
 var query = relation.query();
 query.equalTo("title", "I'm Hungry");
 query.find({
@@ -370,7 +370,7 @@ query.find({
     // list contains post liked by the current user which have the title "I'm Hungry".
   }
 });
-</code></pre>
+```
 
 For more details on `Parse.Query`, please look at the query portion of this guide. A `Parse.Relation` behaves similar to an array of `Parse.Object` for querying purposes, so any query you can do on an array of objects, you can do on a `Parse.Relation`.
 
@@ -391,7 +391,7 @@ So far we've used values with type `String`, `Number`, and `Parse.Object`. Parse
 
 Some examples:
 
-<pre><code class="javascript">
+```javascript
 var number = 42;
 var bool = false;
 var string = "the number is " + number;
@@ -411,7 +411,7 @@ bigObject.set("myObject", object);
 bigObject.set("anyKey", null); // this value can only be saved to an existing key
 bigObject.set("myPointerKey", pointer); // shows up as Pointer &lt;MyClassName&gt; in the Data Browser
 bigObject.save();
-</code></pre>
+```
 
 We do not recommend storing large pieces of binary data like images or documents on `Parse.Object`. `Parse.Object`s should not exceed 128 kilobytes in size. We recommend you use `Parse.File`s to store images, documents, and other types of files. You can do so by instantiating a `Parse.File` object and setting it on a field. See [Files](#files) for more details.
 

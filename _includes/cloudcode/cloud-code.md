@@ -50,7 +50,7 @@ ParseCloud.callFunctionInBackground("averageStars", params, new FunctionCallback
 
 To call the same Cloud function from an iOS app:
 
-```objectivec
+```objective_c
 // Objective-C
 [PFCloud callFunctionInBackground:@"averageStars"
                    withParameters:@{@"movie": @"The Matrix"}
@@ -366,7 +366,7 @@ Parse.Cloud.beforeFind('MyObject', function(req) {
 ```
 
 # Using the Master Key in cloud code 
-Set `useMasterKey:true` in the reqeusts that require master key. 
+Set `useMasterKey:true` in the requests that require master key. 
 
 ## Examples:
 

@@ -20,16 +20,16 @@ game.put("createdBy", ParseUser.getCurrentUser());
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 PFObject *game= [PFObject objectWithClassName:@"Game"];
 [game setObject:[PFUser currentUser] forKey:@"createdBy"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let game = PFObject(className:"Game")
 game["createdBy"] = PFUser.currentUser()
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -69,18 +69,18 @@ gameQuery.whereEqualTo("createdBy", ParseUser.getCurrentUser());
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 PFQuery *gameQuery = [PFQuery queryWithClassName:@"Game"];
 [gameQuery whereKey:@"createdBy" equalTo:[PFUser currentUser]];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let gameQuery = PFQuery(className:"Game")
 if let user = PFUser.currentUser() {
   gameQuery.whereKey("createdBy", equalTo: user)
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -122,22 +122,22 @@ ParseUser createdBy = game.getUser("createdBy");
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // say we have a Game object
 PFObject *game = ...
 
 // getting the user who created the Game
 PFUser *createdBy = [game objectForKey@"createdBy"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // say we have a Game object
 let game = ...
 
 // getting the user who created the Game
 let createdBy = game["createdBy"]
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -208,7 +208,7 @@ ParseUser.getCurrentUser().put("weaponsList", weapons);
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // let's say we have four weapons
 PFObject *scimitar = ...
 PFObject *plasmaRifle = ...
@@ -220,10 +220,10 @@ NSArray *weapons = @[scimitar, plasmaRifle, grenade, bunnyRabbit];
 
 // store the weapons for the user
 [[PFUser currentUser] setObject:weapons forKey:@weaponsList"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // let's say we have four weapons
 let scimitar = ...
 let plasmaRifle = ...
@@ -236,7 +236,7 @@ let weapons = [scimitar, plasmaRifle, grenade, bunnyRabbit]
 // store the weapons for the user
 let user = PFUser.currentUser()
 user["weaponsList"] = weapons
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -308,14 +308,14 @@ ArrayList<ParseObject> weapons = ParseUser.getCurrentUser().get("weaponsList");
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 NSArray *weapons = [[PFUser currentUser] objectForKey:@"weaponsList"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let weapons = PFUser.currentUser()?.objectForKey("weaponsList")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -364,7 +364,7 @@ userQuery.findInBackground(new FindCallback<ParseUser>() {
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // set up our query for a User object
 PFQuery *userQuery = [PFUser query];
 
@@ -379,10 +379,10 @@ PFQuery *userQuery = [PFUser query];
 [userQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     // objects contains all of the User objects, and their associated Weapon objects, too
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // set up our query for a User object
 let userQuery = PFUser.query();
 
@@ -398,7 +398,7 @@ userQuery?.findObjectsInBackgroundWithBlock {
     (objects: [AnyObject]?, error: NSError?) -> Void in
     // objects contains all of the User objects, and their associated Weapon objects, too
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -473,22 +473,22 @@ userQuery.whereEqualTo("weaponsList", arrayOfWeapons);
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // add a constraint to query for whenever a specific Weapon is in an array
 [userQuery whereKey:@"weaponsList" equalTo:scimitar];
 
 // or query using an array of Weapon objects...
 [userQuery whereKey:@"weaponsList" containedIn:arrayOfWeapons];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // add a constraint to query for whenever a specific Weapon is in an array
 userQuery?.whereKey("weaponsList", equalTo: scimitar);
 
 // or query using an array of Weapon objects...
 userQuery?.whereKey("weaponsList", containedIn: arrayOfWeapons)
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -563,7 +563,7 @@ book.saveInBackground();
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // let’s say we have a few objects representing Author objects
 PFObject *authorOne = …
 PFObject *authorTwo = …
@@ -581,10 +581,10 @@ PFRelation *relation = [book relationForKey:@"authors"];
 
 // now save the book object
 [book saveInBackground];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // let’s say we have a few objects representing Author objects
 let authorOne = ...
 let authorTwo = ...
@@ -602,7 +602,7 @@ relation.addObject(authorThree)
 
 // now save the book object
 book.saveInBackground()
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -694,7 +694,7 @@ ParseQuery query = relation.getQuery();
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // suppose we have a book object
 PFObject *book = ...
 
@@ -705,10 +705,10 @@ PFRelation *relation = [book relationForKey:@"authors"];
 PFQuery *query = [relation query];
 
 // now execute the query
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // suppose we have a book object
 let book = ...
 
@@ -719,7 +719,7 @@ let relation = book.relationForKey("authors")
 let query = relation.query()
 
 // now execute the query
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -789,7 +789,7 @@ query.whereEqualTo("authors", author);
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // suppose we have a author object, for which we want to get all books
 PFObject *author = ...
 
@@ -799,10 +799,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Book"];
 // now we will query the authors relation to see if the author object
 // we have is contained therein
 [query whereKey:@"authors" equalTo:author];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // suppose we have a author object, for which we want to get all books
 let author = ...
 
@@ -812,7 +812,7 @@ let query = PFQuery(className: "Book")
 // now we will query the authors relation to see if the author object
 // we have is contained therein
 query?.whereKey("authors", equalTo: author)
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -883,7 +883,7 @@ follow.saveInBackground();
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // suppose we have a user we want to follow
 PFUser *otherUser = ...
 
@@ -893,10 +893,10 @@ PFObject *follow = [PFObject objectWithClassName:@"Follow"];
 [follow setObject:otherUser forKey:@"to"];
 [follow setObject:[NSDate date] forKey@"date"];
 [follow saveInBackground];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // suppose we have a user we want to follow
 let otherUser = ...
 
@@ -906,7 +906,7 @@ follow.setObject(PFUser.currentUser()!, forKey: "from")
 follow.setObject(otherUser, forKey: "to")
 follow.setObject(NSDate(), forKey: "date")
 follow.saveInBackground()
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -973,7 +973,7 @@ query.findInBackground(newFindCallback<ParseObject>() {
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // set up the query on the Follow table
 PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
 [query whereKey:@"from" equalTo:[PFUser currentUser]];
@@ -989,10 +989,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
     PFObject *when = [o objectForKey@"date"];
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // set up the query on the Follow table
 let query = PFQuery(className: "Follow")
 query.whereKey("from", equalTo: PFUser.currentUser()!)
@@ -1011,7 +1011,7 @@ query.findObjectsInBackgroundWithBlock{
         }
     }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -1067,7 +1067,7 @@ query.findInBackground(newFindCallback<ParseObject>() {
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // set up the query on the Follow table
 PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
 [query whereKey:@"to" equalTo:[PFUser currentUser]];
@@ -1082,10 +1082,10 @@ PFQuery *query = [PFQuery queryWithClassName:@"Follow"];
     PFObject *when = [o objectForKey@"date"];
   }
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // set up the query on the Follow table
 let query = PFQuery(className: "Follow")
 query.whereKey("to", equalTo: PFUser.currentUser()!)
@@ -1104,7 +1104,7 @@ query.findObjectsInBackgroundWithBlock{
 
     }
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -1161,7 +1161,7 @@ book.put("authors", author);
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // let's say we have an author
 PFObject *author = ...
 
@@ -1170,10 +1170,10 @@ PFObject *book = ...
 
 // add the author to the authors list for the book
 [book addObject:author forKey:@"authors"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // let's say we have an author
 let author = ...
 
@@ -1182,7 +1182,7 @@ let book = ...
 
 // add the author to the authors list for the book
 book.addObject(author, forKey: "authors")
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -1249,7 +1249,7 @@ bookQuery.findInBackground(newFindCallback<ParseObject>() {
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // set up our query for the Book object
 PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
 
@@ -1262,10 +1262,10 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
     // objects is all of the Book objects, and their associated
     // Author objects, too
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // set up our query for the Book object
 let bookQuery = PFQuery(className: "Book")
 
@@ -1279,7 +1279,7 @@ bookQuery.findObjectsInBackgroundWithBlock{
     // objects is all of the Book objects, and their associated
     // Author objects, too
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -1338,14 +1338,14 @@ ArrayList<ParseObject> authorList = book.getList("authors");
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 NSArray *authorList = [book objectForKey@"authors"];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 let authorList = book.objectForKey("authors") as? NSArray
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php
@@ -1394,7 +1394,7 @@ bookQuery.findInBackground(newFindCallback<ParseObject>() {
 ```
 {: .common-lang-block .java }
 
-<pre><code class="objectivec">
+```objective_c
 // suppose we have an Author object
 PFObject *author = ...
 
@@ -1411,10 +1411,10 @@ PFQuery *bookQuery = [PFQuery queryWithClassName:@"Book"];
 [bookQuery findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
     // objects is all of the Book objects, and their associated Author objects, too
 }];
-</code></pre>
+```
 {: .common-lang-block .objectivec }
 
-<pre><code class="swift">
+```swift
 // suppose we have an Author object
 let author = ...
 
@@ -1432,7 +1432,7 @@ bookQuery.findObjectsInBackgroundWithBlock{
 	(objects: [AnyObject]?, error: NSError?) -> Void in
     // objects is all of the Book objects, and their associated Author objects, too
 }
-</code></pre>
+```
 {: .common-lang-block .swift }
 
 ```php

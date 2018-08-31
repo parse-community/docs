@@ -2,7 +2,7 @@
 
 Direct manipulation of the classes that are on your server is possible through `ParseSchema`. Although fields and classes can be automatically generated (the latter assuming client class creation is enabled) ParseSchema gives you explicit control over these classes and their fields.
 
-<pre><code class="php">
+```php
 // create an instance to manage your class
 $mySchema = new ParseSchema("MyClass");
 
@@ -32,22 +32,22 @@ $mySchema->addField('new_field', 'ANewDataType');
 $mySchema->save();
 // or
 $mySchema->update();
-</code></pre>
+```
 
 Assuming you want to remove a field you can simply call `deleteField` and `save/update` to clear it out.
 
-<pre><code class="php">
+```php
 $mySchema->deleteField('string_field');
 $mySchema->save():
 // or for an existing schema...
 $mySchema->update():
-</code></pre>
+```
 
 ## Indexes
 
 Indexes support efficient execution of queries from the database. Keep in mind that the masterKey is required for these operations, so be sure it's set in your initialization code before you use this feature.
 
-<pre><code class="php">
+```php
 // To add an index, the field must exist before you create an index
 $schema->addString('field');
 $index = [ 'field' => 1 ];
@@ -61,13 +61,13 @@ $schema->save();
 // If indexes exist, you can retrieve them
 $result = $schema->get();
 $indexes = $result['indexes'];
-</code></pre>
+```
 
 ## Purge
 
 All objects can be purged from a schema (class) via `purge`. But be careful! This can be considered an irreversible action. Only do this if you really need to delete all objects from a class, such as when you need to delete the class (as in the code example above).
 
-<pre><code class="php">
+```php
 // delete all objects in the schema
 $mySchema->purge();
-</code></pre>
+```

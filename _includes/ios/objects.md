@@ -18,7 +18,8 @@ Each `PFObject` has a class name that you can use to distinguish different sorts
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `NSMutableDictionary`, plus the `saveInBackground` method:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
 gameScore[@"score"] = @1337;
 gameScore[@"playerName"] = @"Sean Plott";
@@ -30,9 +31,8 @@ gameScore[@"cheatMode"] = @NO;
     // There was a problem, check error.description
   }
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
@@ -45,7 +45,8 @@ gameScore.saveInBackground {
     // There was a problem, check error.description
   }
 }
-</code></pre>
+```
+</div>
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
@@ -64,7 +65,8 @@ Note: You can use the `saveInBackgroundWithBlock` method to provide additional l
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `PFObject` has been uploaded to the server, you can retrieve it with its `objectId` by using a `PFQuery`. This is an asynchronous method, with variations for using either blocks or callback methods:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query getObjectInBackgroundWithId:@"xWMyZ4YEGZ" block:^(PFObject *gameScore, NSError *error) {
     // Do something with the returned PFObject in the gameScore variable.
@@ -73,9 +75,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // The InBackground methods are asynchronous, so any code after this will run
 // immediately.  Any code that depends on the query result should be moved
 // inside the completion block above.
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var query = PFQuery(className:"GameScore")
 query.getObjectInBackgroundWithId("xWMyZEGZ") {
   (gameScore: PFObject?, error: NSError?) -> Void in
@@ -85,48 +86,52 @@ query.getObjectInBackgroundWithId("xWMyZEGZ") {
     print(error)
   }
 }
-</code></pre>
+```
+</div>
 
 To get the values out of the `PFObject`, you can use either the `objectForKey:` method or the `[]` subscripting operator:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 int score = [[gameScore objectForKey:@"score"] intValue];
 NSString *playerName = gameScore[@"playerName"];
 BOOL cheatMode = [gameScore[@"cheatMode"] boolValue];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 let score = gameScore["score"] as Int
 let playerName = gameScore["playerName"] as String
 let cheatMode = gameScore["cheatMode"] as Bool
-</code></pre>
+```
+</div>
 
 The four special values are provided as properties:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 NSString *objectId = gameScore.objectId;
 NSDate *updatedAt = gameScore.updatedAt;
 NSDate *createdAt = gameScore.createdAt;
 PFACL *ACL = gameScore.ACL;
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 let objectId = gameScore.objectId
 let updatedAt = gameScore.updatedAt
 let createdAt = gameScore.createdAt
 let acl = gameScore.ACL
-</code></pre>
+```
+</div>
 
 If you need to refresh an object you already have with the latest data that
     is in the Parse Cloud, you can call the `fetch` method like so:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [myObject fetch];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 myObject.fetch()
-</code></pre>
+```
+</div>
 
 Note: In a similar way to the `save` methods, you can use the `fetchInBackgroundWithBlock` or `fetchInBackgroundWithTarget:selector:` methods to provide additional logic which will run after fetching the object.
 
@@ -134,21 +139,22 @@ Note: In a similar way to the `save` methods, you can use the `fetchInBackground
 
 Parse also lets you store objects in a [local datastore](#local-datastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` in your `AppDelegate` `application:didFinishLaunchWithOptions:` before calling `[Parse setApplicationId:clientKey:]`. Once the local datastore is enabled, you can store an object by pinning it.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
 gameScore[@"score"] = 1337;
 gameScore[@"playerName"] = @"Sean Plott";
 gameScore[@"cheatMode"] = @NO;
 [gameScore pinInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 let gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
 gameScore["cheatMode"] = false
 gameScore.pinInBackground()
-</code></pre>
+```
+</div>
 
 As with saving, this recursively stores every object and file that `gameScore` points to, if it has been fetched from the cloud. Whenever you save changes to the object, or fetch new changes from Parse, the copy in the datastore will be automatically updated, so you don't have to worry about it.
 
@@ -156,7 +162,8 @@ As with saving, this recursively stores every object and file that `gameScore` p
 
 Storing an object is only useful if you can get it back out. To get the data for a specific object, you can use a `PFQuery` just like you would while on the network, but using the `fromLocalDatastore` method to tell it where to get the data.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query fromLocalDatastore];
 [[query getObjectInBackgroundWithId:@"xWMyZ4YEGZ"] continueWithBlock:^id(BFTask *task) {
@@ -168,9 +175,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
   // task.result will be your game score
   return task;
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 let query = PFQuery(className:"GameScore")
 query.fromLocalDatastore()
 query.getObjectInBackgroundWithId("xWMyZ4YEGZ").continueWithBlock({
@@ -183,11 +189,13 @@ query.getObjectInBackgroundWithId("xWMyZ4YEGZ").continueWithBlock({
   // task.result will be your game score
   return task
 })
-</code></pre>
+```
+</div>
 
 If you already have an instance of the object, you can instead use the `fetchFromLocalDatastoreInBackground` method.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFObject *object = [PFObject objectWithoutDataWithClassName:@"GameScore" objectId:@"xWMyZ4YEGZ"];
 [[object fetchFromLocalDatastoreInBackground] continueWithBlock:^id(BFTask *task) {
   if (task.error) {
@@ -198,9 +206,8 @@ PFObject *object = [PFObject objectWithoutDataWithClassName:@"GameScore" objectI
   // task.result will be your game score
   return task;
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 let object = PFObject(withoutDataWithClassName:"GameScore", objectId:"xWMyZ4YEGZ")
 object.fetchFromLocalDatastoreInBackground().continueWithBlock({
   (task: BFTask!) -> AnyObject! in
@@ -212,46 +219,50 @@ object.fetchFromLocalDatastoreInBackground().continueWithBlock({
   // task.result will be your game score
   return task
 })
-</code></pre>
+```
+</div>
 
 ### Unpinning Objects
 
 When you are done with the object and no longer need to keep it on the device, you can release it with `unpinInBackground`.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [gameScore unpinInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 gameScore.unpinInBackground()
-</code></pre>
+```
+</div>
 
 ## Saving Objects Offline
 
 Most save functions execute immediately, and inform your app when the save is complete. If you don't need to know when the save has finished, you can use `saveEventually` instead. The advantage is that if the user currently doesn't have a network connection, `saveEventually` will store the update on the device until a network connection is re-established. If your app is closed before the connection is back, Parse will try again the next time the app is opened. All calls to `saveEventually` (and `deleteEventually`) are executed in the order they are called, so it is safe to call `saveEventually` on an object multiple times.
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // Create the object.
 PFObject *gameScore = [PFObject objectWithClassName:@"GameScore"];
 gameScore[@"score"] = @1337;
 gameScore[@"playerName"] = @"Sean Plott";
 gameScore[@"cheatMode"] = @NO;
 [gameScore saveEventually];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
 gameScore["cheatMode"] = false
 gameScore.saveEventually()
-</code></pre>
+```
+</div>
 
 ## Updating Objects
 
 Updating an object is simple. Just set some new data on it and call one of the save methods. Assuming you have saved the object and have the `objectId`, you can retrieve the `PFObject` using a `PFQuery` and update its data:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 
 // Retrieve the object by id
@@ -263,9 +274,8 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
     gameScore[@"score"] = @1338;
     [gameScore saveInBackground];
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var query = PFQuery(className:"GameScore")
 query.getObjectInBackgroundWithId("xWMyZEGZ") {
   (gameScore: PFObject?, error: NSError?) -> Void in
@@ -277,7 +287,8 @@ query.getObjectInBackgroundWithId("xWMyZEGZ") {
     gameScore.saveInBackground()
   }
 }
-</code></pre>
+```
+</div>
 
 The client automatically figures out which data has changed so only "dirty" fields will be sent to Parse. You don't need to worry about squashing data that you didn't intend to update.
 
@@ -287,7 +298,8 @@ The above example contains a common use case. The "score" field is a counter tha
 
 To help with storing counter-type data, Parse provides methods that atomically increment (or decrement) any number field. So, the same update can be rewritten as:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [gameScore incrementKey:@"score"];
 [gameScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
   if (succeeded) {
@@ -296,9 +308,8 @@ To help with storing counter-type data, Parse provides methods that atomically i
     // There was a problem, check error.description
   }
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 gameScore.incrementKey("score")
 gameScore.saveInBackground {
   (success: Bool, error: Error?) in
@@ -308,7 +319,8 @@ gameScore.saveInBackground {
     // There was a problem, check error.description
   }
 }
-</code></pre>
+```
+</div>
 
 You can also increment by any amount using `incrementKey:byAmount:`.
 
@@ -322,15 +334,16 @@ To help with storing array data, there are three operations that can be used to 
 
 For example, we can add items to the set-like "skills" field like so:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [gameScore addUniqueObjectsFromArray:@[@"flying", @"kungfu"] forKey:@"skills"];
 [gameScore saveInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 gameScore.addUniqueObjectsFromArray(["flying", "kungfu"], forKey:"skills")
 gameScore.saveInBackground()
-</code></pre>
+```
+</div>
 
 Note that it is not currently possible to atomically add and remove items from an array in the same save.
     You will have to call `save` in between every different kind of array operation.
@@ -339,33 +352,35 @@ Note that it is not currently possible to atomically add and remove items from a
 
 To delete an object from the cloud:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [gameScore deleteInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 gameScore.deleteInBackground()
-</code></pre>
+```
+</div>
 
 If you want to run a callback when the delete is confirmed, you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method.
 
 You can delete a single field from an object with the `removeObjectForKey` method:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // After this, the playerName field will be empty
 [gameScore removeObjectForKey:@"playerName"];
 
 // Saves the field deletion to the Parse Cloud
 [gameScore saveInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 // After this, the playerName field will be empty
 gameScore.removeObjectForKey("playerName")
 
 // Saves the field deletion to the Parse Cloud
 gameScore.saveInBackground()
-</code></pre>
+```
+</div>
 
 ## Relational Data
 
@@ -373,7 +388,8 @@ Objects can have relationships with other objects. To model this behavior, any `
 
 For example, each `Comment` in a blogging app might correspond to one `Post`. To create a new `Post` with a single `Comment`, you could write:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // Create the post
 PFObject *myPost = [PFObject objectWithClassName:@"Post"];
 myPost[@"title"] = @"I'm Hungry";
@@ -388,9 +404,8 @@ myComment[@"parent"] = myPost;
 
 // This will save both myPost and myComment
 [myComment saveInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 // Create the post
 var myPost = PFObject(className:"Post")
 myPost["title"] = "I'm Hungry"
@@ -405,42 +420,46 @@ myComment["parent"] = myPost
 
 // This will save both myPost and myComment
 myComment.saveInBackground()
-</code></pre>
+```
+</div>
 
 You can also link objects using just their `objectId`s like so:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
 myComment[@"parent"] = [PFObject objectWithoutDataWithClassName:@"Post" objectId:@"1zEcyElZ80"];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
 myComment["parent"] = PFObject(withoutDataWithClassName:"Post", objectId:"1zEcyElZ80")
-</code></pre>
+```
+</div>
 
 By default, when fetching an object, related `PFObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFObject *post = fetchedComment[@"parent"];
 [post fetchIfNeededInBackgroundWithBlock:^(PFObject *post, NSError *error) {
   NSString *title = post[@"title"];
   // do something with your title variable
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var post = myComment["parent"] as PFObject
 post.fetchIfNeededInBackgroundWithBlock {
   (post: PFObject?, error: NSError?) -> Void in
   let title = post?["title"] as? NSString
   // do something with your title variable
 }
-</code></pre>
+```
+</div>
 
 You can also model a many-to-many relation using the `PFRelation` object.  This works similar to an `NSArray` of `PFObjects`, except that you don't need to download all the Objects in a relation at once.  This allows `PFRelation` to scale to many more objects than the `NSArray` of `PFObject` approach.  For example, a `User` may have many `Post`s that they might like.  In this case, you can store the set of `Post`s that a `User` likes using `relationForKey:`.  In order to add a post to the list, the code would look something like:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFUser *user = [PFUser currentUser];
 PFRelation *relation = [user relationForKey:@"likes"];
 [relation addObject:post];
@@ -451,9 +470,8 @@ PFRelation *relation = [user relationForKey:@"likes"];
     // There was a problem, check error.description
   }
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var user = PFUser.currentUser()
 var relation = user.relationForKey("likes")
 relation.addObject(post)
@@ -465,21 +483,24 @@ user.saveInBackgroundWithBlock {
     // There was a problem, check error.description
   }
 }
-</code></pre>
+```
+</div>
 
 You can remove a post from the `PFRelation` with something like:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [relation removeObject:post];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 relation.removeObject(post)
-</code></pre>
+```
+</div>
 
 By default, the list of objects in this relation are not downloaded.  You can get the list of `Post`s by using calling `findObjectsInBackgroundWithBlock:` on the `PFQuery` returned by `query`.  The code would look like:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 [[relation query] findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
   if (error) {
      // There was an error
@@ -487,9 +508,8 @@ By default, the list of objects in this relation are not downloaded.  You can ge
     // objects has all the Posts the current user liked.
   }
 }];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 relation.query().findObjectsInBackgroundWithBlock {
   (objects: [PFObject]?, error: NSError?) -> Void in
   if let error = error {
@@ -498,19 +518,21 @@ relation.query().findObjectsInBackgroundWithBlock {
     // objects has all the Posts the current user liked.
   }
 }
-</code></pre>
+```
+</div>
 
 If you want only a subset of the `Post`s you can add extra constraints to the `PFQuery` returned by `query` like this:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFQuery *query = [relation query];
 // Add other query constraints.
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var query = relation.query()
 // Add other query constraints.
-</code></pre>
+```
+</div>
 
 For more details on `PFQuery` please look at the query portion of this guide.  A `PFRelation` behaves similar to an `NSArray` of `PFObject`, so any queries you can do on arrays of objects (other than `includeKey:`) you can do on `PFRelation`.
 
@@ -531,7 +553,8 @@ So far we've used values with type `NSString`, `NSNumber`, and `PFObject`. Parse
 
 Some examples:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 NSNumber *number = @42;
 NSNumber *bool = @NO;
 NSString *string = [NSString stringWithFormat:@"the number is %@", number];
@@ -551,9 +574,8 @@ bigObject[@"myObjectKey"] = dictionary; // shows up as 'object' in the Data Brow
 bigObject[@"anyKey"] = null; // this value can only be saved to an existing key
 bigObject[@"myPointerKey"] = pointer; // shows up as Pointer MyClassName in the Data Browser
 [bigObject saveInBackground];
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 let number = 42
 let bool = false
 let string = "the number is \(number)"
@@ -573,7 +595,8 @@ bigObject["myObjectKey"] = dictionary // shows up as 'object' in the Data Browse
 bigObject["anyKey"] = null // this value can only be saved to an existing key
 bigObject["myPointerKey"] = pointer // shows up as Pointer MyClassName in the Data Browser
 bigObject.saveInBackground()
-</code></pre>
+```
+</div>
 
 We do not recommend storing large pieces of binary data like images or documents on `PFObject`. `PFObject`s should not exceed 128 kilobytes in size. We recommend you use `PFFile`s to store images, documents, and other types of files. You can do so by instantiating a `PFFile` object and setting it on a field. See [Files](#files) for more details.
 
@@ -583,35 +606,37 @@ For more information about how Parse handles data, check out our documentation o
 
 Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `PFObject` class and access any field with `objectForKey:` or the `[]` subscripting operator. In mature codebases, subclasses have many advantages, including terseness, extensibility, and support for autocomplete. Subclassing is completely optional, but can transform this code:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 PFObject *shield = [PFObject objectWithClassName:@"Armor"];
 shield[@"displayName"] = @"Wooden Shield";
 shield[@"fireProof"] = @NO;
 shield[@"rupees"] = @50;
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var shield = PFObject(className:"Armor")
 shield["displayName"] = "Wooden Shield"
 shield["fireProof"] = false
 shield["rupees"] = 50
-</code></pre>
+```
+</div>
 
 Into this:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 Armor *shield = [Armor object];
 shield.displayName = @"Wooden Shield";
 shield.fireProof = NO;
 shield.rupees = 50;
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 var shield = Armor()
 shield.displayName = "Wooden Shield"
 shield.fireProof = false
 shield.rupees = 50
-</code></pre>
+```
+</div>
 
 ### Subclassing PFObject
 
@@ -642,21 +667,23 @@ You can access the displayName property using `armor.displayName` or `[armor dis
 
 `NSNumber` properties can be implemented either as `NSNumber`s or as their primitive counterparts. Consider the following example:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 @property BOOL fireProof;
 @property int rupees;
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 @NSManaged var fireProof: Boolean
 @NSManaged var rupees: Int
-</code></pre>
+```
+</div>
 
 In this case, `game[@"fireProof"]` will return an `NSNumber` which is accessed using `boolValue` and `game[@"rupees"]` will return an `NSNumber` which is accessed using `intValue`, but the `fireProof` property is an actual `BOOL` and the `rupees` property is an actual `int`. The dynamic getter will automatically extract the `BOOL` or `int` value and the dynamic setter will automatically wrap the value in an `NSNumber`. You are free to use either format. Primitive property types are easier to use but `NSNumber` property types support nil values more clearly.
 
 If you need more complicated logic than simple property access, you can declare your own methods as well:
 
-<pre><code class="objectivec">
+<div class="language-toggle" markdown="1">
+```objective_c
 @dynamic iconFile;
 
 - (UIImageView *)iconView {
@@ -665,9 +692,8 @@ If you need more complicated logic than simple property access, you can declare 
   [view loadInBackground];
   return view;
 }
-</code></pre>
-
-<pre><code class="swift">
+```
+```swift
 @NSManaged var iconFile: PFFile
 
 func iconView() -> UIImageView {
@@ -676,7 +702,8 @@ func iconView() -> UIImageView {
   view.loadInBackground()
   return view
 }
-</code></pre>
+```
+</div>
 
 ### Initializing Subclasses
 

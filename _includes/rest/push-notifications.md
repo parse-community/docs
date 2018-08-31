@@ -27,6 +27,7 @@ Most of the time, installation data is modified by push-related methods in the c
 
 Creating an installation object is similar to creating a generic object, but the special installation fields listed above must pass validation. For example, if you have a device token provided by the Apple Push Notification service and would like to subscribe it to the broadcast channel `""`, you can use the following command:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -59,6 +60,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 When the creation is successful, the HTTP response is a `201 Created` and the `Location` header contains the URL for the new installation:
 
@@ -69,12 +71,12 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created installation:
 
-<pre><code class="json">
+```json
 {
   "createdAt": "2012-04-28T17:41:09.106Z",
   "objectId": "mrmBZvsErB"
 }
-</code></pre>
+```
 
 When creating Android installation objects containing FCM (Firebase Cloud Messaging) credentials, you must have at least the following fields in your installation object:
 
@@ -84,6 +86,7 @@ When creating Android installation objects containing FCM (Firebase Cloud Messag
 
 You could create and object with these fields using a command like this:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -118,11 +121,13 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ### Retrieving Installations
 
 You can retrieve the contents of an installation object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the installation created above:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -140,10 +145,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The response body is a JSON object containing all the user-provided fields, plus the `createdAt`, `updatedAt`, and `objectId` fields:
 
-<pre><code class="json">
+```json
 {
   "deviceType": "ios",
   "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -154,12 +160,13 @@ The response body is a JSON object containing all the user-provided fields, plus
   "updatedAt": "2012-04-28T17:41:09.106Z",
   "objectId": "mrmBZvsErB"
 }
-</code></pre>
+```
 
 ### Updating Installations
 
 Installation objects can be updated by sending a PUT request to the installation URL. For example, to subscribe the installation above to the "foo" push channel:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -194,6 +201,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Note that there is a restriction on updating the `deviceToken` field of Installation objects. You can only update the `deviceToken` field of an Installation object if contains a non-nil `installationId` field.
 
@@ -203,6 +211,7 @@ You can retrieve multiple installations at once by sending a GET request to the 
 
 Without any URL parameters, a GET request simply lists installations:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -220,10 +229,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The return value is a JSON object that contains a results field with a JSON array that lists the users.
 
-<pre><code class="json">
+```json
 {
   "results": [
     {
@@ -248,7 +258,7 @@ The return value is a JSON object that contains a results field with a JSON arra
     }
   ]
 }
-</code></pre>
+```
 
 All of the options for queries that work for regular objects also work for installation objects, so check the section on [Querying Objects](#basic-queries) for more details. By doing an array query over `channels`, for example, you can find the set of devices subscribed to a given push channel.
 
@@ -257,6 +267,7 @@ All of the options for queries that work for regular objects also work for insta
 
 To delete an installation from the Parse Cloud, send a DELETE request to its URL. This functionality is not available in the client SDKs, so you must authenticate this method using the `X-Parse-Master-Key` header in your request instead of the `X-Parse-REST-API-Key` header. Your master key allows you to bypass ACLs and should only be used from within a trusted environment. For example:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -274,6 +285,7 @@ connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</s
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Sending Pushes
 
@@ -291,6 +303,7 @@ A channel is identified by a string that starts with a letter and consists of al
 
 Subscribing to a channel via the REST API can be done by updating the `Installation` object. We send a PUT request to the `Installation` URL and update the `channels` field. For example, in a baseball score app, we could do:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -319,6 +332,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Once subscribed to the "Giants" channel, your `Installation` object should have an updated `channels` field.
 
@@ -330,6 +344,7 @@ To unsubscribe from a channel you would need to update the `channels` array and 
 
 With the REST API, the following code can be used to alert all subscribers of the "Giants" and "Mets" channels about the results of the game. This will display a notification center alert to iOS users and a system tray notification to Android users.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -366,6 +381,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ### Using Advanced Targeting
 
@@ -377,6 +393,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 Storing arbitrary data on an `Installation` object is done in the same way we store data on [any other object](#objects) on Parse. In our Baseball app, we could allow users to get pushes about game results, scores and injury reports.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -405,9 +422,11 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can even create relationships between your `Installation` objects and other classes saved on Parse. To associate an Installation with a particular user, for example, you can use a pointer to the `_User` class on the `Installation`.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -440,11 +459,13 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 #### Sending Pushes to Queries
 
 Once you have your data stored on your `Installation` objects, you can use a query to target a subset of these devices. `Installation` queries work just like any other [Parse query](#queries).
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -479,9 +500,11 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 We can even use channels with our query. To send a push to all subscribers of the "Giants" channel but filtered by those who want score update, we can do the following:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -518,9 +541,11 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -577,6 +602,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 An in depth look at the `Installation` end point can be found in the [REST guide](#installations).
 
@@ -598,6 +624,7 @@ If you want to send more than just a message, you can set other fields in the `d
 
 For example, to send a notification that increases the current badge number by 1 and plays a custom sound for iOS devices, and displays a particular title for Android users, you can do the following:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -638,9 +665,11 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 It is also possible to specify your own data in this dictionary. As explained in the Receiving Notifications section for [iOS]({{ site.baseUrl }}/ios/guide/#receiving-pushes) and [Android]({{ site.baseUrl }}/android/guide/#receiving-pushes), iOS will give you access to this data only when the user opens your app via the notification and Android will provide you this data in the `Intent` if one is specified.
 
+<div class="language-toggle">
 <pre><code class="bash">
 </code></pre>
 <pre><code class="python">
@@ -665,6 +694,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ### Setting an Expiration Date
 
@@ -672,6 +702,7 @@ When a user's device is turned off or not connected to the internet, push notifi
 
 There are two parameters provided by Parse to allow setting an expiration date for your notification. The first is `expiration_time` which takes a date (in ISO 8601 format or Unix epoch time) specifying when Parse should stop trying to send the notification. To expire the notification exactly 1 week from now, you can use the following command.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -702,9 +733,11 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Alternatively, you can use the `expiration_interval` parameter to specify a duration of time before your notification expired. This value is relative to the `push_time` parameter used to [schedule notifications](#scheduling-pushes). This means that a push notification scheduled to be sent out in 1 day and an expiration interval of 6 days can be received up to a week from March 16th, 2015.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -737,12 +770,15 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
+
 ### Targeting by Platform
 
 If you build a cross platform app, it is possible you may only want to target iOS or Android devices. There are two methods provided to filter which of these devices are targeted. Note that both platforms are targeted by default.
 
 The following examples would send a different notification to Android, iOS, and Windows users.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -777,7 +813,9 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -812,7 +850,9 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -847,7 +887,9 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -882,11 +924,13 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Scheduling Pushes
 
 You can schedule a push in advance by specifying a `push_time`. For example, if a user schedules a game reminder for a game on March 19th, 2015 at noon UTC, you can schedule the push notification by sending:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -923,10 +967,15 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
-If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted. This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
+If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted. 
+This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
 
-The scheduled time cannot be in the past, and can be up to two weeks in the future. It can be an ISO 8601 date with a date, time, and timezone, as in the example above, or it can be a numeric value representing a UNIX epoch time in seconds (UTC). To schedule an alert for 08/22/2015 at noon UTC time, you can set the `push_time` to either `2015-08-022T12:00:00.000Z` or `1440226800000`.
+The scheduled time cannot be in the past, and can be up to two weeks in the future. 
+It can be an ISO 8601 date with a date, time, and timezone, as in the example above, or it can be a numeric value representing a UNIX epoch time in seconds (UTC). 
+To schedule an alert for 08/22/2015 at noon UTC time, you can set the `push_time` to either `2015-08-022T12:00:00.000Z` or `1440226800000`.
+
 
 ### Local Push Scheduling
 

@@ -13,7 +13,7 @@ This API allows you to access the schemas of your app.
 
 Schema will return an object similar to the following:
 
-<pre><code class="javascript">
+```javascript
 {
   className: 'MyClass',
   fields: {
@@ -57,13 +57,13 @@ Schema will return an object similar to the following:
     indexName: { aString: 1 },
   }
 }
-</code></pre>
+```
 
 Direct manipulation of the classes that are on your server is possible through ParseSchema. Although fields and classes can be automatically generated (the latter assuming client class creation is enabled) ParseSchema gives you explicit control over these classes and their fields.
 
 *With great power comes great responsibility. Altering the schema directly should be done with care, you can't go back to retrieve data if you remove a field and it's associated values.*
 
-<pre><code class="javascript">
+```javascript
 // create an instance to manage your class
 const mySchema = new Parse.Schema('MyClass');
 
@@ -98,22 +98,22 @@ mySchema.save().then((result) => {
 mySchema.update().then((result) => {
   // updates existing schema
 });
-</code></pre>
+```
 
 Assuming you want to remove a field you can simply call `deleteField` and `save/update` to clear it out.
 
-<pre><code class="javascript">
+```javascript
 mySchema.deleteField('stringField');
 mySchema.save();
 // or for an existing schema...
 mySchema.update();
-</code></pre>
+```
 
 ## Indexes
 
 Indexes support efficient execution of queries from the database. Keep in mind that the `masterKey` is required for these operations, so be sure it's set in your initialization code before you use this feature.
 
-<pre><code class="javascript">
+```javascript
 // To add an index, the field must exist before you create an index
 mySchema.addString('stringField');
 const index = {
@@ -134,14 +134,14 @@ mySchema.save().then((result) => {
 mySchema.get().then((result) => {
   // result.indexes
 });
-</code></pre>
+```
 
 ## Purge
 
 All objects can be purged from a schema (class) via purge. But *be careful*! This can be considered an irreversible action. Only do this if you really need to delete all objects from a class, such as when you need to delete the class (as in the code example above).
 
-<pre><code class="javascript">
+```javascript
 // delete all objects in the schema
 mySchema.purge();
-</code></pre>
+```
 

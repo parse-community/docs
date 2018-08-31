@@ -8,34 +8,34 @@ Note that the Parse PHP SDK requires PHP 5.4 or newer. It can also run on HHVM (
 [Get Composer], the PHP package manager. Then create a composer.json file in
  your projects root folder, containing:
 
-<pre><code class="json">
+```json
 {
     "require": {
         "parse/php-sdk" : "1.4.*"
     }
 }
-</code></pre>
+```
 
 Run "composer install" to download the SDK and set up the autoloader,
 and then require it from your PHP script:
 
-<pre><code class="php">
+```php
 require 'vendor/autoload.php';
-</code></pre>
+```
 
 ## Install with Git
 
 You can clone down this sdk using your favorite github client, or via the terminal.
 
-<pre><code class="bash">
+```bash
 git clone https://github.com/parse-community/parse-php-sdk.git
-</code></pre>
+```
 
 You can then include the `autoload.php` file in your code to automatically load the Parse SDK classes.
 
-<pre><code class="php">
+```php
 require 'autoload.php';
-</code></pre>
+```
 
 ## Install with another method
 
