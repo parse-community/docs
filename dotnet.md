@@ -3,6 +3,7 @@ title: .NET Developers Guide | Parse
 permalink: /dotnet/guide/
 layout: guide
 platform: dotnet
+language: cs
 display_platform: .NET
 api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api/
 

@@ -72,99 +72,115 @@ The easiest way to control who can access which data is through access control l
 
 Once you have a User, you can start using ACLs. Remember: Users can be created through traditional username/password signup, through a third-party login system like Facebook or Twitter, or even by using Parse's [automatic anonymous users]({{ site.baseUrl }}/ios/guide/#anonymous-users) functionality. To set an ACL on the current user's data to not be publicly readable, all you have to do is:
 
+{% if page.language == "objective_c-swift" %}
+<div class="language-toggle" markdown="1">
 ```objective_c
 PFUser *user = [PFUser currentUser];
 user.ACL = [PFACL ACLWithUser:user];
 ```
-{: .common-lang-block .objectivec }
-
 ```swift
 if let user = PFUser.currentUser() {
     user.ACL = PFACL(user: user)
 }
 ```
-{: .common-lang-block .swift }
+</div>
+{% endif %}
 
+{% if page.language == "java" %}
 ```java
 ParseUser user = ParseUser.getCurrentUser();
 user.setACL(new ParseACL(user));
 ```
-{: .common-lang-block .java }
+{% endif %}
 
+{% if page.language == "js" %}
 ```js
 var user = Parse.User.current();
 user.setACL(new Parse.ACL(user));
 ```
-{: .common-lang-block .js }
+{% endif %}
 
+{% if page.language == "cs" %}
 ```cs
 var user = ParseUser.CurrentUser;
 user.ACL = new ParseACL(user);
 ```
-{: .common-lang-block .cs }
+{% endif %}
 
+{% if page.language == "php" %}
 ```php
 $user = ParseUser::getCurrentUser();
 $user->setACL(new ParseACL($user))
 ```
-{: .common-lang-block .php }
+{% endif %}
 
+{% if page.language == "bash" %}
 ```bash
 # No command line example
 ```
-{: .common-lang-block .bash }
+{% endif %}
 
+{% if page.language == "cpp" %}
 ```cpp
 // No C++ example
 ```
-{: .common-lang-block .cpp }
+{% endif %}
 
 Most apps should do this. If you store any sensitive user data, such as email addresses or phone numbers, you need to set an ACL like this so that the user's private information isn't visible to other users. If an object doesn't have an ACL, it's readable and writeable by everyone. The only exception is the `_User` class. We never allow users to write each other's data, but they can read it by default. (If you as the developer need to update other `_User` objects, remember that your master key can provide the power to do this.)
 
 To make it super easy to create user-private ACLs for every object, we have a way to set a default ACL that will be used for every new object you create:
 
+{% if page.language == "objective_c-swift" %}
+<div class="language-toggle" markdown="1">
 ```objective_c
 [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
 ```
-{: .common-lang-block .objectivec }
-
 ```swift
 PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
 ```
-{: .common-lang-block .swift }
+</div>
+{% endif %}
 
+{% if page.language == "java" %}
 ```java
 ParseACL.setDefaultACL(new ParseACL(), true);
 ```
-{: .common-lang-block .java }
+{% endif %}
 
+{% if page.language == "js" %}
 ```js
 // not available in the JavaScript SDK
 ```
-{: .common-lang-block .js }
+{% endif %}
 
+{% if page.language == "cs" %}
 ```cs
 // not available in the .NET SDK
 ```
-{: .common-lang-block .cs }
+{% endif %}
 
+{% if page.language == "php" %}
 ```php
 ParseACL::setDefaultACL(new ParseACL(), true);
 ```
-{: .common-lang-block .php }
+{% endif %}
 
+{% if page.language == "bash" %}
 ```bash
 # No command line example
 ```
-{: .common-lang-block .bash }
+{% endif %}
 
+{% if page.language == "cpp" %}
 ```cpp
 // No C++ example
 ```
-{: .common-lang-block .cpp }
+{% endif %}
 
 If you want the user to have some data that is public and some that is private, it's best to have two separate objects. You can add a pointer to the private data from the public one.
 
+{% if page.language == "objective_c-swift" %}
+<div class="language-toggle" markdown="1">
 ```objective_c
 PFObject *privateData = [PFObject objectWithClassName:@"PrivateUserData"];
 privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
@@ -172,8 +188,6 @@ privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 
 [[PFUser currentUser] setObject:privateData forKey:@"privateData"];
 ```
-{: .common-lang-block .objectivec }
-
 ```swift
 if let currentUser = PFUser.currentUser() {
     let privateData = PFObject(className: "PrivateUserData")
@@ -182,8 +196,10 @@ if let currentUser = PFUser.currentUser() {
     currentUser.setObject(privateData, forKey: "privateData")
 }
 ```
-{: .common-lang-block .swift }
+</div>
+{% endif %}
 
+{% if page.language == "java" %}
 ```java
 ParseObject privateData = new ParseObject("PrivateUserData");
 privateData.setACL(new ParseACL(ParseUser.getCurrentUser()));
@@ -191,8 +207,9 @@ privateData.put("phoneNumber", "555-5309");
 
 ParseUser.getCurrentUser().put("privateData", privateData);
 ```
-{: .common-lang-block .java }
+{% endif %}
 
+{% if page.language == "js" %}
 ```js
 var privateData = Parse.Object.extend("PrivateUserData");
 privateData.setACL(new Parse.ACL(Parse.User.current()));
@@ -200,8 +217,9 @@ privateData.set("phoneNumber", "555-5309");
 
 Parse.User.current().set("privateData", privateData);
 ```
-{: .common-lang-block .js }
+{% endif %}
 
+{% if page.language == "cs" %}
 ```cs
 var privateData = new ParseObject("PrivateUserData");
 privateData.ACL = new ParseACL(ParseUser.CurrentUser);
@@ -209,8 +227,9 @@ privateData["phoneNumber"] = "555-5309";
 
 ParseUser.CurrentUser["privateData"] =  privateData;
 ```
-{: .common-lang-block .cs }
+{% endif %}
 
+{% if page.language == "php" %}
 ```php
 $privateData = ParseObject::create("PrivateUserData");
 $privateData->setACL(new ParseACL(ParseUser::getCurrentUser()));
@@ -218,27 +237,29 @@ $privateData->set("phoneNumber", "555-5309");
 
 ParseUser::getCurrentUser()->set("privateData", $privateData);
 ```
-{: .common-lang-block .php }
+{% endif %}
 
+{% if page.language == "bash" %}
 ```bash
 # No command line example
 ```
-{: .common-lang-block .bash }
+{% endif %}
 
+{% if page.language == "cpp" %}
 ```cpp
 // No C++ example
 ```
-{: .common-lang-block .cpp }
+{% endif %}
 
 Of course, you can set different read and write permissions on an object. For example, this is how you would create an ACL for a public post by a user, where anyone can read it:
 
+{% if page.language == "objective_c-swift" %}
+<div class="language-toggle" markdown="1">
 ```objective_c
 PFACL *acl = [PFACL ACL];
 [acl setPublicReadAccess:true];
 [acl setWriteAccess:true forUser:[PFUser currentUser]];
 ```
-{: .common-lang-block .objectivec }
-
 ```swift
 let acl = PFACL()
 acl.setPublicReadAccess(true)
@@ -246,101 +267,115 @@ if let currentUser = PFUser.currentUser() {
     acl.setWriteAccess(true, forUser: currentUser)
 }
 ```
-{: .common-lang-block .swift }
+</div>
+{% endif %}
 
+{% if page.language == "java" %}
 ```java
 ParseACL acl = new ParseACL();
 acl.setPublicReadAccess(true);
 acl.setWriteAccess(ParseUser.getCurrentUser(), true);
 ```
-{: .common-lang-block .java }
+{% endif %}
 
+{% if page.language == "js" %}
 ```js
 var acl = new Parse.ACL();
 acl.setPublicReadAccess(true);
 acl.setWriteAccess(Parse.User.current().id, true);
 ```
-{: .common-lang-block .js }
+{% endif %}
 
+{% if page.language == "cs" %}
 ```cs
 var acl = new ParseACL();
 acl.PublicReadAccess = true;
 acl.SetRoleWriteAccess(ParseUser.CurrentUser.ObjectId, true);
 ```
-{: .common-lang-block .cs }
+{% endif %}
 
+{% if page.language == "php" %}
 ```php
 $acl = new ParseACL();
 $acl->setPublicReadAccess(true);
 $acl->setWriteAccess(ParseUser::getCurrentUser(), true);
 ```
-{: .common-lang-block .php }
+{% endif %}
 
+{% if page.language == "bash" %}
 ```bash
 # No command line example
 ```
-{: .common-lang-block .bash }
+{% endif %}
 
+{% if page.language == "cpp" %}
 ```cpp
 // No C++ example
 ```
-{: .common-lang-block .cpp }
+{% endif %}
 
 Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
 
+{% if page.language == "objective_c-swift" %}
+<div class="language-toggle" markdown="1">
 ```objective_c
 // Assuming you've already created a role called "admins"...
 PFACL *acl = [PFACL ACL];
 [acl setPublicReadAccess:true];
 [acl setWriteAccess:true forRoleWithName:@"admins"];
 ```
-{: .common-lang-block .objectivec }
-
 ```swift
 let acl = PFACL()
 acl.setPublicReadAccess(true)
 acl.setWriteAccess(true, forRoleWithName: "admins")
 ```
-{: .common-lang-block .swift }
+</div>
+{% endif %}
 
+{% if page.language == "java" %}
 ```java
 // Assuming you've already created a role called "admins"...
 ParseACL acl = new ParseACL();
 acl.setPublicReadAccess(true);
 acl.setRoleWriteAccess("admins", true);
 ```
-{: .common-lang-block .java }
+{% endif %}
 
+{% if page.language == "js" %}
 ```js
 var acl = new Parse.ACL();
 acl.setPublicReadAccess(true);
 acl.setRoleWriteAccess("admins", true);
 ```
-{: .common-lang-block .js }
+{% endif %}
 
+{% if page.language == "cs" %}
 ```cs
 var acl = new ParseACL();
 acl.PublicReadAccess = true;
 acl.SetRoleWriteAccess("admins", true);
 ```
-{: .common-lang-block .cs }
+{% endif %}
 
+{% if page.language == "php" %}
 ```php
 $acl = new ParseACL();
 $acl->setPublicReadAccess(true);
 $acl->setRoleWriteAccessWithName("admins", true);
 ```
-{: .common-lang-block .php }
+{% endif %}
 
+{% if page.language == "bash" %}
 ```bash
 # No command line example
 ```
-{: .common-lang-block .bash }
+{% endif %}
 
+{% if page.language == "cpp" %}
 ```cpp
 // No C++ example
 ```
-{: .common-lang-block .cpp }
+{% endif %}
 
 Of course, this snippet assumes you've already created a role named "admins". This is often reasonable when you have a small set of special roles set up while developing your app. Roles can also be created and updated on the fly — for example, adding new friends to a "friendOf___" role after each connection is made.
 
@@ -378,7 +413,7 @@ Given that objects often already have pointers to the user(s) that should have p
 
 Pointer permissions are like virtual ACLs. They don't appear in the ACL column, buf if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
 
-```
+```json
 {
     "<SENDER_USER_ID>": {
         "read": true,
@@ -399,7 +434,7 @@ This CLP prevents any non authenticated user from performing the action protecte
 
 For example, you want to allow your **authenticated users** to `find` and `get` `Announcement`'s from your application and your **admin role** to have all privileged, you would set the CLP:
 
-```
+```js
 // POST http://my-parse-server.com/schemas/Announcement
 // Set the X-Parse-Application-Id and X-Parse-Master-Key header
 // body:

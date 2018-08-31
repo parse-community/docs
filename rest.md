@@ -3,6 +3,7 @@ title: REST API Guide | Parse
 permalink: /rest/guide/
 layout: guide
 platform: rest
+language: rest
 display_platform: REST
 
 redirect_from:

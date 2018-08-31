@@ -3,6 +3,7 @@ title: JavaScript Developers Guide | Parse
 permalink: /js/guide/
 layout: guide
 platform: js
+language: js
 display_platform: JavaScript
 api_reference: https://parse-community.github.io/Parse-SDK-JS/api
 

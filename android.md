@@ -3,6 +3,7 @@ title: Android Developers Guide | Parse
 permalink: /android/guide/
 layout: guide
 platform: android
+language: java
 display_platform: Android
 api_reference: https://parse-community.github.io/Parse-SDK-Android/api
 

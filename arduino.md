@@ -3,6 +3,7 @@ title: Arduino Developers Guide | Parse
 permalink: /arduino/guide/
 layout: guide
 platform: arduino
+language: cpp
 display_platform: Arduino
 api_reference: https://parse-community.github.io/Parse-SDK-Arduino/api
 

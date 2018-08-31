@@ -3,6 +3,7 @@ title: macOS Developers Guide | Parse
 permalink: /macos/guide/
 layout: guide
 platform: macos
+language: objective_c-swift
 display_platform: macOS
 api_reference: http://parseplatform.org/Parse-SDK-iOS-OSX/api
 

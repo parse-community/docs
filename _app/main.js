@@ -348,7 +348,6 @@ App.Views = {};
 			// create the TOC
 			this.scrollContent = document.getElementsByTagName('body')[0];
 
-      this.toggleCommonLangBlocks();
       
       // add toggles to code blocks if necessary
       if (this.platform === "ios" || this.platform === "osx" || this.platform === "macos") {
@@ -376,7 +375,7 @@ App.Views = {};
       // calculate final position of headers for the TOC once
       // the DOM is loaded (including images)
       $(window).on('load', function() {
-        this.toc.updateHeights();
+        this.toc && this.toc.updateHeights();
       }.bind(this));
 
       $(function() {
@@ -404,41 +403,6 @@ App.Views = {};
       this.mobileToc.appendChild(fragment);
 			this.mobileToc.addEventListener('change', this.handleSelectChange.bind(this));
 			this.mobileToc.getElementsByTagName('option')[0].setAttribute('selected', true);
-		},
-
-		// in "common" sections, there's a code block for every platform,
-		// this hides all but the current one
-		toggleCommonLangBlocks: function() {
-			$('.common-lang-block').hide();
-			switch (this.platform) {
-				case 'ios':
-        case 'osx':
-        case 'macos':
-					$('.common-lang-block.objectivec').show();
-					$('.common-lang-block.swift').show();
-					break;
-				case 'android':
-					$('.common-lang-block.java').show();
-					break;
-				case 'dotnet':
-        case 'unity':
-					$('.common-lang-block.cs').show();
-					break;
-				case 'php':
-					$('.common-lang-block.php').show();
-					break;
-				case 'rest':
-					$('.common-lang-block.bash').show();
-					$('.common-lang-block.python').show();
-					break;
-				case 'arduino':
-					$('.common-lang-block.cpp').show();
-					break;
-        case 'cloudcode':
-				case 'js':
-				default:
-					$('.common-lang-block.js').show();
-			}
 		},
 
     setupServerFieldCustomization: function setupServerFieldCustomization() {
@@ -592,7 +556,7 @@ App.Views = {};
 		// we recalculate the header heights for the TOC
 		// highlighting when the height of the content changes
 		handleToggleChange: function() {
-			this.toc.updateHeights();
+			this.toc && this.toc.updateHeights();
 		},
 
 		handleSelectChange: function(e) {
@@ -600,7 +564,7 @@ App.Views = {};
 		},
 
 		handleWindowResize: function(e) {
-			this.toc.updateHeights();
+			this.toc && this.toc.updateHeights();
 		}
 	};
 

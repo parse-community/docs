@@ -3,6 +3,7 @@ title: Cloud Code Guide | Parse
 permalink: /cloudcode/guide/
 layout: guide
 platform: cloudcode
+language: js
 display_platform: Cloud Code
 
 sections:

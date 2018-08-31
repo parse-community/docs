@@ -3,6 +3,7 @@ title: Unity Developers Guide | Parse
 permalink: /unity/guide/
 layout: guide
 platform: unity
+language: cs
 display_platform: Unity
 api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api/
 
