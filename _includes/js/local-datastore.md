@@ -1,6 +1,6 @@
 # Local Datastore
 
-The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `Parse.Object`s. To enable this functionality, call `Parse.enableLocalDatastore()`.
+The Parse JS SDK provides a local datastore which can be used to store and retrieve `Parse.Object`s. To enable this functionality, call `Parse.enableLocalDatastore()`.
 
 There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `Parse.Object`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `Parse.Query` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
 
