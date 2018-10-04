@@ -1,5 +1,6 @@
 # Generated site
 _site/
+.jekyll-metadata
 
 # Logs
 logs/

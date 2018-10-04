@@ -166,6 +166,7 @@ gameScore.unpinInBackground()
 
 There's also a method to unpin several objects at once.
 
+<div class="language-toggle" markdown="1">
 ```objective_c
 [PFObject unpinAllInBackground:listOfObjects];
 ```
