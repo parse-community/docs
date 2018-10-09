@@ -137,7 +137,7 @@ Note: In a similar way to the `save` methods, you can use the `fetchInBackground
 
 ## The Local Datastore
 
-Parse also lets you store objects in a [local datastore](#local-datastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` in your `AppDelegate` `application:didFinishLaunchWithOptions:` before calling `[Parse setApplicationId:clientKey:]`. Once the local datastore is enabled, you can store an object by pinning it.
+Parse also lets you store objects in a [local datastore](#local-datastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `libsqlite3.dylib` and add `isLocalDatastoreEnabled = true` to the `ParseClientConfiguration` block in your `AppDelegate` `application:didFinishLaunchWithOptions:` before calling `Parse.initialize()`. Once the local datastore is enabled, you can store an object by pinning it.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
