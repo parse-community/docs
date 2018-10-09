@@ -1,6 +1,6 @@
 # Local Datastore
 
-The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `PFObject`s, even when the network is unavailable. To enable this functionality, add `libsqlite3.dylib` and call `[Parse enableLocalDatastore]` before your call to `setApplicationId:clientKey:`.
+The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `PFObject`s, even when the network is unavailable. To enable this functionality, add `libsqlite3.dylib` and add `isLocalDatastoreEnabled = true` to the `ParseClientConfiguration` block used in `Parse.initialize()`.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
@@ -18,8 +18,13 @@ The Parse iOS/OS X SDK provides a local datastore which can be used to store and
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-    Parse.enableLocalDatastore()
-    Parse.setApplicationId("parseAppId", clientKey: "parseClientKey")
+        let parseConfig = ParseClientConfiguration {
+            $0.isLocalDatastoreEnabled = true
+            $0.applicationId = parseApplicationId
+            $0.clientKey = parseClientKey
+            $0.server = parseServerUrlString
+        }
+        Parse.initialize(with: parseConfig)
   }
 }
 ```
