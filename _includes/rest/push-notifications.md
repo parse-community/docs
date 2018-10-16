@@ -982,3 +982,42 @@ To schedule an alert for 08/22/2015 at noon UTC time, you can set the `push_time
 The `push_time` parameter can schedule a push to be delivered to each device according to its time zone. This technique delivers a push to all `Installation` objects with a `timeZone` member when that time zone would match the push time. For example, if an app had a device in timezone `America/New_York` and another in `America/Los_Angeles`, the first would receive the push three hours before the latter.
 
 To schedule a push according to each device's local time, the `push_time` parameter should be an ISO 8601 date without a time zone, i.e. `2015-03-19T12:00:00`. Note that Installations without a `timeZone` will be excluded from this localized push.
+
+## Localizing Push
+
+Starting parse-server version 2.6.1, it is possible to localize the push notifications messages according to the _Installation's `localeIdentifier`.
+
+<pre><code class="bash">
+curl -X POST \
+  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
+  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{
+        "data": {
+          "alert": "The default alert for all languages",
+          "alert-fr": "Une alerte en français"
+        }
+      }' \
+  https://api.parse.com/1/push
+</code></pre>
+<pre><code class="python">
+import json,httplib
+connection = httplib.HTTPSConnection('api.parse.com', 443)
+connection.connect()
+connection.request('POST', '/1/push', json.dumps({
+       "data": {
+         "alert": "The default alert for all languages",
+         "alert-fr": "Une alerte en français"
+       }
+     }), {
+       "X-Parse-Application-Id": "${APPLICATION_ID}",
+       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "Content-Type": "application/json"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+
+When setting the `alert-[lang|locale]` in the data, parse-server will find all installations that have that language or locale set. The language is usually the first part of the locale. This will have no impact on the query planning, as the localizations will be resolved just before the push is sent.
+
+If a custom localization is found, the `alert` value is replaced by the provided alert and all the localized keys are stripped out of the `data` part of the body.
