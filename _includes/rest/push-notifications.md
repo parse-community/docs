@@ -942,7 +942,7 @@ To schedule a push according to each device's local time, the `push_time` parame
 
 ## Localizing Push
 
-Starting parse-server version X.Y.Z, it is possible to localize the push notifications messages according to the _Installation's `localeIdentifier`.
+Starting parse-server version 2.6.1, it is possible to localize the push notifications messages according to the _Installation's `localeIdentifier`.
 
 <pre><code class="bash">
 curl -X POST \
