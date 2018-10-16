@@ -347,7 +347,7 @@ For example, to send a notification that increases the current badge number by 1
 NSDictionary *data = @{
   @"alert" : @"The Mets scored! The game is now tied 1-1!",
   @"badge" : @"Increment",
-  @"sounds" : @"cheering.caf"
+  @"sound" : @"cheering.caf"
 };
 PFPush *push = [[PFPush alloc] init];
 [push setChannels:@[ @"Mets" ]];
@@ -358,7 +358,7 @@ PFPush *push = [[PFPush alloc] init];
 let data = [
   "alert" : "The Mets scored! The game is now tied 1-1!",
   "badge" : "Increment",
-  "sounds" : "cheering.caf"
+  "sound" : "cheering.caf"
 ]
 let push = PFPush()
 push.setChannels(["Mets"])
