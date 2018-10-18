@@ -226,16 +226,25 @@ Parse.Cloud.beforeSave("Review", (request) => {
 In some cases, you may want to perform some action, such as a push, after an object has been saved. You can do this by registering a handler with the `afterSave` method. For example, suppose you want to keep track of the number of comments on a blog post. You can do that by writing a function like this:
 
 ```javascript
-Parse.Cloud.afterSave("Comment", (request) => {
-  const query = new Parse.Query("Post");
-  query.get(request.object.get("post").id)
-    .then(function(post) {
+Parse.Cloud.afterSave("Comment", async request => {
+  try {
+    const query = new Parse.Query("Post");
+    const post = await query.get(request.object.get("post").id);
+    if (post) {
       post.increment("comments");
-      return post.save();
-    })
-    .catch(function(error) {
-      console.error("Got an error " + error.code + " : " + error.message);
-    });
+      post = await post.save();
+
+      if (post) {
+        return post;
+      } else {
+        throw new Error("Error while saving post");
+      }
+    } else {
+      throw new Error("Could not get error");
+    }
+  } catch (error) {
+    console.error("Got an error " + error.code + " : " + error.message);
+  }
 });
 ```
 
