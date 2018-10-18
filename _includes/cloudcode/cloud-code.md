@@ -229,7 +229,7 @@ In some cases, you may want to perform some action, such as a push, after an obj
 Parse.Cloud.afterSave("Comment", async request => {
   try {
     const query = new Parse.Query("Post");
-    const post = await query.get(request.object.get("post").id);
+    let post = await query.get(request.object.get("post").id);
     if (post) {
       post.increment("comments");
       post = await post.save();
@@ -243,7 +243,7 @@ Parse.Cloud.afterSave("Comment", async request => {
       throw new Error("Could not get error");
     }
   } catch (error) {
-    console.error("Got an error " + error.code + " : " + error.message);
+    throw new Error("Got an error " + error.code + " : " + error.message);
   }
 });
 ```
