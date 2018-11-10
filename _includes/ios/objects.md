@@ -33,7 +33,7 @@ gameScore[@"cheatMode"] = @NO;
 }];
 ```
 ```swift
-var gameScore = PFObject(className:"GameScore")
+let gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
 gameScore["cheatMode"] = false
@@ -77,14 +77,15 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 // inside the completion block above.
 ```
 ```swift
-var query = PFQuery(className:"GameScore")
-query.getObjectInBackgroundWithId("xWMyZEGZ") {
-  (gameScore: PFObject?, error: NSError?) -> Void in
-  if error == nil && gameScore != nil {
-    print(gameScore)
-  } else {
-    print(error)
-  }
+let query = PFQuery(className:"GameScore")
+query.getObjectInBackground(withId: "xWMyZEGZ") { (gameScore: PFObject?, error: Error?) in
+    if let error = error {
+        //The query returned an error
+        print(error.localizedDescription)
+    } else {
+        //The object has been retrieved
+        print(gameScore)
+    }
 }
 ```
 </div>
@@ -98,9 +99,9 @@ NSString *playerName = gameScore[@"playerName"];
 BOOL cheatMode = [gameScore[@"cheatMode"] boolValue];
 ```
 ```swift
-let score = gameScore["score"] as Int
-let playerName = gameScore["playerName"] as String
-let cheatMode = gameScore["cheatMode"] as Bool
+let score = gameScore["score"] as? Int
+let playerName = gameScore["playerName"] as? String
+let cheatMode = gameScore["cheatMode"] as? Bool
 ```
 </div>
 
@@ -117,7 +118,7 @@ PFACL *ACL = gameScore.ACL;
 let objectId = gameScore.objectId
 let updatedAt = gameScore.updatedAt
 let createdAt = gameScore.createdAt
-let acl = gameScore.ACL
+let acl = gameScore.acl
 ```
 </div>
 
@@ -179,16 +180,15 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```swift
 let query = PFQuery(className:"GameScore")
 query.fromLocalDatastore()
-query.getObjectInBackgroundWithId("xWMyZ4YEGZ").continueWithBlock({
-  (task: BFTask!) -> AnyObject! in
-  if task.error != nil {
-      // There was an error.
-      return task
-  }
+query.getObjectInBackground(withId: "xWMyZEGZ").continueWith { (task: BFTask<PFObject>!) -> Any? in
+    if task.error != nil {
+        // There was an error.
+        return task
+    }
 
-  // task.result will be your game score
-  return task
-})
+    // task.result will be your game score
+    return task
+}
 ```
 </div>
 
@@ -209,16 +209,15 @@ PFObject *object = [PFObject objectWithoutDataWithClassName:@"GameScore" objectI
 ```
 ```swift
 let object = PFObject(withoutDataWithClassName:"GameScore", objectId:"xWMyZ4YEGZ")
-object.fetchFromLocalDatastoreInBackground().continueWithBlock({
-  (task: BFTask!) -> AnyObject! in
-  if task.error != nil {
-      // There was an error.
-      return task
-  }
+object.fetchFromLocalDatastoreInBackground().continueWith { (task: BFTask<PFObject>!) -> Any? in
+    if task.error != nil {
+        // There was an error.
+        return task
+    }
 
-  // task.result will be your game score
-  return task
-})
+    // task.result will be your game score
+    return task
+}
 ```
 </div>
 
@@ -249,7 +248,7 @@ gameScore[@"cheatMode"] = @NO;
 [gameScore saveEventually];
 ```
 ```swift
-var gameScore = PFObject(className:"GameScore")
+let gameScore = PFObject(className:"GameScore")
 gameScore["score"] = 1337
 gameScore["playerName"] = "Sean Plott"
 gameScore["cheatMode"] = false
@@ -276,16 +275,15 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 }];
 ```
 ```swift
-var query = PFQuery(className:"GameScore")
-query.getObjectInBackgroundWithId("xWMyZEGZ") {
-  (gameScore: PFObject?, error: NSError?) -> Void in
-  if error != nil {
-    print(error)
-  } else if let gameScore = gameScore {
-    gameScore["cheatMode"] = true
-    gameScore["score"] = 1338
-    gameScore.saveInBackground()
-  }
+let query = PFQuery(className:"GameScore")
+query.getObjectInBackground(withId: "xWMyZEGZ") { (gameScore: PFObject?, error: Error?) in
+    if let error = error {
+        print(error.localizedDescription)
+    } else if let gameScore = gameScore {
+        gameScore["cheatMode"] = true
+        gameScore["score"] = 1338
+        gameScore.saveInBackground()
+    }
 }
 ```
 </div>
@@ -310,6 +308,7 @@ To help with storing counter-type data, Parse provides methods that atomically i
 }];
 ```
 ```swift
+let gameScore = PFObject(className:"GameScore")
 gameScore.incrementKey("score")
 gameScore.saveInBackground {
   (success: Bool, error: Error?) in
@@ -340,7 +339,7 @@ For example, we can add items to the set-like "skills" field like so:
 [gameScore saveInBackground];
 ```
 ```swift
-gameScore.addUniqueObjectsFromArray(["flying", "kungfu"], forKey:"skills")
+gameScore.addUniqueObjects(from: ["flying", "kungfu"], forKey:"skills")
 gameScore.saveInBackground()
 ```
 </div>
@@ -375,7 +374,7 @@ You can delete a single field from an object with the `removeObjectForKey` metho
 ```
 ```swift
 // After this, the playerName field will be empty
-gameScore.removeObjectForKey("playerName")
+gameScore.remove(forKey: "playerName")
 
 // Saves the field deletion to the Parse Cloud
 gameScore.saveInBackground()
@@ -407,12 +406,12 @@ myComment[@"parent"] = myPost;
 ```
 ```swift
 // Create the post
-var myPost = PFObject(className:"Post")
+let myPost = PFObject(className:"Post")
 myPost["title"] = "I'm Hungry"
 myPost["content"] = "Where should we go for lunch?"
 
 // Create the comment
-var myComment = PFObject(className:"Comment")
+let myComment = PFObject(className:"Comment")
 myComment["content"] = "Let's do Sushirrito."
 
 // Add a relation between the Post and Comment
@@ -447,11 +446,10 @@ PFObject *post = fetchedComment[@"parent"];
 }];
 ```
 ```swift
-var post = myComment["parent"] as PFObject
-post.fetchIfNeededInBackgroundWithBlock {
-  (post: PFObject?, error: NSError?) -> Void in
-  let title = post?["title"] as? NSString
-  // do something with your title variable
+let post = myComment["parent"] as! PFObject
+post.fetchIfNeededInBackground { (post: PFObject?, error: Error?) in
+    let title = post?["title"] as? String
+    // do something with your title variable
 }
 ```
 </div>
@@ -472,17 +470,17 @@ PFRelation *relation = [user relationForKey:@"likes"];
 }];
 ```
 ```swift
-var user = PFUser.currentUser()
-var relation = user.relationForKey("likes")
-relation.addObject(post)
-user.saveInBackgroundWithBlock {
-  (success: Bool, error: NSError?) -> Void in
-  if (success) {
-    // The post has been added to the user's likes relation.
-  } else {
-    // There was a problem, check error.description
-  }
-}
+let user = PFUser.current()
+let relation = user?.relation(forKey: "likes")
+relation?.add(post)
+user?.saveInBackground(block: { (success: Bool, error: Error?) in
+    if (success) {
+        // The post has been added to the user's likes relation.
+    } else {
+        // There was a problem, check error.description
+    }
+})
+
 ```
 </div>
 
@@ -493,7 +491,7 @@ You can remove a post from the `PFRelation` with something like:
 [relation removeObject:post];
 ```
 ```swift
-relation.removeObject(post)
+relation?.remove(post)
 ```
 </div>
 
@@ -510,14 +508,14 @@ By default, the list of objects in this relation are not downloaded.  You can ge
 }];
 ```
 ```swift
-relation.query().findObjectsInBackgroundWithBlock {
-  (objects: [PFObject]?, error: NSError?) -> Void in
-  if let error = error {
-    // There was an error
-  } else {
-    // objects has all the Posts the current user liked.
-  }
-}
+relation?.query().findObjectsInBackground(block: { (objects: [PFObject]?, error: Error?) in
+    if let error = error {
+        // There was an error
+        print(error.localizedDescription)
+    } else {
+        // objects has all the Posts the current user liked.
+    }
+})
 ```
 </div>
 
@@ -529,7 +527,7 @@ PFQuery *query = [relation query];
 // Add other query constraints.
 ```
 ```swift
-var query = relation.query()
+var query = relation?.query()
 // Add other query constraints.
 ```
 </div>
