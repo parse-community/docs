@@ -13,7 +13,26 @@ Parse.Config.get().then(function(config) {
   // Something went wrong (e.g. request timed out)
 });
 ```
+## Save a Config
 
+`ParseConfig` can be managed through the SDK when a `Master Key` is provided. You can save new parameters and if you save already existing parameters they will be automatically updated.
+After a successfully `.save()` it return the new updated `ParseConfig` and `Parse.Config.current()` is up to date too.
+
+```javascript
+Parse.Config.save({
+	welcomeMesssage : "Welcome to Parse",
+	ageOfParse : 3,
+	tags : ["parse","sdk","js"]
+}).then(function(config) {
+  console.log("Cool! Config was saved ans fetched from the server.");
+  
+  var welcomeMessage = config.get("welcomeMessage");
+  console.log("Welcome Message = " + welcomeMessage);
+}, function(error) {
+  console.log("Failed to save.");
+  //Try again later
+});
+```
 ## Retrieving Config
 
 `ParseConfig` is built to be as robust and reliable as possible, even in the face of poor internet connections. Caching is used by default to ensure that the latest successfully fetched config is always available. In the below example we use `get` to retrieve the latest version of config from the server, and if the fetch fails we can simply fall back to the version that we successfully fetched before via `current`.
