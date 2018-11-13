@@ -6,16 +6,16 @@ After that you will be able to fetch the `Parse.Config` on the client, like in t
 
 ```javascript
 Parse.Config.get().then(function(config) {
-  var winningNumber = config.get("winningNumber");
-  var message = "Yay! The number is " + winningNumber + "!";
+  const winningNumber = config.get("winningNumber");
+  const message = "Yay! The number is " + winningNumber + "!";
   console.log(message);
 }, function(error) {
   // Something went wrong (e.g. request timed out)
 });
 ```
-## Save a Config
+## Save & Update Config
 
-`ParseConfig` can be managed through the SDK when a `Master Key` is provided. You can save new parameters and if you save already existing parameters they will be automatically updated.
+`ParseConfig` can be managed through the SDK when a `Master Key` is provided and **only in a NodeJS environment**. You can save new parameters and if you save already existing parameters they will be automatically updated.
 After a successfully `.save()` it return the new updated `ParseConfig` and `Parse.Config.current()` is up to date too.
 
 ```javascript
@@ -24,9 +24,9 @@ Parse.Config.save({
 	ageOfParse : 3,
 	tags : ["parse","sdk","js"]
 }).then(function(config) {
-  console.log("Cool! Config was saved ans fetched from the server.");
+  console.log("Cool! Config was saved and fetched from the server.");
   
-  var welcomeMessage = config.get("welcomeMessage");
+  const welcomeMessage = config.get("welcomeMessage");
   console.log("Welcome Message = " + welcomeMessage);
 }, function(error) {
   console.log("Failed to save.");
@@ -41,13 +41,13 @@ Parse.Config.save({
 Parse.Config.get().then(function(config) {
   console.log("Yay! Config was fetched from the server.");
 
-  var welcomeMessage = config.get("welcomeMessage");
+  const welcomeMessage = config.get("welcomeMessage");
   console.log("Welcome Message = " + welcomeMessage);
 }, function(error) {
   console.log("Failed to fetch. Using Cached Config.");
 
-  var config = Parse.Config.current();
-  var welcomeMessage = config.get("welcomeMessage");
+  const config = Parse.Config.current();
+  let welcomeMessage = config.get("welcomeMessage");
   if (welcomeMessage === undefined) {
     welcomeMessage = "Welcome!";
   }
@@ -63,11 +63,11 @@ It might be troublesome to retrieve the config from the server every time you wa
 
 ```javascript
 // Fetches the config at most once every 12 hours per app runtime
-var refreshConfig = function() {
-  var lastFetchedDate;
-  var configRefreshInterval = 12 * 60 * 60 * 1000;
+const refreshConfig = function() {
+  let lastFetchedDate;
+  const configRefreshInterval = 12 * 60 * 60 * 1000;
   return function() {
-    var currentDate = new Date();
+    const currentDate = new Date();
     if (lastFetchedDate === undefined ||
         currentDate.getTime() - lastFetchedDate.getTime() > configRefreshInterval) {
       Parse.Config.get();
