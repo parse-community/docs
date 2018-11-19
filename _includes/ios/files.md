@@ -16,7 +16,7 @@ let str = "Working at Parse is great!"
 let data = str.dataUsingEncoding(NSUTF8StringEncoding)
 let file = PFFile(name:"resume.txt", data:data)
 ```
-<div>
+</div>
 
 Notice in this example that we give the file a name of `resume.txt`. There's two things to note here:
 
