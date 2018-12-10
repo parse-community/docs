@@ -58,7 +58,7 @@ While it is possible to modify a `PFInstallation` just like you would a `PFObjec
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
 *   **`badge`**: The current value of the icon badge for iOS/OS X apps. Changing this value on the `PFInstallation` will update the badge value on the app icon. Changes should be saved to the server so that they will be used for future badge-increment push notifications.
 *   **`installationId`**: Unique Id for the device used by Parse _(readonly)_.
-*   **`deviceType`**: The type of device, "ios", "osx", "android", "winrt", "winphone", "dotnet", or "embedded". On iOS and OS X devices, this field will be set to "ios" and "osx", respectively _(readonly)_.
+*   **`deviceType`**: The type of device, "ios", "tvos", "osx", "android", "winrt", "winphone", "dotnet", or "embedded". On iOS, tvOS and OS X devices, this field will be set to "ios", "tvos" and "osx", respectively _(readonly)_.
 *   **`deviceToken`**: The Apple generated token used for iOS/OS X devices. On Android devices, this is the token used by FCM to keep track of registration ID _(readonly)_.
 *   **`appName`**: The display name of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleNameKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
 *   **`appVersion`**: The version string of the client application to which this installation belongs. In iOS/OS X, this value is obtained from `kCFBundleVersionKey`. This value is synchronized every time a `PFInstallation` object is saved from the device _(readonly)_.
