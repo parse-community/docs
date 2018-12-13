@@ -239,8 +239,41 @@ Parse.Cloud.afterSave("Comment", (request) => {
 });
 ```
 
-The client will receive a successful response to the save request after the handler terminates, regardless of how it terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
+## Async Behavior
 
+In the example above, the client will receive a successful response before the promise in the handler completes, regardless of how the promise resolves. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
+
+You can use an `afterSave` handler to perform lengthy operations after sending a response back to the client.  In order to respond to the client before the `afterSave` handler completes, your handler may not return a promise and your `afterSave` handler may not use async/await.
+
+## Using Request Context
+
+State can be passed from a `beforeSave` handler to an `afterSave` handler in the Reqeuest Context.  The following example sends emails to users who are being added to a [Parse.Role's users relation](https://parseplatform.org/Parse-SDK-JS/api/2.1.0/Parse.Role.html#getUsers) asynchronously, so the client receives a response before the emails complete sending:
+
+```javascript
+const beforeSave = function beforeSave(request) {
+  const { object: role } = request;
+  // Get users that will be added to the users relation.
+  const usersOp = role.op('users');
+  if (usersOp && usersOp.relationsToAdd.length > 0) {
+    // add the users being added to the request context
+    request.context = { buyers: usersOp.relationsToAdd };
+  }
+};
+
+const afterSave = function afterSave(request) {
+  const { object: role, context } = request;
+  if (context && context.buyers) {
+    const pruchasedItem = getItemFromRole(role);
+    const promises = context.buyers.map(emailBuyer.bind(null, purchasedItem));
+    item.increment('orderCount', context.buyers.length);
+    promises.push(item.save(null, { useMasterKey: true }));
+    Promise.all(promises).catch(request.log.error.bind(request.log));
+  }
+};
+
+```
+
+## Predefined Classes
 If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
 
 # beforeDelete Triggers
