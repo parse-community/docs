@@ -420,7 +420,7 @@ let myAuthData = {
   "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
 }
 let user = new Parse.User();
-user._linkWith('twitter', myAuthData).then(function(user){
+user._linkWith('twitter', { authData: myAuthData }).then(function(user){
     // user
 });
 ```
@@ -481,7 +481,7 @@ let myAuthData = {
 }
 let user = new Parse.User();
 user.id = "uMz0YZeAqc";
-user._linkWith("facebook", myAuthData).then(function(user){
+user._linkWith("facebook", { authData: myAuthData }).then(function(user){
   // user is linked now
 });
 ```
