@@ -567,7 +567,7 @@ A good starting point to learn more is to look at the [API for the class](http:/
 
 ### Loading Remote Images in Cells
 
-`PFQueryTableViewController` makes it simple to display remote images stored in the Parse Cloud as `PFFile`s. All you need to do is to override `tableView:cellForRowAtIndexPath:object:` and return a `PFTableViewCell` with its `imageView`'s `file` property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the `image` property of the `imageView`.
+`PFQueryTableViewController` makes it simple to display remote images stored in the Parse Cloud as `PFFileObject`s. All you need to do is to override `tableView:cellForRowAtIndexPath:object:` and return a `PFTableViewCell` with its `imageView`'s `file` property specified. If you would like to display a placeholder image to be shown before the remote image is loaded, assign the placeholder image to the `image` property of the `imageView`.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
@@ -580,7 +580,7 @@ A good starting point to learn more is to look at the [API for the class](http:/
     }
     cell.textLabel.text = object[@"title"];
 
-    PFFile *thumbnail = object[@"thumbnail"];
+    PFFileObject *thumbnail = object[@"thumbnail"];
     cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     cell.imageView.file = thumbnail;
     return cell;
@@ -599,7 +599,7 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
     if let object = object {
         cell?.textLabel?.text = object["title"] as? String
         cell?.imageView?.image = UIImage(named: "placeholder.jpg")
-        cell?.imageView?.file = object["thumbnail"] as? PFFile
+        cell?.imageView?.file = object["thumbnail"] as? PFFileObject
     }
 
     return cell
@@ -609,7 +609,7 @@ override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath:
 
 <img data-echo="{{ site.baseUrl }}/assets/images/images_table.png" style="max-width:200px"/>
 
-This table shows a list of cute animal photos which are stored in the Parse Cloud, as `PFFile`s. "placeholder.jpg" is an image included in the application bundle which is shown before the animal photos are downloaded.
+This table shows a list of cute animal photos which are stored in the Parse Cloud, as `PFFileObject`s. "placeholder.jpg" is an image included in the application bundle which is shown before the animal photos are downloaded.
 
 The images are downloaded on demand. As you scroll through the table, the images in the currently visible cells are downloaded. This just-in-time behavior is desirable because not only does it conserve bandwidth, it also ensures timely display of visible images. If a more aggressive loading behavior is desired, you can use the `loadInBackground` method on `imageView` to download the image.
 
@@ -657,13 +657,13 @@ When the user is offline or a Parse error was generated from a query, an alert c
 
 ## PFImageView
 
-Many apps need to display images stored in the Parse Cloud as `PFFile`s. However, to load remote images with the built-in `UIImageView` involves writing many lines of boilerplate code. `PFImageView` simplifies this task:
+Many apps need to display images stored in the Parse Cloud as `PFFileObject`s. However, to load remote images with the built-in `UIImageView` involves writing many lines of boilerplate code. `PFImageView` simplifies this task:
 
 <div class="language-toggle" markdown="1">
 ```objective_c
 PFImageView *imageView = [[PFImageView alloc] init];
 imageView.image = [UIImage imageNamed:@"..."]; // placeholder image
-imageView.file = (PFFile *)someObject[@"picture"]; // remote image
+imageView.file = (PFFileObject *)someObject[@"picture"]; // remote image
 
 [imageView loadInBackground];
 ```
@@ -680,7 +680,7 @@ If assigned to, the `image` property is used to display a placeholder before the
 
 ## PFTableViewCell
 
-Many apps need to display table view cells which contain images stored in the Parse Cloud as `PFFile`s. However, to load remote images with the built-in `UITableViewCell` involves writing many lines of boilerplate code. `PFTableViewCell` simplifies this task by exposing an `imageView` property of the type `PFImageView` that supports remote image loading:
+Many apps need to display table view cells which contain images stored in the Parse Cloud as `PFFileObject`s. However, to load remote images with the built-in `UITableViewCell` involves writing many lines of boilerplate code. `PFTableViewCell` simplifies this task by exposing an `imageView` property of the type `PFImageView` that supports remote image loading:
 
 <div class="language-toggle" markdown="1">
 ```objective_c
@@ -693,7 +693,7 @@ Many apps need to display table view cells which contain images stored in the Pa
     }
     cell.textLabel.text = object[@"title"];
 
-    PFFile *thumbnail = object[@"thumbnail"];
+    PFFileObject *thumbnail = object[@"thumbnail"];
     cell.imageView.image = [UIImage imageNamed:@"placeholder.jpg"];
     cell.imageView.file = thumbnail;
     return cell;
@@ -712,7 +712,7 @@ func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexP
     if let title = object["title"] as? String {
         cell!.textLabel.text = title
     }
-    if let thumbnail = object["thumbnail"] as? PFFile {
+    if let thumbnail = object["thumbnail"] as? PFFileObject {
         cell!.imageView.image = UIImage(named: "placeholder.jpg")
         cell!.imageView.file = thumbnail
     }
@@ -722,7 +722,7 @@ func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexP
 ```
 </div>
 
-Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFile`.
+Like `UITableViewCell`, `PFTableViewCell` supports the default layout styles. Unlike `UITableViewCell`, `PFTableViewCell`'s `imageView` property is of the type `PFImageView`, which supports downloading remote images in `PFFileObject`.
 
 Although it can be used independently, `PFTableViewCell` really shines when used in `PFQueryTableViewController`. `PFQueryTableViewController` knows about `PFTableViewCell` and loads the images automatically. This behavior is discussed in detail in the documentation for `PFQueryTableViewController`.
 

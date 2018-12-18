@@ -544,7 +544,7 @@ So far we've used values with type `NSString`, `NSNumber`, and `PFObject`. Parse
 * Array => `NSArray`
 * Object => `NSObject`
 * Date => `NSDate`
-* File => `PFFile`
+* File => `PFFileObject`
 * Pointer => other `PFObject`
 * Relation => `PFRelation`
 * Null => `NSNull`
@@ -596,7 +596,7 @@ bigObject.saveInBackground()
 ```
 </div>
 
-We do not recommend storing large pieces of binary data like images or documents on `PFObject`. `PFObject`s should not exceed 128 kilobytes in size. We recommend you use `PFFile`s to store images, documents, and other types of files. You can do so by instantiating a `PFFile` object and setting it on a field. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `PFObject`. `PFObject`s should not exceed 128 kilobytes in size. We recommend you use `PFFileObject`s to store images, documents, and other types of files. You can do so by instantiating a `PFFileObject` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 
@@ -692,7 +692,7 @@ If you need more complicated logic than simple property access, you can declare 
 }
 ```
 ```swift
-@NSManaged var iconFile: PFFile
+@NSManaged var iconFile: PFFileObject
 
 func iconView() -> UIImageView {
   let view = PFImageView(imageView: PlaceholderImage)

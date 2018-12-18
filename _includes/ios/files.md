@@ -9,7 +9,7 @@ Getting started with `PFFileObject` is easy. First, you'll need to have the data
 <div class="language-toggle" markdown="1">
 ```objective_c
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
-PFFile *file = [PFFileObject fileObjectWithName:@"resume.txt" data:data];
+PFFileObject *file = [PFFileObject fileObjectWithName:@"resume.txt" data:data];
 ```
 ```swift
 let str = "Working at Parse is great!"
@@ -55,7 +55,7 @@ Retrieving it back involves calling one of the `getData` variants on the `PFFile
 
 <div class="language-toggle" markdown="1">
 ```objective_c
-PFFile *applicantResume = anotherApplication[@"applicantResumeFile"];
+PFFileObject *applicantResume = anotherApplication[@"applicantResumeFile"];
 NSData *resumeData = [applicantResume getData];
 ```
 ```swift
@@ -73,7 +73,7 @@ You can easily store images by converting them to `NSData` and then using `PFFil
 <div class="language-toggle" markdown="1">
 ```objective_c
 NSData *imageData = UIImagePNGRepresentation(image);
-PFFile *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
+PFFileObject *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 
 PFObject *userPhoto = [PFObject objectWithClassName:@"UserPhoto"];
 userPhoto[@"imageName"] = @"My trip to Hawaii!";
@@ -97,7 +97,7 @@ Retrieving the image back involves calling one of the `getData` variants on the 
 
 <div class="language-toggle" markdown="1">
 ```objective_c
-PFFile *userImageFile = anotherPhoto[@"imageFile"];
+PFFileObject *userImageFile = anotherPhoto[@"imageFile"];
 [userImageFile getDataInBackgroundWithBlock:^(NSData *imageData, NSError *error) {
     if (!error) {
         UIImage *image = [UIImage imageWithData:imageData];
@@ -123,7 +123,7 @@ It's easy to get the progress of both uploads and downloads using `PFFileObject`
 <div class="language-toggle" markdown="1">
 ```objective_c
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
-PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+PFFileObject *file = [PFFileObject fileObjectWithName:@"resume.txt" data:data];
 [file saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
   // Handle success or failure here ...
 } progressBlock:^(int percentDone) {
