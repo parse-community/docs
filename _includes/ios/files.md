@@ -9,7 +9,7 @@ Getting started with `PFFileObject` is easy. First, you'll need to have the data
 <div class="language-toggle" markdown="1">
 ```objective_c
 NSData *data = [@"Working at Parse is great!" dataUsingEncoding:NSUTF8StringEncoding];
-PFFile *file = [PFFile fileWithName:@"resume.txt" data:data];
+PFFile *file = [PFFileObject fileObjectWithName:@"resume.txt" data:data];
 ```
 ```swift
 let str = "Working at Parse is great!"
@@ -73,7 +73,7 @@ You can easily store images by converting them to `NSData` and then using `PFFil
 <div class="language-toggle" markdown="1">
 ```objective_c
 NSData *imageData = UIImagePNGRepresentation(image);
-PFFile *imageFile = [PFFile fileWithName:@"image.png" data:imageData];
+PFFile *imageFile = [PFFileObject fileObjectWithName:@"image.png" data:imageData];
 
 PFObject *userPhoto = [PFObject objectWithClassName:@"UserPhoto"];
 userPhoto[@"imageName"] = @"My trip to Hawaii!";
