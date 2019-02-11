@@ -1,6 +1,6 @@
 # Local Datastore
 
-The Parse JS SDK provides a local datastore which can be used to store and retrieve `Parse.Object`s. To enable this functionality, call `Parse.enableLocalDatastore()`.
+The Parse JS SDK (Version 2.2.0+) provides a local datastore which can be used to store and retrieve `Parse.Object`s. To enable this functionality, call `Parse.enableLocalDatastore()`.
 
 There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `Parse.Object`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `Parse.Query` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
 
@@ -35,7 +35,7 @@ const result = await query.get('xWMyZ4YE');
 
 ## Querying the Local Datastore
 
-Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [Parse.Query](#queries). Any `Parse.Query` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query.
+Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [Parse.Query](#queries). Any `Parse.Query` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query. All query method are supported except aggregate and distinct queries.
 
 ```javascript
 const GameScore = Parse.Object.extend("GameScore");
