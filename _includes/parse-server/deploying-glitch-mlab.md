@@ -2,7 +2,6 @@
 
 Before you start, you'll need:
 
- - GitHub account (for Glitch import feature)
  - mLab account (for free MongoDB)
 
 ### Step 1: Creating your database on mLab
