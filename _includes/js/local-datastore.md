@@ -77,7 +77,7 @@ await Parse.Object.pinAllWithName('MyScores', listOfObjects);
 await anotherGameScore.pinWithName('MyScores');
 ```
 
-To unpin all of the objects with the same label at the same time, you can pass a label to the unpin methods. This saves you from having to manually track which objects are in each group you care about.
+To unpin all of the objects with the same label at the same time, you can pass a label to the unpin methods. This saves you from having to manually track which objects are in each group.
 
 ```javascript
 await Parse.Object.unPinAllWithName('MyScores', listOfObjects);
