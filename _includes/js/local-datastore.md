@@ -35,7 +35,7 @@ const result = await query.get('xWMyZ4YE');
 
 ## Querying the Local Datastore
 
-Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [Parse.Query](#queries). Any `Parse.Query` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query. All query method are supported except aggregate and distinct queries.
+Often, you'll want to find a whole list of objects that match certain criteria, instead of getting a single object by id. To do that, you can use a [Parse.Query](#queries). Any `Parse.Query` can be used with the local datastore just as with the network. The results will include any object you have pinned that matches the query. Any unsaved changes you have made to the object will be considered when evaluating the query. So you can find a local object that matches, even if it was never returned from the server for this particular query. All query methods are supported except aggregate and distinct queries.
 
 ```javascript
 const GameScore = Parse.Object.extend("GameScore");
@@ -67,7 +67,7 @@ await Parse.Object.unPinAllObjects();
 
 ## Pinning with Labels
 
-Manually pinning and unpinning each object individual is a bit like using `malloc` and `free`. It is a very powerful tool, but it can be difficult to manage what objects get stored in complex scenarios. For example, imagine you are making a game with separate high score lists for global high scores and your friends' high scores. If one of your friends happens to have a globally high score, you need to make sure you don't unpin them completely when you remove them from one of the cached queries. To make these scenarios easier, you can also pin with a label. Labels indicate a group of objects that should be stored together.
+Labels indicate a group of objects that should be stored together.
 
 ```javascript
 // Add several objects with a label.
@@ -89,7 +89,7 @@ There's also a method to remove all objects from a label.
 await Parse.Object.unPinAllObjectsWithName('MyScores');
 ```
 
-Any object will stay in the datastore as long as it is pinned with any label. In other words, if you pin an object with two different labels, and then unpin it with one label, the object will stay in the datastore until you also unpin it with the other label.
+An Object will be kept in the datastore as long as it is pinned by at least one label. So an object pinned with two labels will stay in the datastore if one of the two labels is unpinned.
 
 ## Caching Query Results
 
@@ -128,3 +128,19 @@ The local datastore is a dictionary of key / values. Each object has a key (clas
 `pinWithName('YourPinName')` will save this reference under `parsePin_YourPinName`
 
 Unpinning will have the opposite effect.
+
+## LiveQuery
+
+If you are subscribed to a LiveQuery Update Event, the updated object will be stored in the LocalDatastore if pinned.
+
+```javascript
+const gameScore = new GameScore();
+await gameScore.save();
+await gameScore.pin();
+const query = new Parse.Query(GameScore);
+query.equalTo('objectId', gameScore.id)
+const subscription = query.subscribe();
+subscription.on('update', (object) => {
+  // Since object (gameScore) is pinned, LDS will update automatically
+});
+```
