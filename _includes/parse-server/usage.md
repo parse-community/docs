@@ -30,7 +30,7 @@ The parameters are as follows:
 * `push`: An object containing push configuration. See [Push](#push-notifications)
 * `filesAdapter`: An object that implements the [FilesAdapter](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](#configuring-file-adapters)
 * `auth`: Configure support for [3rd party authentication](#oauth-and-3rd-party-authentication).
-* `maxUploadSize`: Maximum file upload size.
+* `maxUploadSize`: Maximum file upload size. Make sure your server does not restrict max request body size (e.g. nginx.conf `client_max_body_size 100m;`)
 
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
