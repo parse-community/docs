@@ -587,17 +587,17 @@ There are two main ways to use Facebook with your Parse users: (1) to log in (or
 }];
 ```
 ```swift
-PFFacebookUtils.logInInBackground(withReadPermissions: permissions) {
-	(user: PFUser?, error: Error?) in
-	if let user = user {
-		if user.isNew {
-			print("User signed up and logged in through Facebook!")
-		} else {
-			print("User logged in through Facebook!")
-		}
-	} else {
-		print("Uh oh. The user cancelled the Facebook login.")
-	}
+PFFacebookUtils.logInInBackground(withReadPermissions: ["String"]) {
+  (user: PFUser?, error: Error?) in
+  if let user = user {
+    if user.isNew {
+      print("User signed up and logged in through Facebook!")
+    } else {
+      print("User logged in through Facebook!")
+    }
+  } else {
+    print("Uh oh. The user cancelled the Facebook login.")
+  }
 }
 ```
 </div>
