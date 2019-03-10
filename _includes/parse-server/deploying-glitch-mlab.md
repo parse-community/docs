@@ -6,7 +6,7 @@ Before you start, you'll need:
 
 ### Step 1: Creating your database on mLab
 
-[mLab](https://mlab.com) provides a Database-as-a-Service for MongoDB.  They include a free tier for small sandbox databases.  Create an account on mLab and then use the Single-node, Sandbox plan to get a (free) database up and running.  Within the mLab wizard, you'll need to be sure to create a user that has access to connect to the new database.  Upon completion, you should be able to construct a Mongo DB connection string like the following:
+[mLab](https://mlab.com) provides a Database-as-a-Service for MongoDB. They include a free tier for small sandbox databases. Create an account on mLab and then use the Single-node, Sandbox plan to get a (free) database up and running. Within the mLab wizard, you'll need to be sure to create a user that has access to connect to the new database. Upon completion, you should be able to construct a Mongo DB connection string like the following:
 
 ```
 mongodb://yourusername:yourpassword@yourmlabdatabaseaddress.mlab.com:yourdatabaseport/yourdatabasename
@@ -14,7 +14,7 @@ mongodb://yourusername:yourpassword@yourmlabdatabaseaddress.mlab.com:yourdatabas
 
 ### Step 2: Running parse-server-example on Glitch
 
-[Glitch](https://glitch.com) provides an easy way to instantly create and deploy Node.js applications for free.  We will use it to run the [parse-server-example](https://github.com/parse-community/parse-server-example) application.
+[Glitch](https://glitch.com) provides an easy way to instantly create and deploy Node.js applications for free. We will use it to run the [parse-server-example](https://github.com/parse-community/parse-server-example) application.
 
 To get the example server up and running for quick testing, you can simply click the button below:
 
@@ -56,10 +56,10 @@ If you'd like to keep this project, [create an account on Glitch](https://glitch
 
 ### Step 3: Testing
 
-Once you're finished making your changes to your ```🗝️.env``` file, Glitch will automatically build and deploy your application.  If you use the Logs feature within Glitch (click on <kbd><kbd><samp>Tools</samp></kbd> &rarr; <kbd><samp>Logs</samp></kbd></kbd>), you should see this when your app is deployed:
+Once you're finished making your changes to your ```🗝️.env``` file, Glitch will automatically build and deploy your application. If you use the Logs feature within Glitch (click on <kbd><kbd><samp>Tools</samp></kbd> &rarr; <kbd><samp>Logs</samp></kbd></kbd>), you should see this when your app is deployed:
 
 ```
 parse-server-example running on port 3000.
 ```
 
-You should then be able to use the "Show" button to launch the application in the browser and get to a page that urges you to star the parse-server GitHub repository.  To access the test harness page, add a trailing ```/test``` to your URL.  This should take you to a page that will allow you to exercise a few parts of the Parse Server Javascript SDK and create a dummy collection and record in your MongoDB.  If you're able to completes steps one through three on this test page, Parse Server is up and running.  Optionally, you can go back to mLab.com and take a look at the data that was stored by the test harness to get a feel for how Parse Server stores data in MongoDB.
+You should then be able to use the "Show" button to launch the application in the browser and get to a page that urges you to star the parse-server GitHub repository. To access the test harness page, add a trailing ```/test``` to your URL. This should take you to a page that will allow you to exercise a few parts of the Parse Server Javascript SDK and create a dummy collection and record in your MongoDB. If you're able to completes steps one through three on this test page, Parse Server is up and running. Optionally, you can go back to mLab.com and take a look at the data that was stored by the test harness to get a feel for how Parse Server stores data in MongoDB.
