@@ -273,10 +273,10 @@ signUpController.fields = (PFSignUpFieldsUsernameAndPassword
 ```
 ```swift
 signUpController.fields = [PFSignUpFields.usernameAndPassword,
-														PFSignUpFields.signUpButton,
-														PFSignUpFields.email,
-														PFSignUpFields.additional,
-														PFSignUpFields.dismissButton]
+                          PFSignUpFields.signUpButton,
+													PFSignUpFields.email,
+													PFSignUpFields.additional,
+													PFSignUpFields.dismissButton]
 ```
 </div>
 
