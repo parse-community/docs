@@ -244,7 +244,7 @@ signUpController.delegate = self;
 ```swift
 let signUpController = PFSignUpViewController()
 signUpController.delegate = self
-self.presentViewController(signUpController, animated: true, completion: nil)
+self.present(signUpController, animated: true, completion: nil)
 ```
 </div>
 
@@ -272,15 +272,15 @@ signUpController.fields = (PFSignUpFieldsUsernameAndPassword
                           | PFSignUpFieldsDismissButton);
 ```
 ```swift
-signUpController.fields = (PFSignUpFields.UsernameAndPassword
-                          | PFSignUpFields.SignUpButton
-                          | PFSignUpFields.Email
-                          | PFSignUpFields.Additional
-                          | PFSignUpFields.DismissButton)
+signUpController.fields = [PFSignUpFields.usernameAndPassword,
+                          PFSignUpFields.signUpButton,
+													PFSignUpFields.email,
+													PFSignUpFields.additional,
+													PFSignUpFields.dismissButton]
 ```
 </div>
 
-Essentially, you use the bitwise or operator (`|`) to chain up all the options you want to include in the sign up screen, and assign the value to `fields`. Similarly, you can turn off any field by omitting it in the assignment to fields.
+Essentially, you create an array (in Swift), or use the bitwise or operator (for objective-c), to chain all of the options you want to include in the sign up screen, and assign the value to `fields`. Similarly, you can turn off any field by omitting it in the assignment to fields.
 
 ### Responding to Sign Up Success, Failure or Cancellation
 
