@@ -822,7 +822,7 @@ For each push campaign sent through the Parse web push console, you can allocate
 
 After you send the push, you can come back to the push console to see in real time which version resulted in more push opens, along with other metrics such as statistical confidence interval. It's normal for the number of recipients in each group to be slightly different because some devices that we had originally allocated to that experiment group may have uninstalled the app. It's also possible for the  random group assignment to be slightly uneven when the test audience size is small. Since we calculate open rate separately for each group based on recipient count, this should not significantly affect your experiment results.
 
-<img alt="Getting experiment results" data-echo="{{ '/assets/images/experiment_results_.png' | prepend: site.baseurl }}"/>
+<img alt="Getting experiment results" data-echo="{{ '/assets/images/experiment_results.png' | prepend: site.baseurl }}"/>
 
 If you are happy with the way one message performed, you can send that to the rest of your app's devices (i.e. the “Launch Group”). This step only applies to A/B tests where you vary the message.
 
