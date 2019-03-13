@@ -502,55 +502,55 @@ The easiest way to understand this class is with an example. This subclass of `P
 @end
 ```
 ```swift
-class SimpleTableViewController : PFQueryTableViewController {
+class SimpleTableViewController: PFQueryTableViewController {
 
-    override init(style: UITableViewStyle, className: String?) {
-        super.init(style: style, className: className)
-        parseClassName = "Todo"
-        pullToRefreshEnabled = true
-        paginationEnabled = true
-        objectsPerPage = 25
+  override init(style: UITableView.Style, className: String?) {
+    super.init(style: style, className: className)
+    parseClassName = "Todo"
+    pullToRefreshEnabled = true
+    paginationEnabled = true
+    objectsPerPage = 25
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    super.init(coder: aDecoder)
+    parseClassName = "Todo"
+    pullToRefreshEnabled = true
+    paginationEnabled = true
+    objectsPerPage = 25
+  }
+
+  override func queryForTable() -> PFQuery<PFObject> {
+    let query = PFQuery(className: self.parseClassName!)
+
+    // If no objects are loaded in memory, we look to the cache first to fill the table
+    // and then subsequently do a query against the network.
+    if self.objects!.count == 0 {
+      query.cachePolicy = .cacheThenNetwork
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        parseClassName = "Todo"
-        pullToRefreshEnabled = true
-        paginationEnabled = true
-        objectsPerPage = 25
+    query.order(byDescending: "createdAt")
+
+    return query
+  }
+
+  func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
+    let cellIdentifier = "cell"
+
+    var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) as? PFTableViewCell
+    if cell == nil {
+      cell = PFTableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
     }
 
-    override func queryForTable() -> PFQuery {
-        let query = PFQuery(className: self.parseClassName!)
-
-        // If no objects are loaded in memory, we look to the cache first to fill the table
-        // and then subsequently do a query against the network.
-        if self.objects!.count == 0 {
-            query.cachePolicy = .CacheThenNetwork
-        }
-
-        query.orderByDescending("createdAt")
-
-        return query
+    // Configure the cell to show todo item with a priority at the bottom
+    if let object = object {
+      cell!.textLabel?.text = object["text"] as? String
+      let priority = object["priority"] as? String
+      cell!.detailTextLabel?.text = "Priority \(String(describing: priority))"
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
-        let cellIdentifier = "cell"
-
-        var cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as? PFTableViewCell
-        if cell == nil {
-            cell = PFTableViewCell(style: .Subtitle, reuseIdentifier: cellIdentifier)
-        }
-
-        // Configure the cell to show todo item with a priority at the bottom
-        if let object = object {
-            cell!.textLabel?.text = object["text"] as? String
-            let priority = object["priority"] as? String
-            cell!.detailTextLabel?.text = "Priority \(priority)"
-        }
-
-        return cell
-    }
+    return cell
+  }
 }
 ```
 </div>
@@ -586,21 +586,21 @@ A good starting point to learn more is to look at the [API for the class](http:/
 @end
 ```
 ```swift
-override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
-    let identifier = "cell"
+func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath, object: PFObject?) -> PFTableViewCell? {
+	let identifier = "cell"
 
-    var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? PFTableViewCell
-    if cell == nil {
-        cell = PFTableViewCell(style: .Default, reuseIdentifier: identifier)
-    }
+	var cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PFTableViewCell
+	if cell == nil {
+		cell = PFTableViewCell(style: .default, reuseIdentifier: identifier)
+	}
 
-    if let object = object {
-        cell?.textLabel?.text = object["title"] as? String
-        cell?.imageView?.image = UIImage(named: "placeholder.jpg")
-        cell?.imageView?.file = object["thumbnail"] as? PFFileObject
-    }
+	if let object = object {
+		cell?.textLabel?.text = object["title"] as? String
+		cell?.imageView?.image = UIImage(named: "placeholder.jpg")
+		cell?.imageView?.file = object["thumbnail"] as? PFFileObject
+	}
 
-    return cell
+	return cell
 }
 ```
 </div>
