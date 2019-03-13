@@ -701,21 +701,21 @@ Many apps need to display table view cells which contain images stored in the Pa
 ```
 ```swift
 func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-    let identifier = "cell"
-    var cell = tableView.dequeueReusableCellWithIdentifier(identifier) as? PFTableViewCell
-    if cell == nil {
-        cell = PFTableViewCell(style: .Default, reuseIdentifier: identifier)
-    }
+	let identifier = "cell"
+	var cell = tableView.dequeueReusableCell(withIdentifier: identifier) as? PFTableViewCell
+	if cell == nil {
+		cell = PFTableViewCell(style: .default, reuseIdentifier: identifier)
+	}
 
-    if let title = object["title"] as? String {
-        cell!.textLabel.text = title
-    }
-    if let thumbnail = object["thumbnail"] as? PFFileObject {
-        cell!.imageView.image = UIImage(named: "placeholder.jpg")
-        cell!.imageView.file = thumbnail
-    }
+	if let title = object["title"] as? String {
+		cell!.textLabel.text = title
+	}
+	if let thumbnail = object["thumbnail"] as? PFFileObject {
+		cell!.imageView?.image = UIImage(named: "placeholder.jpg")
+		cell!.imageView.file = thumbnail
+	}
 
-    return cell!
+	return cell!
 }
 ```
 </div>
