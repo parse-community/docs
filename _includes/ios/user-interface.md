@@ -272,11 +272,7 @@ signUpController.fields = (PFSignUpFieldsUsernameAndPassword
                           | PFSignUpFieldsDismissButton);
 ```
 ```swift
-signUpController.fields = [PFSignUpFields.usernameAndPassword,
-                          PFSignUpFields.signUpButton,
-													PFSignUpFields.email,
-													PFSignUpFields.additional,
-													PFSignUpFields.dismissButton]
+signUpController.fields = [.usernameAndPassword, .signUpButton, .email, .additional, .dismissButton]
 ```
 </div>
 
@@ -298,11 +294,11 @@ When the user signs up or cancels, the `PFSignUpViewController` notifies the del
 ```
 ```swift
 func signUpViewController(signUpController: PFSignUpViewController, didSignUpUser user: PFUser) -> Void {
-  self.dismissViewControllerAnimated(true, completion: nil)
+	self.dismiss(animated: true, completion: nil)
 }
 
 func signUpViewControllerDidCancelSignUp(signUpController: PFSignUpViewController) -> Void {
-  self.dismissViewControllerAnimated(true, completion: nil)
+	self.dismiss(animated: true, completion: nil)
 }
 ```
 </div>
@@ -338,10 +334,10 @@ class MySignUpViewController : PFSignUpViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    self.view.backgroundColor = UIColor.darkGrayColor()
+    self.view.backgroundColor = .darkGray
 
-    let logoView = UIImageView(image: UIImage(named: "logo.png"))
-    self.signUpView.logo = logoView // 'logo' can be any UIView
+		let logoView = UIImageView(image: UIImage(named: "logo.png"))
+		self.signUpView?.logo = logoView // 'logo' can be any UIView
   }
 }
 ```
@@ -360,12 +356,12 @@ Often you will want to run some client-side validation on the sign up informatio
 }
 ```
 ```swift
-func signUpViewController(signUpController: PFSignUpViewController!,
-                          shouldBeginSignUp info: [NSObject : AnyObject]!) -> Bool {
-    if let password = info?["password"] as? String {
-      return password.utf16Count >= 8
-    }
-    return false
+func signUpViewController(_ signUpController: PFSignUpViewController,
+													shouldBeginSignUp info: [String : String]) -> Bool {
+	if let password = info["password"] {
+		return password.utf16.count >= 8
+	}
+	return false
 }
 ```
 `info` is a dictionary that contains all sign up fields, such as username, password, email, and additional.
@@ -400,20 +396,20 @@ class MySignUpViewController : PFSignUpViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    self.signUpView.usernameField.placeholder = "phone"
+    self.signUpView?.usernameField?.placeholder = "phone"
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
 
-    self.signUpView.signUpButton.frame = CGRectMake(...) // Set a different frame.
+    self.signUpView?.signUpButton?.frame = CGRectMake(...) // Set a different frame.
   }
 
 }
 ```
 </div>
 
-Developer interested in this kind of customization should take a look at the interface of [`PFSignUpView`](http://parseplatform.org/Parse-SDK-iOS-OSX/api/Classes/PFSignUpView.html), where all customizable properties are documented.
+Developers interested in this kind of customization should take a look at the interface of [`PFSignUpView`](http://parseplatform.org/Parse-SDK-iOS-OSX/api/Classes/PFSignUpView.html), where all customizable properties are documented.
 
 ### Portrait and Landscape
 
