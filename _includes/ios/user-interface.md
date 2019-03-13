@@ -21,7 +21,7 @@ logInController.delegate = self;
 ```swift
 var logInController = PFLogInViewController()
 logInController.delegate = self
-self.presentViewController(logInController, animated:true, completion: nil)
+self.present(logInController, animated:true, completion: nil)
 ```
 </div>
 
@@ -48,11 +48,11 @@ Any of the above features can be turned on or off. The options can be set using 
                            | PFLogInFieldsDismissButton);
 ```
 ```swift
-  logInController.fields = [PFLogInFields.UsernameAndPassword,
-                            PFLogInFields.LogInButton,
-                            PFLogInFields.SignUpButton,
-                            PFLogInFields.PasswordForgotten,
-                            PFLogInFields.DismissButton]
+logInController.fields = [PFLogInFields.usernameAndPassword,
+                          PFLogInFields.logInButton,
+                          PFLogInFields.signUpButton,
+                          PFLogInFields.passwordForgotten,
+                          PFLogInFields.dismissButton]
 ```
 </div>
 
@@ -72,9 +72,9 @@ logInController.fields = (PFLogInFieldsUsernameAndPassword
                           | PFLogInFieldsTwitter);
 ```
 ```swift
-logInController.fields = [PFLogInFields.UsernameAndPassword,
-                           PFLogInFields.Facebook,
-                           PFLogInFields.Twitter]
+logInController.fields = [PFLogInFields.usernameAndPassword,
+                          PFLogInFields.facebook,
+                          PFLogInFields.twitter]
 ```
 </div>
 
@@ -91,7 +91,7 @@ logInController.facebookPermissions = @[ @"friends_about_me" ];
 var logInController = PFLogInViewController()
 logInController.delegate = self
 logInController.facebookPermissions = [ "friends_about_me" ]
-self.presentViewController(logInController, animated:true, completion:nil)
+self.present(logInController, animated:true, completion:nil)
 ```
 </div>
 
@@ -112,11 +112,11 @@ When the user signs in or cancels, the `PFLogInViewController` notifies the dele
 ```
 ```swift
 func logInViewController(controller: PFLogInViewController, didLogInUser user: PFUser!) -> Void {
-  self.dismissViewControllerAnimated(true, completion: nil)
+	self.dismiss(animated: true, completion: nil)
 }
 
-func logInViewControllerDidCancelLogIn(controller: PFLogInViewController) -> Void {
-  self.dismissViewControllerAnimated(true, completion: nil)
+func logInViewControllerDidCancelLog(in controller: PFLogInViewController) -> Void {
+	self.dismiss(animated: true, completion: nil)
 }
 ```
 </div>
@@ -146,15 +146,15 @@ You might want to use your own logo or background image. You can achieve this by
 @end
 ```
 ```swift
-class MyLogInViewController : PFLogInViewController {
+class MyLogInViewController: PFLogInViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    self.view.backgroundColor = UIColor.darkGrayColor()
+    self.view.backgroundColor = .darkGray
 
-    let logoView = UIImageView(image: UIImage(named:"logo.png"))
-    self.logInView.logo = logoView
+		let logoView = UIImageView(image: UIImage(named:"logo.png"))
+		self.logInView?.logo = logoView
   }
 
 }
@@ -172,7 +172,7 @@ logInController.signUpController = [[MySignUpViewController alloc] init];
 ```swift
 let logInController = MyLogInViewController()
 logInController.signUpController = MySignUpViewController()
-self.presentViewController(logInController, animated: true, completion: nil)
+self.present(logInController, animated: true, completion: nil)
 ```
 </div>
 
