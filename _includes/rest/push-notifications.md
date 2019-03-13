@@ -579,16 +579,19 @@ connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "where": {
          "user": {
-           "$inQuery": {
-             "location": {
-               "$nearSphere": {
-                 "__type": "GeoPoint",
-                 "latitude": 30.0,
-                 "longitude": -20.0
-               },
-               "$maxDistanceInMiles": 1.0
-             }
-           }
+           "$inQuery":{
+              "where":{
+                "location":{
+                  "$nearSphere":{
+                    "__type":"GeoPoint",
+                      "latitude":51.252437591552734,
+                      "longitude":-1.6038470268249512
+                    },
+                  "$maxDistanceInMiles":1.0
+                }
+              },
+              "className":"_User"
+            }
          }
        },
        "data": {
