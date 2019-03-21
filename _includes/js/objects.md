@@ -86,7 +86,8 @@ However, when using `extends`, the SDK is not automatically aware of your subcla
 
 ```javascript
 // After specifying the Monster subclass...
-Parse.Object.registerSubclass('Monster', Monster);
+Parse.Object.
+class('Monster', Monster);
 ```
 
 Similarly, you can `extends` `Parse.User`
@@ -104,7 +105,7 @@ class CustomUser extends Parse.User {
 Parse.Object.registerSubclass('CustomUser', CustomUser);
 ```
 
-In addition to queries, `logIn` and `signUp` will return `CustomUser`.
+In addition to queries, `logIn` and `signUp` will return the subclass `CustomUser`.
 
 ```javascript
 const customUser = new CustomUser({ foo: 'bar' });
@@ -117,7 +118,7 @@ customUser.signUp().then((user) => {
 });
 ```
 
-Note: `Parse.User.logIn`, `CustomUser.logIn`, `Parse.User.signUp`, `CustomUser.signUp` are static functions and do not return subclass.
+`CustomUser.logIn` and `CustomUser.signUp` will return the subclass `CustomUser` (SDK v2.3.0).
 
 ## Saving Objects
 
