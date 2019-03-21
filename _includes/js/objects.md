@@ -89,6 +89,36 @@ However, when using `extends`, the SDK is not automatically aware of your subcla
 Parse.Object.registerSubclass('Monster', Monster);
 ```
 
+Similarly, you can `extends` `Parse.User`
+
+```javascript
+class CustomUser extends Parse.User {
+  constructor(attributes) {
+    super(attributes);
+  }
+
+  doSomething() {
+    return 5;
+  }
+}
+Parse.Object.registerSubclass('CustomUser', CustomUser);
+```
+
+In addition to queries, `logIn` and `signUp` returns subclass.
+
+```javascript
+const customUser = new CustomUser({ foo: 'bar' });
+customUser.setUsername('username');
+customUser.setPassword('password');
+customUser.signUp().then((user) => {
+  // user is an instance of CustomUser
+  user.doSomething(); // return 5
+  user.get('foo');    // return 'bar'
+});
+```
+
+Note: `Parse.User.logIn`, `CustomUser.logIn`, `Parse.User.signUp`, `CustomUser.signUp` are static functions and do not return subclass.
+
 ## Saving Objects
 
 Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `Backbone.Model`, including the `save` method:
