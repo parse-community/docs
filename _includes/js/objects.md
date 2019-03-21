@@ -104,7 +104,7 @@ class CustomUser extends Parse.User {
 Parse.Object.registerSubclass('CustomUser', CustomUser);
 ```
 
-In addition to queries, `logIn` and `signUp` returns subclass.
+In addition to queries, `logIn` and `signUp` will return `CustomUser`.
 
 ```javascript
 const customUser = new CustomUser({ foo: 'bar' });
