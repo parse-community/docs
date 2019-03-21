@@ -89,7 +89,7 @@ However, when using `extends`, the SDK is not automatically aware of your subcla
 Parse.Object.registerSubclass('Monster', Monster);
 ```
 
-Similarly, you can `extends` `Parse.User`
+Similarly, you can use `extends` with `Parse.User`.
 
 ```javascript
 class CustomUser extends Parse.User {
