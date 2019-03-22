@@ -39,7 +39,6 @@ The response body is a JSON object containing all the configuration parameters i
 
 You can also update the config by sending a `PUT` request to config URL. Here is a simple example that will update the `Parse.Config`:
 
-<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -47,6 +46,7 @@ curl -X PUT \
   -d "{\"params\":{\"winningNumber\":43}}"
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>config
 </code></pre>
+
 <pre><code class="javascript">
 var request = require('request');
 return request({
@@ -62,7 +62,6 @@ return request({
   }
 })
 </code></pre>
-</div>
 
 The response body is a JSON object containing a simple boolean value in the `result` field.
 
