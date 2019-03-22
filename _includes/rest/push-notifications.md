@@ -990,6 +990,7 @@ To schedule a push according to each device's local time, the `push_time` parame
 
 Starting parse-server version 2.6.1, it is possible to localize the push notifications messages according to the _Installation's `localeIdentifier`.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
@@ -1020,6 +1021,7 @@ connection.request('POST', '/1/push', json.dumps({
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 When setting the `alert-[lang|locale]` in the data, parse-server will find all installations that have that language or locale set. The language is usually the first part of the locale. This will have no impact on the query planning, as the localizations will be resolved just before the push is sent.
 
