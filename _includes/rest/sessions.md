@@ -34,6 +34,7 @@ For mobile apps and websites, you should not create `Session` objects manually. 
 
 In "Parse for IoT" apps (e.g. Arduino or Embedded C), you may want to programmatically create a restricted session that can be transferred to an IoT device. In order to do this, you must first log in normally to obtain an unrestricted session token. Then, you can create a restricted session by providing this unrestricted session token:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -58,6 +59,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 In the above code, `r:pnktnjyb996sj4p156gjtp4im` is the unrestricted session token from the original user login.
 
@@ -80,6 +82,8 @@ At this point, you can pass the session token `r:aVrtljyb7E8xKo9256gfvp4n2` to a
 ## Retrieving Sessions
 
 If you have the session's objectId, you fetch the `Session` object as long as it belongs to the same user as your current session:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -99,9 +103,11 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If you only have the session's token (from previous login or session create), you can validate and fetch the corresponding session by:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -121,11 +127,13 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Updating Sessions
 
 Updating a session is analogous to updating a Parse object.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -147,11 +155,13 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Querying Sessions
 
 Querying for `Session` objects will only return objects belonging to the same user as your current session (due to the Session ACL). You can also add a where clause to your query, just like normal Parse objects.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -171,13 +181,13 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
-
-
+</div>
 
 ## Deleting Sessions
 
 Deleting the Session object will revoke its session token and cause the user to be logged out on the device that's currently using this session token. When you have the session token, then you can delete its `Session` object by calling the logout endpoint:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -197,9 +207,11 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 If you want to delete another `Session` object for your user, and you have its `objectId`, you can delete it (but not log yourself out) by:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -219,6 +231,7 @@ connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</s
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 `X-Parse-Session-Token` authenticates the request as the user that also owns session `Axy98kq1B09`, which may have a different session token. You can only delete other sessions that belong to the same user.
 
@@ -233,6 +246,7 @@ The following API is most useful for "Parse for IoT" apps (e.g. Arduino or Embed
 3. IoT device connects to Internet via Wi-Fi, saves its `Installation` object.
 4. IoT device calls the following endpoint to associate the its `installationId` with its session. This endpoint only works with session tokens from restricted sessions. Please note that REST API calls from an IoT device should use the Client Key, not the REST API Key.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -257,6 +271,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Session Security
 
@@ -280,6 +295,7 @@ Parse.Cloud.beforeSave("MyClass", function(request, response) {
   });
 });
 </code></pre>
+
 You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>sessions</code> API, but do not restrict Parse Cloud's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:
 
 * **Find**, **Delete** — Useful for building a UI screen that allows users to see their active session on all devices, and log out of sessions on other devices. If your app does not have this feature, you should disable these permissions.
