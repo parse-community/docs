@@ -51,6 +51,7 @@ Note that trigger name can only be one of `beforeSave`, `afterSave`, `beforeDele
 ## Fetch functions
 To fetch the list of all cloud functions you deployed or created, use:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -70,8 +71,10 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output is a json object with one key: "results" whose value is a list of cloud functions.
+
 <pre><code class="json">
 {
   "results": [
@@ -85,6 +88,7 @@ The output is a json object with one key: "results" whose value is a list of clo
 
 To fetch a single cloud function with a given name, use:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -104,6 +108,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output is a json object with one key: "results" whose value is a list of cloud functions with the given name.
 
@@ -118,6 +123,8 @@ The output is a json object with one key: "results" whose value is a list of clo
 
 ## Fetch triggers
 To fetch the list of all cloud triggers you deployed or created, use:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -137,8 +144,10 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output is a json object with one key: "results" whose value is a list of cloud triggers.
+
 <pre><code class="json">
 {
   "results": [
@@ -159,6 +168,8 @@ The output is a json object with one key: "results" whose value is a list of clo
 </code></pre>
 
 To fetch a single cloud trigger, use:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -178,11 +189,13 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The path looks like `/hooks/triggers/className/triggerName` where `triggerName`
 can be one of `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`.
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "results": [
@@ -210,8 +223,9 @@ To create a new function webhook post to <code class="highlighter-rouge"><span c
 {"functionName" : x, "url" : y}
 ```
 
-Post example,
+Post example:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -234,6 +248,8 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
+
 
 The output may look like this:
 <pre><code class="json">
@@ -244,7 +260,9 @@ It returns the function name and url of the created webhook.
 
 If you try to create a function webhook and a cloud code function with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -267,8 +285,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "functionName": "bar",
@@ -278,15 +298,20 @@ The output may look like this:
 </code></pre>
 
 ## Create trigger webhook
-To create a new function webhook post to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers</code> with payload in the format
+To create a new function webhook post to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers</code> with payload in the format:
+
+<div class="language-toggle">
 <pre><code class="bash">
 {"className": x, "triggerName": y, "url": z}
 </code></pre>
 <pre><code class="python">
 {"className": x, "triggerName": y, "url": z}
 </code></pre>
+</div>
 
-Post example,
+Post example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -309,8 +334,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Game",
@@ -323,7 +350,9 @@ It returns the class name, trigger name and url of the created trigger webhook.
 
 If you try to create a trigger webhook and a cloud code trigger with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -346,8 +375,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Tournament",
@@ -360,7 +391,9 @@ The output may look like this:
 ## Edit function webhook
 To edit the url of a function webhook that was already created use the put method.
 
-Put example,
+Put example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -383,8 +416,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {"functionName": "baz", "url": "https://api.example.com/baz"}'
 </code></pre>
@@ -393,7 +428,9 @@ It returns the function name and url of the modified webhook.
 
 If you try to update a function webhook and a cloud code function with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -416,8 +453,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "functionName": "bar",
@@ -429,6 +468,7 @@ The output may look like this:
 ## Edit trigger webhook
 To edit the url of a trigger webhook that was already crated use the put method.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -451,8 +491,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Game",
@@ -465,7 +507,9 @@ It returns the class name, trigger name and url of the modified trigger webhook.
 
 If you try to update a trigger webhook and a cloud code trigger with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -488,8 +532,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Tournament",
@@ -502,6 +548,7 @@ The output may look like this:
 ## Delete function webhook
 To delete a function webhook use the put method.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -524,8 +571,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {}
 </code></pre>
@@ -533,6 +582,7 @@ The output may look like this:
 If a cloud code function with the same name already exists then it is returned as the result.
 Since the overriding webhook was just deleted, this cloud code function will be run the next time sendMessage is called.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -555,8 +605,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 { "functionName": "sendMessage" }
 </code></pre>
@@ -564,6 +616,7 @@ The output may look like this:
 ## Delete trigger webhook
 To delete a trigger webhook use the put method.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -586,8 +639,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {}
 </code></pre>
@@ -595,6 +650,7 @@ The output may look like this:
 If a cloud code trigger with the same name already exists then the it is returned as the result.
 Since the overriding webhook was just deleted, this cloud code trigger will be run the next time a Tournament object is saved.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
@@ -617,8 +673,10 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Tournament",
