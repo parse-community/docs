@@ -282,7 +282,7 @@ If you're interested in any of these features, [don't hesitate to jump in and se
 
 ### Silent Notifications
 
-If you have migrated from Parse.com Push and you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) and not "1". This value will be explicitly checked.
+If you have migrated from Parse.com Push and you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) (or just 1 as in javascript) and not "1". This value will be explicitly checked.
 
 ### PPNS
 
