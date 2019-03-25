@@ -902,9 +902,9 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can issue a query with multiple fields included by passing a comma-separated list of keys as the `include` parameter.
-
 
 ## Counting Objects
 
@@ -937,6 +937,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Since this requests a count as well as limiting to zero results, there will be a count but no results in the response.
 
@@ -987,6 +988,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Any other constraints on the query are also applied to the object returned, so you can add other constraints to queries with `$or`.
 
@@ -1021,6 +1023,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 Can be used with `where` parameter for constraining the value for keys.
 
@@ -1049,6 +1052,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 ## Aggregate Queries
 
@@ -1094,6 +1098,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can add or remove existing fields with `project` parameter. `project` is similar to `keys`.
 
@@ -1122,6 +1127,7 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 You can filter out objects with `match` parameter. `match` is similar to `$eq`.
 
@@ -1152,5 +1158,6 @@ connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
-You can also constraint by `limit`, `skip`, `sort`
+You can also constraint by `limit`, `skip`, `sort`.
