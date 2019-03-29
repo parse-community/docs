@@ -411,7 +411,7 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
 Signing a user up with a linked service and logging them in with that service uses the same \_linkWith() mothod, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
 
 ```javascript
-let myAuthData = {
+const myAuthData = {
   "id": "12345678",
   "screen_name": "ParseIt",
   "consumer_key": "SaMpLeId3X7eLjjLgWEw",
@@ -419,7 +419,7 @@ let myAuthData = {
   "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
   "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
 }
-let user = new Parse.User();
+const user = new Parse.User();
 user._linkWith('twitter', { authData: myAuthData }).then(function(user){
     // user
 });
@@ -474,12 +474,12 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 Linking an existing user with a service like Facebook or Twitter uses the same method \_linkWith() to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
 
 ```javascript
-let myAuthData = {
+const myAuthData = {
   id: "123456789",
   "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
   "expiration_date": "2012-02-28T23:49:36.353Z"
 }
-let user = new Parse.User();
+const user = new Parse.User();
 user.id = "uMz0YZeAqc";
 user._linkWith("facebook", { authData: myAuthData }).then(function(user){
   // user is linked now
@@ -487,12 +487,36 @@ user._linkWith("facebook", { authData: myAuthData }).then(function(user){
 ```
 After linking your user to a service, you can authenticate them using matching `authData`.
 
+#### Linking un-authenticated users
+To create a link to an un-authenticated user (for example in cloud code), options can be passed to \_linkWith() to either use the `masterKey` or pass a `sessionToken`.
+
+```javascript
+const myAuthData = {
+  id: xzx5tt123,
+  access: token
+}
+
+const user = await Parse.Query(Parse.User).get(userId);
+await user._linkWith(
+  'CustomAdapter',
+  myAuthData,
+  { useMasterKey: true }
+);
+```
+
+On rest, web, mobile, or TV clients, users can then login using the `CustomAdapter` by passing `myAuthData`:
+
+```javascript
+const loggedIn = await Parse.User.logInWith('CustomAdapter', myAuthData);
+
+```
+
 ### Unlinking
 
 Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
 
 ```javascript
-let user = new Parse.User();
+const user = new Parse.User();
 user.id = "uMz0YZeAqc";
 user._linkWith("facebook", {}).then(function(user){
   // user is unlinked now
