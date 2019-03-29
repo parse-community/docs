@@ -511,6 +511,74 @@ const loggedIn = await Parse.User.logInWith('CustomAdapter', myAuthData);
 
 ```
 
+### Full Example with Custom Auth
+
+Below is full example from the [integration tests](https://github.com/parse-community/Parse-SDK-JS/blob/master/integration/test/ParseUserTest.js#L622-L651) for the JS SDK
+
+A minimal  `CustomAuth` module:
+```javascript
+function validateAuthData(authData, options) {
+  return Promise.resolve({})
+}
+
+function validateAppId(appIds, authData, options) {
+  return Promise.resolve({});
+}
+
+module.exports = {
+  validateAppId,
+  validateAuthData,
+};
+```
+
+Configure the server to make the `CustomAuth` available:
+```javascript
+const CustomAuth = require('./test/CustomAuth');
+
+const api = new ParseServer({
+  ...
+  auth: {
+    myAuth: {
+      module: CustomAuth,
+      option1: 'hello',
+      option2: 'world',
+    }
+  }
+  ...
+});
+...
+app.use('/parse', api);
+```
+
+Use the `CustomAuth`:
+```javascript
+    const provider = {
+      authenticate: () => Promise.resolve(),
+      restoreAuthentication() {
+        return true;
+      },
+
+      getAuthType() {
+        return 'myAuth';
+      },
+
+      getAuthData() {
+        return {
+          authData: {
+            id: 1234,
+          },
+        };
+      },
+    };
+    Parse.User._registerAuthenticationProvider(provider);
+    const user = new Parse.User();
+    user.setUsername('Alice');
+    user.setPassword('sekrit');
+    await user.signUp();
+    await user._linkWith(provider.getAuthType(), provider.getAuthData());
+    expect(user._isLinked(provider)).toBe(true);
+```
+
 ### Unlinking
 
 Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
@@ -518,7 +586,7 @@ Unlinking an existing user with a service also uses \_linkWith() method to clear
 ```javascript
 const user = new Parse.User();
 user.id = "uMz0YZeAqc";
-user._linkWith("facebook", {}).then(function(user){
+user._unlinkFrom("facebook").then(function(user){
   // user is unlinked now
 });
 ```
