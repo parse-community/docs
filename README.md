@@ -1,5 +1,10 @@
 # Parse Docs
 
+[![Join The Conversation](https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg)](https://community.parseplatform.org/c/parse-server)
+[![Backers on Open Collective](https://opencollective.com/parse-server/backers/badge.svg)](#backers)
+[![Sponsors on Open Collective](https://opencollective.com/parse-server/sponsors/badge.svg)](#sponsors)
+
+
 These are the markdown sources for all of the [Parse SDK guides](https://parse-community.github.io/#sdks). The content for the guides is stored in this repo, and we use Jekyll to generate a static site that is hosted on GitHub Pages.
 
 ## Repository Structure
