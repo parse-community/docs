@@ -126,20 +126,6 @@ layout: docs
 
       <div class="docs-platform">
           <header class="docs-platform__header">
-              <span class="docs-platform__name">Arduino</span>
-              <svg class="icon icon-arduino"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#arduino"></use></svg>
-          </header>
-          <ul class="docs-platform__links">
-              <li class="docs-platform__links"><a href="arduino/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="https://parse-community.github.io/Parse-SDK-Arduino/api/">API Reference</a></li>
-          </ul>
-          <footer class="docs-platform__footer">
-              <a href="https://github.com/parse-community/Parse-SDK-Arduino/releases/latest" class="btn btn--outline">Latest Downloads</a>
-          </footer>
-      </div>
-
-      <div class="docs-platform">
-          <header class="docs-platform__header">
               <span class="docs-platform__name">Embedded C</span>
               <svg class="icon icon-embedded_c"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#embedded_c"></use></svg>
           </header>
