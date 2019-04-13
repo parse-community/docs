@@ -525,7 +525,7 @@ user._unlinkFrom("facebook").then(function(user){
 
 ### Custom Authentication Module
 
-Parse Server supports many [3rd Party Authenications](#oauth-and-3rd-party-authentication).
+Parse Server supports many [3rd Party Authenications]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication).
 It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module.
 
 A minimal  `CustomAuth.js` module:
