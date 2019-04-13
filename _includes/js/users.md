@@ -408,7 +408,7 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
 
 ### Signing Up and Logging In
 
-Signing a user up with a linked service and logging them in with that service uses the same \_linkWith() mothod, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
+Signing a user up with a linked service and logging them in with that service uses the same \_linkWith() method, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
 
 ```javascript
 const myAuthData = {
@@ -511,11 +511,24 @@ const loggedIn = await Parse.User.logInWith('CustomAdapter', myAuthData);
 
 ```
 
-### Full Example with Custom Auth
+### Unlinking
 
-Below is full example from the [integration tests](https://github.com/parse-community/Parse-SDK-JS/blob/master/integration/test/ParseUserTest.js#L622-L651) for the JS SDK
+Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
 
-A minimal  `CustomAuth` module:
+```javascript
+const user = new Parse.User();
+user.id = "uMz0YZeAqc";
+user._unlinkFrom("facebook").then(function(user){
+  // user is unlinked now
+});
+```
+
+### Custom Authentication Module
+
+Parse Server supports many [3rd Party Authenications](#oauth-and-3rd-party-authentication).
+It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module.
+
+A minimal  `CustomAuth.js` module:
 ```javascript
 function validateAuthData(authData, options) {
   return Promise.resolve({})
@@ -533,7 +546,7 @@ module.exports = {
 
 Configure the server to make the `CustomAuth` available:
 ```javascript
-const CustomAuth = require('./test/CustomAuth');
+const CustomAuth = require('./CustomAuth');
 
 const api = new ParseServer({
   ...
@@ -552,41 +565,30 @@ app.use('/parse', api);
 
 Use the `CustomAuth`:
 ```javascript
-    const provider = {
-      authenticate: () => Promise.resolve(),
-      restoreAuthentication() {
-        return true;
-      },
+const provider = {
+  authenticate: () => Promise.resolve(),
+  restoreAuthentication() {
+    return true;
+  },
 
-      getAuthType() {
-        return 'myAuth';
-      },
+  getAuthType() {
+    return 'myAuth';
+  },
 
-      getAuthData() {
-        return {
-          authData: {
-            id: 1234,
-          },
-        };
+  getAuthData() {
+    return {
+      authData: {
+        id: 1234,
       },
     };
-    Parse.User._registerAuthenticationProvider(provider);
-    const user = new Parse.User();
-    user.setUsername('Alice');
-    user.setPassword('sekrit');
-    await user.signUp();
-    await user._linkWith(provider.getAuthType(), provider.getAuthData());
-    expect(user._isLinked(provider)).toBe(true);
-```
-
-### Unlinking
-
-Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
-
-```javascript
+  },
+};
+// Must register before linking
+Parse.User._registerAuthenticationProvider(provider);
 const user = new Parse.User();
-user.id = "uMz0YZeAqc";
-user._unlinkFrom("facebook").then(function(user){
-  // user is unlinked now
-});
+user.setUsername('Alice');
+user.setPassword('sekrit');
+await user.signUp();
+await user._linkWith(provider.getAuthType(), provider.getAuthData());
+user._isLinked(provider); // true
 ```
