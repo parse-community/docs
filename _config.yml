@@ -6,18 +6,17 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-name: Parse Open Source Docs
+name: Parse Platform Docs
 title: Parse Docs
 email: community@parse.com
-description: The open source GitHub page for the Parse platform.
+description: The open source docs for the Parse platform SDKs & other guides.
 url: "http://docs.parseplatform.org" # the base hostname & protocol for your site
 repository: parse-community/docs
-facebook_username: parseit
-twitter_username:  parseit
+twitter_username:  parseplatform
 github_username:   parseplatform
-stackoverflow_tag: parse.com
+stackoverflow_tag: parse-platform
 serverfault_tag:   parse
-support_url: https://www.parse.com/help
+support_url: https://community.parseplatform.org
 apis:
   osx: https://parseplatform.org/Parse-SDK-iOS-OSX/api/
   android: https://parseplatform.org/Parse-SDK-Android/api/
