@@ -477,7 +477,7 @@ const loggedIn = await Parse.User.logInWith('CustomAdapter', myAuthData);
 
 ### Unlinking
 
-Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
+Unlinking an existing user with a service also uses \_unlinkFrom() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
 
 ```javascript
 const user = new Parse.User();
