@@ -1,3 +1,8 @@
+
+⚠️ The [Arduino SDK](https://github.com/parse-community/Parse-SDK-Android/tree/1.20.0) has been retired due to a lack of contribution and use. If you intent to continue using this SDK you can still fork the repo. If you are interested in maintaining it please make yourself known and we would be happy to unarchive it.
+
+-----
+
 # Getting Started
 
 If you haven't installed the SDK yet, please [head over to the Arduino SDK repository](https://github.com/parse-community/Parse-SDK-Arduino) to install the SDK in the Arduino IDE. Note that this SDK requires the Arduino Yún and the Arduino IDE v1.6.0+.
