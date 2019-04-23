@@ -343,7 +343,7 @@ if (!Parse.FacebookUtils.isLinked(user)) {
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `Parse.User` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
-For Advanced API: If you have an Facebook `access_token`, you can use [linkWith()](#linking-1).
+For advanced API: If you have a Facebook `access_token`, you can use [linkWith()](#linking-1).
 
 If you want to unlink Facebook from a user, simply do this:
 
