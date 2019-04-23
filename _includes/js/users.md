@@ -251,10 +251,10 @@ Using our Facebook integration, you can associate an authenticated Facebook user
 
 To start using Facebook with Parse, you need to:
 
-1.  [Create A Facebook Developer Account](https://developers.facebook.com/).
-2.  [Create A App](https://developers.facebook.com/apps).
-3.  In your App Dashboard, Add A Product -> Facebook Login.
-4.  [Add AppIds to Parse Server auth configuration](http://docs.parseplatform.org/parse-server/guide/#oauth-and-3rd-party-authentication) or pass `facebookAppIds` into configuration
+1.  [Create a Facebook Developer account](https://developers.facebook.com/).
+2.  [Create an app](https://developers.facebook.com/apps).
+3.  In your app Dashboard, add a product -> Facebook Login.
+4.  [Add appIds to Parse Server auth configuration](http://docs.parseplatform.org/parse-server/guide/#oauth-and-3rd-party-authentication) or pass `facebookAppIds` into configuration
 
 ```html
 <script>
