@@ -251,45 +251,45 @@ Using our Facebook integration, you can associate an authenticated Facebook user
 
 To start using Facebook with Parse, you need to:
 
-1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already.  Choose the "Website with Facebook Login" option under "Select how your app integrates with Facebook" and enter your site's URL.
-2.  Add your application's Facebook Application ID on your Parse application's settings page.
-3.  Follow [these instructions](https://developers.facebook.com/docs/javascript/quickstart/) for loading the Facebook JavaScript SDK into your application.
-4.  Replace your call to `FB.init()` with a call to `Parse.FacebookUtils.init()`. For example, if you load the Facebook JavaScript SDK asynchronously, your `fbAsyncInit` function will look like this:
+1.  [Create A Facebook Developer Account](https://developers.facebook.com/).
+2.  [Create A App](https://developers.facebook.com/apps).
+3.  In your App Dashboard, Add A Product -> Facebook Login.
+4.  [Add AppIds to Parse Server auth configuration](http://docs.parseplatform.org/parse-server/guide/#oauth-and-3rd-party-authentication) or pass `facebookAppIds` into configuration
 
-```javascript
-&lt;script&gt;
+```html
+<script>
   // Initialize Parse
   Parse.initialize("$PARSE_APPLICATION_ID", "$PARSE_JAVASCRIPT_KEY");
+  Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse';
 
-      window.fbAsyncInit = function() {
-    Parse.FacebookUtils.init({ // this line replaces FB.init({
+  window.fbAsyncInit = function() {
+    Parse.FacebookUtils.init({
       appId      : '{facebook-app-id}', // Facebook App ID
       status     : true,  // check Facebook Login status
       cookie     : true,  // enable cookies to allow Parse to access the session
       xfbml      : true,  // initialize Facebook social plugins on the page
       version    : 'v2.3' // point to the latest Facebook Graph API version
     });
-
-        // Run code after the Facebook SDK is loaded.
+    // Run code after the Facebook SDK is loaded.
+    // ...
   };
 
-      (function(d, s, id){
+  // Load Facebook SDK
+  (function(d, s, id){
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-&lt;/script&gt;
+</script>
 ```
 
 The function assigned to `fbAsyncInit` is run as soon as the Facebook JavaScript SDK has completed loading. Any code that you want to run after the Facebook JavaScript SDK is loaded should be placed within this function and after the call to `Parse.FacebookUtils.init()`.
 
 If you encounter any issues that are Facebook-related, a good resource is the [official getting started guide from Facebook](https://developers.facebook.com/docs/reference/javascript/).
 
-If you encounter issues that look like they're being returned from Parse's servers, try removing your Facebook application's App Secret from your app's settings page.
-
-There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `Parse.User`, or (2) linking Facebook to an existing `Parse.User`.
+There are two main ways to use Facebook with your Parse users: (1) [logging in as a Facebook user](#login--signup) and creating a `Parse.User`, or (2) [linking Facebook](#linking) to an existing `Parse.User`.
 
 ### Login & Signup
 
@@ -297,7 +297,7 @@ There are two main ways to use Facebook with your Parse users: (1) logging in as
 
 ```javascript
 try {
-  const users = await = Parse.FacebookUtils.logIn();
+  const users = await Parse.FacebookUtils.logIn();
   if (!user.existed()) {
     alert("User signed up and logged in through Facebook!");
   } else {
@@ -313,15 +313,13 @@ When this code is run, the following happens:
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback.
 3.  Our SDK receives the Facebook data and saves it to a `Parse.User`. If it's a new user based on the Facebook ID, then that user is created.
-4.  Your `success` callback is called with the user.
 
-You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
+You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user. For example:
 
 ```javascript
 const user = await Parse.FacebookUtils.logIn("user_likes,email");
 ```
 
-`Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 <div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to do a graph query using the Facebook SDK.
@@ -345,6 +343,8 @@ if (!Parse.FacebookUtils.isLinked(user)) {
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `Parse.User` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
+For Advanced API: If you have an Facebook `access_token`, you can use [linkWith()](#linking-1).
+
 If you want to unlink Facebook from a user, simply do this:
 
 ```javascript
@@ -366,45 +366,9 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
 
 `authData` is a JSON object with keys for each linked service containing the data below. In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a using hellojs on client side) to obtain the information the the service requires for linking.
 
-### Facebook `authData`
+### AuthData and Parse Server Configuration
 
-```javascript
-{
-  "facebook": {
-    "id": "user's Facebook id number as a string",
-    "access_token": "an authorized Facebook access token for the user",
-    "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-  }
-}
-```
-Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
-
-### Twitter `authData`
-
-```javascript
-{
-  "twitter": {
-    "id": "user's Twitter id number as a string",
-    "screen_name": "user's Twitter screen name",
-    "consumer_key": "your application's consumer key",
-    "consumer_secret": "your application's consumer secret",
-    "auth_token": "an authorized Twitter token for the user with your application",
-    "auth_token_secret": "the secret associated with the auth_token"
-  }
-}
-```
-
-Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
-
-### Anonymous user `authData`
-
-```javascript
-{
-  "anonymous": {
-    "id": "random UUID with lowercase hexadecimal digits"
-  }
-}
-```
+Parse Server supports [authData]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication) from 3rd party authentication providers that can be used for signing up and logging in.
 
 ### Signing Up and Logging In
 
