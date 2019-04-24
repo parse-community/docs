@@ -385,14 +385,14 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 
 ```
 
-# beforeLogin Triggers
+# beforeLogin Trigger
 
-*Available only on parse-server cloud code starting <version-number>*
+*Available only on parse-server cloud code starting ...*
 
 Sometimes you may want to run custom validation on a login request. The `beforeLogin` trigger can be used for blocking an account from logging in (for example, if they are banned), recording a login event for analytics, notifying user by email if a login occurred at an unusual IP address and more.
 
-```JavaScript
-Parse.Cloud.beforeLogin(async request => { 
+```javascript
+Parse.Cloud.beforeLogin(async request => {
   const { object: user }  = request;
   if(user.get('isBanned')) {
    throw new Error('Access denied, you have been banned.')
@@ -400,16 +400,17 @@ Parse.Cloud.beforeLogin(async request => {
 });
 ```
 
-### Some considerations to be aware of:
-- It does not set the user on the request object - technically, the user has not yet been provided a session until after beforeLogin is successfully completed
-- It waits for any promises to resolve
-- Like `afterSave` on `Parse.User`, it will not save mutations to the user unless explicitly saved.
+## Some considerations to be aware of
 
-#### `beforeLogin` will run...
+- It waits for any promises to resolve
+- The user is not available on the request object - the user has not yet been provided a session until after beforeLogin is successfully completed
+- Like `afterSave` on `Parse.User`, it will not save mutations to the user unless explicitly saved
+
+### The trigger will run...
 - On username & password logins
 - On `authProvider` logins
 
-#### `beforeLogin` will __not__ run...
+### The trigger won't run...
 - On sign up
 - If the login credentials are incorrect
 
