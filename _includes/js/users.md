@@ -555,5 +555,5 @@ await user.signUp();
 await user._linkWith(provider.getAuthType(), provider.getAuthData());
 user._isLinked(provider); // true
 // Unlink
-user._unlinkFrom(provider.getAuthType());
+await user._unlinkFrom(provider.getAuthType());
 ```
