@@ -387,9 +387,18 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 
 # beforeLogin Triggers
 
-*Available only on parse-server cloud code starting 3.3*
+*Available only on parse-server cloud code starting <version-number>*
 
 The beforeLogin trigger can be used for blocking an account from logging in (for example, if they are banned), recording a login event for analytics, notifying user by email if a login occurred at an unusual IP address and more.
+
+```JavaScript
+Parse.Cloud.beforeLogin(async request => { 
+  const { object: user }  = request;
+  if(user.get('isBanned')) {
+   throw new Error('Access denied, you have been banned.')
+  }
+});
+```
 
 # Using the Master Key in cloud code
 Set `useMasterKey:true` in the requests that require master key.
