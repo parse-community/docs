@@ -402,9 +402,16 @@ Parse.Cloud.beforeLogin(async request => {
 
 ### Some considerations to be aware of:
 - It does not set the user on the request object - technically, the user has not yet been provided a session until after beforeLogin is successfully completed
-- It does not run on sign up
-- It does run on username/pass AND authProvider logins
-- It will not run if the login credentials are incorrect
+- It waits for any promises to resolve
+- Like `afterSave` on `Parse.User`, it will not save mutations to the user unless explicitly saved.
+
+#### `beforeLogin` will run...
+- On username & password logins
+- On `authProvider` logins
+
+#### `beforeLogin` will __not__ run...
+- On sign up
+- If the login credentials are incorrect
 
 # Using the Master Key in cloud code
 Set `useMasterKey:true` in the requests that require master key.
