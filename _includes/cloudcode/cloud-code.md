@@ -389,7 +389,7 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 
 *Available only on parse-server cloud code starting <version-number>*
 
-The beforeLogin trigger can be used for blocking an account from logging in (for example, if they are banned), recording a login event for analytics, notifying user by email if a login occurred at an unusual IP address and more.
+Sometimes you may want to run custom validation on a login request. The `beforeLogin` trigger can be used for blocking an account from logging in (for example, if they are banned), recording a login event for analytics, notifying user by email if a login occurred at an unusual IP address and more.
 
 ```JavaScript
 Parse.Cloud.beforeLogin(async request => { 
@@ -399,6 +399,12 @@ Parse.Cloud.beforeLogin(async request => {
   }
 });
 ```
+
+### Some considerations to be aware of:
+- It does not set the user on the request object - technically, the user has not yet been provided a session until after beforeLogin is successfully completed
+- It does not run on sign up
+- It does run on username/pass AND authProvider logins
+- It will not run if the login credentials are incorrect
 
 # Using the Master Key in cloud code
 Set `useMasterKey:true` in the requests that require master key.
