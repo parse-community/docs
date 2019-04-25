@@ -18,7 +18,7 @@ alert("Successfully retrieved " + results.length + " scores.");
 for (let i = 0; i < results.length; i++) {
   var object = results[i];
   alert(object.id + ' - ' + object.get('playerName'));
-} 
+}
 ```
 
 ## Query Constraints
@@ -128,6 +128,19 @@ var losingUserQuery = new Parse.Query(Parse.User);
 losingUserQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
 // results has the list of users with a hometown team with a losing record
 const results = await losingUserQuery.find();
+```
+
+To filter rows based on `objectId`'s from pointers in a second table, you can use dot notation:
+
+```javascript
+const rolesOfTypeX = new Parse.Query('Role');
+rolesOfTypeX.equalTo('type', 'x');
+
+const groupsWithRoleX = new Parse.Query('Group');
+groupsWithRoleX.matchesKeyInQuery('objectId', 'belongsTo.objectId', rolesOfTypeX);
+groupsWithRoleX.find().then(function(results) {
+   // results has the list of groups with role x
+});
 ```
 
 You can restrict the fields returned by calling `select` with a list of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
