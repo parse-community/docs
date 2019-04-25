@@ -163,7 +163,7 @@ $results = $losingUserQuery->find();
 
 To filter rows based on `objectId`'s from pointers in a second table, you can use dot notation:
 
-<pre><code class="php">
+```javascript
 $rolesOfTypeX = new ParseQuery('Role');
 $rolesOfTypeX->equalTo('type', 'x');
 
@@ -171,7 +171,7 @@ $groupsWithRoleX = new ParseQuery('Group');
 $groupsWithRoleX->matchesKeyInQuery('objectId', 'belongsTo.objectId', rolesOfTypeX);
 $results = $groupsWithRoleX->find();
 // results has the list of groups with role x
-</pre></code>
+```
 
 You can restrict the fields returned by calling `select` with an array of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
