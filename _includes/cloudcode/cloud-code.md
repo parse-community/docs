@@ -387,7 +387,7 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 
 # beforeLogin Trigger
 
-*Available only on parse-server cloud code starting ...*
+*Available only on parse-server cloud code starting 3.3.0*
 
 Sometimes you may want to run custom validation on a login request. The `beforeLogin` trigger can be used for blocking an account from logging in (for example, if they are banned), recording a login event for analytics, notifying user by email if a login occurred at an unusual IP address and more.
 
