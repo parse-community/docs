@@ -530,10 +530,6 @@ query.whereKey("arrayKey", containsAllObjectsIn:[2, 3, 4])
 
 ## Queries on String Values
 
-<div class='tip info'><div>
- If you're trying to implement a generic search feature, we recommend taking a look at this blog post: <a href="http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/">Implementing Scalable Search on a NoSQL Backend</a>.
-</div></div>
-
 Use `whereKey:hasPrefix:` to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
 
 <div class="language-toggle" markdown="1">

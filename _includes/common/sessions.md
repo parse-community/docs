@@ -1,6 +1,6 @@
 # Sessions
 
-Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct `Session` object for each user-installation pair; if a user issues a login request from a device they're already logged into, that user's previous `Session` object for that Installation is automatically deleted. `Session` objects are stored on Parse in the Session class, and you can view them on the Parse.com Data Browser. We provide a set of APIs to manage `Session` objects in your app.
+Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct `Session` object for each user-installation pair; if a user issues a login request from a device they're already logged into, that user's previous `Session` object for that Installation is automatically deleted. `Session` objects are stored on Parse in the Session class, and you can view them on the Parse Dashboard Data Browser. We provide a set of APIs to manage `Session` objects in your app.
 
 `Session` is a subclass of a Parse `Object`, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because the Parse Cloud automatically creates sessions when you log in or sign up users, you should not manually create `Session` objects unless you are building a "Parse for IoT" app (e.g. Arduino or Embedded C). Deleting a `Session` will log the user out of the device that is currently using this session's token.
 
@@ -18,7 +18,7 @@ The `Session` object has these special fields:
 * `restricted` (readonly): Boolean for whether this session is restricted.
     * Restricted sessions do not have write permissions on `User`, `Session`, and `Role` classes on Parse. Restricted sessions also cannot read unrestricted sessions.
     * All sessions that the Parse Cloud automatically creates during user login/signup will be unrestricted. All sessions that the developer manually creates by saving a new `Session` object from the client (only needed for "Parse for IoT" apps) will be restricted.
-* `expiresAt` (readonly): Approximate UTC date when this `Session` object will be automatically deleted. You can configure session expiration settings (either 1-year inactivity expiration or no expiration) in your app's Parse.com dashboard settings page.
+* `expiresAt` (readonly): Approximate UTC date when this `Session` object will be automatically deleted. You can configure session expiration settings (either 1-year inactivity expiration or no expiration) in your app's Parse Dashboard settings page.
 * `installationId` (can be set only once): String referring to the `Installation` where the session is logged in from. For Parse SDKs, this field will be automatically set when users log in or sign up.
 All special fields except `installationId` can only be set automatically by the Parse Cloud. You can add custom fields onto `Session` objects, but please keep in mind that any logged-in device (with session token) can read other sessions that belong to the same user (unless you disable Class-Level Permissions, see below).
 

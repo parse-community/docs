@@ -8,7 +8,7 @@ A simple GET request would look like:
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.parse.com/'
+  url: 'http://www.awesomewebsite.com/'
 }).then(function(httpResponse) {
   // success
   console.log(httpResponse.text);
@@ -24,7 +24,7 @@ A GET request that specifies the port number would look like:
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.parse.com:8080/'
+  url: 'http://www.awesomewebsite.com:8080/'
 }).then(function(httpResponse) {
   console.log(httpResponse.text);
 }, function(httpResponse) {
