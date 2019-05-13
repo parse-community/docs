@@ -364,56 +364,18 @@ Our library manages the `FB` object for you. The `FB` singleton is synchronized 
 
 Parse allows you to link your users with [3rd party authentication ]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through `_linkWith` method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
-`authData` is a JSON object with keys for each linked service containing the data below. In each case, you are responsible for completing the authentication flow by creating your own Authentication Provider.
-
-### Authentication Provider
-
-To link your users to a [3rd party authentication]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), you must create a Authentication Provider. Similar to `Parse.Object` subclass, you must register with `Parse.User._registerAuthenticationProvider`.
-
-Here is a minimal example to link with [Twitter Auth](http://docs.parseplatform.org/parse-server/guide/#twitter-authdata):
-
-```javascript
-const authData = {
-  "id": "12345678",
-  "screen_name": "ParseIt",
-  "consumer_key": "SaMpLeId3X7eLjjLgWEw",
-  "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
-  "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
-  "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
-};
-
-const provider = {
-  restoreAuthentication() {
-    return true;
-  },
-
-  getAuthType() {
-    return 'twitter';
-  },
-};
-// Must register before linking
-Parse.User._registerAuthenticationProvider(provider);
-const user = new Parse.User();
-user.setUsername('test');
-user.setPassword('test');
-await user.signUp();
-await user._linkWith(provider.getAuthType(), { authData: authData });
-// To unlink
-await user._unlinkFrom(provider.getAuthType());
-// user is unlinked now
-```
-
-[Read more about Auth Provider Documentation](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js)
-
-Note: This is an example, you can handle your own authentication (if you don't have authData), restoreAuthentication and deauthenticate methods.
+`authData` is a JSON object with keys for each linked service containing the data below.
 
 ### Signing Up and Logging In
 
 Signing a user up with a linked service and logging them in with that service uses the same `_linkWith()` method, in which the `authData` for the user is specified.
 
 ```javascript
+const myAuthData = {
+  id: '12345678'
+};
 const user = new Parse.User();
-await user._linkWith('providerName', { authData: authData });
+await user._linkWith('providerName', { authData: myAuthData });
 ```
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
@@ -433,13 +395,8 @@ With a response body like:
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
   "authData": {
-    "twitter": {
+    "providerName": {
       "id": "12345678",
-      "screen_name": "ParseIt",
-      "consumer_key": "SaMpLeId3X7eLjjLgWEw",
-      "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
-      "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
-      "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
     }
   }
 }
@@ -490,6 +447,10 @@ const loggedIn = await Parse.User.logInWith('CustomAdapter', { authData: myAuthD
 
 Parse Server supports many [3rd Party Authenications]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication).
 It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module.
+
+[Read more about Auth Provider Documentation](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js)
+
+Note: This is an example, you can handle your own authentication (if you don't have authData), restoreAuthentication and deauthenticate methods.
 
 A minimal  `CustomAuth.js` module:
 ```javascript
