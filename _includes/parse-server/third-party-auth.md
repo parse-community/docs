@@ -87,11 +87,22 @@ Two ways to [retrieve access token](https://developers.facebook.com/docs/account
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
-    "screen_name": "user's Twitter screen name",
     "consumer_key": "your application's consumer key",
     "consumer_secret": "your application's consumer secret",
     "auth_token": "an authorized Twitter token for the user with your application",
     "auth_token_secret": "the secret associated with the auth_token"
+  }
+}
+```
+
+The options passed to Parse server:
+```js
+{
+  auth: {
+    twitter: {
+     consumer_key: "", // REQUIRED
+     consumer_secret: "" // REQUIRED
+   },
   }
 }
 ```
