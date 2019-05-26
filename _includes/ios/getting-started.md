@@ -43,10 +43,20 @@ And you're off! Take a look at the public [documentation][docs] and start buildi
 
 **Initialise Parse SDK**
 
-To initialize the Parse client, add the following to your AppDelegate.swift, in the application:didFinishLaunchingWithOptions: method.
+To initialize the Parse client, add the following to your AppDelegate.swift file (AppDelegate.m for Objective-C), in the `application:didFinishLaunchingWithOptions:` method.
 
+<div class="language-toggle" markdown="1">
+```objective_c
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+ [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        configuration.applicationId = @"parseAppId";
+        configuration.clientKey = @"parseClientKey";
+        configuration.server = @"parseServerUrlString";
+    }]];
+	return YES;
+}
+```
 ```swift
-// AppDelegate.swift
 func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         let parseConfig = ParseClientConfiguration {
             $0.applicationId = "parseAppId"
@@ -56,5 +66,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
         Parse.initialize(with: parseConfig)
 }
 ```
+</div>
+
 [releases]: https://github.com/parse-community/Parse-SDK-iOS-OSX/releases
 [docs]: http://docs.parseplatform.org/ios/guide
