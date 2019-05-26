@@ -68,5 +68,16 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 ```
 </div>
 
+Make sure to import the Parse module at the top of any file in which you want to use the Parse SDK by including the follwing.
+
+<div class="language-toggle" markdown="1">
+```objective_c
+#import <Parse/Parse.h>
+```
+```swift
+import Parse
+```
+</div>
+
 [releases]: https://github.com/parse-community/Parse-SDK-iOS-OSX/releases
 [docs]: http://docs.parseplatform.org/ios/guide
