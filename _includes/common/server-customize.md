@@ -5,6 +5,8 @@
 </noscript>
 Customize our docs with your server configuration.
 
+Note: `masterKey` overrides all permissions. Keep this secret.
+
 Protocol:<br/>
 <select id='parse-server-custom-protocol' class='custom-server-option' style='border:none' title='Set your access protocol here.' defaultval='https'>
     <option value='https'>https</option>
