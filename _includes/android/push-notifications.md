@@ -356,7 +356,7 @@ All of the above methods may be subclassed to customize the way your application
 
 ### Tracking Pushes and App Opens
 
-The default implementation of `onPushOpen` will automatically track user engagment from pushes. If you choose not to use the `ParsePushBroadcastReceiver` or override the `onPushOpen` implementation, you may need to track your app open event manually. To do this, add the following to the `onCreate` method of the `Activity` or the `onReceive` method of the `BroadcastReceiver` which handles the `com.parse.push.intent.OPEN` Intent:
+The default implementation of `onPushOpen` will automatically track user engagement from pushes. If you choose not to use the `ParsePushBroadcastReceiver` or override the `onPushOpen` implementation, you may need to track your app open event manually. To do this, add the following to the `onCreate` method of the `Activity` or the `onReceive` method of the `BroadcastReceiver` which handles the `com.parse.push.intent.OPEN` Intent:
 
 ```java
 ParseAnalytics.trackAppOpened(getIntent());

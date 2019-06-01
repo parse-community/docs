@@ -384,7 +384,7 @@ To create a `ParseObject` subclass:
 2.  Add a `@ParseClassName` annotation. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
 3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
 4.  Call `ParseObject.registerSubclass(YourClass.class)` in your `Application` constructor before calling `Parse.initialize()`.
-    The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
+    The following code successfully implements and registers the `Armor` subclass of `ParseObject`:
 
 ```java
 // Armor.java
@@ -494,7 +494,7 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
 }
 ```
 
-That's it. `ParseObject` will parcel its internal state, along with unsaved childs and dirty changes. There are, however, a few things to be aware of when parceling objects that have ongoing operations, like save or delete. The SDK behavior differs depending on whether you have enabled the Local Datastore.
+That's it. `ParseObject` will parcel its internal state, along with unsaved children and dirty changes. There are, however, a few things to be aware of when parceling objects that have ongoing operations, like save or delete. The SDK behavior differs depending on whether you have enabled the Local Datastore.
 
 ### Parceling with Local Datastore enabled
 
