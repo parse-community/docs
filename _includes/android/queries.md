@@ -389,13 +389,27 @@ Now when you do any query with `fromLocalDatastore`, these objects will be inclu
 For instance, to query the cache first and then the network,
 
 ```java
-final ParseQuery query = ...
+final ParseQuery query = ParseQuery.getQuery("GameScore");
 query.fromLocalDatastore().findInBackground().continueWithTask((task) -> {
   // Update UI with results from Local Datastore ...
+  ParseException error = task.getError();
+  if(error == null){
+    List<ParseObject> gameScore = task.getResult();
+    for(ParseObject game : gameScore){
+        //...
+    }
+  }
   // Now query the network:
   return query.fromNetwork().findInBackground();
 }, Task.UI_EXECUTOR).continueWithTask((task) -> {
   // Update UI with results from Network ...
+  ParseException error = task.getError();
+  if(error == null){
+    List<ParseObject> gameScore = task.getResult();
+    for(ParseObject game : gameScore){
+        //...
+    }
+  }
   return task;
 }, Task.UI_EXECUTOR);
 ```
@@ -403,11 +417,18 @@ query.fromLocalDatastore().findInBackground().continueWithTask((task) -> {
 Or you might want to query the cache, and if that fails, fire a network call:
 
 ```java
-final ParseQuery query = ...
+final ParseQuery query = ParseQuery.getQuery("GameScore");
 query.fromLocalDatastore().findInBackground().continueWithTask((task) -> {
   Exception error = task.getError();
   if (error instanceof ParseException && ((ParseException) error).getCode() == ParseException.CACHE_MISS) {
     // No results from cache. Let's query the network.
+    ParseException error = task.getError();
+    if(error == null){
+      List<ParseObject> gameScore = task.getResult();
+      for(ParseObject game : gameScore){
+          //...
+      }
+    }
     return query.fromNetwork().findInBackground();
   }
   return task;
