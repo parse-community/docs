@@ -94,4 +94,4 @@ protected void onCreate(@Nullable Bundle savedInstanceState) {
 }
 ```
 
-Note, however, that files can't be parceled if they are not saved on the server. If you try to do so, an exception will be thrown. If you are not sure if your file has been saved, plaese check for `!isDirty()` to be true before writing it to a parcel.
+Note, however, that files can't be parceled if they are not saved on the server. If you try to do so, an exception will be thrown. If you are not sure if your file has been saved, please check for `!isDirty()` to be true before writing it to a parcel.

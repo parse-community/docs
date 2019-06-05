@@ -8,7 +8,7 @@ To upload a file to Parse, send a POST request to the files URL, postfixed with 
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: text/plain" \
   -d 'Hello, World!' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>files/hello.txt
@@ -19,7 +19,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>files/hello.txt', 'Hello, World!', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "text/plain"
      })
 result = json.loads(connection.getresponse().read())
@@ -49,7 +49,7 @@ To upload an image, the syntax is a little bit different. Here's an example that
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: image/jpeg" \
   --data-binary '@myPicture.jpg' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>files/pic.jpg
@@ -60,7 +60,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>files/pic.jpg', open('myPicture.jpg', 'rb').read(), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "image/jpeg"
      })
 result = json.loads(connection.getresponse().read())
@@ -76,7 +76,7 @@ After files are uploaded, you can associate them with Parse objects:
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{
         "name": "Andrew",
@@ -101,7 +101,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -120,7 +120,7 @@ Users holding the master key are allowed to delete files using the REST API. To 
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>files/...profile.png
 </code></pre>
 <pre><code class="python">
@@ -129,7 +129,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>files/...profile.png', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}"
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result

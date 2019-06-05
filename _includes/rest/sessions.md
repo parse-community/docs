@@ -38,7 +38,7 @@ In "Parse for IoT" apps (e.g. Arduino or Embedded C), you may want to programmat
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"customField":"value"}' \
@@ -52,7 +52,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "customField": "value"
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
        "Content-Type": "application/json"
      })
@@ -87,7 +87,7 @@ If you have the session's objectId, you fetch the `Session` object as long as it
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
 </code></pre>
@@ -97,7 +97,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -111,7 +111,7 @@ If you only have the session's token (from previous login or session create), yo
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/me
 </code></pre>
@@ -121,7 +121,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -137,7 +137,7 @@ Updating a session is analogous to updating a Parse object.
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"customField":"value"}' \
@@ -149,7 +149,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>logout', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -165,7 +165,7 @@ Querying for `Session` objects will only return objects belonging to the same us
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions
 </code></pre>
@@ -175,7 +175,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -191,7 +191,7 @@ Deleting the Session object will revoke its session token and cause the user to 
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>logout
 </code></pre>
@@ -201,7 +201,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>logout', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -215,7 +215,7 @@ If you want to delete another `Session` object for your user, and you have its `
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09
 </code></pre>
@@ -225,7 +225,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -264,7 +264,7 @@ connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', json.dumps({
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:aVrtljyb7E8xKo9256gfvp4n2",
        "Content-Type": "application/json"
      })
