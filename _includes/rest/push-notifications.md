@@ -291,7 +291,7 @@ print result
 
 There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.
+You can view your past push notifications on the Parse Dashboard push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet. After you send the push, the push console shows push analytics graphs.
 
 ### Using Channels
 
@@ -972,11 +972,11 @@ print result
 </code></pre>
 </div>
 
-If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted. 
+If you also specify an `expiration_interval`, it will be calculated from the scheduled push time, not from the time the push is submitted.
 This means a push scheduled to be sent in a week with an expiration interval of a day will expire 8 days after the request is sent.
 
-The scheduled time cannot be in the past, and can be up to two weeks in the future. 
-It can be an ISO 8601 date with a date, time, and timezone, as in the example above, or it can be a numeric value representing a UNIX epoch time in seconds (UTC). 
+The scheduled time cannot be in the past, and can be up to two weeks in the future.
+It can be an ISO 8601 date with a date, time, and timezone, as in the example above, or it can be a numeric value representing a UNIX epoch time in seconds (UTC).
 To schedule an alert for 08/22/2015 at noon UTC time, you can set the `push_time` to either `2015-08-022T12:00:00.000Z` or `1440226800000`.
 
 

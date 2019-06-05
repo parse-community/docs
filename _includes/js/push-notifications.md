@@ -39,13 +39,13 @@ This class has several special fields that help you manage and target devices.
 
 There are two ways to send push notifications using Parse: [channels](#using-channels) and [advanced targeting](#using-advanced-targeting). Channels offer a simple and easy to use model for sending pushes, while advanced targeting offers a more powerful and flexible model. Both are fully compatible with each other and will be covered in this section.
 
-Sending notifications is often done from the Parse.com push console, the [REST API](#sending-pushes) or from [Cloud Code](#sending-pushes). Since the JavaScript SDK is used in Cloud Code, this is the place to start if you want to send pushes from your Cloud Functions. However, if you decide to send notifications from the JavaScript SDK outside of Cloud Code or any of the other client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
+Sending notifications is often done from the Parse Dashboard push console, the [REST API](#sending-pushes) or from [Cloud Code](#sending-pushes). Since the JavaScript SDK is used in Cloud Code, this is the place to start if you want to send pushes from your Cloud Functions. However, if you decide to send notifications from the JavaScript SDK outside of Cloud Code or any of the other client SDKs, you will need to set    **Client Push Enabled** in the Push Notifications settings of your Parse app.
 
-However, be sure you understand that enabling Client Push can lead to a security vulnerability in your app, as outlined [on our blog](http://blog.parse.com/2014/09/03/the-dangerous-world-of-client-push/). We recommend that you enable Client Push for testing purposes only, and move your push notification logic into Cloud Code when your app is ready to go into production.
+However, be sure you understand that enabling Client Push can lead to a security vulnerability in your app. We recommend that you enable Client Push for testing purposes only, and move your push notification logic into Cloud Code when your app is ready to go into production.
 
 <img alt="" data-echo="{{ '/assets/images/client_push_settings.png' | prepend: site.baseurl }}"/>
 
-You can view your past push notifications on the Parse.com push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet.
+You can view your past push notifications on the Parse Dashboard push console for up to 30 days after creating your push.  For pushes scheduled in the future, you can delete the push on the push console as long as no sends have happened yet.
 
 After you send the push, the push console shows push analytics graphs.
 

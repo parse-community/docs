@@ -16,7 +16,7 @@ However, there are a few caveats:
 * Scheduled push is not supported
 
 ## API
-We support most of the sending options similar to the hosted Parse.com service. Check the detailed doc [here]({{ site.baseUrl }}/rest/guide/#sending-options). Parse Server supports the following:
+We support most of the sending options. Check the detailed doc [here]({{ site.baseUrl }}/rest/guide/#sending-options). Parse Server supports the following:
 
 * `channels` to target installations by channels
 * `where` to target installations by `ParseQuery`
@@ -282,7 +282,7 @@ If you're interested in any of these features, [don't hesitate to jump in and se
 
 ### Silent Notifications
 
-If you have migrated from Parse.com Push and you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) (or just 1 as in javascript) and not "1". This value will be explicitly checked.
+If you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) (or just 1 as in javascript) and not "1". This value will be explicitly checked.
 
 ### PPNS
 
