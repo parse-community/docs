@@ -107,7 +107,7 @@ The options passed to Parse server:
 }
 ```
 
-Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
+Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-for-websites/log-in-with-twitter/guides/implementing-sign-in-with-twitter).
 
 ### Anonymous user `authData`
 
