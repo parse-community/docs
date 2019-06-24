@@ -125,6 +125,18 @@
                 }
             }
 
+            div{
+                position: relative;
+                display:block;
+                text-decoration: none;
+                padding: $docs-platform-link-padding;
+                border-left: $docs-platform-uniform-border;
+                border-right: $docs-platform-uniform-border;
+                font-size: 1.4rem;
+
+                transition: background-color 150ms ease;                
+            }
+
             & + li{ border-top: $docs-platform-uniform-border; }
         }
     }
