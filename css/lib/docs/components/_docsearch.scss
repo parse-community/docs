@@ -87,6 +87,9 @@ input {
     &.rest_docs_docsearch{
       background-color: $restPlatform;
     }
+    &.graphql_docs_docsearch{
+      background-color: $graphqlPlatform;
+    }
 
     &:focus {
       width: 300px;

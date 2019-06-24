@@ -181,7 +181,7 @@ layout: docs
       <div class="docs-platform">
           <header class="docs-platform__header">
               <span class="docs-platform__name">GraphQL API</span>
-              <svg class="icon icon-rest"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#rest"></use></svg>
+              <svg class="icon icon-graphql"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#graphql"></use></svg>
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="graphql/guide/">Guide</a></li>
