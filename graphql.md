@@ -11,5 +11,6 @@ redirect_from:
 
 sections:
 - "graphql/getting-started.md"
+- "graphql/server-customize.md"
 
 ---
