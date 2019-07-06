@@ -101,7 +101,7 @@ If you wish to build one yourself make sure your http client implements ```Parse
 
 ## Alternate CA File
 
-It is possible that your local setup may not be able to verify with peers over SSL/TLS. This may especially be the case if you do not have control over your local installation, such as for shared hosting.
+It is possible that your local setup may not be able to verify with peers over [SSL/TLS](https://hosting.review/web-hosting-glossary/#12). This may especially be the case if you do not have control over your local installation, such as for shared hosting.
 
 If this is the case you may need to specify a Certificate Authority bundle. You can download such a bundle from <a href="http://curl.haxx.se/ca/cacert.pem">http://curl.haxx.se/ca/cacert.pem</a> to use for this purpose. This one happens to be a Mozilla CA certificate store, you don't necessarily have to use this one but it's recommended.
 
