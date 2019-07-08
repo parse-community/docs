@@ -13,5 +13,6 @@ sections:
 - "graphql/getting-started.md"
 - "graphql/your-first-query.md"
 - "graphql/objects.md"
+- "graphql/users.md"
 
 ---
