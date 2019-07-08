@@ -43,5 +43,38 @@ If you execute the code above in your GraphQL Playground, you should receive a r
 
 In addition to creating the object, Parse Server automatically learns from it, keeps track of the application's schema, and generates custom operations for each class. For instance, after running the code above, you will notice a new `GameScore` class in the schema and a new set of `GameScore` CRUD operations in the GraphQL API.
 
-### Custom Mutation
+### Class Mutation
 
+For each class of your application's schema, Parse Server automatically generates a custom mutation for creating this class' objects through the GraphQL API.
+
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `createGameScore`, and you should be able to run the code below in your GraphQL Playground:
+
+```graphql
+mutation CreateGameScore {
+  objects {
+    createGameScore(fields: {
+      score: 1337
+      playerName: "Sean Plott"
+      cheatMode: false
+    }) {
+      objectId
+      createdAt
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "createGameScore": {
+        "objectId": "kngUFESiWA",
+        "createdAt": "2019-07-08T20:32:08.907Z"
+      }
+    }
+  }
+}
+```
