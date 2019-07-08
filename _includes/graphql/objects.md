@@ -427,3 +427,70 @@ The code above should resolve to something similar to this:
   }
 }
 ```
+
+## Updating an Object
+
+### Generic Mutation
+
+You can update an existing object using the `update` mutation. You simply need to send its `className`, `objectId`, and the fields that need to be updated. Parse Server will only change the received fields, and keep the others as they are. For example:
+
+```graphql
+mutation UpdateObject {
+  objects {
+    update(
+      className: "GameScore"
+      objectId: "sCR5LNkF0z"
+      fields: { ranking: 1 }
+    ) {
+      updatedAt
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "update": {
+        "updatedAt": "2019-07-08T22:52:41.874Z"
+      }
+    }
+  }
+}
+```
+
+### Class Mutation
+
+For each class of your application's schema, Parse Server automatically generates a custom mutation for updating this class' objects through the GraphQL API.
+
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `updateGameScore`, and you should be able to run the code below in your GraphQL Playground:
+
+```graphql
+mutation UpdateGameScore {
+  objects {
+    updateGameScore(
+      objectId: "MssDRE0I0s"
+      fields: { ranking: 2 }
+    ) {
+      updatedAt
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "updateGameScore": {
+        "updatedAt": "2019-07-08T22:55:53.853Z"
+      }
+    }
+  }
+}
+```
