@@ -494,3 +494,55 @@ The code above should resolve to something similar to this:
   }
 }
 ```
+
+## Deleting an Object
+
+### Generic Mutation
+
+You can delete an existing object using the `delete` mutation. You simply need to send its `className`, and `objectId`. For example:
+
+```graphql
+mutation DeleteObject {
+  objects {
+    delete(className: "GameScore" objectId: "MssDRE0I0s")
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "delete": true
+    }
+  }
+}
+```
+
+### Class Mutation
+
+For each class of your application's schema, Parse Server automatically generates a custom mutation for deleting this class' objects through the GraphQL API.
+
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `deleteGameScore`, and you should be able to run the code below in your GraphQL Playground:
+
+```graphql
+mutation DeleteGameScore {
+  objects {
+    deleteGameScore(objectId: "sCR5LNkF0z")
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "deleteGameScore": true
+    }
+  }
+}
+```
