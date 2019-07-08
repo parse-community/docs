@@ -256,3 +256,174 @@ The code above should resolve to something similar to this:
   }
 }
 ```
+
+### Constraints
+
+You can use the `where` argument to add constraints to either a generic or a class find query. See the example below:
+
+```graphql
+query ConstraintsExamples {
+  objects {
+    genericExample: find(
+      className: "GameScore"
+      where: { score: { _lt: 1500 } }
+    ) {
+      count
+    }
+    classExample: findGameScore(
+      where: { score: { _gt: 1500 } }
+    ) {
+      count
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "genericExample": {
+        "count": 1
+      },
+      "classExample": {
+        "count": 1
+      }
+    }
+  }
+}
+```
+
+### Order
+
+You can use the `order` argument to select in which order the results should show up either in a generic or in a class find query. See the example below:
+
+```graphql
+query OrderExamples {
+  objects {
+    genericExample: find(
+      className: "GameScore"
+      where: { cheatMode: false }
+      order: "-score"
+    ) {
+     results
+    }
+    classExample: findGameScore(
+      where: { cheatMode: { _eq: false } }
+      order: [score_ASC]
+    ) {
+      results {
+      	playerName
+      	score
+      }
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "genericExample": {
+        "results": [
+          {
+            "objectId": "sCR5LNkF0z",
+            "playerName": "Jang Min Chul",
+            "score": 80075,
+            "cheatMode": false,
+            "createdAt": "2019-07-08T21:24:24.727Z",
+            "updatedAt": "2019-07-08T21:24:24.727Z"
+          },
+          {
+            "objectId": "MssDRE0I0s",
+            "score": 1337,
+            "playerName": "Sean Plott",
+            "cheatMode": false,
+            "createdAt": "2019-07-08T21:23:21.275Z",
+            "updatedAt": "2019-07-08T21:23:21.275Z"
+          }
+        ]
+      },
+      "classExample": {
+        "results": [
+          {
+            "playerName": "Sean Plott",
+            "score": 1337
+          },
+          {
+            "playerName": "Jang Min Chul",
+            "score": 80075
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+### Pagination
+
+You can use the `skip` and `limit` arguments to paginate the results either in a generic or in a class find query. See the example below:
+
+```graphql
+query PaginationExamples {
+  objects {
+    genericExample: find(
+      className: "GameScore"
+      where: { cheatMode: false }
+      order: "-score"
+      skip: 0
+      limit: 1
+    ) {
+     results
+    }
+    classExample: findGameScore(
+      where: { cheatMode: { _eq: false } }
+      order: [score_DESC]
+      skip: 1
+      limit: 1
+    ) {
+      results {
+      	playerName
+      	score
+      }
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "objects": {
+      "genericExample": {
+        "results": [
+          {
+            "objectId": "sCR5LNkF0z",
+            "playerName": "Jang Min Chul",
+            "score": 80075,
+            "cheatMode": false,
+            "createdAt": "2019-07-08T21:24:24.727Z",
+            "updatedAt": "2019-07-08T21:24:24.727Z"
+          }
+        ]
+      },
+      "classExample": {
+        "results": [
+          {
+            "playerName": "Sean Plott",
+            "score": 1337
+          }
+        ]
+      }
+    }
+  }
+}
+```
