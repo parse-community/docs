@@ -45,10 +45,74 @@ The code above should resolve to something similar to this:
 }
 ```
 
-Note that, in addition to the regular `objectId`, and `createdAt` fields, it is returned a new field called `sessionToken`. This token can be used to authenticate subsequent requests as this user.
+Note that, in addition to the regular `objectId`, and `createdAt` fields, it is returned a new field called `sessionToken`. This token can be used to authenticate subsequent operations as this user.
 
 ## Logging In
 
-## Session Token
+After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, use the `logIn` mutation:
+
+```graphql
+mutation LogIn {
+  users {
+    logIn(username: "somedude" password: "Parse_3.5_Rocks!") {
+      objectId
+      username
+      sessionToken
+      createdAt
+      updatedAt
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "users": {
+      "logIn": {
+        "objectId": "nkGmXzlTnA",
+        "username": "somedude",
+        "sessionToken": "r:28eeeed86ad96e88e120783b2ea612ef",
+        "createdAt": "2019-07-08T23:59:35.694Z",
+        "updatedAt": "2019-07-08T23:59:35.694Z"
+      }
+    }
+  }
+}
+```
+
+Note that, when the user logs in, Parse Server generates a new `sessionToken` for future operations.
+
+## Using Session Token
+
+For authenticating an operation as a specific user, you need to pass the `X-Parse-Session-Token` header with its valid session token.
+
+You can easily do this in the GraphQL Playground. There is an option called `HTTP HEADERS` in its bottom left side. Use this option to replace the default `X-Parse-Master-Key` header by a valid `X-Parse-Session-Token` header. You should have something like this:
+
+<img alt="Session Token Header" data-echo="{{ '/assets/images/graphql/session-token.png' | prepend: site.baseurl }}"/>
 
 ## Logging Out
+
+You can log out a user through the `logOut` mutation. You need to send the `X-Parse-Session-Token` header and run code like the below example:
+
+```graphql
+mutation LogOut {
+  users {
+    logOut
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "users": {
+      "logOut": true
+    }
+  }
+}
+```
