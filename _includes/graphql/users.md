@@ -93,6 +93,32 @@ You can easily do this in the GraphQL Playground. There is an option called `HTT
 
 <img alt="Session Token Header" data-echo="{{ '/assets/images/graphql/session-token.png' | prepend: site.baseurl }}"/>
 
+After setting up the `X-Parse-Session-Token` header, any operation will run as this user. For example, you can run the code below to validate the session token and return its associated user:
+
+```graphql
+query Me {
+  users {
+    me {
+      username
+    }
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```json
+{
+  "data": {
+    "users": {
+      "me": {
+        "username": "somedude"
+      }
+    }
+  }
+}
+```
+
 ## Logging Out
 
 You can log out a user through the `logOut` mutation. You need to send the `X-Parse-Session-Token` header and run code like the below example:
