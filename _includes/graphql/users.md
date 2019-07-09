@@ -45,7 +45,7 @@ The code above should resolve to something similar to this:
 }
 ```
 
-Note that, in addition to the regular `objectId`, and `createdAt` fields, it is returned a new field called `sessionToken`. This token can be used to authenticate subsequent operations as this user.
+Note that, in addition to the regular `objectId`, and `createdAt` fields, a new field called `sessionToken` has been returned. This token can be used to authenticate subsequent operations as this user.
 
 ## Logging In
 
