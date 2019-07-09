@@ -10,7 +10,7 @@ Additionally, you can use the `signUp`, `logIn`, and `logOut` operations, which 
 
 Signing up a new user differs from creating another object in that the `username` and `password` fields are required. The `password` field is handled differently than the others; it is encrypted with bcrypt when stored in the database and never returned to any client request.
 
-You can ask Parse Server to verify user email addresses in your application settings. With this setting enabled, all new user registrations with an email field will generate an email confirmation at that address. You can check whether the user has verified their email with the `emailVerified` field.
+You can ask Parse Server to [verify user email addresses]({{ site.baseUrl }}/parse-server/guide/#welcome-emails-and-email-verification) in your application settings. With this setting enabled, all new user registrations with an email field will generate an email confirmation at that address. You can check whether the user has verified their email with the `emailVerified` field.
 
 To sign up a new user, use the `signUp` mutation. For example:
 
