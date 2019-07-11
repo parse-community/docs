@@ -2,8 +2,8 @@
 name: "\U0001F4D9 Docs fix/improvement report"
 about: Bring attention to an area of the docs with code samples that need updating
   or wording that could be improved
-title: "\U0001F4D9 [PLATFORM]"
-labels: Documentation
+title: "\U0001F4D9 "
+labels: Documentation Improvement
 assignees: ''
 
 ---
