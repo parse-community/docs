@@ -1157,3 +1157,51 @@ print result
 </div>
 
 You can also constraint by `limit`, `skip`, `sort`.
+
+## Read Preference
+
+When using a MongoDB replica set, you can use the `readPreference` option to choose from which replica the object will be retrieved. You can also use the `includeReadPreference` option to choose from which replica the included pointers will be retrieved and the `subqueryReadPreference` option to choose in which replica the subqueries will run. The possible values these options are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` option is not set, the same replica chosen for `readPreference` will be also used for the includes. The same rule applies for the `subqueryReadPreference` option.
+
+<div class="language-toggle">
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
+  -G \
+  --data-urlencode 'where={"post":{"$inQuery":{"where":{"image":{"$exists":true}},"className":"Post"}}}' \
+  --data-urlencode 'include=post' \
+  --data-urlencode 'readPreference=SECONDARY' \
+  --data-urlencode 'includeReadPreference=SECONDARY_PREFERRED' \
+  --data-urlencode 'subqueryReadPreference=NEAREST' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({
+  "where":json.dumps({
+    "post": {
+      "$inQuery": {
+        "where": {
+          "image": {
+            "$exists": True
+          }
+        },
+        "className": "Post"
+      }
+    }
+  }),
+  "include":"post",
+  "readPreference":"SECONDARY",
+  "includeReadPreference":"SECONDARY_PREFERRED",
+  "subqueryReadPreference":"NEAREST"
+})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+</div>
