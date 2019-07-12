@@ -455,3 +455,15 @@ $monster = Monster::spawn(200);
 echo monster->strength();  // Displays 200.
 echo monster->hasSuperHumanStrength();  // Displays true.
 ```
+
+## Read Preference
+
+When using a MongoDB replica set, you can use the `$query->readPreference(readPreference, includeReadPreference, subqueryReadPreference)` function to choose from which replica the objects will be retrieved. The `includeReadPreference` argument chooses from which replica the included pointers will be retrieved and the `subqueryReadPreference` argument chooses in which replica the subqueries will run. The possible values are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` argument is not passed, the same replica chosen for `readPreference` will be also used for the includes. The same rule applies for the `subqueryReadPreference` argument.
+
+```javascript
+$query->readPreference(
+  "SECONDARY",
+  "SECONDARY_PREFERRED",
+  "NEAREST"
+);
+```
