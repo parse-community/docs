@@ -1160,7 +1160,7 @@ You can also constraint by `limit`, `skip`, `sort`.
 
 ## Read Preference
 
-When using a MongoDB replica set, you can use the `readPreference` option to choose from which replica the object will be retrieved. You can also use the `includeReadPreference` option to choose from which replica the included pointers will be retrieved and the `subqueryReadPreference` option to choose in which replica the subqueries will run. The possible values these options are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` option is not set, the same replica chosen for `readPreference` will be also used for the includes. The same rule applies for the `subqueryReadPreference` option.
+When using a MongoDB replica set, you can use the `readPreference` option to choose from which replica the objects will be retrieved. You can also use the `includeReadPreference` option to choose from which replica the included pointers will be retrieved and the `subqueryReadPreference` option to choose in which replica the subqueries will run. The possible values these options are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` option is not set, the same replica chosen for `readPreference` will be also used for the includes. The same rule applies for the `subqueryReadPreference` option.
 
 <div class="language-toggle">
 <pre><code class="bash">
