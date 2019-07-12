@@ -142,6 +142,6 @@ file?.saveInBackground({ (success: Bool, error: Error?) in
 ```
 </div>
 
-You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
+## Deleting Files
 
-If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app's Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.
+You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file. If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. 
