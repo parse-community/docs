@@ -110,6 +110,7 @@ Parse.Cloud.httpRequest({ url: profilePhoto.url() }).then(function(response) {
   // The file contents are in response.buffer.
 });
 ```
+##Deleting Files
 
 You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 
