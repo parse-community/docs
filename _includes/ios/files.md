@@ -2,7 +2,7 @@
 
 ## The PFFileObject
 
-`PFFileObject` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `PFObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
+`PFFileObject` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `PFObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data.
 
 Getting started with `PFFileObject` is easy. First, you'll need to have the data in `NSData` form and then create a `PFFileObject` with it. In this example, we'll just use a string:
 
