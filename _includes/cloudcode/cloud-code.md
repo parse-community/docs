@@ -381,6 +381,7 @@ Parse.Cloud.beforeFind('MyObject', (req) =>  {
 Parse.Cloud.beforeFind('MyObject2', (req) => {
   req.readPreference = 'SECONDARY_PREFERRED';
   req.subqueryReadPreference = 'SECONDARY';
+  req.includeReadPreference = 'PRIMARY';
 });
 
 ```
