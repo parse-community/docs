@@ -20,6 +20,8 @@ We support most of the sending options. Check the detailed doc [here]({{ site.ba
 
 * `channels` to target installations by channels
 * `where` to target installations by `ParseQuery`
+* `priority` for iOS push priority
+* `push_type` for iOS push type
 * `alert` under `data` for notification message
 *  number `badge` under `data` for iOS badge number
 * `sound` under `data` for iOS sound
@@ -283,6 +285,8 @@ If you're interested in any of these features, [don't hesitate to jump in and se
 ### Silent Notifications
 
 If you are seeing situations where silent notifications are failing to deliver, please ensure that your payload is setting the `content-available` attribute to Int(1) (or just 1 as in javascript) and not "1". This value will be explicitly checked.
+
+When sending a push notification to APNs you also have to set `push_type` to `background` for delivering silent notifications to devices running iOS 13 and later, or watchOS 6 or later.
 
 ### PPNS
 
