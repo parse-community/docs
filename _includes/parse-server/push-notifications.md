@@ -20,8 +20,8 @@ We support most of the sending options. Check the detailed doc [here]({{ site.ba
 
 * `channels` to target installations by channels
 * `where` to target installations by `ParseQuery`
-* `priority` for iOS push priority
-* `push_type` for iOS push type
+* `priority` under `data` for iOS push priority
+* `push_type` under `data` for iOS push type
 * `alert` under `data` for notification message
 *  number `badge` under `data` for iOS badge number
 * `sound` under `data` for iOS sound
