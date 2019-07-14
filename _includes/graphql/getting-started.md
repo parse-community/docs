@@ -89,9 +89,8 @@ $ npm install -g parse-dashboard
 $ parse-dashboard --dev --appId APPLICATION_ID --masterKey MASTER_KEY --serverURL "http://localhost:1337/parse" --graphQLServerURL "http://localhost:1337/graphql" --appName MyAppName
 ```
 
-Note:
-* To learn more about Parse Dashboard and its setup options, please visit [Parse Dashboard Repository](https://github.com/parse-community/parse-dashboard).
-
 After starting the dashboard, you can visit [http://0.0.0.0:4040/apps/MyAppName/api_console/graphql](http://0.0.0.0:4040/apps/MyAppName/api_console/graphql) in your browser:
 
 <img alt="Parse Dashboard GraphQL Playground" data-echo="{{ '/assets/images/graphql/dashboard-graphql-playground.png' | prepend: site.baseurl }}"/>
+
+To learn more about Parse Dashboard and its setup options, please visit [Parse Dashboard Repository](https://github.com/parse-community/parse-dashboard).
