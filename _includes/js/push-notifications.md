@@ -26,7 +26,7 @@ This class has several special fields that help you manage and target devices.
 *   **`channels`**: An array of the channels to which a device is currently subscribed.
 *   **`timeZone`**: The current time zone where the target device is located. This value is synchronized every time an `Installation` object is saved from the device.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet"_(readonly)_.
-*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device      is registered to receive pushes via FCM, this field will be marked "gcm". If this device is not using FCM, and is using Parse's push notification service, it will be blank _(readonly)_.
+*   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via FCM, this field will be marked "gcm". If this device is not using FCM, and is using Parse's push notification service, it will be blank _(readonly)_.
 *   **`installationId`**: Universally Unique Identifier (UUID) for the device used by Parse. It must be unique across all of an app's installations. _(readonly)_.
 *   **`deviceToken`**: The Apple or Google generated token used to deliver messages to the APNs or FCM push networks respectively.
 *   **`channelUris`**: The Microsoft-generated push URIs for Windows devices.
@@ -129,7 +129,7 @@ Parse.Push.send({
 
 If we store relationships to other objects in our `Installation` class, we can also use those in our query. For example, we could send a push notification to all users near a given location like this.
 
- ```javascript
+```javascript
 // Find users near a given location
 var userQuery = new Parse.Query(Parse.User);
 userQuery.withinMiles("location", stadiumLocation, 1.0);
