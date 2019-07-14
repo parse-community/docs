@@ -12,7 +12,7 @@ $ parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongo
 
 Notes:
 * Run `parse-server --help` or refer to [Parse Server Options](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) for a complete list of Parse Server configuration options.
-* ⚠️ Please do not use `--mountPlayground` option in production as anyone could access your API Playground and read or change your application's data.
+* ⚠️ Please do not use `--mountPlayground` option in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](https://github.com/parse-community/parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps.
 
 After running the CLI command, you should have something like this in your terminal:
 
@@ -21,3 +21,20 @@ After running the CLI command, you should have something like this in your termi
 Since you have already started your Parse GraphQL Server, you can now visit [http://localhost:1337/playground](http://localhost:1337/playground) in your web browser to start playing with your GraphQL API.
 
 <img alt="GraphQL Playground" data-echo="{{ '/assets/images/graphql/graphql-playground.png' | prepend: site.baseurl }}"/>
+
+## Using Docker
+
+You can also run the Parse GraphQL API inside a Docker container:
+
+```bash
+$ git clone https://github.com/parse-community/parse-server
+$ cd parse-server
+$ docker build --tag parse-server .
+$ docker run --name my-mongo -d mongo
+$ docker run --name my-parse-server --link my-mongo:mongo -d parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongodb://mongo/test --mountGraphQL --mountPlayground
+```
+
+Note:
+* ⚠️ Please do not use `--mountPlayground` option in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](https://github.com/parse-community/parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps.
+
+After starting the server, you can visit [http://localhost:1337/playground](http://localhost:1337/playground) in your browser to start playing with your GraphQL API.
