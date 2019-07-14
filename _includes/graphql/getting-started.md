@@ -82,7 +82,7 @@ Note:
 
 ## Running Parse Dashboard
 
-[Parse Dashboard](https://github.com/parse-community/parse-dashboard) is a standalone dashboard for managing your Parse Server apps, including your objects' schema and data, logs, jobs, and push notifications. Parse Dashboard has also a built-in GraphQL Playground that you can use to play with your auto-generated Parse GraphQL API. It is the recommended option for production applications.
+[Parse Dashboard](https://github.com/parse-community/parse-dashboard) is a standalone dashboard for managing your Parse Server apps, including your objects' schema and data, logs, jobs, and push notifications. Parse Dashboard also has a built-in GraphQL Playground that you can use to play around with your auto-generated Parse GraphQL API. It is the recommended option for production applications.
 
 The easiest way to run the Parse Dashboard is through its CLI:
 
