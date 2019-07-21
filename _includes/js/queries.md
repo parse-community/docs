@@ -57,7 +57,9 @@ You can skip the first results by setting `skip`. In the old Parse hosted backen
 query.skip(10); // skip the first 10 results
 ```
 
-If you want to know the total number of rows in table satisfying your query, for  e.g. pagination purposes - you can use `withCount` (`false` by default). **Note** Enabling this flag will change the structure of response, see example below.
+If you want to know the total number of rows in a table satisfying your query, for  e.g. pagination purposes - you can use `withCount` (`false` by default). 
+
+**Note:** Enabling this flag will change the structure of response, see the example below.
 
 Let's say you have 200 rows in `GameScore` table:
 
