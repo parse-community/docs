@@ -59,6 +59,8 @@ query.skip(10); // skip the first 10 results
 
 If you want to know the total number of rows in table satisfying your query, for  e.g. pagination purposes - you can use `withCount` (`false` by default). **Note** Enabling this flag will change the structure of response, see example below.
 
+
+
 Let's say you have 200 rows in `GameScore` table:
 
 ```javascript
@@ -73,7 +75,7 @@ const results = await query.find(); // [ GameScore, GameScore, ...]
 query.withCount(true);
 const response = await query.find(); // { results: [ GameScore, ... ], count: 200 }
 ```
-
+⚠️ Сount operations can be slow and expensive.
 > If you only want to get the count without objects - use [Counting Objects](#counting-objects).
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
