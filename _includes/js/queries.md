@@ -61,7 +61,7 @@ If you want to know the total number of rows in a table satisfying your query, f
 
 **Note:** Enabling this flag will change the structure of response, see the example below.
 
-Let's say you have 200 rows in `GameScore` table:
+Let's say you have 200 rows in a table called `GameScore`:
 
 ```javascript
 const GameScore = Parse.Object.extend("GameScore");
