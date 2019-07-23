@@ -57,7 +57,7 @@ You can skip the first results by setting `skip`. In the old Parse hosted backen
 query.skip(10); // skip the first 10 results
 ```
 
-If you want to know the total number of rows in a table satisfying your query, for  e.g. pagination purposes - you can use `withCount` (`false` by default). 
+If you want to know the total number of rows in a table satisfying your query, for  e.g. pagination purposes - you can use `withCount`. 
 
 **Note:** Enabling this flag will change the structure of response, see the example below.
 
@@ -72,7 +72,7 @@ query.limit(25);
 const results = await query.find(); // [ GameScore, GameScore, ...]
 
 // to include count:
-query.withCount(true);
+query.withCount();
 const response = await query.find(); // { results: [ GameScore, ... ], count: 200 }
 ```
 ⚠️ Сount operations can be slow and expensive.
