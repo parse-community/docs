@@ -76,7 +76,8 @@ query.withCount();
 const response = await query.find(); // { results: [ GameScore, ... ], count: 200 }
 ```
 ⚠️ Сount operations can be slow and expensive.
-> If you only want to get the count without objects - use [Counting Objects](#counting-objects).
+
+If you only want to get the count without objects - use [Counting Objects](#counting-objects).
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
 

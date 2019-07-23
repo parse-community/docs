@@ -63,6 +63,32 @@ You can skip the first results by setting `skip`. In the old Parse hosted backen
 $query->skip(10); // skip the first 10 results
 ```
 
+### With Count
+
+If you want to know the total number of rows in a table satisfying your query, for  e.g. pagination purposes - you can use `withCount`. 
+
+**Note:** Using this feature will change the structure of response, see the example below.
+
+Let's say you have 200 rows in a table called `GameScore`:
+
+```php
+$query = new ParseQuery('GameScore');
+$query->withCount();
+$query->limit(25);
+
+$response = $query->find();
+$response['count'] // Returns 200 the total number of objects dispite limit / skip
+$response['results'] // Returns 25 objects
+
+// As of PHP 7.1 you can use Array Destructuring
+['count' => $count, 'results' => $results] = $query->find();
+
+// Use $count and $results
+```
+⚠️ Сount operations can be slow and expensive.
+
+If you only want to get the count without objects - use [Counting Objects](#counting-objects).
+
 ### Ascending and Descending
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
