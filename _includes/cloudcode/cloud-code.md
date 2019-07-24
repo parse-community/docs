@@ -144,8 +144,6 @@ Sometimes you want to execute long running functions, and you don't want to wait
     });
 ```
 
-Note that calling `status.success` or `status.error` won't prevent any further execution of the job.
-
 ## Running a Job
 
 Calling jobs is done via the REST API and is protected by the master key.
