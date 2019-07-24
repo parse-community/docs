@@ -220,7 +220,7 @@ myObject.fetch().then((myObject) => {
 If you need to check if an object has been fetched, you can call the  `isDataAvailable()` method:
 
 ```javascript
-if (myObject.isDataAvailable()) {
+if (!myObject.isDataAvailable()) {
   await myObject.fetch();
 }
 ```

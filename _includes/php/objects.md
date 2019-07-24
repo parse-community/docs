@@ -83,10 +83,10 @@ If you need to refresh an object you already have with the latest data that
 $gameScore->fetch();
 ```
 
-If you need to check if an object has been fetched, you can use `isDataAvailable()
+If you need to check if an object has been fetched, you can call the `isDataAvailable()` method:
 
 ```php
-if ($gameScore->isDataAvailable()) {
+if (!$gameScore->isDataAvailable()) {
   $gameScore->fetch();
 }
 ```
