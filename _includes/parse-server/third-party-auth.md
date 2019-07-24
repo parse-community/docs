@@ -123,7 +123,8 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
 ### Apple `authData
 
 As of Parse Server 3.5.0 You can [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/)
-```
+
+```js
 {
   "apple": {
     "id": "jwt token for user", // required, used for validation
