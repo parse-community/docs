@@ -2,6 +2,7 @@
 
 Parse Server supports 3rd party authentication with
 
+* Apple
 * Facebook
 * Facebook AccountKit
 * Github
@@ -118,6 +119,32 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
   }
 }
 ```
+
+### Apple `authData
+
+As of Parse Server 3.5.0 You can [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/)
+```
+{
+  "apple": {
+    "id": "jwt token for user", // required, used for validation
+    "access_token": "an authorized access token for the user", // optional
+  }
+}
+```
+
+#### Configuring parse-server for Apple
+
+```js
+{
+  auth: {
+   apple: {
+     client_id: "", // optional (for extra validation), use the Service ID from Apple.
+   },
+  }
+}
+```
+
+Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
 ### Github `authData`
 
