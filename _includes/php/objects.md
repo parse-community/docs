@@ -83,6 +83,14 @@ If you need to refresh an object you already have with the latest data that
 $gameScore->fetch();
 ```
 
+If you need to check if an object has been fetched, you can call the `isDataAvailable()` method:
+
+```php
+if (!$gameScore->isDataAvailable()) {
+  $gameScore->fetch();
+}
+```
+
 ## Updating Objects
 
 Updating an object is simple. Just set some new data on it and call the save method. For example:
