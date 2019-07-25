@@ -352,42 +352,37 @@ gameScore.saveInBackground()
 ```
 </div>
 
-Note that it is not currently possible to atomically add and remove items from an array in the same save.
-    You will have to call `save` in between every different kind of array operation.
+Note that it is not currently possible to atomically add and remove items from an array in the same save using. You will have to call `save` in between every different kind of array operation.
 
 ## Deleting Objects
 
-To delete an object from Parse Server:
+There are a few ways to delete a  `PFObject`.  For basic asynchronous deletion of a single object call the objects `deleteInBackground` function. If you prefer to recieve a callback you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method. Lastly,  `deleteEventually`  network consious solution that deletes when possible but does not guarantee a timeframe for the tasks completion.
+
+For deleting multiple objects use the `PFObject` static function `deleteAllInBackground` to delete an array of objects asynchronous. The same can be done while blocking the calling thread using `deleteAll`. Lastly, to recieve a callback after deleting objects asyncronously use `deleteAllInBackground:block:` as demonstrated below.
+
 
 <div class="language-toggle" markdown="1">
 ```objective_c
-[gameScore deleteInBackground];
+[PFObject deleteAllInBackground:objectArray block:^(BOOL succeeded, NSError * _Nullable error) {
+    if (succeeded) {
+        // The array of objects was successfully deleted.
+    } else {
+        // There was an error. Check the errors localizedDescription.
+    }
+}];
 ```
 ```swift
-gameScore.deleteInBackground()
+PFObject.deleteAll(inBackground: objectArray) { (succeeded, error) in
+    if (succeeded) {
+        // The array of objects was successfully deleted.
+    } else {
+        // There was an error. Check the errors localizedDescription.
+    }
+}
 ```
 </div>
 
-If you want to run a callback when the delete is confirmed, you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method.
-
-You can delete a single field from an object with the `removeObjectForKey` method:
-
-<div class="language-toggle" markdown="1">
-```objective_c
-// After this, the playerName field will be empty
-[gameScore removeObjectForKey:@"playerName"];
-
-// Saves the field deletion to the Parse Server
-[gameScore saveInBackground];
-```
-```swift
-// After this, the playerName field will be empty
-gameScore.remove(forKey: "playerName")
-
-// Saves the field deletion to the Parse Server.
-gameScore.saveInBackground()
-```
-</div>
+Note: Deleting an object from the server that contains a `PFFileObject` does **NOT** delete the file from storage. Instead, an objects deletion only deletes the data referencing the stored file. To delete the data from storage you must use the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files). For more info about `PFFileObject`, please see the [Files](#files) section.
 
 ## Relational Data
 
