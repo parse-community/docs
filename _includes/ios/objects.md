@@ -244,7 +244,7 @@ gameScore.unpinInBackground()
 
 ## Saving Objects Offline
 
-Most save functions execute immediately, and inform your app when the save is complete. If you don't need to know when the save has finished, you can use `saveEventually` instead. The advantage is that if the user currently doesn't have a network connection, `saveEventually` will store the update on the device until a network connection is re-established. If your app is closed before the connection is back, Parse will try again the next time the app is opened. All calls to `saveEventually` (and `deleteEventually`) are executed in the order they are called, so it is safe to call `saveEventually` on an object multiple times.
+Most save functions execute immediately, and inform your app when the save is complete. For a network consious soltion on non-priority save requests use `saveEventually`. Not only does it retry saving upon regaining network connection, but If your app is closed prior to save completion Parse will try the next time the app is opened. Additionally, all calls to `saveEventually` (and `deleteEventually`) are executed in the order they are called, making it safe to call `saveEventually` on an object multiple times.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
