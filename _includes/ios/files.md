@@ -144,6 +144,6 @@ file?.saveInBackground({ (success: Bool, error: Error?) in
 
 ##Deleting Files
 
-You can delete files using the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files) using the files name. You will need to provide the master key in order to be allowed to delete a file.
+If you know the name of a file you can delete it using the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files). Your master key is required for this operation.
 
 Note: Reguardless of the Parse Server storage configuration, deleting a `PFObject` with a `PFFileObject` does not delete the file itself meerly its reference. Additionally, Parse does **NOT** provide a way to find unreferenced file names in storage.
