@@ -56,7 +56,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided and set by the system as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created or last modified and saved to the Parse Server. Each of these fields is filled in by Parse, so they don't exist on a `PFObject` until the first save operation has been completed.
+There are also a few fields you don't need to specify that are provided and set by the system as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created or last modified and saved to the Parse Server. Each of these fields is filled in by Parse Server, so they don't exist on a `PFObject` until the first save operation has been completed.
 
 ## Retrieving Objects
 
