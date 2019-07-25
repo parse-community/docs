@@ -123,22 +123,35 @@ let acl = gameScore.acl
 </div>
 
 If you need to refresh an object you already have with the latest data that
-    is in the Parse Cloud, you can call the `fetch` method like so:
+is in the Parse Cloud, you can use the `fetch` or `fetchInBackgroundWithTarget:selector:` methods to provide additional logic which will run after fetching the object.
+
 
 <div class="language-toggle" markdown="1">
 ```objective_c
-[myObject fetch];
+[myObject fetchInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+    if (!error) {
+        // Success!
+    } else {
+        // Failure!
+    }
+    }];
 ```
 ```swift
-myObject.fetch()
+myObject.fetchInBackground { (object, error) in
+    if error == nil {
+        // Success!
+    } else {
+        // Failure!
+    }
+}
 ```
 </div>
 
-Note: In a similar way to the `save` methods, you can use the `fetchInBackgroundWithBlock` or `fetchInBackgroundWithTarget:selector:` methods to provide additional logic which will run after fetching the object.
+Note: In a similar way to the `save` methods, you can use the throwable `fetch` or `fetchIfNeeded` methods, or asyncronous task without completion. `fetchInBackground`
 
 ## The Local Datastore
 
-Parse also lets you store objects in a [local datastore](#local-datastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `libsqlite3.dylib` and add `isLocalDatastoreEnabled = true` to the `ParseClientConfiguration` block in your `AppDelegate` `application:didFinishLaunchWithOptions:` before calling `Parse.initialize()`. Once the local datastore is enabled, you can store an object by pinning it.
+Parse also lets you store objects in a [local datastore](#local-datastore) on the device itself. You can use this for data that doesn't need to be saved to the cloud, but this is especially useful for temporarily storing data so that it can be synced later. To enable the datastore, add `isLocalDatastoreEnabled = true` to the `ParseClientConfiguration` block in your `AppDelegate` `application:didFinishLaunchWithOptions:`, or call `Parse.enableLocalDatastore()` before calling `Parse.initialize()`. Once the local datastore is enabled, you can store an object by pinning it.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
