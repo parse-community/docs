@@ -2,7 +2,7 @@
 
 ## The PFObject
 
-Storing data on Parse is built around the `PFObject`. Each `PFObject` contains key-value pairs of JSON-compatible data. This data is schemeless, which means that you don't need to specify ahead of time what keys exist on each `PFObject`. You simply set whatever key-value pairs you want, and our backend will store it.
+Storing data on Parse is built around the `PFObject`. Each `PFObject` contains key-value pairs of JSON-compatible data. This data is schemaless, which means that you don't need to specify ahead of time what keys exist on each `PFObject`. You simply set whatever key-value pairs you want, and our backend will store it.
 
 For example, let's say you're tracking high scores for a game. A single `PFObject` could contain:
 
