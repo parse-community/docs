@@ -120,9 +120,9 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
 }
 ```
 
-### Apple `authData
+### Apple `authData`
 
-As of Parse Server 3.5.0 You can [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/)
+As of Parse Server 3.5.0 you can use [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/).
 
 ```js
 {
@@ -133,7 +133,7 @@ As of Parse Server 3.5.0 You can [Sign In With Apple](https://developer.apple.co
 }
 ```
 
-#### Configuring parse-server for Apple
+#### Configuring parse-server for Sign In with Apple
 
 ```js
 {
@@ -145,7 +145,7 @@ As of Parse Server 3.5.0 You can [Sign In With Apple](https://developer.apple.co
 }
 ```
 
-Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
+Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple).
 
 ### Github `authData`
 
