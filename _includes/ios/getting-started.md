@@ -64,6 +64,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
             $0.server = "parseServerUrlString"
         }
         Parse.initialize(with: parseConfig)
+        return true
 }
 ```
 </div>
