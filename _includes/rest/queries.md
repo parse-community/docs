@@ -302,13 +302,14 @@ print result
 
 In addition to `where`, there are several parameters you can use to configure what types of results are returned by the query.
 
-| Parameter   | Use                                               |
-|-----------------------------------------------------------------|
-| order       | Specify a field to sort by                        |
-| limit       | Limit the number of objects returned by the query |
-| skip        | Use with limit to paginate through results        |
-| keys        | Restrict the fields returned by the query         |
-| include     | Use on Pointer columns to return the full object  |
+| Parameter     | Use                                               |
+|-------------------------------------------------------------------|
+| order         | Specify a field to sort by                        |
+| limit         | Limit the number of objects returned by the query |
+| skip          | Use with limit to paginate through results        |
+| keys          | Restrict the fields returned by the query         |
+| excludeKeys   | Exlcude specific fields from the returned query   |
+| include       | Use on Pointer columns to return the full object  |
 
 You can use the `order` parameter to specify a field to sort by. Prefixing with a negative sign reverses the order. Thus, to retrieve scores in ascending order:
 
@@ -411,7 +412,7 @@ print result
 </code></pre>
 </div>
 
-You can restrict the fields returned by passing `keys` a comma-separated list. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
+You can restrict the fields returned by passing `keys` or `excludeKeys` a comma-separated list. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -428,6 +429,31 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 params = urllib.urlencode({"keys":"score,playerName"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+</div>
+
+Or you may use `excludeKeys` to fetch everything except `playerName`:
+
+<div class="language-toggle">
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
+  -G \
+  --data-urlencode 'excludeKeys=playerName' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"excludeKeys":"playerName"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })

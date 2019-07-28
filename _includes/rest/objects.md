@@ -165,31 +165,6 @@ print result
 </code></pre>
 </div>
 
-You may **retrieve an object's fields selectively** by using the options `keys` and `excludeKeys`. For example, you could use `keys` to retrieve only the player's name and their score, or you may use `excludeKeys` to fetch everything except their name. Please note that keys shloud be separated by commas with no blank spaces:
-
-<div class="language-toggle">
-<pre><code class="bash">
-curl -X GET \
-  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
-  -G \
-  --data-urlencode 'keys=playerName,score' \
-  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
-</code></pre>
-<pre><code class="python">
-import json,httplib,urllib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"keys":"playerName,score"})
-connection.connect()
-connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
-     })
-result = json.loads(connection.getresponse().read())
-print result
-</code></pre>
-</div>
-
 When using a MongoDB replica set, you can use the `readPreference` option to choose from which replica the object will be retrieved. You can also use the `includeReadPreference` option to choose from which replica the included pointers will be retrieved. The possible values for both options are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` option is not set, the same replica chosen for `readPreference` will be also used for the includes.
 
 <div class="language-toggle">
