@@ -308,7 +308,7 @@ In addition to `where`, there are several parameters you can use to configure wh
 | limit         | Limit the number of objects returned by the query |
 | skip          | Use with limit to paginate through results        |
 | keys          | Restrict the fields returned by the query         |
-| excludeKeys   | Exlcude specific fields from the returned query   |
+| excludeKeys   | Exclude specific fields from the returned query   |
 | include       | Use on Pointer columns to return the full object  |
 
 You can use the `order` parameter to specify a field to sort by. Prefixing with a negative sign reverses the order. Thus, to retrieve scores in ascending order:
