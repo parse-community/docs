@@ -140,7 +140,7 @@ The response body is a JSON object containing all the user-provided fields, plus
 }
 ```
 
-When retrieving objects that have pointers to children, you can fetch child objects by using the `include` option. For instance, to fetch the object pointed to by the "game" key:
+When retrieving objects that have pointers to children, **you can fetch child objects** by using the `include` option. For instance, to fetch the object pointed to by the "game" key:
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -191,6 +191,8 @@ result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 </div>
+
+
 
 ## Updating Objects
 
