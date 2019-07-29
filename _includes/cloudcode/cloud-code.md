@@ -219,6 +219,15 @@ Parse.Cloud.beforeSave("Review", (request) => {
 });
 ```
 
+## Predefined Classes
+If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
+
+```javascript
+Parse.Cloud.beforeSave(Parse.User, async (request) => {
+    // code here
+})
+```
+
 # afterSave Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been saved. You can do this by registering a handler with the `afterSave` method. For example, suppose you want to keep track of the number of comments on a blog post. You can do that by writing a function like this:
@@ -272,7 +281,13 @@ const afterSave = function afterSave(request) {
 ```
 
 ## Predefined Classes
-If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
+
+```javascript
+Parse.Cloud.afterSave(Parse.User, async (request) => {
+    // code here
+})
+```
 
 # beforeDelete Triggers
 
@@ -295,8 +310,14 @@ Parse.Cloud.beforeDelete("Album", (request) => {
 
 If the function throws, the `Album` object will not be deleted, and the client will get an error. Otherwise,the object will be deleted normally.
 
-If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+## Predefined Classes
+If you want to use `beforeDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
+```javascript
+Parse.Cloud.beforeDelete(Parse.User, async (request) => {
+    // code here
+})
+```
 
 # afterDelete Triggers
 
@@ -318,14 +339,20 @@ The `afterDelete` handler can access the object that was deleted through `reques
 
 The client will receive a successful response to the delete request after the handler terminates, regardless of how the `afterDelete` terminates. For instance, the client will receive a successful response even if the handler throws an exception. Any errors that occurred while running the handler can be found in the Cloud Code log.
 
-If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself.
+## Predefined Classes
+If you want to use `afterDelete` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
+
+```javascript
+Parse.Cloud.afterDelete(Parse.User, async (request) => {
+    // code here
+})
+```
 
 # beforeFind Triggers
 
 *Available only on parse-server cloud code starting 2.2.20*
 
 In some cases you may want to transform an incoming query, adding an additional limit or increasing the default limit, adding extra includes or restrict the results to a subset of keys. You can do so with the `beforeFind` trigger.
-
 
 ## Examples
 
@@ -384,7 +411,37 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 
 ```
 
-# beforeLogin Trigger
+## Predefined Classes
+If you want to use `beforeFind` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
+
+```javascript
+Parse.Cloud.beforeFind(Parse.User, async (request) => {
+    // code here
+})
+```
+
+# afterFind Triggers
+
+*Available only on parse-server cloud code starting 2.2.25*
+
+In some cases you may want to manipulate the results of a query before they are sent to the client. You can do so with the `afterFind` trigger.
+
+```
+Parse.Cloud.afterFind('MyCustomClass', async (request) => {
+    // code here
+})
+```
+
+## Predefined Classes
+If you want to use `afterFind` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
+
+```javascript
+Parse.Cloud.afterFind(Parse.User, async (request) => {
+    // code here
+})
+```
+
+# beforeLogin Triggers
 
 *Available only on parse-server cloud code starting 3.3.0*
 
