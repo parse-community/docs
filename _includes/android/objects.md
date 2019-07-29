@@ -16,7 +16,7 @@ Each `ParseObject` has a class name that you can use to distinguish different so
 
 ## Saving Objects
 
-Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to a `Map`, plus the `saveInBackground` method:
+Let's say you want to save the `GameScore` described above to your Parse Server. The interface is similar to a `Map`, plus the `saveInBackground` method:
 
 ```java
 ParseObject gameScore = new ParseObject("GameScore");
@@ -169,7 +169,7 @@ query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
   public void done(ParseObject gameScore, ParseException e) {
     if (e == null) {
       // Now let's update it with some new data. In this case, only cheatMode and score
-      // will get sent to the Parse Cloud. playerName hasn't changed.
+      // will get sent to your Parse Server. playerName hasn't changed.
       gameScore.put("score", 1338);
       gameScore.put("cheatMode", true);
       gameScore.saveInBackground();
@@ -212,7 +212,7 @@ Note that it is not currently possible to atomically add and remove items from a
 
 ## Deleting Objects
 
-To delete an object from the Parse Cloud:
+To delete an object from your Parse Server:
 
 ```java
 myObject.deleteInBackground();
@@ -226,7 +226,7 @@ You can delete a single field from an object with the `remove` method:
 // After this, the playerName field will be empty
 myObject.remove("playerName");
 
-// Saves the field deletion to the Parse Cloud
+// Saves the field deletion to your Parse Server
 myObject.saveInBackground();
 ```
 
@@ -485,7 +485,7 @@ protected void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putParcelable("object", object);
 }
-    
+
 @Override
 protected void onCreate(@Nullable Bundle savedInstanceState) {
   if (savedInstanceState != null) {
@@ -507,7 +507,7 @@ This means that the `ParseObject` is internally notified about the operation res
 When the Local Datastore is disabled, and the parceled `ParseObject` has ongoing operations that haven't finished yet, the unparceled object will end up in a stale state. The unparceled object, being a different instance than the source object,
 
 - assumes that ongoing operations at the moment of parceling never took place
-- will not update its internal state when the operations triggered by the source object 
+- will not update its internal state when the operations triggered by the source object
 
 The unfortunate consequence is that keys that were dirty before saving will still be marked as dirty for the unparceled object. This means, for instance, that any future call to `saveInBackground()` will send these dirty operations to the server again. This can lead to inconsistencies for operations like `increment`, since it might be performed twice.
 
@@ -520,12 +520,12 @@ By default, `ParseObject` implementation parcels everything that is needed. If y
 @ParseClassName("Armor")
 public class Armor extends ParseObject {
   private int member;
-  
+
   @Override
   protected void onSaveInstanceState(Bundle outState) {
     outState.putInt("member", member);
   }
-  
+
   @Override
   protected void onRestoreInstanceState(Bundle savedInstanceState) {
     member = savedInstanceState.getInt("member");

@@ -85,7 +85,7 @@ You can also get the set of channels that the current device is subscribed to us
 List<String> subscribedChannels = ParseInstallation.getCurrentInstallation().getList("channels");
 ```
 
-Neither the subscribe method nor the unsubscribe method blocks the thread it is called from. The subscription information is cached on the device's disk if the network is inaccessible and transmitted to the Parse Cloud as soon as the network is usable. This means you don't have to worry about threading or callbacks while managing subscriptions.
+Neither the subscribe method nor the unsubscribe method blocks the thread it is called from. The subscription information is cached on the device's disk if the network is inaccessible and transmitted to your Parse Server as soon as the network is usable. This means you don't have to worry about threading or callbacks while managing subscriptions.
 
 #### Sending Pushes to Channels
 

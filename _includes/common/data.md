@@ -54,7 +54,7 @@ Objects in either format should contain keys and values that also satisfy the fo
 * Key names must contain only numbers, letters, and underscore, and must start with a letter.
 * No value may contain a hard newline '`\n`'.
 
-Normally, when objects are saved to Parse, they are automatically assigned a unique identifier through the `objectId` field, as well as a `createdAt` field and `updatedAt` field which represent the time that the object was created and last modified in the Parse Cloud. These fields can be manually set when data is imported from a JSON file. Please keep in mind the following:
+Normally, when objects are saved to Parse, they are automatically assigned a unique identifier through the `objectId` field, as well as a `createdAt` field and `updatedAt` field which represent the time that the object was created and last modified in your Parse Server. These fields can be manually set when data is imported from a JSON file. Please keep in mind the following:
 
 * Use a unique 10 character alphanumeric string as the value of your `objectId` fields.
 * Use a UTC timestamp in the ISO 8601 format when setting a value for the `createdAt` field or the `updatedAt` field.
