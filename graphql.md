@@ -14,6 +14,7 @@ sections:
 - "graphql/your-first-query.md"
 - "graphql/objects.md"
 - "graphql/users.md"
+- "graphql/customisation.md"
 - "graphql/learning-more.md"
 
 ---
