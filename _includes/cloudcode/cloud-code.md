@@ -102,7 +102,6 @@ And finally, to call the same function from a JavaScript app:
 const params =  { movie: "The Matrix" };
 const ratings = await Parse.Cloud.run("averageStars", params);
 // ratings should be 4.5
-});
 ```
 
 In general, two arguments will be passed into cloud functions:
