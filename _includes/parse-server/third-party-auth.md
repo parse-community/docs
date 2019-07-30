@@ -12,6 +12,7 @@ Parse Server supports 3rd party authentication with
 * Janrain Engage
 * LinkedIn
 * Meetup
+* PhantAuth
 * QQ
 * Spotify
 * Twitter
@@ -205,6 +206,21 @@ Google oauth supports validation of id_token's and access_token's.
   }
 }
 ```
+
+### PhantAuth `authData`
+
+As of Parse Server 3.7.0 you can use [PhantAuth](https://www.phantauth.net/).
+
+```js
+{
+  "phantauth": {
+    "id": "user's PhantAuth sub (string)",
+    "access_token": "an authorized PhantAuth access token for the user",
+  }
+}
+```
+
+Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### QQ `authData`
 
