@@ -118,7 +118,7 @@ let acl = gameScore.acl
 </div>
 
 If you need to refresh an object you already have with the latest data that
-is in the database, you can use the `fetchInBackgroundWithBlock:` or `fetchInBackgroundWithTarget:selector:` methods to provide additional logic which will run after fetching the object.
+is in the database, you can use the `fetchInBackgroundWithBlock:` or `fetchInBackgroundWithTarget:selector:` methods.
 
 
 <div class="language-toggle" markdown="1">
