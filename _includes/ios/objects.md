@@ -75,7 +75,7 @@ PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 ```
 ```swift
 let query = PFQuery(className:"GameScore")
-query.getObjectInBackground(withId: "xWMyZEGZ") { (object, error) in
+query.getObjectInBackground(withId: "xWMyZEGZ") { (gameScore, error) in
     if error == nil {
         // Success!
     } else {
