@@ -539,7 +539,7 @@ if let object = try? query.getFirstObject() {
 } ```
 </div>
 
-You can learn more queries by visiting the [PFQuery](#queries) section.  A `PFRelation` behaves similarly to an array of  `PFObject` yet has a built in query that's capable of everything a standard `PFQuery` is other than `includeKey:`.
+You can learn more about queries by visiting the [PFQuery](#queries) section. A `PFRelation` behaves similarly to an array of  `PFObject` yet has a built in query that's capable of everything a standard `PFQuery` is other than `includeKey:`.
 
 ## Data Types
 
