@@ -705,4 +705,4 @@ func iconView() -> UIImageView {
 
 ### Initializing Subclasses
 
-You should initialize new instances of subclassses with standard initialization methods. To create a new instance to an existing Parse object, use the inherited `PFObject` class function `objectWithoutDataWithObjectId:`, or create a new object and set the objectId property manually.
+You should initialize new instances of subclassses with standard initialization methods. To create a new instance of an existing Parse object, use the inherited `PFObject` class function `objectWithoutDataWithObjectId:`, or create a new object and set the objectId property manually.
