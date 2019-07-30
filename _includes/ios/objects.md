@@ -357,7 +357,7 @@ Note that it is not currently possible to atomically add and remove items from a
 ## Deleting Objects
 
 
-There are a few ways to delete a `PFObject`. For basic asynchronous deletion of a single object call the objects `deleteInBackground` function. If you prefer to recieve a callback you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method. Lastly, `deleteEventually` network conscious solution that deletes when possible but does not guarantee a timeframe for the tasks completion.
+There are a few ways to delete a `PFObject`. For basic asynchronous deletion of a single object call the objects `deleteInBackground` function. If you prefer to recieve a callback you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method. Lastly, `deleteEventually` is a network conscious option that deletes when possible but does not guarantee a timeframe for the tasks completion.
 
 For deleting multiple objects use the `PFObject` static function `deleteAllInBackground` to delete an array of objects asynchronously. The same can be done while blocking the calling thread using `deleteAll`. Lastly, to recieve a callback after deleting objects asyncronously use `deleteAllInBackground:block:` as demonstrated below.
 
