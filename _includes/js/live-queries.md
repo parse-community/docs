@@ -12,6 +12,8 @@ let query = new Parse.Query('Game');
 let subscription = await query.subscribe();
 ```
 
+* Since release `2.3.0` of Parse JS SDK, the `query.subscribe()` function returns a `Promise` that resolves to the subscription object. Previous releases return the subscription object directly and require you to write `let subscription = query.subscribe();` instead.
+
 The subscription you get is actually an event emitter. For more information on event emitter, check [here](https://nodejs.org/api/events.html). You'll get the LiveQuery events through this `subscription`. The first time you call subscribe, we'll try to open the WebSocket connection to the LiveQuery server for you.
 
 ## Event Handling
