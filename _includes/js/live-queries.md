@@ -9,7 +9,7 @@ Note: Live Queries is supported only in [Parse Server](https://github.com/parse-
 
 ```javascript
 let query = new Parse.Query('Game');
-let subscription = query.subscribe();
+let subscription = await query.subscribe();
 ```
 
 The subscription you get is actually an event emitter. For more information on event emitter, check [here](https://nodejs.org/api/events.html). You'll get the LiveQuery events through this `subscription`. The first time you call subscribe, we'll try to open the WebSocket connection to the LiveQuery server for you.
