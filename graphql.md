@@ -4,7 +4,7 @@ permalink: /graphql/guide/
 layout: guide
 platform: graphql
 language: graphql
-display_platform: GraphQL
+display_platform: GraphQL (beta)
 
 redirect_from:
   - /graphql/
