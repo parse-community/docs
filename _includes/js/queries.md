@@ -463,7 +463,7 @@ You can group by a field.
 ```javascript
 // score is the field. $ before score lets the database know this is a field
 var pipeline = [
-  group: { objectId: '$score' }
+  { group: { objectId: '$score' } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -480,7 +480,7 @@ You can apply collective calculations like $sum, $avg, $max, $min.
 ```javascript
 // total will be a newly created field to hold the sum of score field
 var pipeline = [
-  group: { objectId: null, total: { $sum: '$score' } }
+  { group: { objectId: null, total: { $sum: '$score' } } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -496,7 +496,7 @@ Project pipeline is similar to `keys` or `select`, add or remove existing fields
 
 ```javascript
 var pipeline = [
-  project: { name: 1 }
+  { project: { name: 1 } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -528,7 +528,7 @@ You can match by comparison.
 
 ```javascript
 var pipeline = [
-  match: { score: { $gt: 15 } }
+  { match: { score: { $gt: 15 } } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
