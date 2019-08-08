@@ -128,11 +128,14 @@ As of Parse Server 3.5.0 you can use [Sign In With Apple](https://developer.appl
 ```js
 {
   "apple": {
-    "id": "jwt token for user", // required, used for validation
-    "access_token": "an authorized access token for the user", // optional
+    "id": "user",
+    "token": "the identity token for the user"
   }
 }
 ```
+
+Using Apple Sign In on a iOS device will give you a `ASAuthorizationAppleIDCredential.user` string for the user identifier, which can be match the `sub` component of the JWT identity token.
+Using Apple Sign In through the Apple JS SDK or through the REST service will only give you the JWT identity token (`id_token`) which you'll have to decompose to obtain the user identifier in its `sub` component. As an example you could use something like `JSON.parse(atob(token.split(".")[1])).sub`.
 
 #### Configuring parse-server for Sign In with Apple
 
