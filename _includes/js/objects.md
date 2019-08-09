@@ -187,7 +187,7 @@ parent.save({child: child});
 // just before saving the Parent
 ```
 
-In some scenarios, you may want to prevent this default chain save. For example, when saving a team member's profile that points to an account owned by another user to which you don't have write access. In this case, setting the option `cascadeSave` to `false` may come in handy:
+In some scenarios, you may want to prevent this default chain save. For example, when saving a team member's profile that points to an account owned by another user to which you don't have write access. In this case, setting the option `cascadeSave` to `false` may be useful:
 
 ```javascript
 var TeamMember = Parse.Object.extend("TeamMember");
