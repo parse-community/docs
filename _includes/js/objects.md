@@ -173,7 +173,7 @@ gameScore.save({
 ```
 
 ### Saving Nested Objects
-You may add a `Parse.Object` as the value of a property in another `Parse.Object`. By default, when you call `save()` on the parent object, all nested objects will be created and/or saved as well in a batch operation. This feature makes really easy managing relational data as you don't have to take care of creating the objects in any specific order.
+You may add a `Parse.Object` as the value of a property in another `Parse.Object`. By default, when you call `save()` on the parent object, all nested objects will be created and/or saved as well in a batch operation. This feature makes it really easy to manage relational data as you don't have to take care of creating the objects in any specific order.
 
 ```javascript
 var Child = Parse.Object.extend("Child");
