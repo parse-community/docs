@@ -225,7 +225,7 @@ print result
 </code></pre>
 </div>
 
-The response body is a JSON object containing by default an `updatedAt` field with the timestamp of the update.
+The response body is a JSON object containing, by default, an `updatedAt` field with the timestamp of the update.
 
 ```json
 {
