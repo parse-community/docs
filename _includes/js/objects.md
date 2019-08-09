@@ -192,7 +192,7 @@ In some scenarios, you may want to prevent this default chain save. For example,
 ```javascript
 var TeamMember = Parse.Object.extend("TeamMember");
 var  = new TeamMember();
-teamMember.set('owninerAccount', ownerAccount);   // Supose `ownerAccount` to have been created earlier.
+teamMember.set('owninerAccount', ownerAccount);   // Suppose `ownerAccount` has been created earlier.
 
 teamMember.save(null, { cascadeSave: false });
 // Will save `teamMember` wihout attempting to save or modify `ownerAccount`
