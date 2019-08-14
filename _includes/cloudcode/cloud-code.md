@@ -473,7 +473,7 @@ Parse.Cloud.beforeLogin(async request => {
 
 *Available only on parse-server cloud code starting 2.6.2*
 
-Sometimes you may want monitor Live Query Event to be used with a 3rd Party such as datadog. The `onLiveQueryEvent` trigger can be logging events triggered, number of clients connected, number of subscriptions and errors.
+Sometimes you may want to monitor Live Query Events to be used with a 3rd Party such as datadog. The `onLiveQueryEvent` trigger can log events triggered, number of clients connected, number of subscriptions and errors.
 
 ```javascript
 Parse.Cloud.onLiveQueryEvent(({
