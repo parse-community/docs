@@ -578,4 +578,4 @@ const config = await Parse.Config.get({useMasterKey: true});
 const privateParam = config.get("privateParam");
 ```
 
-By default, a parameter can be retrieved by clients which may not be desired if the parameter contains sensitive information that should not be exposed to clients. A parameter can be made retrievable in Cloud Code with master key only by setting the `Master Code Only` property via Parse Dashboard to `true`. 
+By default, Parse Config parameters can be publicly read which may be undesired if the parameter contains sensitive information that should not be exposed to clients. A parameter can be made readable only with the master key by setting the `Master Key Only` property via the Parse Dashboard to `true`. 
