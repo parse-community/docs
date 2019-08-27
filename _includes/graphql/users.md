@@ -2,7 +2,7 @@
 
 In general, users have the same features as other objects, such as the flexible schema. The differences are that user objects must have a username and password, the password is automatically encrypted and stored securely, and Parse Server enforces the uniqueness of the username and email fields.
 
-Therefore you can manage users objects using the `create_User`, `get_User`, `find_User`, `update_User`, `delete_User`, and the generic operations with `_User` in the `className` argument.
+Therefore you can manage users objects using the `createUser`, `user`, `users`, `updateUser`, `deleteUser`, and the generic operations with `_User` in the `className` argument.
 
 Additionally, you can use the `signUp`, `logIn`, and `logOut` operations, which will be presented in the following sections.
 
@@ -16,15 +16,13 @@ To sign up a new user, use the `signUp` mutation. For example:
 
 ```graphql
 mutation SignUp {
-  users {
-    signUp(fields: {
-      username: "somedude"
-      password: "Parse_3.5_Rocks!"
-    }) {
-      objectId
-      createdAt
-      sessionToken
-    }
+  signUp(fields: {
+    username: "somedude"
+    password: "Parse_3.5_Rocks!"
+  }) {
+    objectId
+    createdAt
+    sessionToken
   }
 }
 ```
@@ -34,12 +32,10 @@ The code above should resolve to something similar to this:
 ```json
 {
   "data": {
-    "users": {
-      "signUp": {
-        "objectId": "nkGmXzlTnA",
-        "createdAt": "2019-07-08T23:59:35.694Z",
-        "sessionToken": "r:9cfef8ec8e77c4e01f6e1069d0a199d8"
-      }
+    "signUp": {
+      "objectId": "A13obRUwDE",
+      "createdAt": "2019-08-27T07:22:25.251Z",
+      "sessionToken": "r:caca30fa5c68f0ce467e7790a7208ff7"
     }
   }
 }
@@ -53,14 +49,12 @@ After you allow users to sign up, you need to let them log in to their account w
 
 ```graphql
 mutation LogIn {
-  users {
-    logIn(username: "somedude" password: "Parse_3.5_Rocks!") {
-      objectId
-      username
-      sessionToken
-      createdAt
-      updatedAt
-    }
+  logIn(fields: { username: "somedude" password: "Parse_3.5_Rocks!" }) {
+    objectId
+    username
+    sessionToken
+    createdAt
+    updatedAt
   }
 }
 ```
@@ -70,14 +64,12 @@ The code above should resolve to something similar to this:
 ```json
 {
   "data": {
-    "users": {
-      "logIn": {
-        "objectId": "nkGmXzlTnA",
-        "username": "somedude",
-        "sessionToken": "r:28eeeed86ad96e88e120783b2ea612ef",
-        "createdAt": "2019-07-08T23:59:35.694Z",
-        "updatedAt": "2019-07-08T23:59:35.694Z"
-      }
+    "logIn": {
+      "objectId": "A13obRUwDE",
+      "username": "somedude",
+      "sessionToken": "r:28eeeed86ad96e88e120783b2ea612ef",
+      "createdAt": "2019-08-27T07:22:25.251Z",
+      "updatedAt": "2019-08-27T07:22:25.251Z"
     }
   }
 }
@@ -96,11 +88,9 @@ You can easily do this in the GraphQL Playground. There is an option called `HTT
 After setting up the `X-Parse-Session-Token` header, any operation will run as this user. For example, you can run the code below to validate the session token and return its associated user:
 
 ```graphql
-query Me {
-  users {
-    me {
-      username
-    }
+query Viewer {
+  viewer {
+    username
   }
 }
 ```
@@ -110,10 +100,8 @@ The code above should resolve to something similar to this:
 ```json
 {
   "data": {
-    "users": {
-      "me": {
-        "username": "somedude"
-      }
+    "viewer": {
+      "username": "somedude"
     }
   }
 }
@@ -125,8 +113,8 @@ You can log out a user through the `logOut` mutation. You need to send the `X-Pa
 
 ```graphql
 mutation LogOut {
-  users {
-    logOut
+  logOut {
+    username
   }
 }
 ```
@@ -136,8 +124,8 @@ The code above should resolve to something similar to this:
 ```json
 {
   "data": {
-    "users": {
-      "logOut": true
+    "logOut": {
+      "username": "somedude"
     }
   }
 }
