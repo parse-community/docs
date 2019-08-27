@@ -478,6 +478,10 @@ Sometimes you may want to monitor Live Query Events to be used with a 3rd Party 
 ```javascript
 Parse.Cloud.onLiveQueryEvent(({
   event,
+  client,
+  sessionToken,
+  useMasterKey,
+  installationId,
   clients,
   subscriptions,
   error
@@ -488,6 +492,9 @@ Parse.Cloud.onLiveQueryEvent(({
   // Do your magic
 });
 ```
+*client, sessionToken, useMasterKey and installationId are available on parse-server cloud code 2.8.0+*
+
+To learn more, read the [Parse LiveQuery Protocol Specification](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
 
 ## Events
 
