@@ -172,6 +172,34 @@ gameScore.save({
 });
 ```
 
+### Saving Nested Objects
+You may add a `Parse.Object` as the value of a property in another `Parse.Object`. By default, when you call `save()` on the parent object, all nested objects will be created and/or saved as well in a batch operation. This feature makes it really easy to manage relational data as you don't have to take care of creating the objects in any specific order.
+
+```javascript
+var Child = Parse.Object.extend("Child");
+var child = new Child();
+
+var Parent = Parse.Object.extend("Parent");
+var parent = new Child();
+
+parent.save({child: child});
+// Automatically the object Child is created on the server
+// just before saving the Parent
+```
+
+In some scenarios, you may want to prevent this default chain save. For example, when saving a team member's profile that points to an account owned by another user to which you don't have write access. In this case, setting the option `cascadeSave` to `false` may be useful:
+
+```javascript
+var TeamMember = Parse.Object.extend("TeamMember");
+var  = new TeamMember();
+teamMember.set('owninerAccount', ownerAccount);   // Suppose `ownerAccount` has been created earlier.
+
+teamMember.save(null, { cascadeSave: false });
+// Will save `teamMember` wihout attempting to save or modify `ownerAccount`
+
+```
+
+
 ## Retrieving Objects
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `Parse.Object` has been uploaded to the server, you can use the `objectId` to get it using a `Parse.Query`:
