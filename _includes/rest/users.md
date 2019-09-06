@@ -16,7 +16,7 @@ To sign up a new user, send a POST request to the users root. You may add any ad
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
   -d '{"username":"cooldude6","password":"p_n7!-e8","phone":"415-392-0202"}' \
@@ -32,7 +32,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "phone": "415-392-0202"
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Revocable-Session": "1",
        "Content-Type": "application/json"
      })
@@ -66,7 +66,7 @@ After you allow users to sign up, you need to let them log in to their account w
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Revocable-Session: 1" \
   -G \
   --data-urlencode 'username=cooldude6' \
@@ -80,7 +80,7 @@ params = urllib.urlencode({"username":"cooldude6","password":"p_n7!-e8"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>login?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Revocable-Session": "1"
      })
 result = json.loads(connection.getresponse().read())
@@ -117,7 +117,7 @@ You can request a verification email to be sent by sending a POST request to <co
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"email":"email@example.com"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest
@@ -130,7 +130,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "email": "email@example.com"
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -148,7 +148,7 @@ You can initiate password resets for users who have emails associated with their
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"email":"coolguy@iloveapps.com"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>requestPasswordReset
@@ -161,7 +161,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "email": "coolguy@iloveapps.com"
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -180,7 +180,7 @@ You can also retrieve the contents of a user object by sending a GET request to 
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
 </code></pre>
 <pre><code class="python">
@@ -189,7 +189,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -216,7 +216,7 @@ With a valid session token, you can send a GET request to the <code class="highl
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/me
 </code></pre>
@@ -226,7 +226,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users/me', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -255,7 +255,7 @@ For example, if we wanted to change the phone number for `cooldude6`:
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   -H "Content-Type: application/json" \
   -d '{"phone":"415-369-6201"}' \
@@ -269,7 +269,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        "phone": "415-369-6201"
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
        "Content-Type": "application/json"
      })
@@ -294,7 +294,7 @@ You can retrieve multiple users at once by sending a GET request to the root use
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 <pre><code class="python">
@@ -303,7 +303,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -344,7 +344,7 @@ To delete a user from the Parse Cloud, send a DELETE request to its URL. You mus
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O
 </code></pre>
@@ -354,7 +354,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
      })
 result = json.loads(connection.getresponse().read())
@@ -417,7 +417,7 @@ Signing a user up with a linked service and logging them in with that service us
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Revocable-Session: 1" \
   -H "Content-Type: application/json" \
   -d '{
@@ -451,7 +451,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Revocable-Session": "1",
        "Content-Type": "application/json"
      })
@@ -515,7 +515,7 @@ Linking an existing user with a service like Facebook or Twitter uses a PUT requ
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
   -d '{
@@ -543,7 +543,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
      })
@@ -562,7 +562,7 @@ Unlinking an existing user with a service also uses a PUT request to clear `auth
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Session-Token: r:samplei3l83eerhnln0ecxgy5" \
   -H "Content-Type: application/json" \
   -d '{
@@ -582,7 +582,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
        "Content-Type": "application/json"
      })

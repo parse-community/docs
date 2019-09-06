@@ -2,7 +2,7 @@
 
 ## The PFFileObject
 
-`PFFileObject` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `PFObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
+`PFFileObject` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `PFObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data.
 
 Getting started with `PFFileObject` is easy. First, you'll need to have the data in `NSData` form and then create a `PFFileObject` with it. In this example, we'll just use a string:
 
@@ -142,6 +142,8 @@ file?.saveInBackground({ (success: Bool, error: Error?) in
 ```
 </div>
 
-You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
+##Deleting Files
 
-If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app's Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.
+If you know the name of a file you can delete it using the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files). Your master key is required for this operation.
+
+Note: Reguardless of the Parse Server storage configuration, deleting a `PFObject` with a `PFFileObject` does not delete the file itself meerly its reference. Additionally, Parse does **NOT** provide a way to find unreferenced file names in storage.

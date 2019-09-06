@@ -2,7 +2,7 @@
 
 ## Creating a Parse.File
 
-`Parse.File` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `Parse.Object`. The most common use case is storing images, but you can also use it for documents, videos, music, and any other binary data (up to 10 megabytes).
+`Parse.File` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `Parse.Object`. The most common use case is storing images, but you can also use it for documents, videos, music, and any other binary data.
 
 Getting started with `Parse.File` is easy. There are a couple of ways to create a file. The first is with a base64-encoded String.
 
@@ -110,6 +110,7 @@ Parse.Cloud.httpRequest({ url: profilePhoto.url() }).then(function(response) {
   // The file contents are in response.buffer.
 });
 ```
+##Deleting Files
 
 You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 

@@ -10,7 +10,7 @@ To associate a point with an object you will need to embed a `GeoPoint` data typ
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{
         "location": {
@@ -33,7 +33,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -49,7 +49,7 @@ Now that you have a bunch of objects with spatial coordinates, it would be nice 
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
   --data-urlencode 'limit=10' \
   --data-urlencode 'where={
@@ -78,7 +78,7 @@ params = urllib.urlencode({"limit":10,"where":json.dumps({
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -120,7 +120,7 @@ To limit the search to a maximum distance add a `$maxDistanceInMiles` (for miles
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
   --data-urlencode 'where={
         "location": {
@@ -150,7 +150,7 @@ params = urllib.urlencode({"where":json.dumps({
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -163,7 +163,7 @@ It's also possible to query for the set of objects that are contained within a p
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
   --data-urlencode 'where={
         "location": {
@@ -209,7 +209,7 @@ params = urllib.urlencode({"where":json.dumps({
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -223,8 +223,8 @@ It's also possible to query for the set of objects that are contained within or 
 <div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
-  -H "X-Parse-Application-Id: ${APPLICATION_ID}" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
   --data-urlencode 'where={
         "location": {
@@ -279,8 +279,8 @@ params = urllib.urlencode({"where":json.dumps({
      })})
 connection.connect()
 connection.request('GET', '/1/classes/PizzaPlaceObject?%s' % params, '', {
-       "X-Parse-Application-Id": "${APPLICATION_ID}",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result

@@ -17,7 +17,7 @@ Each `ParseObject` has a class name that you can use to distinguish different so
 
 ## Saving Objects
 
-Let's say you want to save the `GameScore` described above to the Parse Cloud. The interface is similar to an `IDictionary<string, object>`, plus the `SaveAsync` method:
+Let's say you want to save the `GameScore` described above to your Parse Server. The interface is similar to an `IDictionary<string, object>`, plus the `SaveAsync` method:
 
 ```cs
 ParseObject gameScore = new ParseObject("GameScore");
@@ -35,7 +35,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `ObjectId` is a unique identifier for each saved object. `CreatedAt` and `UpdatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a `ParseObject` until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `ObjectId` is a unique identifier for each saved object. `CreatedAt` and `UpdatedAt` represent the time that each object was created and last modified in your Parse Server. Each of these fields is filled in by Parse, so they don't exist on a `ParseObject` until a save operation has completed.
 
 ## Data Types
 
@@ -178,7 +178,7 @@ You can delete a single field from an object with the `Remove` method:
 // After this, the playerName field will be empty
 myObject.Remove("playerName");
 
-// Saves the field deletion to the Parse Cloud
+// Saves the field deletion to Parse Server
 await myObject.SaveAsync();
 ```
 

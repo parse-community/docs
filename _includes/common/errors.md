@@ -162,9 +162,6 @@ The following is a list of all the error codes that can be returned by the Parse
 |----------------------------------|------|---------------------------------------------------------------|
 | `RequestTimeout`                 |  124 | The request was slow and timed out. Typically this indicates that the request is too expensive to run. You may see this when a Cloud function did not finish before timing out, or when a `Parse.Cloud.httpRequest` connection times out.  |
 | `InefficientQueryError`	         |  154 | An inefficient query was rejected by the server. Refer to the Performance Guide and slow query log. |
-| `RequestLimitExceeded`	         |  155 | This application has exceeded its request limit (legacy Parse.com apps only). |
-| `TemporaryRejectionError`	       |  159 | An application's requests are temporary rejected by the server (legacy Parse.com apps only). |
-| `DatabaseNotMigratedError`       |  428 | You should migrate your database as soon as possible (legacy Parse.com apps only). |
 {: .docs_table}
 
 ## Other issues

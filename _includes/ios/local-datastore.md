@@ -1,14 +1,19 @@
 # Local Datastore
 
-The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `PFObject`s, even when the network is unavailable. To enable this functionality, add `libsqlite3.dylib` and add `isLocalDatastoreEnabled = true` to the `ParseClientConfiguration` block used in `Parse.initialize()`.
+The Parse iOS/OS X SDK provides a local datastore which can be used to store and retrieve `PFObject`s, even when the network is unavailable. To enable this functionality add `isLocalDatastoreEnabled = true` to the `ParseClientConfiguration` block used in `Parse.initialize()` or call `Parse.enableLocalDatastore()` prior to initializing Parse.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
 @implementation AppDelegate
 
 - (void)application:(UIApplication *)application didFinishLaunchWithOptions:(NSDictionary *)options {
-  [Parse enableLocalDatastore];
-  [Parse setApplicationId:@"parseAppId" clientKey:@"parseClientKey"];
+    ParseClientConfiguration *configuration = [ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
+        configuration.applicationId =  @"parseAppId";
+        configuration.clientKey = @"parseClientKey";
+        configuration.server = @"parseServerUrlString";
+        configuration.localDatastoreEnabled = YES;
+    }];
+    [Parse initializeWithConfiguration:configuration];
 }
 
 @end
@@ -74,28 +79,28 @@ Storing objects is great, but it's only useful if you can then get the objects b
 ```objective_c
 PFQuery *query = [PFQuery queryWithClassName:@"GameScore"];
 [query fromLocalDatastore];
-[[query getObjectInBackgroundWithId:@"xWMyZ4YE"] continueWithBlock:^id(BFTask *task) {
-  if (task.error) {
-    // Something went wrong.
-    return task;
-  }
+[query getObjectInBackgroundWithId:"" block:^(PFObject * _Nullable object, NSError * _Nullable error) {
+    if (!error) {
+        // Success
+    } else {
+        // Fail!
+    }
+}
 
   // task.result will be your game score
   return task;
 }];
 ```
+
 ```swift
 let query = PFQuery(className: "GameScore")
 query.fromLocalDatastore()
-query.getObjectInBackgroundWithId("xWMyZ4YE").continueWithBlock {
-    (task: BFTask!) -> AnyObject in
-    if let error = task.error {
-        // Something went wrong.
-        return task;
+query.getObjectInBackground(withId: "string") { (object, error) in
+    if error == nil {
+        // Success!
+    } else {
+    // Failure!
     }
-
-    // task.result will be your game score
-    return task;
 }
 ```
 </div>

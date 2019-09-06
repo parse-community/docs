@@ -251,45 +251,45 @@ Using our Facebook integration, you can associate an authenticated Facebook user
 
 To start using Facebook with Parse, you need to:
 
-1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already.  Choose the "Website with Facebook Login" option under "Select how your app integrates with Facebook" and enter your site's URL.
-2.  Add your application's Facebook Application ID on your Parse application's settings page.
-3.  Follow [these instructions](https://developers.facebook.com/docs/javascript/quickstart/) for loading the Facebook JavaScript SDK into your application.
-4.  Replace your call to `FB.init()` with a call to `Parse.FacebookUtils.init()`. For example, if you load the Facebook JavaScript SDK asynchronously, your `fbAsyncInit` function will look like this:
+1.  [Create a Facebook Developer account](https://developers.facebook.com/).
+2.  [Create an app](https://developers.facebook.com/apps).
+3.  In your app Dashboard, add a product -> Facebook Login.
+4.  [Add appIds to Parse Server auth configuration](http://docs.parseplatform.org/parse-server/guide/#oauth-and-3rd-party-authentication) or pass `facebookAppIds` into configuration
 
-```javascript
-&lt;script&gt;
+```html
+<script>
   // Initialize Parse
   Parse.initialize("$PARSE_APPLICATION_ID", "$PARSE_JAVASCRIPT_KEY");
+  Parse.serverURL = 'http://YOUR_PARSE_SERVER:1337/parse';
 
-      window.fbAsyncInit = function() {
-    Parse.FacebookUtils.init({ // this line replaces FB.init({
+  window.fbAsyncInit = function() {
+    Parse.FacebookUtils.init({
       appId      : '{facebook-app-id}', // Facebook App ID
       status     : true,  // check Facebook Login status
       cookie     : true,  // enable cookies to allow Parse to access the session
       xfbml      : true,  // initialize Facebook social plugins on the page
       version    : 'v2.3' // point to the latest Facebook Graph API version
     });
-
-        // Run code after the Facebook SDK is loaded.
+    // Run code after the Facebook SDK is loaded.
+    // ...
   };
 
-      (function(d, s, id){
+  // Load Facebook SDK
+  (function(d, s, id){
     var js, fjs = d.getElementsByTagName(s)[0];
     if (d.getElementById(id)) {return;}
     js = d.createElement(s); js.id = id;
     js.src = "//connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-&lt;/script&gt;
+</script>
 ```
 
 The function assigned to `fbAsyncInit` is run as soon as the Facebook JavaScript SDK has completed loading. Any code that you want to run after the Facebook JavaScript SDK is loaded should be placed within this function and after the call to `Parse.FacebookUtils.init()`.
 
 If you encounter any issues that are Facebook-related, a good resource is the [official getting started guide from Facebook](https://developers.facebook.com/docs/reference/javascript/).
 
-If you encounter issues that look like they're being returned from Parse's servers, try removing your Facebook application's App Secret from your app's settings page.
-
-There are two main ways to use Facebook with your Parse users: (1) logging in as a Facebook user and creating a `Parse.User`, or (2) linking Facebook to an existing `Parse.User`.
+There are two main ways to use Facebook with your Parse users: (1) [logging in as a Facebook user](#login--signup) and creating a `Parse.User`, or (2) [linking Facebook](#linking) to an existing `Parse.User`.
 
 ### Login & Signup
 
@@ -297,7 +297,7 @@ There are two main ways to use Facebook with your Parse users: (1) logging in as
 
 ```javascript
 try {
-  const users = await = Parse.FacebookUtils.logIn();
+  const users = await Parse.FacebookUtils.logIn();
   if (!user.existed()) {
     alert("User signed up and logged in through Facebook!");
   } else {
@@ -313,15 +313,13 @@ When this code is run, the following happens:
 1.  The user is shown the Facebook login dialog.
 2.  The user authenticates via Facebook, and your app receives a callback.
 3.  Our SDK receives the Facebook data and saves it to a `Parse.User`. If it's a new user based on the Facebook ID, then that user is created.
-4.  Your `success` callback is called with the user.
 
-You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
+You may optionally provide a comma-delimited string that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user. For example:
 
 ```javascript
 const user = await Parse.FacebookUtils.logIn("user_likes,email");
 ```
 
-`Parse.User` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 <div class='tip info'><div>
   It is up to you to record any data that you need from the Facebook user after they authenticate. To accomplish this, you'll need to do a graph query using the Facebook SDK.
@@ -345,6 +343,8 @@ if (!Parse.FacebookUtils.isLinked(user)) {
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `Parse.User` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
+For advanced API: If you have a Facebook `access_token`, you can use [linkWith()](#linking-1).
+
 If you want to unlink Facebook from a user, simply do this:
 
 ```javascript
@@ -362,68 +362,22 @@ Our library manages the `FB` object for you. The `FB` singleton is synchronized 
 
 ## Linking Users
 
-Parse allows you to link your users with services like Twitter and Facebook, enabling your users to sign up or log into your application using their existing identities. This is accomplished through \_linkWith() method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
+Parse allows you to link your users with [3rd party authentication ]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through `_linkWith` method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
-`authData` is a JSON object with keys for each linked service containing the data below. In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a using hellojs on client side) to obtain the information the the service requires for linking.
-
-### Facebook `authData`
-
-```javascript
-{
-  "facebook": {
-    "id": "user's Facebook id number as a string",
-    "access_token": "an authorized Facebook access token for the user",
-    "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-  }
-}
-```
-Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
-
-### Twitter `authData`
-
-```javascript
-{
-  "twitter": {
-    "id": "user's Twitter id number as a string",
-    "screen_name": "user's Twitter screen name",
-    "consumer_key": "your application's consumer key",
-    "consumer_secret": "your application's consumer secret",
-    "auth_token": "an authorized Twitter token for the user with your application",
-    "auth_token_secret": "the secret associated with the auth_token"
-  }
-}
-```
-
-Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
-
-### Anonymous user `authData`
-
-```javascript
-{
-  "anonymous": {
-    "id": "random UUID with lowercase hexadecimal digits"
-  }
-}
-```
+`authData` is a JSON object with keys for each linked service containing the data below.
 
 ### Signing Up and Logging In
 
-Signing a user up with a linked service and logging them in with that service uses the same \_linkWith() mothod, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
+Signing a user up with a linked service and logging them in with that service uses the same `_linkWith()` method, in which the `authData` for the user is specified.
 
 ```javascript
-let myAuthData = {
-  "id": "12345678",
-  "screen_name": "ParseIt",
-  "consumer_key": "SaMpLeId3X7eLjjLgWEw",
-  "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
-  "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
-  "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
-}
-let user = new Parse.User();
-user._linkWith('twitter', { authData: myAuthData }).then(function(user){
-    // user
-});
+const myAuthData = {
+  id: '12345678'
+};
+const user = new Parse.User();
+await user._linkWith('providerName', { authData: myAuthData });
 ```
+
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
 ```javascript
@@ -441,13 +395,8 @@ With a response body like:
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
   "authData": {
-    "twitter": {
+    "providerName": {
       "id": "12345678",
-      "screen_name": "ParseIt",
-      "consumer_key": "SaMpLeId3X7eLjjLgWEw",
-      "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
-      "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
-      "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
     }
   }
 }
@@ -469,32 +418,103 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 }
 ```
 
-### Linking
-
-Linking an existing user with a service like Facebook or Twitter uses the same method \_linkWith() to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
+#### Linking un-authenticated users
+To create a link to an un-authenticated user (for example in cloud code), options can be passed to `_linkWith()` to either use the `masterKey` or pass a `sessionToken`.
 
 ```javascript
-let myAuthData = {
-  id: "123456789",
-  "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
-  "expiration_date": "2012-02-28T23:49:36.353Z"
+const myAuthData = {
+  id: xzx5tt123,
+  access: token
 }
-let user = new Parse.User();
-user.id = "uMz0YZeAqc";
-user._linkWith("facebook", { authData: myAuthData }).then(function(user){
-  // user is linked now
-});
+
+const user = await Parse.Query(Parse.User).get(userId);
+
+await user._linkWith(
+  'providerName',
+  { authData: myAuthData },
+  { useMasterKey: true }
+);
 ```
-After linking your user to a service, you can authenticate them using matching `authData`.
 
-### Unlinking
-
-Unlinking an existing user with a service also uses \_linkWith() method to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
+On rest, web, mobile, or TV clients, users can then login using the `CustomAdapter` by passing `myAuthData`:
 
 ```javascript
-let user = new Parse.User();
-user.id = "uMz0YZeAqc";
-user._linkWith("facebook", {}).then(function(user){
-  // user is unlinked now
+const loggedIn = await Parse.User.logInWith('CustomAdapter', { authData: myAuthData});
+
+```
+
+### Custom Authentication Module
+
+Parse Server supports many [3rd Party Authenications]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication).
+It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module.
+
+[Read more about Auth Provider Documentation](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js)
+
+Note: This is an example, you can handle your own authentication (if you don't have authData), restoreAuthentication and deauthenticate methods.
+
+A minimal  `CustomAuth.js` module:
+```javascript
+function validateAuthData(authData, options) {
+  return Promise.resolve({})
+}
+
+function validateAppId(appIds, authData, options) {
+  return Promise.resolve({});
+}
+
+module.exports = {
+  validateAppId,
+  validateAuthData,
+};
+```
+
+Configure the server to make the `CustomAuth` available:
+```javascript
+const CustomAuth = require('./CustomAuth');
+
+const api = new ParseServer({
+  ...
+  auth: {
+    myAuth: {
+      module: CustomAuth,
+      option1: 'hello',
+      option2: 'world',
+    }
+  }
+  ...
 });
+...
+app.use('/parse', api);
+```
+
+Use the `CustomAuth`:
+```javascript
+const provider = {
+  authenticate: () => Promise.resolve(),
+  restoreAuthentication() {
+    return true;
+  },
+
+  getAuthType() {
+    return 'myAuth';
+  },
+
+  getAuthData() {
+    return {
+      authData: {
+        id: 1234,
+      },
+    };
+  },
+};
+// Must register before linking
+Parse.User._registerAuthenticationProvider(provider);
+const user = new Parse.User();
+user.setUsername('Alice');
+user.setPassword('sekrit');
+await user.signUp();
+await user._linkWith(provider.getAuthType(), provider.getAuthData());
+user._isLinked(provider); // true
+// Unlink
+await user._unlinkFrom(provider.getAuthType());
 ```

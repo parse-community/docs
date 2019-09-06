@@ -46,6 +46,9 @@
         &.rest_docs_header{
           background-color: $restPlatform;
         }
+        &.graphql_docs_header{
+          background-color: $graphqlPlatform;
+        }
 
         .grid-container{
             top:0;

@@ -51,10 +51,11 @@ Note that trigger name can only be one of `beforeSave`, `afterSave`, `beforeDele
 ## Fetch functions
 To fetch the list of all cloud functions you deployed or created, use:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions
 </code></pre>
@@ -64,14 +65,16 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output is a json object with one key: "results" whose value is a list of cloud functions.
+
 <pre><code class="json">
 {
   "results": [
@@ -85,10 +88,11 @@ The output is a json object with one key: "results" whose value is a list of clo
 
 To fetch a single cloud function with a given name, use:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage
 </code></pre>
@@ -98,12 +102,13 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output is a json object with one key: "results" whose value is a list of cloud functions with the given name.
 
@@ -118,10 +123,12 @@ The output is a json object with one key: "results" whose value is a list of clo
 
 ## Fetch triggers
 To fetch the list of all cloud triggers you deployed or created, use:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers
 </code></pre>
@@ -131,14 +138,16 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output is a json object with one key: "results" whose value is a list of cloud triggers.
+
 <pre><code class="json">
 {
   "results": [
@@ -159,10 +168,12 @@ The output is a json object with one key: "results" whose value is a list of clo
 </code></pre>
 
 To fetch a single cloud trigger, use:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Scores/beforeSave
 </code></pre>
@@ -172,17 +183,19 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Scores/beforeSave', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The path looks like `/hooks/triggers/className/triggerName` where `triggerName`
 can be one of `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`.
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "results": [
@@ -210,12 +223,13 @@ To create a new function webhook post to <code class="highlighter-rouge"><span c
 {"functionName" : x, "url" : y}
 ```
 
-Post example,
+Post example:
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"functionName":"baz","url":"https://api.example.com/baz"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions
@@ -228,12 +242,14 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        {"functionName":"baz","url":"https://api.example.com/baz"}
      ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
+
 
 The output may look like this:
 <pre><code class="json">
@@ -244,11 +260,13 @@ It returns the function name and url of the created webhook.
 
 If you try to create a function webhook and a cloud code function with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"functionName":"bar","url":"https://api.example.com/bar"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions
@@ -261,14 +279,16 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        {"functionName":"bar","url":"https://api.example.com/bar"}
      ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "functionName": "bar",
@@ -278,19 +298,24 @@ The output may look like this:
 </code></pre>
 
 ## Create trigger webhook
-To create a new function webhook post to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers</code> with payload in the format
+To create a new function webhook post to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/triggers</code> with payload in the format:
+
+<div class="language-toggle">
 <pre><code class="bash">
 {"className": x, "triggerName": y, "url": z}
 </code></pre>
 <pre><code class="python">
 {"className": x, "triggerName": y, "url": z}
 </code></pre>
+</div>
 
-Post example,
+Post example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"className": "Game", "triggerName": "beforeSave", "url": "https://api.example.com/Game/beforeSave"}' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers
@@ -303,14 +328,16 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        {"className": "Game", "triggerName": "beforeSave", "url": "https://api.example.com/Game/beforeSave"}
      ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Game",
@@ -323,11 +350,13 @@ It returns the class name, trigger name and url of the created trigger webhook.
 
 If you try to create a trigger webhook and a cloud code trigger with the same name already exists, upon successful creation the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"className": "Tournament", "triggerName": "beforeDelete", "url": "https://api.example.com/Scores/beforeDelete"}' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers
@@ -340,14 +369,16 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        {"className": "Tournament", "triggerName": "beforeDelete", "url": "https://api.example.com/Scores/beforeDelete"}
      ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Tournament",
@@ -360,11 +391,13 @@ The output may look like this:
 ## Edit function webhook
 To edit the url of a function webhook that was already created use the put method.
 
-Put example,
+Put example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://api.example.com/_baz"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/baz
@@ -377,14 +410,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
     {"url":"https://api.example.com/_baz"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {"functionName": "baz", "url": "https://api.example.com/baz"}'
 </code></pre>
@@ -393,11 +428,13 @@ It returns the function name and url of the modified webhook.
 
 If you try to update a function webhook and a cloud code function with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, function webhooks takes precedence over cloud code functions.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"url":"https://api.example.com/_bar"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/bar
@@ -410,14 +447,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"url":"https://api.example.com/_bar"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "functionName": "bar",
@@ -429,10 +468,11 @@ The output may look like this:
 ## Edit trigger webhook
 To edit the url of a trigger webhook that was already crated use the put method.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://api.example.com/Game/_beforeSave"}' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Game/beforeSave
@@ -445,14 +485,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"url": "https://api.example.com/Game/_beforeSave"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Game",
@@ -465,11 +507,13 @@ It returns the class name, trigger name and url of the modified trigger webhook.
 
 If you try to update a trigger webhook and a cloud code trigger with the same name already exists, upon successful update the response json has an additional `warning` field informing about the name conflict. Note that, trigger webhooks takes precedence over cloud code triggers.
 
-For example,
+For example:
+
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://api.example.com/Scores/beforeDelete"}' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Tournament/beforeDelete
@@ -482,14 +526,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"url": "https://api.example.com/Scores/beforeDelete"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Tournament",
@@ -502,10 +548,11 @@ The output may look like this:
 ## Delete function webhook
 To delete a function webhook use the put method.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"__op": "Delete"}' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/foo
@@ -518,14 +565,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {}
 </code></pre>
@@ -533,10 +582,11 @@ The output may look like this:
 If a cloud code function with the same name already exists then it is returned as the result.
 Since the overriding webhook was just deleted, this cloud code function will be run the next time sendMessage is called.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/functions/sendMessage
@@ -549,14 +599,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 { "functionName": "sendMessage" }
 </code></pre>
@@ -564,10 +616,11 @@ The output may look like this:
 ## Delete trigger webhook
 To delete a trigger webhook use the put method.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Game/beforeSave
@@ -580,14 +633,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {}
 </code></pre>
@@ -595,10 +650,11 @@ The output may look like this:
 If a cloud code trigger with the same name already exists then the it is returned as the result.
 Since the overriding webhook was just deleted, this cloud code trigger will be run the next time a Tournament object is saved.
 
+<div class="language-toggle">
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Master-Key: <span class="custom-parse-server-masterkey">${MASTER_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{ "__op": "Delete" }' \
 <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>hooks/triggers/Tournament/beforeDelete
@@ -611,14 +667,16 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
       {"__op": "Delete"}
       ), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
+</div>
 
 The output may look like this:
+
 <pre><code class="json">
 {
   "className": "Tournament",

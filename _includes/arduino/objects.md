@@ -16,7 +16,7 @@ Each object has a class name that you can use to distinguish different sorts of 
 
 ## Saving Objects
 
-Let's say you want to save the `Temperature` described above to the Parse Cloud. You would do the following:
+Let's say you want to save the `Temperature` described above to your Parse Server. You would do the following:
 
 ```cpp
 ParseObjectCreate create;
@@ -41,7 +41,7 @@ After this code runs, you will probably be wondering if anything really happened
 
 There are two things to note here. You didn't have to configure or set up a new Class called `Temperature` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and`updatedAt` represent the time that each object was created and last modified in the Parse Cloud. Each of these fields is filled in by Parse, so they don't exist on a Parse Object until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and`updatedAt` represent the time that each object was created and last modified in your Parse Server. Each of these fields is filled in by Parse, so they don't exist on a Parse Object until a save operation has completed.
 
 ## Retrieving Objects
 

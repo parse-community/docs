@@ -18,7 +18,7 @@ alert("Successfully retrieved " + results.length + " scores.");
 for (let i = 0; i < results.length; i++) {
   var object = results[i];
   alert(object.id + ' - ' + object.get('playerName'));
-} 
+}
 ```
 
 ## Query Constraints
@@ -56,6 +56,28 @@ You can skip the first results by setting `skip`. In the old Parse hosted backen
 ```javascript
 query.skip(10); // skip the first 10 results
 ```
+
+If you want to know the total number of rows in a table satisfying your query, for  e.g. pagination purposes - you can use `withCount`.
+
+**Note:** Enabling this flag will change the structure of response, see the example below.
+
+Let's say you have 200 rows in a table called `GameScore`:
+
+```javascript
+const GameScore = Parse.Object.extend("GameScore");
+const query = new Parse.Query(GameScore);
+
+query.limit(25);
+
+const results = await query.find(); // [ GameScore, GameScore, ...]
+
+// to include count:
+query.withCount();
+const response = await query.find(); // { results: [ GameScore, ... ], count: 200 }
+```
+⚠️ Сount operations can be slow and expensive.
+
+If you only want to get the count without objects - use [Counting Objects](#counting-objects).
 
 For sortable types like numbers and strings, you can control the order in which results are returned:
 
@@ -130,6 +152,19 @@ losingUserQuery.doesNotMatchKeyInQuery("hometown", "city", teamQuery);
 const results = await losingUserQuery.find();
 ```
 
+To filter rows based on `objectId`'s from pointers in a second table, you can use dot notation:
+
+```javascript
+const rolesOfTypeX = new Parse.Query('Role');
+rolesOfTypeX.equalTo('type', 'x');
+
+const groupsWithRoleX = new Parse.Query('Group');
+groupsWithRoleX.matchesKeyInQuery('objectId', 'belongsTo.objectId', rolesOfTypeX);
+groupsWithRoleX.find().then(function(results) {
+   // results has the list of groups with role x
+});
+```
+
 You can restrict the fields returned by calling `select` with a list of keys. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
 ```javascript
@@ -140,6 +175,18 @@ query.find().then(function(results) {
   // each of results will only have the selected fields available.
 });
 ```
+
+Similarly, use `exclude` to remove undesired fields while retrieving the rest:
+
+```javascript
+var GameScore = Parse.Object.extend("GameScore");
+var query = new Parse.Query(GameScore);
+query.exclude("playerName");
+query.find().then(function(results) {
+  // Now each result will have all fields except `playerName`
+});
+```
+
 
 The remaining fields can be fetched later by calling `fetch` on the returned objects:
 
@@ -169,10 +216,6 @@ query.containsAll("arrayKey", [2, 3, 4]);
 ```
 
 ## Queries on String Values
-
-<div class='tip info'><div>
- If you're trying to implement a generic search feature, we recommend taking a look at this blog post: <a href="http://blog.parse.com/learn/engineering/implementing-scalable-search-on-a-nosql-backend/">Implementing Scalable Search on a NoSQL Backend</a>.
-</div></div>
 
 Use `startsWith` to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
 
@@ -420,7 +463,7 @@ You can group by a field.
 ```javascript
 // score is the field. $ before score lets the database know this is a field
 var pipeline = [
-  group: { objectId: '$score' }
+  { group: { objectId: '$score' } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -437,7 +480,7 @@ You can apply collective calculations like $sum, $avg, $max, $min.
 ```javascript
 // total will be a newly created field to hold the sum of score field
 var pipeline = [
-  group: { objectId: null, total: { $sum: '$score' } }
+  { group: { objectId: null, total: { $sum: '$score' } } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -453,7 +496,7 @@ Project pipeline is similar to `keys` or `select`, add or remove existing fields
 
 ```javascript
 var pipeline = [
-  project: { name: 1 }
+  { project: { name: 1 } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -485,7 +528,7 @@ You can match by comparison.
 
 ```javascript
 var pipeline = [
-  match: { score: { $gt: 15 } }
+  { match: { score: { $gt: 15 } } }
 ];
 var query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -527,4 +570,16 @@ query.distinct("age")
   .catch(function(error) {
     // There was an error.
   });
+```
+
+## Read Preference
+
+When using a MongoDB replica set, you can use the `query.readPreference(readPreference, includeReadPreference, subqueryReadPreference)` function to choose from which replica the objects will be retrieved. The `includeReadPreference` argument chooses from which replica the included pointers will be retrieved and the `subqueryReadPreference` argument chooses in which replica the subqueries will run. The possible values are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` argument is not passed, the same replica chosen for `readPreference` will be also used for the includes. The same rule applies for the `subqueryReadPreference` argument.
+
+```javascript
+query.readPreference(
+  'SECONDARY',
+  'SECONDARY_PREFERRED',
+  'NEAREST'
+);
 ```

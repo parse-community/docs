@@ -60,7 +60,7 @@ To create a new object on Parse, send a POST request to the class URL containing
 <pre><code class="bash">
   curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"score":1337,"playerName":"Sean Plott","cheatMode":false}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
@@ -75,7 +75,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "cheatMode": False
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 results = json.loads(connection.getresponse().read())
@@ -107,7 +107,7 @@ Once you've created an object, you can retrieve its contents by sending a GET re
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 <pre><code class="python">
@@ -116,7 +116,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -140,13 +140,13 @@ The response body is a JSON object containing all the user-provided fields, plus
 }
 ```
 
-When retrieving objects that have pointers to children, you can fetch child objects by using the `include` option. For instance, to fetch the object pointed to by the "game" key:
+When retrieving objects that have pointers to children, **you can fetch child objects** by using the `include` option. For instance, to fetch the object pointed to by the "game" key:
 
 <div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
   --data-urlencode 'include=game' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -158,12 +158,41 @@ params = urllib.urlencode({"include":"game"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
 </code></pre>
 </div>
+
+When using a MongoDB replica set, you can use the `readPreference` option to choose from which replica the object will be retrieved. You can also use the `includeReadPreference` option to choose from which replica the included pointers will be retrieved. The possible values for both options are `PRIMARY` (default), `PRIMARY_PREFERRED`, `SECONDARY`, `SECONDARY_PREFERRED`, or `NEAREST`. If the `includeReadPreference` option is not set, the same replica chosen for `readPreference` will be also used for the includes.
+
+<div class="language-toggle">
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
+  -G \
+  --data-urlencode 'include=game' \
+  --data-urlencode 'readPreference=SECONDARY' \
+  --data-urlencode 'includeReadPreference=SECONDARY_PREFERRED' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"include":"game","readPreference":"SECONDARY","includeReadPreference":"SECONDARY_PREFERRED"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+</div>
+
+
 
 ## Updating Objects
 
@@ -173,7 +202,7 @@ To change the data on an object that already exists, send a PUT request to the o
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"score":73453}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -186,7 +215,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        "score": 73453
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -210,7 +239,7 @@ To help with storing counter-type data, Parse provides the ability to atomically
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"score":{"__op":"Increment","amount":1}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -226,7 +255,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -240,7 +269,7 @@ To decrement the counter, use the `Increment` operator with a negative number:
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"score":{"__op":"Increment","amount":-1}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -256,7 +285,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -278,7 +307,7 @@ Each method takes an array of objects to add or remove in the "objects" key. For
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"skills":{"__op":"AddUnique","objects":["flying","kungfu"]}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -297,7 +326,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -313,7 +342,7 @@ print result
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"opponents":{"__op":"AddRelation","objects":[{"__type":"Pointer","className":"Player","objectId":"Vx4nudeWn"}]}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -335,7 +364,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -349,7 +378,7 @@ To remove an object from a relation, you can do:
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"opponents":{"__op":"RemoveRelation","objects":[{"__type":"Pointer","className":"Player","objectId":"Vx4nudeWn"}]}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -371,7 +400,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -387,7 +416,7 @@ To delete an object from the Parse Cloud, send a DELETE request to its object UR
 <pre><code class="bash">
 curl -X DELETE \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 <pre><code class="python">
@@ -396,7 +425,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm', '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result
@@ -409,7 +438,7 @@ You can delete a single field from an object by using the `Delete` operation:
 <pre><code class="bash">
 curl -X PUT \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{"opponents":{"__op":"Delete"}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
@@ -424,7 +453,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -442,7 +471,7 @@ Each command in a batch has `method`, `path`, and `body` parameters that specify
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{
         "requests": [
@@ -491,7 +520,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        ]
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -527,7 +556,7 @@ Other commands that work in a batch are `update` and `delete`.
 <pre><code class="bash">
 curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "Content-Type: application/json" \
   -d '{
         "requests": [
@@ -566,7 +595,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        ]
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
        "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
@@ -606,7 +635,7 @@ Dates are useful in combination with the built-in `createdAt` and `updatedAt` fi
 <pre><code class="bash">
 curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: ${REST_API_KEY}" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
   --data-urlencode 'where={"createdAt":{"$gte":{"__type":"Date","iso":"2011-08-21T18:02:52.249Z"}}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
@@ -625,7 +654,7 @@ params = urllib.urlencode({"where":json.dumps({
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "${REST_API_KEY}"
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
      })
 result = json.loads(connection.getresponse().read())
 print result

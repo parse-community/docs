@@ -518,12 +518,18 @@ There's also two code changes you'll need to make. First, add the following to y
 ```
 ```swift
 import FBSDKCoreKit
-import ParseFacebookUtilsV4
+import Parse
 
 // AppDelegate.swift
-func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-  Parse.setApplicationId("parseAppId", clientKey:"parseClientKey")
-  PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
+func application(application: UIApplicatiofunc application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+  // Initialize Parse.
+  let parseConfig = ParseClientConfiguration {
+      $0.applicationId = "parseAppId"
+      $0.clientKey = "parseClientKey"
+      $0.server = "parseServerUrlString"
+  }
+  Parse.initialize(with: parseConfig)
+  PFFacebookUtils.initializeFacebook(applicationLaunchOptions: launchOptions)
 }
 ```
 </div>
@@ -547,18 +553,30 @@ Next, add the following handlers in your app delegate.
 }
 ```
 ```swift
-func application(application: UIApplication,
-                 openURL url: NSURL,
-                 sourceApplication: String?,
-                 annotation: AnyObject?) -> Bool {
-  return FBSDKApplicationDelegate.sharedInstance().application(application,
-                                                             openURL: url,
-                                                             sourceApplication: sourceApplication,
-                                                             annotation: annotation)
+func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
+
+  return FBSDKApplicationDelegate.sharedInstance().application(
+			application,
+			open: url,
+			sourceApplication: sourceApplication,
+			annotation: annotation
+	)
+
+}
+
+func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+
+  return FBSDKApplicationDelegate.sharedInstance().application(
+			app,
+			open: url,
+			sourceApplication: options[.sourceApplication] as? String,
+			annotation: options[.annotation]
+	)
+
 }
 
 //Make sure it isn't already declared in the app delegate (possible redefinition of func error)
-func applicationDidBecomeActive(application: UIApplication) {
+func applicationDidBecomeActive(_ application: UIApplication) {
   FBSDKAppEvents.activateApp()
 }
 ```
@@ -587,8 +605,8 @@ There are two main ways to use Facebook with your Parse users: (1) to log in (or
 }];
 ```
 ```swift
-PFFacebookUtils.logInInBackgroundWithReadPermissions(permissions) {
-  (user: PFUser?, error: NSError?) -> Void in
+PFFacebookUtils.logInInBackground(withReadPermissions: permissions) {
+  (user: PFUser?, error: Error?) in
   if let user = user {
     if user.isNew {
       print("User signed up and logged in through Facebook!")

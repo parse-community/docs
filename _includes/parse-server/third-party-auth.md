@@ -2,6 +2,7 @@
 
 Parse Server supports 3rd party authentication with
 
+* Apple
 * Facebook
 * Facebook AccountKit
 * Github
@@ -11,6 +12,7 @@ Parse Server supports 3rd party authentication with
 * Janrain Engage
 * LinkedIn
 * Meetup
+* PhantAuth
 * QQ
 * Spotify
 * Twitter
@@ -87,7 +89,6 @@ Two ways to [retrieve access token](https://developers.facebook.com/docs/account
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
-    "screen_name": "user's Twitter screen name",
     "consumer_key": "your application's consumer key",
     "consumer_secret": "your application's consumer secret",
     "auth_token": "an authorized Twitter token for the user with your application",
@@ -96,7 +97,19 @@ Two ways to [retrieve access token](https://developers.facebook.com/docs/account
 }
 ```
 
-Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-sign-twitter).
+The options passed to Parse server:
+```js
+{
+  auth: {
+    twitter: {
+     consumer_key: "", // REQUIRED
+     consumer_secret: "" // REQUIRED
+   },
+  }
+}
+```
+
+Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-for-websites/log-in-with-twitter/guides/implementing-sign-in-with-twitter).
 
 ### Anonymous user `authData`
 
@@ -107,6 +120,36 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
   }
 }
 ```
+
+### Apple `authData`
+
+As of Parse Server 3.5.0 you can use [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/).
+
+```js
+{
+  "apple": {
+    "id": "user",
+    "token": "the identity token for the user"
+  }
+}
+```
+
+Using Apple Sign In on a iOS device will give you a `ASAuthorizationAppleIDCredential.user` string for the user identifier, which can be match the `sub` component of the JWT identity token.
+Using Apple Sign In through the Apple JS SDK or through the REST service will only give you the JWT identity token (`id_token`) which you'll have to decompose to obtain the user identifier in its `sub` component. As an example you could use something like `JSON.parse(atob(token.split(".")[1])).sub`.
+
+#### Configuring parse-server for Sign In with Apple
+
+```js
+{
+  auth: {
+   apple: {
+     client_id: "", // optional (for extra validation), use the Service ID from Apple.
+   },
+  }
+}
+```
+
+Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple).
 
 ### Github `authData`
 
@@ -166,6 +209,21 @@ Google oauth supports validation of id_token's and access_token's.
   }
 }
 ```
+
+### PhantAuth `authData`
+
+As of Parse Server 3.7.0 you can use [PhantAuth](https://www.phantauth.net/).
+
+```js
+{
+  "phantauth": {
+    "id": "user's PhantAuth sub (string)",
+    "access_token": "an authorized PhantAuth access token for the user",
+  }
+}
+```
+
+Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### QQ `authData`
 
