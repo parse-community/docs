@@ -55,6 +55,22 @@ Parse.Config.get().then(function(config) {
 });
 ```
 
+## Internal Config
+
+By default, Parse Config parameters can be publicly read which may be undesired if the parameter contains sensitive information that should not be exposed to clients. A parameter can be saved as readable only with the master key by adding a flag as the second argument.
+
+```javascript
+await Parse.Config.save(
+  { welcomeMessage : "Welcome to Parse", secretMessage: "Psst 👀" },
+  { secretMessage: true }
+);
+
+const publicConfig = await Parse.Config.get(); // Returns only `welcomeMessage`.
+const internalConfig = await Parse.Config.get({ useMasterKey: true }); // Returns `welcomeMessage` and `secretMessage`.
+```
+
+If a parameter is not provided or set to `false` in the second argument, it can be retrieved without using the master key.
+
 ## Current Config
 
 Every `Parse.Config` instance that you get is always immutable. When you retrieve a new `Parse.Config` in the future from the network, it will not modify any existing `Parse.Config` instance, but will instead create a new one and make it available via `Parse.Config.current()`. Therefore, you can safely pass around any `current()` object and safely assume that it will not automatically change.

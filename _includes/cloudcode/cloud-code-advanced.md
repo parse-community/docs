@@ -569,3 +569,13 @@ Here's an example of the JSON data that would be sent in the request to this web
 ```
 
 After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
+
+# Config
+Parse Config offers a convenient way to configure parameters in Cloud Code.
+
+```javascript
+const config = await Parse.Config.get({useMasterKey: true});
+const privateParam = config.get("privateParam");
+```
+
+By default, Parse Config parameters can be publicly read which may be undesired if the parameter contains sensitive information that should not be exposed to clients. A parameter can be made readable only with the master key by setting the `Requires master key?` property via the Parse Dashboard to `Yes`.
