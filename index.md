@@ -190,5 +190,20 @@ layout: docs
           <footer class="docs-platform__footer">
           </footer>
       </div>
+      
+      <div class="docs-platform">
+          <header class="docs-platform__header">
+              <span class="docs-platform__name">Flutter</span>
+              <svg class="icon icon-graphql"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#graphql"></use></svg>
+          </header>
+          <ul class="docs-platform__links">
+              <li class="docs-platform__links"><a href="flutter/guide/">Guide</a></li>
+              <li class="docs-platform__links"><div>&nbsp;</div></li>
+          </ul>
+          <footer class="docs-platform__footer">
+              <a href="https://github.com/parse-community/flutter_parse_sdk/releases/latest" class="btn btn--outline">Latest Release</a>
+          </footer>
+      </div>
+      
   </div><!-- .docs-platforms -->
 </div><!-- end .container -->
