@@ -492,7 +492,7 @@ Parse.Cloud.onLiveQueryEvent(({
   // Do your magic
 });
 ```
-*client, sessionToken, useMasterKey and installationId are available on parse-server cloud code 2.8.0+*
+*client, sessionToken, useMasterKey and installationId are available on parse-server cloud code 3.8.0+*
 
 To learn more, read the [Parse LiveQuery Protocol Specification](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
 
