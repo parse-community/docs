@@ -232,7 +232,7 @@ The code above should resolve to something similar to this:
         {
           "playerName": "Sean Plott",
           "score": 1337
-        }        
+        }
       ]
     }
   }
