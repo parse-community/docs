@@ -469,6 +469,44 @@ Parse.Cloud.beforeLogin(async request => {
 - On sign up
 - If the login credentials are incorrect
 
+# LiveQuery Triggers
+
+*Available only on parse-server cloud code starting 2.6.2*
+
+Sometimes you may want to monitor Live Query Events to be used with a 3rd Party such as datadog. The `onLiveQueryEvent` trigger can log events triggered, number of clients connected, number of subscriptions and errors.
+
+```javascript
+Parse.Cloud.onLiveQueryEvent(({
+  event,
+  client,
+  sessionToken,
+  useMasterKey,
+  installationId,
+  clients,
+  subscriptions,
+  error
+}) => {
+  if (event !== 'ws_disconnect') {
+    return;
+  }
+  // Do your magic
+});
+```
+*client, sessionToken, useMasterKey and installationId are available on parse-server cloud code 3.8.0+*
+
+To learn more, read the [Parse LiveQuery Protocol Specification](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification)
+
+## Events
+
+* connect
+* subscribe
+* unsubscribe
+* ws_connect
+* ws_disconnect
+* ws_disconnect_error
+
+"connect" differs from "ws_connect", the former means that the client completed the connect procedure as defined by Parse Live Query protocol, where "ws_connect" just means that a new websocket was created.
+
 # Using the Master Key in cloud code
 Set `useMasterKey:true` in the requests that require master key.
 
