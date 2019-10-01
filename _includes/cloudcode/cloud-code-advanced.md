@@ -34,7 +34,7 @@ Parse.Cloud.httpRequest({
 
 Valid port numbers are 80, 443, and all numbers from 1025 through 65535.
 
-If your request is likely to be redirected, you can allow that with the `followRedirects: true` argument.
+By default, `Parse.Cloud.httpRequest` does not follow redirects caused by HTTP 3xx response codes, the `followRedirects: true` option can be used to change this.
 
 ```javascript
 Parse.Cloud.httpRequest({
