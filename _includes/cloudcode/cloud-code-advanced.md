@@ -8,7 +8,7 @@ A simple GET request would look like:
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.awesomewebsite.com/'
+  url: 'https://www.awesomewebsite.com/'
 }).then(function(httpResponse) {
   // success
   console.log(httpResponse.text);
@@ -24,7 +24,7 @@ A GET request that specifies the port number would look like:
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.awesomewebsite.com:8080/'
+  url: 'https://www.awesomewebsite.com:8080/'
 }).then(function(httpResponse) {
   console.log(httpResponse.text);
 }, function(httpResponse) {
@@ -33,6 +33,19 @@ Parse.Cloud.httpRequest({
 ```
 
 Valid port numbers are 80, 443, and all numbers from 1025 through 65535.
+
+If your request is likely to be redirected, you can allow that with the `followRedirects: true` argument.
+
+```javascript
+Parse.Cloud.httpRequest({
+  url: 'https://www.awesomewebsite.com/',
+  followRedirects: true
+}).then(function(httpResponse) {
+  console.log(httpResponse.text);
+}, function(httpResponse) {
+  console.error('Request failed with response code ' + httpResponse.status);
+});
+```
 
 ### Query Parameters
 
