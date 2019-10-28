@@ -34,7 +34,7 @@ The `ws` protocol URL of the LiveQuery server is the hostname and port which the
 
 ## Client Setup
 
-We provide JavaScript and iOS LiveQuery Clients for now. Lets use the JavaScript client as an example. In order to use LiveQuery, you need to initialize a `Parse.Query` object and subscribe to it.
+We provide JavaScript, Android and iOS LiveQuery Clients for now. Lets use the JavaScript client as an example. In order to use LiveQuery, you need to initialize a `Parse.Query` object and subscribe to it.
 
 ```javascript
 let query = new Parse.Query('People');
