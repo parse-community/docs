@@ -343,7 +343,7 @@ if (!Parse.FacebookUtils.isLinked(user)) {
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `Parse.User` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
-For advanced API: If you have a Facebook `access_token`, you can use [linkWith()](#linking-1).
+For advanced API: If you have a Facebook `access_token`, you can use [linkWith()](#Linking-Users).
 
 If you want to unlink Facebook from a user, simply do this:
 
@@ -362,9 +362,11 @@ Our library manages the `FB` object for you. The `FB` singleton is synchronized 
 
 ## Linking Users
 
-Parse allows you to link your users with [3rd party authentication ]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through `_linkWith` method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
+Parse allows you to link your users with [3rd party authentication]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through [`linkWith`](https://parseplatform.org/Parse-SDK-JS/api/2.9.0/Parse.User.html#linkWith) method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
 `authData` is a JSON object with keys for each linked service containing the data below.
+
+> `_linkWith` has been deprecated since version 2.9.0, see [_linkWith](https://parseplatform.org/Parse-SDK-JS/api/master/Parse.User.html#_linkWith)
 
 ### Signing Up and Logging In
 
