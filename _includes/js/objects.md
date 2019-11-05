@@ -101,10 +101,10 @@ class CustomUser extends Parse.User {
     return 5;
   }
 }
-Parse.Object.registerSubclass('_User', CustomUser);
+Parse.Object.registerSubclass('CustomUser', CustomUser);
 ```
 
-In addition to queries, `logIn`, `signUp`, and `current` will return the subclass `CustomUser`.
+In addition to queries, `logIn` and `signUp` will return the subclass `CustomUser`.
 
 ```javascript
 const customUser = new CustomUser({ foo: 'bar' });
@@ -117,7 +117,7 @@ customUser.signUp().then((user) => {
 });
 ```
 
-`CustomUser.logIn`, `CustomUser.signUp`, and `Customer.current` will return the subclass `CustomUser` (SDK v2.3.0).
+`CustomUser.logIn` and `CustomUser.signUp` will return the subclass `CustomUser` (SDK v2.3.0).
 
 ## Saving Objects
 
