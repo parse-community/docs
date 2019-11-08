@@ -370,14 +370,14 @@ Parse allows you to link your users with [3rd party authentication]({{ site.base
 
 ### Signing Up and Logging In
 
-Signing a user up with a linked service and logging them in with that service uses the same `_linkWith()` method, in which the `authData` for the user is specified.
+Signing a user up with a linked service and logging them in with that service uses the same `linkWith()` method, in which the `authData` for the user is specified.
 
 ```javascript
 const myAuthData = {
   id: '12345678'
 };
 const user = new Parse.User();
-await user._linkWith('providerName', { authData: myAuthData });
+await user.linkWith('providerName', { authData: myAuthData });
 ```
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
@@ -421,7 +421,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 ```
 
 #### Linking un-authenticated users
-To create a link to an un-authenticated user (for example in cloud code), options can be passed to `_linkWith()` to either use the `masterKey` or pass a `sessionToken`.
+To create a link to an un-authenticated user (for example in cloud code), options can be passed to `linkWith()` to either use the `masterKey` or pass a `sessionToken`.
 
 ```javascript
 const myAuthData = {
@@ -431,7 +431,7 @@ const myAuthData = {
 
 const user = await Parse.Query(Parse.User).get(userId);
 
-await user._linkWith(
+await user.linkWith(
   'providerName',
   { authData: myAuthData },
   { useMasterKey: true }
@@ -515,7 +515,7 @@ const user = new Parse.User();
 user.setUsername('Alice');
 user.setPassword('sekrit');
 await user.signUp();
-await user._linkWith(provider.getAuthType(), provider.getAuthData());
+await user.linkWith(provider.getAuthType(), provider.getAuthData());
 user._isLinked(provider); // true
 // Unlink
 await user._unlinkFrom(provider.getAuthType());
