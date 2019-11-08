@@ -343,7 +343,7 @@ if (!Parse.FacebookUtils.isLinked(user)) {
 
 The steps that happen when linking are very similar to log in. The difference is that on successful login, the existing `Parse.User` is updated with the Facebook information. Future logins via Facebook will now log the user into their existing account.
 
-For advanced API: If you have a Facebook `access_token`, you can use [linkWith()](#linking-1).
+For advanced API: If you have a Facebook `access_token`, you can use [linkWith()](#Linking-Users).
 
 If you want to unlink Facebook from a user, simply do this:
 
@@ -362,20 +362,22 @@ Our library manages the `FB` object for you. The `FB` singleton is synchronized 
 
 ## Linking Users
 
-Parse allows you to link your users with [3rd party authentication ]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through `_linkWith` method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
+Parse allows you to link your users with [3rd party authentication]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through [`linkWith`](https://parseplatform.org/Parse-SDK-JS/api/2.9.0/Parse.User.html#linkWith) method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
 `authData` is a JSON object with keys for each linked service containing the data below.
 
+> `_linkWith` has been deprecated since version 2.9.0, see [_linkWith](https://parseplatform.org/Parse-SDK-JS/api/master/Parse.User.html#_linkWith)
+
 ### Signing Up and Logging In
 
-Signing a user up with a linked service and logging them in with that service uses the same `_linkWith()` method, in which the `authData` for the user is specified.
+Signing a user up with a linked service and logging them in with that service uses the same `linkWith()` method, in which the `authData` for the user is specified.
 
 ```javascript
 const myAuthData = {
   id: '12345678'
 };
 const user = new Parse.User();
-await user._linkWith('providerName', { authData: myAuthData });
+await user.linkWith('providerName', { authData: myAuthData });
 ```
 
 Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
@@ -419,7 +421,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 ```
 
 #### Linking un-authenticated users
-To create a link to an un-authenticated user (for example in cloud code), options can be passed to `_linkWith()` to either use the `masterKey` or pass a `sessionToken`.
+To create a link to an un-authenticated user (for example in cloud code), options can be passed to `linkWith()` to either use the `masterKey` or pass a `sessionToken`.
 
 ```javascript
 const myAuthData = {
@@ -429,7 +431,7 @@ const myAuthData = {
 
 const user = await Parse.Query(Parse.User).get(userId);
 
-await user._linkWith(
+await user.linkWith(
   'providerName',
   { authData: myAuthData },
   { useMasterKey: true }
@@ -513,7 +515,7 @@ const user = new Parse.User();
 user.setUsername('Alice');
 user.setPassword('sekrit');
 await user.signUp();
-await user._linkWith(provider.getAuthType(), provider.getAuthData());
+await user.linkWith(provider.getAuthType(), provider.getAuthData());
 user._isLinked(provider); // true
 // Unlink
 await user._unlinkFrom(provider.getAuthType());
