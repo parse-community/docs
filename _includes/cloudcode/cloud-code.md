@@ -192,16 +192,6 @@ If the function throws, the `Review` object will not be saved, and the client wi
 
 One useful tip is that even if your mobile app has many different versions, the same version of Cloud Code applies to all of them. Thus, if you launch an application that doesn't correctly check the validity of input data, you can still fix this problem by adding a validation with `beforeSave`.
 
-If you want to use `beforeSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself:
-
-```javascript
-Parse.Cloud.beforeSave(Parse.User, (request) => {
-  if (!request.object.get("email")) {
-     throw "email is required for signup";
-  }
-});
-```
-
 ## Modifying Objects on Save
 
 In some cases, you don't want to throw out invalid data. You just want to tweak it a bit before saving it. `beforeSave` can handle this case, too. Any adjustment you make to request.object will be saved.
