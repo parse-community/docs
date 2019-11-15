@@ -461,7 +461,7 @@ Parse.Cloud.beforeLogin(async request => {
 
 # afterLogout Triggers
 
-*Available only on parse-server cloud code starting 3.10.0*
+*Available only on parse-server cloud code starting 4.0.0*
 
 Sometimes you may want to run actions after a user logs out. For example, the `afterLogout` trigger can be used for clean-up actions after a user logs out. The triggers contains the session object that has been deleted on logout. From this session object you can determine the user who logged out to perform user-specific tasks.
 
