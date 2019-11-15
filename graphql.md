@@ -12,6 +12,7 @@ redirect_from:
 sections:
 - "graphql/getting-started.md"
 - "graphql/your-first-query.md"
+- "graphql/your-first-class.md"
 - "graphql/objects.md"
 - "graphql/users.md"
 - "graphql/customisation.md"

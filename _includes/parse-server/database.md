@@ -23,7 +23,7 @@ In order to allow for better scaling of your data layer, it is possible to direc
 
 ## Postgres
 
-The Posgres requirements for Parse Server are:
+The Postgres requirements for Parse Server are:
 
 * Postgres version 9.5
 * PostGIS extensions 2.3

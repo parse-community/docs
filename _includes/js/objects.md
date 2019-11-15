@@ -180,7 +180,7 @@ var Child = Parse.Object.extend("Child");
 var child = new Child();
 
 var Parent = Parse.Object.extend("Parent");
-var parent = new Child();
+var parent = new Parent();
 
 parent.save({child: child});
 // Automatically the object Child is created on the server
@@ -191,8 +191,8 @@ In some scenarios, you may want to prevent this default chain save. For example,
 
 ```javascript
 var TeamMember = Parse.Object.extend("TeamMember");
-var  = new TeamMember();
-teamMember.set('owninerAccount', ownerAccount);   // Suppose `ownerAccount` has been created earlier.
+var teamMember = new TeamMember();
+teamMember.set('ownerAccount', ownerAccount);   // Suppose `ownerAccount` has been created earlier.
 
 teamMember.save(null, { cascadeSave: false });
 // Will save `teamMember` wihout attempting to save or modify `ownerAccount`
