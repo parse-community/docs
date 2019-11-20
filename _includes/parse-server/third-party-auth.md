@@ -301,7 +301,7 @@ user can authenticate (bind) with the given credentials. Optionally, it can also
 This check is done using a user specified query, called an [LDAP Filter](https://ldap.com/ldap-filters/).
 The query should return all groups which the user is a member of. The `cn` attribute of the query results is compared to `groupCn`.
 
-To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directroy Studio](https://directory.apache.org/studio/).
+To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directory Studio](https://directory.apache.org/studio/).
 
 
 ```js
