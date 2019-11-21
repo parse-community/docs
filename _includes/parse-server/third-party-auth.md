@@ -344,8 +344,6 @@ authData:
 }
 ```
 
-
-
 ## Custom authentication
 
 It is possible to leverage the OAuth support with any 3rd party authentication that you bring in.
