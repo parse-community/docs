@@ -303,13 +303,12 @@ The query should return all groups which the user is a member of. The `cn` attri
 
 To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directory Studio](https://directory.apache.org/studio/).
 
-
 ```js
 {
   "ldap": {
     "url": "ldap://host:port",
     "suffix": "the root of your LDAP tree",
-    "dn": "Bind dn. {{id}} is repalced with the id suppied in authData",
+    "dn": "Bind dn. {{id}} is replaced with the id suppied in authData",
     "groupCn": "Optional. A group which the user must be a member of.",
     "groupFilter": "Optional. An LDAP filter for finding groups which the user is part of. {{id}} is replaced with the id supplied in authData."
   }
@@ -319,6 +318,7 @@ To build a query which works with your LDAP server, you can use a LDAP client li
 If either `groupCN` or `groupFilter` is not specified, the group check is not performed.
 
 Example Configuration (this works with the public LDAP test server hosted by Forumsys):
+
 ```js
 {
   "ldap": {
