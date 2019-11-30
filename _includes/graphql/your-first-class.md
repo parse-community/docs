@@ -1,9 +1,9 @@
 # Creating your first class
 
-Since your application does not have any schema yet, you can use the `createClass` mutation to create your first class. Run the following:
+Since your application does not have any schema yet, you can use the `createClass` mutation to create your first class through the **GraphQL API**. Run the following:
 
 ```graphql
-mutation CreateClass {
+mutation createGameScoreClass {
   createClass(
     name: "GameScore"
     schemaFields: {
