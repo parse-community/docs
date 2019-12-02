@@ -158,3 +158,89 @@ The code above should resolve to something similar to this:
 ```
 
 **Note:** The API return the deleted object, it helps front developers to show some messages like: "The player Charles François has been successfully removed."
+
+## Nested Mutation
+
+**Parse GraphQL Server** support nested mutations (exept for `File`), so you can create object with complex relation in one request. Assuming that we have classes `Country`, `City`, `Company`.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+mutation aNestedMutaiton {
+  createCountry(
+    input: {
+      fields: {
+        name: "Mars"
+        cities: {
+          createAndAdd: [{ name: "Alpha",
+            companies: { 
+              createAndAdd: [{
+                name: "Motors"
+              }]
+            }
+          }]
+        }
+      }
+    }
+  ) {
+    country {
+      name
+      cities {
+        edges {
+          node {
+            name
+            companies {
+              edges {
+                node {
+                  name
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "createCountry": {
+      "country": {
+        "name": "Mars",
+        "cities": {
+          "edges": [
+            {
+              "node": {
+                "name": "Alpha",
+                "companies": {
+                  "edges": [
+                    {
+                      "node": {
+                        "name": "Motors"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
+```
+
+## Array Fragment
+
+
+
+

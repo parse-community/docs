@@ -406,3 +406,63 @@ query getSomeGameScores {
 ```
 
 **Note**: `count` is a global count for available results. It's not the number of edges returned by the request.
+
+## Nested Query
+
+**Parse GraphQL Server** support nested queries, so you can find object and then execute query on relational child fields. Assuming that we have classes `Country`, `City`, `Company`.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+
+```graphql
+query aNestedQuery {
+  countries(where: { 
+    name: { matchesRegex: "Ma", options: "i" }
+  }) {
+    edges {
+      node {
+        name
+        cities(where: { 
+          name: { matchesRegex: "pha", options: "i"} 
+        }) {
+          edges {
+            node {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "countries": {
+      "edges": [
+        {
+          "node": {
+            "name": "Mars",
+            "cities": {
+              "edges": [
+                {
+                  "node": {
+                    "name": "Alpha"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
