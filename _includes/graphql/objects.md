@@ -70,7 +70,7 @@ mutation createAGameScore {
 }
 ```
 
-**Note:** The `id` is [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm), it's **NOT** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`.
+**Note:** The `id` is [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm), it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`.
 
 ## Update
 
@@ -240,6 +240,5 @@ mutation aNestedMutaiton {
 ```
 
 ## Array Fragment
-
 
 
