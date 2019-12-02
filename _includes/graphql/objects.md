@@ -238,5 +238,3 @@ mutation aNestedMutaiton {
   }
 }
 ```
-
-## Array Fragment
