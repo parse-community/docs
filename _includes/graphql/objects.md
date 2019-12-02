@@ -157,7 +157,7 @@ The code above should resolve to something similar to this:
 }
 ```
 
-**Note:** The API return the deleted object, it helps front developers to show some messages like: "The player Charles François has been successfully removed."
+**Note:** The API returns the deleted object, it helps frontend developers to show messages like: "The player Charles François has been successfully removed."
 
 ## Nested Mutation
 
@@ -240,4 +240,3 @@ mutation aNestedMutaiton {
 ```
 
 ## Array Fragment
-
