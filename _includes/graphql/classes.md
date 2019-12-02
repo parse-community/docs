@@ -1,6 +1,6 @@
 # Classes
 
-Since your application does not have any schema yet, you can use the `createClass` mutation to create your first class through the **GraphQL API**. Run the following:
+Since your application does not have a schema yet, you can use the `createClass` mutation to create your first class through the **GraphQL API**. Run the following:
 ```js
 // Header
 {
