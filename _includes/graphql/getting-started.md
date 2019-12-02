@@ -92,7 +92,7 @@ $ node index.js
 
 After starting the app, you can visit [http://localhost:1337/playground](http://localhost:1337/playground) in your browser to start playing with your GraphQL API.
 
-⚠️ Please do not mount the GraphQL Playground in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](#running-parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps. If you want to lock your API on production take a look to [Class Level Persmissions](/js/guide/#class-level-permissions)
+⚠️ Please do not mount the GraphQL Playground in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](#running-parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps. If you want to secure your API in production take a look at [Class Level Permissions](/js/guide/#class-level-permissions).
 
 ## Running Parse Dashboard
 
