@@ -37,7 +37,7 @@ The response body is a JSON object containing all the configuration parameters i
 }
 ```
 
-You can also update the config by sending a `PUT` request to config URL. Here is a simple example that will update the `Parse.Config` (requires masterKey) :
+You can also update the config by sending a `PUT` request to config URL. Here is a simple example that will update the `Parse.Config` (requires `masterKey`):
 
 <pre><code class="bash">
 curl -X PUT \
