@@ -2,7 +2,7 @@
 
 ## Create
 
-For each class of your application's schema, Parse Server **automatically** generates a custom mutation for creating this class' objects through the **GraphQL API**.
+For each class of your application's schema, Parse Server automatically generates a custom mutation for creating this class' objects through the GraphQL API.
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `createGameScore`, and you should be able to run the code below in your GraphQL Playground:
 
@@ -240,7 +240,6 @@ mutation aNestedMutaiton {
 ```
 
 ## Array Fragment
-
 
 
 
