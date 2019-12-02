@@ -2,7 +2,7 @@
 
 Before continuing, it is recommended to study some of the GraphQL documentation:
 
-A **GraphQL** api contain 3 main concepts: 
+A **GraphQL** API contains 3 main concepts: 
 * `Query`: Allow to fetch data
 * `Mutation`: Create/Modify data
 * `Subscription`: Listen data changes
