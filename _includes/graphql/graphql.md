@@ -1,6 +1,6 @@
 # GraphQL
 
-Before continuing, it is important to visit some of the **GraphQL** documentation:
+Before continuing, it is recommended to study some of the GraphQL documentation:
 
 A **GraphQL** api contain 3 main concepts: 
 * `Query`: Allow to fetch data
