@@ -2,7 +2,7 @@
 
 ## Get
 
-For each class of your application's schema, Parse Server automatically generates a custom query for getting this class' objects through the GraphQL API.
+For each class of your application's schema, Parse Server automatically generates a custom query for getting this class' objects through the API.
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScore`, and you should be able to run the code below in your GraphQL Playground:
 
