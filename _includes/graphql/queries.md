@@ -266,7 +266,7 @@ query getSomeGameScores {
   }
 }
 ```
-**Note:** Visit your **GraphQL Playground** if you want to know all available constraints.
+**Note:** Visit your GraphQL Playground if you want to know all available constraints.
 
 ### Order
 
