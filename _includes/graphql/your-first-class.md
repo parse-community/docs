@@ -5,17 +5,23 @@ Since your application does not have any schema yet, you can use the `createClas
 ```graphql
 mutation createGameScoreClass {
   createClass(
-    name: "GameScore"
-    schemaFields: {
-      addStrings: [{ name: "playerName" }]
-      addNumbers: [{ name: "score" }]
-      addBooleans: [{ name: "cheatMode" }]
+    input: {
+      clientMutationId: "anFrontId"
+      name: "GameScore"
+      schemaFields: {
+        addStrings: [{ name: "playerName" }]
+        addNumbers: [{ name: "score" }]
+        addBooleans: [{ name: "cheatMode" }]
+      }
     }
   ) {
-    name
-    schemaFields {
+    clientMutationId
+    class {
       name
-      __typename
+      schemaFields {
+        name
+        __typename
+      }
     }
   }
 }
@@ -27,37 +33,40 @@ You should receive the following response:
 {
   "data": {
     "createClass": {
-      "name": "GameScore",
-      "schemaFields": [
-        {
-          "name": "objectId",
-          "__typename": "SchemaStringField"
-        },
-        {
-          "name": "updatedAt",
-          "__typename": "SchemaDateField"
-        },
-        {
-          "name": "createdAt",
-          "__typename": "SchemaDateField"
-        },
-        {
-          "name": "playerName",
-          "__typename": "SchemaStringField"
-        },
-        {
-          "name": "score",
-          "__typename": "SchemaNumberField"
-        },
-        {
-          "name": "cheatMode",
-          "__typename": "SchemaBooleanField"
-        },
-        {
-          "name": "ACL",
-          "__typename": "SchemaACLField"
-        }
-      ]
+      "clientMutationId": "anFrontId",
+      "class": {
+        "name": "GameScore",
+        "schemaFields": [
+          {
+            "name": "objectId",
+            "__typename": "SchemaStringField"
+          },
+          {
+            "name": "updatedAt",
+            "__typename": "SchemaDateField"
+          },
+          {
+            "name": "createdAt",
+            "__typename": "SchemaDateField"
+          },
+          {
+            "name": "playerName",
+            "__typename": "SchemaStringField"
+          },
+          {
+            "name": "score",
+            "__typename": "SchemaNumberField"
+          },
+          {
+            "name": "cheatMode",
+            "__typename": "SchemaBooleanField"
+          },
+          {
+            "name": "ACL",
+            "__typename": "SchemaACLField"
+          }
+        ]
+      }
     }
   }
 }
