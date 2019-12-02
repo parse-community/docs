@@ -79,7 +79,7 @@ mutation createFile($file: Upload!) {
 }
 ```
 
-Then add the file to a new `GameScore` object
+Then add the file to a new `GameScore` object.
 ```js
 // Header
 {
