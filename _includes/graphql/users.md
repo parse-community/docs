@@ -184,4 +184,4 @@ mutation logOut {
 
 ## Reset Password
 
-Currently reset password is not supported a pull request should be sent soon.
+Currently reset password is not supported, but this will be addressed soon.
