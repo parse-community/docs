@@ -15,19 +15,26 @@ You can ask Parse Server to [verify user email addresses]({{ site.baseUrl }}/par
 To sign up a new user, use the `signUp` mutation. For example:
 
 ```graphql
-mutation SignUp {
-  signUp(fields: {
-    username: "somedude"
-    password: "Parse_3.9_Rocks!"
-  }) {
-    id
-    updatedAt
-    createdAt
-    username
-    sessionToken
-    ACL
+mutation signUp {
+  signUp(
+    input: {
+      userFields: {
+        username: "johndoe"
+        password: "ASuperStrongPassword"
+        email: "john.doe@email.com"
+      }
+    }
+  ) {
+    viewer {
+      sessionToken
+      user {
+        username
+        email
+      }
+    }
   }
 }
+
 ```
 
 The code above should resolve to something similar to this:
@@ -36,18 +43,11 @@ The code above should resolve to something similar to this:
 {
   "data": {
     "signUp": {
-      "id": "F8p2yGbq2O",
-      "updatedAt": "2019-09-17T07:32:56.425Z",
-      "createdAt": "2019-09-17T07:32:56.425Z",
-      "username": "somedude",
-      "sessionToken": "r:0eaf42db02a3345dbae0c70eae0dc015",
-      "ACL": {
-        "*": {
-          "read": true
-        },
-        "F8p2yGbq2O": {
-          "read": true,
-          "write": true
+      "viewer": {
+        "sessionToken": "r:a0ec8428409b6b85c6f54ab1e654c53d",
+        "user": {
+          "username": "johndoe",
+          "email": "john.doe@email.com"
         }
       }
     }
@@ -62,19 +62,15 @@ Note that a field called `sessionToken` has been returned. This token can be use
 After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, use the `logIn` mutation:
 
 ```graphql
-mutation LogIn {
-  logIn(
-    fields: {
-      username: "somedude"
-      password: "Parse_3.9_Rocks!"
+mutation logIn {
+  logIn(input: { username: "johndoe", password: "ASuperStrongPassword" }) {
+    viewer {
+      sessionToken
+      user {
+        username
+        email
+      }
     }
-  ) {
-    id
-    updatedAt
-    createdAt
-    username
-    sessionToken
-    ACL
   }
 }
 ```
@@ -85,18 +81,11 @@ The code above should resolve to something similar to this:
 {
   "data": {
     "logIn": {
-      "id": "F8p2yGbq2O",
-      "updatedAt": "2019-09-17T07:32:56.425Z",
-      "createdAt": "2019-09-17T07:32:56.425Z",
-      "username": "somedude",
-      "sessionToken": "r:905e0ab9ea5ebad18157686fab4af488",
-      "ACL": {
-        "*": {
-          "read": true
-        },
-        "F8p2yGbq2O": {
-          "read": true,
-          "write": true
+      "viewer": {
+        "sessionToken": "r:b0dfad1eeafa4425d9508f1c0a15c3fa",
+        "user": {
+          "username": "johndoe",
+          "email": "john.doe@email.com"
         }
       }
     }
@@ -116,38 +105,34 @@ You can easily do this in the GraphQL Playground. There is an option called `HTT
 
 After setting up the `X-Parse-Session-Token` header, any operation will run as this user. For example, you can run the code below to validate the session token and return its associated user:
 
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Session-Token": "r:b0dfad1eeafa4425d9508f1c0a15c3fa"
+}
+```
 ```graphql
-query Viewer {
+# GraphQL
+query me {
   viewer {
-    id
-    updatedAt
-    createdAt
-    username
     sessionToken
-    ACL
+    user {
+      username
+      email
+    }
   }
 }
 ```
-
-The code above should resolve to something similar to this:
-
-```json
+```js
+// Response
 {
   "data": {
     "viewer": {
-      "id": "F8p2yGbq2O",
-      "updatedAt": "2019-09-17T07:32:56.425Z",
-      "createdAt": "2019-09-17T07:32:56.425Z",
-      "username": "somedude",
-      "sessionToken": "r:905e0ab9ea5ebad18157686fab4af488",
-      "ACL": {
-        "*": {
-          "read": true
-        },
-        "F8p2yGbq2O": {
-          "read": true,
-          "write": true
-        }
+      "sessionToken": "r:b0dfad1eeafa4425d9508f1c0a15c3fa",
+      "user": {
+        "username": "johndoe",
+        "email": "john.doe@email.com"
       }
     }
   }
@@ -158,40 +143,45 @@ The code above should resolve to something similar to this:
 
 You can log out a user through the `logOut` mutation. You need to send the `X-Parse-Session-Token` header and run code like the below example:
 
-```graphql
-mutation LogOut {
-  logOut {
-    id
-    updatedAt
-    createdAt
-    username
-    sessionToken
-    ACL
-  }
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Session-Token": "r:b0dfad1eeafa4425d9508f1c0a15c3fa"
 }
 ```
+```graphql
+# GraphQL
+mutation logOut {
+  logOut(input: { clientMutationId: "logOut" }) {
+    clientMutationId
+    viewer {
+      user {
+        username
+        email
+      }
+    }
+  }
+}
 
-The code above should resolve to something similar to this:
-
-```json
+```
+```js
+// Response
 {
   "data": {
     "logOut": {
-      "id": "F8p2yGbq2O",
-      "updatedAt": "2019-09-17T07:32:56.425Z",
-      "createdAt": "2019-09-17T07:32:56.425Z",
-      "username": "somedude",
-      "sessionToken": "r:905e0ab9ea5ebad18157686fab4af488",
-      "ACL": {
-        "*": {
-          "read": true
-        },
-        "F8p2yGbq2O": {
-          "read": true,
-          "write": true
+      "clientMutationId": "logOut",
+      "viewer": {
+        "user": {
+          "username": "johndoe",
+          "email": "john.doe@email.com"
         }
       }
     }
   }
 }
 ```
+
+## Reset Password
+
+Currently reset password is not supported a pull request should be sent soon.

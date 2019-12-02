@@ -1,0 +1,408 @@
+# Queries
+
+## Get
+
+For each class of your application's schema, Parse Server automatically generates a custom query for getting this class' objects through the GraphQL API.
+
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScore`, and you should be able to run the code below in your GraphQL Playground:
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query getAGameScore {
+  gameScore(id: "R2FtZVNjb3JlOjZtdGlNcmtXNnY=") {
+    id
+    score
+    playerName
+    score
+    cheatMode
+    ACL {
+      public {
+        read
+        write
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "gameScore": {
+      "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
+      "score": 1337,
+      "playerName": "Sean Plott",
+      "cheatMode": false,
+      "ACL": {
+        "public": {
+          "read": true,
+          "write": true
+        }
+      }
+    }
+  }
+}
+```
+
+## Get with Relay
+
+With the **Relay** specification you have also the choice to use [GraphQL Fragments](https://graphql.org/learn/queries/#fragments) through the `node` GraphQL Query. For a `GameScore` object the following query will do the job.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query getGameScoreWithNodeRelay {
+  node(id: "R2FtZVNjb3JlOjZtdGlNcmtXNnY") {
+    id
+    __typename
+    ... on GameScore {
+      playerName
+      score
+      cheatMode
+    }
+  }
+}
+```
+
+```js
+// Response
+{
+  "data": {
+    "node": {
+      "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
+      "__typename": "GameScore",
+      "playerName": "Sean Plott",
+      "score": 1337,
+      "cheatMode": false
+    }
+  }
+}
+```
+
+Here using `Node Relay` is useful for writing generic requests for your front end components. For example:
+Assuming we already have a `User` with a `Relay Node Id: X1VzZXI6Q1lMeWJYMjFjcw==` and `username: "johndoe"`
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query genericGet {
+  node(id: "X1VzZXI6Q1lMeWJYMjFjcw==") {
+    id
+    __typename
+    ... on User {
+      id
+      username
+    }
+    ... on GameScore {
+      playerName
+      score
+      cheatMode
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "node": {
+      "id": "X1VzZXI6Q1lMeWJYMjFjcw==",
+      "__typename": "User",
+      "username": "johndoe"
+    }
+  }
+}
+```
+
+## Find
+
+For each class of your application's schema, Parse Server automatically generates a custom query for finding this class' objects through the GraphQL API.
+
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScores`, and you should be able to run the code below in your GraphQL Playground:
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query getSomeGameScores{
+  gameScores {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    count
+    edges {
+      cursor
+      node {
+        id
+        playerName
+        score
+        cheatMode
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "gameScores": {
+      "pageInfo": {
+        "hasNextPage": false,
+        "hasPreviousPage": false,
+        "startCursor": "YXJyYXljb25uZWN0aW9uOjA=",
+        "endCursor": "YXJyYXljb25uZWN0aW9uOjI="
+      },
+      "count": 3,
+      "edges": [
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
+          "node": {
+            "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
+            "playerName": "Sean Plott",
+            "score": 1337,
+            "cheatMode": false
+          }
+        },
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
+          "node": {
+            "id": "R2FtZVNjb3JlOnp2cHdTYXlmYnA=",
+            "playerName": "John Doe",
+            "score": 13,
+            "cheatMode": true
+          }
+        },
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
+          "node": {
+            "id": "R2FtZVNjb3JlOjNmWjBoQVJDVU0=",
+            "playerName": "Steve Jordan",
+            "score": 134,
+            "cheatMode": false
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### Where
+
+You can use the `where` argument to add constraints to a class find query. See the example below:
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query getSomeGameScores {
+  gameScores(where: { 
+  	score: { greaterThan: 158 }
+  }) {
+    count
+    edges {
+      cursor
+      node {
+        id
+        playerName
+        score
+        cheatMode
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "gameScores": {
+      "count": 1,
+      "edges": [
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
+          "node": {
+            "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
+            "playerName": "Sean Plott",
+            "score": 1337,
+            "cheatMode": false
+          }
+        }
+      ]
+    }
+  }
+}
+```
+**Note:** Visit your **GraphQL Playground** if you want to know all available constraints.
+
+### Order
+
+You can use the `order` argument to select in which order the results should show up in a class find query. See the example below:
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query getSomeGameScores {
+  gameScores(
+  	where: { 
+  	  cheatMode: { equalTo: false }
+  	},
+  	order: score_ASC
+  ) {
+    count
+    edges {
+      cursor
+      node {
+        id
+        playerName
+        score
+        cheatMode
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "gameScores": {
+      "count": 2,
+      "edges": [
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
+          "node": {
+            "id": "R2FtZVNjb3JlOjNmWjBoQVJDVU0=",
+            "playerName": "Steve Jordan",
+            "score": 134,
+            "cheatMode": false
+          }
+        },
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
+          "node": {
+            "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
+            "playerName": "Sean Plott",
+            "score": 1337,
+            "cheatMode": false
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+### Pagination
+
+[Relay Node Cursor](https://facebook.github.io/relay/graphql/connections.htm) provide a simple way to get an efficient and easy to use pagination into your app.
+
+With Relay you can build flexible pagination based on cursors here it's the main effect of each argument:
+* `skip`: A regular skip to exlude some results
+* `first`: Similar as a `limit` parameter but ask server to start from first result, ex: `first: 10` retreive first 10 results
+* `last`: Retrieve the last results, ex: `last: 10` retrieve the 10 last resutls
+* `before`: Get objects before the provided `Cursor`, in combinatin with `after` it's allow you to build inverted pagination
+* `after`: Get objects after the provided `Cursor`, in combination with `first` you get a classic pagination similar to `skip & limit`
+
+You can combine multi parameters like: `before & last`, `after & first`
+
+Assuming we have an old object with`cursor: YXJyYXljb25uZWN0aW9uOjE` (`cursor` is different of `id`, it's a temporary pagination Id for the query)
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+query getSomeGameScores {
+  gameScores(after: "YXJyYXljb25uZWN0aW9uOjE") {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    count
+    edges {
+      cursor
+      node {
+        id
+        playerName
+        score
+        cheatMode
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "gameScores": {
+      "pageInfo": {
+        "hasNextPage": false,
+        "hasPreviousPage": true,
+        "startCursor": "YXJyYXljb25uZWN0aW9uOjI=",
+        "endCursor": "YXJyYXljb25uZWN0aW9uOjI="
+      },
+      "count": 3,
+      "edges": [
+        {
+          "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
+          "node": {
+            "id": "R2FtZVNjb3JlOjNmWjBoQVJDVU0=",
+            "playerName": "Steve Jordan",
+            "score": 134,
+            "cheatMode": false
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+**Note**: `count` is a global count for available results. It's not the number of edges returned by the request.
