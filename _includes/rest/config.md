@@ -71,4 +71,4 @@ The response body is a JSON object containing a simple boolean value in the `res
 }
 ```
 
-If you want to make any changes on configs without sending the masterkey,  you will need to create a cloud function that makes those changes.
+If you want to make any changes to configs without sending the `masterkey`, you will need to create a Cloud Function that makes those changes.
