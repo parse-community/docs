@@ -114,7 +114,7 @@ mutation updateAGameScore {
   }
 }
 ```
-**Note:** If you use [Apollo Client](https://www.apollographql.com/docs/react/) it's recommanded to ask to GraphQL the modified fields and `id` during the Mutation, then [Apollo Client](https://www.apollographql.com/docs/react/) will automatically update is local store and push the new data accross your app. ex: If you update `playerName` you should ask to GraphQL `playerName` and `id` like code above.
+**Note:** If you use [Apollo Client](https://www.apollographql.com/docs/react/) it's recommended to request the modified fields and `id` during the Mutation, then the [Apollo Client](https://www.apollographql.com/docs/react/) will automatically update its local store and push the new data across your app; i.e. If you update `playerName` you should request `playerName` and `id` like the code above.
 
 ## Delete
 
@@ -240,5 +240,4 @@ mutation aNestedMutaiton {
 ```
 
 ## Array Fragment
-
 
