@@ -44,7 +44,7 @@ mutation updateGameScoreClass {
 
 ## Create and add File
 
-Currently **Parse Server GrapQL API** do not support nested mutation for `File` type, so we need to send the file and then create/update the `GameScore` with the returned infos.
+Currently the **Parse Server GraphQL API** do not support nested mutation for `File` type, so we need to send the file and then create/update the `GameScore` with the returned information.
 
 ```js
 // Header
@@ -126,4 +126,3 @@ mutation createGameScore {
   }
 }
 ```
-
