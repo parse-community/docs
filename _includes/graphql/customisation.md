@@ -65,15 +65,21 @@ interface ParseGraphQLConfiguration {
     query?: {
       get?: boolean;
       find?: boolean;
+      getAlias?: String;
+      findAlias?: String;
     };
 
     // By default, all write mutation types are 
     // exposed for all included classes. Use this to disable
-    // the available mutation types for this class.
+    // the available mutation types for this class and optionally 
+    // override the default generated name with aliases.
     mutation?: {
       create?: boolean;
       update?: boolean;
       destroy?: boolean;
+      createAlias?: String,
+      updateAlias?: String,
+      destroyAlias?: String,
     };
   }>
 }
@@ -214,6 +220,27 @@ By default, the schema exposes a `get` and `find` operation for each class, for 
 }
 ```
 
+By default, generated query names use pluralized version of `className`. You can override this behaviour with `getAlias`/`findAlias`. This is useful when your collection is named in plural or when singular/plural forms are same e.g. `Data`:
+
+```javascript
+{
+  "classConfigs": [
+    {
+      "className": "Likes",
+      "query": {
+        "getAlias": "like"
+      }  
+    },
+    {
+      "className": "Data",
+      "query": {
+        "findAlias": "findData"
+      }  
+    }
+  ]
+}
+
+```
 ### Mutations
 
 By default, the schema exposes a `create`, `update` and `delete` operation for each class, for example, `create_User`, `update_User` and `delete_User`. You can disable any of these mutations for any class in your schema, like so:
@@ -243,3 +270,20 @@ By default, the schema exposes a `create`, `update` and `delete` operation for e
 ```
 
 **Note**: the `delete` mutation setting key is named `destroy` to avoid issues due to `delete` being a javascript reserved word.
+
+You can optionally override the default generated mutation names with aliases:
+
+```javascript
+{
+  "classConfigs": [
+    {
+      "className": "Record",
+      "mutation": {
+        "createAlias": "newRecord",
+        "updateAlias": "changeRecord",
+        "destroyAlias": "eraseRecord"
+      }  
+    }
+  ]
+}
+```
