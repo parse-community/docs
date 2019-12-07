@@ -476,7 +476,7 @@ Assuming that we have a `Country` class, `City` class, `Street` class, `House` c
 `City` have a `streets` `Relation` field.
 `Street` have a `houses` `Relation` field.
 
-Let's build a query matching a countries that contains at least a city with more than 20000 peoples and that contain at least a street that match `/rue/i` regex and this street should contain at least an house with a name equal to `Parse Members`.
+Let's build a query matching countries that contain at least one city with more than 20,000 people and that contain at least one street that matches `/rue/i` regex and this street should contain at least one house with a name equal to `Parse Members`.
 
 A really deep query but **Parse Server** with **GraphQL** can handle this type of request easly.
 
@@ -633,4 +633,3 @@ Let's build a query matching houses where there street have city that have a cou
   }
 }
 ```
-
