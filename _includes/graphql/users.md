@@ -34,7 +34,6 @@ mutation signUp {
     }
   }
 }
-
 ```
 
 The code above should resolve to something similar to this:
@@ -182,6 +181,6 @@ mutation logOut {
 }
 ```
 
-## Reset Password
+## Resetting Passwords
 
-Currently reset password is not supported, but this will be addressed soon.
+Currently resetting passwords is not supported, but this will be addressed soon.
