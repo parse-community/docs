@@ -53,7 +53,7 @@ query getAGameScore {
 
 ## Get with Relay
 
-With the **Relay** specification you have also the choice to use [GraphQL Fragments](https://graphql.org/learn/queries/#fragments) through the `node` GraphQL Query. For a `GameScore` object the following query will do the job.
+With the Relay specification you have also the choice to use [GraphQL Fragments](https://graphql.org/learn/queries/#fragments) through the `node` GraphQL Query. For a `GameScore` object the following query will do the job.
 
 ```js
 // Header
@@ -338,12 +338,12 @@ query getSomeGameScores {
 
 With Relay you can build flexible pagination based on cursors here it's the main effect of each argument:
 * `skip`: A regular skip to exlude some results
-* `first`: Similar as a `limit` parameter but ask server to start from first result, ex: `first: 10` retreive first 10 results
-* `last`: Retrieve the last results, ex: `last: 10` retrieve the 10 last resutls
+* `first`: Similar as a `limit` parameter but starts from first result, e.g. `first: 10` retrieves the first 10 results
+* `last`: Retrieve the last results, e.g. `last: 10` retrieves the last 10 results
 * `before`: Get objects before the provided `Cursor`, in combinatin with `after` it's allow you to build inverted pagination
 * `after`: Get objects after the provided `Cursor`, in combination with `first` you get a classic pagination similar to `skip & limit`
 
-You can combine multi parameters like: `before & last`, `after & first`
+You can combine multiple parameters like: `before & last`, `after & first`
 
 Assuming we have an old object with`cursor: YXJyYXljb25uZWN0aW9uOjE` (`cursor` is different of `id`, it's a temporary pagination Id for the query)
 
@@ -409,7 +409,7 @@ query getSomeGameScores {
 
 ## Nested Query
 
-**Parse GraphQL Server** support nested queries, so you can find object and then execute query on relational child fields. Assuming that we have classes `Country`, `City`, `Company`.
+The GraphQL API supports nested queries, so you can find object and then execute query on relational child fields. Assuming that we have classes `Country`, `City`, `Company`.
 
 ```js
 // Header
@@ -468,10 +468,10 @@ query aNestedQuery {
 ```
 
 ## Relational Query
-**Parse GraphQL Server** support complex parent relational queries. It means that all `Pointer` and `Relation` field on your **Parse** database can be used easly trough the api to query some (complex) relational data. Let's take a look to the power of this feature.
+The GraphQL API supports complex parent relational queries. It means that all `Pointer` and `Relation` fields on your database can be used easily throughout the API to query complex relational data. Let's take a look at the power of this feature.
 
 ### Parent Relation Style
-Assuming that we have a `Country` class, `City` class, `Street` class, `House` class.
+Assuming that we have a `Country` class, `City` class, `Street` class and `House` class.
 `Country` have a `cities` `Relation` field.
 `City` have a `streets` `Relation` field.
 `Street` have a `houses` `Relation` field.
