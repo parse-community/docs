@@ -478,7 +478,7 @@ Assuming that we have a `Country` class, `City` class, `Street` class, `House` c
 
 Let's build a query matching countries that contain at least one city with more than 20,000 people and that contain at least one street that matches `/rue/i` regex and this street should contain at least one house with a name equal to `Parse Members`.
 
-A really deep query but **Parse Server** with **GraphQL** can handle this type of request easly.
+The GraphQL API can handle this type of complex relational query with ease.
 
 ```js
 // Header
