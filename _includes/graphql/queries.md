@@ -466,3 +466,171 @@ query aNestedQuery {
   }
 }
 ```
+
+## Relational Query
+**Parse GraphQL Server** support complex parent relational queries. It means that all `Pointer` and `Relation` field on your **Parse** database can be used easly trough the api to query some (complex) relational data. Let's take a look to the power of this feature.
+
+### Parent Relation Style
+Assuming that we have a `Country` class, `City` class, `Street` class, `House` class.
+`Country` have a `cities` `Relation` field.
+`City` have a `streets` `Relation` field.
+`Street` have a `houses` `Relation` field.
+
+Let's build a query matching a countries that contains at least a city with more than 20000 peoples and that contain at least a street that match `/rue/i` regex and this street should contain at least an house with a name equal to `Parse Members`.
+
+A really deep query but **Parse Server** with **GraphQL** can handle this type of request easly.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+{
+  countries(
+    where: {
+      cities: {
+        have: {
+          peoplesNumber: { greaterThan: 20000 }
+          streets: {
+            have: {
+              name: { matchesRegex: "rue", options: "i" }
+              houses: { have: { name: { equalTo: "Parse Members" } } }
+            }
+          }
+        }
+      }
+    }
+  ) {
+    edges {
+      node {
+        name
+        cities {
+          edges {
+            node {
+              name
+              peoplesNumber
+              streets {
+                edges {
+                  node {
+                    name
+                    houses {
+                      edges {
+                        node {
+                          name
+                        }
+                        ... too many brackets here
+}
+```
+```js
+// Response
+{
+  "data": {
+    "countries": {
+      "edges": [
+        {
+          "node": {
+            "name": "France",
+            "cities": {
+              "edges": [
+                {
+                  "node": {
+                    "name": "Toulouse",
+                    "peoplesNumber": 400000,
+                    "streets": {
+                      "edges": [
+                        {
+                          "node": {
+                            "name": "rue jean jaures",
+                            "houses": {
+                              "edges": [
+                                {
+                                  "node": {
+                                    "name": "Parse Members"
+                                  }
+                                  ... too many brackets here
+}
+```
+
+### Child Relation Style
+Assuming that we have a `Country` class, `City` class, `Street` class, `House` class.
+`House` have a `street` `Pointer` field.
+`Street` have a `city` `Pointer` field.
+`City` have a `country` `Pointer` field.
+
+Let's build a query matching houses where there street have city that have a country with a name equal to `France`.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+{
+  houses(
+    where: {
+      street: {
+        have: {
+          city: { 
+            have: { 
+              country: { 
+                have: { 
+                  name: { equalTo: "France" } 
+                } 
+              } 
+            } 
+          }
+        }
+      }
+    }
+  ) {
+    edges {
+      node {
+        name
+        street {
+          name
+          city {
+            name
+            country {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+```js
+// Response
+{
+  "data": {
+    "houses": {
+      "edges": [
+        {
+          "node": {
+            "name": "Parse Members",
+            "street": {
+              "name": "rue jean jaures",
+              "city": {
+                "name": "Toulouse",
+                "country": {
+                  "name": "France"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+

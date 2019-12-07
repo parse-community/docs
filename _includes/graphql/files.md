@@ -55,7 +55,7 @@ Currently the **Parse Server GraphQL API** do not support nested mutation for `F
 ```
 ```graphql
 # GraphQL
-# $file is a GraphQL Variable, see
+# $file is a GraphQL Variable, see https://github.com/jaydenseric/apollo-upload-client
 mutation createFile($file: Upload!) {
   createFile(input: { upload: $file }) {
     fileInfo {
