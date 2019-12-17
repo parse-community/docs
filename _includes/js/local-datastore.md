@@ -4,7 +4,7 @@ The Parse JS SDK (Version 2.2.0+) provides a local datastore which can be used t
 
 There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `Parse.Object`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `Parse.Query` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
 
-Also if you don't want to show the data in the local storage you can use `secure-ls` to Encrypt it.
+Also if you don't want to show the data in the local storage you can use [secure-ls](https://github.com/softvar/secure-ls) to Encrypt it.
 
 ```javascript
 import SecureLS from 'secure-ls'

@@ -143,11 +143,13 @@ Often you want to be more careful with the user information stored in the browse
 ```javascript
 
 Parse.enableEncryptedUser();
-Parse.encryptedKey = 'my Secrey Key';
+Parse.secret = 'my Secrey Key';
 
 ```
+*   It´s important to reamember that this function is not gonna work if `Parse.secret` is not setted.
 
 With this your record in the Local Storage looks like a random string and only can be read from `Parse.User.current()`
+You can check if this feature is anable with the function `Parse.isEncryptedUserEnabled()`
 
 ## Security For Other Objects
 
