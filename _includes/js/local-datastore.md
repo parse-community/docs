@@ -4,6 +4,22 @@ The Parse JS SDK (Version 2.2.0+) provides a local datastore which can be used t
 
 There are a couple of side effects of enabling the local datastore that you should be aware of. When enabled, there will only be one instance of any given `Parse.Object`. For example, imagine you have an instance of the `"GameScore"` class with an `objectId` of `"xWMyZ4YEGZ"`, and then you issue a `Parse.Query` for all instances of `"GameScore"` with that `objectId`. The result will be the same instance of the object you already have in memory.
 
+Also if you don't want to show the data in the local storage you can use `secure-ls` to Encrypt it.
+
+```javascript
+import SecureLS from 'secure-ls'
+const ls = new SecureLS({ isCompression: false })
+
+Parse.enableLocalDatastore()
+Parse.setLocalDatastoreController({
+  fromPinWithName: name => ls.get(name),
+  pinWithName: (name, objects) => ls.set(name, objects),
+  unPinWithName: name => ls.remove(name),
+  getAllContents: () => ls.getAllKeys(),
+  clear: () => ls.removeAll()
+})
+```
+
 ## Pinning
 
 You can store a `Parse.Object` in the local datastore by pinning it. Pinning a `Parse.Object` is recursive, just like saving, so any objects that are pointed to by the one you are pinning will also be pinned. When an object is pinned, every time you update it by fetching or saving new data, the copy in the local datastore will be updated automatically. You don't need to worry about it at all.

@@ -30,7 +30,7 @@
     "babel-preset-react": "^6.5.0",
     "husky": "^1.0.0-rc.13",
     "webpack": "~4.12.1",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.3.10"
   },
   "dependencies": {
     "jquery": "3.4.1",
