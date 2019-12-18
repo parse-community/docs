@@ -39,7 +39,7 @@ We provide JavaScript, Android and iOS LiveQuery Clients for now. Lets use the J
 ```javascript
 let query = new Parse.Query('People');
 query.equalTo('name', 'Mengyan');
-let subscription = query.subscribe();
+let subscription = await query.subscribe();
 ```
 
 After you get the `subscription`, you can use it to receive the updates of the related `Parse.Object`. For example, if someone creates a `People` object whose `name` field is `Mengyan`, then you can get the `People` object like this:
