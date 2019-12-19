@@ -294,7 +294,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 }
 ```
 
-### Microsft Graph `authData`
+### Microsoft Graph `authData`
 
 ```js
 {
