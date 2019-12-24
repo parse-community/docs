@@ -138,7 +138,7 @@ If you need to check if a `Parse.User` is authenticated, you can invoke the `aut
 
 ## Encrypting Current User
 
-Often you want to be more careful with the user information stored in the browser, if this is your case try the encryption of the current user object. To enable this functionality, call `Parse.enableEncryptedUser()` and set your secret token.
+Often you may want to be more careful with user information stored in the browser, if this is the case you can encrypt the current user object:
 
 ```javascript
 
