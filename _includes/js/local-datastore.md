@@ -7,17 +7,24 @@ There are a couple of side effects of enabling the local datastore that you shou
 Also if you don't want to show the data in the local storage you can use [secure-ls](https://github.com/softvar/secure-ls) to Encrypt it.
 
 ```javascript
-import SecureLS from 'secure-ls'
-const ls = new SecureLS({ isCompression: false })
+import SecureLS from 'secure-ls';
+const ls = new SecureLS({ isCompression: false });
 
-Parse.enableLocalDatastore()
+Parse.enableLocalDatastore();
 Parse.setLocalDatastoreController({
   fromPinWithName: name => ls.get(name),
-  pinWithName: (name, objects) => ls.set(name, objects),
+  pinWithName: (name, objects) => ls.set(name, JSON.stringify(objects)),
   unPinWithName: name => ls.remove(name),
-  getAllContents: () => ls.getAllKeys(),
+  getAllContents: () => {
+    let data = {};
+    ls.getAllKeys().forEach((key) => {
+      const value = ls.get(key).data;
+      data[key] = value.includes('{') ? JSON.parse(value) : value;
+    })
+    return data;
+  },
   clear: () => ls.removeAll()
-})
+});
 ```
 
 ## Pinning
