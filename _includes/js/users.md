@@ -150,7 +150,7 @@ Parse.secret = 'my Secrey Key';
 *   Also you need to remember that this works only in browser.
 
 With this your record in the Local Storage looks like a random string and only can be read from `Parse.User.current()`
-You can check if this feature is anable with the function `Parse.isEncryptedUserEnabled()`
+You can check if this feature is enabled with the function `Parse.isEncryptedUserEnabled()`.
 
 ## Security For Other Objects
 
