@@ -14,7 +14,15 @@ You can ask Parse Server to [verify user email addresses]({{ site.baseUrl }}/par
 
 To sign up a new user, use the `signUp` mutation. For example:
 
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
 ```graphql
+# GraphQL
 mutation signUp {
   signUp(
     input: {
@@ -35,10 +43,8 @@ mutation signUp {
   }
 }
 ```
-
-The code above should resolve to something similar to this:
-
-```json
+```js
+// Response
 {
   "data": {
     "signUp": {
@@ -60,6 +66,13 @@ Note that a field called `sessionToken` has been returned. This token can be use
 
 After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, use the `logIn` mutation:
 
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
 ```graphql
 mutation logIn {
   logIn(input: { username: "johndoe", password: "ASuperStrongPassword" }) {
@@ -73,10 +86,8 @@ mutation logIn {
   }
 }
 ```
-
-The code above should resolve to something similar to this:
-
-```json
+```js
+// Response
 {
   "data": {
     "logIn": {
@@ -113,7 +124,7 @@ After setting up the `X-Parse-Session-Token` header, any operation will run as t
 ```
 ```graphql
 # GraphQL
-query me {
+query viewer {
   viewer {
     sessionToken
     user {
@@ -183,4 +194,61 @@ mutation logOut {
 
 ## Resetting Passwords
 
-Currently resetting passwords is not supported, but this will be addressed soon.
+***Important:*** To use the `resetPassword` mutation your parse server must have an email adapter configured.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+}
+```
+```graphql
+# GraphQL
+mutation resetPassword {
+  resetPassword(input: { email: "email@email.email" }) {
+    ok
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "resetPassword": {
+      "ok": true,
+    }
+  }
+}
+```
+
+## Send Email Verification
+
+**Important:** To use the `resetPassword` mutation your parse server must have an email adapter configured.
+
+**Note:** The verification email is automatically sent on sign up; this mutation is useful in case of where the user need do not receive the first email (spam, error, etc...).
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+}
+```
+```graphql
+# GraphQL
+mutation sendVerificationEmail {
+  sendVerificationEmail(input: { email: "email@email.email" }) {
+    ok
+  }
+}
+
+```
+```js
+// Response
+{
+  "data": {
+    "sendVerificationEmail": {
+      "ok": true,
+    }
+  }
+}
+```

@@ -21,6 +21,7 @@ sections:
 - "graphql/users.md"
 - "graphql/files.md"
 - "graphql/customisation.md"
+- "graphql/optimization.md"
 - "graphql/learning-more.md"
 
 ---
