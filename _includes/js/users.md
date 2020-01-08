@@ -136,6 +136,22 @@ The `Parse.User` obtained from `Parse.User.current()` will always be authenticat
 
 If you need to check if a `Parse.User` is authenticated, you can invoke the `authenticated` method. You do not need to check `authenticated` with `Parse.User` objects that are obtained via an authenticated method.
 
+## Encrypting Current User
+
+Often you may want to be more careful with user information stored in the browser, if this is the case you can encrypt the current user object:
+
+```javascript
+
+Parse.enableEncryptedUser();
+Parse.secret = 'my Secrey Key';
+
+```
+*   It's important to remember that this function will not work if `Parse.secret` is not set.
+*   Also note that this only works in the browser.
+
+Now the record in Local Storage looks like a random string and only can be read using `Parse.User.current()`
+You can check if this feature is enabled with the function `Parse.isEncryptedUserEnabled()`.
+
 ## Security For Other Objects
 
 The same security model that applies to the `Parse.User` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `Parse.ACL` class.
