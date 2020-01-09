@@ -19,6 +19,7 @@ Parse Server supports 3rd party authentication with
 * vKontakte
 * WeChat
 * Weibo
+* Microsoft Graph
 
 Configuration options for these 3rd-party modules is done with the `auth` option passed to Parse Server:
 
@@ -293,6 +294,22 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 }
 ```
 
+### Microsoft Graph `authData`
+
+```js
+{
+  "microsoft": {
+    "id": "user's microsoft id (string)", // required
+    "access_token": "an authorized microsoft graph access token for the user", // required
+    "mail": "user's microsoft email (string)"
+  }
+}
+```
+
+Learn more about [Microsoft Graph Auth Overview](https://docs.microsoft.com/en-us/graph/auth/?view=graph-rest-1.0).
+
+To [get access on behalf of a user](https://docs.microsoft.com/en-us/graph/auth-v2-user?view=graph-rest-1.0).
+
 ## Custom authentication
 
 It is possible to leverage the OAuth support with any 3rd party authentication that you bring in.
@@ -317,3 +334,4 @@ For more information about custom auth please see the examples:
 - [Facebook OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/facebook.js)
 - [Twitter OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/twitter.js)
 - [Instagram OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/instagram.js)
+- [Microsoft Graph OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/microsoft.js)
