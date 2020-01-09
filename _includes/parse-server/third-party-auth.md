@@ -10,8 +10,10 @@ Parse Server supports 3rd party authentication with
 * Instagram
 * Janrain Capture
 * Janrain Engage
+* LDAP
 * LinkedIn
 * Meetup
+* Microsoft Graph
 * PhantAuth
 * QQ
 * Spotify
@@ -19,7 +21,6 @@ Parse Server supports 3rd party authentication with
 * vKontakte
 * WeChat
 * Weibo
-* Microsoft Graph
 
 Configuration options for these 3rd-party modules is done with the `auth` option passed to Parse Server:
 
@@ -188,6 +189,56 @@ Google oauth supports validation of id_token's and access_token's.
 }
 ```
 
+### Configuring Parse Server for LDAP
+
+The [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) module can check if a 
+user can authenticate (bind) with the given credentials. Optionally, it can also check if the user is in a certain group.
+This check is done using a user specified query, called an [LDAP Filter](https://ldap.com/ldap-filters/).
+The query should return all groups which the user is a member of. The `cn` attribute of the query results is compared to `groupCn`.
+
+To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directory Studio](https://directory.apache.org/studio/).
+
+```js
+{
+  "ldap": {
+    "url": "ldap://host:port",
+    "suffix": "the root of your LDAP tree",
+    "dn": "Bind dn. {{id}} is replaced with the id suppied in authData",
+    "groupCn": "Optional. A group which the user must be a member of.",
+    "groupFilter": "Optional. An LDAP filter for finding groups which the user is part of. {{id}} is replaced with the id supplied in authData."
+  }
+}
+```
+
+If either `groupCN` or `groupFilter` is not specified, the group check is not performed.
+
+Example Configuration (this works with the public LDAP test server hosted by Forumsys):
+
+```js
+{
+  "ldap": {
+    "url": "ldap://ldap.forumsys.com:389",
+    "suffix": "dc=example,dc=com",
+    "dn": "uid={{id}}, dc=example, dc=com",
+    "groupCn": "Chemists",
+    "groupFilter": "(&(uniqueMember=uid={{id}},dc=example,dc=com)(objectClass=groupOfUniqueNames))"
+  }
+}
+```
+
+authData:
+
+```js
+{
+  "authData": {
+    "ldap": {
+      "id": "user id",
+      "password": "password"
+    }
+  }
+}
+```
+
 ### LinkedIn `authData`
 
 ```js
@@ -210,6 +261,22 @@ Google oauth supports validation of id_token's and access_token's.
   }
 }
 ```
+
+### Microsoft Graph `authData`
+
+```js
+{
+  "microsoft": {
+    "id": "user's microsoft id (string)", // required
+    "access_token": "an authorized microsoft graph access token for the user", // required
+    "mail": "user's microsoft email (string)"
+  }
+}
+```
+
+Learn more about [Microsoft Graph Auth Overview](https://docs.microsoft.com/en-us/graph/auth/?view=graph-rest-1.0).
+
+To [get access on behalf of a user](https://docs.microsoft.com/en-us/graph/auth-v2-user?view=graph-rest-1.0).
 
 ### PhantAuth `authData`
 
@@ -293,22 +360,6 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
   }
 }
 ```
-
-### Microsoft Graph `authData`
-
-```js
-{
-  "microsoft": {
-    "id": "user's microsoft id (string)", // required
-    "access_token": "an authorized microsoft graph access token for the user", // required
-    "mail": "user's microsoft email (string)"
-  }
-}
-```
-
-Learn more about [Microsoft Graph Auth Overview](https://docs.microsoft.com/en-us/graph/auth/?view=graph-rest-1.0).
-
-To [get access on behalf of a user](https://docs.microsoft.com/en-us/graph/auth-v2-user?view=graph-rest-1.0).
 
 ## Custom authentication
 
