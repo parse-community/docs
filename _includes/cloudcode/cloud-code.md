@@ -459,6 +459,31 @@ Parse.Cloud.beforeLogin(async request => {
 - On sign up
 - If the login credentials are incorrect
 
+# afterLogout Triggers
+
+*Available only on parse-server cloud code starting 3.10.0*
+
+Sometimes you may want to run actions after a user logs out. For example, the `afterLogout` trigger can be used for clean-up actions after a user logs out. The triggers contains the session object that has been deleted on logout. From this session object you can determine the user who logged out to perform user-specific tasks.
+
+```javascript
+Parse.Cloud.afterLogout(async request => {
+  const { object: session }  = request;
+  const user = session.get('user');
+  user.set('isOnline', false);
+  user.save(null,{useMasterKey:true});
+});
+```
+
+## Some considerations to be aware of
+- Like with `afterDelete` triggers, the `_Session` object that is contained in the request has already been deleted.
+
+### The trigger will run...
+- when the user logs out and a `_Session` object was deleted
+
+### The trigger won't run...
+- if a user logs out and no `_Session` object was found to delete
+- if a `_Session` object is deleted without the user logging out by calling the logout method of an SDK
+
 # LiveQuery Triggers
 
 *Available only on parse-server cloud code starting 2.6.2*
