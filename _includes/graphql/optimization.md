@@ -72,7 +72,7 @@ Using GraphQL do not change best practices to construct your database. In the **
 * Parent
 * Child
 
-**In majority of use cases prefer to reference the parent object inside the child and use child query style**
+In the majority of use cases it's best to reference the parent object inside the child and use a child query style.
 
 ```graphql
 # A Good Schema
