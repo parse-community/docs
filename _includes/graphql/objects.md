@@ -70,7 +70,7 @@ mutation createAGameScore {
 }
 ```
 
-**Note:** The `id` is [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm), it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`.
+**Note:** The `id` is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm), it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`.
 
 ## Update
 
@@ -161,7 +161,7 @@ The code above should resolve to something similar to this:
 
 ## Nested Mutation
 
-The GraphQL API supports nested mutations (except for `File`), so you can create objects with complex relationships in one request. Assuming that we have classes `Country`, `City`, `Company`.
+The GraphQL API supports nested mutations (except for `File`), so you can create objects with complex relationships in one request. Assuming that we have classes `Country`, `City` and `Company`.
 
 ```js
 // Header

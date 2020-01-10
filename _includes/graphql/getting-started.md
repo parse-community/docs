@@ -13,7 +13,7 @@ $ parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongo
 
 Notes:
 * Run `parse-server --help` or refer to [Parse Server Options](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) for a complete list of Parse Server configuration options.
-* ⚠️ Please do not use `--mountPlayground` option in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](#running-parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps. If you want to lock your API on **production** take a look to [Class Level Persmissions](/js/guide/#class-level-permissions)
+* ⚠️ Please do not use `--mountPlayground` option in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](#running-parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps. If you want to secure your API in production take a look at [Class Level Permissions](/js/guide/#class-level-permissions)
 
 After running the CLI command, you should have something like this in your terminal:
 
@@ -108,4 +108,4 @@ After starting the dashboard, you can visit [http://0.0.0.0:4040/apps/MyAppName/
 
 <img alt="Parse Dashboard GraphQL Playground" data-echo="{{ '/assets/images/graphql/dashboard-graphql-playground.png' | prepend: site.baseurl }}"/>
 
-To learn more about Parse Dashboard and its setup options, please visit [Parse Dashboard Repository](https://github.com/parse-community/parse-dashboard).
+To learn more about Parse Dashboard and its setup options, please visit the [Parse Dashboard Repository](https://github.com/parse-community/parse-dashboard).

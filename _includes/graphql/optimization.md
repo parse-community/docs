@@ -2,10 +2,10 @@
 
 ## Indexing
 
-To optimize your server/database performance and response time you need to configure some indexes based on your use cases (types of queries that you use into your app).
-Currently indexes manipulations are not supported on the GraphQL API but you can use on the server side the [Parse JS SDK Indexes API](https://docs.parseplatform.org/js/guide/#indexes)
+To optimize your server/database performance and response time you need to configure some indexes based on the types of queries that you use in your app.
+Currently index manipulations are not supported on the GraphQL API but you can use the [Parse JS SDK Indexes API](https://docs.parseplatform.org/js/guide/#indexes)
 
-Here a simple example:
+Here's a simple example:
 ```graphql
 # First we update the user class
 mutation {
@@ -61,9 +61,9 @@ const addAnIndexToUserClass = () => {
     console.log('Index for ASuperUsedQuery created')
 }
 ```
-And thats all, your query is optimized at 100% and you should notice blazing fast response even on 10M of objects.
+And thats all, your query is optimized and you should have blazing fast responses even with millions of objects.
 
-**Warning:** Only add indexes for most used queries, an over indexed MongoDB will eat too much RAM.
+**Warning:** Only add indexes for most used queries, an over indexed MongoDB will eat lots of RAM.
 
 ## Relational
 
@@ -73,8 +73,6 @@ Using GraphQL do not change best practices to construct your database. In the **
 * Child
 
 **In majority of use cases prefer to reference the parent object inside the child and use child query style**
-
-Quick example:
 
 ```graphql
 # A Good Schema
