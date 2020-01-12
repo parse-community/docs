@@ -2,7 +2,7 @@
 
 ## Create
 
-For each class of your application's schema, Parse Server automatically generates a custom mutation for creating this class' objects through the GraphQL API.
+For each class in your application's schema, Parse Server automatically generates a custom mutation for creating this class' objects through the GraphQL API.
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `createGameScore`, and you should be able to run the code below in your GraphQL Playground:
 
@@ -10,7 +10,7 @@ For example, if you have a class named `GameScore` in the schema, Parse Server a
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+  "X-Parse-Master-Key": "MASTER_KEY" // optional
 }
 ```
 
@@ -20,7 +20,7 @@ mutation createAGameScore {
   createGameScore(
     input: {
       clientMutationId: "anUniqueId"
-      fields: { 
+      fields: {
         playerName: "Sean Plott",
         score: 1337,
         cheatMode: false
@@ -74,9 +74,9 @@ mutation createAGameScore {
 
 ## Update
 
-For each class of your application's schema, Parse Server automatically generates a custom mutation for updating this class' objects through the GraphQL API.
+For each class in your application's schema, Parse Server automatically generates a custom mutation for updating this class' objects through the GraphQL API.
 
-For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `updateGameScore`, and you should be able to run the code below in your GraphQL Playground:
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `updateGameScore`.
 
 ```js
 // Header
@@ -118,9 +118,9 @@ mutation updateAGameScore {
 
 ## Delete
 
-For each class of your application's schema, Parse Server automatically generates a custom mutation for deleting this class' objects through the GraphQL API.
+For each class in your application's schema, Parse Server automatically generates a custom mutation for deleting this class' objects through the GraphQL API.
 
-For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `deleteGameScore`, and you should be able to run the code below in your GraphQL Playground:
+For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `deleteGameScore`.
 
 ```js
 // Header
@@ -157,7 +157,7 @@ The code above should resolve to something similar to this:
 }
 ```
 
-**Note:** The API returns the deleted object, it helps frontend developers to show messages like: "The player Charles François has been successfully removed."
+**Note:** The API returns the deleted object, which can allow you to show messages like "The player Charles François has been successfully removed" on the front end.
 
 ## Nested Mutation
 
@@ -178,7 +178,7 @@ mutation aNestedMutaiton {
         name: "Mars"
         cities: {
           createAndAdd: [{ name: "Alpha",
-            companies: { 
+            companies: {
               createAndAdd: [{
                 name: "Motors"
               }]
