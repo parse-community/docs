@@ -1,6 +1,6 @@
 # API Doc
 
-GraphQL is a self documented API, to learn all available operations on the **GraphQL API** it's recommended to start the Parse GraphQL Server and visit the "Docs" tab on the GraphQL Playground.
+GraphQL is a self documented API, to learn all available operations, it's recommended to start the Parse GraphQL Server and visit the Docs tab on the GraphQL Playground.
 
 ```bash
 $ npm install -g parse-server mongodb-runner

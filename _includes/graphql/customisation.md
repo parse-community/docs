@@ -1,6 +1,6 @@
 # Customisation
 
-Although we automtically generate a GraphQL schema based on your Parse Server database, we have provided a number of ways in which to configure and extend this schema.
+Although we automatically generate a GraphQL schema based on your Parse Server database, we have provided a number of ways in which to configure and extend this schema.
 
 ## Configuration
 
@@ -67,7 +67,7 @@ interface ParseGraphQLConfiguration {
       find?: boolean;
     };
 
-    // By default, all write mutation types are 
+    // By default, all write mutation types are
     // exposed for all included classes. Use this to disable
     // the available mutation types for this class.
     mutation?: {
