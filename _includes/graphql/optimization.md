@@ -67,10 +67,7 @@ And thats all, your query is optimized and you should have blazing fast response
 
 ## Relational
 
-Using GraphQL do not change best practices to construct your database. In the **Queries** section we saw 2 types of relations:
-
-* Parent
-* Child
+When using the GraphQL API, use the same best practices to construct your database. In the Queries section we saw both parent and child relations.
 
 In the majority of use cases it's best to reference the parent object inside the child and use a child query style.
 
@@ -83,7 +80,7 @@ mutation EfficientSchema {
       schemaFields: {
         addStrings: [{ name: "name" }]
         addPointers: [
-            { 
+            {
                 name: "country",
                 targetClassName: "Country"
             }
@@ -96,11 +93,11 @@ mutation EfficientSchema {
     }
   }
   Country: createClass(
-    input: { 
+    input: {
         name: "Country",
-        schemaFields: { 
+        schemaFields: {
             addStrings: [{ name: "name" }]
-        } 
+        }
     }
   ) {
     class {
@@ -113,7 +110,7 @@ mutation EfficientSchema {
 # A Bad Schema
 mutation NotEfficientSchema {
   City: createClass(
-    input: { 
+    input: {
         name: "City",
         schemaFields: {
             addStrings: [{ name: "name" }]
@@ -130,7 +127,7 @@ mutation NotEfficientSchema {
       schemaFields: {
         addStrings: [{ name: "name" }]
         addRelations: [
-            { 
+            {
                 name: "cities",
                 targetClassName: "City"
             }
@@ -151,12 +148,12 @@ If you use a Graphql Client with a cache system like **Apollo Client** you must 
 
 **Note:** On `Mutation` it's recommended to ask to GraphQL to return the modified fields, then your GraphQL Client can update the object in the local cache.
 
-Here a quick example: 
+Here a quick example:
 ```graphql
 # Cache Optimized Mutation
 mutation OptimizedMutation {
   updateUser(
-    input: { 
+    input: {
         id: "xxxx",
         fields: {
             firstname: "John",
