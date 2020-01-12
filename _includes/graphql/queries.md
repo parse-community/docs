@@ -2,7 +2,7 @@
 
 ## Get
 
-For each class of your application's schema, Parse Server automatically generates a custom query for getting this class' objects through the API.
+For each class in your application's schema, Parse Server automatically generates a custom query for getting this class' objects through the API.
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScore`, and you should be able to run the code below in your GraphQL Playground:
 
@@ -53,7 +53,7 @@ query getAGameScore {
 
 ## Get with Relay
 
-With the Relay specification you have also the choice to use [GraphQL Fragments](https://graphql.org/learn/queries/#fragments) through the `node` GraphQL Query. For a `GameScore` object the following query will do the job.
+With the Relay specification you also have the choice to use [GraphQL Fragments](https://graphql.org/learn/queries/#fragments) through the `node` GraphQL Query. For a `GameScore` object the following query will do the job.
 
 ```js
 // Header
@@ -92,8 +92,7 @@ query getGameScoreWithNodeRelay {
 }
 ```
 
-Here using `Node Relay` is useful for writing generic requests for your front end components. For example:
-Assuming we already have a `User` with a `Relay Node Id: X1VzZXI6Q1lMeWJYMjFjcw==` and `username: "johndoe"`
+Here using `Node Relay` is useful for writing generic requests for your front end components. For example, assuming we already have a `User` with a `Relay Node Id: X1VzZXI6Q1lMeWJYMjFjcw==` and `username: "johndoe"`.
 
 ```js
 // Header
@@ -135,7 +134,7 @@ query genericGet {
 
 ## Find
 
-For each class of your application's schema, Parse Server automatically generates a custom query for finding this class' objects through the GraphQL API.
+For each class in your application's schema, Parse Server automatically generates a custom query for finding this class' objects through the GraphQL API.
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScores`, and you should be able to run the code below in your GraphQL Playground:
 
@@ -229,7 +228,7 @@ You can use the `where` argument to add constraints to a class find query. See t
 ```graphql
 # GraphQL
 query getSomeGameScores {
-  gameScores(where: { 
+  gameScores(where: {
   	score: { greaterThan: 158 }
   }) {
     count
@@ -266,11 +265,11 @@ query getSomeGameScores {
   }
 }
 ```
-**Note:** Visit your GraphQL Playground if you want to know all available constraints.
+Visit your GraphQL Playground if you want to know all the available constraints.
 
 ### Order
 
-You can use the `order` argument to select in which order the results should show up in a class find query. See the example below:
+You can use the `order` argument to select in which order the results are returned in a class find query. See the example below:
 
 ```js
 // Header
@@ -283,7 +282,7 @@ You can use the `order` argument to select in which order the results should sho
 # GraphQL
 query getSomeGameScores {
   gameScores(
-  	where: { 
+  	where: {
   	  cheatMode: { equalTo: false }
   	},
   	order: score_ASC
@@ -334,18 +333,18 @@ query getSomeGameScores {
 
 ### Pagination
 
-[Relay Node Cursor](https://facebook.github.io/relay/graphql/connections.htm) provide a simple way to get an efficient and easy to use pagination into your app.
+[Relay Node Cursor](https://facebook.github.io/relay/graphql/connections.htm) provides a simple way to get an efficient and easy to add pagination into your app.
 
-With Relay you can build flexible pagination based on cursors here it's the main effect of each argument:
-* `skip`: A regular skip to exlude some results
-* `first`: Similar as a `limit` parameter but starts from first result, e.g. `first: 10` retrieves the first 10 results
-* `last`: Retrieve the last results, e.g. `last: 10` retrieves the last 10 results
-* `before`: Get objects before the provided `Cursor`, in combinatin with `after` it's allow you to build inverted pagination
-* `after`: Get objects after the provided `Cursor`, in combination with `first` you get a classic pagination similar to `skip & limit`
+With Relay you can build flexible pagination based on cursors; here is the main effect of each argument:
+* `skip`: a regular skip to exclude some results
+* `first`: similar to a `limit` parameter but starts from the first result, e.g. `first: 10` retrieves the first 10 results
+* `last`: retrieve the last results, e.g. `last: 10` retrieves the last 10 results
+* `before`: get objects before the provided `Cursor`, in combination with `after` it allows you to build inverted pagination
+* `after`: get objects after the provided `Cursor`, in combination with `first` you get a classic pagination similar to `skip & limit`
 
-You can combine multiple parameters like: `before & last`, `after & first`
+You can combine multiple parameters like: `before & last` or `after & first`.
 
-Assuming we have an old object with`cursor: YXJyYXljb25uZWN0aW9uOjE` (`cursor` is different of `id`, it's a temporary pagination Id for the query)
+Assuming we have an old object with `cursor: YXJyYXljb25uZWN0aW9uOjE` (`cursor` is different to `id`, it's a temporary pagination ID for the query)
 
 ```js
 // Header
@@ -405,11 +404,11 @@ query getSomeGameScores {
 }
 ```
 
-**Note**: `count` is a global count for available results. It's not the number of edges returned by the request.
+**Note**: `count` is a global count for available results, it's not the number of edges returned by the request.
 
 ## Nested Query
 
-The GraphQL API supports nested queries, so you can find object and then execute query on relational child fields. Assuming that we have classes `Country`, `City`, `Company`.
+The GraphQL API supports nested queries, so you can find object and then execute query on relational child fields. Assuming that we have classes `Country`, `City`, `Company`:
 
 ```js
 // Header
@@ -421,14 +420,14 @@ The GraphQL API supports nested queries, so you can find object and then execute
 
 ```graphql
 query aNestedQuery {
-  countries(where: { 
+  countries(where: {
     name: { matchesRegex: "Ma", options: "i" }
   }) {
     edges {
       node {
         name
-        cities(where: { 
-          name: { matchesRegex: "pha", options: "i"} 
+        cities(where: {
+          name: { matchesRegex: "pha", options: "i"}
         }) {
           edges {
             node {
@@ -468,13 +467,13 @@ query aNestedQuery {
 ```
 
 ## Relational Query
-The GraphQL API supports complex parent relational queries. It means that all `Pointer` and `Relation` fields on your database can be used easily throughout the API to query complex relational data. Let's take a look at the power of this feature.
+The GraphQL API supports complex parent relational queries. It means that all the `Pointer` and `Relation` fields in your database can be used easily throughout the API to query complex relational data. Let's take a look at the power of this feature.
 
 ### Parent Relation Style
 Assuming that we have a `Country` class, `City` class, `Street` class and `House` class.
-`Country` have a `cities` `Relation` field.
-`City` have a `streets` `Relation` field.
-`Street` have a `houses` `Relation` field.
+* `Country` has a `cities` `Relation` field.
+* `City` has a `streets` `Relation` field.
+* `Street` has a `houses` `Relation` field.
 
 Let's build a query matching countries that contain at least one city with more than 20,000 people and that contain at least one street that matches `/rue/i` regex and this street should contain at least one house with a name equal to `Parse Members`.
 
@@ -557,11 +556,11 @@ The GraphQL API can handle this type of complex relational query with ease.
 
 ### Child Relation Style
 Assuming that we have a `Country` class, `City` class, `Street` class, `House` class.
-`House` have a `street` `Pointer` field.
-`Street` have a `city` `Pointer` field.
-`City` have a `country` `Pointer` field.
+* `House` has a `street` `Pointer` field.
+* `Street` has a `city` `Pointer` field.
+* `City` has a `country` `Pointer` field.
 
-Let's build a query matching houses where there street have city that have a country with a name equal to `France`.
+Let's build a query matching houses where the street has a city that has a country with a name equal to `France`.
 
 ```js
 // Header
@@ -577,14 +576,14 @@ Let's build a query matching houses where there street have city that have a cou
     where: {
       street: {
         have: {
-          city: { 
-            have: { 
-              country: { 
-                have: { 
-                  name: { equalTo: "France" } 
-                } 
-              } 
-            } 
+          city: {
+            have: {
+              country: {
+                have: {
+                  name: { equalTo: "France" }
+                }
+              }
+            }
           }
         }
       }
