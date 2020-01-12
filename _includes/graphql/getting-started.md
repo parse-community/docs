@@ -1,6 +1,6 @@
 # Getting Started
 
-[GraphQL](https://graphql.org/), developed by Facebook, is an open-source data query and manipulation language for APIs. In addition to the traditional [REST API](/rest/guide/), Parse Server automatically generates a GraphQL API based on your current application schema.
+[GraphQL](https://graphql.org/), developed by Facebook, is an open-source data query and manipulation language for APIs. In addition to the traditional [REST API](/rest/guide/), Parse Server automatically generates a GraphQL API based on your current application schema. Specifically, Parse has opted for the [Relay](https://relay.dev/docs/en/introduction-to-relay) specification in-line with industry best-practices.
 
 ## Fast launch
 The easiest way to run the Parse GraphQL Server is using the CLI:
