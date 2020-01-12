@@ -335,7 +335,7 @@ query getSomeGameScores {
 
 [Relay Node Cursor](https://facebook.github.io/relay/graphql/connections.htm) provides a simple way to get an efficient and easy to add pagination into your app.
 
-With Relay you can build flexible pagination based on cursors; here is the main effect of each argument:
+With Relay you can build flexible pagination based on cursors, here is the main effect of each argument:
 * `skip`: a regular skip to exclude some results
 * `first`: similar to a `limit` parameter but starts from the first result, e.g. `first: 10` retrieves the first 10 results
 * `last`: retrieve the last results, e.g. `last: 10` retrieves the last 10 results
