@@ -333,7 +333,7 @@ query getSomeGameScores {
 
 ### Pagination
 
-[Relay Node Cursor](https://facebook.github.io/relay/graphql/connections.htm) provides a simple way to get an efficient and easy to add pagination into your app.
+[Relay Node Cursor](https://facebook.github.io/relay/graphql/connections.htm) provides a simple way to get efficient and easy to use pagination.
 
 With Relay you can build flexible pagination based on cursors, here is the main effect of each argument:
 * `skip`: a regular skip to exclude some results
@@ -342,9 +342,9 @@ With Relay you can build flexible pagination based on cursors, here is the main 
 * `before`: get objects before the provided `Cursor`, in combination with `after` it allows you to build inverted pagination
 * `after`: get objects after the provided `Cursor`, in combination with `first` you get a classic pagination similar to `skip & limit`
 
-You can combine multiple parameters like: `before & last` or `after & first`.
+You can combine multiple parameters like: `before & last` or `after & first`, assuming you have an existing `cursor`.
 
-Assuming we have an old object with `cursor: YXJyYXljb25uZWN0aW9uOjE` (`cursor` is different to `id`, it's a temporary pagination ID for the query)
+Note: `cursor` is different to `id`, it is a temporary pagination ID for the query.
 
 ```js
 // Header
