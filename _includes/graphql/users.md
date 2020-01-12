@@ -2,9 +2,7 @@
 
 In general, users have the same features as other objects. The differences are that user objects must have a username and password, the password is automatically encrypted and stored securely, and Parse Server enforces the uniqueness of the username and email fields.
 
-Therefore you can manage users objects using the `createUser`, `user`, `users`, `updateUser`, and `deleteUser` operations.
-
-Additionally, you can use the `signUp`, `logIn`, and `logOut` operations, which will be presented in the following sections.
+Therefore you can manage users objects using the `createUser`, `user`, `users`, `updateUser`, and `deleteUser` operations. Additionally, you can use the `signUp`, `logIn`, and `logOut` operations.
 
 ## Signing Up
 
@@ -70,7 +68,7 @@ After you allow users to sign up, you need to let them log in to their account w
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+  "X-Parse-Master-Key": "MASTER_KEY" // optional
 }
 ```
 ```graphql
@@ -194,7 +192,7 @@ mutation logOut {
 
 ## Resetting Passwords
 
-***Important:*** To use the `resetPassword` mutation your parse server must have an email adapter configured.
+To use the `resetPassword` mutation your Parse Server must have an email adapter configured.
 
 ```js
 // Header
@@ -223,9 +221,7 @@ mutation resetPassword {
 
 ## Send Email Verification
 
-**Important:** To use the `resetPassword` mutation your parse server must have an email adapter configured.
-
-**Note:** The verification email is automatically sent on sign up; this mutation is useful in case of where the user need do not receive the first email (spam, error, etc...).
+The verification email is automatically sent on sign up; this mutation is useful if the user didn't receive the first email. Again, an email adapter must be configured for this mutation to work.
 
 ```js
 // Header
