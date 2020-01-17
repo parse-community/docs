@@ -195,15 +195,16 @@ These are similar to `pointerFields`, but cover multiple operations at once:
 - `delete`,
 - `addField`
 
+Equivalnt scheme can be defined shorter:
+
 ```js
-// And schema
 {
   classLevelPermissions:
   {
     "update": {
       "pointerFields": ["moderators"],
     },
-    "readUserFields": ["owner", "foollowers", "moderators"],
+    "readUserFields": ["owner", "followers", "moderators"],
     "writeUserFields": ["owner"]
     ...
   }
