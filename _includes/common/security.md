@@ -61,11 +61,11 @@ For each of the above actions, you can grant permission to all users (which is t
 
 Allowed entries for operations are:
 
-- `*`  -  [Public](#public-access)
-- `objectId` - [User's ID](#users-roles)
-- `role:role_name` - [Role](#users-roles)
-- `requiredAuthentication` - [Authenticated Users](#requires-authentication-permission-requires-parse-server--230)
-- `pointerFields` - [Pointer Permissions](#pointer-permissions)
+* `*`  -  [Public](#public-access)
+* `objectId` - [User's ID](#users-roles)
+* `role:role_name` - [Role](#users-roles)
+* `requiredAuthentication` - [Authenticated Users](#requires-authentication-permission-requires-parse-server--230)
+* `pointerFields` - [Pointer Permissions](#pointer-permissions)
 
 And any combinations of the above:
 
@@ -135,7 +135,7 @@ If you want to restrict access to a full class to only authenticated users, you 
 ```js
 {
   classLevelPermissions:
-  { 
+  {
     "get": {
       "requiresAuthentication": true,
       "role:admin": true
@@ -157,7 +157,7 @@ Effects:
 * Authenticated users (any user with a valid sessionToken) will be able to read all the objects in that class
 * Users belonging to the admin role, will be able to perform all operations.
 
-:warning: Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
+⚠️ Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
 
 ## Pointer Permissions
 
@@ -197,12 +197,36 @@ There are two ways you can set Pointer Permission in schema:
 * [Using granular permissions](#granular-pointer-permissions) - `pointerFields` *requires Parse-Server v3.11 and above*
 * [Using grouped permissions](#grouped-pointer-permissions) - `readUserFields`/`writeUserFields`
 
-:warning: `create` operation can't be allowed by pointer permissions, because there is literally no object to check it's field untill it is created;
-:warning: `addField`  grants permission to only update an object with a new field, but it is advised to set addField permission using other means (e.g. restrict to a role or particular admin user by id).
+⚠️ `create` operation can't be allowed by pointer permissions, because there is literally no object to check it's field untill it is created;
+
+⚠️ `addField`  grants permission to only update an object with a new field, but it is advised to set addField permission using other means (e.g. restrict to a role or particular admin user by id).
 
 ### Granular Pointer Permissions
 
 Given an example setup:
+
+```js
+{
+  "classLevelPermissions":
+  {
+    "get": {
+      "pointerFields": ["owner", "subscribers"]
+    },
+    "find": {
+      "pointerFields": ["owner", "subscribers"]
+    },
+    "create":{
+      "*": true
+    },
+    "update": {
+      "pointerFields": ["owner"]
+    },
+    "delete": {
+      "pointerFields": ["owner"]
+    }
+  }
+}
+```
 
 {% if page.language == "objective_c-swift" %}
 <div class="language-toggle" markdown="1">
@@ -217,13 +241,13 @@ let alice = ... // PFUser
 let bob = ... // PFUser
 
 // and two objects:
-let feed1 = PFObject(className:"Feed")
-feed1["owner"] = alice
-feed1["subscribers"] = [] // notice subscribers empty
+let feedA = PFObject(className:"Feed")
+feedA["owner"] = alice
+feedA["subscribers"] = [] // notice subscribers empty
 
-let feed2 = PFObject(className:"Feed")
-feed1["owner"] = bob
-feed1["subscribers"] = [alice] // notice Alice in subscribers
+let feedB = PFObject(className:"Feed")
+feedA["owner"] = bob
+feedA["subscribers"] = [alice] // notice Alice in subscribers
 
 }
 ```
@@ -240,18 +264,18 @@ ParseUser bob = ... //new ParseUser();
 
 
 // and two objects
-ParseObject feed1 = new ParseObject("Feed");
-feed1.put("title", "'Posts by Alice'");
-feed1.put("owner", alice);
-feed1.put("subscribers",
+ParseObject feedA = new ParseObject("Feed");
+feedA.put("title", "'Posts by Alice'");
+feedA.put("owner", alice);
+feedA.put("subscribers",
   new ArrayList<ParseUser>() // notice no subscribers here
 );
 
 
-ParseObject feed2 = new ParseObject("Feed");
-feed2.put("title", "Posts by Bob");
-feed2.put("owner", bob);
-feed2.put("subscribers",
+ParseObject feedB = new ParseObject("Feed");
+feedB.put("title", "Posts by Bob");
+feedB.put("owner", bob);
+feedB.put("subscribers",
   new ArrayList<ParseUser>(
     Arrays.asList( bob, alice ) // notice Alice here
   )
@@ -267,13 +291,13 @@ const alice = ... // new Parse.User
 const bob = ... // new Parse.User
 
 // and two objects
-const feed1 = new Parse.Object('Feed', {
+const feedA = new Parse.Object('Feed', {
     title: 'Posts by Alice',
     owner: alice,
     subscribers: [], // notice no subscribers here
   });
 
-const feed2 = new Parse.Object('Feed', {
+const feedB = new Parse.Object('Feed', {
     title: 'Posts by Bob',
     owner: bob,
     subscribers: [ alice ], // notice Alice in subscribers
@@ -288,16 +312,16 @@ var Alice = ...; // new ParseUser()
 var Bob =  ...; // ParseUser()
 
 // and two objects:
-var Feed1 = new ParseObject("Feed");
-Feed1["title"] = "Posts by Alice";
-Feed1["owner"] = Alice;
-Feed1["subscribers"] = new List<ParseUser>{}; // notice no subscribers here
+var FeedA = new ParseObject("Feed");
+FeedA["title"] = "Posts by Alice";
+FeedA["owner"] = Alice;
+FeedA["subscribers"] = new List<ParseUser>{}; // notice no subscribers here
 
 
-var Feed2 = new ParseObject("Feed");
-Feed2["title"] = "Posts by Alice";
-Feed2["owner"] = Bob;
-Feed2["subscribers"] = new List<ParseUser> { Alice }; // notice Alice in subscribers
+var FeedB = new ParseObject("Feed");
+FeedB["title"] = "Posts by Alice";
+FeedB["owner"] = Bob;
+FeedB["subscribers"] = new List<ParseUser> { Alice }; // notice Alice in subscribers
 
 ```
 {% endif %}
@@ -311,16 +335,16 @@ $bob = ... // ParseUser;
 
 ...
 // and two objects
-$feed1 = ParseObject::create("Feed");
-$feed1->set("title", "Posts by Alice");
-$feed1->set("owner", $alice);
-$feed1->set("subscribers", []); // notice no subscribers here
+$feedA = ParseObject::create("Feed");
+$feedA->set("title", "Posts by Alice");
+$feedA->set("owner", $alice);
+$feedA->set("subscribers", []); // notice no subscribers here
 
 
-$feed2 = ParseObject::create("Feed");
-$feed2->set("title", "Posts by Bob");
-$feed2->set("owner", $bob);
-$feed2->set("subscribers", [ $alice ]); // notice alice in subscribers
+$feedB = ParseObject::create("Feed");
+$feedB->set("title", "Posts by Bob");
+$feedB->set("owner", $bob);
+$feedB->set("subscribers", [ $alice ]); // notice alice in subscribers
 
 ```
 {% endif %}
@@ -386,38 +410,12 @@ alice, bob;
 ```
 {% endif %}
 
+In the example above:
 
-and Class Level Permissions:
-
-```js
-{
-  "classLevelPermissions":
-  {
-    "get": {
-      "pointerFields": ["owner", "subscribers"]
-    },
-    "find": {
-      "pointerFields": ["owner", "subscribers"]
-    },
-    "create":{
-      "*": true
-    },
-    "update": {
-      "pointerFields": ["owner"]
-    },
-    "delete": {
-      "pointerFields": ["owner"]
-    }
-  }
-}
-```
-
-In the above example:
-
-- anyone is allowed to `create` objects.
-- `feed1` can be viewed (`get`,`find`) only by **Alice**.
-- `feed2` can be viewed (`get`,`find`) both by **Bob** and **Alice**.
-- only owners are allowed to `update` and `delete`.
+* anyone is allowed to `create` objects.
+* `feedA` can be viewed (`get`,`find`) only by **Alice**. (pointed in owners field)
+* `feedB` can be viewed (`get`,`find`) both by **Bob** and **Alice**. (Bob is pointed in `owners`. Alice is pointed in `subscribers`)
+* only owners are allowed to `update` and `delete`.
 
 ### Grouped Pointer Permissions
 
@@ -425,15 +423,15 @@ These are similar to [`pointerFields`](#granular-pointer-permissions), but cover
 
 **`readUserFields`**:
 
-- `get`,
-- `find`,
-- `count`
+* `get`,
+* `find`,
+* `count`
 
 **`writeUserFields`**:
 
-- `update`,
-- `delete`,
-- `addField`
+* `update`,
+* `delete`,
+* `addField`
 
 Same scheme as for previous example can be defined shorter:
 
@@ -468,7 +466,7 @@ Given this permission setup for an operation:
 }
 ```
 
-You can expect following behavior:
+You can expect following behavior\*:
 
 |Operation | User not in "editors" | User is in "editors" |
 | - | - | - |
@@ -479,6 +477,8 @@ You can expect following behavior:
 |update| 101: Object not found | ok |
 |delete| 101: Object not found | ok |
 |addField| Permission denied | ok |
+
+_\* Assuming default ACL is set on the object (public read and write)._  [CLP vs ACL](#clp-and-acl-interaction)
 
 ## Object-Level Access Control
 
