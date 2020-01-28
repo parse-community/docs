@@ -161,7 +161,7 @@ The code above should resolve to something similar to this:
 
 ## Nested Mutation
 
-The GraphQL API supports nested mutations (except for `File`), so you can create objects with complex relationships in one request. Assuming that we have classes `Country`, `City` and `Company`.
+The GraphQL API supports nested mutations, so you can create objects with complex relationships in one request. Assuming that we have classes `Country`, `City` and `Company`.
 
 ```js
 // Header
