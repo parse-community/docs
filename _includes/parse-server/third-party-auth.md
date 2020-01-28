@@ -10,6 +10,7 @@ Parse Server supports 3rd party authentication with
 * Instagram
 * Janrain Capture
 * Janrain Engage
+* Keycloak
 * LDAP
 * LinkedIn
 * Meetup
@@ -185,6 +186,37 @@ Google oauth supports validation of id_token's and access_token's.
   "instagram": {
     "id": "user's Instagram id (string)",
     "access_token": "an authorized Instagram access token for the user"
+  }
+}
+```
+
+### Keycloak `authData`
+
+```js
+{
+  "keycloak": {
+    "access_token": "access token you got from keycloak JS client authentication",
+    "id": "the id retrieved from client authentication in Keycloak",
+    "roles": ["the roles retrieved from client authentication in Keycloak"],
+    "groups": ["the groups retrieved from client authentication in Keycloak"]
+  }
+}
+```
+
+The authentication module will test if the authData is the same as the
+userinfo oauth call, comparing the attributes
+
+Copy the JSON config file generated on Keycloak ([how-to link](https://www.keycloak.org/docs/latest/securing_apps/index.html#_javascript_adapter))
+and paste it inside of a folder (Ex.: `auth/keycloak.json`) in your server.
+
+The options passed to Parse server:
+
+```js
+{
+  auth: {
+    keycloak: {
+      config: require(`./auth/keycloak.json`) // Required
+    }
   }
 }
 ```
