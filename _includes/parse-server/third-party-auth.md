@@ -204,7 +204,6 @@ Google oauth supports validation of id_token's and access_token's.
 ```
 
 The authentication module will test if the authData is the same as the userinfo oauth call, by comparing the attributes.
-userinfo oauth call, comparing the attributes
 
 Copy the JSON config file generated on Keycloak ([how-to link](https://www.keycloak.org/docs/latest/securing_apps/index.html#_javascript_adapter))
 and paste it inside of a folder (Ex.: `auth/keycloak.json`) in your server.
