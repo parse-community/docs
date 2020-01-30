@@ -195,7 +195,7 @@ Google oauth supports validation of id_token's and access_token's.
 ```js
 {
   "keycloak": {
-    "access_token": "access token you got from keycloak JS client authentication",
+    "access_token": "access token from keycloak JS client authentication",
     "id": "the id retrieved from client authentication in Keycloak",
     "roles": ["the roles retrieved from client authentication in Keycloak"],
     "groups": ["the groups retrieved from client authentication in Keycloak"]
