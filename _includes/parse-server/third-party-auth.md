@@ -209,7 +209,7 @@ userinfo oauth call, comparing the attributes
 Copy the JSON config file generated on Keycloak ([how-to link](https://www.keycloak.org/docs/latest/securing_apps/index.html#_javascript_adapter))
 and paste it inside of a folder (Ex.: `auth/keycloak.json`) in your server.
 
-The options passed to Parse server:
+The options passed to Parse Server:
 
 ```js
 {
