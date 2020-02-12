@@ -23,3 +23,43 @@ void setup() {
 ```
 
 After this, all calls to the Parse Server will use the specified app.
+
+In order for the Arduino device to know where the Parse server is located, specify the URL in your `setup` function:
+
+```cpp
+void setup() {
+	Parse.begin("${APPLICATION_ID}", "${CLIENT_KEY}");
+	Parse.setServerURL("parseapi.back4app.com");
+	// ...
+}
+```
+
+When the Arduino attempts to connect to the Parse server, it will need to know whether or not to connect using SSL.  It is recommended to use SSL whenever possible.
+
+Option 1: SSL
+
+SSL requires that the Arduino knows the server fingerprint.  The server fingerprint can be found using the Chrome browser.  Browse the secure server URL, press `ctrl+shift+i`, select `security` tab, click `view certificate`, and get the thumbprint from the `details` tab.  Specify this as well in your `setup` function:
+
+```cpp
+void setup() {
+	Parse.begin("${APPLICATION_ID}", "${CLIENT_KEY}");
+	Parse.setServerURL("parseapi.back4app.com");
+	Parse.setHostFingerprint("${HOST_THUMBPRINT}");
+	// ...
+}
+```
+
+Option 2: Insecure
+
+The Arduino can connect to Parse over an insecure connection if desired, but must be specified in your setup function:
+
+```cpp
+void setup() {
+	Parse.begin("${APPLICATION_ID}", "${CLIENT_KEY}");
+	Parse.setServerURL("parseapi.back4app.com");
+	Parse.setClientInsecure();
+	// ...
+}
+```
+
+Parse is now initialized and ready to make calls to the Parse server.
