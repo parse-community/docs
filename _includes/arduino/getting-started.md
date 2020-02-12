@@ -38,7 +38,7 @@ When the Arduino attempts to connect to the Parse server, it will need to know w
 
 Option 1: SSL
 
-SSL requires that the Arduino knows the server fingerprint.  The server fingerprint can be found using the Chrome browser.  Browse the secure server URL, press `ctrl+shift+i`, select `security` tab, click `view certificate`, and get the thumbprint from the `details` tab.  Specify this as well in your `setup` function:
+SSL requires that the Arduino know the server fingerprint.  The server fingerprint can be found using the Chrome browser.  Browse the secure server URL, press `ctrl+shift+i`, select `security` tab, click `view certificate`, and get the thumbprint from the `details` tab.  Specify this as well in your `setup` function:
 
 ```cpp
 void setup() {
