@@ -50,6 +50,7 @@ public class App extends Application {
  ```xml
  <application
    android:name=".App"
+   android:usesCleartextTraffic="true"
    ...>
    ...
  </application>
