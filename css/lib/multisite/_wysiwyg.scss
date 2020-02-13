@@ -303,13 +303,11 @@
         @include break-min( 880px ) {
             background-position: 35px 20px;
             padding-left: 3.5rem;
-            margin-left: -15%;
             width: 130%;
             // max-width: 875px;
         }
 
         @include break-min( 1024px ){
-            margin-left: -25%;
             width: 150%;
         }
 
