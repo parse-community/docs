@@ -2,7 +2,7 @@
 
 The GraphQL API supports file upload via [GraphQL Upload](https://github.com/jaydenseric/graphql-upload), to send a `File` through `GraphQL` it's recommended to use the [Apollo Upload Client](https://github.com/jaydenseric/apollo-upload-client).
 
-## Add a File field to Class
+## Add a File field to a Class
 First of all we will update our `GameScore` class with a `screenshot` field of type `File`.
 
 ```js
@@ -42,9 +42,9 @@ mutation updateGameScoreClass {
 }
 ```
 
-## Create File
+## Create a File
 
-GraphQL API support nested mutation for the `File` type, so you can send the file along the Parse Object or just upload the file and get returned information.
+The GraphQL API supports nested mutation for the `File` type, so you can send the file along with the Parse Object or just upload the file and get the returned information.
 
 ```js
 // Header
@@ -133,7 +133,7 @@ mutation createGameScore {
 ```
 
 ## Create and add a file
-Lets create a new `GameScore` object and upload the file along the creation.
+Lets create a new `GameScore` object and upload the file.
 ```js
 // Header
 {
