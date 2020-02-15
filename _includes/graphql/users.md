@@ -106,8 +106,7 @@ Note that, when the user logs in, Parse Server generates a new `sessionToken` fo
 
 ## 3rd Party Authentication
 
-You can log in a user via a 3rd party auth system (Custom, Facebook, Twitter, etc...) with the `logInWith` mutation.
-For more information about the use of authData: [AuthData Guide](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications)
+You can log in a user via a [3rd party authentication](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) system (Facebook, Twitter, Apple and many more) with the `logInWith` mutation.
 
 ```js
 // Header
