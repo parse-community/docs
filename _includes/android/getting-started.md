@@ -50,8 +50,8 @@ public class App extends Application {
  ```xml
  <application
    android:name=".App"
-   android:usesCleartextTraffic="true"
    ...>
    ...
  </application>
  ```
+ Note that if you are testing with a server using http, you will need to add android:usesCleartextTraffic="true" to your above <application> definition, but you should only do this while testing and should use https for your final product.
