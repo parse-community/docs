@@ -153,7 +153,7 @@ If you want to restrict access to a full class to only authenticated users, you 
 Effects:
 
 * Non authenticated users won't be able to do anything.
-* Authenticated users (any user with a valid sessionToken) will be able to read all the objects in that class
+* Authenticated users (any user with a valid `sessionToken`) will be able to read all the objects in that class.
 * Users belonging to the admin role, will be able to perform all operations.
 
 ⚠️ Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
