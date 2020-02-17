@@ -111,7 +111,7 @@ And any combinations of the above:
 
 ### Users, Roles
 
-This works exactly as ACL's
+This works exactly like ACLs.
 
 ```js
 {
