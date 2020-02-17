@@ -160,11 +160,11 @@ Effects:
 
 ## Pointer Permissions
 
-While permissions discussed before let you explicitly target a user by id or a role, Pointer Permissions let you dynamically enforce permissions without knowing the id or assigning roles in advance. Instead you define one or more field names of this class, and any users pointed by such fields of a particular object are granted the permission.
-
-Pointer Permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on the users stored in pointer fields on those objects. For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `receiver` field and a read and write pointer permission on the `sender` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
+While the permissions discussed before let you explicitly target a user by `id` or a role, Pointer Permissions let you dynamically enforce permissions without knowing the `id` or assigning roles in advance. Instead you use a field (of this class) that is a `Pointer<_User>` or an `Array` of `Pointer<_User>`, and any users pointed to by such field are granted the permission on per-object basis. This effectively allows an object's content to control who is allowed to interact with it.
 
 Given that objects often already have pointers to the user(s) that should have permissions on the object, pointer permissions provide a simple and fast solution for securing your app using data which is already there, that doesn't require writing any client code or cloud code.
+
+For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `receiver` field and a read and write pointer permission on the `sender` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
 
 Pointer permissions are like virtual ACLs. They don't appear in the ACL column, but if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
 
