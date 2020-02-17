@@ -61,7 +61,7 @@ For each of the above actions, you can grant permission to all users (which is t
 
 Allowed entries for operations are:
 
-* `*`  -  [Public](#public-access)
+* `*` - [Public](#public-access)
 * `objectId` - [User's ID](#users-roles)
 * `role:role_name` - [Role](#users-roles)
 * `requiredAuthentication` - [Authenticated Users](#requires-authentication-permission-requires-parse-server--230)
