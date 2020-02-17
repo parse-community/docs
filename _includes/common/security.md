@@ -125,7 +125,7 @@ This works exactly like ACLs.
 }
 ```
 
-### Requires Authentication permission (requires parse-server  >= 2.3.0)
+### Requires Authentication permission
 
 Starting version 2.3.0, parse-server introduces a new Class Level Permission `requiresAuthentication`.
 This CLP prevents any non authenticated user from performing the action protected by the CLP.
