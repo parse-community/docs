@@ -96,7 +96,7 @@ And any combinations of the above:
 
 ### Public access
 
-`*` - Allows anyone despite authentication status to execute operation.
+`*` - Allows anyone regardless of authentication status to execute the operation.
 
 ```js
 {
