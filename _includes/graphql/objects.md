@@ -171,7 +171,7 @@ The GraphQL API supports nested mutations (except for `File`), so you can create
 }
 ```
 ```graphql
-mutation aNestedMutaiton {
+mutation aNestedMutation {
   createCountry(
     input: {
       fields: {
