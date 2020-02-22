@@ -18,10 +18,10 @@ For server-side applications or Node.js command line tools, include `'parse/node
 var Parse = require('parse/node');
 ```
 
-For React Native applications, include `'parse/react-native'`:
+For React Native applications, include `'parse/react-native.js'`:
 ```js
 // In a React Native application
-var Parse = require('parse/react-native');
+var Parse = require('parse/react-native.js');
 ```
 
 Additionally on React-Native / Expo environments, make sure to add the piece of code below :
