@@ -99,7 +99,7 @@ This works exactly as ACL's
 Starting version 2.3.0, parse-server introduces a new Class Level Permission `requiresAuthentication`.
 This CLP prevents any non authenticated user from performing the action protected by the CLP.
 
-If you want to restrict access to a full class to only authenticated users, you can use the `requiresAuthentication` class level permission. For example, you want to allow your **authenticated users** to `find` and `get` objects from your application and your admin users to have all privileges, you would set the CLP:
+If you want to restrict access to a full class to only authenticated users, you can use the `requiresAuthentication` Class Level Permission. For example, you want to allow your **authenticated users** to `find` and `get` objects from your application and your admin users to have all privileges, you would set the following CLP:
 
 ```js
 {
