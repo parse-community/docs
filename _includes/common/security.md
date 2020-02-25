@@ -191,7 +191,7 @@ In case of `Array`, only items that are of `Pointer<_User>` type are evaluated, 
 
 You can think of it as a virtual ACL or a dynamic role defined per-object in its own field.
 
-There are two ways you can set Pointer Permission in schema:
+There are two ways you can set Pointer Permissions in schema:
 
 * [Using granular permissions](#granular-pointer-permissions) - `pointerFields` *requires Parse-Server v3.11 and above*
 * [Using grouped permissions](#grouped-pointer-permissions) - `readUserFields`/`writeUserFields`
