@@ -193,7 +193,7 @@ You can think of it as a virtual ACL or a dynamic role defined per-object in its
 
 There are two ways you can set Pointer Permissions in schema:
 
-* [Using granular permissions](#granular-pointer-permissions) - `pointerFields` *requires Parse-Server v3.11 and above*
+* [Using granular permissions](#granular-pointer-permissions) - `pointerFields` *requires Parse Server v3.11 or above*
 * [Using grouped permissions](#grouped-pointer-permissions) - `readUserFields`/`writeUserFields`
 
 ⚠️ `create` operation can't be allowed by pointer permissions, because there is literally no object to check it's field untill it is created;
