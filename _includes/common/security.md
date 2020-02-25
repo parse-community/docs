@@ -196,7 +196,7 @@ There are two ways you can set Pointer Permissions in schema:
 * [Using granular permissions](#granular-pointer-permissions) - `pointerFields` *requires Parse Server v3.11 or above*
 * [Using grouped permissions](#grouped-pointer-permissions) - `readUserFields`/`writeUserFields`
 
-⚠️ `create` operation can't be allowed by pointer permissions, because there is literally no object to check it's field untill it is created;
+⚠️ The `create` operation can't be controlled by Pointer Permissions, because there is no object to check the field of until it is created;
 
 ⚠️ `addField`  grants permission to only update an object with a new field, but it is advised to set addField permission using other means (e.g. restrict to a role or particular admin user by id).
 
