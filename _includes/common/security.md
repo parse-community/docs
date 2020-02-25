@@ -189,7 +189,6 @@ To use this feature, a field must:
 
 In case of `Array`, only items that are of `Pointer<_User>` type are evaluated, other items silently ignored.
 
-You can think of it as a virtual ACL or a dynamic role defined per-object in its own field.
 
 There are two ways you can set Pointer Permissions in schema:
 
