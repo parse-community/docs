@@ -198,7 +198,7 @@ There are two ways you can set Pointer Permissions in schema:
 
 ⚠️ The `create` operation can't be controlled by Pointer Permissions, because there is no object to check the field of until it is created;
 
-⚠️ `addField`  grants permission to only update an object with a new field, but it is advised to set addField permission using other means (e.g. restrict to a role or particular admin user by id).
+⚠️ The `addField` operation  grants permission to only update an object with a new field, but it is advised to set `addField` permissions using other means (e.g. restrict to a role or particular admin user by `id`).
 
 ### Granular Pointer Permissions
 
