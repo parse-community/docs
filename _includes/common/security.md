@@ -412,7 +412,7 @@ alice, bob;
 In the example above:
 
 * anyone is allowed to `create` objects.
-* `feedA` can be viewed (`get`,`find`) only by **Alice**. (pointed in owners field)
+* `feedA` can be viewed (`get`,`find`) only by **Alice** (pointed to in `owners` field).
 * `feedB` can be viewed (`get`,`find`) both by **Bob** and **Alice**. (Bob is pointed in `owners`. Alice is pointed in `subscribers`)
 * only owners are allowed to `update` and `delete`.
 
