@@ -65,7 +65,7 @@ And any combinations of the above:
 
 ### Public access
 
-`*` - Allows anyone despite authentication status to execute operation.
+`*` - Allows anyone regardless of authentication status to execute the operation.
 
 ```js
 {
@@ -80,7 +80,7 @@ And any combinations of the above:
 
 ### Users, Roles
 
-This works exactly as ACL's
+This works exactly like ACL's.
 
 ```js
 {
@@ -96,9 +96,9 @@ This works exactly as ACL's
 
 ### Requires Authentication permission
 
-Starting version 2.3.0, Parse Server introduces a new Class Level Permission called `requiresAuthentication`. This CLP prevents any non authenticated user from performing the action protected by the CLP.
+Starting with version 2.3.0, Parse Server introduced a new Class Level Permission `requiresAuthentication`. It prevents any non authenticated user from performing the action protected by the CLP.
 
-If you want to restrict access to a full class to only authenticated users, you can use the `requiresAuthentication` Class Level Permission. For example, you want to allow your **authenticated users** to `find` and `get` objects from your application and your admin users to have all privileges, you would set the following CLP:
+For example, if you want to allow your **authenticated users** to `find` and `get` objects from your application and your admin users to have all privileges, you could set the following CLP:
 
 ```js
 {
@@ -122,10 +122,10 @@ If you want to restrict access to a full class to only authenticated users, you 
 Effects:
 
 * Non authenticated users won't be able to do anything.
-* Authenticated users (any user with a valid sessionToken) will be able to read all the objects in that class
+* Authenticated users (any user with a valid `sessionToken`) will be able to read all the objects in that class.
 * Users belonging to the admin role, will be able to perform all operations.
 
-⚠️ Note that this is in no way securing your content, if you allow anyone to log in to your server, any client will still be able to query this object.
+⚠️ Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
 
 ## Pointer Permissions
 
@@ -198,10 +198,10 @@ let feedB = {
 
 In the example above:
 
-* anyone is allowed to `create` objects.
-* `feed1` can be viewed (`get`,`find`) only by **Alice**. (pointed in owners field)
-* `feed2` can be viewed (`get`,`find`) both by **Bob** and **Alice**. (Bob is pointed in `owners`. Alice is pointed in `subscribers`)
-* only owners are allowed to `update` and `delete`.
+* Anyone is allowed to `create` objects.
+* `feedA` can be viewed (`get`,`find`) only by **Alice** (pointed to in `owners` field).
+* `feedB` can be viewed (`get`,`find`) both by **Bob** and **Alice** (Bob is pointed to in `owners`, Alice is pointed to in `subscribers`).
+* Only owners are allowed to `update` and `delete`.
 
 ### Grouped Pointer Permissions
 
@@ -209,17 +209,17 @@ These are similar to [`pointerFields`](#granular-pointer-permissions), but cover
 
 **`readUserFields`**:
 
-* `get`,
-* `find`,
+* `get`
+* `find`
 * `count`
 
 **`writeUserFields`**:
 
-* `update`,
-* `delete`,
+* `update`
+* `delete`
 * `addField`
 
-Same scheme as for previous example can be defined shorter:
+The same scheme as for previous example can be defined in a more compact manner:
 
 ```js
 {

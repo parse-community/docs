@@ -421,17 +421,17 @@ These are similar to [`pointerFields`](#granular-pointer-permissions), but cover
 
 **`readUserFields`**:
 
-* `get`,
-* `find`,
+* `get`
+* `find`
 * `count`
 
 **`writeUserFields`**:
 
-* `update`,
-* `delete`,
+* `update`
+* `delete`
 * `addField`
 
-Same scheme as for previous example can be defined shorter:
+The same scheme as for previous example can be defined in a more compact manner:
 
 ```js
 {
