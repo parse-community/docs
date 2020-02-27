@@ -10,7 +10,7 @@ If you have not used MongoDB before, we highly recommend familiarizing yourself 
 
 The Mongo requirements for Parse Server are:
 
-* MongoDB version 2.6.X, 3.0.X, or 3.2.X
+* MongoDB version 3.6
 * An SSL connection is recommended (but not required).
 
 If this is your first time setting up a production MongoDB instance, we recommend using either [mLab](http://www.mLab.com) or [ObjectRocket](https://objectrocket.com/). These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
