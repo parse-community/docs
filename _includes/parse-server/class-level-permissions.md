@@ -444,7 +444,7 @@ Here is an example of a tricky setup that may lead to unexpected result, we'll e
 ```
 
 * When `moderator` fetches an object, `secret` is protected.
-* When `tester` fetches same object - all fields appear to be visible, even though `tester` has `ownerEmail` set as protected. This happens because of role hierarchy - when user has some role assigned directly, he also implicitly gets all the roles inherited by it. Then server intersects sets for all roles for this user (both `tester` and `moderator`): `["secret"]` vs `["ownerEmail"]` results in `[]`.
+* When `tester` fetches same object - all fields appear to be visible, even though `tester` has `ownerEmail` set as protected. This happens because of role hierarchy - when user has some role assigned directly, he also implicitly gets all the roles inherited by it. Then server intersects sets for all roles for this user (both `tester` and inherited `moderator`): intersection of `["secret"]` vs `["ownerEmail"]` (have no fields in common) results in `[]`.
 
 
 You can also target users by id:
@@ -456,7 +456,7 @@ You can also target users by id:
   {
     ...
     "protectedFields": {
-      "*": ["ownerEmail", "secret", "article"],
+      "*": ["article", "ownerEmail", "secret"],
       "authenticated": ["ownerEmail","secret"]
       "s0m3userId": ["ownerEmail", "views"],
       "r00tus3rId": []
@@ -465,7 +465,9 @@ You can also target users by id:
 }
 ```
 
-Same rule applies here - user that is targeted by id, is still subject to rules set for any other broader audiences. So for `s0m3userId` 3 sets of rules will be intersected: `*`, `authenticated` and `s0m3userId`. Resulting in [`ownerEmail`] only being protected. Note that `views` field (although being listed as protected) actually has no effect, because it is not protected (in other words allowed) for everyone `*`.
+Same rule applies here - user that is targeted by id, is still subject to rules set for any other broader audiences. So for `s0m3userId` 3 sets of fields will be intersected: `*`, `authenticated` and `s0m3userId`. As a result only `["ownerEmail"]` ia protected. 
+
+Note that `views` field (although being listed as protected) actually has no effect, because it is not protected (in other words allowed) for everyone `*`.
 
 
 There is one more way to target user - by pointer field. The syntax is: `userField:column_name`. This works similar to [#pointer-permissions](Pointer Permisssions). You set a column name of either `Pointer<_User>` or `Array` type as a key. And any users pointed to by this field are subject to applying fields protection.  For example:
