@@ -272,10 +272,222 @@ Class-Level Permissions (CLPs) and Access Control Lists (ACLs) are both powerful
 
 <img alt="CLP vs ACL Diagram" data-echo="{{ '/assets/images/clp_vs_acl_diagram.png' | prepend: site.baseurl }}"/>
 
-As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let's look at an example to get a better sense of how CLPs and ACLs can interact. Say we have a `Photo` class, with an object, `photoObject`. There are 2 users in our app, `user1` and `user2`. Now lets say we set a Get CLP on the `Photo` class, disabling public Get, but allowing `user1` to perform Get. Now let's also set an ACL on `photoObject` to allow Read - which includes GET - for only `user2`.
+As you can see, whether a user is authorized to make a request can become complicated when you use both CLPs and ACLs. Let's look at an example to get a better sense of how CLPs and ACLs can interact.
 
-You may expect this will allow both `user1` and `user2` to Get `photoObject`, but because the CLP layer of authentication and the ACL layer are both in effect at all times, it actually makes it so *neither* `user1` nor `user2` can Get `photoObject`. If `user1` tries to Get `photoObject`, it will get through the CLP layer of authentication, but then will be rejected because it does not pass the ACL layer. In the same way, if `user2` tries to Get `photoObject`, it will also be rejected at the CLP layer of authentication.
+```js
 
-Now lets look at example that uses Pointer Permissions. Say we have a `Post` class, with an object, `myPost`. There are 2 users in our app, `poster`, and `viewer`. Lets say we add a pointer permission that gives anyone in the `Creator` field of the `Post` class read and write access to the object, and for the `myPost` object, `poster` is the user in that field. There is also an ACL on the object that gives read access to `viewer`. You may expect that this will allow `poster` to read and edit `myPost`, and `viewer` to read it, but `viewer` will be rejected by the Pointer Permission, and `poster` will be rejected by the ACL, so again, neither user will be able to access the object.
+let object;              // Parse.Object
+let user1, user2;        // Parse.User
+
+...
+{
+ classLevelPermissions:{
+   get: {
+     [user1.id]: true    // only user1 can get via CLP 
+   },
+ }
+}
+...
+
+object.ACL.setPublicRead(false);
+object.ACL.setPublicWrite(false);
+object.ACL.setRead(user2.id, true); // only user2 is allowed to get via ACL
+```
+
+You may expect this will allow both `user1` and `user2` to Get `object`, but because the CLP layer of authentication and the ACL layer are both in effect at all times, it actually makes it so *neither* `user1` nor `user2` can Get `object`:
+
+* If `user1` tries to get `object`: request will pass CLP layer, but then will be rejected by ACL layer.
+* If `user2` tries to get `object`: it will be rejected at the CLP layer.
+
+Now lets look at example that uses Pointer Permissions:
+
+```js
+let post;                // Parse.Object
+let poster, viewer;      // Parse.User
+
+post.author = poster;
+
+...
+{
+ classLevelPermissions:{
+   get: {
+     pointerFields: ["author"]
+   },
+   update: {
+     pointerFields: ["author"]
+   },
+ }
+}
+...
+
+// only viewer is allowed to get via ACL
+post.ACL.setRead(viewer.id, true); 
+post.ACL.setPublicRead(false);
+post.ACL.setPublicWrite(false);
+```
+
+You may expect that this will allow `author` to read and edit `post`, and `viewer` to read it, but:
+
+* `viewer` will be rejected by the Pointer Permissions
+* `poster` will be rejected by the ACL
+
+So again, neither user will be able to access the object.
 
 Because of the complex interaction between CLPs, Pointer Permissions, and ACLs, we recommend being careful when using them together. Often it can be useful to use CLPs only to disable all permissions for a certain request type, and then using Pointer Permissions or ACLs for other request types. For example, you may want to disable Delete for a `Photo` class, but then put a Pointer Permission on `Photo` so the user who created it can edit it, just not delete it. Because of the especially complex way that Pointer Permissions and ACLs interact, we usually recommend only using one of those two types of security mechanisms.
+
+
+## Protected Fields
+
+Using `protectedFields` allows you to specify fields that will be removed server-side before response is returned to client.
+This feature uses approach similar to permissions in the way you define users/roles that are subject to fields protection. You can target multiple users/roles each with different sets of fields to protect. 
+
+To do so, add a field `protectedFields` under `classLevelPermissions`. This should be an object, where keys are target audience and value is an array of field(column) names to protect.
+
+
+Let's say we have an object: 
+
+```js
+{
+ "preview": "Lorem ipsum",
+ "article": "Lorem ipsum dolor sit amet",
+ "secret": "consectetur adipiscing elit",
+ "views": "42",
+ "ownerEmail": "email@example.com",
+ "owner": {"__type": "Pointer", "objectId": "0wn3r1d"},
+ ...
+}
+
+```
+
+The most basic example:
+
+```js
+// PUT http://localhost:1337/schemas/:className
+// Set the X-Parse-Application-Id and X-Parse-Master-Key header
+// body:
+{
+  classLevelPermissions:
+  {
+    "get": {
+      "*": true
+    },
+    "protectedFields": {
+      "*": ["ownerEmail", "secret"],
+    }
+  }
+}
+```
+
+Here we define that fields `ownerEmail` and `secret` are protected for all (`*`) requests. These fields will be excluded from the object in reponse. It will only contain fields that are not listed as protected.
+
+The only way to get these fields is to issue request with `masterKey`.
+
+It is possible to distinguish logged in users using `authenticated` key. In the following example we will let non-authenticated users to see only a `preview` field, while users with valid session token could additionally see `article` and `views`:
+
+```js
+{
+  classLevelPermissions:
+  {
+    "get": {
+      "*": true
+    },
+    "protectedFields": {
+      "*": ["article", "secret", "ownerEmail", "views"],
+      "authenticated": ["secret", "ownerEmail"]
+    }
+  }
+}
+```
+
+It is essential to understand the basic principle how server determines which fields to protect when user belongs to multiple groups with different rules defined. First, server finds sets of fields that match the user. Then, resulting set is determined as an intersection of all applicable sets.
+In the example above, for logged in user:
+
+1. Both `*` and `authenticated` are applicable
+2. The result of intersection is `["secret", "ownerEmail"]` (the fields appear in both sets).
+3. User will get the object with all keys except `secret` and `ownerEmail`.
+
+
+Now let's say we want to allow users with admin role to see all fields, while still hiding some from all other users:
+
+```js
+{
+  classLevelPermissions:
+  {
+    "get": {
+      "*": true
+    },
+    "protectedFields": {
+      "*": ["ownerEmail", "secret"],
+      "role:admin": []
+    }
+  }
+}
+```
+
+In the above example we explicitly set empty array `[]` to state that no fields should be protected for users with `admin` role. So for admin, according to the principle discussed above - both `*` and `role:admin` are applicable, the intersection result is `[]` (since there is no field that is present in both sets) thus all fields will appear in response.
+
+Another important thing to consider is role hierarchy - e.g. when `tester` is related to `moderator` (tester includes all priveleges of moderator). Hierarchy is also considered when protected fields are evaluated.
+
+Here is an example of a tricky setup that may lead to unexpected result, we'll explain why right after:
+
+```js
+{
+  classLevelPermissions:
+  {
+    ...
+    "protectedFields": {
+      "role:moderator": ["secret"],
+      "role:tester": ["ownerEmail"]
+    }
+  }
+}
+```
+
+* When `moderator` fetches an object, `secret` is protected.
+* When `tester` fetches same object - all fields appear to be visible, even though `tester` has `ownerEmail` set as protected. This happens because of role hierarchy - when user has some role assigned directly, he also implicitly gets all the roles inherited by it. Then server intersects sets for all roles for this user (both `tester` and `moderator`): `["secret"]` vs `["ownerEmail"]` results in `[]`.
+
+
+You can also target users by id:
+
+
+```js
+{
+  classLevelPermissions:
+  {
+    ...
+    "protectedFields": {
+      "*": ["ownerEmail", "secret", "article"],
+      "authenticated": ["ownerEmail","secret"]
+      "s0m3userId": ["ownerEmail", "views"],
+      "r00tus3rId": []
+    }
+  }
+}
+```
+
+Same rule applies here - user that is targeted by id, is still subject to rules set for any other broader audiences. So for `s0m3userId` 3 sets of rules will be intersected: `*`, `authenticated` and `s0m3userId`. Resulting in [`ownerEmail`] only being protected. Note that `views` field (although being listed as protected) actually has no effect, because it is not protected (in other words allowed) for everyone `*`.
+
+
+There is one more way to target user - by pointer field. The syntax is: `userField:column_name`. This works similar to [#pointer-permissions](Pointer Permisssions). You set a column name of either `Pointer<_User>` or `Array` type as a key. And any users pointed to by this field are subject to applying fields protection.  For example:
+
+
+```js
+{
+  classLevelPermissions:
+  {
+    ...
+    "protectedFields": {
+      "*": ["ownerEmail", "secret", "article"],
+      "userField:owner": [],
+    }
+  }
+}
+```
+
+In this example, server will check if the user who is fetching some object is pointed in the `owner` field of that object. If so - the rule is applied.
+
+The most important thing to avoid misconceptions when designing protected fields is to always keep in mind that the decision will be made not by the most precise group, but rather based on all groups the user belongs to. 
+
+You may have noticed this achieves same results as queries with `keys` or `excludedKeys`, by just modifying schema, thus giving you flexibility without the need to modify request options in client or cloud code. Moreover it gives extra security in case malicious user tamperes with your client code (e.g. removing `keys` query option) / issues requests directly to server  - he still won't be able to see fields he is not supposed to, because they fields will already be deleted from response before it is sent to client.
+
+
