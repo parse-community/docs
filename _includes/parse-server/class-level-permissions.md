@@ -344,7 +344,25 @@ This feature uses approach similar to permissions in the way you define users/ro
 
 It helps to achieve the behavior of `keys`/`excludedKeys` query options, by just modifying the scheme, thus giving you same flexibility without the need to modify request options on client or in cloud code. Moreover it provides extra security e.g. in case a malicious user tamperes with your client code (removes `keys` query option) or issues requests directly to server  - he still won't be able to read the fields he is not supposed to, because the fields will already be deleted from response before it is sent to client.
 
-To do so, add a field `protectedFields` under `classLevelPermissions`. This should be an object, where the key defines a target audience and the value is an array of column names to protect.
+To do so, add a field `protectedFields` under `classLevelPermissions`. This should be an object, where the key defines a target audience and the value is an array of column names:
+
+```js
+// PUT http://localhost:1337/schemas/:className
+// Set the X-Parse-Application-Id and X-Parse-Master-Key header
+// body:
+{
+  classLevelPermissions:
+  {
+    "protectedFields": {
+      "*": ["secret", "privateKey"],
+      'authenticated': ["secret"],
+      "r00tId": [],
+      "role:admin": [],
+      "userField:ownerPointer": []
+    }
+  }
+}
+```
 
 Possible keys:
 
@@ -359,7 +377,7 @@ Notes:
 * You can not protect default fields: `objectId`, `ACL`, `createdAt`, `updatedAt`.
 * Protected fields are not enforced for requests signed with `masterKey`.
 
-Let's say we have an object: 
+Next we will walk through the examples for each key, assuming we have an object: 
 
 ```js
 {
@@ -376,7 +394,9 @@ Let's say we have an object:
 
 ### `Public '*'`
 
-Public affects all requests.
+`*` represents public scope. It covers all requests received by server.
+
+For example:
 
 ```js
 // PUT http://localhost:1337/schemas/:className
@@ -389,25 +409,25 @@ Public affects all requests.
       "*": true
     },
     "protectedFields": {
-      "*": ["ownerEmail", "secret"],
+      "*": ["owner", "ownerEmail", "secret"],
     }
   }
 }
 ```
 
-Here we define that fields `ownerEmail` and `secret` are protected for all (`*`) requests. These fields will be excluded from the object in reponse. It will only contain fields that are not listed as protected.
+Here we define that fields `owner`,`ownerEmail` and `secret` are protected for all (`*`) requests. These fields will be excluded from the object in reponse. It will only contain fields that are not listed as protected:
 
 ```js
-// example response:
+// response:
 {
  "preview": "Lorem ipsum",
  "article": "Lorem ipsum dolor sit amet",
- "views": "42",
- "owner": {"__type": "Pointer", "objectId": "0wn3r1d"},
+ "views": "42"
 }
 ```
 
 ### `authenticated`
+
 It is possible to distinguish logged in users using `authenticated` key. In the following example we will let non-authenticated users to see only a `preview` field, while users with valid session token could additionally see `article` and `views`:
 
 ```js
@@ -447,7 +467,9 @@ In the above example, for logged in user:
 
 ### `role:`
 
-Let's say we want to allow users with `admin` role to see all fields, while protecting some fields from all other users:
+To target users belonging to some role, use `role:role_name` as a key.
+
+Let's say we want to allow users with `admin` role to see all fields, while protecting some fields for all other users:
 
 ```js
 {
@@ -468,7 +490,7 @@ In the above example we explicitly set empty array `[]` to state that no fields 
 
 ### Role hierarchy
 
-Sometimes your roles are related and form a hierarchy, e.g. when `tester` is related to `moderator` - `tester` inherits all privileges of `moderator`. Hierarchy is also considered when protected fields are evaluated.
+Sometimes your roles are related and form a hierarchy, e.g. when `tester` is related to `moderator` - `tester` inherits all privileges of `moderator`. Role hierarchy is also considered when protected fields are evaluated.
 
 ```js
 let moderator = ... // Parse.Role
@@ -491,14 +513,12 @@ Here is an example of a tricky setup that may lead to unexpected result, we'll e
 }
 ```
 
-* When `moderator` fetches an object, `secret` is protected.
-* When `tester` fetches same object - all fields appear to be visible, even though `tester` has `ownerEmail` set as protected.
-
-This happens because of role hierarchy - when user has some role assigned directly, he also implicitly gets all the inherited roles. Then server intersects sets for all roles (both `tester` and inherited `moderator` in this case) and intersection of `["secret"]` vs `["ownerEmail"]` results in `[]` (sets have no fields in common).
+* When user with `role:moderator` fetches an object, `secret` is protected.
+* When user with `role:tester` fetches same object - all fields appear to be visible, even though `role:tester` has `ownerEmail` set as protected. This happens because of role hierarchy - when user has a role, he also implicitly gets all the inherited roles. Then server intersects sets for all roles (both `role:tester` and inherited `role:moderator` in this case) and intersection of `["secret"]` vs `["ownerEmail"]` results in `[]` (sets have no fields in common).
 
 ### User ID
 
-You can target users by id:
+You can target users by their id. Just use `<_User>`'s `objectId` as a key:
 
 ```js
 {
@@ -523,7 +543,6 @@ The same rule apples here - user that is targeted by id is still subject to rule
 ### `userField:` (pointers)
 
 There is one more way to target user - by pointer field. The syntax is: `userField:column_name`. This uses similar concept as [#pointer-permissions](Pointer Permisssions). You use column name (of either `Pointer<_User>` or `Array` type) as a key. And fields will be protected for any users pointed to by this field.  For example:
-
 
 ```js
 let user1, user2 = ... // Parse.User
@@ -563,7 +582,7 @@ object.owner = user2;
 
 ```
 
-In this example, server checks if the user issuing a request is pointed to in object's `owner` field. No fields will be protected for user who is set as `owner` of each particular object.
+In this example, server checks if the user who hass issued a request is pointed to in requested object's `owner` field. No fields will be protected for user who is set as `owner` of each particular object.
 
 Note: You can not use `Relation` columns with `userField:`, if you need to target multiple users by pointer - use `Array` type with `Pointer<_User>` items.
 
