@@ -171,7 +171,7 @@ The GraphQL API supports nested mutations, so you can create objects with comple
 }
 ```
 ```graphql
-mutation aNestedMutaiton {
+mutation aNestedMutation {
   createCountry(
     input: {
       fields: {

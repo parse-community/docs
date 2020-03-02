@@ -147,7 +147,7 @@ iOS in-app purchase verification through Parse is not supported.
 
 ## Jobs
 
-There is no background job functionality in Parse Server. If you have scheduled jobs, port them over to a self-hosted solution using a wide variety of open source job queue projects. A popular one is [kue](https://github.com/Automattic/kue). Alternatively, if your jobs are simple, you could use a cron job.
+There is no background job functionality in Parse Server. If you have scheduled jobs, port them over to a self-hosted solution using a wide variety of open source job queue projects. A popular one is [bull](https://github.com/OptimalBits/bull). Alternatively, if your jobs are simple, you could use a cron job.
 
 ## Parse IoT Devices
 
