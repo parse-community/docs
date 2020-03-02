@@ -24,7 +24,7 @@ To sign up a new user, use the `signUp` mutation. For example:
 mutation signUp {
   signUp(
     input: {
-      userFields: {
+      fields: {
         username: "johndoe"
         password: "ASuperStrongPassword"
         email: "john.doe@email.com"
@@ -72,6 +72,7 @@ After you allow users to sign up, you need to let them log in to their account w
 }
 ```
 ```graphql
+# GraphQL
 mutation logIn {
   logIn(input: { username: "johndoe", password: "ASuperStrongPassword" }) {
     viewer {
@@ -102,6 +103,58 @@ mutation logIn {
 ```
 
 Note that, when the user logs in, Parse Server generates a new `sessionToken` for future operations.
+
+## 3rd Party Authentication
+
+You can log in a user via a [3rd party authentication](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) system (Facebook, Twitter, Apple and many more) with the `logInWith` mutation.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // optional
+}
+```
+```graphql
+# GraphQL
+mutation LoginWithFacebook {
+  logInWith(
+    input: {
+      authData: {
+        facebook: {
+          id: "user's Facebook id number as a string"
+          access_token: "Facebook access token for the user"
+          expiration_date: "token expiration date"
+        }
+      }
+      fields: { email: "a.new@user.com" }
+    }
+  ) {
+    viewer {
+      sessionToken
+      user {
+        id
+        email
+      }
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "logInWith": {
+      "viewer": {
+        "sessionToken": "r:b0dfad1eeafa4425d9508f1c0a15c3fa",
+        "user": {
+          "email": "a.new@user.com"
+        }
+      }
+    }
+  }
+}
+```
 
 ## Using Session Token
 
