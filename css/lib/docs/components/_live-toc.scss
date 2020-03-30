@@ -53,7 +53,7 @@
 
         // position: fixed;
         // left:0; top:0;
-        height: 75vh;
+        height: calc(100vh - (#{$live-toc-distance-top} + 35px) - 20px);
         overflow-y: scroll;
 
         padding: 0;
