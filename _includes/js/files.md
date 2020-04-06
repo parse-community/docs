@@ -110,8 +110,27 @@ Parse.Cloud.httpRequest({ url: profilePhoto.url() }).then(function(response) {
   // The file contents are in response.buffer.
 });
 ```
-##Deleting Files
+
+## Deleting Files
 
 You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
 
 If your files are not referenced by any object in your app, it is not possible to delete them through the REST API.
+
+## Adding Metadata and Tags
+
+Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3).
+
+Note: not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility.
+
+```javascript
+// Init with metadata and tags
+const metadata = { createdById: 'some-user-id' };
+const tags = { groupId: 'some-group-id' };
+const file = new Parse.File('myfile.zzz', fileData, 'image/png', metadata, tags);
+
+// Add metadata and tags
+const file = new Parse.File('myfile.zzz', fileData, 'image/png');
+file.addMetadata('createdById', 'some-user-id');
+file.addTag('groupId', 'some-group-id');
+```
