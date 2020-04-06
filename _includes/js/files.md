@@ -120,7 +120,8 @@ If your files are not referenced by any object in your app, it is not possible t
 ## Adding Metadata and Tags
 
 Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3).
-Note: Not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility
+
+Note: not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility.
 
 ```javascript
 // Init with metadata and tags
