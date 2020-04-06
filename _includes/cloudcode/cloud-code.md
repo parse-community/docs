@@ -270,6 +270,7 @@ const afterSave = function afterSave(request) {
 ```
 
 ## Predefined Classes
+
 If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
 ```javascript
@@ -336,7 +337,6 @@ Parse.Cloud.afterDelete(Parse.User, async (request) => {
     // code here
 })
 ```
-
 
 # beforeSaveFile Triggers
 
@@ -499,6 +499,7 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 ```
 
 ## Predefined Classes
+
 If you want to use `beforeFind` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
 ```javascript
@@ -520,6 +521,7 @@ Parse.Cloud.afterFind('MyCustomClass', async (request) => {
 ```
 
 ## Predefined Classes
+
 If you want to use `afterFind` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
 ```javascript
