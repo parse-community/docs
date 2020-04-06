@@ -340,7 +340,7 @@ Parse.Cloud.afterDelete(Parse.User, async (request) => {
 
 # beforeSaveFile Triggers
 
-You can run custom Cloud Code before any file is saved. You can do this with the `beforeSaveFile` method. Returning a new Parse.File will save the new file instead of the one sent up by the client.
+With the `beforeSaveFile` method you can run custom Cloud Code before any file is saved. Returning a new `Parse.File` will save the new file instead of the one sent by the client.
 
 ## Examples
 
