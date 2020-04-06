@@ -370,7 +370,8 @@ Parse.Cloud.beforeSaveFile((request) => {
 ## Metadata and Tags
 
 Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3). The `beforeSavefile` hook is a great place to set the metadata and/or tags to your files.
-Note: Not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility
+
+Note: not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility.
 
 ```javascript
 // Adding metadata and tags
