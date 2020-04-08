@@ -184,7 +184,8 @@ Google oauth supports validation of id_token's and access_token's.
 {
   "instagram": {
     "id": "user's Instagram id (string)",
-    "access_token": "an authorized Instagram access token for the user"
+    "access_token": "an authorized Instagram access token for the user",
+    "apiURL": "an api url to make requests. Default: https://api.instagram.com/v1/"
   }
 }
 ```
