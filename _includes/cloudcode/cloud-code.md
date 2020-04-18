@@ -243,7 +243,10 @@ You can use an `afterSave` handler to perform lengthy operations after sending a
 
 ## Using Request Context
 
-State can be passed from a `beforeSave` handler to an `afterSave` handler in the Request Context.  The following example sends emails to users who are being added to a [Parse.Role's users relation](https://parseplatform.org/Parse-SDK-JS/api/2.1.0/Parse.Role.html#getUsers) asynchronously, so the client receives a response before the emails complete sending:
+When saving a `Parse.Object` you may pass a `context` dictionary that is accessible in the Cloud Code Save Triggers. More info in the [JavaScript Guide]({{ site.baseUrl }}/js/guide/#cloud-code-context).
+
+The context is also passed from a `beforeSave` handler to an `afterSave` handler.  The following example sends emails to users who are being added to a [Parse.Role's users relation](https://parseplatform.org/Parse-SDK-JS/api/2.1.0/Parse.Role.html#getUsers) asynchronously, so the client receives a response before the emails complete sending:
+
 
 ```javascript
 const beforeSave = function beforeSave(request) {
