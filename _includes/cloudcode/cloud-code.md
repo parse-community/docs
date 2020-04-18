@@ -270,6 +270,7 @@ const afterSave = function afterSave(request) {
 ```
 
 ## Predefined Classes
+
 If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
 ```javascript
@@ -337,6 +338,104 @@ Parse.Cloud.afterDelete(Parse.User, async (request) => {
 })
 ```
 
+# beforeSaveFile Triggers
+
+With the `beforeSaveFile` method you can run custom Cloud Code before any file is saved. Returning a new `Parse.File` will save the new file instead of the one sent by the client.
+
+## Examples
+
+```javascript
+// Changing the file name
+Parse.Cloud.beforeSaveFile(async (request) => {
+  const { file } = request;
+  const fileData = await file.getData();
+  const newFile = new Parse.File('a-new-file-name.txt', { base64: fileData });
+  return newFile;
+});
+
+// Returning an already saved file
+Parse.Cloud.beforeSaveFile((request) => {
+  const { user } = request;
+  const avatar = user.get('avatar'); // this is a Parse.File that is already saved to the user object
+  return avatar;
+});
+
+// Saving a different file from uri
+Parse.Cloud.beforeSaveFile((request) => {
+  const newFile = new Parse.File('some-file-name.txt', { uri: 'www.somewhere.com/file.txt' });
+  return newFile;
+});
+```
+
+## Metadata and Tags
+
+Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3). The `beforeSaveFile` hook is a great place to set the metadata and/or tags on your files.
+
+Note: not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility.
+
+```javascript
+// Adding metadata and tags
+Parse.Cloud.beforeSaveFile((request) => {
+  const { file, user } = request;
+  file.addMetadata('createdById', user.id);
+  file.addTag('groupId', user.get('groupId'));
+});
+```
+
+# afterSaveFile Triggers
+
+The `afterSaveFile` method is a great way to keep track of all of the files stored in your app. For example:
+
+```javascript
+Parse.Cloud.afterSaveFile(async (request) => {
+  const { file, fileSize, user } = request;
+  const fileObject = new Parse.Object('FileObject');
+  fileObject.set('file', file);
+  fileObject.set('fileSize', fileSize);
+  fileObject.set('createdBy', user);
+  const token = { sessionToken: user.getSessionToken() };
+  await fileObject.save(null, token);
+});
+```
+
+# beforeDeleteFile Triggers
+
+You can run custom Cloud Code before any file gets deleted. For example, lets say you want to add logic that only allows files to be deleted by the user who created it. You could use a combination of the `afterSaveFile` and the `beforeDeleteFile` methods as follows:
+
+```javascript
+Parse.Cloud.afterSaveFile(async (request) => {
+  const { file, user } = request;
+  const fileObject = new Parse.Object('FileObject');
+  fileObject.set('fileName', file.name());
+  fileObject.set('createdBy', user);
+  await fileObject.save(null, { useMasterKey: true );
+});
+
+Parse.Cloud.beforeDeleteFile(async (request) => {
+  const { file, user } = request;
+  const query = new Parse.Query('FileObject');
+  query.equalTo('fileName', file.name());
+  const fileObject = await query.first({ useMasterKey: true });
+  if (fileObject.get('createdBy').id !== user.id) {
+    throw 'You do not have permission to delete this file';
+  }
+});
+```
+
+# afterDeleteFile Triggers
+
+In the above `beforeDeleteFile` example the `FileObject` collection is used to keep track of saved files in your app. The `afterDeleteFile` trigger is a good place to clean up these objects once a file has been successfully deleted.
+
+```javascript
+Parse.Cloud.afterDeleteFile(async (request) => {
+  const { file } = request;
+  const query = new Parse.Query('FileObject');
+  query.equalTo('fileName', file.name());
+  const fileObject = await query.first({ useMasterKey: true });
+  await fileObject.destroy({ useMasterKey: true });
+});
+```
+
 # beforeFind Triggers
 
 *Available only on parse-server cloud code starting 2.2.20*
@@ -401,6 +500,7 @@ Parse.Cloud.beforeFind('MyObject2', (req) => {
 ```
 
 ## Predefined Classes
+
 If you want to use `beforeFind` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
 ```javascript
@@ -422,6 +522,7 @@ Parse.Cloud.afterFind('MyCustomClass', async (request) => {
 ```
 
 ## Predefined Classes
+
 If you want to use `afterFind` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:
 
 ```javascript
@@ -458,6 +559,31 @@ Parse.Cloud.beforeLogin(async request => {
 ### The trigger won't run...
 - On sign up
 - If the login credentials are incorrect
+
+# afterLogout Triggers
+
+*Available only on parse-server cloud code starting 3.10.0*
+
+Sometimes you may want to run actions after a user logs out. For example, the `afterLogout` trigger can be used for clean-up actions after a user logs out. The triggers contains the session object that has been deleted on logout. From this session object you can determine the user who logged out to perform user-specific tasks.
+
+```javascript
+Parse.Cloud.afterLogout(async request => {
+  const { object: session }  = request;
+  const user = session.get('user');
+  user.set('isOnline', false);
+  user.save(null,{useMasterKey:true});
+});
+```
+
+## Some considerations to be aware of
+- Like with `afterDelete` triggers, the `_Session` object that is contained in the request has already been deleted.
+
+### The trigger will run...
+- when the user logs out and a `_Session` object was deleted
+
+### The trigger won't run...
+- if a user logs out and no `_Session` object was found to delete
+- if a `_Session` object is deleted without the user logging out by calling the logout method of an SDK
 
 # LiveQuery Triggers
 

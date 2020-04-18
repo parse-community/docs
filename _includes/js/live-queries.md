@@ -172,7 +172,7 @@ let client = new LiveQueryClient({
 ```
 
 * `applicationId` is mandatory, it's the `applicationId` of your Parse app
-* `liveQueryServerURL` is mandatory, it's the URL of your LiveQuery server
+* `serverURL` is mandatory, it's the URL of your LiveQuery server
 * `javascriptKey` and `masterKey` are optional, they are used for verifying the `LiveQueryClient` when it tries to connect to the LiveQuery server. If you set them, they should match your Parse app. You can check LiveQuery protocol [here](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification) for more details.
 
 ### Open
