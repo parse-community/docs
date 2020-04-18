@@ -201,7 +201,7 @@ teamMember.save(null, { cascadeSave: false });
 
 ### Cloud Code context
 
-You may pass a `context` that is accessible in Cloud Code `beforeSave` and `afterSave` triggers for that `Parse.Object`. This is useful if you want to condition certain operations in Cloud Code triggers on ephemeral information that should not be saved with the `Parse.Object` in the database. The context is ephemeral in the sense that it vanishes after the Cloud Code triggers for that particular `Parse.Object` have executed. For example:
+You may pass a `context` dictionary that is accessible in Cloud Code `beforeSave` and `afterSave` triggers for that `Parse.Object`. This is useful if you want to condition certain operations in Cloud Code triggers on ephemeral information that should not be saved with the `Parse.Object` in the database. The context is ephemeral in the sense that it vanishes after the Cloud Code triggers for that particular `Parse.Object` have executed. For example:
 
 ```javascript
 var TeamMember = Parse.Object.extend("TeamMember");
