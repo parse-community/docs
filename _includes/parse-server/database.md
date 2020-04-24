@@ -28,7 +28,10 @@ The Postgres requirements for Parse Server are:
 * Postgres version 9.5
 * PostGIS extensions 2.3
 
-The postgres database adapter will be automatically loaded when you pass a valid postgres URL, for example: `postgres://localhost:5432`. The available configuration options through the URL are `postgres://localhost:5432/db?ssl=boolean&rejectUnauthorized=boolean&ca=/path/to/file&pfx=/path/to/file&cert=/path/to/file&key=/path/to/file&passphrase=string&secureOptions=number&client_encoding=string&application_name=string&fallback_application_name=string&max=number&query_timeout=idleTimeoutMillis=number&poolSize=number&binary=boolean&keepAlive=boolean`. Details about the configuration options can be found on [pg-promise](https://github.com/vitaly-t/pg-promise/wiki/Connection-Syntax).
+The postgres database adapter will be automatically loaded when you pass a valid postgres URL, for example: `postgres://localhost:5432`. The available configuration options through the URL are `postgres://localhost:5432/db?ssl=boolean&rejectUnauthorized=boolean&ca=/path/to/file&pfx=/path/to/file&cert=/path/to/file&key=/path/to/file&passphrase=string&secureOptions=number&client_encoding=string&application_name=string&fallback_application_name=string&max=number&query_timeout=idleTimeoutMillis=number&poolSize=number&binary=boolean&keepAlive=boolean`. Details about the configuration options can be found on [pg-promise](https://github.com/vitaly-t/pg-promise/wiki/Connection-Syntax). Some useful combinations are below:
+
+* SSL with verification - `postgres://localhost:5432/db?ca=/path/to/file` 
+* SSL with no verification - `postgres://localhost:5432/db?ssl=true&rejectUnauthorized=false`
 
 ### Caveats
 
