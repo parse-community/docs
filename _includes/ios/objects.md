@@ -673,7 +673,7 @@ You can access the displayName property using `armor.displayName` or `[armor dis
 ```
 </div>
 
-In this case, `game[@"fireProof"]` will return an `NSNumber` which is accessed using `boolValue` and `game[@"rupees"]` will return an `NSNumber` which is accessed using `intValue`, but the `fireProof` property is an actual `BOOL` and the `rupees` property is an actual `int`. The dynamic getter will automatically extract the `BOOL` or `int` value and the dynamic setter will automatically wrap the value in an `NSNumber`. You are free to use either format. Primitive property types are easier to use but `NSNumber` property types support nil values more clearly.
+In this case, `game[@"fireProof"]` will return an `Bool` which is accessed using `boolValue` and `game[@"rupees"]` will return an `NSNumber` which is accessed using `intValue`, but the `fireProof` property is an actual `BOOL` and the `rupees` property is an actual `int`. The dynamic getter will automatically extract the `BOOL` or `int` value and the dynamic setter will automatically wrap the value in an `NSNumber`. You are free to use either format. Primitive property types are easier to use but `NSNumber` property types support nil values more clearly.
 
 If you need more complicated logic than simple property access, you can declare your own methods as well:
 
