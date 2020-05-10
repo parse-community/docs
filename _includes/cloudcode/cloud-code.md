@@ -58,6 +58,7 @@ To call the same Cloud function from an iOS app:
 
 ```swift
 // Swift
+PFCloud.callFunction(inBackground: "averageRatings", withParameters: ["movie":"The Matrix"]) {
 	(response, error) in
 	let ratings = response as? Float
 	// ratings is 4.5
