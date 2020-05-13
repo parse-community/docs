@@ -44,7 +44,8 @@ Details about the configuration options can be found on [pg-promise](https://git
 * Join tables are resolved in memory, there is no performance improvements using Postgres over MongoDB for relations or pointers.
 * Mutating the schema implies running ALTER TABLE, therefore we recommend you setup your schema when your tables are not full.
 * Properly index your tables to maximize the performance.
-* The postgres URL for 4.2.0 and below only supports the following configuration options 
-```
-postgres://localhost:5432/db?ssl=boolean&client_encoding=string&application_name=string&fallback_application_name=string&poolSize=number&binary=boolean&keepAlive=boolean
-```
+* The postgres URL for 4.2.0 and below only supports the following configuration options:
+
+    ```
+    postgres://localhost:5432/db?ssl=boolean&client_encoding=string&application_name=string&fallback_application_name=string&poolSize=number&binary=boolean&keepAlive=boolean
+    ```
