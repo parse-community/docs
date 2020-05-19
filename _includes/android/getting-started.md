@@ -49,8 +49,10 @@ public class App extends Application {
 The custom `Application` class must be registered in `AndroidManifest.xml`:
 ```xml
  <application
-   android:name=".App"
    ...>
+	<activity
+		android:name=".App"/>
+
    ...
  </application>
 ```
