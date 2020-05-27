@@ -217,6 +217,21 @@ Parse.Cloud.beforeSave(Parse.User, async (request) => {
 })
 ```
 
+## Aborting hooks and functions
+In order to abort a beforeSave or any hook, you now need to throw an error:
+
+```javascript
+// after with async/await
+Parse.Cloud.beforeSave('MyClassName', async (request) => {
+  // valid, will result in a Parse.Error(SCRIPT_FAILED, 'Something went wrong')
+  throw 'Something went wrong' 
+  // also valid, will fail with Parse.Error(SCRIPT_FAILED, 'Something else went wrong')
+  throw new Error('Something else went wrong') 
+  // using a Parse.Error is also valid
+  throw new Parse.Error(1001, 'My error') 
+});
+```
+
 # afterSave Triggers
 
 In some cases, you may want to perform some action, such as a push, after an object has been saved. You can do this by registering a handler with the `afterSave` method. For example, suppose you want to keep track of the number of comments on a blog post. You can do that by writing a function like this:
