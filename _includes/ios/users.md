@@ -87,8 +87,8 @@ Of course, after you allow users to sign up, you need to let them log in to thei
 }];
 ```
 ```swift
-PFUser.logInWithUsernameInBackground("myname", password:"mypass") {
-  (user: PFUser?, error: NSError?) -> Void in
+PFUser.logInWithUsername(inBackground:"myname", password:"mypass") {
+  (user: PFUser?, error: Error?) -> Void in
   if user != nil {
     // Do stuff after successful login.
   } else {
