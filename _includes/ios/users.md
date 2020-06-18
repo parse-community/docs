@@ -125,7 +125,7 @@ if (currentUser) {
 }
 ```
 ```swift
-var currentUser = PFUser.currentUser()
+var currentUser = PFUser.current()
 if currentUser != nil {
   // Do stuff with the user
 } else {
