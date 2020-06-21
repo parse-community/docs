@@ -117,7 +117,7 @@ Whenever you use any signup or login methods, the user is cached on disk. You ca
 
 <div class="language-toggle" markdown="1">
 ```objective_c
-PFUser *currentUser = [PFUser currentUser];
+PFUser *currentUser = [PFUser current];
 if (currentUser) {
     // do stuff with the user
 } else {
@@ -139,11 +139,11 @@ You can clear the current user by logging them out:
 <div class="language-toggle" markdown="1">
 ```objective_c
 [PFUser logOut];
-PFUser *currentUser = [PFUser currentUser]; // this will now be nil
+PFUser *currentUser = [PFUser current]; // this will now be nil
 ```
 ```swift
 PFUser.logOut()
-var currentUser = PFUser.currentUser() // this will now be nil
+var currentUser = PFUser.current() // this will now be nil
 ```
 </div>
 
