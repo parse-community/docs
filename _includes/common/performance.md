@@ -1417,8 +1417,7 @@ $posts = $query->find();
 There are some limits in place to ensure the API can provide the data you need in a performant manner. We may adjust these in the future. Please take a moment to read through the following list:
 
 **Objects**
-
-* Parse Objects are limited in size to 128 KB.
+* We recommend against storing large pieces of binary data like images or documents in a Parse Object.
 * We recommend against creating more than 64 fields on a single Parse Object to ensure that we can build effective indexes for your queries.
 * We recommend against using field names that are longer than 1,024 characters, otherwise an index for the field will not be created.
 
