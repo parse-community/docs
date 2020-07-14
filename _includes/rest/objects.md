@@ -684,7 +684,7 @@ The `Relation` type is used for many-to-many relations. It has a `className` tha
 
 When querying, `Relation` objects behave like arrays of Pointers. Any operation that is valid for arrays of pointers (other than `include`) works for `Relation` objects.
 
-We do not recommend storing large pieces of binary data like images or documents on a Parse object. Parse objects should not exceed 128 kilobytes in size. To store more, we recommend you use `File`. You may associate a [previously uploaded file](#files) using the `File` type.
+We do not recommend storing large pieces of binary data like images or documents on a Parse object. To store more, we recommend you use `File`. You may associate a [previously uploaded file](#files) using the `File` type.
 
 ```json
 {

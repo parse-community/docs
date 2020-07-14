@@ -16,7 +16,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `InvalidJSON`                    |  107 | Badly formed JSON was received upstream. This either indicates you have done something unusual with modifying how things encode to JSON, or the network is failing badly. Can also indicate an invalid utf-8 string or use of multiple form encoded values. Check error message for more details.  |
 | `CommandUnavailable`	           |  108 | The feature you tried to access is only available internally for testing purposes. |
 | `NotInitialized`	               |  109 | You must call Parse.initialize before using the Parse library. Check the Quick Start guide for your platform. |
-| `ObjectTooLarge`	               |  116 | The object is too large. Parse Objects have a max size of 128 kilobytes. |
+| `ObjectTooLarge`	               |  116 | The object is too large. |
 | `ExceededConfigParamsError`      |  116 | You have reached the limit of 100 config parameters. |
 | `InvalidLimitError`	             |  117 | An invalid value was set for the limit. Check error message for more details. |
 | `InvalidSkipError`	             |  118 | An invalid value was set for skip. Check error message for more details. |
