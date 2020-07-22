@@ -403,7 +403,7 @@ PFObject *myComment = [PFObject objectWithClassName:@"Comment"];
 myComment[@"content"] = @"Let's do Sushirrito.";
 
 // Add a relation between the Post and Comment
-myComment[@"parent"] = myPost;
+myComment[@"post"] = myPost;
 
 // This will save both myPost and myComment
 [myComment saveInBackground];
@@ -419,7 +419,7 @@ let myComment = PFObject(className:"Comment")
 myComment["content"] = "Let's do Sushirrito."
 
 // Add a relation between the Post and Comment
-myComment["parent"] = myPost
+myComment["post"] = myPost
 
 // This will save both myPost and myComment
 myComment.saveInBackground()
@@ -453,7 +453,7 @@ PFObject *post = myComment[@"post"];
 }];
 ```
 ```swift
-let post = myComment["parent"] as! PFObject
+let post = myComment["post"] as! PFObject
 post.fetchIfNeededInBackground { (object, error) in
     if let title = post["title"] as? String {
         // do something with your title variable
