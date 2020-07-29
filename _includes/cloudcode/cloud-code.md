@@ -598,6 +598,46 @@ Parse.Cloud.afterLogout(async request => {
 
 # LiveQuery Triggers
 
+## beforeConnect
+
+*Available only on parse-server cloud code starting 4.3.0*
+
+You can run custom Cloud Code before a user attempts to connect to your LiveQuery server. You can do this with the `beforeConnect` method. For instance, this can be used to only allow users that have logged in to connect to the LiveQuery server. 
+
+```javascript
+Parse.Cloud.beforeConnect(request => {
+  if (!request.user) {
+    throw "Please login before you attempt to connect."
+  }
+});
+```
+
+In most cases, the `connect` event called the first time the client calls `subscribe`. If this is your use case, you can listen for errors using this event.
+
+```javascript
+Parse.LiveQuery.on('error', (error) => {
+  console.log(error);
+});
+```
+
+## beforeSubscribe
+
+*Available only on parse-server cloud code starting 4.3.0*
+
+In some cases you may want to transform the incoming subcription query, adding an additional limit or increasing the default limit, adding extra includes or restrict the results to a subset of keys. You can do so with the `beforeSubscribe` trigger. 
+
+```javascript
+Parse.Cloud.beforeSubscribe('MyObject', request => {
+    if (!request.user.get('Admin')) {
+        throw new Parse.Error(101, 'You are not authorized to subscribe to MyObject.');
+    }
+    let query = request.query; // the Parse.Query
+    query.select("name","year")
+});
+```
+
+## onLiveQueryEvent
+
 *Available only on parse-server cloud code starting 2.6.2*
 
 Sometimes you may want to monitor Live Query Events to be used with a 3rd Party such as datadog. The `onLiveQueryEvent` trigger can log events triggered, number of clients connected, number of subscriptions and errors.
