@@ -602,7 +602,7 @@ Parse.Cloud.afterLogout(async request => {
 
 *Available only on parse-server cloud code starting 4.3.0*
 
-You can run custom Cloud Code before a user attempts to connect to your LiveQuery server. You can do this with the `beforeConnect` method. For instance, this can be used to only allow users that have logged in to connect to the LiveQuery server. 
+You can run custom Cloud Code before a user attempts to connect to your LiveQuery server with the `beforeConnect` method. For instance, this can be used to only allow users that have logged in to connect to the LiveQuery server. 
 
 ```javascript
 Parse.Cloud.beforeConnect(request => {
