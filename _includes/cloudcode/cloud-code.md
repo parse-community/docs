@@ -624,7 +624,7 @@ Parse.LiveQuery.on('error', (error) => {
 
 *Available only on parse-server cloud code starting 4.3.0*
 
-In some cases you may want to transform the incoming subcription query, adding an additional limit or increasing the default limit, adding extra includes or restrict the results to a subset of keys. You can do so with the `beforeSubscribe` trigger. 
+In some cases you may want to transform the incoming subscription query. Examples include adding an additional limit, increasing the default limit, adding extra includes or restricting the results to a subset of keys. You can do so with the `beforeSubscribe` trigger. 
 
 ```javascript
 Parse.Cloud.beforeSubscribe('MyObject', request => {
