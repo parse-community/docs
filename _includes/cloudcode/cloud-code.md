@@ -612,7 +612,7 @@ Parse.Cloud.beforeConnect(request => {
 });
 ```
 
-In most cases, the `connect` event called the first time the client calls `subscribe`. If this is your use case, you can listen for errors using this event.
+In most cases, the `connect` event is called the first time the client calls `subscribe`. If this is your use case, you can listen for errors using this event.
 
 ```javascript
 Parse.LiveQuery.on('error', (error) => {
