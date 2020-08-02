@@ -58,10 +58,10 @@ func callbackForGet(result: PFObject?, error: NSError?) -> Void {
         print("Everything went fine!")
     } else {
         if let error = error {
-            if error.code == PFErrorCode.ErrorObjectNotFound.rawValue {
+            if error._code == PFErrorCode.errorObjectNotFound.rawValue {
                 print("Uh oh, we couldn't find the object!")
             } else {
-                let errorString = error.userInfo!["error"] as? NSString
+                let errorString = error._userInfo!["error"] as? NSString
                 print("Error: \(errorString)")
             }
         }
@@ -95,13 +95,13 @@ func callbackForGet(result: PFObject?, error: NSError?) -> Void {
         print("Everything went fine!")
     } else {
         if let error = error {
-            if error.code == PFErrorCode.ErrorObjectNotFound.rawValue {
+            if error._code == PFErrorCode.errorObjectNotFound.rawValue {
                 print("Uh oh, we couldn't find the object!")
                 // Now also check for connection errors:
-            } else if error.code == PFErrorCode.ErrorConnectionFailed.rawValue {
+            } else if error._code == PFErrorCode.errorConnectionFailed.rawValue {
                 print("Uh oh, we couldn't even connect to the Parse Cloud!")
             } else {
-                let errorString = error.userInfo!["error"] as? NSString
+                let errorString = error._userInfo!["error"] as? NSString
                 print("Error: \(errorString)")
             }
         }
