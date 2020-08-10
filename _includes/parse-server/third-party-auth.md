@@ -22,7 +22,7 @@ Parse Server supports 3rd party authentication with
 * WeChat
 * Weibo
 
-Configuration options for these 3rd-party modules is done with the `auth` option passed to Parse Server:
+Configuration options for these 3rd-party modules is done with the `auth` option passed to Parse Server during initialization:
 
 ```js
 {
@@ -33,6 +33,9 @@ Configuration options for these 3rd-party modules is done with the `auth` option
    },
    facebook: {
      appIds: "FACEBOOK APP ID"
+   },
+   google: {
+     clientId: 'X-X.apps.googleusercontent.com' // REQUIRED If you opt in on using Google OAuth for your application
    }
   }
 }
