@@ -143,7 +143,7 @@ PFUser *currentUser = [PFUser currentUser]; // this will now be nil
 ```
 ```swift
 PFUser.logOut()
-var currentUser = PFUser.currentUser() // this will now be nil
+var currentUser = PFUser.current() // this will now be nil
 ```
 </div>
 
