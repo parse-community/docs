@@ -79,7 +79,7 @@ PFUser *user = [PFUser currentUser];
 user.ACL = [PFACL ACLWithUser:user];
 ```
 ```swift
-if let user = PFUser.currentUser() {
+if let user = PFUser.current() {
     user.ACL = PFACL(user: user)
 }
 ```
@@ -136,7 +136,7 @@ To make it super easy to create user-private ACLs for every object, we have a wa
 [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
 ```
 ```swift
-PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
+PFACL.setDefault(PFACL(), withAccessForCurrentUser: true)
 ```
 </div>
 {% endif %}
@@ -189,7 +189,7 @@ privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 [[PFUser currentUser] setObject:privateData forKey:@"privateData"];
 ```
 ```swift
-if let currentUser = PFUser.currentUser() {
+if let currentUser = PFUser.current() {
     let privateData = PFObject(className: "PrivateUserData")
     privateData.ACL = PFACL(user: currentUser)
     privateData.setObject("555-5309", forKey: "phoneNumber")
@@ -262,9 +262,9 @@ PFACL *acl = [PFACL ACL];
 ```
 ```swift
 let acl = PFACL()
-acl.setPublicReadAccess(true)
+acl.hasPublicReadAccess = true
 if let currentUser = PFUser.currentUser() {
-    acl.setWriteAccess(true, forUser: currentUser)
+    acl.setWriteAccess(true, for: currentUser)
 }
 ```
 </div>
@@ -314,7 +314,7 @@ $acl->setWriteAccess(ParseUser::getCurrentUser(), true);
 ```
 {% endif %}
 
-Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
+Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
 
 {% if page.language == "objective_c-swift" %}
 <div class="language-toggle" markdown="1">
