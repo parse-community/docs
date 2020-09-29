@@ -6,7 +6,7 @@ Now that you have set up your GraphQL environment, it is time to run your first 
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY"
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
 
