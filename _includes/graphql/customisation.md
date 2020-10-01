@@ -71,7 +71,7 @@ interface ParseGraphQLConfiguration {
 
     // By default, all write mutation types are
     // exposed for all included classes. Use this to disable
-    // the available mutation types for this class and optionally 
+    // the available mutation types for this class and optionally
     // override the default generated name with aliases.
     mutation?: {
       create?: boolean;
@@ -99,7 +99,7 @@ We have provided a public API in `ParseGraphQLServer` which accepts the above JS
     // ... ParseGraphQLConfiguration
   };
 
-  await parseGraphQLServer.setGraphQLConfig(config);       
+  await parseGraphQLServer.setGraphQLConfig(config);
 ```
 
 ### Include or Exclude Classes
@@ -194,7 +194,7 @@ In the following example, we set the fields `name` and `age` as the only two tha
 }
 ```
 
-### Queries
+<h3 id="queries-config">Queries</h3>
 
 By default, the schema exposes a `get` and `find` operation for each class, for example, `get_User` and `find_User`. You can disable either of these for any class in your schema, like so:
 
@@ -207,14 +207,14 @@ By default, the schema exposes a `get` and `find` operation for each class, for 
       "query": {
         "get": true,
         "find": false
-      }  
+      }
     },
     {
       "className": "Review",
       "query": {
         "get": false,
         "find": true
-      }  
+      }
     }
   ]
 }
@@ -229,19 +229,19 @@ By default, generated query names use pluralized version of `className`. You can
       "className": "Likes",
       "query": {
         "getAlias": "like"
-      }  
+      }
     },
     {
       "className": "Data",
       "query": {
         "findAlias": "findData"
-      }  
+      }
     }
   ]
 }
 
 ```
-### Mutations
+<h3 id="mutations-config">Mutations</h3>
 
 By default, the schema exposes a `create`, `update` and `delete` operation for each class, for example, `create_User`, `update_User` and `delete_User`. You can disable any of these mutations for any class in your schema, like so:
 
@@ -255,7 +255,7 @@ By default, the schema exposes a `create`, `update` and `delete` operation for e
         "create": true,
         "update": true,
         "destroy": true
-      }  
+      }
     },
     {
       "className": "Review",
@@ -263,7 +263,7 @@ By default, the schema exposes a `create`, `update` and `delete` operation for e
         "create": true,
         "update": false,
         "destroy": true
-      }  
+      }
     }
   ]
 }
@@ -282,7 +282,7 @@ You can optionally override the default generated mutation names with aliases:
         "createAlias": "newRecord",
         "updateAlias": "changeRecord",
         "destroyAlias": "eraseRecord"
-      }  
+      }
     }
   ]
 }
