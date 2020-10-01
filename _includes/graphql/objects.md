@@ -10,7 +10,7 @@ For example, if you have a class named `GameScore` in the schema, Parse Server a
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY" // optional
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
 
