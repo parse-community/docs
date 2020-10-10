@@ -303,14 +303,26 @@ extend type Mutation {
 }
 ```
 
+**Note**: The `id` passed in to your Cloud Code function from a GraphQL query is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm); it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`. Cloud code does not recognize `Relay Node Ids`, so they must be converted to a Parse `objectId` for use there.
+
+Decoding and encoding `Relay Node Ids` in Cloud Code is needed in order to seamlessly interface with your client-side GraphQL queries and mutations.
+
+Install the following utility as a required dependency to enable decoding and encoding `Relay Node Ids`:
+
+```sh
+$ npm install graphql-relay --save
+```
+
 ```js
 // main.js
+const { fromGlobalId, toGlobalId } = require('graphql-relay');
+
 Parse.Cloud.define("addToCart", async (req) => {
   const { user, params: { id } } = req;
 
-  // Decode the incoming base64 id to an objectId for Cloud Code use.
-  const decoded = Buffer.from(id, "base64").toString();
-  const itemObjectId = decoded.split(":")[1];
+  // Decode the incoming Relay Node Id to a
+  // Parse objectId for Cloud Code use.
+  const { id: itemObjectId } = fromGlobalId(id);
 
   // Query the user's current cart.
   const itemQuery = new Parse.Query("Item");
@@ -333,15 +345,13 @@ Parse.Cloud.define("addToCart", async (req) => {
     savedCartItem = await cartItem.save({ quantity: 1, item, user });
   }
 
-  // Encode the Parse objectId to a Relay Global Object Identification
-  // (a special use-case base64 id string) for Parse GraphQL use.
-  const concatObjectId = `CartItem:${savedCartItem.id}`;
-  const cartItemId = Buffer.from(concatObjectId).toString("base64");
+  // Encode the Parse objectId to a Relay Node Id
+  // for Parse GraphQL use.
+  const cartItemId = toGlobalId('CartItem', savedCartItem.id);
 
-  // Convert to a JSON object to handle adding the base64 id property.
-  const cartItemJson = savedCartItem.toJSON();
-  Object.assign(cartItemJson, { id: cartItemId });
-  return cartItemJson;
+  // Convert to a JSON object to handle adding the
+  // Relay Node Id property.
+  return { ...savedCartItem.toJSON(), id: cartItemId };
 });
 ```
 
@@ -375,7 +385,3 @@ The code above should resolve to something similar to this:
   }
 }
 ```
-
-**Note:** The `id` is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm); it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`. Cloud code does not recognize this type of `id`, so it must be converted to a Parse `objectId` for use in Cloud Code function queries.
-
-Decoding and encoding these Relay Global Object Identifications in Cloud Code is needed in order to seamlessly interface with your client-side GraphQL mutations.
