@@ -95,9 +95,9 @@ After starting the app, you can visit [http://localhost:1337/playground](http://
 
 ## Adding Custom Schema
 
-The Parse GraphQL API supports the use of custom user-defined schema. You can write your own types, queries, and mutations, which will be merged with the ones that are automatically generated. The new types are resolved via [Cloud Code](#cloud-code-resolvers) functions.
+The Parse GraphQL API supports the use of custom user-defined schema. You can write your own types, queries, and mutations, which will be merged with the ones that are automatically generated. Your custom schema is resolved via [Cloud Code](#cloud-code-resolvers) functions.
 
-Add a utility for parsing GraphQL queries as a required dependency:
+First, add a utility for parsing GraphQL queries as a required dependency:
 
 ```sh
 $ npm install graphql-tag --save
@@ -128,7 +128,7 @@ const parseGraphQLServer = new ParseGraphQLServer(
 );
 ```
 
-Alternatively, you can create your custom schema in a dedicated `schema.graphql` file and reference the file in `index.js`:
+Alternatively, you can create your custom schema in a dedicated `schema.graphql` file and reference the file in your `index.js`:
 
 ```js
 const gql = require('graphql-tag');

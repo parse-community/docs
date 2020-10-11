@@ -290,28 +290,75 @@ You can optionally override the default generated mutation names with aliases:
 
 ## Cloud Code Resolvers
 
-If you need more control over how your mutations modify data than what Parse's auto-generated mutations can provide, Cloud Code functions can be used as custom resolvers.
+The Parse GraphQL API supports the use of custom user-defined schema. The [Adding Custom Schema](#adding-custom-schema) section explains how to get started using this feature.
 
-For example, if you have classes named `Item` and `CartItem` in the schema, you can create an `addToCart` custom mutation that tests whether a specific item is already in the user's cart. If found, the cart item's quantity is incremented by one. If not, a new `CartItem` object is created.
+Cloud Code functions can then be used as custom resolvers for your user-defined schema.
 
-The ability to branch your resolver logic in this way enables you to replicate functionality found in Parse's auto-generated `createCartItem` and `updateCartItem` mutations and combine those behaviors into a single custom resolver.
+### Query Resolvers
 
-```sh
+Here's an example of a custom query and its related cloud code function resolver in action:
+
+```graphql
+# schema.graphql
+extend type Query {
+  hello: String! @resolve
+}
+```
+
+```js
+// main.js
+Parse.Cloud.define("hello", () => "Hello, world!");
+```
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+
+```graphql
+query hello {
+  hello
+}
+```
+
+The code above should resolve to this:
+
+```js
+// Response
+{
+  "data": {
+    "hello": "Hello, world!"
+  }
+}
+```
+
+### Mutation Resolvers
+
+At times, you may need more control over how your mutations modify data than what Parse's auto-generated mutations can provide. For example, if you have classes named `Item` and `CartItem` in the schema, you can create an `addToCart` custom mutation that tests whether a specific item is already in the user's cart. If found, the cart item's quantity is incremented by one. If not, a new `CartItem` object is created.
+
+The ability to branch your resolver logic enables you to replicate functionality found in Parse's auto-generated `createCartItem` and `updateCartItem` mutations and combine those behaviors into a single custom resolver.
+
+```graphql
 # schema.graphql
 extend type Mutation {
   addToCart(id: ID!): CartItem! @resolve
 }
 ```
 
-**Note**: The `id` passed in to your Cloud Code function from a GraphQL query is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm); it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`. Cloud code does not recognize `Relay Node Ids`, so they must be converted to a Parse `objectId` for use there.
+**Note**: The `id` passed in to your Cloud Code function from a GraphQL query is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm); it is **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`. Cloud code does not recognize a `Relay Node Id`, so converting it to a Parse `objectId` is required.
 
-Decoding and encoding `Relay Node Ids` in Cloud Code is needed in order to seamlessly interface with your client-side GraphQL queries and mutations.
+Decoding and encoding `Relay Node Ids` in Cloud Code is needed in order to smoothly interface with your client-side GraphQL queries and mutations.
 
-Install the following utility as a required dependency to enable decoding and encoding `Relay Node Ids`:
+First, install the [Relay Library for GraphQL.js](https://www.npmjs.com/package/graphql-relay) as a required dependency to enable decoding and encoding `Relay Node Ids` in your cloud code functions:
 
 ```sh
 $ npm install graphql-relay --save
 ```
+
+Then, create your `main.js` cloud code file, import `graphql-relay`, and build your `addToCart` function:
 
 ```js
 // main.js
