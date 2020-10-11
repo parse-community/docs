@@ -54,6 +54,15 @@ const user = await Parse.User.logIn("myname", "mypass");
 // Do stuff after successful login.
 ```
 
+By default, the SDK uses the GET HTTP method. If you would like to override this and use a POST HTTP method instead, you may pass an optional Boolean property in the options argument with the key `usePost`.
+
+
+```javascript
+const user = await Parse.User.logIn("myname", "mypass", { usePost: true });
+// Do stuff after successful login.
+```
+> Available with SDK version 2.17.0 and later
+
 ## Verifying Emails
 
 Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `Parse.User` object. When a `Parse.User`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
