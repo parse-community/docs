@@ -288,6 +288,22 @@ You can optionally override the default generated mutation names with aliases:
 }
 ```
 
+### Remove Configuration
+
+Deploying a custom configuration via `setGraphQLConfig` persists the changes into the database. As a result, simply deleting a configuration change and deploying again does not result in a default Parse GraphQL configuration. The configuration changes remain.
+
+To remove a configuration, set the affected properties to `null` or `undefined` before deploying. The default Parse GraphQL configuration for those properties will be restored.
+
+```js
+{
+  "enabledForClasses": undefined,
+  "disabledForClasses": undefined,
+  "classConfigs": undefined,
+}
+```
+
+Once a default configuration is restored, you can safely remove any unused configuration changes from your `parseGraphQLServer` setup.
+
 ## Cloud Code Resolvers
 
 The Parse GraphQL API supports the use of custom user-defined schema. The [Adding Custom Schema](#adding-custom-schema) section explains how to get started using this feature.
