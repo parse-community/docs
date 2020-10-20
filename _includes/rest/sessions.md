@@ -286,13 +286,15 @@ Restricted sessions are prohibited from creating, modifying, or deleting any dat
 If you want to prevent restricted Sessions from modifying classes other than `User`, `Session`, or `Role`, you can write a Cloud Code `beforeSave` handler for that class:
 
 <pre><code class="javascript">
-Parse.Cloud.beforeSave("MyClass", function(request, response) {
-  Parse.Session.current().then(function(session) {
-    if (session.get('restricted')) {
-      response.error('write operation not allowed');
-    }
-    response.success();
-  });
+Parse.Cloud.beforeSave("MyClass", async request => {
+  const user = request.user;
+  const token = user.getSessionToken(); 
+  const query = new Parse.Query(Parse.Session);
+  query.equalTo('sessionToken', token);
+  const session = await q.first({ useMasterKey: true });
+  if (session.get('restricted')) {
+      throw 'write operation not allowed';
+  }
 });
 </code></pre>
 

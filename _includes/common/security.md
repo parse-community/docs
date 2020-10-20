@@ -516,12 +516,10 @@ One particularly common use case for Cloud Code is preventing invalid data from 
 To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger]({{ site.baseUrl }}/cloudcode/guide/#beforesave-triggers) to make sure every user has an email address set:
 
 ```js
-Parse.Cloud.beforeSave(Parse.User, function(request, response) {
-  var user = request.object;
+Parse.Cloud.beforeSave(Parse.User, request => {
+  const user = request.object;
   if (!user.get("email")) {
-    response.error("Every user must have an email address.");
-  } else {
-    response.success();
+    throw "Every user must have an email address.";
   }
 });
 ```
@@ -548,17 +546,11 @@ Say you want to allow a user to "like" a `Post` object without giving them full 
 The master key should be used carefully. setting `useMasterKey` to `true` only in the individual API function calls that need that security override:
 
 ```js
-Parse.Cloud.define("like", function(request, response) {
+Parse.Cloud.define("like", async request => {
   var post = new Parse.Object("Post");
   post.id = request.params.postId;
   post.increment("likes");
-  post.save(null, { useMasterKey: true }).then(function() {
-    // If I choose to do something else here, it won't be using
-    // the master key and I'll be subject to ordinary security measures.
-    response.success();
-  }, function(error) {
-    response.error(error);
-  });
+  await post.save(null, { useMasterKey: true })
 });
 ```
 

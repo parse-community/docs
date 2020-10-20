@@ -1008,19 +1008,15 @@ You can use this to offload processing to the Parse servers thus increasing your
 We saw examples of limiting the data returned by writing restrictive queries. You can also use [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-functions) to help limit the amount of data returned to your app. In the following example, we use a Cloud Function to get a movie's average rating:
 
 ```javascript
-Parse.Cloud.define("averageStars", function(request, response) {
-  var Review = Parse.Object.extend("Review");
-  var query = new Parse.Query(Review);
+Parse.Cloud.define("averageStars", async (request) => {
+  const query = new Parse.Query("Review");
   query.equalTo("movie", request.params.movie);
-  query.find().then(function(results) {
-    var sum = 0;
-    for (var i = 0; i < results.length; ++i) {
-      sum += results[i].get("stars");
-    }
-    response.success(sum / results.length);
-  }, function(error) {
-    response.error("movie lookup failed");
-  });
+  const results = await query.find();
+  let sum = 0;
+  for (let i = 0; i < results.length; ++i) {
+    sum += results[i].get("stars");
+  }
+  return sum / results.length;
 });
 ```
 
@@ -1308,7 +1304,7 @@ Let's walk through an example of how you could build an efficient search. You ca
 
 ```javascript
 var _ = require("underscore");
-Parse.Cloud.beforeSave("Post", function(request, response) {
+Parse.Cloud.beforeSave("Post", request => {
   var post = request.object;
   var toLowerCase = function(w) { return w.toLowerCase(); };
   var words = post.get("text").split(/\b/);
@@ -1321,7 +1317,6 @@ Parse.Cloud.beforeSave("Post", function(request, response) {
   hashtags = _.map(hashtags, toLowerCase);
   post.set("words", words);
   post.set("hashtags", hashtags);
-  response.success();
 });
 ```
 
