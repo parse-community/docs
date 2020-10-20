@@ -654,19 +654,8 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', request => {
   original.set('name', 'yolo');
 });
 
-// Including an object on LiveQuery event, on update only.
-Parse.Cloud.afterLiveQueryEvent('MyObject', async request => {
-  if (request.event != 'update) {
-    request.sendEvent = false;
-    return;
-  }
-  const object = request.object;
-  const pointer = object.get('child');
-  await pointer.fetch();
-});
-
 // Prevent LiveQuery trigger unless  'foo' is modified
-Parse.Cloud.afterLiveQueryEvent('MyObject', request => {
+Parse.Cloud.afterLiveQueryEvent('MyObject', (request) => {
   const object = request.object;
   const original = request.original;
   if (!original) {
@@ -674,6 +663,30 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', request => {
   }
   if (object.get('foo') != original.get('foo')) {
     req.sendEvent = false;
+  }
+});
+
+// Including an object on LiveQuery event, on update only.
+Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
+  if (request.event != "update") {
+    request.sendEvent = false;
+    return;
+  }
+  const object = request.object;
+  const pointer = object.get("child");
+  await pointer.fetch();
+});
+
+//Extend matchesQuery functionality to LiveQuery
+Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
+  if (req.event != "Create") {
+    return;
+  }
+  const query = request.object.relation('children').query();
+  query.equalTo('foo','bart');
+  const first = await query.first();
+  if (!first)  {
+    request.sendEvent = false;
   }
 });
 ```
