@@ -636,7 +636,7 @@ Parse.Cloud.beforeSubscribe('MyObject', request => {
 });
 ```
 
-##afterLiveQueryEvent
+## afterLiveQueryEvent
 
 *Available only on parse-server cloud code starting 4.-.-*
 
