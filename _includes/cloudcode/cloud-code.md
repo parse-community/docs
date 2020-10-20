@@ -636,6 +636,51 @@ Parse.Cloud.beforeSubscribe('MyObject', request => {
 });
 ```
 
+##afterLiveQueryEvent
+
+*Available only on parse-server cloud code starting 4.-.-*
+
+In some cases you may want to manipulate the results of a Live Query before they are sent to the client. You can do so with the `afterLiveQueryEvent` trigger.
+
+### Examples
+
+```javascript
+// Changing values on object and original
+Parse.Cloud.afterLiveQueryEvent('MyObject', request => {
+  const object = request.object;
+  object.set('name', '***');
+
+  const original = request.original;
+  original.set('name', 'yolo');
+});
+
+// Including an object on LiveQuery event, on update only.
+Parse.Cloud.afterLiveQueryEvent('MyObject', async request => {
+  if (request.event != 'update) {
+    request.sendEvent = false;
+    return;
+  }
+  const object = request.object;
+  const pointer = object.get('child');
+  await pointer.fetch();
+});
+
+// Prevent LiveQuery trigger unless  'foo' is modified
+Parse.Cloud.afterLiveQueryEvent('MyObject', request => {
+  const object = request.object;
+  const original = request.original;
+  if (!original) {
+    return;
+  }
+  if (object.get('foo') != original.get('foo')) {
+    req.sendEvent = false;
+  }
+});
+```
+
+### Some considerations to be aware of
+- Live Query events won't trigger until the `afterLiveQueryEvent` trigger has completed. Make sure any functions inside the trigger are efficient and restrictive to prevent bottlenecks.
+
 ## onLiveQueryEvent
 
 *Available only on parse-server cloud code starting 2.6.2*
