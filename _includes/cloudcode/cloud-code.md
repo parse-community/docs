@@ -662,7 +662,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', (request) => {
     return;
   }
   if (object.get('foo') != original.get('foo')) {
-    req.sendEvent = false;
+    request.sendEvent = false;
   }
 });
 
@@ -679,7 +679,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
 
 //Extend matchesQuery functionality to LiveQuery
 Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
-  if (req.event != "Create") {
+  if (request.event != "Create") {
     return;
   }
   const query = request.object.relation('children').query();
