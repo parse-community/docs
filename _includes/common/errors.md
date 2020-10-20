@@ -32,8 +32,6 @@ The following is a list of all the error codes that can be returned by the Parse
 | `ScriptFailed`	                 |  141 | Cloud Code script failed. Usually points to a JavaScript error. Check error message for more details. |
 | `FunctionNotFound`	             |  141 | Cloud function not found. Check that the specified Cloud function is present in your Cloud Code script and has been deployed. |
 | `JobNotFound`	                   |  141 | Background job not found. Check that the specified job is present in your Cloud Code script and has been deployed. |
-| `SuccessErrorNotCalled`          |  141 | success/error was not called. A cloud function will return once response.success() or response.error() is called. A background job will similarly finish execution once status.success() or status.error() is called. If a function or job never reaches either of the success/error methods, this error will be returned. This may happen when a function does not handle an error response correctly, preventing code execution from reaching the success() method call. |
-| `MultupleSuccessErrorCalls`      |  141 | Can't call success/error multiple times. A cloud function will return once response.success() or response.error() is called. A background job will similarly finish execution once status.success() or status.error() is called. If a function or job calls success() and/or error() more than once in a single execution path, this error will be returned. |
 | `ValidationFailed`	             |  142 | Cloud Code validation failed. |
 | `WebhookError`	                 |  143 | Webhook error. |
 | `InvalidImageData`	             |  150 | Invalid image data. |
