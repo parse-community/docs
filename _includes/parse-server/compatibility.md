@@ -26,15 +26,13 @@ Consider an messaging app where every `Message` object is set up with an ACL tha
 
 ```js
 // Parse.com Cloud Code
-Parse.Cloud.define('getMessagesForUser', function(request, response) {
-  var user = Parse.User.current();
+Parse.Cloud.define('getMessagesForUser', async (request) => {
+  const user = Parse.User.current();
 
-  var query = new Parse.Query('Messages');
+  const query = new Parse.Query('Messages');
   query.equalTo('recipient', user);
-  query.find()
-    .then(function(messages) {
-      response.success(messages);
-    });
+  const messages = await query.find();
+  return messages;
 });
 ```
 
@@ -46,16 +44,17 @@ The ported Cloud function would now look like this:
 
 ```js
 // Parse Server Cloud Code
-Parse.Cloud.define('getMessagesForUser', function(request, response) {
-  var user = request.user; // request.user replaces Parse.User.current()
-  var token = user.getSessionToken(); // get session token from request.user
+Parse.Cloud.define('getMessagesForUser', async (request) => {
+  // request.user replaces Parse.User.current()
+  const user = request.user;
+  // get session token from request
+  const token = user.getSessionToken();
 
-  var query = new Parse.Query('Messages');
+  const query = new Parse.Query('Messages');
   query.equalTo('recipient', user);
-  query.find({ sessionToken: token }) // pass the session token to find()
-    .then(function(messages) {
-      response.success(messages);
-    });
+  // pass the session token to find()
+  const messages = await query.find({ sessionToken: token });
+  return messages;
 });
 ```
 
@@ -66,15 +65,12 @@ Parse.Cloud.define('getMessagesForUser', function(request, response) {
 Consider you want to write a Cloud function that returns the total count of messages sent by all of your users. Since the objects in our `Message` class are using ACLs to restrict read access, you will need to use the master key to get the total count:
 
 ```js
-Parse.Cloud.define('getTotalMessageCount', function(request, response) {
-
+Parse.Cloud.define('getTotalMessageCount', async (request) => {
   // Parse.Cloud.useMasterKey() <-- no longer available!
 
-  var query = new Parse.Query('Messages');
-  query.count({ useMasterKey: true }) // count() will use the master key to bypass ACLs
-    .then(function(count) {
-      response.success(count);
-    });
+  const query = new Parse.Query('Messages');
+  const count = await query.count({ useMasterKey: true }); // count() will use the master key to bypass ACLs
+  return count;
 });
 ```
 
