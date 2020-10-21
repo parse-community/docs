@@ -17,6 +17,3 @@ node_modules
 .DS_Store
 
 .jekyll-metadata
-
-# Webpack
-assets/js/bundle.js.LICENSE.txt
