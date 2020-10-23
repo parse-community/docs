@@ -4,7 +4,6 @@ Parse Server supports 3rd party authentication with
 
 * Apple
 * Facebook
-* Facebook AccountKit
 * Github
 * Google
 * Instagram
@@ -56,34 +55,6 @@ Note, most of them don't require a server configuration so you can use them dire
 }
 ```
 Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
-
-### Facebook AccountKit `authData`
-```js
-{
-  "facebookaccountkit": {
-    "id": "user's Facebook Account Kit id number as a string",
-    "access_token": "an authorized Facebook Account Kit access token for the user",
-    // optional, access token via authorization code does not seem to have this in response
-    "last_refresh": "time stamp at which token was last refreshed"
-  }
-}
-```
-The options passed to Parse server:
-```js
-{
-  auth: {
-   facebookaccountkit: {
-     // your facebook app id
-     appIds: ["id1", "id2"],
-     // optional, if you have enabled the 'Require App Secret' setting in your app's dashboards
-     appSecret: "App secret from Account Kit setting"
-   }
-  }
-}
-```
-Learn more about [Facebook Account Kit](https://developers.facebook.com/docs/accountkit).
-
-Two ways to [retrieve access token](https://developers.facebook.com/docs/accountkit/accesstokens).
 
 ### Twitter `authData`
 
@@ -192,7 +163,7 @@ Google oauth supports validation of id_token's and access_token's.
 
 ### Configuring Parse Server for LDAP
 
-The [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) module can check if a 
+The [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) module can check if a
 user can authenticate (bind) with the given credentials. Optionally, it can also check if the user is in a certain group.
 This check is done using a user specified query, called an [LDAP Filter](https://ldap.com/ldap-filters/).
 The query should return all groups which the user is a member of. The `cn` attribute of the query results is compared to `groupCn`.
