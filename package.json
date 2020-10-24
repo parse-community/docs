@@ -5,7 +5,7 @@
   "main": "_app/main.js",
   "scripts": {
     "start": "npm run dev",
-    "jekyll": "bundle exec jekyll serve --incremental",
+    "jekyll": "bundle exec jekyll serve --incremental --livereload",
     "dev-webpack": "webpack --mode development --watch",
     "webpack": "webpack --mode production",
     "dev": "npm run dev-webpack & npm run jekyll",
