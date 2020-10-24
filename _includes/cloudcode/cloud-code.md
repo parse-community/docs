@@ -654,7 +654,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', request => {
   original.set('name', 'yolo');
 });
 
-// Prevent LiveQuery trigger unless  'foo' is modified
+// Prevent LiveQuery trigger unless 'foo' is modified
 Parse.Cloud.afterLiveQueryEvent('MyObject', (request) => {
   const object = request.object;
   const original = request.original;
@@ -677,7 +677,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
   await pointer.fetch();
 });
 
-//Extend matchesQuery functionality to LiveQuery
+// Extend matchesQuery functionality to LiveQuery
 Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
   if (request.event != "Create") {
     return;
