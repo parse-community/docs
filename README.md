@@ -53,6 +53,7 @@ npm run dev-win
 ```
 
 Finally, open http://localhost:4000/ in your web browser.
+File changes will be output to `_site` folder and the browser will auto refresh.
 
 -----
 
