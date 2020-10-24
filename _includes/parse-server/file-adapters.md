@@ -306,13 +306,13 @@ new GCSAdapter(projectId, keyfilePath, bucket, options)
 
 ## Configuring `FSAdapter`
 
-To use the `FSAdapter`, simply initialize your Parse Server in `index.js` by doing the following:
+To use the [FSAdapter](https://github.com/parse-community/parse-server-fs-adapter), simply initialize your Parse Server in `index.js` by doing the following:
 
 ```javascript
 var FSFilesAdapter = require('@parse/fs-files-adapter');
 
 var fsAdapter = new FSFilesAdapter({
-  "filesSubDirectory": "my/files/folder" // optional
+  "filesSubDirectory": "my/files/folder" // optional, defaults to ./files
 });
 
 var api = new ParseServer({
@@ -323,7 +323,7 @@ var api = new ParseServer({
 ```
 
 ### Using `FSAdapter` with multiple instances of Parse Server
-When using parse-server-fs-adapter across multiple Parse Server instances it's important to establish "centralization" of your file storage (this is the same premise as the other file adapters, you are sending/recieving files through a dedicated link). You can accomplish this at the file storage level by Samba mounting (or any other type of mounting) your storage to each of your parse-server instances, e.g if you are using Parse Server via docker (volume mount your SMB drive to `- /Volumes/SMB-Drive/MyParseApp1/files:/parse-server/files`). All Parse Server instances need to be able to read/write to the same storage in order for parse-server-fs-adapter to work properly with parse-server. If the file storage isn't centralized, parse-server will have trouble locating files and you will get random behavior on client-side.
+When using [parse-server-fs-adapter](https://github.com/parse-community/parse-server-fs-adapter) across multiple Parse Server instances it's important to establish "centralization" of your file storage (this is the same premise as the other file adapters, you are sending/recieving files through a dedicated link). You can accomplish this at the file storage level by Samba mounting (or any other type of mounting) your storage to each of your parse-server instances, e.g if you are using Parse Server via docker (volume mount your SMB drive to `- /Volumes/SMB-Drive/MyParseApp1/files:/parse-server/files`). All Parse Server instances need to be able to read/write to the same storage in order for parse-server-fs-adapter to work properly with parse-server. If the file storage isn't centralized, parse-server will have trouble locating files and you will get random behavior on client-side.
 
 ### Set up file encryption
 File encryption is available in parse-server-fs-adapter 1.1.0+. The `FSAdapter` can encrypt files at rest for local storage using AES256-GCM, allowing the adapter to detect if files are tampered with.
@@ -334,7 +334,7 @@ To use, simply do the same as above, but add a `encryptionKey`:
 var FSFilesAdapter = require('@parse/fs-files-adapter');
 
 var fsAdapter = new FSFilesAdapter({
-  "filesSubDirectory": "my/files/folder", // optional
+  "filesSubDirectory": "my/files/folder", // optional, defaults to ./files
   "encryptionKey": "someKey" //mandatory if you want to encrypt files
 });
 
