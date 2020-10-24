@@ -17,8 +17,8 @@ When using `Postgres`, you will need to configure `S3Adapter`,  `GCSAdapter`, or
 
 If you are using `Mongo` and don't need file encryption, there are no additional steps needed to use the `GridStoreAdapter`. If you'd like to enable file encryption follow these instructions to configure Parse Server to use `GridStoreAdapter` with file encryption.
 
-### Set up file encryption (available in parse-server 4.4.0+)
-The `GridStoreAdapter` can encrypt files at rest in `Mongo` using AES256-GCM, allowing the adapter to detect if files are tampered with.
+### Set up file encryption
+File encryption is available in parse-server 4.4.0+. The `GridStoreAdapter` can encrypt files at rest in `Mongo` using AES256-GCM, allowing the adapter to detect if files are tampered with.
 
 To use, simply do any of the following:
 - Use the environment variable `PARSE_SERVER_ENCRYPTION_KEY`
@@ -40,7 +40,7 @@ const api = new ParseServer({
 
 Be sure not to lose your key or change it after encrypting files. 
 
-### Enabling encryption on a server that already has unencrypted files (available in parse-server 4.4.0+)
+### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
 
 ```javascript
@@ -51,7 +51,7 @@ console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Rotating your encryption key (available in parse-server 4.4.0+)
+### Rotating your encryption key
 Periodically you may want to rotate your encryptionKey for security reasons. When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter with the new key and do the following in your `index.js` (you will need your `oldKey`):
 
 ```javascript
@@ -61,7 +61,7 @@ console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Removing file encryption (available in parse-server 4.4.0+)
+### Removing file encryption
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. Different from the previous examples, don't initialize your fileAdapter with a `encryptionKey`. Pass in your `oldKey` to `rotateEncryptionKey()`.
 
 ```javascript
@@ -325,8 +325,8 @@ var api = new ParseServer({
 ### Using `FSAdapter` with multiple instances of Parse Server
 When using parse-server-fs-adapter across multiple Parse Server instances it's important to establish "centralization" of your file storage (this is the same premise as the other file adapters, you are sending/recieving files through a dedicated link). You can accomplish this at the file storage level by Samba mounting (or any other type of mounting) your storage to each of your parse-server instances, e.g if you are using Parse Server via docker (volume mount your SMB drive to `- /Volumes/SMB-Drive/MyParseApp1/files:/parse-server/files`). All Parse Server instances need to be able to read/write to the same storage in order for parse-server-fs-adapter to work properly with parse-server. If the file storage isn't centralized, parse-server will have trouble locating files and you will get random behavior on client-side.
 
-### Set up file encryption (available in parse-server-fs-adapter 1.1.0+)
-The `FSAdapter` can encrypt files at rest for local storage using AES256-GCM, allowing the adapter to detect if files are tampered with.
+### Set up file encryption
+File encryption is available in parse-server-fs-adapter 1.1.0+. The `FSAdapter` can encrypt files at rest for local storage using AES256-GCM, allowing the adapter to detect if files are tampered with.
 
 To use, simply do the same as above, but add a `encryptionKey`:
 
@@ -347,7 +347,7 @@ var api = new ParseServer({
 
 Be sure not to lose your key or change it after encrypting files. 
 
-### Enabling encryption on a server that already has unencrypted files (available in parse-server-fs-adapter 1.1.0+)
+### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
 
 ```javascript
@@ -358,7 +358,7 @@ console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Rotating your encryption key (available in parse-server-fs-adapter 1.1.0+)
+### Rotating your encryption key
 Periodically you may want to rotate your `encryptionKey` for security reasons. When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter with the new key and do the following in your `index.js` (you will need your `oldKey`):
 
 ```javascript
@@ -368,7 +368,7 @@ console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Removing file encryption (available in parse-server-fs-adapter 1.1.0+)
+### Removing file encryption
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. Different from the previous examples, don't initialize your fileAdapter with a `encryptionKey`. Pass in your `oldKey` to `rotateEncryptionKey()`.
 
 ```javascript
