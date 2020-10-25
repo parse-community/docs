@@ -665,7 +665,11 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', (request) => {
     request.sendEvent = false;
   }
 });
+```
 
+By default, ParseLiveQuery does not perform queries that require additional database operations. This is to keep your Parse Server as fast and effient as possible. If you require this functionality, you can perform these in `afterLiveQueryEvent`.  
+
+```javascript
 // Including an object on LiveQuery event, on update only.
 Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
   if (request.event != "update") {
