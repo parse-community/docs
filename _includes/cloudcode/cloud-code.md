@@ -223,7 +223,7 @@ The full range of Built-In Validation Options are:
 
 The full range of Built-In Validation Options on `.fields` are:
 
-- `type`, the type of the `request.params.field` or `request.object.get(field)`
+- `type`, the type of the `request.params[field]` or `request.object.get(field)`
 - `default`, what the field should default to if it's `null`,
 - `required`, whether the field is required.
 - `options`, a singular option, array of options, or custom function of allowed values for the field.
