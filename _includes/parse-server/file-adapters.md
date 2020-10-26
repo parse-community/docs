@@ -17,15 +17,13 @@ When using `Postgres`, you will need to configure `S3Adapter`,  `GCSAdapter`, or
 
 If you are using `Mongo` and don't need file encryption, there are no additional steps needed to use the `GridStoreAdapter`. If you'd like to enable file encryption follow these instructions to configure Parse Server to use `GridStoreAdapter` with file encryption.
 
-***Notice: If you are coming from an older version of Parse Server versions <= 4.2.0, you should remove `fileKey` from your configurations as it is not being used anyways since legacy parse.com. `fileKey` has been repurposed for file encryption.***
-
-### Set up file encryption (available in parse-server 4.3.0+)
-The `GridStoreAdapter` can encrypt files at rest in `Mongo` using AES256-GCM, allowing the adapter to detect if files are tampered with.
+### Set up file encryption
+File encryption is available in parse-server 4.4.0+. The `GridStoreAdapter` can encrypt files at rest in `Mongo` using AES256-GCM, allowing the adapter to detect if files are tampered with.
 
 To use, simply do any of the following:
-- Use the environment variable `PARSE_SERVER_FILE_KEY`
-- Pass in --fileKey in the command line when starting your server
-- Initialize ParseServer with `fileKey="Your file encryptionKey"`. 
+- Use the environment variable `PARSE_SERVER_ENCRYPTION_KEY`
+- Pass in --encryptionKey in the command line when starting your server
+- Initialize ParseServer with `encryptionKey="Your file encryptionKey"`. 
 
 An example starting your Parse Server in `index.js` is below:
 
@@ -35,36 +33,36 @@ const api = new ParseServer({
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
   masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
-  fileKey: process.env.PARSE_SERVER_FILE_KEY, //Add your file key here. Keep it secret
+  encryptionKey: process.env.PARSE_SERVER_ENCRYPTION_KEY, //Add your file key here. Keep it secret
   ...
 });
 ```
 
 Be sure not to lose your key or change it after encrypting files. 
 
-### Enabling encryption on a server that already has unencrypted files (available in parse-server 4.4.0+)
+### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
 
 ```javascript
 //You probably want to back up your unencrypted files before doing this.
 //This can take awhile depending on how many files and how large they are. It will attempt to rotate the key of all files in your filesSubDirectory
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey();
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey();
 console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Rotating your encryption key (available in parse-server 4.4.0+)
-Periodically you may want to rotate your fileKey for security reasons. When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter with the new key and do the following in your `index.js` (you will need your `oldKey`):
+### Rotating your encryption key
+Periodically you may want to rotate your encryptionKey for security reasons. When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter with the new key and do the following in your `index.js` (you will need your `oldKey`):
 
 ```javascript
 //This can take awhile depending on how many files and how large they are. It will attempt to rotate the key of all files in your filesSubDirectory
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey({oldKey: oldKey});
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey({oldKey: oldKey});
 console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Removing file encryption (available in parse-server 4.4.0+)
-When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. Different from the previous examples, don't initialize your fileAdapter with a `fileKey`. Pass in your `oldKey` to `rotateFileKey()`.
+### Removing file encryption
+When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. Different from the previous examples, don't initialize your fileAdapter with a `encryptionKey`. Pass in your `oldKey` to `rotateEncryptionKey()`.
 
 ```javascript
 const api = new ParseServer({
@@ -72,24 +70,24 @@ const api = new ParseServer({
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
   masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
-  //No fileKey here
+  //No encryptionKey here
   ...
 });
 
 //This can take awhile depending on how many files and how larger they are. It will attempt to rotate the key of all files in your filesSubDirectory
 //It is not recommended to do this on the production server, deploy a development server to complete the process.
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey({oldKey: oldKey});
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey({oldKey: oldKey});
 console.log('Files rotated to unencrypted with noKey: ' + rotated);
 console.log('Files that couldn't be rotated to unencrypted with noKey: ' + notRotated);
 
 ```
 
 ### Rotating the key for a subset of files
-This is useful if for some reason there were errors and some of the files weren't rotated and returned in `notRotated`. The process is the same as the previous examples, but pass in your `oldKey` along with the array of `fileNames` to `rotateFileKey()`.
+This is useful if for some reason there were errors and some of the files weren't rotated and returned in `notRotated`. The process is the same as the previous examples, but pass in your `oldKey` along with the array of `fileNames` to `rotateEncryptionKey()`.
 
 ```javascript
 //This can take awhile depending on how many files and how large they are. It will attempt to rotate the key of all files in your filesSubDirectory
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey({oldKey: oldKey, fileNames: ["fileName1.png","fileName2.png"]});
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey({oldKey: oldKey, fileNames: ["fileName1.png","fileName2.png"]});
 console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
@@ -308,13 +306,13 @@ new GCSAdapter(projectId, keyfilePath, bucket, options)
 
 ## Configuring `FSAdapter`
 
-To use the `FSAdapter`, simply initialize your Parse Server in `index.js` by doing the following:
+To use the [FSAdapter](https://github.com/parse-community/parse-server-fs-adapter), simply initialize your Parse Server in `index.js` by doing the following:
 
 ```javascript
 var FSFilesAdapter = require('@parse/fs-files-adapter');
 
 var fsAdapter = new FSFilesAdapter({
-  "filesSubDirectory": "my/files/folder" // optional
+  "filesSubDirectory": "my/files/folder" // optional, defaults to ./files
 });
 
 var api = new ParseServer({
@@ -324,22 +322,20 @@ var api = new ParseServer({
 })
 ```
 
-***Notice: If used with Parse Server versions <= 4.2.0, DO NOT PASS in `PARSE_SERVER_FILE_KEY` or `fileKey` from parse-server. Instead pass your key directly to `FSFilesAdapter` using your own environment variable or hardcoding the string. Parse Server versions 4.3.0+ can pass in `PARSE_SERVER_FILE_KEY` or `fileKey`.***
-
 ### Using `FSAdapter` with multiple instances of Parse Server
-When using parse-server-fs-adapter across multiple Parse Server instances it's important to establish "centralization" of your file storage (this is the same premise as the other file adapters, you are sending/recieving files through a dedicated link). You can accomplish this at the file storage level by Samba mounting (or any other type of mounting) your storage to each of your parse-server instances, e.g if you are using Parse Server via docker (volume mount your SMB drive to `- /Volumes/SMB-Drive/MyParseApp1/files:/parse-server/files`). All Parse Server instances need to be able to read/write to the same storage in order for parse-server-fs-adapter to work properly with parse-server. If the file storage isn't centralized, parse-server will have trouble locating files and you will get random behavior on client-side.
+When using [parse-server-fs-adapter](https://github.com/parse-community/parse-server-fs-adapter) across multiple Parse Server instances it's important to establish "centralization" of your file storage (this is the same premise as the other file adapters, you are sending/recieving files through a dedicated link). You can accomplish this at the file storage level by Samba mounting (or any other type of mounting) your storage to each of your parse-server instances, e.g if you are using Parse Server via docker (volume mount your SMB drive to `- /Volumes/SMB-Drive/MyParseApp1/files:/parse-server/files`). All Parse Server instances need to be able to read/write to the same storage in order for parse-server-fs-adapter to work properly with parse-server. If the file storage isn't centralized, parse-server will have trouble locating files and you will get random behavior on client-side.
 
-### Set up file encryption (available in parse-server-fs-adapter 1.1.0+)
-The `FSAdapter` can encrypt files at rest for local storage using AES256-GCM, allowing the adapter to detect if files are tampered with.
+### Set up file encryption
+File encryption is available in parse-server-fs-adapter 1.1.0+. The `FSAdapter` can encrypt files at rest for local storage using AES256-GCM, allowing the adapter to detect if files are tampered with.
 
-To use, simply do the same as above, but add a `fileKey`:
+To use, simply do the same as above, but add a `encryptionKey`:
 
 ```javascript
 var FSFilesAdapter = require('@parse/fs-files-adapter');
 
 var fsAdapter = new FSFilesAdapter({
-  "filesSubDirectory": "my/files/folder", // optional
-  "fileKey": "someKey" //mandatory if you want to encrypt files
+  "filesSubDirectory": "my/files/folder", // optional, defaults to ./files
+  "encryptionKey": "someKey" //mandatory if you want to encrypt files
 });
 
 var api = new ParseServer({
@@ -351,29 +347,29 @@ var api = new ParseServer({
 
 Be sure not to lose your key or change it after encrypting files. 
 
-### Enabling encryption on a server that already has unencrypted files (available in parse-server-fs-adapter 1.1.0+)
+### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
 
 ```javascript
 //You probably want to back up your unencrypted files before doing this.
 //This can take awhile depending on how many files and how large they are. It will attempt to rotate the key of all files in your filesSubDirectory
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey();
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey();
 console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Rotating your encryption key (available in parse-server-fs-adapter 1.1.0+)
-Periodically you may want to rotate your `fileKey` for security reasons. When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter with the new key and do the following in your `index.js` (you will need your `oldKey`):
+### Rotating your encryption key
+Periodically you may want to rotate your `encryptionKey` for security reasons. When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter with the new key and do the following in your `index.js` (you will need your `oldKey`):
 
 ```javascript
 //This can take awhile depending on how many files and how large they are. It will attempt to rotate the key of all files in your filesSubDirectory
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey({oldKey: oldKey});
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey({oldKey: oldKey});
 console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
 
-### Removing file encryption (available in parse-server-fs-adapter 1.1.0+)
-When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. Different from the previous examples, don't initialize your fileAdapter with a `fileKey`. Pass in your `oldKey` to `rotateFileKey()`.
+### Removing file encryption
+When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. Different from the previous examples, don't initialize your fileAdapter with a `encryptionKey`. Pass in your `oldKey` to `rotateEncryptionKey()`.
 
 ```javascript
 const api = new ParseServer({
@@ -381,24 +377,24 @@ const api = new ParseServer({
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
   masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
-  filesAdapter: new FSFilesAdapter(), //No fileKey supplied
+  filesAdapter: new FSFilesAdapter(), //No encryptionKey supplied
   ...
 });
 
 //This can take awhile depending on how many files and how larger they are. It will attempt to rotate the key of all files in your filesSubDirectory
 //It is not recommended to do this on the production server, deploy a development server to complete the process.
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey({oldKey: oldKey});
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey({oldKey: oldKey});
 console.log('Files rotated to unencrypted with noKey: ' + rotated);
 console.log('Files that couldn't be rotated to unencrypted with noKey: ' + notRotated);
 
 ```
 
 ### Rotating the key for a subset of files
-This is useful if for some reason there were errors and some of the files weren't rotated and returned in `notRotated`. The process is the same as the previous examples, but pass in your `oldKey` along with the array of `fileNames` to `rotateFileKey()`.
+This is useful if for some reason there were errors and some of the files weren't rotated and returned in `notRotated`. The process is the same as the previous examples, but pass in your `oldKey` along with the array of `fileNames` to `rotateEncryptionKey()`.
 
 ```javascript
 //This can take awhile depending on how many files and how large they are. It will attempt to rotate the key of all files in your filesSubDirectory
-const {rotated, notRotated} =  await api.filesAdapter.rotateFileKey({oldKey: oldKey, fileNames: ["fileName1.png","fileName2.png"]});
+const {rotated, notRotated} =  await api.filesAdapter.rotateEncryptionKey({oldKey: oldKey, fileNames: ["fileName1.png","fileName2.png"]});
 console.log('Files rotated to newKey: ' + rotated);
 console.log('Files that couldn't be rotated to newKey: ' + notRotated);
 ```
