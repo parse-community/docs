@@ -151,13 +151,13 @@ Parse.Cloud.define("averageStars", async (request) => {
 });
 ```
 
-If the rules specified in the validator object aren't met, the cloud function won't run. This means that you can confidently build your trigger, knowing that `request.params.movie` is defined, as well as `request.user`.
+If the rules specified in the validator object aren't met, the Cloud Function won't run. This means that you can confidently build your function, knowing that `request.params.movie` is defined, as well as `request.user`.
 
 ## More Advanced Validation
 
 *Available only on parse-server cloud code starting 4.-.-*
 
-Often, not only is it important that `request.params.movie` is defined, but also that it is the correct data type. You can do this by providing an `Object` to the `fields` parameter in the Validator.
+Often, not only is it important that `request.params.movie` is defined, but also that it's the correct data type. You can do this by providing an `Object` to the `fields` parameter in the Validator.
 
 ```javascript
 Parse.Cloud.define("averageStars", async (request) => {
@@ -213,24 +213,24 @@ Parse.Cloud.beforeSave(Parse.User, () => {
 ```
 This means that the field `accType` on `Parse.User` will be 'viewer' on signup, and will be unchangable, unless `masterKey` is provided.
 
-The full range of Built-In Validation Options are:
+The full range of built-in Validation Options are:
 
-- `requireMaster`, whether the function requires a `masterKey` to run
-- `requireUser`, whether the function requires a `request.user` to run
-- `validateMasterKey`, whether the validator should run on `masterKey` (defaults to false)
-- `fields`, an `Array` or `Object` of fields that are required on the request.
-- `requireUserKeys`, an `Array` of fields to be validated on `request.user`
+- `requireMaster`: whether the function requires a `masterKey` to run.
+- `requireUser`: whether the function requires a `request.user` to run.
+- `validateMasterKey`: whether the validator should run on `masterKey` (defaults to false).
+- `fields`: an `Array` or `Object` of fields that are required on the request.
+- `requireUserKeys`: an `Array` of fields to be validated on `request.user`.
 
-The full range of Built-In Validation Options on `.fields` are:
+The full range of built-in Validation Options on `.fields` are:
 
-- `type`, the type of the `request.params[field]` or `request.object.get(field)`
-- `default`, what the field should default to if it's `null`,
-- `required`, whether the field is required.
-- `options`, a singular option, array of options, or custom function of allowed values for the field.
-- `constant`, whether the field is immutable.
-- `error`, a custom error message if validation fails.
+- `type`: the type of the `request.params[field]` or `request.object.get(field)`.
+- `default`: what the field should default to if it's `null`.
+- `required`: whether the field is required.
+- `options`: a singular option, array of options, or custom function of allowed values for the field.
+- `constant`: whether the field is immutable.
+- `error`: a custom error message if validation fails.
 
-You can also pass a function to the Validator. This can help you apply reoccuring logic to your cloud code.
+You can also pass a function to the Validator. This can help you apply reoccuring logic to your Cloud Code.
 
 ```javascript
 const validationRules = request => {
@@ -253,10 +253,10 @@ Parse.Cloud.define('adminFunctionTwo', request => {
 ```
 
 ### Some considerations to be aware of
-- The validation function will run prior to your cloud code functions. You can use async and promises here, but try to keep the validation as simple and fast as possible so your cloud requests resolve in the shortest time.
+- The validation function will run prior to your Cloud Code Functions. You can use async and promises here, but try to keep the validation as simple and fast as possible so your cloud requests resolve quickly.
 - As previously mentioned, cloud validator objects will not validate if a masterKey is provided, unless `validateMasterKey:true` is set. However, if you set your validator to a function, the function will **always** run.
 
-This range of options should help you write more secure cloud code. If you need help in any way, feel free to reach out at our [developer supported community forum](https://community.parseplatform.org/).
+This range of options should help you write more secure Cloud Code. If you need help in any way, feel free to reach out on our [developer supported community forum](https://community.parseplatform.org/).
 
 # Cloud Jobs
 
