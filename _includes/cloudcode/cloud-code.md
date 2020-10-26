@@ -155,7 +155,6 @@ If the rules specified in the validator object aren't met, the Cloud Function wo
 
 ### More Advanced Validation
 
-*Available only on parse-server cloud code starting 4.-.-*
 
 Often, not only is it important that `request.params.movie` is defined, but also that it's the correct data type. You can do this by providing an `Object` to the `fields` parameter in the Validator.
 
