@@ -153,7 +153,7 @@ Parse.Cloud.define("averageStars", async (request) => {
 
 If the rules specified in the validator object aren't met, the Cloud Function won't run. This means that you can confidently build your function, knowing that `request.params.movie` is defined, as well as `request.user`.
 
-## More Advanced Validation
+### More Advanced Validation
 
 *Available only on parse-server cloud code starting 4.-.-*
 
