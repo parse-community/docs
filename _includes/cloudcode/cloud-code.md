@@ -24,8 +24,6 @@ Parse.Cloud.define("averageStars", async (request) => {
     sum += results[i].get("stars");
   }
   return sum / results.length;
-},{
-  fields:['movie']
 });
 ```
 
