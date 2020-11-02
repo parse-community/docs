@@ -125,6 +125,136 @@ If there is an error, the response in the client looks like:
 }
 ```
 
+## Implementing cloud function validation
+
+*Available only on parse-server cloud code starting 4.-.-*
+
+It's important to make sure the parameters required for a Cloud function are provided, and are in the necessary format. Starting with Parse Server 4.-.-, you can now specify a validator function or object which will be called prior to your cloud function.
+
+Let's take a look at the `averageStars` example. If you wanted to make sure that `request.params.movie` is provided, and `averageStars` can only be called by logged in users, you could add a validator object to the function.
+
+```javascript
+Parse.Cloud.define("averageStars", async (request) => {
+  const query = new Parse.Query("Review");
+  query.equalTo("movie", request.params.movie);
+  const results = await query.find();
+  let sum = 0;
+  for (let i = 0; i < results.length; ++i) {
+    sum += results[i].get("stars");
+  }
+  return sum / results.length;
+},{
+  fields : ['movie'],
+  requireUser: true
+});
+```
+
+If the rules specified in the validator object aren't met, the Cloud Function won't run. This means that you can confidently build your function, knowing that `request.params.movie` is defined, as well as `request.user`.
+
+### More Advanced Validation
+
+
+Often, not only is it important that `request.params.movie` is defined, but also that it's the correct data type. You can do this by providing an `Object` to the `fields` parameter in the Validator.
+
+```javascript
+Parse.Cloud.define("averageStars", async (request) => {
+  const query = new Parse.Query("Review");
+  query.equalTo("movie", request.params.movie);
+  const results = await query.find();
+  let sum = 0;
+  for (let i = 0; i < results.length; ++i) {
+    sum += results[i].get("stars");
+  }
+  return sum / results.length;
+},{
+  fields : {
+    movie : {
+      required: true,
+      type: String,
+      options: val => {
+        return val < 20;
+      },
+      error: "Movie must be less than 20 characters"
+    }
+  },
+  requireUserKeys: {
+    accType : {
+      options: 'reviewer',
+      error: 'Only reviewers can get average stars'
+    }
+  }
+});
+```
+
+This function will only run if:
+- `request.params.movie` is defined
+- `request.params.movie` is a String
+- `request.params.movie` is less than 20 characters
+- `request.user` is defined
+- `request.user.get('accType')` is defined
+- `request.user.get('accType')` is equal to 'reviewer'
+
+However, the requested user could set 'accType' to reviewer, and then recall the function. Here, you could provide validation on a `Parse.User` `beforeSave` trigger. `beforeSave` validators have a few additional options available, to help you make sure your data is secure.
+
+```javascript
+Parse.Cloud.beforeSave(Parse.User, () => {
+  // any additional beforeSave logic here
+}, {
+    fields: {
+      accType: {
+        default: 'viewer',
+        constant: true
+      },
+    },
+});
+```
+This means that the field `accType` on `Parse.User` will be 'viewer' on signup, and will be unchangable, unless `masterKey` is provided.
+
+The full range of built-in Validation Options are:
+
+- `requireMaster`: whether the function requires a `masterKey` to run.
+- `requireUser`: whether the function requires a `request.user` to run.
+- `validateMasterKey`: whether the validator should run on `masterKey` (defaults to false).
+- `fields`: an `Array` or `Object` of fields that are required on the request.
+- `requireUserKeys`: an `Array` of fields to be validated on `request.user`.
+
+The full range of built-in Validation Options on `.fields` are:
+
+- `type`: the type of the `request.params[field]` or `request.object.get(field)`.
+- `default`: what the field should default to if it's `null`.
+- `required`: whether the field is required.
+- `options`: a singular option, array of options, or custom function of allowed values for the field.
+- `constant`: whether the field is immutable.
+- `error`: a custom error message if validation fails.
+
+You can also pass a function to the Validator. This can help you apply reoccuring logic to your Cloud Code.
+
+```javascript
+const validationRules = request => {
+  if (request.master) {
+    return;
+  }
+  if (!request.user || request.user.id !== 'masterUser') {
+    throw 'Unauthorized';
+  }
+}
+
+Parse.Cloud.define('adminFunction', request => {
+// do admin code here, confident that request.user.id is masterUser, or masterKey is provided
+},validationRules)
+
+Parse.Cloud.define('adminFunctionTwo', request => {
+// do admin code here, confident that request.user.id is masterUser, or masterKey is provided
+},validationRules)
+
+```
+
+### Some considerations to be aware of
+- The validation function will run prior to your Cloud Code Functions. You can use async and promises here, but try to keep the validation as simple and fast as possible so your cloud requests resolve quickly.
+- As previously mentioned, cloud validator objects will not validate if a masterKey is provided, unless `validateMasterKey:true` is set. However, if you set your validator to a function, the function will **always** run.
+
+This range of options should help you write more secure Cloud Code. If you need help in any way, feel free to reach out on our [developer supported community forum](https://community.parseplatform.org/).
+
 # Cloud Jobs
 
 Sometimes you want to execute long running functions, and you don't want to wait for the response. Cloud Jobs are meant for just that.
@@ -171,7 +301,7 @@ Viewing jobs is supported on parse-dashboard starting version 1.0.19, but you ca
 
 ## beforeSave
 
-### Implementing validation
+### Implementing data validation
 
 Another reason to run code in the cloud is to enforce a particular data format. For example, you might have both an Android and an iOS app, and you want to validate data for each of those. Rather than writing code once for each client environment, you can write it just once with Cloud Code.
 
@@ -179,12 +309,16 @@ Let's take a look at our movie review example. When you're choosing how many sta
 
 ```javascript
 Parse.Cloud.beforeSave("Review", (request) => {
-  if (request.object.get("stars") < 1) {
-    throw "you cannot give less than one star";
-  }
-
-  if (request.object.get("stars") > 5) {
-    throw "you cannot give more than five stars";
+// do any additional beforeSave logic here
+},{
+  fields: {
+    stars : {
+      required:true,
+      options: stars => {
+        return stars >= 1 && stars =< 5;
+      },
+      error: 'Your review must be between one and five stars'
+    }
   }
 });
 
@@ -216,7 +350,9 @@ If you want to use `beforeSave` for a predefined class in the Parse JavaScript S
 ```javascript
 Parse.Cloud.beforeSave(Parse.User, async (request) => {
     // code here
-})
+},
+  // Validation Object or Validation Function
+)
 ```
 
 ## afterSave
@@ -289,17 +425,13 @@ const afterSave = function afterSave(request) {
 You can run custom Cloud Code before an object is deleted. You can do this with the `beforeDelete` method. For instance, this can be used to implement a restricted delete policy that is more sophisticated than what can be expressed through  [ACLs]({{ site.apis.js }}/classes/Parse.ACL.html). For example, suppose you have a photo album app, where many photos are associated with each album, and you want to prevent the user from deleting an album if it still has a photo in it. You can do that by writing a function like this:
 
 ```javascript
-Parse.Cloud.beforeDelete("Album", (request) => {
+Parse.Cloud.beforeDelete("Album", async (request) => {
   const query = new Parse.Query("Photo");
   query.equalTo("album", request.object);
-  query.count()
-    .then((count) => {
-      if (count > 0) {
-        throw "Can't delete album if it still has photos.";
-    })
-    .catch((error) {
-      throw "Error " + error.code + " : " + error.message + " when getting photo count.";
-    });
+  const count = await query.count({useMasterKey:true})
+  if (count > 0) {
+    throw "Can't delete album if it still has photos.";
+  }
 });
 ```
 
