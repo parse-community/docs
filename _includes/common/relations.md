@@ -1413,7 +1413,7 @@ IEnumerable<ParseObject> books= await bookQuery.FindAsync();
 {% if page.language == "js" %}
 ```js
 // set up our query for the Book object
-cosnt bookQuery = new Parse.Query("Book");
+const bookQuery = new Parse.Query("Book");
 
 // configure any constraints on your query...
 // tell the query to fetch all of the Author objects along with the Book
