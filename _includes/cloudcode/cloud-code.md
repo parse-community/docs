@@ -638,7 +638,7 @@ Parse.Cloud.beforeSubscribe('MyObject', request => {
 
 ## afterLiveQueryEvent
 
-*Available only on parse-server cloud code starting 4.-.-*
+*Available only on parse-server cloud code starting 4.4.0*
 
 In some cases you may want to manipulate the results of a Live Query before they are sent to the client. You can do so with the `afterLiveQueryEvent` trigger.
 
