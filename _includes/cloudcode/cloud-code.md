@@ -127,9 +127,9 @@ If there is an error, the response in the client looks like:
 
 ## Implementing cloud function validation
 
-*Available only on parse-server cloud code starting 4.-.-*
+*Available only on parse-server cloud code starting 4.4.0*
 
-It's important to make sure the parameters required for a Cloud function are provided, and are in the necessary format. Starting with Parse Server 4.-.-, you can now specify a validator function or object which will be called prior to your cloud function.
+It's important to make sure the parameters required for a Cloud function are provided, and are in the necessary format. Starting with Parse Server 4.4.0, you can now specify a validator function or object which will be called prior to your cloud function.
 
 Let's take a look at the `averageStars` example. If you wanted to make sure that `request.params.movie` is provided, and `averageStars` can only be called by logged in users, you could add a validator object to the function.
 
