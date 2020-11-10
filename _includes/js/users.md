@@ -473,10 +473,10 @@ const loggedIn = await Parse.User.logInWith('CustomAdapter', { authData: myAuthD
 ### Custom Authentication Module
 
 Parse Server supports many [3rd Party Authenications]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication).
-It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module. A custom authetication module normally consists of a client-side provider object and a back-end authAdapter. The client-side object should implement the [AuthProvider interface](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js). The backend authAdapter should implement the the functions `validateAuthData` and `validateAppId`, check out this [AuthAdapter example](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/AuthAdapter.js).
+It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module. A custom authentication module normally consists of a client-side AuthProvider object and a back-end AuthAdapter. The client-side object should implement the [AuthProvider interface](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js). The backend AuthAdapter should implement the the functions `validateAuthData` and `validateAppId`, check out this [AuthAdapter example](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/AuthAdapter.js).
 When calling the `linkWith` function **without** an `authData` object the client side authenticate-method from the provider object will be called. In the other case the `authData` object will be sent directly to parse server for authentication using the backend module.
 
-Note: The following is a minimal example implementing auth provider client-side and authadapter on the backend.
+Note: The following is a minimal example implementing AuthProvider client-side and AuthAdapter on the backend.
 
 A minimal  `CustomAuth.js` module in the backend:
 ```javascript
@@ -524,6 +524,8 @@ const provider = {
     options.success(this, {
       id: 1234
     });
+    // You can also handle error
+    // options.error(this, {});
   },
   restoreAuthentication() {
     return true;
