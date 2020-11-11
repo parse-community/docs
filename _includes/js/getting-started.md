@@ -16,6 +16,8 @@ For server-side applications or Node.js command line tools, include `'parse/node
 ```js
 // In a node.js environment
 var Parse = require('parse/node');
+// ES6 Minimized
+import Parse from 'parse/dist/parse.min.js';
 ```
 
 For React Native applications, include `'parse/react-native.js'`:
