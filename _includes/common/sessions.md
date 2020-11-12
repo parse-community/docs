@@ -15,9 +15,6 @@ The `Session` object has these special fields:
 * `createdWith` (readonly): Information about how this session was created (e.g. `{ "action": "login", "authProvider": "password"}`).
     * `action` could have values: `login`, `signup`, `create`, or `upgrade`. The `create` action is when the developer manually creates the session by saving a `Session` object.  The `upgrade` action is when the user is upgraded to revocable session from a legacy session token.
     * `authProvider` could have values: `password`, `anonymous`, `facebook`, or `twitter`.
-* `restricted` (readonly): Boolean for whether this session is restricted.
-    * Restricted sessions do not have write permissions on `User`, `Session`, and `Role` classes on Parse. Restricted sessions also cannot read unrestricted sessions.
-    * All sessions that Parse Server automatically creates during user login/signup will be unrestricted. All sessions that the developer manually creates by saving a new `Session` object from the client (only needed for "Parse for IoT" apps) will be restricted.
 * `expiresAt` (readonly): Approximate UTC date when this `Session` object will be automatically deleted. You can configure session expiration settings (either 1-year inactivity expiration or no expiration) in your app's Parse Dashboard settings page.
 * `installationId` (can be set only once): String referring to the `Installation` where the session is logged in from. For Parse SDKs, this field will be automatically set when users log in or sign up.
 All special fields except `installationId` can only be set automatically by Parse Server. You can add custom fields onto `Session` objects, but please keep in mind that any logged-in device (with session token) can read other sessions that belong to the same user (unless you disable Class-Level Permissions, see below).
