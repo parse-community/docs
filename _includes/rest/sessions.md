@@ -32,53 +32,6 @@ With revocable sessions, your current session token could become invalid if its 
 
 For mobile apps and websites, you should not create `Session` objects manually. Instead, you should call <code class="highlighter-rouge">GET <span class="custom-parse-server-mount">/parse/</span>login</code> and <code class="highlighter-rouge">POST <span class="custom-parse-server-mount">/parse/</span>users</code> (signup), which will automatically generate a `Session` object in the Parse Cloud. The session token for this automatically-created session will be sent back on the login and signup response. Same for Facebook/Twitter login and signup requests.
 
-In "Parse for IoT" apps (e.g. Arduino or Embedded C), you may want to programmatically create a restricted session that can be transferred to an IoT device. In order to do this, you must first log in normally to obtain an unrestricted session token. Then, you can create a restricted session by providing this unrestricted session token:
-
-<div class="language-toggle">
-<pre><code class="bash">
-curl -X POST \
-  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
-  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
-  -H "X-Parse-Session-Token: r:pnktnjyb996sj4p156gjtp4im" \
-  -H "Content-Type: application/json" \
-  -d '{"customField":"value"}' \
-  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>sessions
-</code></pre>
-<pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-connection.connect()
-connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>sessions', json.dumps({
-       "customField": "value"
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
-       "Content-Type": "application/json"
-     })
-result = json.loads(connection.getresponse().read())
-print result
-</code></pre>
-</div>
-
-In the above code, `r:pnktnjyb996sj4p156gjtp4im` is the unrestricted session token from the original user login.
-
-The response looks like:
-
-<pre><code class="javascript">
-{
-  "createdAt": "2015-03-25T18:21:52.883Z",
-  "createdWith": {
-    "action": "create"
-  },
-  "objectId": "pla1TY9co3",
-  "restricted": true,
-  "sessionToken": "r:aVrtljyb7E8xKo9256gfvp4n2"
-}
-</code></pre>
-
-At this point, you can pass the session token `r:aVrtljyb7E8xKo9256gfvp4n2` to an IoT device so that it can access the current user's data.
-
 ## Retrieving Sessions
 
 If you have the session's objectId, you fetch the `Session` object as long as it belongs to the same user as your current session:
