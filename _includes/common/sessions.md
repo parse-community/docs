@@ -294,26 +294,8 @@ try {
 
 When you log in a user via a `User` login method, Parse will automatically create a new unrestricted `Session` object in your Parse Server. Same for signups and Facebook/Twitter logins.
 
-Session objects manually created from client SDKs (by creating an instance of `Session`, and saving it) are always restricted. You cannot manually create an unrestricted sessions using the object creation API.
-
-Restricted sessions are prohibited from creating, modifying, or deleting any data in the `User`, `Session`, and `Role` classes. Restricted session also cannot read unrestricted sessions. Restricted Sessions are useful for "Parse for IoT" devices (e.g Arduino or Embedded C) that may run in a less-trusted physical environment than mobile apps. However, please keep in mind that restricted sessions can still read data on `User`, `Session`, and `Role` classes, and can read/write data in any other class just like a normal session. So it is still important for IoT devices to be in a safe physical environment and ideally use encrypted storage to store the session token.
-
-If you want to prevent restricted Sessions from modifying classes other than `User`, `Session`, or `Role`, you can write a Cloud Code `beforeSave` handler for that class:
-
-```js
-Parse.Cloud.beforeSave("MyClass", async request => {
-  const user = request.user;
-  const token = user.getSessionToken(); 
-  const query = new Parse.Query(Parse.Session);
-  query.equalTo('sessionToken', token);
-  const session = await q.first({ useMasterKey: true });
-  if (session.get('restricted')) {
-      throw 'write operation not allowed';
-  }
-});
-```
 You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the `Session` API, but do not restrict Parse Server's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:
 
 * **Find**, **Delete** — Useful for building a UI screen that allows users to see their active session on all devices, and log out of sessions on other devices. If your app does not have this feature, you should disable these permissions.
-* **Create** — Useful for "Parse for IoT" apps (e.g. Arduino or Embedded C) that provision restricted user sessions for other devices from the phone app. You should disable this permission when building apps for mobile and web. For "Parse for IoT" apps, you should check whether your IoT device actually needs to access user-specific data. If not, then your IoT device does not need a user session, and you should disable this permission.
+* **Create** — Useful for apps that provision user sessions for other devices from the phone app. You should disable this permission when building apps for mobile and web. For "Parse for IoT" apps, you should check whether your IoT device actually needs to access user-specific data. If not, then your IoT device does not need a user session, and you should disable this permission.
 * **Get**, **Update**, **Add Field** — Unless you need these operations, you should disable these permissions.
