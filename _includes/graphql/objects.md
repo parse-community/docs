@@ -10,7 +10,7 @@ For example, if you have a class named `GameScore` in the schema, Parse Server a
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY" // optional
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
 
@@ -70,7 +70,7 @@ mutation createAGameScore {
 }
 ```
 
-**Note:** The `id` is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm), it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`.
+**Note:** The `id` is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm); it's **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`.
 
 ## Update
 

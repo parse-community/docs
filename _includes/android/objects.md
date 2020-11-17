@@ -247,7 +247,7 @@ ParseObject myComment = new ParseObject("Comment");
 myComment.put("content", "Let's do Sushirrito.");
 
 // Add a relation between the Post and Comment
-myComment.put("parent", myPost);
+myComment.put("post", myPost);
 
 // This will save both myPost and myComment
 myComment.saveInBackground();
@@ -257,7 +257,7 @@ You can also link objects using just their `objectId`s like so:
 
 ```java
 // Add a relation between the Post with objectId "1zEcyElZ80" and the comment
-myComment.put("parent", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
+myComment.put("post", ParseObject.createWithoutData("Post", "1zEcyElZ80"));
 ```
 
 By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
@@ -352,7 +352,7 @@ bigObject.put("myNull", JSONObject.NULL);
 bigObject.saveInBackground();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. `ParseObject`s should not exceed 128 kilobytes in size. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
 

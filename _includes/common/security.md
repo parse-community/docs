@@ -79,7 +79,7 @@ PFUser *user = [PFUser currentUser];
 user.ACL = [PFACL ACLWithUser:user];
 ```
 ```swift
-if let user = PFUser.currentUser() {
+if let user = PFUser.current() {
     user.ACL = PFACL(user: user)
 }
 ```
@@ -136,7 +136,7 @@ To make it super easy to create user-private ACLs for every object, we have a wa
 [PFACL setDefaultACL:[PFACL ACL] withAccessForCurrentUser:YES];
 ```
 ```swift
-PFACL.setDefaultACL(PFACL(), withAccessForCurrentUser: true)
+PFACL.setDefault(PFACL(), withAccessForCurrentUser: true)
 ```
 </div>
 {% endif %}
@@ -189,7 +189,7 @@ privateData.ACL = [PFACL ACLWithUser:[PFUser currentUser]];
 [[PFUser currentUser] setObject:privateData forKey:@"privateData"];
 ```
 ```swift
-if let currentUser = PFUser.currentUser() {
+if let currentUser = PFUser.current() {
     let privateData = PFObject(className: "PrivateUserData")
     privateData.ACL = PFACL(user: currentUser)
     privateData.setObject("555-5309", forKey: "phoneNumber")
@@ -262,9 +262,9 @@ PFACL *acl = [PFACL ACL];
 ```
 ```swift
 let acl = PFACL()
-acl.setPublicReadAccess(true)
+acl.hasPublicReadAccess = true
 if let currentUser = PFUser.currentUser() {
-    acl.setWriteAccess(true, forUser: currentUser)
+    acl.setWriteAccess(true, for: currentUser)
 }
 ```
 </div>
@@ -314,7 +314,7 @@ $acl->setWriteAccess(ParseUser::getCurrentUser(), true);
 ```
 {% endif %}
 
-Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
+Sometimes it's inconvenient to manage permissions on a per-user basis, and you want to have groups of users who get treated the same (like a set of admins with special powers). Roles are a special kind of object that let you create a group of users that can all be assigned to the ACL. The best thing about roles is that you can add and remove users from a role without having to update every single object that is restricted to that role. To create an object that is writeable only by admins:
 
 {% if page.language == "objective_c-swift" %}
 <div class="language-toggle" markdown="1">
@@ -516,12 +516,10 @@ One particularly common use case for Cloud Code is preventing invalid data from 
 To create validation functions, Cloud Code allows you to implement a `beforeSave` trigger for your class. These triggers are run whenever an object is saved, and allow you to modify the object or completely reject a save. For example, this is how you create a [Cloud Code beforeSave trigger]({{ site.baseUrl }}/cloudcode/guide/#beforesave-triggers) to make sure every user has an email address set:
 
 ```js
-Parse.Cloud.beforeSave(Parse.User, function(request, response) {
-  var user = request.object;
+Parse.Cloud.beforeSave(Parse.User, request => {
+  const user = request.object;
   if (!user.get("email")) {
-    response.error("Every user must have an email address.");
-  } else {
-    response.success();
+    throw "Every user must have an email address.";
   }
 });
 ```
@@ -548,17 +546,11 @@ Say you want to allow a user to "like" a `Post` object without giving them full 
 The master key should be used carefully. setting `useMasterKey` to `true` only in the individual API function calls that need that security override:
 
 ```js
-Parse.Cloud.define("like", function(request, response) {
+Parse.Cloud.define("like", async request => {
   var post = new Parse.Object("Post");
   post.id = request.params.postId;
   post.increment("likes");
-  post.save(null, { useMasterKey: true }).then(function() {
-    // If I choose to do something else here, it won't be using
-    // the master key and I'll be subject to ordinary security measures.
-    response.success();
-  }, function(error) {
-    response.error(error);
-  });
+  await post.save(null, { useMasterKey: true })
 });
 ```
 

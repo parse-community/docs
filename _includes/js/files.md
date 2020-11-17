@@ -117,6 +117,16 @@ You can delete files that are referenced by objects using the [REST API]({{ site
 
 If your files are not referenced by any object in your app, it is not possible to delete them through the REST API.
 
+Alternatively, starting with Parse Server 4.2.0, you can delete files using cloud code.
+
+```javascript
+Parse.Cloud.beforeDelete('Profile', async (req) => {
+  const profile = req.object;
+  const profilePhoto = profile.get("photoFile");
+  await profilePhoto.destroy({ useMasterKey: true })
+});
+```
+
 ## Adding Metadata and Tags
 
 Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3).

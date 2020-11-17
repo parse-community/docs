@@ -7,8 +7,8 @@ You write your Cloud Code in JavaScript using the Parse JavaScript SDK. We provi
 For example, you define a Cloud Function as below.
 
 ```javascript
-Parse.Cloud.define("hello", function(request, response) {
-	response.success(request.body);
+Parse.Cloud.define("hello", request => {
+	return request.body;
 });
 ```
 

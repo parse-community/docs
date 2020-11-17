@@ -301,13 +301,15 @@ Restricted sessions are prohibited from creating, modifying, or deleting any dat
 If you want to prevent restricted Sessions from modifying classes other than `User`, `Session`, or `Role`, you can write a Cloud Code `beforeSave` handler for that class:
 
 ```js
-Parse.Cloud.beforeSave("MyClass", function(request, response) {
-  Parse.Session.current().then(function(session) {
-    if (session.get('restricted')) {
-      response.error('write operation not allowed');
-    }
-    response.success();
-  });
+Parse.Cloud.beforeSave("MyClass", async request => {
+  const user = request.user;
+  const token = user.getSessionToken(); 
+  const query = new Parse.Query(Parse.Session);
+  query.equalTo('sessionToken', token);
+  const session = await q.first({ useMasterKey: true });
+  if (session.get('restricted')) {
+      throw 'write operation not allowed';
+  }
 });
 ```
 You can configure Class-Level Permissions (CLPs) for the Session class just like other classes on Parse. CLPs restrict reading/writing of sessions via the `Session` API, but do not restrict Parse Server's automatic session creation/deletion when users log in, sign up, and log out. We recommend that you disable all CLPs not needed by your app. Here are some common use cases for Session CLPs:

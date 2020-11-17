@@ -54,6 +54,15 @@ const user = await Parse.User.logIn("myname", "mypass");
 // Do stuff after successful login.
 ```
 
+By default, the SDK uses the GET HTTP method. If you would like to override this and use a POST HTTP method instead, you may pass an optional Boolean property in the options argument with the key `usePost`.
+
+
+```javascript
+const user = await Parse.User.logIn("myname", "mypass", { usePost: true });
+// Do stuff after successful login.
+```
+> Available with SDK version 2.17.0 and later
+
 ## Verifying Emails
 
 Enabling email verification in an application's settings allows the application to reserve part of its experience for users with confirmed email addresses. Email verification adds the `emailVerified` key to the `Parse.User` object. When a `Parse.User`'s `email` is set or modified, `emailVerified` is set to `false`. Parse then emails the user a link which will set `emailVerified` to `true`.
@@ -380,7 +389,7 @@ Our library manages the `FB` object for you. The `FB` singleton is synchronized 
 
 Parse allows you to link your users with [3rd party authentication]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication), enabling your users to sign up or log into your application using their existing identities. This is accomplished through [`linkWith`](https://parseplatform.org/Parse-SDK-JS/api/2.9.0/Parse.User.html#linkWith) method by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
-`authData` is a JSON object with keys for each linked service containing the data below.
+`authData` is a JSON object with keys for each linked service containing the data below. The `authData` object is required to at least have a key named `id`, which is used to identify the user on subsequent login attempts with linked account data.
 
 > `_linkWith` has been deprecated since version 2.9.0, see [_linkWith](https://parseplatform.org/Parse-SDK-JS/api/master/Parse.User.html#_linkWith)
 
@@ -390,7 +399,7 @@ Signing a user up with a linked service and logging them in with that service us
 
 ```javascript
 const myAuthData = {
-  id: '12345678'
+  id: '12345678'  // Required field. Used to uniquely identify the linked account.
 };
 const user = new Parse.User();
 await user.linkWith('providerName', { authData: myAuthData });
@@ -441,7 +450,7 @@ To create a link to an un-authenticated user (for example in cloud code), option
 
 ```javascript
 const myAuthData = {
-  id: xzx5tt123,
+  id: xzx5tt123,  // The id key is required in the authData-object. Otherwise Parse Server will throw the Error 252 'This authentication method is unsupported'.
   access: token
 }
 
@@ -464,14 +473,15 @@ const loggedIn = await Parse.User.logInWith('CustomAdapter', { authData: myAuthD
 ### Custom Authentication Module
 
 Parse Server supports many [3rd Party Authenications]({{ site.baseUrl }}/parse-server/guide/#oauth-and-3rd-party-authentication).
-It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module.
+It is possible to `linkWith` any 3rd Party Authentication by creating a custom authentication module. A custom authentication module normally consists of a client-side AuthProvider object and a back-end AuthAdapter. The client-side object should implement the [AuthProvider interface](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js). The backend AuthAdapter should implement the the functions `validateAuthData` and `validateAppId`, check out this [AuthAdapter example](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/AuthAdapter.js).
+When calling the `linkWith` function **without** an `authData` object the client side authenticate-method from the provider object will be called. In the other case the `authData` object will be sent directly to Parse Server for authentication using the backend module.
 
-[Read more about Auth Provider Documentation](https://github.com/parse-community/Parse-SDK-JS/blob/master/src/interfaces/AuthProvider.js)
+Note: The following is a minimal example implementing AuthProvider client-side and AuthAdapter on the backend.
 
-Note: This is an example, you can handle your own authentication (if you don't have authData), restoreAuthentication and deauthenticate methods.
-
-A minimal  `CustomAuth.js` module:
+A minimal  `CustomAuth.js` module in the backend:
 ```javascript
+// Don't require or import parse-server in this module.
+// See this issue: https://github.com/parse-community/parse-server/issues/6467
 function validateAuthData(authData, options) {
   return Promise.resolve({})
 }
@@ -508,7 +518,15 @@ app.use('/parse', api);
 Use the `CustomAuth`:
 ```javascript
 const provider = {
-  authenticate: () => Promise.resolve(),
+  authenticate: (options) => {
+    // Some code to get retrieve authData
+    // If retrieved valid authData, call success function with the data
+    options.success(this, {
+      id: 1234
+    });
+    // You can also handle error
+    // options.error(this, {});
+  },
   restoreAuthentication() {
     return true;
   },

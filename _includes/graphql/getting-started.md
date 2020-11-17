@@ -93,6 +93,71 @@ After starting the app, you can visit [http://localhost:1337/playground](http://
 
 ⚠️ Please do not mount the GraphQL Playground in production as anyone could access your API Playground and read or change your application's data. [Parse Dashboard](#running-parse-dashboard) has a built-in GraphQL Playground and it is the recommended option for production apps. If you want to secure your API in production take a look at [Class Level Permissions](/js/guide/#class-level-permissions).
 
+## Adding Custom Schema
+
+The Parse GraphQL API supports the use of custom user-defined schema. You can write your own types, queries, and mutations, which will be merged with the ones that are automatically generated. Your custom schema is resolved via [Cloud Code](#cloud-code-resolvers) functions.
+
+First, add a utility for parsing GraphQL queries as a required dependency:
+
+```sh
+$ npm install graphql-tag --save
+```
+
+Then, modify your `index.js` file to include your custom schema, along with the path to your cloud code file:
+
+```js
+const gql = require('graphql-tag');
+
+const parseServer = new ParseServer({
+  appId: 'APPLICATION_ID',
+  cloud: './cloud/main.js',
+});
+
+const parseGraphQLServer = new ParseGraphQLServer(
+  parseServer,
+  {
+    graphQLPath: '/graphql',
+    playgroundPath: '/playground',
+    graphQLCustomTypeDefs: gql`
+      extend type Query {
+        hello: String! @resolve
+        hello2: String! @resolve(to: "hello")
+      }
+    `,
+  }
+);
+```
+
+Alternatively, you can create your custom schema in a dedicated `schema.graphql` file and reference the file in your `index.js`:
+
+```js
+const gql = require('graphql-tag');
+const fs = require('fs');
+const customSchema = fs.readFileSync('./cloud/schema.graphql');
+
+const parseServer = new ParseServer({
+  appId: 'APPLICATION_ID',
+  cloud: './cloud/main.js',
+});
+
+const parseGraphQLServer = new ParseGraphQLServer(
+  parseServer,
+  {
+    graphQLPath: '/graphql',
+    playgroundPath: '/playground',
+    graphQLCustomTypeDefs: gql`${customSchema}`,
+  }
+);
+```
+
+```graphql
+# schema.graphql
+extend type Query {
+  hello: String! @resolve
+  hello2: String! @resolve(to: "hello")
+}
+```
+
 ## Running Parse Dashboard
 
 [Parse Dashboard](https://github.com/parse-community/parse-dashboard) is a standalone dashboard for managing your Parse Server apps, including your objects' schema and data, logs, jobs, CLPs, and push notifications. Parse Dashboard also has a built-in GraphQL Playground that you can use to play around with your auto-generated Parse GraphQL API. It is the recommended option for **production** applications.

@@ -71,7 +71,7 @@ interface ParseGraphQLConfiguration {
 
     // By default, all write mutation types are
     // exposed for all included classes. Use this to disable
-    // the available mutation types for this class and optionally 
+    // the available mutation types for this class and optionally
     // override the default generated name with aliases.
     mutation?: {
       create?: boolean;
@@ -99,7 +99,7 @@ We have provided a public API in `ParseGraphQLServer` which accepts the above JS
     // ... ParseGraphQLConfiguration
   };
 
-  await parseGraphQLServer.setGraphQLConfig(config);       
+  await parseGraphQLServer.setGraphQLConfig(config);
 ```
 
 ### Include or Exclude Classes
@@ -194,7 +194,7 @@ In the following example, we set the fields `name` and `age` as the only two tha
 }
 ```
 
-### Queries
+<h3 id="queries-config">Queries</h3>
 
 By default, the schema exposes a `get` and `find` operation for each class, for example, `get_User` and `find_User`. You can disable either of these for any class in your schema, like so:
 
@@ -207,14 +207,14 @@ By default, the schema exposes a `get` and `find` operation for each class, for 
       "query": {
         "get": true,
         "find": false
-      }  
+      }
     },
     {
       "className": "Review",
       "query": {
         "get": false,
         "find": true
-      }  
+      }
     }
   ]
 }
@@ -229,19 +229,19 @@ By default, generated query names use pluralized version of `className`. You can
       "className": "Likes",
       "query": {
         "getAlias": "like"
-      }  
+      }
     },
     {
       "className": "Data",
       "query": {
         "findAlias": "findData"
-      }  
+      }
     }
   ]
 }
 
 ```
-### Mutations
+<h3 id="mutations-config">Mutations</h3>
 
 By default, the schema exposes a `create`, `update` and `delete` operation for each class, for example, `create_User`, `update_User` and `delete_User`. You can disable any of these mutations for any class in your schema, like so:
 
@@ -255,7 +255,7 @@ By default, the schema exposes a `create`, `update` and `delete` operation for e
         "create": true,
         "update": true,
         "destroy": true
-      }  
+      }
     },
     {
       "className": "Review",
@@ -263,7 +263,7 @@ By default, the schema exposes a `create`, `update` and `delete` operation for e
         "create": true,
         "update": false,
         "destroy": true
-      }  
+      }
     }
   ]
 }
@@ -282,8 +282,169 @@ You can optionally override the default generated mutation names with aliases:
         "createAlias": "newRecord",
         "updateAlias": "changeRecord",
         "destroyAlias": "eraseRecord"
-      }  
+      }
     }
   ]
+}
+```
+
+### Remove Configuration
+
+Deploying a custom configuration via `setGraphQLConfig` persists the changes into the database. As a result, simply deleting a configuration change and deploying again does not result in a default Parse GraphQL configuration. The configuration changes remain.
+
+To remove a configuration, set the affected properties to `null` or `undefined` before deploying. The default Parse GraphQL configuration for those properties will be restored.
+
+```js
+{
+  "enabledForClasses": undefined,
+  "disabledForClasses": undefined,
+  "classConfigs": undefined,
+}
+```
+
+Once a default configuration is restored, you can safely remove any unused configuration changes from your `parseGraphQLServer` setup.
+
+## Cloud Code Resolvers
+
+The Parse GraphQL API supports the use of custom user-defined schema. The [Adding Custom Schema](#adding-custom-schema) section explains how to get started using this feature.
+
+Cloud Code functions can then be used as custom resolvers for your user-defined schema.
+
+### Query Resolvers
+
+Here's an example of a custom query and its related cloud code function resolver in action:
+
+```graphql
+# schema.graphql
+extend type Query {
+  hello: String! @resolve
+}
+```
+
+```js
+// main.js
+Parse.Cloud.define("hello", () => "Hello, world!");
+```
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+
+```graphql
+query hello {
+  hello
+}
+```
+
+The code above should resolve to this:
+
+```js
+// Response
+{
+  "data": {
+    "hello": "Hello, world!"
+  }
+}
+```
+
+### Mutation Resolvers
+
+At times, you may need more control over how your mutations modify data than what Parse's auto-generated mutations can provide. For example, if you have classes named `Item` and `CartItem` in the schema, you can create an `addToCart` custom mutation that tests whether a specific item is already in the user's cart. If found, the cart item's quantity is incremented by one. If not, a new `CartItem` object is created.
+
+The ability to branch your resolver logic enables you to replicate functionality found in Parse's auto-generated `createCartItem` and `updateCartItem` mutations and combine those behaviors into a single custom resolver.
+
+```graphql
+# schema.graphql
+extend type Mutation {
+  addToCart(id: ID!): CartItem! @resolve
+}
+```
+
+**Note**: The `id` passed in to your Cloud Code function from a GraphQL query is a [Relay Global Object Identification](https://facebook.github.io/relay/graphql/objectidentification.htm); it is **not** a Parse `objectId`. Most of the time the `Relay Node Id` is a `Base64` of the `ParseClass` and the `objectId`. Cloud code does not recognize a `Relay Node Id`, so converting it to a Parse `objectId` is required.
+
+Decoding and encoding `Relay Node Ids` in Cloud Code is needed in order to smoothly interface with your client-side GraphQL queries and mutations.
+
+First, install the [Relay Library for GraphQL.js](https://www.npmjs.com/package/graphql-relay) as a required dependency to enable decoding and encoding `Relay Node Ids` in your cloud code functions:
+
+```sh
+$ npm install graphql-relay --save
+```
+
+Then, create your `main.js` cloud code file, import `graphql-relay`, and build your `addToCart` function:
+
+```js
+// main.js
+const { fromGlobalId, toGlobalId } = require('graphql-relay');
+
+Parse.Cloud.define("addToCart", async (req) => {
+  const { user, params: { id } } = req;
+
+  // Decode the incoming Relay Node Id to a
+  // Parse objectId for Cloud Code use.
+  const { id: itemObjectId } = fromGlobalId(id);
+
+  // Query the user's current cart.
+  const itemQuery = new Parse.Query("Item");
+  const item = await itemQuery.get(itemObjectId);
+  const cartItemQuery = new Parse.Query("CartItem");
+  cartItemQuery.equalTo("item", item);
+  cartItemQuery.equalTo("user", user);
+  const [existingCartItem] = await cartItemQuery.find();
+  let savedCartItem;
+
+  if (existingCartItem) {
+    // The item is found in the user's cart; increment its quantity.
+    const quantity = await existingCartItem.get("quantity");
+    existingCartItem.set("quantity", quantity + 1);
+    savedCartItem = await existingCartItem.save();
+  } else {
+    // The item has not yet been added; create a new cartItem object.
+    const CartItem = Parse.Object.extend("CartItem");
+    const cartItem = new CartItem();
+    savedCartItem = await cartItem.save({ quantity: 1, item, user });
+  }
+
+  // Encode the Parse objectId to a Relay Node Id
+  // for Parse GraphQL use.
+  const cartItemId = toGlobalId('CartItem', savedCartItem.id);
+
+  // Convert to a JSON object to handle adding the
+  // Relay Node Id property.
+  return { ...savedCartItem.toJSON(), id: cartItemId };
+});
+```
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Session-Token": "r:b0dfad1eeafa4425d9508f1c0a15c3fa"
+}
+```
+
+```graphql
+mutation addItemToCart {
+  addToCart(id: "SXRlbTpEbDVjZmFWclRI") {
+    id
+    quantity
+  }
+}
+```
+
+The code above should resolve to something similar to this:
+
+```js
+// Response
+{
+  "data": {
+    "addToCart": {
+      "id": "Q2FydEl0ZW06akVVTHlGZnVpQw==",
+      "quantity": 1
+    }
+  }
 }
 ```

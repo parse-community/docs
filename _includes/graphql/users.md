@@ -68,7 +68,7 @@ After you allow users to sign up, you need to let them log in to their account w
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY" // optional
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
 ```graphql
@@ -112,7 +112,7 @@ You can log in a user via a [3rd party authentication](https://docs.parseplatfor
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
-  "X-Parse-Master-Key": "MASTER_KEY" // optional
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
 ```graphql

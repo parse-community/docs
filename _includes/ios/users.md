@@ -48,10 +48,10 @@ func myMethod() {
   // other fields can be set just like with PFObject
   user["phone"] = "415-392-0202"
 
-  user.signUpInBackgroundWithBlock {
-    (succeeded: Bool, error: NSError?) -> Void in
+  user.signUpInBackground {
+    (succeeded: Bool, error: Error?) -> Void in
     if let error = error {
-      let errorString = error.userInfo["error"] as? NSString
+      let errorString = error.localizedDescription
       // Show the errorString somewhere and let the user try again.
     } else {
       // Hooray! Let them use the app now.
@@ -143,7 +143,7 @@ PFUser *currentUser = [PFUser currentUser]; // this will now be nil
 ```
 ```swift
 PFUser.logOut()
-var currentUser = PFUser.currentUser() // this will now be nil
+var currentUser = PFUser.current() // this will now be nil
 ```
 </div>
 
@@ -416,7 +416,7 @@ To kick off the password reset flow, ask the user for their email address, and c
 [PFUser requestPasswordResetForEmailInBackground:@"email@example.com"];
 ```
 ```swift
-PFUser.requestPasswordResetForEmailInBackground("email@example.com")
+PFUser.requestPasswordResetForEmail(inBackground:"email@example.com")
 ```
 </div>
 

@@ -199,6 +199,31 @@ teamMember.save(null, { cascadeSave: false });
 
 ```
 
+### Cloud Code context
+
+*Requires Parse Server 4.3.0+*
+
+You may pass a `context` dictionary that is accessible in Cloud Code `beforeSave` and `afterSave` triggers for that `Parse.Object`. This is useful if you want to condition certain operations in Cloud Code triggers on ephemeral information that should not be saved with the `Parse.Object` in the database. The context is ephemeral in the sense that it vanishes after the Cloud Code triggers for that particular `Parse.Object` have executed. For example:
+
+```javascript
+var TeamMember = Parse.Object.extend("TeamMember");
+var teamMember = new TeamMember();
+teamMember.set("team", "A");
+
+var context = { notifyTeam: false };
+await teamMember.save(null, { context: context });
+```
+
+The context is then accessible in Cloud Code:
+
+```javascript
+Parse.Cloud.afterSave("TeamMember", async (req) => {
+    var notifyTeam = req.context.notifyTeam;
+    if (notifyTeam) {
+      // Notify team about new member.
+    }
+});
+```
 
 ## Retrieving Objects
 
@@ -479,6 +504,6 @@ bigObject.set("myPointerKey", pointer); // shows up as Pointer &lt;MyClassName&g
 bigObject.save();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents on `Parse.Object`. `Parse.Object`s should not exceed 128 kilobytes in size. We recommend you use `Parse.File`s to store images, documents, and other types of files. You can do so by instantiating a `Parse.File` object and setting it on a field. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `Parse.Object`. We recommend you use `Parse.File`s to store images, documents, and other types of files. You can do so by instantiating a `Parse.File` object and setting it on a field. See [Files](#files) for more details.
 
 For more information about how Parse handles data, check out our documentation on [Data](#data).
