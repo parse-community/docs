@@ -114,7 +114,11 @@ Parse.Cloud.httpRequest({ url: profilePhoto.url() }).then(function(response) {
 
 ## Deleting Files
 
-Starting with Parse Server 4.2.0, you can delete files using cloud code.
+You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
+
+If your files are not referenced by any object in your app, it is not possible to delete them through the REST API.
+
+Alternatively, starting with Parse Server 4.2.0, you can delete files using cloud code.
 
 ```javascript
 Parse.Cloud.beforeDelete('Profile', async (req) => {
@@ -123,12 +127,6 @@ Parse.Cloud.beforeDelete('Profile', async (req) => {
   await profilePhoto.destroy({ useMasterKey: true })
 });
 ```
-
-A master key is required in order to delete files.
-
-Alternatively, you can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files).
-
-If your files are not referenced by any object in your app, it is not possible to delete them through the REST API.
 
 ## Adding Metadata and Tags
 
