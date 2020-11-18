@@ -21,7 +21,7 @@ We'll go through each of these in detail as we run through the various use cases
 The first thing your app will do is probably ask the user to sign up. The following code illustrates a typical sign up:
 
 ```javascript
-var user = new Parse.User();
+const user = new Parse.User();
 user.set("username", "my name");
 user.set("password", "my pass");
 user.set("email", "email@example.com");
@@ -82,7 +82,7 @@ Please note that this functionality is disabled by default on Node.js environmen
 Whenever you use any signup or login methods, the user is cached in localStorage, or in any storage you configured via the `Parse.setAsyncStorage` method. You can treat this cache as a session, and automatically assume the user is logged in:
 
 ```javascript
-var currentUser = Parse.User.current();
+const currentUser = Parse.User.current();
 if (currentUser) {
     // do stuff with the user
 } else {
@@ -102,7 +102,7 @@ You can clear the current user by logging them out:
 
 ```javascript
 Parse.User.logOut().then(() => {
-  var currentUser = Parse.User.current();  // this will now be null
+  const currentUser = Parse.User.current();  // this will now be null
 });
 ```
 
@@ -168,8 +168,8 @@ The same security model that applies to the `Parse.User` can be applied to other
 The simplest way to use a `Parse.ACL` is to specify that an object may only be read or written by a single user. This is done by initializing a Parse.ACL with a `Parse.User`: `new Parse.ACL(user)` generates a `Parse.ACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
 ```javascript
-var Note = Parse.Object.extend("Note");
-var privateNote = new Note();
+const Note = Parse.Object.extend("Note");
+const privateNote = new Note();
 privateNote.set("content", "This note is private!");
 privateNote.setACL(new Parse.ACL(Parse.User.current()));
 privateNote.save();
@@ -180,12 +180,12 @@ This note will then only be accessible to the current user, although it will be 
 Permissions can also be granted on a per-user basis. You can add permissions individually to a `Parse.ACL` using `setReadAccess` and `setWriteAccess`. For example, let's say you have a message that will be sent to a group of several users, where each of them have the rights to read and delete that message:
 
 ```javascript
-var Message = Parse.Object.extend("Message");
-var groupMessage = new Message();
-var groupACL = new Parse.ACL();
+const Message = Parse.Object.extend("Message");
+const groupMessage = new Message();
+const groupACL = new Parse.ACL();
 
 // userList is an array with the users we are sending this message to.
-for (var i = 0; i < userList.length; i++) {
+for (let i = 0; i < userList.length; i++) {
   groupACL.setReadAccess(userList[i], true);
   groupACL.setWriteAccess(userList[i], true);
 }
@@ -197,8 +197,8 @@ groupMessage.save();
 You can also grant permissions to all users at once using `setPublicReadAccess` and `setPublicWriteAccess`. This allows patterns like posting comments on a message board. For example, to create a post that can only be edited by its author, but can be read by anyone:
 
 ```javascript
-var publicPost = new Post();
-var postACL = new Parse.ACL(Parse.User.current());
+const publicPost = new Post();
+const postACL = new Parse.ACL(Parse.User.current());
 postACL.setPublicReadAccess(true);
 publicPost.setACL(postACL);
 publicPost.save();
@@ -248,11 +248,11 @@ const women = await query.find();
 Associations involving a `Parse.User` work right of the box. For example, let's say you're making a blogging app. To store a new post for a user and retrieve all their posts:
 
 ```javascript
-var user = Parse.User.current();
+const user = Parse.User.current();
 
 // Make a new post
-var Post = Parse.Object.extend("Post");
-var post = new Post();
+const Post = Parse.Object.extend("Post");
+const post = new Post();
 post.set("title", "My New Post");
 post.set("body", "This is some great content.");
 post.set("user", user);
