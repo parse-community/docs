@@ -27,7 +27,7 @@
         const text = copyText.textContent || copyText.innerText;
 
         const input = document.createElement('textarea');
-        input.innerHTML = text;
+        input.innerHTML = text.replace(/\n$/, '');
         document.body.appendChild(input);
         input.select();
         input.setSelectionRange(0, 99999);
