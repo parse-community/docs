@@ -249,6 +249,12 @@ var playerName = gameScore.get("playerName");
 var cheatMode = gameScore.get("cheatMode");
 ```
 
+Alternatively, the `attributes` property of the `Parse.Object` can be treated as a Javascript object, and even destructured. 
+
+```javascript
+const { score, playerName, cheatMode } = result.attributes;
+```
+
 The four special reserved values are provided as properties and cannot be retrieved using the 'get' method nor modified with the 'set' method:
 
 ```javascript
