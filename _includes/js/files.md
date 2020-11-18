@@ -120,8 +120,6 @@ const profilePhoto = profile.get("photoFile");
 await profilePhoto.destroy({ useMasterKey: true });
 ```
 
-If your file is not referenced by any object in your app, it is not possible to delete it through Parse.
-
 * Parse Server <4.2.0
 
 The `destroy` method is available since Parse Server 4.2.0, for lower versions use the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files) to delete a file.
