@@ -815,7 +815,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
 
 // Extend matchesQuery functionality to LiveQuery
 Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
-  if (request.event != "Create") {
+  if (request.event != "create") {
     return;
   }
   const query = request.object.relation('children').query();
