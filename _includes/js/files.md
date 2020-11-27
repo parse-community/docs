@@ -120,9 +120,9 @@ const profilePhoto = profile.get("photoFile");
 await profilePhoto.destroy({ useMasterKey: true });
 ```
 
-* Parse Server <4.2.0
+#### Parse Server <4.2.0
 
-The `destroy` method is available since Parse Server 4.2.0, for lower versions use the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files) to delete a file.
+Use the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files) to delete a file.
 
 ## Adding Metadata and Tags
 
