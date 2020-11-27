@@ -13,7 +13,7 @@ The Mongo requirements for Parse Server are:
 * MongoDB version 3.6
 * An SSL connection is recommended (but not required).
 
-If this is your first time setting up a production MongoDB instance, we recommend using [ObjectRocket](https://objectrocket.com/). This is a database-as-a-service company which provide fully managed MongoDB instances, and can help you scale up as needed.
+If this is your first time setting up a production MongoDB instance, we recommend using either [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or [ObjectRocket](https://objectrocket.com/). These are database-as-a-service companies which provide fully managed MongoDB instances, and can help you scale up as needed.
 
 When using MongoDB with your Parse app, you need to manage your indexes yourself. You will also need to size up your database as your data grows.
 
