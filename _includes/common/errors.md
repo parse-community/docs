@@ -77,7 +77,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `InvalidContentLength`	         |  128 | Invalid content length. |
 | `FileTooLarge`	                 |  129 | File size exceeds maximum allowed. |
 | `FileSaveError`	                 |  130 | Error saving a file. |
-| `FileDeleteError`	               |  131 | File could not be deleted. |
+| `FileDeleteError`	               |  153 | File could not be deleted. |
 {: .docs_table}
 
 ## Installation related errors
