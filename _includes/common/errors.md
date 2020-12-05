@@ -78,6 +78,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `FileTooLarge`	                 |  129 | File size exceeds maximum allowed. |
 | `FileSaveError`	                 |  130 | Error saving a file. |
 | `FileDeleteError`	               |  153 | File could not be deleted. |
+| `FileDeleteUnnamedError`	               |  161 | Unnamed file could not be deleted. |
 {: .docs_table}
 
 ## Installation related errors
