@@ -584,7 +584,7 @@ Here's an example of the JSON data that would be sent in the request to this web
 After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
 
 # Sending Emails
-If your Parse Server configuration specifies an `emailAdapter`, you can send mail via cloud code using `Parse.Cloud.sendEmail`.
+If your Parse Server configuration specifies an `emailAdapter`, you can send email via cloud code using `Parse.Cloud.sendEmail`.
 
 ```javascript
 Parse.Cloud.sendEmail({
