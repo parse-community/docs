@@ -1,6 +1,6 @@
 # Experimental
 
-Experimental Features are items that you are either experimenting with that will eventually become full features of your application, or items that will be removed from the system if they are proven to not work well.
+Experimental Features are items that we are experimenting with that will eventually become full features, or items that will be removed from the system if they are proven to not work well.
 
 These features may not be approprate for production, so use at your own risk.
 
