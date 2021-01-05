@@ -172,7 +172,7 @@ Parse.Cloud.define("averageStars", async (request) => {
       required: true,
       type: String,
       options: val => {
-        return val < 20;
+        return val.length < 20;
       },
       error: "Movie must be less than 20 characters"
     }
