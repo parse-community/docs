@@ -200,7 +200,7 @@ When deploying to be production, make sure:
 * `mountPlayground` is not set to `true`
 * `masterKey` is set to a long and complex string
 * `readOnlyMasterKey` if set, is set to a long and complex string
-* That your have authentication required on your database, and, if you are using mongo, disable unauthenticated access to port 27017
+* That you have authentication required on your database, and, if you are using mongo, disable unauthenticated access to port 27017
 * You have restricted `count` and `addField` operations via [Class Level Permissions](#class-level-permissions)
 * You enforce ACL and data validation using [cloud code]({{site.baseURL}}/cloudcode/guide/)
 
