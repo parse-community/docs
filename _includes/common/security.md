@@ -547,10 +547,13 @@ The master key should be used carefully. setting `useMasterKey` to `true` only i
 
 ```js
 Parse.Cloud.define("like", async request => {
-  var post = new Parse.Object("Post");
+  const post = new Parse.Object("Post");
   post.id = request.params.postId;
   post.increment("likes");
   await post.save(null, { useMasterKey: true })
+}, {
+  fields: ['postId'],
+  requireUser: true
 });
 ```
 

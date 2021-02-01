@@ -47,6 +47,12 @@ app.listen(port, function() {
 
 And with that, you will have a Parse Server running on port 1337, serving the Parse API at `/parse`.
 
+## Configuration
+
+Parse Server can be configured using the following options. You may pass these as parameters when running a standalone `parse-server`, or by loading a configuration file in JSON format using `parse-server path/to/configuration.json`. If you're using Parse Server on Express, you may also pass these to the `ParseServer` object as options.
+
+For the full list of available options, run `parse-server --help` or take a look at [Parse Server Configurations](http://parseplatform.org/parse-server/api/master/ParseServerOptions.html).
+
 ## Additional Options
 
 ### Email verification and password reset
@@ -190,7 +196,7 @@ const api = ParseServer({
 
 When deploying to be production, make sure:
 
-* `allowClientClassCreation` is not set to `true`
+* `allowClientClassCreation` is set to `false`
 * `mountPlayground` is not set to `true`
 * `masterKey` is set to a long and complex string
 * `readOnlyMasterKey` if set, is set to a long and complex string

@@ -23,6 +23,7 @@ sections:
 - "parse-server/third-party-auth.md"
 - "parse-server/graphql.md"
 - "parse-server/logging.md"
+- "common/security.md"
 - "parse-server/MongoRocks.md"
 - "parse-server/MongoReadPreference.md"
 - "parse-server/upgrading-to-v3.md"
