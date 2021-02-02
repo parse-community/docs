@@ -114,7 +114,7 @@ Note that the name of the file in the request is not the local file name, but th
 
 ## Deleting Files
 
-Users holding the master key are allowed to delete files using the REST API. To delete a file, send a DELETE request to the files URL, postfixed with the name of the file. Note that the name of the file must be the name in the response of the upload operation, rather than the original filename. Note that the `X-Parse-Master-Key` must be provided in headers.
+Users holding the master key are allowed to delete files using the REST API. To delete a file, send a DELETE request to the files URL, postfixed with the name of the file. Note that the name of the file must be the name in the response of the upload operation, rather than the original file name. Note that the `X-Parse-Master-Key` must be provided in headers.
 
 <div class="language-toggle">
 <pre><code class="bash">

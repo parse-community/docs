@@ -11,7 +11,9 @@
     "dev": "npm run dev-webpack & npm run jekyll",
     "dev-win": "start npm run dev-webpack & start npm run jekyll",
     "prod": "npm run webpack & npm run jekyll",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "spellcheck": "mdspell -x -n -a _includes/*/*.md --en-us",
+    "spelltest": "mdspell -r -x -n -a _includes/*/*.md --en-us"
   },
   "repository": {
     "type": "git",
@@ -35,6 +37,7 @@
   },
   "dependencies": {
     "jquery": "3.5.1",
+    "markdown-spellcheck": "git+https://github.com/dblythy/node-markdown-spellcheck.git",
     "underscore": "1.11.0"
   },
   "husky": {
