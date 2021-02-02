@@ -1,8 +1,8 @@
-name: Node.js
+name: Check Spelling
 on:
   push:
     branches:
-      - gh-pages
+      - 'gh-pages'
   pull_request:
     branches:
       - '**'
