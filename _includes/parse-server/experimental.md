@@ -31,7 +31,7 @@ Parameters:
 
 * `idempotencyOptions` (`Object`): Setting this enables idempotency enforcement for the specified paths.
 * `idempotencyOptions.paths`(`Array<String>`): An array of path patterns that have to match the request path for request deduplication to be enabled. 
-  * The mount path must not be included, for example to match the request path `/parse/functions/myFunction` specify the path pattern `functions/myFunction`. A trailing slash of the request path is ignored, for example the path pattern `functions/myFunction` matches both `/parse/functions/myFunction` and `/parse/functions/myFunction/`.
+* The mount path must not be included, for example to match the request path `/parse/functions/myFunction` specify the path pattern `functions/myFunction`. A trailing slash of the request path is ignored, for example the path pattern `functions/myFunction` matches both `/parse/functions/myFunction` and `/parse/functions/myFunction/`.
 
   Examples:
 
