@@ -6,7 +6,7 @@ These features may not be approprate for production, so use at your own risk.
 
 ## Direct Access
 
-* `directAccess`: Replaces HTTP Interface when using JS SDK in current node runtime. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
+`directAccess` replaces the HTTP Interface when using the JS SDK in the current node runtime. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
 
 Configuration:
 ```js
@@ -40,7 +40,7 @@ Parameters:
 
 * `idempotencyOptions` (`Object`): Setting this enables idempotency enforcement for the specified paths.
 * `idempotencyOptions.paths`(`Array<String>`): An array of path patterns that have to match the request path for request deduplication to be enabled. 
-  * The mount path must not be included, for example to match the request path `/parse/functions/myFunction` specify the path pattern `functions/myFunction`. A trailing slash of the request path is ignored, for example the path pattern `functions/myFunction` matches both `/parse/functions/myFunction` and `/parse/functions/myFunction/`.
+* The mount path must not be included, for example to match the request path `/parse/functions/myFunction` specify the path pattern `functions/myFunction`. A trailing slash of the request path is ignored, for example the path pattern `functions/myFunction` matches both `/parse/functions/myFunction` and `/parse/functions/myFunction/`.
 
   Examples:
 

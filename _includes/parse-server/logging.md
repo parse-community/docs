@@ -4,11 +4,12 @@ Parse Server will, by default, log:
 * to the console
 * daily rotating files as new line delimited JSON
 
-Logs are also viewable in Parse Dashboard.
+Logs are also viewable in the Parse Dashboard.
 
 **Want to log each request and response?** 
 
-Set the `VERBOSE` environment variable when starting `parse-server`. Usage :-  `VERBOSE='1' parse-server --appId APPLICATION_ID --masterKey MASTER_KEY`
+Set the `VERBOSE` environment variable when starting `parse-server`.
+```VERBOSE='1' parse-server --appId APPLICATION_ID --masterKey MASTER_KEY```
 
 **Want logs to be in placed in a different folder?** 
 
