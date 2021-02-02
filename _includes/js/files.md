@@ -25,7 +25,7 @@ const file = new Parse.File("myfile.zzz", fileData, "image/png");
 ```
 
 ### Client Side
-In a browser, you'll want to use an html form with a file upload control. To do this, create a file input tag which allows the user to pick a file from their local drive to upload:
+In a browser, you'll want to use an HTML form with a file upload control. To do this, create a file input tag which allows the user to pick a file from their local drive to upload:
 
 ```html
 <input type="file" id="profilePhotoFileUpload">
@@ -45,8 +45,8 @@ if (fileUploadControl.files.length > 0) {
 
 Notice in this example that we give the file a name of `photo.jpg`. There's two things to note here:
 
-*   You don't need to worry about filename collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `photo.jpg`.
-*   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your filename ends with `.png`.
+*   You don't need to worry about file name collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `photo.jpg`.
+*   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your file name ends with `.png`.
 
 Next you'll want to save the file up to the cloud. As with `Parse.Object`, there are many variants of the `save` method you can use depending on what sort of callback and error handling suits you.
 

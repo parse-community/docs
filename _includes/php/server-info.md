@@ -2,7 +2,7 @@
 
 Any server version **2.1.4** or later supports access to detailed information about itself and it's capabilities. 
 
-You can leverage `ParseServerInfo` (present in sdk version **1.4.0** and up) to check on the features and version of your server.
+You can leverage `ParseServerInfo` (present in SDK version **1.4.0** and up) to check on the features and version of your server.
 
 ## Version
 

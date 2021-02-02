@@ -6,7 +6,7 @@ In some cases, in distributed environment, you may want to use a distributed cac
 
 parse-server comes with an optional redis cache adapter.
 
-Those cache adapters can be cleaned at anytime internally, you should not use them to cache data and you should let parse-server manage their data lifecycle.
+Those cache adapters can be cleaned at anytime internally, you should not use them to cache data and you should let parse-server manage their data life cycle.
 
 ## RedisCacheAdapter
 

@@ -208,7 +208,7 @@ Parse.Cloud.beforeSave(Parse.User, () => {
     },
 });
 ```
-This means that the field `accType` on `Parse.User` will be 'viewer' on signup, and will be unchangable, unless `masterKey` is provided.
+This means that the field `accType` on `Parse.User` will be 'viewer' on signup, and will be unchangeable, unless `masterKey` is provided.
 
 The full range of built-in Validation Options are:
 
@@ -227,7 +227,7 @@ The full range of built-in Validation Options on `.fields` are:
 - `constant`: whether the field is immutable.
 - `error`: a custom error message if validation fails.
 
-You can also pass a function to the Validator. This can help you apply reoccuring logic to your Cloud Code.
+You can also pass a function to the Validator. This can help you apply reoccurring logic to your Cloud Code.
 
 ```javascript
 const validationRules = request => {
@@ -799,7 +799,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', (request) => {
 });
 ```
 
-By default, ParseLiveQuery does not perform queries that require additional database operations. This is to keep your Parse Server as fast and effient as possible. If you require this functionality, you can perform these in `afterLiveQueryEvent`.  
+By default, ParseLiveQuery does not perform queries that require additional database operations. This is to keep your Parse Server as fast and efficient as possible. If you require this functionality, you can perform these in `afterLiveQueryEvent`.  
 
 ```javascript
 // Including an object on LiveQuery event, on update only.

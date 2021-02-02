@@ -2,17 +2,17 @@
 
 ### Provisioning
 
-We recommend you run MongoDB in replica set mode, with at least three nodes for availablity. Each node should run in a separate Availability Zone.
+We recommend you run MongoDB in replica set mode, with at least three nodes for availability. Each node should run in a separate Availability Zone.
 
 ### Configuring Storage
 
- - Formatting data volumes with the XFS filesystem is strongly recommended.
+ - Formatting data volumes with the XFS file system is strongly recommended.
 
 ### Configuration
 
 #### MongoDB 3.0
 
-Configuring MongoDB to use the WireTiger storage engine is a matter of setting a few flags in the mongodb.conf file. For complete documentation of all MongoDB configuration options, visit the MongoDB reference page for [Configuration File Options](https://docs.mongodb.com/v3.0/reference/configuration-options/).
+Configuring MongoDB to use the WiredTiger storage engine is a matter of setting a few flags in the mongodb.conf file. For complete documentation of all MongoDB configuration options, visit the MongoDB reference page for [Configuration File Options](https://docs.mongodb.com/v3.0/reference/configuration-options/).
 
 First, set the storage engine parameter to instruct MongoDB to use the WiredTiger storage engine.
 

@@ -6,7 +6,7 @@ Using Push Notifications, you'll be able to send realtime notifications to your 
 
 Every Parse application installed on a device registered for push notifications has an associated Installation object. The Installation object is where you store all the data needed to target push notifications. For example, you could send a connected thermostat a push to change the desired temperature.
 
-There are two ways to create an installation in conjunction with your hardware device. You can generate an installation ID (random lowercase UUID) elsewhere (e.g. phone), send that to your hardware device during initial provisioning, then set the installation ID on the hardward device:
+There are two ways to create an installation in conjunction with your hardware device. You can generate an installation ID (random lowercase UUID) elsewhere (e.g. phone), send that to your hardware device during initial provisioning, then set the installation ID on the hardware device:
 
 ```cpp
 char data[] = "ab946c14-757a-4448-8b77-69704b01bb7b";

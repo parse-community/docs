@@ -32,7 +32,7 @@ Almost every class that you create should have these permissions tweaked to some
 
 ### Restricting class creation
 
-As a start, you can configure your application so that clients cannot create new classes on Parse. This is done by setting the key `allowClientClassCreation` to `false` in your ParseServer configuration.  See the project Readme for an overview of [Configuring your ParseServer](https://github.com/parse-community/parse-server#configuration).   Once restricted, classes may only be created from the Data Browser or with a the `masterKey`. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
+As a start, you can configure your application so that clients cannot create new classes on Parse. This is done by setting the key `allowClientClassCreation` to `false` in your ParseServer configuration.  See the project README for an overview of [Configuring your ParseServer](https://github.com/parse-community/parse-server#configuration).   Once restricted, classes may only be created from the Data Browser or with a the `masterKey`. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
 
 ### Configuring Class-Level Permissions
 
@@ -484,7 +484,7 @@ There are some special classes in Parse that don't follow all of the same securi
 
 ||`_User`|`_Installation`|
 | --- | --- |
-|Get|normal behaviour [1, 2, 3]|ignores CLP, but not ACL|
+|Get|normal behavior [1, 2, 3]|ignores CLP, but not ACL|
 |Find|normal behavior [3]|master key only [6]|
 |Create|normal behavior [4]|ignores CLP|
 |Update|normal behavior [5]|ignores CLP, but not ACL [7]|

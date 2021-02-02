@@ -2,11 +2,11 @@
 
 Push notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, [head over to the Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 ## Setting Up Push
 
-If you want to start using push, start by completing the [Android Push Notifications QuickStart Guide]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.
+If you want to start using push, start by completing the [Android Push Notifications Quick Start Guide]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app and send your first push notification. Come back to this guide afterwards to learn more about the push features offered by Parse.
 
 The Parse library provides push notifications using Firebase Cloud Messaging (FCM) if Google Play Services are available. Learn more about Google Play Services [here](https://firebase.google.com/docs/cloud-messaging/).
 
@@ -314,7 +314,7 @@ The scheduled time cannot be in the past, and can be up to two weeks in the futu
 
 ## Receiving Pushes
 
-Make sure you've gone through the [Android Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to set up your app to receive pushes.
+Make sure you've gone through the [Android Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to set up your app to receive pushes.
 
 When a push notification is received, the “title” is displayed in the status bar and the “alert” is displayed alongside the “title” when the user expands the notification drawer. If you choose to subclass `com.parse.ParsePushBroadcastReceiver`, be sure to replace that name with your class' name in the registration.
 
@@ -344,9 +344,9 @@ If your push has no "uri" parameter, `onPushOpen` will invoke your application's
 
 If you provide a "uri" field in your push, the `ParsePushBroadcastReceiver` will open that URI when the notification is opened. If there are multiple apps capable of opening the URI, a dialog will displayed for the user. The `ParsePushBroadcastReceiver` will manage your back stack and ensure that clicking back from the Activity handling URI will navigate the user back to the activity returned by `getActivity`.
 
-### Managing the Push Lifecycle
+### Managing the Push Life Cycle
 
-The push lifecycle has three phases:
+The push life cycle has three phases:
 
 1.  A notification is received and the `com.parse.push.intent.RECEIVE` Intent is fired, causing the `ParsePushBroadcastReceiver` to call `onPushReceive`. If either "alert" or "title" are specified in the push, then a Notification is constructed using `getNotification`. This Notification uses a small icon generated using `getSmallIconId`, which defaults to the icon specified by the `com.parse.push.notification_icon` metadata in your `AndroidManifest.xml`. The Notification's large icon is generated from `getLargeIcon` which defaults to null. The notification's `contentIntent` and `deleteIntent` are `com.parse.push.intent.OPEN` and `com.parse.push.intent.DELETE` respectively.
 2.  If the user taps on a Notification, the `com.parse.push.intent.OPEN` Intent is fired. The `ParsePushBroadcastReceiver` calls `onPushOpen`. The default implementation automatically sends an analytics event back to Parse tracking that this notification was opened. If the push contains a "uri" parameter, an activity is launched to navigate to that URI, otherwise the activity returned by `getActivity` is launched.
@@ -501,7 +501,7 @@ If everything looks great so far, but push notifications are not showing up on y
 *   Make sure you've used the correct App ID and client key, and that `Parse.initialize()` is being called. `Parse.initialize()` lets the service know which application it is listening for; this code must be in your `Application.onCreate` rather than `Activity.onCreate` for a particular `Activity`, so that any activation technique will know how to use Parse.
 *   Check that the push registration call is being called successfully. Your device must successfully register a ParseInstallation object with a valid FCM Registration id in the "deviceToken" field
 *   Check that the device is set to accept push notifications from your app.
-*   Note that, by design, force-killed apps will not be able to receive push notifications. Launch the app again to reenable push notifications.
+*   Note that, by design, force-killed apps will not be able to receive push notifications. Launch the app again to re-enable push notifications.
 *   Check the number of subscribers in your Parse Push Console. Does it match the expected number of subscribers? Your push might be targeted incorrectly.
 *   If testing in the emulator, try cleaning and rebuilding your project and restarting your AVD.
 *   Turn on verbose logging with `Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE)`. The error messages will be a helpful guide to what may be going on.
