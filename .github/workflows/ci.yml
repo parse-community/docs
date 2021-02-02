@@ -2,7 +2,7 @@ name: Check Spelling
 on:
   push:
     branches:
-      - 'gh-pages'
+      - '**'
   pull_request:
     branches:
       - '**'
