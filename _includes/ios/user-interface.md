@@ -621,7 +621,7 @@ _Important:_ your table view cells should inherit from `PFTableViewCell`, rather
 
 ### Life Cycle Methods
 
-Several methods are exposed that are called at major events during the data life Cycle of the table. They are `objectsDidLoad:` and `objectsWillLoad`, which are called after the objects have loaded from the query, and right before the query is fired, respectively. You can override these to provide extra functionality during these events.
+Several methods are exposed that are called at major events during the data life cycle of the table. They are `objectsDidLoad:` and `objectsWillLoad`, which are called after the objects have loaded from the query, and right before the query is fired, respectively. You can override these to provide extra functionality during these events.
 
 ### Pagination
 
