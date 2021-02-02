@@ -10,6 +10,7 @@ sections:
 - "parse-server/getting-started.md"
 - "parse-server/database.md"
 - "parse-server/usage.md"
+- "parse-server/configuration.md"
 - "parse-server/keys.md"
 - "parse-server/using-parse-sdks.md"
 - "parse-server/deploying.md"
@@ -30,5 +31,4 @@ sections:
 - "parse-server/experimental.md"
 - "parse-server/bleeding-edge.md"
 - "parse-server/development.md"
-- "parse-server/backers.md"
 ---
