@@ -6,7 +6,7 @@ These features may not be approprate for production, so use at your own risk.
 
 ## Direct Access
 
-* `directAccess`: Replaces HTTP Interface when using JS SDK in current node runtime. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
+`directAccess` replaces the HTTP Interface when using the JS SDK in the current node runtime. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
 
 ## Idempotency
 
