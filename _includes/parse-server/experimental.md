@@ -8,6 +8,14 @@ These features may not be approprate for production, so use at your own risk.
 
 `directAccess` replaces the HTTP Interface when using the JS SDK in the current node runtime. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
 
+Configuration:
+```js
+const api = new ParseServer({
+    //...other configuration
+    directAccess: true
+});
+```
+
 ## Idempotency
 
 This feature deduplicates identical requests that are received by Parse Server mutliple times, typically due to network issues or network adapter access restrictions on mobile operating systems.
@@ -20,12 +28,13 @@ Deduplication is only done for object creation and update (`POST` and `PUT` requ
 
 Configutation:
 ```js
-let api = new ParseServer({
+const api = new ParseServer({
+  //...other configuration
     idempotencyOptions: {
         paths: [".*"],       // enforce for all requests
         ttl: 120             // keep request IDs for 120s
     }
-}
+});
 ```
 Parameters:
 

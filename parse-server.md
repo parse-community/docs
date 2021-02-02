@@ -30,5 +30,4 @@ sections:
 - "parse-server/experimental.md"
 - "parse-server/bleeding-edge.md"
 - "parse-server/development.md"
-- "parse-server/backers.md"
 ---
