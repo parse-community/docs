@@ -13,7 +13,7 @@ Set the `VERBOSE` environment variable when starting `parse-server`.
 
 **Want logs to be in placed in a different folder?** 
 
-Pass the `PARSE_SERVER_LOGS_FOLDER` environment variable when starting `parse-server`. Usage :-  `PARSE_SERVER_LOGS_FOLDER='<path-to-logs-folder>' parse-server --appId APPLICATION_ID --masterKey MASTER_KEY`
+Pass the `PARSE_SERVER_LOGS_FOLDER` environment variable when starting `parse-server`.  ```PARSE_SERVER_LOGS_FOLDER='<path-to-logs-folder>' parse-server --appId APPLICATION_ID --masterKey MASTER_KEY```
 
 **Want to log specific levels?** 
 
