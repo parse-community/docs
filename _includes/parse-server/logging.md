@@ -4,7 +4,7 @@ Parse Server will, by default, log:
 * to the console
 * daily rotating files as new line delimited JSON
 
-Logs are also viewable in Parse Dashboard.
+Logs are also viewable in the Parse Dashboard.
 
 **Want to log each request and response?** 
 
