@@ -1,4 +1,4 @@
-name: Check Spelling
+name: Node.js
 on:
   push:
     branches:
