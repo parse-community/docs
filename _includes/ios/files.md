@@ -142,7 +142,7 @@ file?.saveInBackground({ (success: Bool, error: Error?) in
 ```
 </div>
 
-##Deleting Files
+## Deleting Files
 
 If you know the name of a file you can delete it using the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files). Your master key is required for this operation.
 
