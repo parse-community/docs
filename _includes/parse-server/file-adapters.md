@@ -147,7 +147,7 @@ If you're running a standalone Parse Server, you can use the following environme
 | S3_SECRET_KEY               | The AWS secret key for the user. | Required |
 | S3_BUCKET                   | The name of your S3 bucket. Needs to be globally unique in all of S3. | Required |
 | S3_REGION                   | The AWS region to connect to. | Optional. Default: 'us-east-1' |
-| S3_BUCKET_PREFIX            | Create all the files with the specified prefix added to the file name. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
+| S3_BUCKET_PREFIX            | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
 | S3_DIRECT_ACCESS            | Whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: false |
 
 #### Passing as options
@@ -188,7 +188,7 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 | bucket       | The name of your S3 bucket. | Required. |
 | options      | JavaScript object (map) that can contain: | |
 | region       | Key in `options`. Set the AWS region to connect to. | Optional. Default: `us-east-1` |
-| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the file name. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: `null` |
+| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: `null` |
 | directAccess | Key in `options`. Controls whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: `false` |
 | baseUrl | Key in `options`. The base URL the file adapter uses to determine the file location for direct access. | Optional. Default: `null`. To be used when `directAccess=true`. When set the file adapter returns a file URL in format `baseUrl/bucketPrefix` + `filename`. Example for `baseUrl='http://domain.com/folder'` and `bucketPrefix='prefix_'` the returned file location is  `http://domain.com/folder/prefix_file.txt`. |
 | baseUrlDirect | Key in `options`. Is `true` if the file adapter should ignore the bucket prefix when determining the file location for direct access. | Optional. Default: `false`. To be used when `directAccess=true` and `baseUrl` is set. When set to `true`, the file adapter returns a file URL in format `baseUrl/filename`. Example for `baseUrl='http://domain.com/folder'` and `baseUrlDirect=true` the returned file location is `http://domain.com/folder/file.txt`. |
@@ -223,7 +223,7 @@ You can use Google Cloud Storage to host your static files by setting the follow
 | GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required. |
 | GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
 | GCS_BUCKET                  | The name of your GCS bucket. | Required. |
-| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the file name. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
+| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
 | GCS_DIRECT_ACCESS           | Whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
 
 #### Passing as options
@@ -301,7 +301,7 @@ new GCSAdapter(projectId, keyfilePath, bucket, options)
 | keyfilePath  | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
 | bucket       | The name of your GCS bucket. | Required. |
 | options      | JavaScript object (map) that can contain: | |
-| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the file name. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: '' |
+| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: '' |
 | directAccess | Key in `options`. Controls whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
 
 ## Configuring `FSAdapter`

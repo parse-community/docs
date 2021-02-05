@@ -484,7 +484,7 @@ With the `beforeSaveFile` method you can run custom Cloud Code before any file i
 ### Examples
 
 ```javascript
-// Changing the file name
+// Changing the filename
 Parse.Cloud.beforeSaveFile(async (request) => {
   const { file } = request;
   const fileData = await file.getData();

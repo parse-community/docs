@@ -77,7 +77,7 @@ $query->withCount();
 $query->limit(25);
 
 $response = $query->find();
-$response['count'] // Returns 200 the total number of objects dispite limit / skip
+$response['count'] // Returns 200 the total number of objects despite limit / skip
 $response['results'] // Returns 25 objects
 
 // As of PHP 7.1 you can use Array Destructuring

@@ -25,7 +25,7 @@ npm start -- --appId APPLICATION_ID --masterKey MASTER_KEY --serverURL http://lo
 
 ## Notable Files
 
-The following is a breakdown of the various files you will find in the Parse Server source code. Click on a file name to learn more about the purpose behind each file.
+The following is a breakdown of the various files you will find in the Parse Server source code. Click on a filename to learn more about the purpose behind each file.
 
 * [index.js](https://github.com/parse-community/parse-server/wiki/index.js) - exposes the ParseServer constructor and mutates Parse.Cloud
 * [analytics.js](https://github.com/parse-community/parse-server/wiki/analytics.js) - handle the /events routes

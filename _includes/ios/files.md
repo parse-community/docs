@@ -20,8 +20,8 @@ let file = PFFileObject(name:"resume.txt", data:data!)
 
 Notice in this example that we give the file a name of `resume.txt`. There's two things to note here:
 
-*   You don't need to worry about file name collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `resume.txt`.
-*   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your file name ends with `.png`.
+*   You don't need to worry about filename collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `resume.txt`.
+*   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your filename ends with `.png`.
 
 Next you'll want to save the file up to the cloud. As with `PFObject`, there are many variants of the `save` method you can use depending on what sort of callback and error handling suits you.
 
@@ -59,7 +59,7 @@ PFFileObject *applicantResume = anotherApplication[@"applicantResumeFile"];
 NSData *resumeData = [applicantResume getData];
 ```
 ```swift
-let applicantResume = annotherApplication["applicationResumeFile"] as PFFileObject
+let applicantResume = anotherApplication["applicationResumeFile"] as PFFileObject
 let resumeData = applicantResume.getData()
 ```
 </div>
@@ -146,4 +146,4 @@ file?.saveInBackground({ (success: Bool, error: Error?) in
 
 If you know the name of a file you can delete it using the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files). Your master key is required for this operation.
 
-Note: Regardless of the Parse Server storage configuration, deleting a `PFObject` with a `PFFileObject` does not delete the file itself merely its reference. Additionally, Parse does **NOT** provide a way to find unreferenced file names in storage.
+Note: Regardless of the Parse Server storage configuration, deleting a `PFObject` with a `PFFileObject` does not delete the file itself merely its reference. Additionally, Parse does **NOT** provide a way to find unreferenced filenames in storage.

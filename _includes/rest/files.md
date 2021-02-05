@@ -2,7 +2,7 @@
 
 ## Uploading Files
 
-To upload a file to Parse, send a POST request to the files URL, postfixed with the name of the file. The request must contain the `Content-Type` header associated with the file. Keep in mind that files are limited to 10 megabytes. Here's a simple example that'll create a file named `hello.txt` containing a string:
+To upload a file to Parse, send a POST request to the files URL, postfixed with the name of the file. The request must contain the `Content-Type` header associated with the file. Keep in mind that files are limited to 10 megabytes. Here's a simple example that'll create a filenamed `hello.txt` containing a string:
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -34,7 +34,7 @@ Status: 201 Created
 Location: http://files.parsetfss.com/bc9f32df-2957-4bb1-93c9-ec47d9870a05/tfss-db295fb2-8a8b-49f3-aad3-dd911142f64f-hello.txt
 </code></pre>
 
-The response body is a JSON object containing the `name` of the file, which is the original file name prefixed with a unique identifier in order to prevent name collisions. This means you can save files with the same name, and the files will not overwrite one another.
+The response body is a JSON object containing the `name` of the file, which is the original filename prefixed with a unique identifier in order to prevent name collisions. This means you can save files with the same name, and the files will not overwrite one another.
 
 ```json
 {
@@ -109,12 +109,12 @@ print result
 </code></pre>
 </div>
 
-Note that the name of the file in the request is not the local file name, but the name in the response of the previous upload operation. It is also important to add the `url` from the previous upload operation to the request.
+Note that the name of the file in the request is not the local filename, but the name in the response of the previous upload operation. It is also important to add the `url` from the previous upload operation to the request.
 
 
 ## Deleting Files
 
-Users holding the master key are allowed to delete files using the REST API. To delete a file, send a DELETE request to the files URL, postfixed with the name of the file. Note that the name of the file must be the name in the response of the upload operation, rather than the original file name. Note that the `X-Parse-Master-Key` must be provided in headers.
+Users holding the master key are allowed to delete files using the REST API. To delete a file, send a DELETE request to the files URL, postfixed with the name of the file. Note that the name of the file must be the name in the response of the upload operation, rather than the original filename. Note that the `X-Parse-Master-Key` must be provided in headers.
 
 <div class="language-toggle">
 <pre><code class="bash">

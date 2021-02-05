@@ -71,7 +71,7 @@ The following is a list of all the error codes that can be returned by the Parse
 
 | Name                             | Code | Description                                                   |
 |----------------------------------|------|---------------------------------------------------------------|
-| `InvalidFileName`	               |  122 | An invalid file name was used for Parse File. A valid file name contains only a-zA-Z0-9_. characters and is between 1 and 128 characters. |
+| `InvalidFileName`	               |  122 | An invalid filename was used for Parse File. A valid filename contains only a-zA-Z0-9_. characters and is between 1 and 128 characters. |
 | `MissingContentType`	           |  126 | Missing content type. |
 | `MissingContentLength`	         |  127 | Missing content length. |
 | `InvalidContentLength`	         |  128 | Invalid content length. |

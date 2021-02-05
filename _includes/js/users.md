@@ -152,7 +152,7 @@ Often you may want to be more careful with user information stored in the browse
 ```javascript
 
 Parse.enableEncryptedUser();
-Parse.secret = 'my Secrey Key';
+Parse.secret = 'my Secret Key';
 
 ```
 *   It's important to remember that this function will not work if `Parse.secret` is not set.
@@ -361,7 +361,7 @@ if (!Parse.FacebookUtils.isLinked(user)) {
     await Parse.FacebookUtils.link(user);
     alert("Woohoo, user logged in with Facebook!");
   } catch(error) {}
-    alert("User cancelled the Facebook login or ddid not fully authorize.");
+    alert("User cancelled the Facebook login or did not fully authorize.");
   });
 }
 ```

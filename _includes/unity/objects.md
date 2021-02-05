@@ -330,7 +330,7 @@ To create a `ParseObject` subclass:
 1.  Declare a subclass which extends `ParseObject`.
 2.  Add a `ParseClassName` attribute. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
 3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
-4.  Call `ParseObject.RegisterSubclass<YourClass>()` in a `MonoBehaviour`'s `Awake` method and attach this to your Parse initialization `GameObject.`.
+4.  Call `ParseObject.RegisterSubclass<YourClass>()` in a `MonoBehavior`'s `Awake` method and attach this to your Parse initialization `GameObject.`.
 
 The following code successfully implements and registers the `Armor` subclass of `ParseObject`:
 
@@ -348,7 +348,7 @@ public class Armor : ParseObject
 using UnityEngine;
 using Parse;
 
-public class ExtraParseInitialization : MonoBehaviour
+public class ExtraParseInitialization : MonoBehavior
 {
   void Awake()
   {
