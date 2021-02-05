@@ -32,7 +32,7 @@ Almost every class that you create should have these permissions tweaked to some
 
 ### Restricting class creation
 
-As a start, you can configure your application so that clients cannot create new classes on Parse. This is done by setting the key `allowClientClassCreation` to `false` in your ParseServer configuration.  See the project Readme for an overview of [Configuring your ParseServer](https://github.com/parse-community/parse-server#configuration).   Once restricted, classes may only be created from the Data Browser or with a the `masterKey`. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
+As a start, you can configure your application so that clients cannot create new classes on Parse. This is done by setting the key `allowClientClassCreation` to `false` in your ParseServer configuration. See the project README for an overview of [Configuring your ParseServer](https://github.com/parse-community/parse-server#configuration). Once restricted, classes may only be created from the Data Browser or with a the `masterKey`. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
 
 ### Configuring Class-Level Permissions
 
@@ -407,7 +407,7 @@ And here's another example of the format of an ACL that uses a Role:
 
 ### Pointer Permissions
 
-Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `receiver` field and a read and write pointer permission on the `sender` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
+Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `receiver` field, a read pointer permission on the `receiver` field and a read and write pointer permission on the `sender` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
 
 Given that objects often already have pointers to the user(s) that should have permissions on the object, pointer permissions provide a simple and fast solution for securing your app using data which is already there, that doesn't require writing any client code or cloud code.
 
@@ -484,7 +484,7 @@ There are some special classes in Parse that don't follow all of the same securi
 
 ||`_User`|`_Installation`|
 | --- | --- |
-|Get|normal behaviour [1, 2, 3]|ignores CLP, but not ACL|
+|Get|normal behavior [1, 2, 3]|ignores CLP, but not ACL|
 |Find|normal behavior [3]|master key only [6]|
 |Create|normal behavior [4]|ignores CLP|
 |Update|normal behavior [5]|ignores CLP, but not ACL [7]|

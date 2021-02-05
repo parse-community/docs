@@ -56,7 +56,7 @@ This guide will use i2.2xlarge as an example.
 
 ### Provisioning
 
-We recommend you run MongoDB in replica set mode, with at least three nodes for availablity. Each node should run in a separate Availability Zone.
+We recommend you run MongoDB in replica set mode, with at least three nodes for availability. Each node should run in a separate Availability Zone.
 
 There are dozens of ways to provision hosts in AWS. For reference, we use the AWS CLI below, but the inputs can be easily translated to your tool of choice.
 
@@ -189,7 +189,7 @@ More documentation on strata, including how to restore backups, can be found [he
 
 ### Upgrading an existing replica set to MongoRocks
 
-The data files used by MMAP, WiredTiger, and RocksDB are not compatible. In other words, you cannot start MongoRocks using existing MMAP or Wiredtiger data. To change storage formats, you must do one of the following:
+The data files used by MMAP, WiredTiger, and RocksDB are not compatible. In other words, you cannot start MongoRocks using existing MMAP or WiredTiger data. To change storage formats, you must do one of the following:
 
 1. Do a logical export and import using [mongodump](https://docs.mongodb.com/v3.0/reference/program/mongodump/) and [mongorestore](https://docs.mongodb.com/manual/reference/program/mongorestore/).
 2. Perform an initial sync of data using replication

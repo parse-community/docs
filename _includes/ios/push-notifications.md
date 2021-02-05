@@ -2,13 +2,13 @@
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 Please note that client push is not available with Parse Server due to it being a significant security risk, it is recommended that to trigger push notifications from your iOS app you run a cloud function that sends the push using the `masterKey`. If you must use client push, you could fork Parse Server and enable it or alternatively [Back4App](https://www.back4app.com) offer it as an option for testing purposes only.
 
 ## Setting Up Push
 
-If you want to start using push, start by completing the [Push Notifications QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
+If you want to start using push, start by completing the [Push Notifications Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app. Come back to this guide afterwards to learn more about the push features offered by Parse.
 
 ## Installations
 

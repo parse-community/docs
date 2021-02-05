@@ -1,7 +1,7 @@
 # Logs
 
 `ParseLogs` allows info and error logs to be retrieved from the server as JSON.
-This is available in sdk versions **1.4.0** and up.
+This is available in SDK versions **1.4.0** and up.
 
 Using the same approach as that which is utilized in the [dashboard](https://github.com/parse-community/parse-dashboard) you can view your logs with specific ranges in time, type and order.
 Note that this requires the correct masterKey to be set during your initialization for access.

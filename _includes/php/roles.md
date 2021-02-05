@@ -4,7 +4,7 @@ As your app grows in scope and user-base, you may find yourself needing more coa
 
 For example, in your application with curated content, you may have a number of users that are considered "Moderators" and can modify and delete content created by other users.  You may also have a set of users that are "Administrators" and are allowed all of the same privileges as Moderators, but can also modify the global settings for the application. By adding users to these roles, you can ensure that new users can be made moderators or administrators, without having to manually grant permission to every resource for each user.
 
-We provide a specialized class called `ParseRole` that represents these role objects in your client code. `ParseRole` is a subclass of `ParseObject`, and has all of the same features, such as a flexibl schema, automatic persistence, and a key value interface.  All the methods that are on `ParseObject` also  exist on `ParseRole`.  The difference is that `ParseRole` has some additions specific to management of roles.
+We provide a specialized class called `ParseRole` that represents these role objects in your client code. `ParseRole` is a subclass of `ParseObject`, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on `ParseObject` also  exist on `ParseRole`.  The difference is that `ParseRole` has some additions specific to management of roles.
 
 ## `ParseRole` Properties
 

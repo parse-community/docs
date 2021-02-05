@@ -392,7 +392,7 @@ Like we've seen in Cloud Code, it's also possible to run some code after an obje
 
 No response is required for `afterSave` triggers.
 
-Let's take the same example we created in Cloud Code [in the last chapter](#cloud-code-aftersave-triggers); keeping track of the number of comments on a blog post. But instead of storing the number in our Parse database, we'll store the count in a separate data source accessible by our Rails app. This could be useful if you're storing data that will be used to run custom analysics instead of being served to your users through a client.
+Let's take the same example we created in Cloud Code [in the last chapter](#cloud-code-aftersave-triggers); keeping track of the number of comments on a blog post. But instead of storing the number in our Parse database, we'll store the count in a separate data source accessible by our Rails app. This could be useful if you're storing data that will be used to run custom analytics instead of being served to your users through a client.
 
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
@@ -581,7 +581,7 @@ Here's an example of the JSON data that would be sent in the request to this web
 }
 ```
 
-After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
+After setting up your webhook in the Dashboard UI, you'll be accurately decrementing comment counts!
 
 # Config
 Parse Config offers a convenient way to configure parameters in Cloud Code.

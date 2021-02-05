@@ -303,9 +303,9 @@ The image will download asynchronously, and the appropriate `ParseImageView` wil
  
 You can define a placeholder image to be used when the image fetch has not yet completed. Call `setPlaceholder(Drawable)` on your `ParseQueryAdapter` to use the specified `Drawable` as a fallback image. 
  
-## Lifecycle Methods 
+## Life Cycle Methods 
  
-We expose two hooks in the data lifecycle of the Adapter for you to execute custom logic &mdash; right before we query Parse for your data and right after the fetched objects have been loaded from the query. These methods are particularly useful for toggling some loading UI. 
+We expose two hooks in the data life cycle of the Adapter for you to execute custom logic &mdash; right before we query Parse for your data and right after the fetched objects have been loaded from the query. These methods are particularly useful for toggling some loading UI. 
  
 An `OnQueryLoadListener` can be set via `setOnQueryLoadListener(OnQueryLoadListener)`, which provides `onLoading()` and `onLoaded(List<ParseObject>, Exception)` methods for implementation. 
  

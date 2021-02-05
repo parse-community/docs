@@ -25,7 +25,7 @@ const file = new Parse.File("myfile.zzz", fileData, "image/png");
 ```
 
 ### Client Side
-In a browser, you'll want to use an html form with a file upload control. To do this, create a file input tag which allows the user to pick a file from their local drive to upload:
+In a browser, you'll want to use an HTML form with a file upload control. To do this, create a file input tag which allows the user to pick a file from their local drive to upload:
 
 ```html
 <input type="file" id="profilePhotoFileUpload">

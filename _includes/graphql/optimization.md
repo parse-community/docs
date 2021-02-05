@@ -61,7 +61,7 @@ const addAnIndexToUserClass = () => {
     console.log('Index for ASuperUsedQuery created')
 }
 ```
-And thats all, your query is optimized and you should have blazing fast responses even with millions of objects.
+And that's all, your query is optimized and you should have blazing fast responses even with millions of objects.
 
 **Warning:** Only add indexes for most used queries, an over indexed MongoDB will eat lots of RAM.
 
@@ -144,7 +144,7 @@ mutation NotEfficientSchema {
 
 ## GraphQL Clients
 
-If you use a Graphql Client with a cache system like **Apollo Client** you must add the `id` field in each of your graphql `Queries` and `Mutations`, your client can now update dynamically its local cache based on your graphql operations.
+If you use a GraphQL Client with a cache system like **Apollo Client** you must add the `id` field in each of your GraphQL `Queries` and `Mutations`, your client can now update dynamically its local cache based on your GraphQL operations.
 
 **Note:** On `Mutation` it's recommended to ask to GraphQL to return the modified fields, then your GraphQL Client can update the object in the local cache.
 

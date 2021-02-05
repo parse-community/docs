@@ -20,7 +20,7 @@ sections:
 - "graphql/queries.md"
 - "graphql/users.md"
 - "graphql/files.md"
-- "graphql/customisation.md"
+- "graphql/customization.md"
 - "graphql/optimization.md"
 - "graphql/learning-more.md"
 

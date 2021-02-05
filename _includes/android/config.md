@@ -36,7 +36,7 @@ ParseConfig.getInBackground(new ConfigCallback() {
 
     // Get the message from config or fallback to default value
     String welcomeMessage = config.getString("welcomeMessage", "Welcome!");
-    Log.d("TAG", String.format("Welcome Messsage From Config = %s", welcomeMessage));
+    Log.d("TAG", String.format("Welcome Message From Config = %s", welcomeMessage));
   }
 });
 ```

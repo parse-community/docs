@@ -59,7 +59,7 @@ PFFileObject *applicantResume = anotherApplication[@"applicantResumeFile"];
 NSData *resumeData = [applicantResume getData];
 ```
 ```swift
-let applicantResume = annotherApplication["applicationResumeFile"] as PFFileObject
+let applicantResume = anotherApplication["applicationResumeFile"] as PFFileObject
 let resumeData = applicantResume.getData()
 ```
 </div>
@@ -146,4 +146,4 @@ file?.saveInBackground({ (success: Bool, error: Error?) in
 
 If you know the name of a file you can delete it using the [REST API]({{site.baseUrl}}/rest/guide/#deleting-files). Your master key is required for this operation.
 
-Note: Reguardless of the Parse Server storage configuration, deleting a `PFObject` with a `PFFileObject` does not delete the file itself meerly its reference. Additionally, Parse does **NOT** provide a way to find unreferenced file names in storage.
+Note: Regardless of the Parse Server storage configuration, deleting a `PFObject` with a `PFFileObject` does not delete the file itself merely its reference. Additionally, Parse does **NOT** provide a way to find unreferenced filenames in storage.

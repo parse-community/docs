@@ -206,7 +206,7 @@ To build a query which works with your LDAP server, you can use a LDAP client li
   "ldap": {
     "url": "ldap://host:port",
     "suffix": "the root of your LDAP tree",
-    "dn": "Bind dn. {{id}} is replaced with the id suppied in authData",
+    "dn": "Bind dn. {{id}} is replaced with the id supplied in authData",
     "groupCn": "Optional. A group which the user must be a member of.",
     "groupFilter": "Optional. An LDAP filter for finding groups which the user is part of. {{id}} is replaced with the id supplied in authData."
   }

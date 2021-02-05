@@ -41,7 +41,7 @@ And you're off! Take a look at the public [documentation][docs] and start buildi
 
     You can also include parse as a subproject inside of your application if you'd prefer, although we do not recommend this, as it will increase your indexing time significantly. To do so, just drag and drop the Parse.xcodeproj file into your workspace. Note that unit tests will be unavailable if you use Parse like this, as OCMock will be unable to be found.
 
-**Initialise Parse SDK**
+**Initialize Parse SDK**
 
 To initialize the Parse client, add the following to your AppDelegate.swift file (AppDelegate.m for Objective-C), in the `application:didFinishLaunchingWithOptions:` method.
 
@@ -69,7 +69,7 @@ func application(application: UIApplication, didFinishLaunchingWithOptions launc
 ```
 </div>
 
-Make sure to import the Parse module at the top of any file in which you want to use the Parse SDK by including the follwing.
+Make sure to import the Parse module at the top of any file in which you want to use the Parse SDK by including the following.
 
 <div class="language-toggle" markdown="1">
 ```objective_c

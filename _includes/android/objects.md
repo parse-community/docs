@@ -62,7 +62,7 @@ String playerName = gameScore.getString("playerName");
 boolean cheatMode = gameScore.getBoolean("cheatMode");
 ```
 
-If you don't know what type of data you're getting out, you can call `get(key)`, but then you probably have to cast it right away anyways. In most situations you should use the typed accessors like `getString`.
+If you don't know what type of data you're getting out, you can call `get(key)`, but then you probably have to cast it right away anyway. In most situations you should use the typed accessors like `getString`.
 
 The four special values have their own accessors:
 

@@ -148,7 +148,7 @@ Note that it is not currently possible to atomically add and remove items from a
 
 ## Encoding/Decoding
 
-Using version **1.3.0** or later of the php sdk gives you the ability to encode/decode instances of `ParseObject`.
+Using version **1.3.0** or later of the PHP SDK gives you the ability to encode/decode instances of `ParseObject`.
 Encoding an object will give you a JSON encoded array that can be later decoded to get the original object back, unsaved changes included.
 ```php
 // create an object

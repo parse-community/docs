@@ -62,7 +62,7 @@ Since `Installation` objects are just like any other object stored in Parse, you
 
 #### Saving Installation Data
 
-The PHP SDK currently supports modifying `Installation` objects via the `ParseInstallation` class, but it is not the primary function of this sdk. If you do need to modify installation objects take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-advanced-targeting), [Android]({{ site.baseUrl }}/android/guide/#using-advanced-targeting) or [REST]({{ site.baseUrl }}/rest/guide/#using-advanced-targeting) Push guide using the platform toggle at the top.
+The PHP SDK currently supports modifying `Installation` objects via the `ParseInstallation` class, but it is not the primary function of this SDK. If you do need to modify installation objects take a look at the [iOS]({{ site.baseUrl }}/ios/guide/#using-advanced-targeting), [Android]({{ site.baseUrl }}/android/guide/#using-advanced-targeting) or [REST]({{ site.baseUrl }}/rest/guide/#using-advanced-targeting) Push guide using the platform toggle at the top.
 
 Generally if you need to saving installation data it will be a modification to an existing installation. Considering this it is recommended you read the related SDK docs for that installation first before you start modifying them, as mentioned above.
 
@@ -116,7 +116,7 @@ ParsePush::send(array(
 
 #### Sending Pushes to Audiences
 
-If you want to keep track of your sends when using queries you can use the `ParseAudience` class (available in sdk versions **1.4.0** and up).
+If you want to keep track of your sends when using queries you can use the `ParseAudience` class (available in SDK versions **1.4.0** and up).
 You can create and configure your Audience objects with a name and query.
 
 When you indicate it's being used in a push the `lastUsed` and `timesUsed` values are updated for you.

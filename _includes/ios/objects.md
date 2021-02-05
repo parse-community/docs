@@ -142,7 +142,7 @@ myObject.fetchInBackground { (object, error) in
 ```
 </div>
 
-Note: In a similar way to the `save` methods, you can use the throwable `fetch` or `fetchIfNeeded` methods, or asyncronous task without completion. `fetchInBackground`
+Note: In a similar way to the `save` methods, you can use the throwable `fetch` or `fetchIfNeeded` methods, or asynchronous task without completion. `fetchInBackground`
 
 ## The Local Datastore
 
@@ -244,7 +244,7 @@ gameScore.unpinInBackground()
 
 ## Saving Objects Offline
 
-Most save functions execute immediately, and inform your app when the save is complete. For a network consious soltion on non-priority save requests use `saveEventually`. Not only does it retry saving upon regaining network connection, but If your app is closed prior to save completion Parse will try the next time the app is opened. Additionally, all calls to `saveEventually` (and `deleteEventually`) are executed in the order they are called, making it safe to call `saveEventually` on an object multiple times.
+Most save functions execute immediately, and inform your app when the save is complete. For a network conscious solution on non-priority save requests use `saveEventually`. Not only does it retry saving upon regaining network connection, but If your app is closed prior to save completion Parse will try the next time the app is opened. Additionally, all calls to `saveEventually` (and `deleteEventually`) are executed in the order they are called, making it safe to call `saveEventually` on an object multiple times.
 
 <div class="language-toggle" markdown="1">
 ```objective_c
@@ -357,9 +357,9 @@ Note that it is not currently possible to atomically add and remove items from a
 ## Deleting Objects
 
 
-There are a few ways to delete a `PFObject`. For basic asynchronous deletion of a single object call the objects `deleteInBackground` function. If you prefer to recieve a callback you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method. Lastly, `deleteEventually` is a network conscious option that deletes when possible but does not guarantee a timeframe for the tasks completion.
+There are a few ways to delete a `PFObject`. For basic asynchronous deletion of a single object call the objects `deleteInBackground` function. If you prefer to receive a callback you can use the `deleteInBackgroundWithBlock:` or `deleteInBackgroundWithTarget:selector:` methods. If you want to block the calling thread, you can use the `delete` method. Lastly, `deleteEventually` is a network conscious option that deletes when possible but does not guarantee a time frame for the tasks completion.
 
-For deleting multiple objects use the `PFObject` static function `deleteAllInBackground` to delete an array of objects asynchronously. The same can be done while blocking the calling thread using `deleteAll`. Lastly, to recieve a callback after deleting objects asyncronously use `deleteAllInBackground:block:` as demonstrated below.
+For deleting multiple objects use the `PFObject` static function `deleteAllInBackground` to delete an array of objects asynchronously. The same can be done while blocking the calling thread using `deleteAll`. Lastly, to receive a callback after deleting objects asynchronously use `deleteAllInBackground:block:` as demonstrated below.
 
 
 <div class="language-toggle" markdown="1">

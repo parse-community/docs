@@ -55,6 +55,8 @@ npm run dev-win
 Finally, open http://localhost:4000/ in your web browser.
 File changes will be output to `_site` folder and the browser will auto refresh.
 
+Please ensure your changes are free of spelling errors using `npm run spellcheck`.
+
 -----
 
 As of April 5, 2017, Parse, LLC has transferred this code to the parse-community organization, and will no longer be contributing to or distributing this code.

@@ -2,7 +2,7 @@
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 <div class='tip info'><div>
 The .NET SDK can send push notifications from all runtimes, but only Windows 8, Windows Phone 8, and Xamarin apps can receive pushes from the push servers.
@@ -73,7 +73,7 @@ The simplest way to start sending notifications is using channels. This allows y
 
 A channel is identified by a string that starts with a letter and consists of alphanumeric characters, underscores, and dashes. It doesn't need to be explicitly created before it can be used and each `Installation` can subscribe to any number of channels at a time.
 
-An installation's channels can be set using the `Channels` property of `ParseInstallation`. For example, in a baseball socre app, we could do:
+An installation's channels can be set using the `Channels` property of `ParseInstallation`. For example, in a baseball score app, we could do:
 
 ```cs
 // When users indicate they are Giants fans, we subscribe them to that channel.
@@ -466,7 +466,7 @@ Our web push console guides you through every step of setting up a Localized Pus
 
 Setting up Push Notifications is often a source of frustration for developers. The process is complicated and invites problems to happen along the way. If you run into issues, try some of these troubleshooting tips.
 
-* Make sure you are using the correct Package SID and client secret, as shown in Step 3 of the [Windows 8 Push Quickstart](/tutorials/windows-8-push-tutorial).
+* Make sure you are using the correct Package SID and client secret, as shown in Step 3 of the [Windows 8 Push Quick Start](/tutorials/windows-8-push-tutorial).
 * Clean and build your project.
 * Check the number of recipients in your Parse Push Console. Does it match the expected number of recipients? Your push might be targeted incorrectly.
 * Open your project's `package.appxmanifest` file and make sure "Toast Capable" is set to "yes."* If your app has been released for a while, it's possible for the recipient estimate on the push composer page to be higher than the pushes sent value on the push results page. The push composer estimate is generated via running your push segment query over your app's installation table.  We do not automatically delete installation objects when the users uninstall your app.  When we try to send a push, we detect uninstalled installations and do not include them in the pushes sent value on the results page.

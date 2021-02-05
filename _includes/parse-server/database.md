@@ -2,7 +2,7 @@
 
 Parse Server let you use [MongoDB](https://www.mongodb.org/) or [Postgres](https://www.postgresql.org/) as a database.
 
-The prefered database is MongoDB but Postgres is a great option if you're starting a new project and you expect to have a stable Schema.
+The preferred database is MongoDB but Postgres is a great option if you're starting a new project and you expect to have a stable Schema.
 
 ## MongoDB
 

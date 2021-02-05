@@ -324,7 +324,7 @@ catch
 // Hide your browser control
 ```
 
-`ParseUser` integration doesn't require any permissions to work out of the box (ie. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
+`ParseUser` integration doesn't require any permissions to work out of the box (i.e. `null` or specifying no permissions is perfectly acceptable). [Read more about permissions on Facebook's developer guide.](https://developers.facebook.com/docs/reference/api/permissions/)
 
 ### Linking
 

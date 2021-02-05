@@ -56,7 +56,7 @@ Parse.setApplicationId("<ParseAppId>", clientKey: "<ClientKey>")
 ```swift
 // Enable data sharing in app extensions.
 Parse.enableDataSharingWithApplicationGroupIdentifier("group.com.parse.parseuidemo",
-                            containingApplicaiton: "com.parse.parseuidemo")
+                            containingApplication: "com.parse.parseuidemo")
 // Setup Parse
 Parse.setApplicationId("<ParseAppId>", clientKey: "<ClientKey>")
 ```
