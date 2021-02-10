@@ -54,6 +54,6 @@ Parameters:
 
 * `idempotencyOptions.ttl`: The duration in seconds after which a request record is discarded from the database. Duplicate requests due to network issues can be expected to arrive within milliseconds up to several seconds. This value must be greater than `0`.
 
-#### Notes
+### Notes
 
 - This feature is currently only available for MongoDB and not for Postgres.
