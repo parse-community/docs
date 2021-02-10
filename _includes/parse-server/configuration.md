@@ -41,29 +41,7 @@ And with that, you will have a Parse Server running on port 1337, serving the Pa
 
 ### Email verification and password reset
 
-Verifying user email addresses and enabling password reset via email requires an email adapter.
-
-You can also use email adapters contributed by the community such as:
-- [parse-server-mailgun-adapter-template](https://www.npmjs.com/package/parse-server-mailgun-adapter-template)
-- [parse-smtp-template (Multi Language and Multi Template)](https://www.npmjs.com/package/parse-smtp-template)
-- [parse-server-postmark-adapter](https://www.npmjs.com/package/parse-server-postmark-adapter)
-- [parse-server-sendgrid-adapter](https://www.npmjs.com/package/parse-server-sendgrid-adapter)
-- [parse-server-mandrill-adapter](https://www.npmjs.com/package/parse-server-mandrill-adapter)
-- [parse-server-simple-ses-adapter](https://www.npmjs.com/package/parse-server-simple-ses-adapter)
-- [parse-server-sendinblue-adapter](https://www.npmjs.com/package/parse-server-sendinblue-adapter)
-- [parse-server-mailjet-adapter](https://www.npmjs.com/package/parse-server-mailjet-adapter)
-- [simple-parse-smtp-adapter](https://www.npmjs.com/package/simple-parse-smtp-adapter)
-- [parse-server-generic-email-adapter](https://www.npmjs.com/package/parse-server-generic-email-adapter)
-
-The Parse Server Configuration Options relating to email verifcation are:
-
-* `verifyUserEmails`: whether the Parse Server should send mail on user signup
-* `emailVerifyTokenValidityDuration`: how long the email verify tokens should be valid for
-* `emailVerifyTokenReuseIfValid`: whether an existing token should be resent if the token is still valid
-* `preventLoginWithUnverifiedEmail`: whether the Parse Server should prevent login until the user verifies their email
-* `publicServerURL`: The public URL of your app. This will appear in the link that is used to verify email addresses and reset passwords.
-* `appName`: Your apps name. This will appear in the subject and body of the emails that are sent.
-* `emailAdapter`: The email adapter.
+Verifying user email addresses and enabling password reset via email requires an email adapter. As part of the parse-server package we provide an adapter for sending email through Mailgun. To use it, sign up for Mailgun, and add this to your initialization code:
 
 ```js
 const api = ParseServer({
@@ -83,9 +61,33 @@ const api = ParseServer({
   },
 });
 ```
+
+You can also use email adapters contributed by the community such as:
+- [parse-server-mailgun-adapter-template](https://www.npmjs.com/package/parse-server-mailgun-adapter-template)
+- [parse-smtp-template (Multi Language and Multi Template)](https://www.npmjs.com/package/parse-smtp-template)
+- [parse-server-postmark-adapter](https://www.npmjs.com/package/parse-server-postmark-adapter)
+- [parse-server-sendgrid-adapter](https://www.npmjs.com/package/parse-server-sendgrid-adapter)
+- [parse-server-mandrill-adapter](https://www.npmjs.com/package/parse-server-mandrill-adapter)
+- [parse-server-simple-ses-adapter](https://www.npmjs.com/package/parse-server-simple-ses-adapter)
+- [parse-server-sendinblue-adapter](https://www.npmjs.com/package/parse-server-sendinblue-adapter)
+- [parse-server-mailjet-adapter](https://www.npmjs.com/package/parse-server-mailjet-adapter)
+- [simple-parse-smtp-adapter](https://www.npmjs.com/package/simple-parse-smtp-adapter)
+- [parse-server-generic-email-adapter](https://www.npmjs.com/package/parse-server-generic-email-adapter)
+
+The Parse Server Configuration Options relating to email verifcation are:
+
+* `verifyUserEmails`: Whether the Parse Server should send an email on user signup.
+* `emailVerifyTokenValidityDuration`: How long the email verify tokens should be valid for.
+* `emailVerifyTokenReuseIfValid`: Whether an existing token should be resent if the token is still valid.
+* `preventLoginWithUnverifiedEmail`: Whether the Parse Server should prevent login until the user verifies their email.
+* `publicServerURL`: The public URL of your app. This will appear in the link that is used to verify email addresses and reset passwords.
+* `appName`: Your apps name. This will appear in the subject and body of the emails that are sent.
+* `emailAdapter`: The email adapter.
+
+
 Note:
 
-* If `verifyUserEmails` is `true` and if `emailVerifyTokenValidityDuration` is `undefined` then email verify token never expires. Else, email verify token expires after `emailVerifyTokenValidityDuration`.
+* If `verifyUserEmails` is `true` and if `emailVerifyTokenValidityDuration` is `undefined` then the email verify token never expires. Otherwise, the email verify token expires after `emailVerifyTokenValidityDuration`.
 
 ### Account Lockout
 
@@ -95,7 +97,7 @@ If the account lockout policy is set and there are more than `threshold` number 
 
 After `duration` minutes of no login attempts, the application will allow the user to try login again.
 
-*`accountLockout`: Object that contains account lockout rules
+*`accountLockout`: Object that contains account lockout rules.
 *`accountLockout.duration`: Determines the number of minutes that a locked-out account remains locked out before automatically becoming unlocked. Set it to a value greater than 0 and less than 100000.
 *`accountLockout.threshold`: Determines the number of failed sign-in attempts that will cause a user account to be locked. Set it to an integer value greater than 0 and less than 1000.
 
@@ -111,9 +113,7 @@ const api = ParseServer({
 
 ### Password Policy
 
-Password policy is a good way to enforce that users' passwords are secure.
-
-Two optional settings can be used to enforce strong passwords. Either one or both can be specified.
+Password policy is a good way to enforce that users' passwords are secure. Two optional settings can be used to enforce strong passwords. Either one or both can be specified.
 
 If both are specified, both checks must pass to accept the password
 
@@ -123,12 +123,12 @@ If both are specified, both checks must pass to accept the password
 The full range of options for Password Policy are:
 
 *`passwordPolicy` is an object that contains the following rules:
-*`passwordPolicy.validationError`: optional error message to be sent instead of the default "Password does not meet the Password Policy requirements." message.
-*`passwordPolicy.doNotAllowUsername`: optional setting to disallow username in passwords
+*`passwordPolicy.validationError`: optional error message to be sent instead of the default "Password does not meet the Password Policy requirements" message.
+*`passwordPolicy.doNotAllowUsername`: optional setting to disallow username in passwords.
 *`passwordPolicy.maxPasswordAge`: optional setting in days for password expiry. Login fails if user does not reset the password within this period after signup/last reset.
 *`passwordPolicy.maxPasswordHistory`: optional setting to prevent reuse of previous n passwords. Maximum value that can be specified is 20. Not specifying it or specifying 0 will not enforce history.
-*`passwordPolicy.resetTokenValidityDuration`: optional setting to set a validity duration for password reset links (in seconds)
-*`passwordPolicy.resetTokenReuseIfValid`: optional setting to resend current token if it's still valid
+*`passwordPolicy.resetTokenValidityDuration`: optional setting to set a validity duration for password reset links (in seconds).
+*`passwordPolicy.resetTokenReuseIfValid`: optional setting to resend the current token if it's still valid.
 
 ```js
 const validatePassword = password => {
