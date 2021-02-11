@@ -1,6 +1,6 @@
 # Experimental
 
-Experimental Features are items that we are experimenting with that will eventually become full features, or items that will be removed from the system if they are proven to not work well.
+Experimental features may not be 'battle tested' and could have issues. They are likely to become full features at some point, but could be removed from the system if they are problematic.
 
 These features may not be approprate for production, so use at your own risk.
 
