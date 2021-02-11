@@ -54,15 +54,6 @@ Parameters:
 
 * `idempotencyOptions.ttl`: The duration in seconds after which a request record is discarded from the database. Duplicate requests due to network issues can be expected to arrive within milliseconds up to several seconds. This value must be greater than `0`.
 
-
-| Parameter                  | Optional | Type            | Default value | Example values                                                                                                                                                                                                                                                              | Environment variable                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-|----------------------------|----------|-----------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `idempotencyOptions`       | yes      | `Object`        | `undefined`   |                                                                                                                                                                                                                                                                             | PARSE_SERVER_EXPERIMENTAL_IDEMPOTENCY_OPTIONS | Setting this enables idempotency enforcement for the specified paths.                                                                                                                                                                                                                                                                                                                                                                                 |
-| `idempotencyOptions.paths` | yes      | `Array<String>` | `[]`          | `.*` (all paths, includes the examples below), <br>`functions/.*` (all functions), <br>`jobs/.*` (all jobs), <br>`classes/.*` (all classes), <br>`functions/.*` (all functions), <br>`users` (user creation / update), <br>`installations` (installation creation / update) | PARSE_SERVER_EXPERIMENTAL_IDEMPOTENCY_PATHS   | An array of path patterns that have to match the request path for request deduplication to be enabled. The mount path must not be included, for example to match the request path `/parse/functions/myFunction` specifiy the path pattern `functions/myFunction`. A trailing slash of the request path is ignored, for example the path pattern `functions/myFunction` matches both `/parse/functions/myFunction` and `/parse/functions/myFunction/`. |
-| `idempotencyOptions.ttl`   | yes      | `Integer`       | `300`         | `60` (60 seconds)                                                                                                                                                                                                                                                           | PARSE_SERVER_EXPERIMENTAL_IDEMPOTENCY_TTL     | The duration in seconds after which a request record is discarded from the database. Duplicate requests due to network issues can be expected to arrive within milliseconds up to several seconds. This value must be greater than `0`.                                                                                                                                                                                                               |
-
-
-
 ### Notes
 
 - This feature is currently only available for MongoDB and not for Postgres.
@@ -238,28 +229,161 @@ const api = new ParseServer({
 
 The following parameter and placeholder keys are reserved because they are used related to features such as password reset or email verification. They should not be used as translation keys in the JSON resource or as manually defined placeholder keys in the configuration: `appId`, `appName`, `email`, `error`, `locale`, `publicServerUrl`, `token`, `username`.
 
-#### Parameters
+### Parameters
 
-| Parameter                                       | Optional | Type                                  | Default value                          | Example values                                       | Environment variable                                            | Description                                                                                                                                                                                                   |
-|-------------------------------------------------|----------|---------------------------------------|----------------------------------------|------------------------------------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `pages`                                         | yes      | `Object`                              | `undefined`                            | -                                                    | `PARSE_SERVER_PAGES`                                            | The options for pages such as password reset and email verification.                                                                                                                                          |
-| `pages.enableRouter`                            | yes      | `Boolean`                             | `false`                                | -                                                    | `PARSE_SERVER_PAGES_ENABLE_ROUTER`                              | Is `true` if the pages router should be enabled; this is required for any of the pages options to take effect. **Caution, this is an experimental feature that may not be appropriate for production.**       |
-| `pages.enableLocalization`                      | yes      | `Boolean`                             | `false`                                | -                                                    | `PARSE_SERVER_PAGES_ENABLE_LOCALIZATION`                        | Is true if pages should be localized; this has no effect on custom page redirects.                                                                                                                            |
-| `pages.localizationJsonPath`                    | yes      | `String`                              | `undefined`                            | `./private/translations.json`                        | `PARSE_SERVER_PAGES_LOCALIZATION_JSON_PATH`                     | The path to the JSON file for localization; the translations will be used to fill template placeholders according to the locale.                                                                              |
-| `pages.localizationFallbackLocale`              | yes      | `String`                              | `en`                                   | `en`, `en-GB`, `default`                             | `PARSE_SERVER_PAGES_LOCALIZATION_FALLBACK_LOCALE`               | The fallback locale for localization if no matching translation is provided for the given locale. This is only relevant when providing translation resources via JSON file.                                   |
-| `pages.placeholders`                            | yes      | `Object`, `Function`, `AsyncFunction` | `undefined`                            | `{ exampleKey: 'exampleValue' }`                     | `PARSE_SERVER_PAGES_PLACEHOLDERS`                               | The placeholder keys and values which will be filled in pages; this can be a simple object or a callback function.                                                                                           |
-| `pages.forceRedirect`                           | yes      | `Boolean`                             | `false`                                | -                                                    | `PARSE_SERVER_PAGES_FORCE_REDIRECT`                             | Is `true` if responses should always be redirects and never content, `false` if the response type should depend on the request type (`GET` request -> content response; `POST` request -> redirect response). |
-| `pages.pagesPath`                               | yes      | `String`                              | `./public`                             | `./files/pages`, `../../pages`                       | `PARSE_SERVER_PAGES_PAGES_PATH`                                 | The path to the pages directory; this also defines where the static endpoint `/apps` points to.                                                                                                               |
-| `pages.pagesEndpoint`                           | yes      | `String`                              | `apps`                                 | -                                                    | `PARSE_SERVER_PAGES_PAGES_ENDPOINT`                             | The API endpoint for the pages.                                                                                                                                                                               |
-| `pages.customUrls`                              | yes      | `Object`                              | `{}`                                   | `{ passwordReset: 'https://example.com/page.html' }` | `PARSE_SERVER_PAGES_CUSTOM_URLS`                                | The URLs to the custom pages                                                                                                                                                                                  |
-| `pages.customUrls.passwordReset`                | yes      | `String`                              | `password_reset.html`                  | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_PASSWORD_RESET`                  | The URL to the custom page for password reset.                                                                                                                                                                |
-| `pages.customUrls.passwordResetSuccess`         | yes      | `String`                              | `password_reset_success.html`          | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_PASSWORD_RESET_SUCCESS`          | The URL to the custom page for password reset -> success.                                                                                                                                                     |
-| `pages.customUrls.passwordResetLinkInvalid`     | yes      | `String`                              | `password_reset_link_invalid.html`     | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_PASSWORD_RESET_LINK_INVALID`     | The URL to the custom page for password reset -> link invalid.                                                                                                                                                |
-| `pages.customUrls.emailVerificationSuccess`     | yes      | `String`                              | `email_verification_success.html`      | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SUCCESS`      | The URL to the custom page for email verification -> success.                                                                                                                                                 |
-| `pages.customUrls.emailVerificationSendFail`    | yes      | `String`                              | `email_verification_send_fail.html`    | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SEND_FAIL`    | The URL to the custom page for email verification -> link send fail.                                                                                                                                          |
-| `pages.customUrls.emailVerificationSendSuccess` | yes      | `String`                              | `email_verification_send_success.html` | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SEND_SUCCESS` | The URL to the custom page for email verification -> resend link -> success.                                                                                                                                  |
-| `pages.customUrls.emailVerificationLinkInvalid` | yes      | `String`                              | `email_verification_link_invalid.html` | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_LINK_INVALID` | The URL to the custom page for email verification -> link invalid.                                                                                                                                            |
-| `pages.customUrls.emailVerificationLinkExpired` | yes      | `String`                              | `email_verification_link_expired.html` | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_LINK_EXPIRED` | The URL to the custom page for email verification -> link expired.                                                                                                                                            |
+**pages**
+
+_Optional `Object`. Default: `undefined`._
+
+The options for pages such as password reset and email verification.
+
+Environment variable: `PARSE_SERVER_PAGES`
+
+**pages.enableRouter**
+
+_Optional `Boolean`. Default: `false`._
+
+Is `true` if the pages router should be enabled; this is required for any of the pages options to take effect.
+
+Environment variable: `PARSE_SERVER_PAGES_ENABLE_ROUTER`
+
+**pages.enableLocalization**
+
+_Optional `Boolean`. Default: `false`._
+
+Is `true` if pages should be localized; this has no effect on custom page redirects.
+
+Environment variable: `PARSE_SERVER_PAGES_ENABLE_LOCALIZATION`
+
+**pages.localizationJsonPath**
+
+_Optional `String`. Default: `undefined`._
+
+The path to the JSON file for localization; the translations will be used to fill template placeholders according to the locale.
+
+Example: `./private/translations.json`
+
+Environment variable: `PARSE_SERVER_PAGES_LOCALIZATION_JSON_PATH`
+
+**pages.localizationFallbackLocale**
+
+_Optional `String`. Default: `en`._
+
+The fallback locale for localization if no matching translation is provided for the given locale. This is only relevant when providing translation resources via JSON file.
+
+Example: `en`, `en-GB`, `default`
+
+Environment variable: `PARSE_SERVER_PAGES_LOCALIZATION_FALLBACK_LOCALE`
+
+**pages.placeholders**
+
+_Optional `Object`, `Function`, or `AsyncFunction`. Default: `undefined`._
+
+The placeholder keys and values which will be filled in pages; this can be a simple object or a callback function.
+
+Example: `{ exampleKey: 'exampleValue' }`
+
+Environment variable: `PARSE_SERVER_PAGES_PLACEHOLDERS`
+
+**pages.forceRedirect**
+
+_Optional `Boolean`. Default: `false`._
+
+Is `true` if responses should always be redirects and never content, false if the response type should depend on the request type (`GET` request -> content response; `POST` request -> redirect response).
+
+Environment variable: `PARSE_SERVER_PAGES_FORCE_REDIRECT`
+
+**pages.pagesPath**
+
+_Optional `String`. Default: `./public`._
+
+The path to the pages directory; this also defines where the static endpoint `/apps` points to.
+
+Example: `./files/pages`, `../../pages`
+
+Environment variable: `PARSE_SERVER_PAGES_PAGES_PATH`
+
+**pages.pagesEndpoint**
+
+_Optional `String`. Default: `apps`._
+
+The API endpoint for the pages.
+
+Environment variable: `PARSE_SERVER_PAGES_PAGES_ENDPOINT`
+
+**pages.customUrls**
+
+_Optional `Object`. Default: `{}`._
+
+The URLs to the custom pages.
+
+Example: `{ passwordReset: 'https://example.com/page.html' }`
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URLS`
+
+**pages.customUrls.passwordReset**
+
+_Optional `String`. Default: `password_reset.html`._
+
+The URL to the custom page for password reset.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_PASSWORD_RESET`
+
+**pages.customUrls.passwordResetSuccess**
+
+_Optional `String`. Default: `password_reset_success.html`._
+
+The URL to the custom page for password reset -> success.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_PASSWORD_RESET_SUCCESS`
+
+**pages.customUrls.passwordResetLinkInvalid**
+
+_Optional `String`. Default: `password_reset_link_invalid.html`._
+
+The URL to the custom page for password reset -> link invalid.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_PASSWORD_RESET_LINK_INVALID`
+
+**pages.customUrls.emailVerificationSuccess**
+
+_Optional `String`. Default: `email_verification_success.html`._
+
+The URL to the custom page for email verification -> success.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SUCCESS`
+
+**pages.customUrls.emailVerificationSendFail**
+
+_Optional `String`. Default: `email_verification_send_fail.html`._
+
+The URL to the custom page for email verification -> link send fail.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SEND_FAIL`
+
+**pages.customUrls.emailVerificationSendSuccess**
+
+_Optional `String`. Default: `email_verification_send_success.html`._
+
+The URL to the custom page for email verification -> resend link -> success.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SEND_SUCCESS`
+
+**pages.customUrls.emailVerificationLinkInvalid**
+
+_Optional `String`. Default: `email_verification_link_invalid.html`._
+
+The URL to the custom page for email verification -> link invalid.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_LINK_INVALID`
+
+**pages.customUrls.emailVerificationLinkExpired**
+
+_Optional `String`. Default: `email_verification_link_expired.html`._
+
+The URL to the custom page for email verification -> link expired.
+
+Environment variable: `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_LINK_EXPIRED`
 
 ### Notes
 
