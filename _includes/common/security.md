@@ -551,9 +551,6 @@ Parse.Cloud.define("like", async request => {
   post.id = request.params.postId;
   post.increment("likes");
   await post.save(null, { useMasterKey: true })
-}, {
-  fields: ['postId'],
-  requireUser: true
 });
 ```
 
