@@ -54,6 +54,15 @@ Parameters:
 
 * `idempotencyOptions.ttl`: The duration in seconds after which a request record is discarded from the database. Duplicate requests due to network issues can be expected to arrive within milliseconds up to several seconds. This value must be greater than `0`.
 
+
+| Parameter                  | Optional | Type            | Default value | Example values                                                                                                                                                                                                                                                              | Environment variable                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|----------------------------|----------|-----------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `idempotencyOptions`       | yes      | `Object`        | `undefined`   |                                                                                                                                                                                                                                                                             | PARSE_SERVER_EXPERIMENTAL_IDEMPOTENCY_OPTIONS | Setting this enables idempotency enforcement for the specified paths.                                                                                                                                                                                                                                                                                                                                                                                 |
+| `idempotencyOptions.paths` | yes      | `Array<String>` | `[]`          | `.*` (all paths, includes the examples below), <br>`functions/.*` (all functions), <br>`jobs/.*` (all jobs), <br>`classes/.*` (all classes), <br>`functions/.*` (all functions), <br>`users` (user creation / update), <br>`installations` (installation creation / update) | PARSE_SERVER_EXPERIMENTAL_IDEMPOTENCY_PATHS   | An array of path patterns that have to match the request path for request deduplication to be enabled. The mount path must not be included, for example to match the request path `/parse/functions/myFunction` specifiy the path pattern `functions/myFunction`. A trailing slash of the request path is ignored, for example the path pattern `functions/myFunction` matches both `/parse/functions/myFunction` and `/parse/functions/myFunction/`. |
+| `idempotencyOptions.ttl`   | yes      | `Integer`       | `300`         | `60` (60 seconds)                                                                                                                                                                                                                                                           | PARSE_SERVER_EXPERIMENTAL_IDEMPOTENCY_TTL     | The duration in seconds after which a request record is discarded from the database. Duplicate requests due to network issues can be expected to arrive within milliseconds up to several seconds. This value must be greater than `0`.                                                                                                                                                                                                               |
+
+
+
 ### Notes
 
 - This feature is currently only available for MongoDB and not for Postgres.
@@ -68,26 +77,34 @@ Custom pages as well as feature pages (e.g. password reset, email verification) 
 ```js
 const api = new ParseServer({
   ...otherOptions,
+
   pages: {
     enableRouter: true, // Enables the experimental feature; required for localization
     enableLocalization: true,
   }
 }
 ```
+
 Localization is achieved by matching a request-supplied `locale` parameter with localized page content. The locale can be supplied in either the request query, body or header with the following keys:
 - query: `locale`
 - body: `locale`
 - header: `x-parse-page-param-locale`
+
 For example, a password reset link with the locale parameter in the query could look like this:
 ```
 http://example.com/parse/apps/[appId]/request_password_reset?token=[token]&username=[username]&locale=de-AT
 ```
+
 - Localization is only available for pages in the pages directory as set with `pages.pagesPath`.
 - Localization for feature pages (e.g. password reset, email verification) is disabled if `pages.customUrls` are set, even if the custom URLs point to the pages within the pages path.
 - Only `.html` files are considered for localization when localizing custom pages.
+
 Pages can be localized in two ways:
+
 #### Localization with Directory Structure
+
 Pages are localized by using the corresponding file in the directory structure where the files are placed in subdirectories named after the locale or language. The file in the base directory is the default file.
+
 **Example Directory Structure:**
 ```js
 root/
@@ -98,14 +115,17 @@ root/
 │   └── de-AT/               // de-AT locale folder
 │   │   └── example.html     // de-AT localized file
 ```
+
 Files are matched with the locale in the following order:
 1. Locale match, e.g. locale `de-AT` matches file in folder `de-AT`.
 1. Language match, e.g. locale `de-CH` matches file in folder `de`.
 1. Default; file in base folder is returned.
+
 **Configuration Example:**
 ```js
 const api = new ParseServer({
   ...otherOptions,
+
   pages: {
     enableRouter: true, // Enables the experimental feature; required for localization
     enableLocalization: true,
@@ -115,21 +135,28 @@ const api = new ParseServer({
   }
 }
 ```
+
 Pros:
 - All files are complete in their content and can be easily opened and previewed by viewing the file in a browser.
+
 Cons:
 - In most cases, a localized page differs only slighly from the default page, which could cause a lot of duplicate code that is difficult to maintain.
+
 #### Localization with JSON Resource
+
 Pages are localized by adding placeholders in the HTML files and providing a JSON resource that contains the translations to fill into the placeholders.
+
 **Example Directory Structure:**
 ```js
 root/
 ├── public/                  // pages base path
-│   ├── example.html         // the page containing placeholders
+│   ├── example.html         // the page containg placeholders
 ├── private/                 // folder outside of public scope
 │   └── translations.json    // JSON resource file
 ```
+
 The JSON resource file loosely follows the [i18next](https://github.com/i18next/i18next) syntax, which is a syntax that is often supported by translation platforms, making it easy to manage translations, exporting them for use in Parse Server, and even to automate this workflow.
+
 **Example JSON Content:**
 ```json
 {
@@ -150,10 +177,12 @@ The JSON resource file loosely follows the [i18next](https://github.com/i18next/
   }
 }
 ```
+
 **Configuration Example:**
 ```js
 const api = new ParseServer({
   ...otherOptions,
+
   pages: {
     enableRouter: true, // Enables the experimental feature; required for localization
     enableLocalization: true,
@@ -162,17 +191,23 @@ const api = new ParseServer({
   }
 }
 ```
+
 Pros:
 - There is only one HTML file to maintain that contains the placeholders that are filled with the translations according to the locale.
+
 Cons:
 - Files cannot be easily previewed by viewing the file in a browser because the content contains only placeholders and even HTML or CSS changes may be dynamically applied, e.g. when a localization requires a Right-To-Left layout direction.
 - Style and other fundamental layout changes may be more difficult to apply.
+
 #### Dynamic placeholders
+
 In addition to feature related default parameters such as `appId` and the translations provided via JSON resource, it is possible to define custom dynamic placeholders as part of the router configuration. This works independently of localization and, also if `enableLocalization` is disabled.
+
 **Configuration Example:**
 ```js
 const api = new ParseServer({
   ...otherOptions,
+
   pages: {
     enableRouter: true, // Enables the experimental feature; required for localization
     placeholders: {
@@ -182,9 +217,11 @@ const api = new ParseServer({
 }
 ```
 The placeholders can also be provided as function or as async function, with the `locale` and other feature related parameters passed through, to allow for dynamic placeholder values:
+
 ```js
 const api = new ParseServer({
   ...otherOptions,
+
   pages: {
     enableRouter: true, // Enables the experimental feature; required for localization
     placeholders: async (params) => {
@@ -196,9 +233,13 @@ const api = new ParseServer({
   }
 }
 ```
+
 #### Reserved Keys
+
 The following parameter and placeholder keys are reserved because they are used related to features such as password reset or email verification. They should not be used as translation keys in the JSON resource or as manually defined placeholder keys in the configuration: `appId`, `appName`, `email`, `error`, `locale`, `publicServerUrl`, `token`, `username`.
+
 #### Parameters
+
 | Parameter                                       | Optional | Type                                  | Default value                          | Example values                                       | Environment variable                                            | Description                                                                                                                                                                                                   |
 |-------------------------------------------------|----------|---------------------------------------|----------------------------------------|------------------------------------------------------|-----------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `pages`                                         | yes      | `Object`                              | `undefined`                            | -                                                    | `PARSE_SERVER_PAGES`                                            | The options for pages such as password reset and email verification.                                                                                                                                          |
@@ -219,5 +260,7 @@ The following parameter and placeholder keys are reserved because they are used 
 | `pages.customUrls.emailVerificationSendSuccess` | yes      | `String`                              | `email_verification_send_success.html` | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_SEND_SUCCESS` | The URL to the custom page for email verification -> resend link -> success.                                                                                                                                  |
 | `pages.customUrls.emailVerificationLinkInvalid` | yes      | `String`                              | `email_verification_link_invalid.html` | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_LINK_INVALID` | The URL to the custom page for email verification -> link invalid.                                                                                                                                            |
 | `pages.customUrls.emailVerificationLinkExpired` | yes      | `String`                              | `email_verification_link_expired.html` | -                                                    | `PARSE_SERVER_PAGES_CUSTOM_URL_EMAIL_VERIFICATION_LINK_EXPIRED` | The URL to the custom page for email verification -> link expired.                                                                                                                                            |
+
 ### Notes
+
 - In combination with the [Parse Server API Mail Adapter](https://www.npmjs.com/package/parse-server-api-mail-adapter) Parse Server provides a fully localized flow (emails -> pages) for the user. The email adapter sends a localized email and adds a locale parameter to the password reset or email verification link, which is then used to respond with localized pages.
