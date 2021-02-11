@@ -35,8 +35,8 @@ Take a look at the following query to retrieve GameScore objects:
 
 {% if page.language == "js" %}
 ```javascript
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
+const GameScore = Parse.Object.extend("GameScore");
+const query = new Parse.Query(GameScore);
 query.equalTo("score", 50);
 query.containedIn("playerName",
     ["Jonathan Walsh", "Dario Wunsch", "Shawn Simon"]);
@@ -181,8 +181,8 @@ For example, let's say you're tracking high scores for a game in a GameScore cla
 
 {% if page.language == "js" %}
 ```javascript
-var GameScore = Parse.Object.extend("GameScore");
-var query = new Parse.Query(GameScore);
+const GameScore = Parse.Object.extend("GameScore");
+const query = new Parse.Query(GameScore);
 query.notEqualTo("playerName", "Michael Yabuti");
 query.find().then(function(results) {
   // Retrieved scores successfully
@@ -269,7 +269,7 @@ For example if the User class has a column called state which has values “Sign
 
 {% if page.language == "js" %}
 ```javascript
-var query = new Parse.Query(Parse.User);
+const query = new Parse.Query(Parse.User);
 query.notEqualTo("state", "Invited");
 ```
 {% endif %}
