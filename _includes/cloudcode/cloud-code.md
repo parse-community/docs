@@ -219,7 +219,6 @@ The full range of built-in Validation Options are:
 - `requireAnyUserRoles`: an `Array` or `function` that returns an array. `request.user` must match one of the specified roles.
 - `requireAllUserRoles`: an `Array` or `function` that returns an array. `request.user` must match all of the specified roles.
 - `requireUserKeys`: an `Array` of fields to be validated on `request.user`.
-- `requireUserKeys`: an `Array` of fields to be validated on `request.user`.
 
 The full range of built-in Validation Options on `.fields` are:
 
