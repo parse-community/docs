@@ -414,6 +414,8 @@ print result
 
 You can restrict the fields returned by passing `keys` or `excludeKeys` as an [array](#arrays). To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
 
+* On Parse Server <=4.5.0 pass a comma-delimited string, e.g. `"score,playerName"` instead of an array for `keys` and `excludeKeys`.
+
 <div class="language-toggle">
 <pre><code class="bash">
 curl -X GET \
