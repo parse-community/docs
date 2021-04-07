@@ -17,8 +17,6 @@ If this is your first time setting up a MongoDB instance, we recommend a Databas
 
 When using MongoDB with your Parse app, you need to manage your indexes yourself. You will also need to size up your database as your data grows.
 
-If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](#using-mongodb--rocksdb).
-
 In order to allow for better scaling of your data layer, it is possible to direct queries to a mongodb secondary for read operations.  See: [Mongo Read Preference](#using-mongodb-read-preference).
 
 ## Postgres
