@@ -672,6 +672,9 @@ Parse.Cloud.afterFind(Parse.User, async (request) => {
 })
 ```
 
+### Some considerations to be aware of
+- If you use the `masterKey` to fetch a pointer in an `afterFind` trigger, it will be sent in full to the client. Prior to returning to the client, be sure to check that the returned objects and pointers do not contain information that the client should not be able to access
+
 # Session Triggers
 
 ## beforeLogin
