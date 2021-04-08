@@ -172,7 +172,7 @@ Parse.Cloud.define("averageStars", async (request) => {
       required: true,
       type: String,
       options: val => {
-        return val < 20;
+        return val.length < 20;
       },
       error: "Movie must be less than 20 characters"
     }
@@ -671,6 +671,9 @@ Parse.Cloud.afterFind(Parse.User, async (request) => {
     // code here
 })
 ```
+
+### Some considerations to be aware of
+- If you use the `masterKey` to fetch a pointer in an `afterFind` trigger, it will be sent in full to the client. Prior to returning to the client, be sure to check that the returned objects and pointers do not contain information that the client should not be able to access
 
 # Session Triggers
 
