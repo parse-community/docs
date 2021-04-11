@@ -886,4 +886,4 @@ Parse.Object.saveAll(objects, { useMasterKey: true });
 ```
 
 ### Considerations
-- If you set `masterKey: true` when fetching objects with a query or relation in [Cloud Functions](https://docs.parseplatform.org/cloudcode/guide/#cloud-functions) or [Find Triggers](https://docs.parseplatform.org/cloudcode/guide/#find-triggers), the complete object will be returned. You may want to remove object properties that the client should not be able to access before sending it to the client.
+- If you set `masterKey: true` when fetching objects with a query or relation in [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-functions) or [Find Triggers]({{ site.baseUrl }}/cloudcode/guide/#find-triggers), the complete object will be returned. You may want to remove object properties that the client should not be able to access before sending it to the client.
