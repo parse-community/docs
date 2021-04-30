@@ -288,6 +288,54 @@ var api = new ParseServer({
 });
 ```
 
+##### S3Adapter configuration for Linode Object Storage
+
+Object Storage is an s3-compoatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
+
+```js
+const S3Adapter = require("parse-server").S3Adapter;
+const AWS = require("aws-sdk");
+
+const storageEndpoint = new AWS.Endpoint(process.env.PARSE_S3_ENDPOINT); // regionName.linodeobjects.com
+const s3Options = {
+  bucket: process.env.PARSE_S3_BUCKET_NAME, // bucket's name
+  baseUrl: process.env.PARSE_S3_BASE_URL, // something like: https://mybucket.regionName.linodeobjects.com
+  region: process.env.PARSE_S3_REGION, // some possible values: eu-central-1 or us-east-1
+  directAccess: false,
+  s3overrides: {
+    accessKeyId: process.env.PARSE_S3_ACCESS_KEY, // this is generated when you create your bucket
+    secretAccessKey: process.env.PARSE_S3_SECRET_KEY, this is generated when you create your bucket
+    endpoint: storageEndpoint,
+  },
+};
+const adapter = new S3Adapter(s3Options);
+const api = new ParseServer({
+  ...otherParseOptions,
+  filesAdapter: adapter,
+});
+```
+
+
+##### S3Adapter configuration for Backblaze
+
+We also can use Backblaze's [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
+
+```js
+const s3Adapter = new S3Adapter({
+  bucket: process.env.S3_BUCKET,
+  directAccess: true,
+  baseUrl: process.env.S3_BASE_URL, // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
+  baseUrlDirect: false,
+  signatureVersion: 'v4',
+  globalCacheControl: 'public, max-age=86400',
+  region: 'us-west-000',
+  s3overrides: {
+    endpoint: process.env.S3_ENDPOINT, // check backblaze bucket endpoint
+    accessKeyId: process.env.S3_ACCESS_KEY,
+    secretAccessKey: process.env.S3_SECRET_KEY
+  },
+});
+```
 
 ##### GCSAdapter constructor options
 
