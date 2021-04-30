@@ -175,80 +175,6 @@ var api = new ParseServer({
 
 Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to their correct value.
 
-##### S3Adapter constructor options
-
-```js
-new S3Adapter(accessKey, secretKey, bucket, options)
-```
-
-| Parameter | Description | Notes |
-| --------- | ----------- | ----- |
-| accessKey    | The AWS access key for a user that has the required permissions | Required. |
-| secretKey    | The AWS secret key for the user | Required. |
-| bucket       | The name of your S3 bucket. | Required. |
-| options      | JavaScript object (map) that can contain: | |
-| region       | Key in `options`. Set the AWS region to connect to. | Optional. Default: `us-east-1` |
-| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: `null` |
-| directAccess | Key in `options`. Controls whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: `false` |
-| baseUrl | Key in `options`. The base URL the file adapter uses to determine the file location for direct access. | Optional. Default: `null`. To be used when `directAccess=true`. When set the file adapter returns a file URL in format `baseUrl/bucketPrefix` + `filename`. Example for `baseUrl='http://domain.com/folder'` and `bucketPrefix='prefix_'` the returned file location is  `http://domain.com/folder/prefix_file.txt`. |
-| baseUrlDirect | Key in `options`. Is `true` if the file adapter should ignore the bucket prefix when determining the file location for direct access. | Optional. Default: `false`. To be used when `directAccess=true` and `baseUrl` is set. When set to `true`, the file adapter returns a file URL in format `baseUrl/filename`. Example for `baseUrl='http://domain.com/folder'` and `baseUrlDirect=true` the returned file location is `http://domain.com/folder/file.txt`. |
-| globalCacheControl | Key in `options`. The `Cache-Control` http header to set in the file request. | Optional. Default: `null`. Example: `public, max-age=86400` for 24 hrs caching. More info [here](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1). |
-
-
-## Configuring `GCSAdapter`
-
-Unlike the S3 adapter, you must create a new Cloud Storage bucket, as this is not created automatically. See the Google Cloud guide on [Authentication](https://googlecloudplatform.github.io/google-cloud-node/#/docs/google-cloud/master/guides/authentication) for more details.
-
-To generate a private key in the Cloud Platform Console follow [these instructions](https://cloud.google.com/storage/docs/authentication#generating-a-private-key).
-
-### Installation
-
-Starting 2.2.6, GCS Adapter is not provided by default by parse-server. To install run:
-
-```
-npm install --save parse-server-gcs-adapter
-```
-
-### Configuration options
-
-Writing to your Google Cloud Storage bucket from Parse Server is as simple as configuring and using the GCS files adapter.
-
-#### Using environment variables
-
-You can use Google Cloud Storage to host your static files by setting the following environment variables:
-
-| Variable Name | Description | Notes |
-| ------------- | ----------- | ----- |
-| PARSE_SERVER_FILES_ADAPTER  | Set this variable to 'parse-server-gcs-adapter'. | Required. |
-| GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required. |
-| GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
-| GCS_BUCKET                  | The name of your GCS bucket. | Required. |
-| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
-| GCS_DIRECT_ACCESS           | Whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
-
-#### Passing as options
-
-If you're using Node.js/Express:
-
-```javascript
-...
-var GCSAdapter = require('parse-server-gcs-adapter');
-
-var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
-  appId: process.env.APP_ID || 'APPLICATION_ID',
-  masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
-  ...
-  filesAdapter: new GCSAdapter(
-    "GCP_PROJECT_ID",
-    "GCP_KEYFILE_PATH",
-    "GCS_BUCKET",
-    {directAccess: true}
-  ),
-  ...
-});
-```
-
 ##### S3Adapter configuration for Digital Ocean Spaces
 
 Spaces is an S3 equivalent prodivided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
@@ -334,6 +260,80 @@ const s3Adapter = new S3Adapter({
     accessKeyId: process.env.S3_ACCESS_KEY,
     secretAccessKey: process.env.S3_SECRET_KEY
   },
+});
+```
+
+##### S3Adapter constructor options
+
+```js
+new S3Adapter(accessKey, secretKey, bucket, options)
+```
+
+| Parameter | Description | Notes |
+| --------- | ----------- | ----- |
+| accessKey    | The AWS access key for a user that has the required permissions | Required. |
+| secretKey    | The AWS secret key for the user | Required. |
+| bucket       | The name of your S3 bucket. | Required. |
+| options      | JavaScript object (map) that can contain: | |
+| region       | Key in `options`. Set the AWS region to connect to. | Optional. Default: `us-east-1` |
+| bucketPrefix | Key in `options`. Set to create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. Default: `null` |
+| directAccess | Key in `options`. Controls whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: `false` |
+| baseUrl | Key in `options`. The base URL the file adapter uses to determine the file location for direct access. | Optional. Default: `null`. To be used when `directAccess=true`. When set the file adapter returns a file URL in format `baseUrl/bucketPrefix` + `filename`. Example for `baseUrl='http://domain.com/folder'` and `bucketPrefix='prefix_'` the returned file location is  `http://domain.com/folder/prefix_file.txt`. |
+| baseUrlDirect | Key in `options`. Is `true` if the file adapter should ignore the bucket prefix when determining the file location for direct access. | Optional. Default: `false`. To be used when `directAccess=true` and `baseUrl` is set. When set to `true`, the file adapter returns a file URL in format `baseUrl/filename`. Example for `baseUrl='http://domain.com/folder'` and `baseUrlDirect=true` the returned file location is `http://domain.com/folder/file.txt`. |
+| globalCacheControl | Key in `options`. The `Cache-Control` http header to set in the file request. | Optional. Default: `null`. Example: `public, max-age=86400` for 24 hrs caching. More info [here](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1). |
+
+
+## Configuring `GCSAdapter`
+
+Unlike the S3 adapter, you must create a new Cloud Storage bucket, as this is not created automatically. See the Google Cloud guide on [Authentication](https://googlecloudplatform.github.io/google-cloud-node/#/docs/google-cloud/master/guides/authentication) for more details.
+
+To generate a private key in the Cloud Platform Console follow [these instructions](https://cloud.google.com/storage/docs/authentication#generating-a-private-key).
+
+### Installation
+
+Starting 2.2.6, GCS Adapter is not provided by default by parse-server. To install run:
+
+```
+npm install --save parse-server-gcs-adapter
+```
+
+### Configuration options
+
+Writing to your Google Cloud Storage bucket from Parse Server is as simple as configuring and using the GCS files adapter.
+
+#### Using environment variables
+
+You can use Google Cloud Storage to host your static files by setting the following environment variables:
+
+| Variable Name | Description | Notes |
+| ------------- | ----------- | ----- |
+| PARSE_SERVER_FILES_ADAPTER  | Set this variable to 'parse-server-gcs-adapter'. | Required. |
+| GCP_PROJECT_ID              | The project ID from the Google Developer's Console. | Required. |
+| GCP_KEYFILE_PATH            | Full path to the a .json, .pem, or .p12 key downloaded from the Google Developers Console. | Required. |
+| GCS_BUCKET                  | The name of your GCS bucket. | Required. |
+| GCS_BUCKET_PREFIX           | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
+| GCS_DIRECT_ACCESS           | Whether reads are going directly to GCS or proxied through your Parse Server. | Optional. Default: false |
+
+#### Passing as options
+
+If you're using Node.js/Express:
+
+```javascript
+...
+var GCSAdapter = require('parse-server-gcs-adapter');
+
+var api = new ParseServer({
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  appId: process.env.APP_ID || 'APPLICATION_ID',
+  masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
+  ...
+  filesAdapter: new GCSAdapter(
+    "GCP_PROJECT_ID",
+    "GCP_KEYFILE_PATH",
+    "GCS_BUCKET",
+    {directAccess: true}
+  ),
+  ...
 });
 ```
 
