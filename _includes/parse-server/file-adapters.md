@@ -216,7 +216,7 @@ var api = new ParseServer({
 
 ##### S3Adapter configuration for Linode Object Storage
 
-Object Storage is an s3-compoatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
+Object Storage is an s3-compatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
 
 ```js
 const S3Adapter = require("parse-server").S3Adapter;
@@ -230,7 +230,7 @@ const s3Options = {
   directAccess: false,
   s3overrides: {
     accessKeyId: process.env.PARSE_S3_ACCESS_KEY, // this is generated when you create your bucket
-    secretAccessKey: process.env.PARSE_S3_SECRET_KEY, this is generated when you create your bucket
+    secretAccessKey: process.env.PARSE_S3_SECRET_KEY, // this is generated when you create your bucket
     endpoint: storageEndpoint,
   },
 };
