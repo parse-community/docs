@@ -175,95 +175,68 @@ var api = new ParseServer({
 
 Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to their correct value.
 
-##### S3Adapter configuration for Digital Ocean Spaces
+### Options for Digital Ocean Spaces
 
-Spaces is an S3 equivalent prodivided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
+Spaces is an S3-compatible prodivided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
 You just need to change the AWS Endpoint to point to your Spaces endpoint.
 
 ```javascript
-...
-var S3Adapter = require('parse-server').S3Adapter;
-var AWS = require("aws-sdk");
-
-//Set Digital Ocean Spaces EndPoint
-const spacesEndpoint = new AWS.Endpoint(process.env.SPACES_ENDPOINT);
-//Define S3 options
-var s3Options = {
-  bucket: process.env.SPACES_BUCKET_NAME,
-  baseUrl: process.env.SPACES_BASE_URL,
-  region: process.env.SPACES_REGION,
+const s3Options = {
+  bucket: "SPACES_BUCKET_NAME",
+  baseUrl: "SPACES_BASE_URL",
+  region: "SPACES_REGION",
   directAccess: true,
   globalCacheControl: "public, max-age=31536000",
-  bucketPrefix: process.env.SPACES_BUCKET_PREFIX,
+  bucketPrefix: "SPACES_BUCKET_PREFIX",
   s3overrides: {
-    accessKeyId: process.env.SPACES_ACCESS_KEY,
-    secretAccessKey: process.env.SPACES_SECRET_KEY,
-    endpoint: spacesEndpoint
+    accessKeyId: "SPACES_ACCESS_KEY",
+    secretAccessKey: "SPACES_SECRET_KEY",
+    endpoint: 'SPACES_ENDPOINT'
   }
 };
-
-var s3Adapter = new S3Adapter(s3Options);
-
-var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
-  appId: process.env.APP_ID || 'APPLICATION_ID',
-  masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
-  ...
-  filesAdapter: s3Adapter
-  ...
-});
 ```
 
-##### S3Adapter configuration for Linode Object Storage
+### Options for Linode Object Storage
 
 Object Storage is an s3-compatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
 
 ```js
-const S3Adapter = require("parse-server").S3Adapter;
-const AWS = require("aws-sdk");
-
-const storageEndpoint = new AWS.Endpoint(process.env.PARSE_S3_ENDPOINT); // regionName.linodeobjects.com
 const s3Options = {
-  bucket: process.env.PARSE_S3_BUCKET_NAME, // bucket's name
-  baseUrl: process.env.PARSE_S3_BASE_URL, // something like: https://mybucket.regionName.linodeobjects.com
-  region: process.env.PARSE_S3_REGION, // some possible values: eu-central-1 or us-east-1
+  bucket: "S3_BUCKET_NAME",
+  baseUrl: "S3_BASE_URL", // https://myBucket.myRegion.linodeobjects.com
+  region: "S3_REGION", // possible values: eu-central-1 or us-east-1
   directAccess: false,
   s3overrides: {
-    accessKeyId: process.env.PARSE_S3_ACCESS_KEY, // this is generated when you create your bucket
-    secretAccessKey: process.env.PARSE_S3_SECRET_KEY, // this is generated when you create your bucket
-    endpoint: storageEndpoint,
+    accessKeyId: "S3_ACCESS_KEY", // bucket access key
+    secretAccessKey: "S3_SECRET_KEY", // bucket secret key
+    endpoint: "S3_ENDPOINT", // regionName.linodeobjects.com
   },
 };
-const adapter = new S3Adapter(s3Options);
-const api = new ParseServer({
-  ...otherParseOptions,
-  filesAdapter: adapter,
-});
 ```
 
 
-##### S3Adapter configuration for Backblaze
+### Options for Backblaze
 
-We also can use Backblaze's [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
+We also can use Backblaze's s3-compatible [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
 
 ```js
-const s3Adapter = new S3Adapter({
-  bucket: process.env.S3_BUCKET,
+const s3Options = {
+  bucket: "S3_BUCKET",
   directAccess: true,
-  baseUrl: process.env.S3_BASE_URL, // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
+  baseUrl: "S3_BASE_URL", // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
   baseUrlDirect: false,
   signatureVersion: 'v4',
   globalCacheControl: 'public, max-age=86400',
   region: 'us-west-000',
   s3overrides: {
-    endpoint: process.env.S3_ENDPOINT, // check backblaze bucket endpoint
-    accessKeyId: process.env.S3_ACCESS_KEY,
-    secretAccessKey: process.env.S3_SECRET_KEY
+    endpoint: "S3_ENDPOINT", // check backblaze bucket endpoint
+    accessKeyId: "S3_ACCESS_KEY",
+    secretAccessKey: "S3_SECRET_KEY"
   },
-});
+};
 ```
 
-##### S3Adapter constructor options
+#### S3Adapter constructor options
 
 ```js
 new S3Adapter(accessKey, secretKey, bucket, options)
