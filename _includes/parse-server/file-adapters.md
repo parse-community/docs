@@ -198,7 +198,7 @@ const s3Options = {
 
 ### Options for Linode Object Storage
 
-Object Storage is an s3-compatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
+Object Storage is an S3-compatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
 
 ```js
 const s3Options = {
@@ -216,7 +216,7 @@ const s3Options = {
 
 ### Options for Backblaze
 
-We also can use Backblaze's s3-compatible [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
+We also can use Backblaze's S3-compatible [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
 
 ```js
 const s3Options = {
