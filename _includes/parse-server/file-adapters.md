@@ -214,7 +214,6 @@ const s3Options = {
 };
 ```
 
-
 ### Options for Backblaze
 
 We also can use Backblaze's s3-compatible [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
