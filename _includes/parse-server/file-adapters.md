@@ -175,9 +175,9 @@ var api = new ParseServer({
 
 Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to their correct value.
 
-### Options for Digital Ocean Spaces
+### Digital Ocean Spaces
 
-Spaces is an S3-compatible prodivided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
+Spaces is an S3-compatible provided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
 You just need to change the AWS Endpoint to point to your Spaces endpoint.
 
 ```javascript
@@ -196,7 +196,7 @@ const s3Options = {
 };
 ```
 
-### Options for Linode Object Storage
+### Linode Object Storage
 
 Object Storage is an S3-compatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
 
@@ -214,7 +214,7 @@ const s3Options = {
 };
 ```
 
-### Options for Backblaze
+### Backblaze
 
 We also can use Backblaze's S3-compatible [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
 
