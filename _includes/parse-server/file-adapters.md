@@ -175,67 +175,7 @@ var api = new ParseServer({
 
 Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to their correct value.
 
-### Digital Ocean Spaces
-
-Spaces is an S3-compatible provided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
-You just need to change the AWS Endpoint to point to your Spaces endpoint.
-
-```javascript
-const s3Options = {
-  bucket: "SPACES_BUCKET_NAME",
-  baseUrl: "SPACES_BASE_URL",
-  region: "SPACES_REGION",
-  directAccess: true,
-  globalCacheControl: "public, max-age=31536000",
-  bucketPrefix: "SPACES_BUCKET_PREFIX",
-  s3overrides: {
-    accessKeyId: "SPACES_ACCESS_KEY",
-    secretAccessKey: "SPACES_SECRET_KEY",
-    endpoint: 'SPACES_ENDPOINT'
-  }
-};
-```
-
-### Linode Object Storage
-
-Object Storage is an S3-compatible storage service from Linode. We can configure our S3Adapter to use Linode's service. Please refer to [this guide](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details on Linode's API.
-
-```js
-const s3Options = {
-  bucket: "S3_BUCKET_NAME",
-  baseUrl: "S3_BASE_URL", // https://myBucket.myRegion.linodeobjects.com
-  region: "S3_REGION", // possible values: eu-central-1 or us-east-1
-  directAccess: false,
-  s3overrides: {
-    accessKeyId: "S3_ACCESS_KEY", // bucket access key
-    secretAccessKey: "S3_SECRET_KEY", // bucket secret key
-    endpoint: "S3_ENDPOINT", // regionName.linodeobjects.com
-  },
-};
-```
-
-### Backblaze
-
-We also can use Backblaze's S3-compatible [B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) as a storage adapter. Here is a working configuration for B2:
-
-```js
-const s3Options = {
-  bucket: "S3_BUCKET",
-  directAccess: true,
-  baseUrl: "S3_BASE_URL", // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
-  baseUrlDirect: false,
-  signatureVersion: 'v4',
-  globalCacheControl: 'public, max-age=86400',
-  region: 'us-west-000',
-  s3overrides: {
-    endpoint: "S3_ENDPOINT", // check backblaze bucket endpoint
-    accessKeyId: "S3_ACCESS_KEY",
-    secretAccessKey: "S3_SECRET_KEY"
-  },
-};
-```
-
-#### S3Adapter constructor options
+### Adapter Options
 
 ```js
 new S3Adapter(accessKey, secretKey, bucket, options)
@@ -253,6 +193,66 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 | baseUrl | Key in `options`. The base URL the file adapter uses to determine the file location for direct access. | Optional. Default: `null`. To be used when `directAccess=true`. When set the file adapter returns a file URL in format `baseUrl/bucketPrefix` + `filename`. Example for `baseUrl='http://domain.com/folder'` and `bucketPrefix='prefix_'` the returned file location is  `http://domain.com/folder/prefix_file.txt`. |
 | baseUrlDirect | Key in `options`. Is `true` if the file adapter should ignore the bucket prefix when determining the file location for direct access. | Optional. Default: `false`. To be used when `directAccess=true` and `baseUrl` is set. When set to `true`, the file adapter returns a file URL in format `baseUrl/filename`. Example for `baseUrl='http://domain.com/folder'` and `baseUrlDirect=true` the returned file location is `http://domain.com/folder/file.txt`. |
 | globalCacheControl | Key in `options`. The `Cache-Control` http header to set in the file request. | Optional. Default: `null`. Example: `public, max-age=86400` for 24 hrs caching. More info [here](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1). |
+
+### S3-compatible Services
+#### Digital Ocean Spaces
+
+[Digital Ocean Spaces](https://try.digitalocean.com/cloud-storage) is an S3-compatible storage service in the cloud. See their [documentation](https://docs.digitalocean.com/products/spaces/) for more details.
+
+```javascript
+const s3Options = {
+  bucket: "SPACES_BUCKET_NAME",
+  baseUrl: "SPACES_BASE_URL",
+  region: "SPACES_REGION",
+  directAccess: true,
+  globalCacheControl: "public, max-age=31536000",
+  bucketPrefix: "SPACES_BUCKET_PREFIX",
+  s3overrides: {
+    accessKeyId: "SPACES_ACCESS_KEY",
+    secretAccessKey: "SPACES_SECRET_KEY",
+    endpoint: 'SPACES_ENDPOINT'
+  }
+};
+```
+
+#### Linode Object Storage
+
+[Linode Object Storage](https://www.linode.com/products/object-storage/) is an S3-compatible storage service in the cloud. See their [documentation](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details.
+
+```js
+const s3Options = {
+  bucket: "S3_BUCKET_NAME",
+  baseUrl: "S3_BASE_URL", // https://myBucket.myRegion.linodeobjects.com
+  region: "S3_REGION", // possible values: eu-central-1 or us-east-1
+  directAccess: false,
+  s3overrides: {
+    accessKeyId: "S3_ACCESS_KEY", // bucket access key
+    secretAccessKey: "S3_SECRET_KEY", // bucket secret key
+    endpoint: "S3_ENDPOINT", // regionName.linodeobjects.com
+  },
+};
+```
+
+#### Backblaze B2 Cloud Storage
+
+[Backblaze B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) is an S3-compatible storage service in the cloud. See their [documentation](https://www.backblaze.com/b2/docs/) for more details.
+
+```js
+const s3Options = {
+  bucket: "S3_BUCKET",
+  directAccess: true,
+  baseUrl: "S3_BASE_URL", // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
+  baseUrlDirect: false,
+  signatureVersion: 'v4',
+  globalCacheControl: 'public, max-age=86400',
+  region: 'us-west-000',
+  s3overrides: {
+    endpoint: "S3_ENDPOINT", // check backblaze bucket endpoint
+    accessKeyId: "S3_ACCESS_KEY",
+    secretAccessKey: "S3_SECRET_KEY"
+  },
+};
+```
 
 
 ## Configuring `GCSAdapter`
