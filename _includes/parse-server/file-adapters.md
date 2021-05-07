@@ -204,8 +204,6 @@ const s3Options = {
   bucket: "SPACES_BUCKET_NAME",
   baseUrl: "SPACES_BASE_URL",
   region: "SPACES_REGION",
-  directAccess: true,
-  globalCacheControl: "public, max-age=31536000",
   bucketPrefix: "SPACES_BUCKET_PREFIX",
   s3overrides: {
     accessKeyId: "SPACES_ACCESS_KEY",
@@ -224,7 +222,6 @@ const s3Options = {
   bucket: "S3_BUCKET_NAME",
   baseUrl: "S3_BASE_URL", // https://myBucket.myRegion.linodeobjects.com
   region: "S3_REGION", // possible values: eu-central-1 or us-east-1
-  directAccess: false,
   s3overrides: {
     accessKeyId: "S3_ACCESS_KEY", // bucket access key
     secretAccessKey: "S3_SECRET_KEY", // bucket secret key
@@ -240,11 +237,8 @@ const s3Options = {
 ```js
 const s3Options = {
   bucket: "S3_BUCKET",
-  directAccess: true,
   baseUrl: "S3_BASE_URL", // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
-  baseUrlDirect: false,
   signatureVersion: 'v4',
-  globalCacheControl: 'public, max-age=86400',
   region: 'us-west-000',
   s3overrides: {
     endpoint: "S3_ENDPOINT", // check backblaze bucket endpoint
