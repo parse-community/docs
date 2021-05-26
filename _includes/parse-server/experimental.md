@@ -61,7 +61,6 @@ Parameters:
 ## Localization
 
 ### Pages
-**Caution, this is an experimental feature that may not be appropriate for production.**
 
 Custom pages as well as feature pages (e.g. password reset, email verification) can be localized with the `pages` option in the Parse Server configuration:
 
@@ -109,8 +108,8 @@ root/
 
 Files are matched with the locale in the following order:
 1. Locale match, e.g. locale `de-AT` matches file in folder `de-AT`.
-1. Language match, e.g. locale `de-CH` matches file in folder `de`.
-1. Default; file in base folder is returned.
+2. Language match, e.g. locale `de-CH` matches file in folder `de`.
+3. Default; file in base folder is returned.
 
 **Configuration Example:**
 ```js
@@ -184,7 +183,7 @@ const api = new ParseServer({
 ```
 
 Pros:
-- There is only one HTML file to maintain that contains the placeholders that are filled with the translations according to the locale.
+- There is only one HTML file to maintain containing the placeholders which are filled with the translations according to the locale.
 
 Cons:
 - Files cannot be easily previewed by viewing the file in a browser because the content contains only placeholders and even HTML or CSS changes may be dynamically applied, e.g. when a localization requires a Right-To-Left layout direction.
@@ -207,7 +206,7 @@ const api = new ParseServer({
   }
 }
 ```
-The placeholders can also be provided as function or as async function, with the `locale` and other feature related parameters passed through, to allow for dynamic placeholder values:
+The placeholders can also be provided as a function or as an async function, with the `locale` and other feature related parameters passed through, to allow for dynamic placeholder values:
 
 ```js
 const api = new ParseServer({
@@ -227,7 +226,7 @@ const api = new ParseServer({
 
 #### Reserved Keys
 
-The following parameter and placeholder keys are reserved because they are used related to features such as password reset or email verification. They should not be used as translation keys in the JSON resource or as manually defined placeholder keys in the configuration: `appId`, `appName`, `email`, `error`, `locale`, `publicServerUrl`, `token`, `username`.
+The following parameter and placeholder keys are reserved because they are used in relation to features such as password reset or email verification. They should not be used as translation keys in the JSON resource or as manually defined placeholder keys in the configuration: `appId`, `appName`, `email`, `error`, `locale`, `publicServerUrl`, `token`, `username`.
 
 ### Parameters
 
