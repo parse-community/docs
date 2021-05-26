@@ -1,8 +1,8 @@
 # Experimental
 
-Experimental features may not be 'battle tested' and could have issues. They are likely to become full features at some point, but could be removed from the system if they are problematic.
+The following features are still under active development and subject to an increased probability of bugs, breaking changes, non-backward compatible changes or removal in any future version. It's not recommended to use these features in production or other critical environments.
 
-These features may not be approprate for production, so use at your own risk.
+However, we strongly appreciate if you try out these features in development environments and provide feedback, so that they can mature faster and become production fit.
 
 ## Direct Access
 
