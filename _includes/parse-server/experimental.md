@@ -6,7 +6,11 @@ However, we strongly appreciate if you try out these features in development env
 
 ## Direct Access
 
-`directAccess` replaces the HTTP Interface when using the JS SDK in the current node runtime. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
+A Parse Server request in Cloud Code (such as a query) is usually sent to Parse Server via the HTTP interface, just as if the request came from outside Cloud Code and outside the current Node.js instance. This is true for all requests made with the Parse JavaScript SDK within the Node.js runtime in which Parse Server is running.
+
+Setting `directAccess: true` instead processes requests to Parse Server directly within the Parse instance without using the HTTP interface. This may improve performance, along with `enableSingleSchemaCache` set to `true`.
+
+Direct Access also has the side effect that requests within Cloud Code cannot be distributed via a load balancer when Parse Server is running in a multi-instance environment.
 
 Configuration:
 ```js
