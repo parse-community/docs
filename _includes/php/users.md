@@ -91,6 +91,7 @@ It would be bothersome if the user had to log in every time they open your app. 
 By default, whenever you use any signup or login methods, the user will be saved in PHP Session storage (The `$_SESSION` superglobal.)
 
 ```php
+//Here we need to call session_start() if we want to rerieve the current user
 $currentUser = ParseUser::getCurrentUser();
 if ($currentUser) {
     // do stuff with the user
