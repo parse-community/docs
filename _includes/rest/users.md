@@ -612,7 +612,7 @@ For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write 
 
 If you want to access your data ignoring all ACLs, you can use the master key provided on the Dashboard. Instead of the `X-Parse-REST-API-Key` header, set the `X-Parse-Master-Key` header. For backward compatibility, you can also do master-level authentication using HTTP Basic Auth, passing the application id as the username and the master key as the password. For security, the master key should not be distributed to end users, but if you are running code in a trusted environment, feel free to use the master key for authentication.
 
-## Impersonating a user
+## User Impersonation
 
 An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. The created session has the property `createdWith: {action: 'login', authProvider: 'masterkey' }`. Calling the endpoint requires the master key and it returns the same response format as the `/login` endpoint.
 
