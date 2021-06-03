@@ -598,15 +598,14 @@ The ACL is formatted as a JSON object where the keys are either object ids or th
 For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
 
 ```json
-	"ACL": {
-		"3KmCvT7Zsb": {
-			"read": true,
-			"write": true
-		},
-		"*": {
-			"read": true
-		}
-	}
+"ACL": {
+  "3KmCvT7Zsb": {
+    "read": true,
+    "write": true
+  },
+  "*": {
+    "read": true
+  }
 }
 ```
 
@@ -617,9 +616,9 @@ If you want to access your data ignoring all ACLs, you can use the master key pr
 An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. A session that has been created this way can be identified by its `createdWith` property:
 
 ```json
-createdWith: {
-  action: 'login',
-  authProvider: 'masterkey'
+"createdWith": {
+  "action": "login",
+  "authProvider": "masterkey"
 }
 ```
 
