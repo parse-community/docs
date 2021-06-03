@@ -614,12 +614,7 @@ If you want to access your data ignoring all ACLs, you can use the master key pr
 
 ## Impersonating a user
 
-An application may allow a user to take action on behalf of another user,
-without having access to the other user's login credentials. The Parse REST API
-provides the `/loginAs` endpoint which takes a `userId` parameter (the
-`objectId` of the User to impersonate) and creates a session for the given user.
-The created session has the property `createdWith: {action: 'login', authProvider: 'masterkey' }`. The endpoint must be called using the master key
-and returns the same response format as the `/login` endpoint.
+An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. The created session has the property `createdWith: {action: 'login', authProvider: 'masterkey' }`. Calling the endpoint requires the master key and it returns the same response format as the `/login` endpoint.
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -648,9 +643,4 @@ print result
 </code></pre>
 </div>
 
-Calling this endpoint does not invoke [session
-triggers](https://docs.parseplatform.org/cloudcode/guide/#session-triggers) such
-as beforeLogin and afterLogin.
-
-This action will always succeed if the supplied user id exists in the database,
-regardless of whether the user is locked out.
+Calling this endpoint does not invoke [session triggers](https://docs.parseplatform.org/cloudcode/guide/#session-triggers) such as `beforeLogin` and `afterLogin`. This action will always succeed if the supplied user exists in the database, regardless of whether the user is currently locked out.
