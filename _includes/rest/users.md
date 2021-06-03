@@ -614,7 +614,16 @@ If you want to access your data ignoring all ACLs, you can use the master key pr
 
 ## User Impersonation
 
-An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. The created session has the property `createdWith: {action: 'login', authProvider: 'masterkey' }`. Calling the endpoint requires the master key and it returns the same response format as the `/login` endpoint.
+An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. A session that has been created this way can be identified by its `createdWith` property:
+
+```json
+createdWith: {
+  action: 'login',
+  authProvider: 'masterkey'
+}
+```
+
+Calling the endpoint requires the master key and it returns the same response format as the `/login` endpoint.
 
 <div class="language-toggle">
 <pre><code class="bash">
