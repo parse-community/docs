@@ -620,12 +620,8 @@ the user's credentials. The Parse REST API supports these use cases with the
 `/loginAs` endpoint. This endpoint takes a `userId` parameter, and must be
 called using the master key. It will create a session for the given user ID, and
 will return the same response format as the `/login` endpoint. The new session
-will have a `createdWith` value of `create`, and an `authProvider` value of
+will have a `createdWith` `action` value of `login`, and an `authProvider` value of
 `masterkey`.
-
-**The `/loginAs` endpoint performs no identity verification** - any client with
-the master key can log in as any user. You are strongly encouraged to apply
-careful security around any systems that call the `/loginAs` endpoint.
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -654,10 +650,8 @@ print result
 </code></pre>
 </div>
 
-At this time, the `/loginAs` endpoint does not run the `beforeLogin` or
-`afterLogin` hooks that would be invoked when calling the `/login` endpoint.
+The `/loginAs` endpoint does not run the `beforeLogin` or `afterLogin` hooks
+that would be invoked when calling the `/login` endpoint.
 
-Since the master key must always be supplied with any request to `/loginAs`,
-this action will always succeed if the supplied user id exists in the database.
-The endpoint does not honor account lockouts - developers must check for that
-manually if appropriate for their use case.
+This action will always succeed if the supplied user id exists in the database,
+regardless of whether the user is locked out.
