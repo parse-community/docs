@@ -58,6 +58,426 @@ You can configure the client's ability to perform each of the following operatio
 
 For each of the above actions, you can grant permission to all users (which is the default), or lock permissions down to a list of roles and users. For example, a class that should be available to all users would be set to read-only by only enabling get and find. A logging class could be set to write-only by only allowing creates. You could enable moderation of user-generated content by providing update and delete access to a particular set of users or roles.
 
+
+Allowed entries for operations are:
+
+* `*` - [Public](#public-access)
+* `objectId` - [User's ID](#users-roles)
+* `role:role_name` - [Role](#users-roles)
+* `requiredAuthentication` - [Authenticated Users](#requires-authentication-permission-requires-parse-server--230)
+* `pointerFields` - [Pointer Permissions](#pointer-permissions)
+
+And any combinations of the above:
+
+```js
+// PUT http://localhost:1337/schemas/:className
+// Set the X-Parse-Application-Id and X-Parse-Master-Key header
+// body:
+{
+  classLevelPermissions:
+  {
+    "get": {
+      "*": true, // means Public access
+      "s0meUs3r1d": true, // key must be an id of `_User`
+      "role:admin": true, // key must be `role:${role_name}`
+      "requiresAuthentication": true, // any authenticated users
+      "pointerFields": ["onwer", "followers"] // pointer permissions
+    },
+    "find": {...},    // ... create, update, delete, addField
+    "readUserFields": ["followers", "owner"], // grouped pointer permissions
+    "writeUserFields": ["owner"], // grouped pointer permissions
+    "protectedFields": {
+      "*": ["password","email"],
+       "userField:owner":[]
+    }
+  }
+}
+```
+
+### Public access
+
+`*` - Allows anyone regardless of authentication status to execute the operation.
+
+```js
+{
+  classLevelPermissions:
+  {
+    "get": {
+      "*": true, // Public access
+    }
+  }
+}
+```
+
+### Users, Roles
+
+This works exactly like ACLs.
+
+```js
+{
+  classLevelPermissions:
+  {
+    "find": {
+      "s0meUs3r1d": true, // key must be an id of `_User`
+      "role:admin": true, // key must be `role:${role_name}`
+    }
+  }
+}
+```
+
+### Requires Authentication permission
+
+Starting with version 2.3.0, Parse Server introduced a new Class Level Permission `requiresAuthentication`. It prevents any non authenticated user from performing the action protected by the CLP.
+
+For example, if you want to allow your **authenticated users** to `find` and `get` objects from your application and your admin users to have all privileges, you could set the following CLP:
+
+```js
+{
+  classLevelPermissions:
+  {
+    "get": {
+      "requiresAuthentication": true,
+      "role:admin": true
+    },
+    "find": {
+      "requiresAuthentication": true,
+      "role:admin": true
+    },
+    "create": { "role:admin": true },
+    "update": { "role:admin": true },
+    "delete": { "role:admin": true },
+  }
+}
+```
+
+Effects:
+
+* Non authenticated users won't be able to do anything.
+* Authenticated users (any user with a valid `sessionToken`) will be able to read all the objects in that class.
+* Users belonging to the admin role, will be able to perform all operations.
+
+⚠️ Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
+
+## Pointer Permissions
+
+While the permissions discussed before let you explicitly target a user by `id` or a role, Pointer Permissions let you dynamically enforce permissions without knowing the `id` or assigning roles in advance. Instead you use a field (of this class) that is a `Pointer<_User>` or an `Array` of `Pointer<_User>`, and any users pointed to by such field are granted the permission on per-object basis. This effectively allows an object's content to control who is allowed to interact with it.
+
+Given that objects often already have pointers to the user(s) that should have permissions on the object, pointer permissions provide a simple and fast solution for securing your app using data which is already there, that doesn't require writing any client code or cloud code.
+
+For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `receiver` field and a read and write pointer permission on the `sender` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
+
+Pointer permissions are like virtual ACLs. They don't appear in the ACL column, but if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
+
+```json
+{
+    "<SENDER_USER_ID>": {
+        "read": true,
+        "write": true
+    },
+    "<RECEIVER_USER_ID>": {
+        "read": true
+    }
+}
+```
+
+Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don't have many ACLs set. Fortunately, it's easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.
+
+To use this feature, a field must:
+
+* already exist in this collection's schema
+* be of either `Pointer<_User>` or `Array` type
+
+In case of `Array`, only items that are of `Pointer<_User>` type are evaluated, other items silently ignored.
+
+
+There are two ways you can set Pointer Permissions in schema:
+
+* [Using granular permissions](#granular-pointer-permissions) - `pointerFields` *requires Parse Server v3.11 or above*
+* [Using grouped permissions](#grouped-pointer-permissions) - `readUserFields`/`writeUserFields`
+
+⚠️ The `create` operation can't be controlled by Pointer Permissions, because there is no object to check the field of until it is created;
+
+⚠️ The `addField` operation  grants permission to only update an object with a new field, but it is advised to set `addField` permissions using other means (e.g. restrict to a role or particular admin user by `id`).
+
+### Granular Pointer Permissions
+
+Given an example setup:
+
+```js
+{
+  "classLevelPermissions":
+  {
+    "get": {
+      "pointerFields": ["owner", "subscribers"]
+    },
+    "find": {
+      "pointerFields": ["owner", "subscribers"]
+    },
+    "create":{
+      "*": true
+    },
+    "update": {
+      "pointerFields": ["owner"]
+    },
+    "delete": {
+      "pointerFields": ["owner"]
+    }
+  }
+}
+```
+
+{% if page.language == "objective_c-swift" %}
+<div class="language-toggle" markdown="1">
+
+```objective_c
+// see swift example
+```
+
+```swift
+// two users:
+let alice = ... // PFUser
+let bob = ... // PFUser
+
+// and two objects:
+let feedA = PFObject(className:"Feed")
+feedA["owner"] = alice
+feedA["subscribers"] = [] // notice subscribers empty
+
+let feedB = PFObject(className:"Feed")
+feedA["owner"] = bob
+feedA["subscribers"] = [alice] // notice Alice in subscribers
+
+}
+```
+
+</div>
+{% endif %}
+
+{% if page.language == "java" %}
+```java
+
+// Two users:
+ParseUser alice = ... // new ParseUser();
+ParseUser bob = ... //new ParseUser();
+
+
+// and two objects
+ParseObject feedA = new ParseObject("Feed");
+feedA.put("title", "'Posts by Alice'");
+feedA.put("owner", alice);
+feedA.put("subscribers",
+  new ArrayList<ParseUser>() // notice no subscribers here
+);
+
+
+ParseObject feedB = new ParseObject("Feed");
+feedB.put("title", "Posts by Bob");
+feedB.put("owner", bob);
+feedB.put("subscribers",
+  new ArrayList<ParseUser>(
+    Arrays.asList( bob, alice ) // notice Alice here
+  )
+);
+
+```
+{% endif %}
+
+{% if page.language == "js" %}
+```js
+// Two users
+const alice = ... // new Parse.User
+const bob = ... // new Parse.User
+
+// and two objects
+const feedA = new Parse.Object('Feed', {
+    title: 'Posts by Alice',
+    owner: alice,
+    subscribers: [], // notice no subscribers here
+  });
+
+const feedB = new Parse.Object('Feed', {
+    title: 'Posts by Bob',
+    owner: bob,
+    subscribers: [ alice ], // notice Alice in subscribers
+  });
+```
+{% endif %}
+
+{% if page.language == "cs" %}
+```cs
+// given two users:
+var Alice = ...; // new ParseUser()
+var Bob =  ...; // ParseUser()
+
+// and two objects:
+var FeedA = new ParseObject("Feed");
+FeedA["title"] = "Posts by Alice";
+FeedA["owner"] = Alice;
+FeedA["subscribers"] = new List<ParseUser>{}; // notice no subscribers here
+
+
+var FeedB = new ParseObject("Feed");
+FeedB["title"] = "Posts by Alice";
+FeedB["owner"] = Bob;
+FeedB["subscribers"] = new List<ParseUser> { Alice }; // notice Alice in subscribers
+
+```
+{% endif %}
+
+{% if page.language == "php" %}
+```php
+
+// given two users
+$alice = ... // ParseUser;
+$bob = ... // ParseUser;
+
+...
+// and two objects
+$feedA = ParseObject::create("Feed");
+$feedA->set("title", "Posts by Alice");
+$feedA->set("owner", $alice);
+$feedA->set("subscribers", []); // notice no subscribers here
+
+
+$feedB = ParseObject::create("Feed");
+$feedB->set("title", "Posts by Bob");
+$feedB->set("owner", $bob);
+$feedB->set("subscribers", [ $alice ]); // notice alice in subscribers
+
+```
+{% endif %}
+
+{% if page.language == "bash" %}
+```bash
+# given two users Alice and Bob
+
+# and two objects:
+
+# 1. owned by Alice
+# notice subscribers empty
+{
+  "title": "Alice's feed"
+  "owner": {
+    "__type":"Pointer",
+    "className":"_User",
+    "objectId":"A1ice0id"
+  },
+  "subscribers": []
+}
+
+# 2. owned by Bob
+# notice Alice in subscribers array
+{
+  "title": "Bob's feed"
+  "owner": {
+    "__type":"Pointer",
+    "className":"_User",
+    "objectId":"B0Bs0id"
+  },
+  "subscribers": [
+    {
+      "__type":"Pointer",
+      "className":"_User",
+      "objectId":"A1ice0id"
+    }
+  ]
+}
+
+```
+{% endif %}
+
+{% if page.language == "cpp" %}
+```cpp
+// No C++ example
+
+// two users
+alice, bob;
+
+// two objects
+{
+  title: 'Posts by Alice',
+  owner: alice,
+  subscribers: [], // notice no subscribers here
+}
+
+{
+  title: 'Posts by Bob',
+  owner: bob,
+  subscribers: [ alice ], // notice Alice in subscribers
+}
+```
+{% endif %}
+
+In the example above:
+
+* Anyone is allowed to `create` objects.
+* `feedA` can be viewed (`get`,`find`) only by **Alice** (pointed to in `owners` field).
+* `feedB` can be viewed (`get`,`find`) both by **Bob** and **Alice** (Bob is pointed to in `owners`, Alice is pointed to in `subscribers`).
+* Only owners are allowed to `update` and `delete`.
+
+### Grouped Pointer Permissions
+
+These are similar to [`pointerFields`](#granular-pointer-permissions), but cover multiple operations at once:
+
+**`readUserFields`**:
+
+* `get`
+* `find`
+* `count`
+
+**`writeUserFields`**:
+
+* `update`
+* `delete`
+* `addField`
+
+The same scheme as for previous example can be defined in a more compact manner:
+
+```js
+{
+  ...,
+  "classLevelPermissions":
+  {
+    "create":{
+      "*": true
+    },
+    // notice these are root level properties:
+    "readUserFields": ["owner", "subscribers"],
+    "writeUserFields": ["owner"]
+  },
+}
+```
+
+### Pointer Permissions behavior
+
+Given this permission setup for an operation:
+
+```js
+{
+  "classLevelPermissions":{
+    [operation]: {
+      // default * Public removed
+      pointerFields: ["editors"]
+      // no other rules set
+    }
+  }
+}
+```
+
+You can expect following behavior\*:
+
+|Operation | User not in "editors" | User is in "editors" |
+| - | - | - |
+|get| 101: Object not found | ok |
+|find| Limited results | ok |
+|count| Limited count | ok |
+|create| Permission denied | Permission denied |
+|update| 101: Object not found | ok |
+|delete| 101: Object not found | ok |
+|addField| Permission denied | ok |
+
+_\* Assuming default ACL is set on the object (public read and write)._  [CLP vs ACL](#clp-and-acl-interaction)
+
 ## Object-Level Access Control
 
 Once you've locked down your schema and class-level permissions, it's time to think about how data is accessed by your users. Object-level access control enables one user's data to be kept separate from another's, because sometimes different objects in a class need to be accessible by different people. For example, a user’s private personal data should be accessible only to them.
@@ -404,65 +824,6 @@ And here's another example of the format of an ACL that uses a Role:
     "aSaMpLeUsErId": { "read": true, "write": true }
 }
 ```
-
-### Pointer Permissions
-
-Pointer permissions are a special type of class-level permission that create a virtual ACL on every object in a class, based on users stored in pointer fields on those objects. For example, given a class with an `owner` field, setting a read pointer permission on `owner` will make each object in the class only readable by the user in that object's `owner` field. For a class with a `sender` and a `reciever` field, a read pointer permission on the `receiver` field and a read and write pointer permission on the `sender` field will make each object in the class readable by the user in the `sender` and `receiver` field, and writable only by the user in the `sender` field.
-
-Given that objects often already have pointers to the user(s) that should have permissions on the object, pointer permissions provide a simple and fast solution for securing your app using data which is already there, that doesn't require writing any client code or cloud code.
-
-Pointer permissions are like virtual ACLs. They don't appear in the ACL column, but if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
-
-```json
-{
-    "<SENDER_USER_ID>": {
-        "read": true,
-        "write": true
-    },
-    "<RECEIVER_USER_ID>": {
-        "read": true
-    }
-}
-```
-
-Note that this ACL is not actually created on each object. Any existing ACLs will not be modified when you add or remove pointer permissions, and any user attempting to interact with an object can only interact with the object if both the virtual ACL created by the pointer permissions, and the real ACL already on the object allow the interaction. For this reason, it can sometimes be confusing to combine pointer permissions and ACLs, so we recommend using pointer permissions for classes that don't have many ACLs set. Fortunately, it's easy to remove pointer permissions if you later decide to use Cloud Code or ACLs to secure your app.
-
-### Requires Authentication permission (requires parse-server  >= 2.3.0)
-
-Starting version 2.3.0, parse-server introduces a new Class Level Permission `requiresAuthentication`.
-This CLP prevents any non authenticated user from performing the action protected by the CLP.
-
-For example, you want to allow your **authenticated users** to `find` and `get` `Announcement`'s from your application and your **admin role** to have all privileged, you would set the CLP:
-
-```js
-// POST http://my-parse-server.com/schemas/Announcement
-// Set the X-Parse-Application-Id and X-Parse-Master-Key header
-// body:
-{
-  classLevelPermissions:
-  {
-    "find": {
-      "requiresAuthentication": true,
-      "role:admin": true
-    },
-    "get": {
-      "requiresAuthentication": true,
-      "role:admin": true
-    },
-    "create": { "role:admin": true },
-    "update": { "role:admin": true },
-    "delete": { "role:admin": true }
-  }
-}
-```
-
-Effects:
-
-- Non authenticated users won't be able to do anything.
-- Authenticated users (any user with a valid sessionToken) will be able to read all the objects in that class
-- Users belonging to the admin role, will be able to perform all operations.
-
-:warning: Note that this is in no way securing your content, if you allow anyone to login to your server, every client will still be able to query this object.
 
 ### CLP and ACL interaction
 
