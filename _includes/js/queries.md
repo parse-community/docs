@@ -444,17 +444,15 @@ The following example is a pipeline similar to `distinct` grouping by name field
 
 ```javascript
 const pipelineObject = {
-  group: { objectId: '$name' }
+  $group: { _id: '$name' }
  };
 
 const pipelineArray = [
-  { group: { objectId: '$name' } }
+  { $group: { _id: '$name' } }
 ];
 ```
 
 For a list of available operators please refer to [Mongo Aggregate Documentation](https://docs.mongodb.com/v3.2/reference/operator/aggregation/).
-
-* Note: Most operations in Mongo Aggregate Documentation will work with Parse Server, but `_id` doesn't exist. Please replace with `objectId`.
 
 Group pipeline is similar to `distinct`.
 
@@ -463,7 +461,7 @@ You can group by a field.
 ```javascript
 // score is the field. $ before score lets the database know this is a field
 const pipeline = [
-  { group: { objectId: '$score' } }
+  { $group: { _id: '$score' } }
 ];
 const query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -480,7 +478,7 @@ You can apply collective calculations like $sum, $avg, $max, $min.
 ```javascript
 // total will be a newly created field to hold the sum of score field
 const pipeline = [
-  { group: { objectId: null, total: { $sum: '$score' } } }
+  { $group: { _id: null, total: { $sum: '$score' } } }
 ];
 const query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -496,7 +494,7 @@ Project pipeline is similar to `keys` or `select`, add or remove existing fields
 
 ```javascript
 const pipeline = [
-  { project: { name: 1 } }
+  { $project: { name: 1 } }
 ];
 const query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -512,7 +510,7 @@ Match pipeline is similar to `equalTo`.
 
 ```javascript
 const pipeline = [
-  { match: { name: 'BBQ' } }
+  { $match: { name: 'BBQ' } }
 ];
 const query = new Parse.Query("User");
 query.aggregate(pipeline)
@@ -528,7 +526,7 @@ You can match by comparison.
 
 ```javascript
 const pipeline = [
-  { match: { score: { $gt: 15 } } }
+  { $match: { score: { $gt: 15 } } }
 ];
 const query = new Parse.Query("User");
 query.aggregate(pipeline)
