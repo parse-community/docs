@@ -6,8 +6,8 @@ Storing data on Parse is built around the `ParseObject`. Each `ParseObject` cont
 
 For example, let's say you're tracking high scores for a game. A single `ParseObject` could contain:
 
-```json
-score: 1337, playerName: "Sean Plott", cheatMode: false
+```json5
+{score: 1337, playerName: "Sean Plott", cheatMode: false }
 ```
 
 Keys must start with a letter, and can contain alphanumeric characters and underscores. Values can be strings, numbers, booleans, or even arrays and dictionaries - anything that can be JSON-encoded.
