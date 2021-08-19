@@ -3,6 +3,7 @@
 Parse Server supports 3rd party authentication with
 
 * Apple
+* Auth0
 * Facebook
 * Github
 * Google
@@ -124,6 +125,31 @@ Using Apple Sign In through the Apple JS SDK or through the REST service will on
 ```
 
 Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple).
+
+### Auth0 `authData`
+
+```js
+{
+  "auth0": {
+    "id": "user's Auth0 identifier",
+    "id_token": "the identity token for the user"
+  }
+}
+```
+
+The options passed to Parse server:
+```js
+{
+  auth: {
+    auth0: {
+     tenant_id: "your auth0 tenant identifier (e.g. example.eu.auth0.com)" // REQUIRED
+     client_id: "your auth0 client identifier" // REQUIRED
+   },
+  }
+}
+```
+
+Learn more about [Auth0](https://auth0.com/).
 
 ### Github `authData`
 
