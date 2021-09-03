@@ -22,4 +22,5 @@ sections:
 - "parse-server/third-party-auth.md"
 - "parse-server/MongoReadPreference.md"
 - "parse-server/development.md"
+- "parse-server/best-practice.md"
 ---
