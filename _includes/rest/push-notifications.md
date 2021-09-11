@@ -355,9 +355,10 @@ curl -X POST \
           "Giants",
           "Mets"
         ],
-        "data": {
-          "alert": "The Giants won against the Mets 2-3."
-        }
+        "notification": {
+          "title": "Won",
+           "body": "The Giants won against the Mets 2-3."
+         }
       }' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
 </code></pre>
@@ -370,9 +371,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
          "Giants",
          "Mets"
        ],
-       "data": {
-         "alert": "The Giants won against the Mets 2-3."
-       }
+        "notification": {
+          "title": "Won",
+           "body": "The Giants won against the Mets 2-3."
+         }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
@@ -475,8 +477,9 @@ curl -X POST \
         "where": {
           "injuryReports": true
         },
-        "data": {
-          "alert": "Willie Hayes injured by own pop fly."
+        "notification": {
+          "title": "injuryReports",
+          "body": "Willie Hayes injured by own pop fly."
         }
       }' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
@@ -489,9 +492,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "where": {
          "injuryReports": True
        },
-       "data": {
-         "alert": "Willie Hayes injured by own pop fly."
-       }
+       "notification": {
+          "title": "injuryReports",
+          "body": "Willie Hayes injured by own pop fly."
+        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
@@ -515,8 +519,9 @@ curl -X POST \
           "channels": "Giants",
           "scores": true
         },
-        "data": {
-          "alert": "The Giants scored a run! The score is now 2-2."
+        "notification": {
+           "title": "Scores",
+           "body": "The Giants scored a run! The score is now 2-2."
         }
       }' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
@@ -530,9 +535,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
          "channels": "Giants",
          "scores": True
        },
-       "data": {
-         "alert": "The Giants scored a run! The score is now 2-2."
-       }
+        "notification": {
+           "title": "Scores",
+           "body": "The Giants scored a run! The score is now 2-2."
+        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
@@ -566,8 +572,9 @@ curl -X POST \
             }
           }
         },
-        "data": {
-          "alert": "Free hotdogs at the Parse concession stand!"
+        "notification": {
+           "title": "Parse concession stand!",
+           "body": "Free hotdogs at the Parse concession stand!"
         }
       }' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>push
@@ -594,9 +601,10 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
             }
          }
        },
-       "data": {
-         "alert": "Free hotdogs at the Parse concession stand!"
-       }
+        "notification": {
+           "title": "Parse concession stand!",
+           "body": "Free hotdogs at the Parse concession stand!"
+        }
      }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
@@ -639,7 +647,7 @@ curl -X POST \
         "channels": [
           "Mets"
         ],
-        "data": {
+        "notification": {
           "alert": "The Mets scored! The game is now tied 1-1.",
           "badge": "Increment",
           "sound": "cheering.caf",
@@ -656,7 +664,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "channels": [
          "Mets"
        ],
-       "data": {
+       "notification": {
          "alert": "The Mets scored! The game is now tied 1-1.",
          "badge": "Increment",
          "sound": "cheering.caf",
@@ -685,7 +693,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "channels": [
          "Indians"
        ],
-       "data": {
+       "notification": {
          "action": "com.example.UPDATE_STATUS",
          "alert": "Ricky Vaughn was injured during the game last night!",
          "name": "Vaughn",
@@ -715,7 +723,7 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -d '{
         "expiration_time": "2015-03-19T22:05:08Z",
-        "data": {
+        "notification": {
           "alert": "Season tickets on sale until March 19, 2015"
         }
       }' \
@@ -727,7 +735,7 @@ connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>push', json.dumps({
        "expiration_time": "2015-03-19T22:05:08Z",
-       "data": {
+       "notification": {
          "alert": "Season tickets on sale until March 19, 2015"
        }
      }), {
@@ -751,7 +759,7 @@ curl -X POST \
   -d '{
         "push_time": "2015-03-13T22:05:08Z",
         "expiration_interval": 518400,
-        "data": {
+        "notification": {
           "alert": "Season tickets on sale until March 19, 2015"
         }
       }' \
@@ -793,7 +801,7 @@ curl -X POST \
         "where": {
           "deviceType": "android"
         },
-        "data": {
+        "notification": {
           "alert": "Your suitcase has been filled with tiny robots!"
         }
       }' \
@@ -807,7 +815,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "where": {
          "deviceType": "android"
        },
-       "data": {
+       "notification": {
          "alert": "Your suitcase has been filled with tiny robots!"
        }
      }), {
@@ -830,7 +838,7 @@ curl -X POST \
         "where": {
           "deviceType": "ios"
         },
-        "data": {
+        "notification": {
           "alert": "Your suitcase has been filled with tiny apples!"
         }
       }' \
@@ -844,7 +852,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "where": {
          "deviceType": "ios"
        },
-       "data": {
+       "notification": {
          "alert": "Your suitcase has been filled with tiny apples!"
        }
      }), {
@@ -867,7 +875,7 @@ curl -X POST \
         "where": {
           "deviceType": "winrt"
         },
-        "data": {
+        "notification": {
           "alert": "Your suitcase has been filled with tiny glass!"
         }
       }' \
@@ -881,7 +889,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "where": {
          "deviceType": "winrt"
        },
-       "data": {
+       "notification": {
          "alert": "Your suitcase has been filled with tiny glass!"
        }
      }), {
@@ -904,7 +912,7 @@ curl -X POST \
         "where": {
           "deviceType": "winphone"
         },
-        "data": {
+        "notification": {
           "alert": "Your suitcase is very hip; very metro."
         }
       }' \
@@ -918,7 +926,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
        "where": {
          "deviceType": "winphone"
        },
-       "data": {
+       "notification": {
          "alert": "Your suitcase is very hip; very metro."
        }
      }), {
@@ -946,7 +954,7 @@ curl -X POST \
           "user_id": "user_123"
         },
         "push_time": "2015-03-19T12:00:00Z",
-        "data": {
+        "notification": {
           "alert": "You previously created a reminder for the game today"
         }
       }' \
@@ -961,7 +969,7 @@ connection.request('POST', '<span class="custom-parse-server-mount">/parse/</spa
          "user_id": "user_123"
        },
        "push_time": "2015-03-19T12:00:00Z",
-       "data": {
+       "notification": {
          "alert": "You previously created a reminder for the game today"
        }
      }), {
