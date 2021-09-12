@@ -38,7 +38,7 @@
   "dependencies": {
     "jquery": "3.5.1",
     "markdown-spellcheck": "git+https://github.com/dblythy/node-markdown-spellcheck.git",
-    "underscore": "1.11.0"
+    "underscore": "1.12.1"
   },
   "husky": {
     "hooks": {

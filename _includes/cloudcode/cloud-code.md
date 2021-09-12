@@ -249,7 +249,7 @@ Parse.Cloud.define('adminFunctionTwo', request => {
 
 ```
 
-### Some considerations to be aware of
+### Considerations
 - The validation function will run prior to your Cloud Code Functions. You can use async and promises here, but try to keep the validation as simple and fast as possible so your cloud requests resolve quickly.
 - As previously mentioned, cloud validator objects will not validate if a masterKey is provided, unless `validateMasterKey:true` is set. However, if you set your validator to a function, the function will **always** run.
 
@@ -689,8 +689,7 @@ Parse.Cloud.beforeLogin(async request => {
 });
 ```
 
-### Some considerations to be aware of
-
+### Considerations
 - It waits for any promises to resolve
 - The user is not available on the request object - the user has not yet been provided a session until after beforeLogin is successfully completed
 - Like `afterSave` on `Parse.User`, it will not save mutations to the user unless explicitly saved
@@ -718,7 +717,7 @@ Parse.Cloud.afterLogout(async request => {
 });
 ```
 
-### Some considerations to be aware of
+### Considerations
 - Like with `afterDelete` triggers, the `_Session` object that is contained in the request has already been deleted.
 
 #### The trigger will run...
@@ -827,7 +826,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', async (request) => {
 });
 ```
 
-### Some considerations to be aware of
+### Considerations
 - Live Query events won't trigger until the `afterLiveQueryEvent` trigger has completed. Make sure any functions inside the trigger are efficient and restrictive to prevent bottlenecks.
 
 ## onLiveQueryEvent
@@ -868,13 +867,23 @@ To learn more, read the [Parse LiveQuery Protocol Specification](https://github.
 
 "connect" differs from "ws_connect", the former means that the client completed the connect procedure as defined by Parse Live Query protocol, where "ws_connect" just means that a new websocket was created.
 
-# Using the Master Key in cloud code
-Set `useMasterKey:true` in the requests that require master key.
+# Security
+## Master Key
+To override object and class access permissions, you can set `useMasterKey: true` if the request accepts the master key option.
 
-## Examples:
+### Examples
 
 ```javascript
-query.find({useMasterKey:true});
-object.save(null,{useMasterKey:true});
-Parse.Object.saveAll(objects,{useMasterKey:true});
+query.find({ useMasterKey: true });
 ```
+
+```javascript
+object.save(null, { useMasterKey: true });
+```
+
+```javascript
+Parse.Object.saveAll(objects, { useMasterKey: true });
+```
+
+### Considerations
+- If you set `masterKey: true` when fetching objects with a query or relation in [Cloud Functions]({{ site.baseUrl }}/cloudcode/guide/#cloud-functions) or [Find Triggers]({{ site.baseUrl }}/cloudcode/guide/#find-triggers), the complete object will be returned. You may want to remove object properties that the client should not be able to access before sending it to the client.

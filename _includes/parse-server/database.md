@@ -1,6 +1,6 @@
 # Database
 
-Parse Server let you use [MongoDB](https://www.mongodb.org/) or [Postgres](https://www.postgresql.org/) as a database.
+Parse Server lets you use [MongoDB](https://www.mongodb.org/) or [Postgres](https://www.postgresql.org/) as a database.
 
 The preferred database is MongoDB but Postgres is a great option if you're starting a new project and you expect to have a stable Schema.
 
@@ -16,8 +16,6 @@ The Mongo requirements for Parse Server are:
 If this is your first time setting up a MongoDB instance, we recommend a Database-as-a-Service (DBaaS) like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or [ObjectRocket](https://objectrocket.com/) which provide fully managed MongoDB instances and can help you scale as needed.
 
 When using MongoDB with your Parse app, you need to manage your indexes yourself. You will also need to size up your database as your data grows.
-
-If you are planning to run MongoDB on your own infrastructure, we highly recommend using the [RocksDB Storage Engine](#using-mongodb--rocksdb).
 
 In order to allow for better scaling of your data layer, it is possible to direct queries to a mongodb secondary for read operations.  See: [Mongo Read Preference](#using-mongodb-read-preference).
 
