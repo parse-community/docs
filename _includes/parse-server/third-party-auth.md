@@ -4,7 +4,7 @@ Parse Server supports 3rd party authentication with
 
 * Apple
 * Facebook
-* Github
+* GitHub
 * Google
 * Instagram
 * Janrain Capture
@@ -125,13 +125,13 @@ Using Apple Sign In through the Apple JS SDK or through the REST service will on
 
 Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple).
 
-### Github `authData`
+### GitHub `authData`
 
 ```js
 {
   "github": {
-    "id": "user's Github id (string)",
-    "access_token": "an authorized Github access token for the user"
+    "id": "user's GitHub id (string)",
+    "access_token": "an authorized GitHub access token for the user"
   }
 }
 ```

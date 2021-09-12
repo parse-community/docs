@@ -2,7 +2,7 @@
 
 ## Uploading Files
 
-To upload a file to Parse, send a POST request to the files URL, postfixed with the name of the file. The request must contain the `Content-Type` header associated with the file. Keep in mind that files are limited to 10 megabytes. Here's a simple example that'll create a filenamed `hello.txt` containing a string:
+To upload a file to Parse, send a POST request to the files URL, postfixed with the name of the file. The request must contain the `Content-Type` header associated with the file. Keep in mind that files are limited to 10 megabytes. Here's a simple example that'll create a file named `hello.txt` containing a string:
 
 <div class="language-toggle">
 <pre><code class="bash">

@@ -477,7 +477,7 @@ The easiest way to understand this class is with an example. This subclass of `P
     return query;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView  
+- (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
                         object:(PFObject *)object {
     static NSString *cellIdentifier = @"cell";
@@ -734,7 +734,7 @@ That would customize the string to "In progress". The key on the left is the ori
 
 Say, you would like to customize the error message in `PFSignUpViewController` that says "The email address "andrew@x" is invalid. Please enter a valid email." You are not sure how to enter this into `Localizable.strings` because it contains a variable.
 
-Included in  the Parse SDK is a filenamed `Localizable.string` which includes all the localizable keys in the Parse framework. Browsing this file, developers can find the key for the string they would like to customize. You notice that the string `"The email address \"%@\" is invalid. Please enter a valid email."` is a key in the file. In your own `Localizable.strings`, you can then enter:
+Included in  the Parse SDK is a file named `Localizable.string` which includes all the localizable keys in the Parse framework. Browsing this file, developers can find the key for the string they would like to customize. You notice that the string `"The email address \"%@\" is invalid. Please enter a valid email."` is a key in the file. In your own `Localizable.strings`, you can then enter:
 
 ```javascript
 "The email address \"%@\" is invalid. Please enter a valid email." = "Wrong email: \"%@\"";

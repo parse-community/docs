@@ -165,7 +165,7 @@ The response object passed into the `success` and `error` will contain:
 
 Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`, and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
 
-We've written an example Cloud Code Webhooks server, in Express.js, which you can find on Github: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
+We've written an example Cloud Code Webhooks server, in Express.js, which you can find on GitHub: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
 
 Note: At the current time, custom webhooks cannot be set for the special classes _User and _Installation.
 

@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "jquery": "3.5.1",
-    "markdown-spellcheck": "git+https://github.com/dblythy/node-markdown-spellcheck.git",
+    "markdown-spellcheck": "git+https://github.com/parse-community/node-markdown-spellcheck.git",
     "underscore": "1.12.1"
   },
   "husky": {
