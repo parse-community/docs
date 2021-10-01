@@ -117,7 +117,7 @@ Using Apple Sign In through the Apple JS SDK or through the REST service will on
 {
   auth: {
    apple: {
-     client_id: "", // optional (for extra validation), use the Service ID from Apple.
+     clientId: "", // optional (for extra validation), you can replace it with your Service ID provided by Apple.
    },
   }
 }
