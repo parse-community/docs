@@ -179,3 +179,38 @@ mutation createGameScore($file: Upload! ) {
   }
 }
 ```
+
+## Unlink a file
+
+Lets update a `GameScore` object and unset the file linked on the `screenshot` field. By setting the `screenshot` field to null, the linked file will be removed from the `Gamescore` object.
+
+**Note:** the file will be not deleted from your file storage.
+
+```graphql
+# GraphQL
+mutation updateGameScore($id: ID!) {
+  updateGameScore(
+    input: { id: $id, fields: { screenshot: null } }
+  ) {
+    gameScore {
+      screenshot {
+        name
+        url
+      }
+    }
+  }
+}
+```
+
+```js
+// Response
+{
+  "data": {
+    "updateGameScore": {
+      "gameScore": {
+        "screenshot": null
+      }
+    }
+  }
+}
+```

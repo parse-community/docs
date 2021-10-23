@@ -116,6 +116,50 @@ mutation updateAGameScore {
 ```
 **Note:** If you use [Apollo Client](https://www.apollographql.com/docs/react/) it's recommended to request the modified fields and `id` during the Mutation, then the [Apollo Client](https://www.apollographql.com/docs/react/) will automatically update its local store and push the new data across your app; i.e. If you update `playerName` you should request `playerName` and `id` like the code above.
 
+### Unset a field
+Across the whole GraphQL API you can simply unset a field by setting his value to `null`.
+
+**Note:** Following the official GraphQL API Specs, setting a field to `null` through the GraphQL API will completly unset the field in the database on the targeted Parse Object. GraphQL API will transform `null` on the server before saving the object to correctly unset the field into the database.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+```graphql
+# GraphQL
+mutation updateAGameScore {
+  updateGameScore(
+    input: {
+      id: "R2FtZVNjb3JlOmM3TVpDZEhQY2w="
+      fields: { playerName: null }
+    }
+  ) {
+    gameScore {
+      id
+      playerName
+    }
+  }
+}
+```
+```js
+// Response
+{
+  "data": {
+    "updateGameScore": {
+      "gameScore": {
+        "id": "R2FtZVNjb3JlOmM3TVpDZEhQY2w=",
+        "playerName": null
+      }
+    }
+  }
+}
+```
+
+**Additional note:** GraphQL API will always return `null` if the field is `null` or `undefined` in the database. A GraphQL API do not support difference betweend `null` and `undefined` into the data response.
+
 ## Delete
 
 For each class in your application's schema, Parse Server automatically generates a custom mutation for deleting this class' objects through the GraphQL API.
