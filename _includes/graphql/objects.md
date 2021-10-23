@@ -158,7 +158,7 @@ mutation updateAGameScore {
 }
 ```
 
-**Additional note:** GraphQL API will always return `null` if the field is `null` or `undefined` in the database. A GraphQL API do not support difference betweend `null` and `undefined` into the data response.
+**Additional note:** GraphQL API will always return `null` if the field is `null` or `undefined` in the database. A GraphQL API do not support difference between `null` and `undefined` into the data response.
 
 ## Delete
 
