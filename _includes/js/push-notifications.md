@@ -1,6 +1,6 @@
 # Push Notifications
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 ## Introduction
 

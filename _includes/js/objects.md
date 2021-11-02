@@ -195,7 +195,7 @@ const teamMember = new TeamMember();
 teamMember.set('ownerAccount', ownerAccount);   // Suppose `ownerAccount` has been created earlier.
 
 teamMember.save(null, { cascadeSave: false });
-// Will save `teamMember` wihout attempting to save or modify `ownerAccount`
+// Will save `teamMember` without attempting to save or modify `ownerAccount`
 
 ```
 

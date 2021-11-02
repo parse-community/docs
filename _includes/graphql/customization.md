@@ -1,4 +1,4 @@
-# Customisation
+# Customization
 
 Although we automatically generate a GraphQL schema based on your Parse Server database, we have provided a number of ways in which to configure and extend this schema.
 
@@ -120,7 +120,7 @@ In the following example, we limit our GraphQL schema by hiding some sensitive c
 
 ```javascript
 {
-  // undefined or null results in the default behaviour, i.e. include all classes
+  // undefined or null results in the default behavior, i.e. include all classes
   "enabledForClasses": undefined,
   // override the included classes by filtering out the following:
   "disabledForClasses": [ "UserSensitiveData", "ProductOrder", "Invoice" ]
@@ -129,7 +129,7 @@ In the following example, we limit our GraphQL schema by hiding some sensitive c
 
 ### Input Types
 
-By default, we enrich the schema by generating a number of [Input Types](https://graphql.org/learn/schema/#input-types) for each class. This, as a healthy side-effect, improves development experience by providing type-completion and docs, though the true purpose is to define exactly what fields are exposed and useable per operation type. You can provide a `type` setting for any or each of your classes to limit which fields are exposed:
+By default, we enrich the schema by generating a number of [Input Types](https://graphql.org/learn/schema/#input-types) for each class. This, as a healthy side-effect, improves development experience by providing type-completion and docs, though the true purpose is to define exactly what fields are exposed and usable per operation type. You can provide a `type` setting for any or each of your classes to limit which fields are exposed:
 
 In the following example, we have a custom class called `Review` where the fields `rating` and `body` are allowed on the `create` mutation, and the field `numberOfLikes` on the `update` mutation:
 
@@ -164,7 +164,7 @@ You may decide to restrict which fields can be resolved when getting or finding 
 }
 ```
 
-In production-grade environments where performance optimisation is critical, complete control over query filters and sortability is required to ensure that unindexed queries are not executed. For this reason, we provide a way to limit which fields can be used to constrain a query, and which fields (including the direction) can be used to sort that query.
+In production-grade environments where performance optimization is critical, complete control over query filters and sortability is required to ensure that unindexed queries are not executed. For this reason, we provide a way to limit which fields can be used to constrain a query, and which fields (including the direction) can be used to sort that query.
 
 
 In the following example, we set the fields `name` and `age` as the only two that can be used to filter the `_User` class, and defining the `createdAt` and `age` fields the only sortable field whilst disabling the ascending direction on the `createdAt` field:
@@ -220,7 +220,7 @@ By default, the schema exposes a `get` and `find` operation for each class, for 
 }
 ```
 
-By default, generated query names use pluralized version of `className`. You can override this behaviour with `getAlias`/`findAlias`. This is useful when your collection is named in plural or when singular/plural forms are same e.g. `Data`:
+By default, generated query names use pluralized version of `className`. You can override this behavior with `getAlias`/`findAlias`. This is useful when your collection is named in plural or when singular/plural forms are same e.g. `Data`:
 
 ```javascript
 {

@@ -20,7 +20,7 @@ After a successfully `.save()` it return the new updated `ParseConfig` and `Pars
 
 ```javascript
 Parse.Config.save({
-	welcomeMesssage : "Welcome to Parse",
+	welcomeMessage : "Welcome to Parse",
 	ageOfParse : 3,
 	tags : ["parse","sdk","js"]
 }).then(function(config) {

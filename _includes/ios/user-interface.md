@@ -2,9 +2,9 @@
 
 At the end of the day, users of your app are going to be interacting with UIKit components.
 
-ParseUI is an opensource collection of a handy user interface components aimed to streamline and simplify user authentication, displaying lists of data, and other common app elements.
+ParseUI is an open source collection of a handy user interface components aimed to streamline and simplify user authentication, displaying lists of data, and other common app elements.
 
-ParseUI can be installed by leveraging Cocoapods 'subspecs', simply add `pod 'Parse/UI'` to your Podfile and run `pod install`. Once installed just use `import Parse` to use ParseUI. More details can be found on the official [GitHub page](https://github.com/parse-community/Parse-SDK-iOS-OSX#other-installation-options)
+ParseUI can be installed by leveraging CocoaPods 'subspecs', simply add `pod 'Parse/UI'` to your Podfile and run `pod install`. Once installed just use `import Parse` to use ParseUI. More details can be found on the official [GitHub page](https://github.com/parse-community/Parse-SDK-iOS-OSX#other-installation-options)
 
 ## PFLogInViewController
 
@@ -477,7 +477,7 @@ The easiest way to understand this class is with an example. This subclass of `P
     return query;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView  
+- (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
                         object:(PFObject *)object {
     static NSString *cellIdentifier = @"cell";
@@ -619,9 +619,9 @@ You should no longer override `tableView:cellForRowAtIndexPath:`.
 
 _Important:_ your table view cells should inherit from `PFTableViewCell`, rather than `UITableViewCell`. `PFTableViewCell` is a subclass of `UITableViewCell` that supports remote image loading. When used in `PFQueryTableViewController`, `PFTableViewCell`'s remote images would be automatically loaded.
 
-### Lifecycle Methods
+### Life Cycle Methods
 
-Several methods are exposed that are called at major events during the data lifecycle of the table. They are `objectsDidLoad:` and `objectsWillLoad`, which are called after the objects have loaded from the query, and right before the query is fired, respectively. You can override these to provide extra functionality during these events.
+Several methods are exposed that are called at major events during the data life cycle of the table. They are `objectsDidLoad:` and `objectsWillLoad`, which are called after the objects have loaded from the query, and right before the query is fired, respectively. You can override these to provide extra functionality during these events.
 
 ### Pagination
 

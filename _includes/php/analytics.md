@@ -28,4 +28,4 @@ $codeString = '' + $error->getCode();
 ParseAnalytics::track('error', ["code" => codeString]);
 ```
 
-Note that Parse currently only stores the first eight dimension pairsper call to `ParseAnalytics::track()`.
+Note that Parse currently only stores the first eight dimension pairs per call to `ParseAnalytics::track()`.

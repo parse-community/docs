@@ -34,7 +34,7 @@ Status: 201 Created
 Location: http://files.parsetfss.com/bc9f32df-2957-4bb1-93c9-ec47d9870a05/tfss-db295fb2-8a8b-49f3-aad3-dd911142f64f-hello.txt
 </code></pre>
 
-The response body is a JSON object containing the `name` of the file, which is the original file name prefixed with a unique identifier in order to prevent name collisions. This means you can save files with the same name, and the files will not overwrite one another.
+The response body is a JSON object containing the `name` of the file, which is the original filename prefixed with a unique identifier in order to prevent name collisions. This means you can save files with the same name, and the files will not overwrite one another.
 
 ```json
 {
@@ -109,7 +109,7 @@ print result
 </code></pre>
 </div>
 
-Note that the name of the file in the request is not the local file name, but the name in the response of the previous upload operation. It is also important to add the `url` from the previous upload operation to the request.
+Note that the name of the file in the request is not the local filename, but the name in the response of the previous upload operation. It is also important to add the `url` from the previous upload operation to the request.
 
 
 ## Deleting Files

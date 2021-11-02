@@ -31,7 +31,7 @@ A function webhook has a name and a url. Hence, its JSON response looks like:
 {"functionName": "foo", "url": "https://api.example.com/foo"}
 </code></pre>
 
-JSON reponse for a cloud code function just contains the function name.
+JSON response for a cloud code function just contains the function name.
 <pre><code class="json">
 {"functionName": "foo"}
 </code></pre>

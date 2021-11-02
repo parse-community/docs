@@ -202,7 +202,7 @@ var query = ParseObject.GetQuery("Comment")
 query.FindAsync().ContinueWith(t =>
 {
     IEnumerable<ParseObject> comments = t.Result;
-    // comments now contains the cmoments for posts without images
+    // comments now contains the comments for posts without images
 });
 ```
 

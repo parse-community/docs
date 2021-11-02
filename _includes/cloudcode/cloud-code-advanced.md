@@ -165,7 +165,7 @@ The response object passed into the `success` and `error` will contain:
 
 Webhooks allow you to write your server-side logic in your own environment with any tools you wish to use. This can be useful if you want to use a language other than JavaScript, host it yourself for improved testing capabilities, or if you require a specialized library or technology not available in Cloud Code. Webhooks are currently available for `beforeSave`, `afterSave`, `beforeDelete`, `afterDelete`, and Cloud functions. To specify a new webhook, you can use the Parse Dashboard in the Webhooks section located under Core.
 
-We've written an example Cloud Code Webhooks server, in Express.js, which you can find on Github: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
+We've written an example Cloud Code Webhooks server, in Express.js, which you can find on GitHub: [CloudCodeWebhooks-Express](https://github.com/ParsePlatform/CloudCodeWebhooks-Express).
 
 Note: At the current time, custom webhooks cannot be set for the special classes _User and _Installation.
 
@@ -392,7 +392,7 @@ Like we've seen in Cloud Code, it's also possible to run some code after an obje
 
 No response is required for `afterSave` triggers.
 
-Let's take the same example we created in Cloud Code [in the last chapter](#cloud-code-aftersave-triggers); keeping track of the number of comments on a blog post. But instead of storing the number in our Parse database, we'll store the count in a separate data source accessible by our Rails app. This could be useful if you're storing data that will be used to run custom analysics instead of being served to your users through a client.
+Let's take the same example we created in Cloud Code [in the last chapter](#cloud-code-aftersave-triggers); keeping track of the number of comments on a blog post. But instead of storing the number in our Parse database, we'll store the count in a separate data source accessible by our Rails app. This could be useful if you're storing data that will be used to run custom analytics instead of being served to your users through a client.
 
 ```ruby
 # We need to disable CSRF protection for webhooks to work. Instead we
@@ -581,7 +581,7 @@ Here's an example of the JSON data that would be sent in the request to this web
 }
 ```
 
-After setting up your webhook in the Dashboard UI, you'll be acurately decrementing comment counts!
+After setting up your webhook in the Dashboard UI, you'll be accurately decrementing comment counts!
 
 # Config
 Parse Config offers a convenient way to configure parameters in Cloud Code.

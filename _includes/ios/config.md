@@ -44,7 +44,7 @@ NSLog(@"Getting the latest config...");
     NSLog(@"Falling back to default message.");
     welcomeMessage = @"Welcome!";
   }
-  NSLog(@"Welcome Messsage = %@", welcomeMessage);
+  NSLog(@"Welcome Message = %@", welcomeMessage);
 }];
 ```
 ```swift

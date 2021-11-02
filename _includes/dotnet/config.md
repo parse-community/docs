@@ -38,7 +38,7 @@ if (!result) {
   welcomeMessage = "Welcome!";
 }
 
-Console.WriteLine(String.Format("Welcome Messsage From Config = {0}", welcomeMessage));
+Console.WriteLine(String.Format("Welcome MessageFrom Config = {0}", welcomeMessage));
 ```
 
 ## Current Config

@@ -133,7 +133,7 @@ push: {
 }
 ```
 
-The configuration for macOS and tvOS works exactly as for iOS. Just add an additional configuration for each plattform under the appropriate key. Please note the key for macOS is `osx` and for tvOS is `tvos`. If you need to support both the dev and prod certificates, you can do that for all Apple plattforms like described above.
+The configuration for macOS and tvOS works exactly as for iOS. Just add an additional configuration for each platform under the appropriate key. Please note the key for macOS is `osx` and for tvOS is `tvos`. If you need to support both the dev and prod certificates, you can do that for all Apple platforms like described above.
 
 ```js
 var server = new ParseServer({

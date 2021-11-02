@@ -1,6 +1,6 @@
 # Setup
 
-Once you have access to the sdk you'll need to set it up in order to begin working with parse-server.
+Once you have access to the SDK you'll need to set it up in order to begin working with parse-server.
 
 ## Initializing
 
@@ -18,7 +18,7 @@ ParseClient::initialize( $app_id, null, $master_key );
 
 ## Server URL
 
-Directly after initializing the sdk you should set the server url.
+Directly after initializing the SDK you should set the server url.
 
 ```php
 // Users of Parse Server will need to point ParseClient at their remote URL and Mount Point:
@@ -58,7 +58,7 @@ If you wanted to analyze it further the health response may look something like 
 The 'status' being the http response code, and the 'response' containing what the server replies with.
 Any additional details in the reply can be found under 'response', and you can use them to check and determine the availability of parse-server before you make requests.
 
-Note that it is _not_ guaranteed that 'response' will be a parsable json array. If the response cannot be decoded it will be returned as a string instead.
+Note that it is _not_ guaranteed that 'response' will be a parsable JSON array. If the response cannot be decoded it will be returned as a string instead.
 
 A couple examples of bad health responses could include an incorrect mount path, port or domain.
 

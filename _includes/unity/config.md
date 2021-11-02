@@ -41,7 +41,7 @@ ParseConfig.GetAsync().ContinueWith(t =>
     welcomeMessage = "Welcome!";
   }
 
-  Console.WriteLine(String.Format("Welcome Messsage From Config = {0}", welcomeMessage));
+  Console.WriteLine(String.Format("Welcome Message From Config = {0}", welcomeMessage));
 })
 ```
 

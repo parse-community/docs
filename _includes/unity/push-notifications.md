@@ -2,7 +2,7 @@
 
 Push Notifications are a great way to keep your users engaged and informed about your app. You can reach your entire user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse to send push notifications.
 
-If you haven't installed the SDK yet, please [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
+If you haven't installed the SDK yet, please [head over to the Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 <div class='tip info'><div>
 The Unity SDK can send push notifications from all runtimes, but only iOS and Android apps can receive pushes from APNS and FCM push servers.
@@ -11,8 +11,8 @@ The Unity SDK can send push notifications from all runtimes, but only iOS and An
 ## Setting Up Push
 
 Currently, only two platforms are supported to receive push from Parse, Unity iOS and Unity Android.
-* If you want to start using push on Unity iOS, start by completing the [iOS Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your push certificate.
-* If you want to start using push on Unity Android, start by completing [Android Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app.
+* If you want to start using push on Unity iOS, start by completing the [iOS Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your push certificate.
+* If you want to start using push on Unity Android, start by completing [Android Push Quick Start]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to learn how to configure your app.
 Come back to this guide afterwards to learn more about the push features offered by Parse.
 
 

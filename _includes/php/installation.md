@@ -1,6 +1,6 @@
 # Installation
 
-There are various ways to install and use this sdk. We'll elaborate on a couple here.
+There are various ways to install and use this SDK. We'll elaborate on a couple here.
 Note that the Parse PHP SDK requires PHP 5.4 or newer. It can also run on HHVM (recommended 3.0 or newer).
 
 ## Install with Composer
@@ -25,7 +25,7 @@ require 'vendor/autoload.php';
 
 ## Install with Git
 
-You can clone down this sdk using your favorite github client, or via the terminal.
+You can clone down this SDK using your favorite github client, or via the terminal.
 
 ```bash
 git clone https://github.com/parse-community/parse-php-sdk.git
@@ -39,5 +39,5 @@ require 'autoload.php';
 
 ## Install with another method
 
-If you downloaded this sdk using any other means you can treat it like you used the git method above.
-Once it's installed you need only require the `autoload.php` to have access to the sdk.
+If you downloaded this SDK using any other means you can treat it like you used the git method above.
+Once it's installed you need only require the `autoload.php` to have access to the SDK.

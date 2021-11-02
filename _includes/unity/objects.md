@@ -332,7 +332,7 @@ To create a `ParseObject` subclass:
 3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
 4.  Call `ParseObject.RegisterSubclass<YourClass>()` in a `MonoBehaviour`'s `Awake` method and attach this to your Parse initialization `GameObject.`.
 
-The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
+The following code successfully implements and registers the `Armor` subclass of `ParseObject`:
 
 ```cs
 // Armor.cs

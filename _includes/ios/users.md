@@ -521,7 +521,7 @@ import FBSDKCoreKit
 import Parse
 
 // AppDelegate.swift
-func application(application: UIApplicatiofunc application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
   // Initialize Parse.
   let parseConfig = ParseClientConfiguration {
       $0.applicationId = "parseAppId"
