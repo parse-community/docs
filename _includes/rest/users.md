@@ -60,28 +60,31 @@ The response body is a JSON object containing the `objectId`, the `createdAt` ti
 
 ## Logging In
 
-After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a GET request to the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code> endpoint with `username` and `password` as URL-encoded parameters:
+After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, send a POST request to the <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>login</code> endpoint with `username` and `password` as parameters in the body:
+
 
 <div class="language-toggle">
 <pre><code class="bash">
-curl -X GET \
+curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Revocable-Session: 1" \
-  -G \
-  --data-urlencode 'username=cooldude6' \
-  --data-urlencode 'password=p_n7!-e8' \
+  -H "Content-Type: application/json" \
+  -d '{"username":"cooldude6","password":"p_n7!-e8"}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>login
 </code></pre>
 <pre><code class="python">
-import json,httplib,urllib
+import json,httplib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"username":"cooldude6","password":"p_n7!-e8"})
 connection.connect()
-connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>login?%s' % params, '', {
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>login', json.dumps({
+       "username": "cooldude6",
+       "password": "p_n7!-e8"
+     }), {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
        "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Revocable-Session": "1"
+       "X-Parse-Revocable-Session": "1",
+       "Content-Type": "application/json"
      })
 result = json.loads(connection.getresponse().read())
 print result
