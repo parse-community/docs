@@ -79,6 +79,19 @@ layout: docs
               <a href="https://github.com/parse-community/Parse-SDK-JS/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
+       <div class="docs-platform">
+          <header class="docs-platform__header">
+              <span class="docs-platform__name">Flutter</span>
+              <svg class="icon icon-flutter"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#flutter"></use></svg>
+          </header>
+          <ul class="docs-platform__links">
+              <li class="docs-platform__links"><a href="flutter/guide/">Guide</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.js }}">API Reference</a></li>
+          </ul>
+          <footer class="docs-platform__footer">
+              <a href="https://github.com/parse-community/Parse-SDK-Flutter/releases" class="btn btn--outline">Latest Downloads</a>
+          </footer>
+      </div>
 
       <div class="docs-platform">
           <header class="docs-platform__header">
