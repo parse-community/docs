@@ -2,23 +2,23 @@
 
 ## definitions
 
-You classes definitions stored in an `Array`.
+An array of your Defined Parse Classes.
 
 ## strict
 
-You can set the `strict` option to `true` if you want parse-server to delete removed classes from your schemas from your database. Data stored in removed classes will be lost.
+You can set the `strict` option to `true` if you want Parse Server to delete all Parse Objects when you remove a Defined Parse Class from your `definitions`. Data stored in removed classes will be lost.
 
-`strict` is default to `false`. If you often change your schemas be aware that you can have some stale classes in your database. You will need to delete these classes manually.
+`strict` is default to `false`. If you often change your schemas be aware that you will have stale data classes in your database. You will need to delete these classes (collection for MongoDB, table for Postgres) manually, through your database CLI/UI.
 
 ## deleteExtraFields
 
-You can set the `deleteExtraFields` option to `true` if you parse-server to delete removed a class field from your database. Data stored in the removed field will be lost.
+You can set the `deleteExtraFields` option to `true` if you want Parse Server to delete a removed Defined Parse Class field from your database. Data stored in the removed field will be lost.
 
-`deleteExtraFields` is default to `false`. Be aware that some stale fields could exists in your database. You will need to delete these fields manually.
+`deleteExtraFields` is default to `false`. Be aware that you will have stale data fields in your database since Parse Server will not delete field data automatically. You will need to delete these fields manually.
 
 ## recreateModifiedFields
 
-You can set the `recreateModifiedFields` option to `true` if you parse-server to clean field data before parse-server update the field type when you change the type of a field (ie: from `String` to `Number`). Data stored on the modified field will be lost.
+You can set the `recreateModifiedFields` option to `true` if you want Parse Server to clean field data before Parse Server update the field type when you change the type of a field (ie: from `String` to `Number`). Data stored on the modified field will be lost.
 
 `recreateModifiedFields` is default to `false`. Be aware that if you do not perform some data migration, you can result with data type inconsistency on modified field.
 

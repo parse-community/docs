@@ -1,19 +1,27 @@
 # Fields
 
-You can find here all field types available on Parse
+These field types are available on a Parse Schema.
 
-- `Number`: this type support `required` and `defaultValue`
-- `String`: this type support `required` and `defaultValue`
-- `Boolean`: this type support `required` and `defaultValue`
-- `Date`: this type support `required` and `defaultValue`
-- `Object`: this type support `required` and `defaultValue`
-- `Array`: this type support `required` and `defaultValue`
-- `GeoPoint`: this type support `required`
-- `File`: this type support `required`
-- `Bytes`: this type support `required`
-- `Polygon`: this type support `required`
-- `Relation`: You need to provide `targetClass`
-- `Pointer`: You need to provide `targetClass`, this type support `required`
+`required`: `boolean`, by default false. Force the field to be set on create and update.
+`defaultValue`: `any`, a value used by Parse Server when you create a Parse Object if the field is not provided.
+`targetClass`: `string`, a Parse Class name used by Parse Server to validate the `Pointer`/`Relation`
+
+✅: Supported
+❌: Not Supported
+
+| Type     | -- required -- | -- defaultValue -- | -- targetClass -- |
+| -------- | -------------- | ------------------ | ----------------- |
+| String   | ✅             | ✅                 | ❌                |
+| Boolean  | ✅             | ✅                 | ❌                |
+| Date     | ✅             | ✅                 | ❌                |
+| Object   | ✅             | ✅                 | ❌                |
+| Array    | ✅             | ✅                 | ❌                |
+| GeoPoint | ✅             | ✅                 | ❌                |
+| File     | ✅             | ✅                 | ❌                |
+| Bytes    | ✅             | ✅                 | ❌                |
+| Polygon  | ✅             | ✅                 | ❌                |
+| Relation | ❌             | ❌                 | ✅ (required)     |
+| Pointer  | ✅             | ❌                 | ✅ (required)     |
 
 Example:
 

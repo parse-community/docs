@@ -2,15 +2,11 @@
 
 ## Introduction
 
-Parse Server was historically designed to be a schema less system. You didn't have to perform migration and define specific database schemas at start up time.
-But schema less do not fulfill each use case of developers and could also do not play very well with some new Parse Server features like the GraphQL API.
-
-To meet these needs, Parse Server now introduce Defined Schemas feature.
-Define easily you Parse Classes fields, indexes, Class level permissions and more.
+For use cases in which a pre-defined schema is beneficial or required, you can define class fields, indexes, Class Level Permissions and more
 
 ## Quick Start
 
-To leverage the power of Defined Schema we recommend to setup parse user like an express app.
+You can use Defined Schema as in the following example.
 
 ```js
 const { ParseServer } = require("parse-server");
@@ -104,9 +100,9 @@ ParseServer.start({
     // If true, a field type change, the changed field is deleted
     // from the database (all data in this field will be deleted)
     // and then create the field with the new type
-    recreateModifiedFields: true,
+    recreateModifiedFields: false,
     // If true, Parse will delete non defined fields on a class. (Core fields are never deleted)
-    deleteExtraFields: true,
+    deleteExtraFields: false,
   },
   serverStartComplete: () => {
     // Here your Parse Server is ready

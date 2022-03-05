@@ -1,10 +1,10 @@
 # Class Level Permissions
 
-Setting Class level permissions through Defined Schema is a good first step into security systems available on Parse Server.
+Setting Class Level Permissions through Defined Schema is a good first step into security systems available on Parse Server.
 
-## CLP Keys
+## CLP Parameters
 
-These CLP keys are available:
+These CLP parameters are available:
 
 - `find`: Control search permissions
 - `get`: Control direct ID get permission
@@ -14,25 +14,27 @@ These CLP keys are available:
 - `delete`: Delete permission
 - `protectedFields`: Control get permission at field level
 
-You can set each CLP field with options to add a first strong security layer. This security layer will be applied on the Parse Class and all Parse Objects into this class.
+You can set each CLP parameter to add a first strong security layer. This security layer will be applied on the Parse Class and will cover all Parse Objects of the Parse Class.
 
 Note: If you update CLP you do not need to update Parse Objects. CLP is a security layer at Class Level not Object Level. For Object Level permission you can take a look to ALCs. You can use CLPs combined to ACLs to deeply secure your Parse Server.
 
-## CLP Key Options
+## CLP Parameter Options
 
-Available options for CLP keys:
+Available options for CLP parameters:
 
 - `role:MyRole`: If you have already created a Parse Role, you can use your created Parse Role (ie: `MyRole`) in CLP keys.
 - `requiresAuthentication`: If true an authenticated user will have the permission.
 - `*`: Everybody has the permission
 - `{}`: if you set the CLP key with `{}` like `create: {}` only calls with your Parse Server Master Key will have the permission
 
-## CLP Protected Fields Key
+## CLP Protected Fields Parameter
 
-This CLP key is powerful and need some additional explanation.
-We will take the Parse User class as example.
+This CLP parameter allows you to restrict access to fields to specific Parse users.
+
+We will take the Parse User Class as example.
 
 ```js
+// className: '_User'
 {
     protectedFields: {
       "*": ["authData", "emailVerified", "password", "username"],
@@ -40,10 +42,10 @@ We will take the Parse User class as example.
 }
 ```
 
-Listed keys under `*` will be protected from all users. Don't worry by default, `authData`, `emailVerified`, `password` are protected.
-But here for example we protect `username` from all users. So user A, even authenticated will not be able to get the `username` of a user B.
+Listed keys under `*` will be protected from all users. By default, `authData`, `emailVerified`, `password` are protected.
+But in the above example we protect `username` from all users. So a Parse User, even authenticated will not be able to get the `username` of a another Parse User.
 
-But protected fields could be combined for example.
+`protectedFields` could be also combined as in the following example.
 
 ```js
 {
@@ -55,5 +57,5 @@ But protected fields could be combined for example.
 }
 ```
 
-In this case, a user member of the Parse Role `Admin` will be able to get the `phone` and `score` of another User. A user member of the Parse Role `VerifiedUser` can only get `phone`.
-If a user is member of `VerifiedUser` and `Admin`, he will have access to `phone` and `score`.
+In the example above, a Parse User member of the Parse Role `Admin` will be able to get the `phone` and `score` of another Parse User. A Parse User member of the Parse Role `VerifiedUser` can only get `phone`.
+If a Parse User is member of `VerifiedUser` and `Admin`, he will have access to `phone` and `score`.

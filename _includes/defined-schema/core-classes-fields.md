@@ -7,7 +7,7 @@ Parse will never delete these fields on **ALL** classes if not provided in a cla
 - `updatedAt`
 - `ACL`
 
-Parse will never delete these classes/fields if not provided in `schema` option.
+Parse Server will never delete the following fields from any class, even if these fields are not defined in a class schema.
 
 - `_User`
 
