@@ -32,7 +32,7 @@ if (response.success) {
 }
 ```
 
-After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
+After this code runs, you will probably be wondering if anything happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
 ```json
 objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
@@ -41,7 +41,7 @@ createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
 
-There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the cloud. Each of these fields is filled in by Parse, so they don't exist on a `ParseObject` until a save operation has completed.
+There are also a few fields you don't need to specify that are provided as a convenience. `objectId` is a unique identifier for each saved object. `createdAt` and `updatedAt` represent the time that each object was created and last modified in the cloud. Each of these fields is filled in by Parse, so they don't exist on a `ParseObject` until a save operation has been completed.
 
 
 ## Retrieving Objects
@@ -125,7 +125,7 @@ var response = await gameScore.save()
 
 ### Arrays
 
-To help with storing array data, there are three operations that can be used to atomically change an array associated with a given key:
+To help with storing array data, three operations can be used to atomically change an array associated with a given key:
 
 *   `setAdd` or `add` append the given object to the end of an array field.
 *   `setAddUnique` or `addUnique` add the given object only if it isn't already contained in an array field. The position of the insert is not guaranteed.
@@ -165,7 +165,7 @@ myObject.unset('playerName', offlineOnly: true);
 
 ## Relational Data
 
-Objects may have relationships with other objects. For example, in a blogging application, a `Post` object may have many `Comment` objects. Parse supports all kind of relationships, including one-to-one, one-to-many, and many-to-many.
+Objects may have relationships with other objects. For example, in a blogging application, a `Post` object may have many `Comment` objects. Parse supports all kinds of relationships, including one-to-one, one-to-many, and many-to-many.
 
 ### One-to-One and One-to-Many Relationships
 
@@ -208,7 +208,7 @@ final title = post.get<String>('title');
 
 ### Many-to-Many Relationships
 
-Many-to-many relationships are modeled using `ParseRelation`. This works similar to storing an array of `ParseObject`s in a key, except that you don't need to fetch all of the objects in a relation at once.  In addition, this allows `ParseRelation` to scale to many more objects than the array of `ParseObject` approach.  For example, a `User` may have many `Posts` that she might like. In this case, you can store the set of `Posts` that a `User` likes using `relation`.  In order to add a `Post` to the "likes" list of the `User`, you can do:
+Many-to-many relationships are modeled using `ParseRelation`. This works similar to storing an array of `ParseObject`s in a key, except that you don't need to fetch all of the objects in a relation at once.  In addition, this allows `ParseRelation` to scale to many more objects than the array of `ParseObject` approach.  For example, a `User` may have many `Posts` that she might like. In this case, you can store the set of `Posts` that a `User` likes using `relation`.  To add a `Post` to the "likes" list of the `User`, you can do:
 
 ```dart
 final user = ParseUser.currentUser();
@@ -239,7 +239,7 @@ user.addRelation('likes', [post1, post2, post3]);
 user.save();
 ```
 
-By default, the list of objects in this relation are not downloaded.  You can get a list of the posts that a user likes by using the `ParseQuery` returned by `query`.  The code looks like:
+By default, the list of objects in this relation is not downloaded.  You can get a list of the posts that a user likes by using the `ParseQuery` returned by `query`.  The code looks like this:
 
 ```dart
 await relation.getQuery().query();

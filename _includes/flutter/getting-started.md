@@ -1,6 +1,6 @@
 # Getting Started
 
-To user the parse in your project flutter, start adding the dependecy in your project:
+To use the parse in your project flutter, start adding the dependency in your project:
 
 You can run flutter command directly in your terminal:
 
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
 ```
 Note that you must import the library `dart:async` to use o Parse.
 
-⚠️ If you need to use the master key, note please note that the master key should only be used in safe environments and never on client side:
+⚠️ If you need to use the master key, note please note that the master key should only be used in safe environments and never on the client-side:
 
 ```dart
  await Parse().initialize(
