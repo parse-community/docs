@@ -2,7 +2,7 @@
 
 ## httpRequest
 
-You can use your favorite npm module to make HTTP requests, such as [request](https://www.npmjs.com/package/request). Parse Server also supports `Parse.Cloud.httpRequest` for legacy reasons. It allows you to send HTTP requests to any HTTP Server. This function takes an options object to configure the call.
+You can use your favorite npm module to make HTTP requests, such as [axios](https://www.npmjs.com/package/axios). Parse Server also supports `Parse.Cloud.httpRequest` for legacy reasons. It allows you to send HTTP requests to any HTTP Server. This function takes an options object to configure the call.
 
 A simple GET request would look like:
 
