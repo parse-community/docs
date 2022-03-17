@@ -24,7 +24,6 @@ const api = new ParseServer({
 });
 ```
 
-
 # Configuring File Adapters
 
 Parse Server allows developers to choose from several options when hosting files:
