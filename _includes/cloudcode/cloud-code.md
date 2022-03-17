@@ -216,6 +216,8 @@ The full range of built-in Validation Options are:
 - `requireUser`: whether the function requires a `request.user` to run.
 - `validateMasterKey`: whether the validator should run on `masterKey` (defaults to false).
 - `fields`: an `Array` or `Object` of fields that are required on the request.
+- `requireAnyUserRoles`: an `Array` or `function` that returns an array. `request.user` must match one of the specified roles.
+- `requireAllUserRoles`: an `Array` or `function` that returns an array. `request.user` must match all of the specified roles.
 - `requireUserKeys`: an `Array` of fields to be validated on `request.user`.
 
 The full range of built-in Validation Options on `.fields` are:
