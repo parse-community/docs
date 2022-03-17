@@ -1,6 +1,6 @@
 # Configuring File Upload
 
-From Parse Server V5.0.0, Parse Server restricts file upload to authenticated users only to improve Parse Server's default security. This behaviour can be modified by specifying `fileUpload` options to your Parse Server configuration.
+Starting at Parse Server V5.0.0, Parse Server restricts file upload to authenticated users only to improve Parse Server's default security. This behaviour can be modified by specifying `fileUpload` options to your Parse Server configuration.
 
 Available options are:
 
