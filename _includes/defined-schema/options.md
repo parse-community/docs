@@ -20,7 +20,7 @@ You can set the `deleteExtraFields` option to `true` if you want Parse Server to
 
 You can set the `recreateModifiedFields` option to `true` if you want Parse Server to clean field data before Parse Server update the field type when you change the type of a field (ie: from `String` to `Number`). Data stored on the modified field will be lost.
 
-`recreateModifiedFields` is default to `false`. Be aware that if you do not perform some data migration, you can result with data type inconsistency on modified field.
+`recreateModifiedFields` is default to `false`. **Be aware that if you do not perform some data migration, you can result with data type inconsistency on modified field.**
 
 On production a good practice could be to create a new field with your new type, and then create a Parse Cloud Job to migrate old field data to the new created field.
 
