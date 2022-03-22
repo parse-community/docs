@@ -114,7 +114,7 @@ There are three `emailVerified` states to consider:
 2.  `false` - at the time the `User` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider refreshing the `User` object.
 3.  _missing_ - the `User` was created when email verification was off or the `User` does not have an `email`.
 
-You can request a verification email to be sent by sending a POST request to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest</code>  with `email` in the body of the request:
+You can request a verification email to be sent by sending a POST request to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest</code> with `email` in the body of the request:
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -173,7 +173,6 @@ print result
 </div>
 
 If successful, the response body is an empty JSON object.
-
 
 ## Retrieving Users
 
@@ -237,7 +236,7 @@ print result
 </code></pre>
 </div>
 
-The response matches the JSON object above for retrieving users.  If the session token is not valid, an error object is returned:
+The response matches the JSON object above for retrieving users. If the session token is not valid, an error object is returned:
 
 ```json
 {
@@ -338,7 +337,6 @@ The return value is a JSON object that contains a `results` field with a JSON ar
 
 All of the options for queries that work for regular objects also work for user objects, so check the section on [Querying Objects](#basic-queries) for more details.
 
-
 ## Deleting Users
 
 To delete a user from the Parse Cloud, send a DELETE request to its URL. You must provide the `X-Parse-Session-Token` header to authenticate. For example:
@@ -369,7 +367,7 @@ print result
 
 Parse allows you to link your users with services like Twitter and Facebook, enabling your users to sign up or log into your application using their existing identities. This is accomplished through the sign-up and update REST endpoints by providing authentication data for the service you wish to link to a user in the `authData` field. Once your user is associated with a service, the `authData` for the service will be stored with the user and is retrievable by logging in.
 
-`authData` is a JSON object with keys for each linked service containing the data below.  In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a) to obtain the information the the service requires for linking.
+`authData` is a JSON object with keys for each linked service containing the data below. In each case, you are responsible for completing the authentication flow (e.g. OAuth 1.0a) to obtain the information the the service requires for linking.
 
 ### Facebook `authData`
 
@@ -414,7 +412,7 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
 
 ### Signing Up and Logging In
 
-Signing a user up with a linked service and logging them in with that service uses the same POST request, in which the `authData` for the user is specified.  For example, to sign up or log in with a user's Twitter account:
+Signing a user up with a linked service and logging them in with that service uses the same POST request, in which the `authData` for the user is specified. For example, to sign up or log in with a user's Twitter account:
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -463,7 +461,7 @@ print result
 </code></pre>
 </div>
 
-Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data.  If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
+Parse then verifies that the provided `authData` is valid and checks to see if a user is already associated with this data. If so, it returns a status code of `200 OK` and the details (including a `sessionToken` for the user):
 
 <pre><code class="javascript">
 Status: 200 OK
@@ -499,7 +497,7 @@ Status: 201 Created
 Location: <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc
 </code></pre>
 
-The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
+The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`. For example:
 
 ```json
 {
@@ -512,7 +510,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 
 ### Linking
 
-Linking an existing user with a service like Facebook or Twitter uses a PUT request to associate `authData` with the user.  For example, linking a user with a Facebook account would use a request like this:
+Linking an existing user with a service like Facebook or Twitter uses a PUT request to associate `authData` with the user. For example, linking a user with a Facebook account would use a request like this:
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -559,7 +557,7 @@ After linking your user to a service, you can authenticate them using matching `
 
 ### Unlinking
 
-Unlinking an existing user with a service also uses a PUT request to clear `authData` from the user by setting the `authData` for the service to `null`.  For example, unlinking a user with a Facebook account would use a request like this:
+Unlinking an existing user with a service also uses a PUT request to clear `authData` from the user by setting the `authData` for the service to `null`. For example, unlinking a user with a Facebook account would use a request like this:
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -603,16 +601,57 @@ The ACL is formatted as a JSON object where the keys are either object ids or th
 For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
 
 ```json
-	"ACL": {
-		"3KmCvT7Zsb": {
-			"read": true,
-			"write": true
-		},
-		"*": {
-			"read": true
-		}
-	}
+"ACL": {
+  "3KmCvT7Zsb": {
+    "read": true,
+    "write": true
+  },
+  "*": {
+    "read": true
+  }
 }
 ```
 
 If you want to access your data ignoring all ACLs, you can use the master key provided on the Dashboard. Instead of the `X-Parse-REST-API-Key` header, set the `X-Parse-Master-Key` header. For backward compatibility, you can also do master-level authentication using HTTP Basic Auth, passing the application id as the username and the master key as the password. For security, the master key should not be distributed to end users, but if you are running code in a trusted environment, feel free to use the master key for authentication.
+
+## User Impersonation
+
+An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. A session that has been created this way can be identified by its `createdWith` property:
+
+```json
+"createdWith": {
+  "action": "login",
+  "authProvider": "masterkey"
+}
+```
+
+Calling the endpoint requires the master key and it returns the same response format as the `/login` endpoint.
+
+<div class="language-toggle">
+<pre><code class="bash">
+curl -X GET \
+  -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
+  -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
+  -H "X-Parse-Master-Key: ${MASTER_KEY}" \
+  -H "X-Parse-Revocable-Session: 1" \
+  -G \
+  --data-urlencode 'userId=abc123' \
+  <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>loginAs
+</code></pre>
+<pre><code class="python">
+import json,httplib,urllib
+connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+params = urllib.urlencode({"userId":"abc123"})
+connection.connect()
+connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>loginAs?%s' % params, '', {
+       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+       "X-Parse-Master-Key": "${MASTER_KEY}",
+       "X-Parse-Revocable-Session": "1"
+     })
+result = json.loads(connection.getresponse().read())
+print result
+</code></pre>
+</div>
+
+Calling this endpoint does not invoke [session triggers](https://docs.parseplatform.org/cloudcode/guide/#session-triggers) such as `beforeLogin` and `afterLogin`. This action will always succeed if the supplied user exists in the database, regardless of whether the user is currently locked out.
