@@ -239,13 +239,13 @@ user.addRelation('likes', [post1, post2, post3]);
 user.save();
 ```
 
-By default, the list of objects in this relation is not downloaded.  You can get a list of the posts that a user likes by using the `ParseQuery` returned by `query`.  The code looks like this:
+By default, the list of objects in this relation is not downloaded.  You can get a list of the posts that a user likes by using the `QueryBuilder` returned by `query`.  The code looks like this:
 
 ```dart
 await relation.getQuery().query();
 ```
 
-If you want only a subset of the Posts, you can add extra constraints to the `ParseQuery` returned by query like this:
+If you want only a subset of the Posts, you can add extra constraints to the `QueryBuilder` returned by query like this:
 
 ```dart
 final queryBuilder = relation.getQuery();
@@ -253,7 +253,7 @@ queryBuilder.whereEqualTo('title', 'I\'m Hungry');
 var response = await queryBuilder.query();
 ```
 
-For more details on `ParseQuery`, please look at the query portion of this guide. A `ParseRelation` behaves similar to an array of `ParseObject` for querying purposes, so any query you can do on an array of objects, you can do on a `ParseRelation`.
+For more details on `QueryBuilder`, please look at the query portion of this guide. A `ParseRelation` behaves similar to an array of `ParseObject` for querying purposes, so any query you can do on an array of objects, you can do on a `ParseRelation`.
 
 ## Data Types
 
