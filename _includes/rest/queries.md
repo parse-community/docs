@@ -412,7 +412,9 @@ print result
 </code></pre>
 </div>
 
-You can restrict the fields returned by passing `keys` or `excludeKeys` a comma-separated list. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
+You can restrict the fields returned by passing `keys` or `excludeKeys` as an [array](#arrays). To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
+
+* On Parse Server <5.0.0 pass a comma-delimited string, e.g. `"score,playerName"` instead of an array for `keys` and `excludeKeys`.
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -426,7 +428,7 @@ curl -X GET \
 <pre><code class="python">
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"keys":"score,playerName"})
+params = urllib.urlencode({"keys":"[score,playerName]"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
