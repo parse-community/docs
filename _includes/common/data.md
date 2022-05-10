@@ -42,8 +42,8 @@ The JSON format is an array of objects in our REST format or a JSON object with 
     "score": 1337,
     "playerName": "Sean Plott",
     "cheatMode": false,
-    "createdAt": "2012-07-11T20:56:12.347Z",
-    "updatedAt": "2012-07-11T20:56:12.347Z",
+    "createdAt": "2022-01-01T12:23:45.678Z",
+    "updatedAt": "2022-01-01T12:23:45.678Z",
     "objectId": "fchpZwSuGG"
   }]
 }

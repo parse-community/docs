@@ -417,8 +417,8 @@ With a response body like:
 ```json
 {
   "username": "Parse",
-  "createdAt": "2012-02-28T23:49:36.353Z",
-  "updatedAt": "2012-02-28T23:49:36.353Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
   "authData": {
@@ -439,7 +439,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 ```json
 {
   "username": "iwz8sna7sug28v4eyu7t89fij",
-  "createdAt": "2012-02-28T23:49:36.353Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
 }

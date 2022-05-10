@@ -25,8 +25,8 @@ When you retrieve objects from Parse, some fields are automatically added: `crea
   "score": 1337,
   "playerName": "Sean Plott",
   "cheatMode": false,
-  "createdAt": "2011-08-20T02:06:57.931Z",
-  "updatedAt": "2011-08-20T02:06:57.931Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "Ed1nuqPvcm"
 }
 ```
@@ -94,7 +94,7 @@ The response body is a JSON object containing the `objectId` and the `createdAt`
 
 ```json
 {
-  "createdAt": "2011-08-20T02:06:57.931Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "Ed1nuqPvcm"
 }
 ```
@@ -134,8 +134,8 @@ The response body is a JSON object containing all the user-provided fields, plus
     "pwnage",
     "flying"
   ],
-  "createdAt": "2011-08-20T02:06:57.931Z",
-  "updatedAt": "2011-08-20T02:06:57.931Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "Ed1nuqPvcm"
 }
 ```
@@ -227,7 +227,7 @@ The response body is a JSON object containing just an `updatedAt` field with the
 
 ```json
 {
-  "updatedAt": "2011-08-21T18:02:52.248Z"
+  "updatedAt": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -533,7 +533,7 @@ The response from batch will be a list with the same number of elements as the i
 ```json
 {
   "success": {
-    "createdAt": "2012-06-15T16:59:11.276Z",
+    "createdAt": "2022-01-01T12:23:45.678Z",
     "objectId": "YAfSAWwXbL"
   }
 }
@@ -625,7 +625,7 @@ The `Date` type contains a field `iso` which contains a UTC timestamp stored in 
 ```json
 {
   "__type": "Date",
-  "iso": "2011-08-21T18:02:52.249Z"
+  "iso": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -637,7 +637,7 @@ curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
-  --data-urlencode 'where={"createdAt":{"$gte":{"__type":"Date","iso":"2011-08-21T18:02:52.249Z"}}}' \
+  --data-urlencode 'where={"createdAt":{"$gte":{"__type":"Date","iso":"2022-01-01T12:23:45.678Z"}}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
@@ -647,7 +647,7 @@ params = urllib.urlencode({"where":json.dumps({
        "createdAt": {
          "$gte": {
            "__type": "Date",
-           "iso": "2011-08-21T18:02:52.249Z"
+           "iso": "2022-01-01T12:23:45.678Z"
          }
        }
      })})

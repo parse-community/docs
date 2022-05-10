@@ -31,17 +31,17 @@ The return value is a JSON object that contains a `results` field with a JSON ar
   "results": [
     {
       "playerName": "Jang Min Chul",
-      "updatedAt": "2011-08-19T02:24:17.787Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "cheatMode": false,
-      "createdAt": "2011-08-19T02:24:17.787Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
       "objectId": "A22v5zRAgd",
       "score": 80075
     },
     {
       "playerName": "Sean Plott",
-      "updatedAt": "2011-08-21T18:02:52.248Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "cheatMode": false,
-      "createdAt": "2011-08-20T02:06:57.931Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
       "objectId": "Ed1nuqPvcm",
       "score": 73453
     }
@@ -895,8 +895,8 @@ When the query is issued with an `include` parameter for the key holding this po
   "__type": "Object",
   "className": "Post",
   "objectId": "8TOXdXf3tz",
-  "createdAt": "2011-12-06T20:59:34.428Z",
-  "updatedAt": "2011-12-06T20:59:34.428Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "otherFields": "willAlsoBeIncluded"
 }
 ```

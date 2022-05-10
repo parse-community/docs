@@ -50,7 +50,7 @@ You should get a response similar to this:
 ```js
 {
   "objectId": "2ntvSpRGIK",
-  "createdAt": "2022-03-11T23:51:48.050Z"
+  "createdAt": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -69,8 +69,8 @@ curl -X GET \
   "score": 123,
   "playerName": "Sean Plott",
   "cheatMode": false,
-  "updatedAt": "2022-03-11T23:51:48.050Z",
-  "createdAt": "2022-03-11T23:51:48.050Z"
+  "updatedAt": "2022-01-01T12:23:45.678Z",
+  "createdAt": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -91,8 +91,8 @@ curl -X GET \
       "score": 123,
       "playerName": "Sean Plott",
       "cheatMode": false,
-      "updatedAt": "2022-03-11T23:51:48.050Z",
-      "createdAt": "2022-03-11T23:51:48.050Z"
+      "updatedAt": "2022-01-01T12:23:45.678Z",
+      "createdAt": "2022-01-01T12:23:45.678Z"
     }
   ]
 }
