@@ -3,17 +3,21 @@
 Parse Server supports 3rd party authentication with
 
 * Apple
+* Apple Game Center
 * Facebook
 * Github
 * Google
+* Google Play Game Services
 * Instagram
 * Janrain Capture
 * Janrain Engage
 * Keycloak
 * LDAP
+* Line
 * LinkedIn
 * Meetup
 * Microsoft Graph
+* OAuth
 * PhantAuth
 * QQ
 * Spotify

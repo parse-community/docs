@@ -10,8 +10,8 @@ If you have not used MongoDB before, we highly recommend familiarizing yourself 
 
 The Mongo requirements for Parse Server are:
 
-* MongoDB version 3.6
-* An SSL connection is recommended (but not required).
+* MongoDB version 4.0 or newer
+* An SSL connection is recommended (but not required)
 
 If this is your first time setting up a MongoDB instance, we recommend a Database-as-a-Service (DBaaS) like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or [ObjectRocket](https://objectrocket.com/) which provide fully managed MongoDB instances and can help you scale as needed.
 
@@ -23,8 +23,15 @@ In order to allow for better scaling of your data layer, it is possible to direc
 
 The Postgres requirements for Parse Server are:
 
-* Postgres version 9.5
-* PostGIS extensions 2.3
+* PostgreSQL 11
+* PostGIS 3.0, 3.1 or 3.2
+
+or 
+
+* PostgreSQL 12 or newer
+* PostGIS 3.2
+
+[PostGIS](https://postgis.net) required if you plan to use geographic or location features.
 
 The postgres database adapter will be automatically loaded when you pass a valid postgres URL, for example: `postgres://localhost:5432`. The available configuration options through the URL are: 
 
@@ -44,8 +51,8 @@ Details about the configuration options can be found on [pg-promise](https://git
 * You will need to configure a [file adapter](#configuring-file-adapters) in order to store files.
 * Join tables are resolved in memory, there is no performance improvements using Postgres over MongoDB for relations or pointers.
 * Mutating the schema implies running ALTER TABLE, therefore we recommend you setup your schema when your tables are not full.
-* The postgres URL for 4.2.0 and below only supports the following configuration options:
+* The postgres URL for Parse 4.2.0 and below only supports the following configuration options:
 
-    ```
-    postgres://localhost:5432/db?ssl=boolean&client_encoding=string&application_name=string&fallback_application_name=string&poolSize=number&binary=boolean&keepAlive=boolean
-    ```
+```
+postgres://localhost:5432/db?ssl=boolean&client_encoding=stringapplication_name=string&fallback_application_name=stringpoolSize=number&binary=boolean&keepAlive=boolean
+```

@@ -20,7 +20,7 @@ sections:
 - "parse-server/cache-adapters.md"
 - "parse-server/live-query.md"
 - "parse-server/third-party-auth.md"
-- "parse-server/MongoReadPreference.md"
+- "parse-server/mongo-read-preference.md"
 - "parse-server/development.md"
 - "parse-server/best-practice.md"
 ---

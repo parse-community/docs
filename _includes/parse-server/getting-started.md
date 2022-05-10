@@ -8,18 +8,25 @@ Parse Server is an open source backend that can be deployed to any infrastructur
 
 **Prerequisites**
 
-* Node 8 or newer
-* MongoDB version 3.6
+* Node 12 or newer
+* MongoDB 4.0 or newer (to use Parse with MongoDB)
+* PostgreSQL 11 with PostGIS 3.0, 3.1 or 3.2, or PostgreSQL 12 or newer with PostGIS 3.2 (to use Parse with PostgreSQL)
 * Python 2.x (For Windows users, 2.7.1 is the required version)
 * For deployment, an infrastructure provider like Heroku or AWS
 
 The fastest and easiest way to get started is to run MongoDB and Parse Server locally. Use the bootstrap script to set up Parse Server in the current directory.
 
 ```bash
-$ sh <(curl -fsSL https://raw.githubusercontent.com/parse-community/parse-server/master/bootstrap.sh)
-$ npm install -g mongodb-runner
-$ mongodb-runner start
-$ npm start
+sh <(curl -fsSL https://raw.githubusercontent.com/parse-community/parse-server/master/bootstrap.sh)
+```
+```bash
+npm install -g mongodb-runner
+```
+```bash
+mongodb-runner start
+```
+```bash
+npm start
 ```
 
 You can use any arbitrary string as your application id and master key. These will be used by your clients to authenticate with the Parse Server.
@@ -43,14 +50,14 @@ You should get a response similar to this:
 ```js
 {
   "objectId": "2ntvSpRGIK",
-  "createdAt": "2016-03-11T23:51:48.050Z"
+  "createdAt": "2022-03-11T23:51:48.050Z"
 }
 ```
 
 You can now retrieve this object directly (make sure to replace `2ntvSpRGIK` with the actual `objectId` you received when the object was created):
 
 ```bash
-$ curl -X GET \
+curl -X GET \
   -H "X-Parse-Application-Id: APPLICATION_ID" \
   http://localhost:1337/parse/classes/GameScore/2ntvSpRGIK
 ```
@@ -62,15 +69,15 @@ $ curl -X GET \
   "score": 123,
   "playerName": "Sean Plott",
   "cheatMode": false,
-  "updatedAt": "2016-03-11T23:51:48.050Z",
-  "createdAt": "2016-03-11T23:51:48.050Z"
+  "updatedAt": "2022-03-11T23:51:48.050Z",
+  "createdAt": "2022-03-11T23:51:48.050Z"
 }
 ```
 
 Keeping tracks of individual object ids is not ideal, however. In most cases you will want to run a query over the collection, like so:
 
-```
-$ curl -X GET \
+```bash
+curl -X GET \
   -H "X-Parse-Application-Id: APPLICATION_ID" \
   http://localhost:1337/parse/classes/GameScore
 ```
@@ -84,8 +91,8 @@ $ curl -X GET \
       "score": 123,
       "playerName": "Sean Plott",
       "cheatMode": false,
-      "updatedAt": "2016-03-11T23:51:48.050Z",
-      "createdAt": "2016-03-11T23:51:48.050Z"
+      "updatedAt": "2022-03-11T23:51:48.050Z",
+      "createdAt": "2022-03-11T23:51:48.050Z"
     }
   ]
 }

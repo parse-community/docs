@@ -13,10 +13,10 @@ application.registerForRemoteNotifications()
 ```objc
 // Objective-C
 UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                UIUserNotificationTypeBadge |
-                                                UIUserNotificationTypeSound);
+UIUserNotificationTypeBadge |
+UIUserNotificationTypeSound);
 UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                         categories:nil];
+categories:nil];
 [application registerUserNotificationSettings:settings];
 [application registerForRemoteNotifications];
 ```
@@ -24,10 +24,10 @@ UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTy
 ```csharp
 // Xamarin
 UIUserNotificationType notificationTypes = (UIUserNotificationType.Alert |
-                                            UIUserNotificationType.Badge |
-                                            UIUserNotificationType.Sound);
+UIUserNotificationType.Badge |
+UIUserNotificationType.Sound);
 var settings = UIUserNotificationSettings.GetSettingsForTypes(notificationTypes,
-                                                              new NSSet(new string[] { }));
+new NSSet(new string[] { }));
 UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 UIApplication.SharedApplication.RegisterForRemoteNotifications();
 

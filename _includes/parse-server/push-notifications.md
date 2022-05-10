@@ -44,7 +44,7 @@ You will need to obtain some credentials from FCM and APNS in order to send push
 
 #### APNS (iOS)
 
-If you are setting up push notifications on iOS, tvOS or macOS for the first time, we recommend you visit the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/123862/push-notifications-tutorial) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate. Parse Server supports the PFX (`.p12`) file exported from Keychain Access. Parse Server also supports the push certificate and key in `.pem` format. Token-based authentication instead of a certificate is supported as well.
+If you are setting up push notifications on iOS, tvOS or macOS for the first time, we recommend you visit the [raywenderlich.com's Push Notifications tutorial](https://www.raywenderlich.com/11395893-push-notifications-tutorial-getting-started) or [appcoda.com's iOS Push tutorial](https://www.appcoda.com/push-notification-ios/) to help you obtain a production Apple Push Certificate. Parse Server supports the PFX (`.p12`) file exported from Keychain Access. Parse Server also supports the push certificate and key in `.pem` format. Token-based authentication instead of a certificate is supported as well.
 
 #### FCM (Android)
 
@@ -239,7 +239,7 @@ In your Parse Server logs, you can see something similar to
 
 ```js
 // FCM request and response
-{"request":{"params":{"priority":"normal","data":{"time":"2016-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
+{"request":{"params":{"priority":"normal","data":{"time":"2022-02-10T03:21:59.065Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
 ```
 
 ```sh

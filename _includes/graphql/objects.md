@@ -53,8 +53,8 @@ mutation createAGameScore {
       "clientMutationId": "anUniqueId",
       "gameScore": {
         "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
-        "updatedAt": "2019-12-02T10:14:28.786Z",
-        "createdAt": "2019-12-02T10:14:28.786Z",
+        "updatedAt": "2022-12-02T10:14:28.786Z",
+        "createdAt": "2022-12-02T10:14:28.786Z",
         "playerName": "Sean Plott",
         "score": 1337,
         "cheatMode": false,
