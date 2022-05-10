@@ -18,7 +18,7 @@ var api = new ParseServer({
 
 The parameters are as follows:
 
-* `databaseURI`: Connection string URI for your MongoDB or PostgreSQL.
+* `databaseURI`: Connection string URI for your database.
 * `cloud`: Path to your app’s Cloud Code.
 * `appId`: A unique identifier for your app.
 * `fileKey`: A key that specifies a prefix used for file storage. For migrated apps, this is necessary to provide access to files already hosted on Parse.

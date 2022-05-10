@@ -80,11 +80,11 @@ sudo nano pg_hba.conf
 ```
 Scroll down the file and Add `host, all, all, 0.0.0.0/0, md5`, has to be the first line before `local, all, postgres, , peer`
 
-|  |  |  |  |  |
+| TYPE | DATABASE | USER | ADDRESS | METHOD |
 | ---- | -------- | ---- | ------- | ------ |
 | host | all | all | 0.0.0.0/0 | md5 |
 | local | all | postgres |  | peer |
-| TYPE | DATABASE | USER | ADDRESS | METHOD |
+
 
 ```bash
 sudo nano postgresql.conf
@@ -117,9 +117,8 @@ After that, we need to setup the configuration file, use your own `appId`, `mast
 ```bash
 sudo nano -w config.json
 ```
-
+This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [Full Options Document](http://parseplatform.org/parse-server/api/master/ParseServerOptions.html) for more details.
 ```js
-// example
 {
   "appId": "luhYNQXysW6sS8S2s2c8PP9ZpLAf0gMb",
   "masterKey": "2AQ45kFMM8CL1HRkWc7IX0GwDW1wffnK",
@@ -129,6 +128,7 @@ sudo nano -w config.json
   "databaseURI": "postgres://postgres:mypassword@localhost:5432/postgres"
 }
 ```
+
 
 Install Parse Server globally
 
@@ -157,8 +157,8 @@ Once installed, you need to configure Parse Dashboard, go to `/usr/lib/node_modu
 ```bash
 sudo nano -w parse-dashboard-config.json
 ```
+This is an example of parse-dashboard.config.json, check the [full list of options](https://github.com/parse-community/parse-dashboard#configuring-parse-dashboard) for more details.
 ```js
-// example
 {
 {
   "apps": [

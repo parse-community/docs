@@ -8,32 +8,21 @@ The prefered database is MongoDB but Postgres is a great option if you're starti
 
 If you have not used MongoDB before, we highly recommend familiarizing yourself with it first before proceeding.
 
-The Mongo requirements for Parse Server are:
-
-* MongoDB version 4.0 or newer
-* An SSL connection is recommended (but not required)
+Check the [MongoDB requirements for Parse Server ](https://github.com/parse-community/parse-server#getting-started)
 
 If this is your first time setting up a MongoDB instance, we recommend a Database-as-a-Service (DBaaS) like [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) or [ObjectRocket](https://objectrocket.com/) which provide fully managed MongoDB instances and can help you scale as needed.
 
 When using MongoDB with your Parse app, you need to manage your indexes yourself. You will also need to size up your database as your data grows.
 
-In order to allow for better scaling of your data layer, it is possible to direct queries to a mongodb secondary for read operations.  See: [Mongo Read Preference](#using-mongodb-read-preference).
+In order to allow for better scaling of your data layer, it is possible to direct queries to a MongoDB secondary for read operations.  See: [MongoDB Read Preference](#using-mongodb-read-preference).
 
 ## Postgres
 
-The Postgres requirements for Parse Server are:
+Check the [Postgres requirements for Parse Server](https://github.com/parse-community/parse-server#getting-started)
 
-* PostgreSQL 11
-* PostGIS 3.0, 3.1 or 3.2
+[PostGIS](https://postgis.net) is required if you plan to use geographic or location features.
 
-or 
-
-* PostgreSQL 12 or newer
-* PostGIS 3.2
-
-[PostGIS](https://postgis.net) required if you plan to use geographic or location features.
-
-The postgres database adapter will be automatically loaded when you pass a valid postgres URL, for example: `postgres://localhost:5432`. The available configuration options through the URL are: 
+The Postgres database adapter will be automatically loaded when you pass a valid Postgres URL, for example: `postgres://localhost:5432`. The available configuration options through the URL are: 
 
 ```
 postgres://localhost:5432/db?ssl=boolean&rejectUnauthorized=boolean&ca=/path/to/file&pfx=/path/to/file&cert=/path/to/file&key=/path/to/file&passphrase=string&secureOptions=number&client_encoding=string&application_name=string&fallback_application_name=string&max=number&query_timeout=idleTimeoutMillis=number&poolSize=number&binary=boolean&keepAlive=boolean
@@ -51,7 +40,7 @@ Details about the configuration options can be found on [pg-promise](https://git
 * You will need to configure a [file adapter](#configuring-file-adapters) in order to store files.
 * Join tables are resolved in memory, there is no performance improvements using Postgres over MongoDB for relations or pointers.
 * Mutating the schema implies running ALTER TABLE, therefore we recommend you setup your schema when your tables are not full.
-* The postgres URL for Parse 4.2.0 and below only supports the following configuration options:
+* The Postgres URL for Parse 4.2.0 and below only supports the following configuration options:
 
 ```
 postgres://localhost:5432/db?ssl=boolean&client_encoding=string&application_name=string&fallback_application_name=string&poolSize=number&binary=boolean&keepAlive=boolean

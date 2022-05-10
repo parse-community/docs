@@ -14,8 +14,6 @@ You can then link the parse-server module to the cloned repo and run `npm instal
 
 ```sh
 npm link parse-server path/to/cloned/repo
-```
-```sh
 npm install
 ```
 
