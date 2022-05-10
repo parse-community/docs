@@ -54,5 +54,5 @@ Details about the configuration options can be found on [pg-promise](https://git
 * The postgres URL for Parse 4.2.0 and below only supports the following configuration options:
 
 ```
-postgres://localhost:5432/db?ssl=boolean&client_encoding=stringapplication_name=string&fallback_application_name=stringpoolSize=number&binary=boolean&keepAlive=boolean
+postgres://localhost:5432/db?ssl=boolean&client_encoding=string&application_name=string&fallback_application_name=string&poolSize=number&binary=boolean&keepAlive=boolean
 ```
