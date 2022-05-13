@@ -6,12 +6,15 @@ Parse Server is an open source backend that can be deployed to any infrastructur
 * You can deploy and run Parse Server on your own infrastructure.
 * You can develop and test your app locally using Node.
 
+The following guide describes how to set up Parse Server on your personal computer for local development. If you want to be able to access Parse Server from anywhere and make your app accessible publicly, you would want to deploy Parse Server to a cloud service provider like Amazon Web Services, Google Cloud, Microsoft Azure, Heroku or DigitalOcean. These providers vary in set-up complexity, configuration efforts, pricing model and required knowledge to secure your deployment. You can find guides for how to deploy Parse Server for specific providers in [Deploying Parse Server]({{ site.baseUrl }}/parse-server/guide/#deploying-parse-server) section.
+
+⚠️ Before making Parse Server accessible publicly, we strongly recommend to review all of your Parse Server configuration and read our [best practice]({{ site.baseUrl }}/parse-server/guide/#best-practice) guide. Failing to properly adapt your Parse Server configuration for a publicly accessible environment may make your deployment vulnerable to malicious intrusions, data leaks and unexpected cost increases.
+
 **Prerequisites**
 
 * Node
-* MongoDB (to use Parse with MongoDB)
-* PostgreSQL (to use Parse with PostgreSQL)
-* For deployment, an infrastructure provider like Heroku, DigitalOcean or AWS
+* MongoDB (to use Parse Server with MongoDB)
+* PostgreSQL (to use Parse Server with PostgreSQL)
 
 Ensure that the Node.js version is compatible with your version of Parse Server, for details see the [compatibility table](https://github.com/parse-community/parse-server#compatibility).
 

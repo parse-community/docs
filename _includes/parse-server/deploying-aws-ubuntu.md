@@ -20,7 +20,7 @@ Here are the steps:
 Once logged into the ec2 instance we perform the following tasks:
 
 ### Install Libraries and Dependencies
-Update the local package manager `apt`
+Update the local package manager `apt` 
 ```bash
 sudo apt update
 ```
@@ -144,7 +144,7 @@ or manually with the nohup command and specifying the configuration file, this o
 ```bash
 nohup parse-server config.json &
 ```
-Check if the Server is running `http://<IP_OR_DOMAIN>:1337` you should see `{"error":"unauthorized"}`
+Check if Parse Server is running typing `http://<IP_OR_DOMAIN>:1337` in your browser's address bar, you should see `{"error":"unauthorized"}`
 
 ### Setup Parse Dashboard
 
@@ -183,5 +183,5 @@ or with the nohup command and specifying the configuration file, this option wil
 nohup parse-dashboard --dev --config parse-dashboard-config.json &
 ```
 
-Check the Dashboard is running `http://<IP_OR_DOMAIN>:4040`
+Check if Parse Dashboard is running typing `http://<IP_OR_DOMAIN>:4040` in your browser's address bar, you should see the login form, use the `user` and `pass` that you set in the `parse-dashboard-config.json` file.
 
