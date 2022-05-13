@@ -12,9 +12,9 @@ Parse Server is an open source backend that can be deployed to any infrastructur
 * MongoDB (to use Parse with MongoDB)
 * PostgreSQL (to use Parse with PostgreSQL)
 * Python 2.x (For Windows users, 2.7.1 is the required version)
-* For deployment, an infrastructure provider like Heroku or AWS
+* For deployment, an infrastructure provider like Heroku, DigitalOcean or AWS
 
-Check the [requirements for Parse Server ](https://github.com/parse-community/parse-server#getting-started)
+Ensure that the Node.js version is compatible with your version of Parse Server, for details see the [compatibility table](https://github.com/parse-community/parse-server#compatibility).
 
 The fastest and easiest way to get started is to run MongoDB and Parse Server locally. Use the bootstrap script to set up Parse Server in the current directory.
 

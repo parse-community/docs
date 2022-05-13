@@ -10,7 +10,7 @@ Here are the steps:
 6. Create or select an existing `key pair`. (If you create a new one click `Download Key Pair`)
 7. Click `Launch Instance`
 8. On **EC2 Dashboard** select the new created instance and click `Security`
-9. On **Security Groups**, click on the security group _i.e.:sg-0fg55kj5588d63_
+9. On **Security Groups**, click on the security group
 10. On **Inbound Rules** tab, click `Edit Inbound Rules`
 11. Click `Add rule` and select `PostgreSQL` from the dropdown menu and `Anywhere-IPv4`.
 12. Click `Save rules`
@@ -28,7 +28,7 @@ Install [NodeJS](https://nodejs.org)
 ```bash
 sudo apt install nodejs
 ```
-Check the install was ok, you should see the version installed. _i.e: v16.15.0_
+Check the install was ok, you should see the version installed.
 ```bash
 node -v
 ```
@@ -63,12 +63,12 @@ psql
 ```
 
 ```bash
-ALTER USER postgres password 'mypassword';
+ALTER USER postgres password '<MY_PASSWORD>';
 ```
 
-Quit psql typing `\q` ↩
+Quit psql typing `\q`
 
-Exit postgres user typing `exit` ↩
+Exit postgres user typing `exit`
 
 Navigate to main folder inside postgresql/version/
 ```bash
@@ -120,12 +120,12 @@ sudo nano -w config.json
 This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [Full Options Document](http://parseplatform.org/parse-server/api/master/ParseServerOptions.html) for more details.
 ```js
 {
-  "appId": "luhYNQXysW6sS8S2s2c8PP9ZpLAf0gMb",
-  "masterKey": "2AQ45kFMM8CL1HRkWc7IX0GwDW1wffnK",
-  "clientKey": "gQP5nYGP1sC8gpRalJ1TGXUgDDHySdXY",
+  "appId": "<APP_ID>",
+  "masterKey": "<MASTER_KEY>",
+  "clientKey": "<CLIENT_KEY>",
   "appName": "MyApp",
   "cloud": "./cloud/main",
-  "databaseURI": "postgres://postgres:mypassword@localhost:5432/postgres"
+  "databaseURI": "postgres://postgres:<MY_PASSWORD>@localhost:5432/postgres"
 }
 ```
 
@@ -144,7 +144,7 @@ or manually with the nohup command and specifying the configuration file, this o
 ```bash
 nohup parse-server config.json &
 ```
-Check the Server is running `http://host-ip-or-domain:1337`
+Check if the Server is running `http://<IP/DOMAIN>:1337` you should see `{"error":"unauthorized"}`
 
 ### Setup Parse Dashboard
 
@@ -157,25 +157,20 @@ Once installed, you need to configure Parse Dashboard, go to `/usr/lib/node_modu
 ```bash
 sudo nano -w parse-dashboard-config.json
 ```
-This is an example of parse-dashboard.config.json, check the [full list of options](https://github.com/parse-community/parse-dashboard#configuring-parse-dashboard) for more details.
+This is an example of parse-dashboard.config.json.
 ```js
 {
-{
-  "apps": [
-    {
-      "serverURL": "http://<your-server-IP-or-domain>:1337/parse",
-      "appId": "luhYNQXysW6sS8S2s2c8PP9ZpLAf0gMb",
-      "masterKey": "2AQ45kFMM8CL1HRkWc7IX0GwDW1wffnK",
-      "allowInsecureHTTP": "true",
-      "appName": "MyApp"
-    }
-  ],
- "users": [
-    {
-      "user":"admin",
-      "pass":"password"
-    }
-  ]
+	"apps": [{
+		"serverURL": "http://<IP/DOMAIN>:1337/parse",
+		"appId": "<APP_ID>",
+		"masterKey": "<MASTER_KEY>",
+		"allowInsecureHTTP": "true",
+		"appName": "MyApp"
+	}],
+	"users": [{
+		"user": "admin",
+		"pass": "password"
+	}]
 }
 ```
 
@@ -188,5 +183,5 @@ or with the nohup command and specifying the configuration file, this option wil
 nohup parse-dashboard --dev --config parse-dashboard-config.json &
 ```
 
-Check the Dashboard is running `http://host-ip-or-domain:4040`
+Check the Dashboard is running `http://<IP/DOMAIN>:4040`
 
