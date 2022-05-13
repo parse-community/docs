@@ -144,7 +144,7 @@ or manually with the nohup command and specifying the configuration file, this o
 ```bash
 nohup parse-server config.json &
 ```
-Check if the Server is running `http://<IP/DOMAIN>:1337` you should see `{"error":"unauthorized"}`
+Check if the Server is running `http://<IP_OR_DOMAIN>:1337` you should see `{"error":"unauthorized"}`
 
 ### Setup Parse Dashboard
 
@@ -161,9 +161,9 @@ This is an example of parse-dashboard.config.json.
 ```js
 {
 	"apps": [{
-		"serverURL": "http://<IP/DOMAIN>:1337/parse",
-		"appId": "<APP_ID>",
-		"masterKey": "<MASTER_KEY>",
+		"serverURL": "http://example.com:1337/parse",
+		"appId": "exampleAppId",
+		"masterKey": "exampleMasterKey",
 		"allowInsecureHTTP": "true",
 		"appName": "MyApp"
 	}],
@@ -183,5 +183,5 @@ or with the nohup command and specifying the configuration file, this option wil
 nohup parse-dashboard --dev --config parse-dashboard-config.json &
 ```
 
-Check the Dashboard is running `http://<IP/DOMAIN>:4040`
+Check the Dashboard is running `http://<IP_OR_DOMAIN>:4040`
 
