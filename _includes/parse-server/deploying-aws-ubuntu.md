@@ -63,7 +63,7 @@ psql
 ```
 
 ```bash
-ALTER USER postgres password '<MY_PASSWORD>';
+ALTER USER postgres password 'myStrongPassword';
 ```
 
 Quit psql typing `\q`
@@ -117,15 +117,15 @@ After that, we need to setup the configuration file, use your own `appId`, `mast
 ```bash
 sudo nano -w config.json
 ```
-This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [Full Options Document](http://parseplatform.org/parse-server/api/master/ParseServerOptions.html) for more details.
+This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [full options document](https://parseplatform.org/parse-server/api/5.2.0/ParseServerOptions.html) for more details.
 ```js
 {
-  "appId": "<APP_ID>",
-  "masterKey": "<MASTER_KEY>",
-  "clientKey": "<CLIENT_KEY>",
+  "appId": "exampleAppId",
+  "masterKey": "exampleMasterKey",
+  "clientKey": "exampleClientKey",
   "appName": "MyApp",
   "cloud": "./cloud/main",
-  "databaseURI": "postgres://postgres:<MY_PASSWORD>@localhost:5432/postgres"
+  "databaseURI": "postgres://postgres:myStrongPassword@localhost:5432/postgres"
 }
 ```
 
