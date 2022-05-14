@@ -36,7 +36,7 @@ response.close(); // Free the resource
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
 ```javascript
-	objectId: "xWMyZ4YEGZ", temperature: 175.0, leverDown: true, createdAt: "2011-06-10T18:33:42Z", updatedAt: "2011-06-10T18:33:42Z"
+	objectId: "xWMyZ4YEGZ", temperature: 175.0, leverDown: true, createdAt: "2022-01-01T12:23:45.678Z", updatedAt: "2022-01-01T12:23:45.678Z"
 ```
 
 There are two things to note here. You didn't have to configure or set up a new Class called `Temperature` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
@@ -106,7 +106,7 @@ create.setClassName("TestObject");
 create.add("number", 42.0);
 create.add("foo", "bar");
 create.addGeoPoint("location", 40.0, -30.0);
-create.addJSONValue("dateField", "{ \"__type\": \"Date\", \"iso\": \"2011-08-21T18:02:52.249Z\" }"); create.addJSONValue("arrayField", "[ 30, \"string\" ]");
+create.addJSONValue("dateField", "{ \"__type\": \"Date\", \"iso\": \"2022-01-01T12:23:45.678Z\" }"); create.addJSONValue("arrayField", "[ 30, \"string\" ]");
 create.addJSONValue("objectField", "{ \"number\": 30, \"string\": \"baz\" }");
 create.addJSONValue("emptyField", "null");
 create.send();

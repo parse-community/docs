@@ -96,8 +96,8 @@ This will return a list of results ordered by distance from 30.0 latitude and -2
         "__type": "GeoPoint",
         "longitude": -30.0
       },
-      "updatedAt": "2011-12-06T22:36:04.983Z",
-      "createdAt": "2011-12-06T22:36:04.983Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
       "objectId": "iFEPN5Gwoz"
     },
     {
@@ -106,8 +106,8 @@ This will return a list of results ordered by distance from 30.0 latitude and -2
         "__type": "GeoPoint",
         "longitude": -20.0
       },
-      "updatedAt": "2011-12-06T22:36:26.143Z",
-      "createdAt": "2011-12-06T22:36:26.143Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
       "objectId": "LAyNKSNTHT"
     }
   ]

@@ -73,7 +73,7 @@ The response body is a JSON object containing the `objectId` and the `createdAt`
 
 ```json
 {
-  "createdAt": "2012-04-28T17:41:09.106Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB"
 }
 ```
@@ -156,8 +156,8 @@ The response body is a JSON object containing all the user-provided fields, plus
   "channels": [
     ""
   ],
-  "createdAt": "2012-04-28T17:41:09.106Z",
-  "updatedAt": "2012-04-28T17:41:09.106Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB"
 }
 ```
@@ -242,8 +242,8 @@ The return value is a JSON object that contains a results field with a JSON arra
       "channels": [
         ""
       ],
-      "createdAt": "2012-04-28T17:41:09.106Z",
-      "updatedAt": "2012-04-28T17:41:09.106Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "objectId": "mrmBZvsErB"
     },
     {
@@ -252,8 +252,8 @@ The return value is a JSON object that contains a results field with a JSON arra
       "channels": [
         ""
       ],
-      "createdAt": "2012-04-30T01:52:57.975Z",
-      "updatedAt": "2012-04-30T01:52:57.975Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "objectId": "sGlvypFQcO"
     }
   ]

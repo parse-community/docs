@@ -52,7 +52,7 @@ The response body is a JSON object containing the `objectId`, the `createdAt` ti
 
 ```json
 {
-  "createdAt": "2011-11-07T20:58:34.448Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "g7y9tkhB7O",
   "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
@@ -97,8 +97,8 @@ The response body is a JSON object containing all the user-provided fields excep
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
-  "createdAt": "2011-11-07T20:58:34.448Z",
-  "updatedAt": "2011-11-07T20:58:34.448Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "g7y9tkhB7O",
   "sessionToken": "r:pnktnjyb996sj4p156gjtp4im"
 }
@@ -204,8 +204,8 @@ The response body is a JSON object containing all the user-provided fields excep
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
-  "createdAt": "2011-11-07T20:58:34.448Z",
-  "updatedAt": "2011-11-07T20:58:34.448Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "g7y9tkhB7O"
 }
 ```
@@ -284,7 +284,7 @@ The response body is a JSON object containing just an `updatedAt` field with the
 
 ```json
 {
-  "updatedAt": "2011-11-07T21:25:10.623Z"
+  "updatedAt": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -320,15 +320,15 @@ The return value is a JSON object that contains a `results` field with a JSON ar
     {
       "username": "bigglesworth",
       "phone": "650-253-0000",
-      "createdAt": "2011-11-07T20:58:06.445Z",
-      "updatedAt": "2011-11-07T20:58:06.445Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "objectId": "3KmCvT7Zsb"
     },
     {
       "username": "cooldude6",
       "phone": "415-369-6201",
-      "createdAt": "2011-11-07T20:58:34.448Z",
-      "updatedAt": "2011-11-07T21:25:10.623Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "objectId": "g7y9tkhB7O"
     }
   ]
@@ -473,8 +473,8 @@ With a response body like:
 ```json
 {
   "username": "Parse",
-  "createdAt": "2012-02-28T23:49:36.353Z",
-  "updatedAt": "2012-02-28T23:49:36.353Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5",
   "authData": {
@@ -502,7 +502,7 @@ The body of the response will contain the `objectId`, `createdAt`, `sessionToken
 ```json
 {
   "username": "iwz8sna7sug28v4eyu7t89fij",
-  "createdAt": "2012-02-28T23:49:36.353Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "uMz0YZeAqc",
   "sessionToken": "r:samplei3l83eerhnln0ecxgy5"
 }
@@ -524,7 +524,7 @@ curl -X PUT \
           "facebook": {
             "id": "123456789",
             "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
-            "expiration_date": "2012-02-28T23:49:36.353Z"
+            "expiration_date": "2022-01-01T12:23:45.678Z"
           }
         }
       }' \
@@ -539,7 +539,7 @@ connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span
          "facebook": {
            "id": "123456789",
            "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
-           "expiration_date": "2012-02-28T23:49:36.353Z"
+           "expiration_date": "2022-01-01T12:23:45.678Z"
          }
        }
      }), {

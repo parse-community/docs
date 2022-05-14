@@ -145,7 +145,7 @@ The response body is a JSON object containing the `objectId` and `createdAt` tim
 
 ```json
 {
-  "createdAt": "2012-04-28T17:41:09.106Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB"
 }
 ```
@@ -178,9 +178,9 @@ The response body is a JSON object containing all of the fields on the role:
 
 ```json
 {
-  "createdAt": "2012-04-28T17:41:09.106Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB",
-  "updatedAt": "2012-04-28T17:41:09.106Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "ACL": {
     "*": {
       "read": true
