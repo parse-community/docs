@@ -326,7 +326,7 @@ extend type Query {
 Parse.Cloud.define("hello", () => "Hello, world!");
 ```
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -342,7 +342,7 @@ query hello {
 
 The code above should resolve to this:
 
-```js
+```json
 // Response
 {
   "data": {
@@ -418,7 +418,7 @@ Parse.Cloud.define("addToCart", async (req) => {
 });
 ```
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -437,7 +437,7 @@ mutation addItemToCart {
 
 The code above should resolve to something similar to this:
 
-```js
+```json
 // Response
 {
   "data": {

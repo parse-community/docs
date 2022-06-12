@@ -50,7 +50,7 @@ Note, most of them don't require a server configuration so you can use them dire
 
 ### Facebook `authData`
 
-```js
+```json
 {
   "facebook": {
     "id": "user's Facebook id number as a string",
@@ -59,11 +59,11 @@ Note, most of them don't require a server configuration so you can use them dire
   }
 }
 ```
-Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
+Learn more about [Facebook login](https://developers.facebook.com/docs/facebook-login/).
 
 ### Twitter `authData`
 
-```js
+```json
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
@@ -91,7 +91,7 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
 
 ### Anonymous user `authData`
 
-```js
+```json
 {
   "anonymous": {
     "id": "random UUID with lowercase hexadecimal digits"
@@ -103,7 +103,7 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
 
 As of Parse Server 3.5.0 you can use [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/).
 
-```js
+```json
 {
   "apple": {
     "id": "user",
@@ -131,7 +131,7 @@ Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04
 
 ### Github `authData`
 
-```js
+```json
 {
   "github": {
     "id": "user's Github id (string)",
@@ -144,7 +144,7 @@ Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04
 
 Google oauth supports validation of id_token's and access_token's.
 
-```js
+```json
 {
   "google": {
     "id": "user's Google id (string)",
@@ -156,7 +156,7 @@ Google oauth supports validation of id_token's and access_token's.
 
 ### Instagram `authData`
 
-```js
+```json
 {
   "instagram": {
     "id": "user's Instagram id (string)",
@@ -168,7 +168,7 @@ Google oauth supports validation of id_token's and access_token's.
 
 ### Keycloak `authData`
 
-```js
+```json
 {
   "keycloak": {
     "access_token": "access token from keycloak JS client authentication",
@@ -205,7 +205,7 @@ The query should return all groups which the user is a member of. The `cn` attri
 
 To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directory Studio](https://directory.apache.org/studio/).
 
-```js
+```json
 {
   "ldap": {
     "url": "ldap://host:port",
@@ -221,7 +221,7 @@ If either `groupCN` or `groupFilter` is not specified, the group check is not pe
 
 Example Configuration (this works with the public LDAP test server hosted by Forumsys):
 
-```js
+```json
 {
   "ldap": {
     "url": "ldap://ldap.forumsys.com:389",
@@ -235,7 +235,7 @@ Example Configuration (this works with the public LDAP test server hosted by For
 
 authData:
 
-```js
+```json
 {
   "authData": {
     "ldap": {
@@ -248,7 +248,7 @@ authData:
 
 ### LinkedIn `authData`
 
-```js
+```json
 {
   "linkedin": {
     "id": "user's LinkedIn id (string)",
@@ -260,7 +260,7 @@ authData:
 
 ### Meetup `authData`
 
-```js
+```json
 {
   "meetup": {
     "id": "user's Meetup id (string)",
@@ -271,7 +271,7 @@ authData:
 
 ### Microsoft Graph `authData`
 
-```js
+```json
 {
   "microsoft": {
     "id": "user's microsoft id (string)", // required
@@ -289,7 +289,7 @@ To [get access on behalf of a user](https://docs.microsoft.com/en-us/graph/auth-
 
 As of Parse Server 3.7.0 you can use [PhantAuth](https://www.phantauth.net/).
 
-```js
+```json
 {
   "phantauth": {
     "id": "user's PhantAuth sub (string)",
@@ -302,7 +302,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### QQ `authData`
 
-```js
+```json
 {
   "qq": {
     "id": "user's QQ id (string)",
@@ -313,7 +313,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### Spotify `authData`
 
-```js
+```json
 {
   "spotify": {
     "id": "user's spotify id (string)",
@@ -324,7 +324,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### vKontakte `authData`
 
-```js
+```json
 {
   "vkontakte": {
     "id": "user's vkontakte id (string)",
@@ -348,7 +348,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### WeChat `authData`
 
-```js
+```json
 {
   "wechat": {
     "id": "user's wechat id (string)",
@@ -359,7 +359,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### Weibo `authData`
 
-```js
+```json
 {
   "weibo": {
     "id": "user's weibo id (string)",

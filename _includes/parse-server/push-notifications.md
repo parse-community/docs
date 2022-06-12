@@ -237,7 +237,7 @@ After sending this to your Parse Server, you should see the push notifications s
 
 In your Parse Server logs, you can see something similar to
 
-```js
+```json
 // FCM request and response
 {"request":{"params":{"priority":"normal","data":{"time":"2022-01-01T12:23:45.678Z","push_id":"NTDgWw7kp8","data":"{\"alert\":\"All work and no play makes Jack a dull boy.\"}"}}},"response":{"multicast_id":5318039027588186000,"success":1,"failure":0,"canonical_ids":0,"results":[{"registration_id":"APA91bEdLpZnXT76vpkvkD7uWXEAgfrZgkiH_ybkzXqhaNcRw1KHOY0s9GUKNgneGxe2PqJ5Swk1-Vf852kpHAP0Mhoj5wd1MVXpRsRr_3KTQo_dkNd_5wcQ__yWnWLxbeM3kg_JziJK","message_id":"0:1455074519347821%df0f8ea7f9fd7ecd"}]}}
 ```

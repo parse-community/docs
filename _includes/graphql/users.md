@@ -12,7 +12,7 @@ You can ask Parse Server to [verify user email addresses]({{ site.baseUrl }}/par
 
 To sign up a new user, use the `signUp` mutation. For example:
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -41,7 +41,7 @@ mutation signUp {
   }
 }
 ```
-```js
+```json
 // Response
 {
   "data": {
@@ -64,7 +64,7 @@ Note that a field called `sessionToken` has been returned. This token can be use
 
 After you allow users to sign up, you need to let them log in to their account with a username and password in the future. To do this, use the `logIn` mutation:
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -85,7 +85,7 @@ mutation logIn {
   }
 }
 ```
-```js
+```json
 // Response
 {
   "data": {
@@ -108,7 +108,7 @@ Note that, when the user logs in, Parse Server generates a new `sessionToken` fo
 
 You can log in a user via a [3rd party authentication](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) system (Facebook, Twitter, Apple and many more) with the `logInWith` mutation.
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -140,7 +140,7 @@ mutation LoginWithFacebook {
   }
 }
 ```
-```js
+```json
 // Response
 {
   "data": {
@@ -166,7 +166,7 @@ You can easily do this in the GraphQL Playground. There is an option called `HTT
 
 After setting up the `X-Parse-Session-Token` header, any operation will run as this user. For example, you can run the code below to validate the session token and return its associated user:
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -185,7 +185,7 @@ query viewer {
   }
 }
 ```
-```js
+```json
 // Response
 {
   "data": {
@@ -204,7 +204,7 @@ query viewer {
 
 You can log out a user through the `logOut` mutation. You need to send the `X-Parse-Session-Token` header and run code like the below example:
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -226,7 +226,7 @@ mutation logOut {
 }
 
 ```
-```js
+```json
 // Response
 {
   "data": {
@@ -247,7 +247,7 @@ mutation logOut {
 
 To use the `resetPassword` mutation your Parse Server must have an email adapter configured.
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -261,7 +261,7 @@ mutation resetPassword {
   }
 }
 ```
-```js
+```json
 // Response
 {
   "data": {
@@ -276,7 +276,7 @@ mutation resetPassword {
 
 The verification email is automatically sent on sign up; this mutation is useful if the user didn't receive the first email. Again, an email adapter must be configured for this mutation to work.
 
-```js
+```json
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -291,7 +291,7 @@ mutation sendVerificationEmail {
 }
 
 ```
-```js
+```json
 // Response
 {
   "data": {
