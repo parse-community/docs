@@ -143,7 +143,7 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The response body is a JSON object containing the `objectId` and `createdAt` timestamp of the newly-created object:
 
-```json5
+```jsonc
 {
   "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB"
@@ -176,7 +176,7 @@ print result
 
 The response body is a JSON object containing all of the fields on the role:
 
-```json5
+```jsonc
 {
   "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB",
@@ -362,7 +362,7 @@ In addition to per-user permissions [as described above](#access-control-lists),
 
 For example, to restrict an object to be readable by anyone in the "Members" role and writable by its creator and anyone in the "Moderators" role, you would specify an ACL like this:
 
-```json5
+```jsonc
 {
   "8TOXdXf3tz": {
     "write": true

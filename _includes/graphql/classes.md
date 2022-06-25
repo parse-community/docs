@@ -1,7 +1,7 @@
 # Classes
 
 Since your application does not have a schema yet, you can use the `createClass` mutation to create your first class through the GraphQL API. Run the following:
-```json5
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -34,7 +34,7 @@ mutation createGameScoreClass {
   }
 }
 ```
-```json5
+```jsonc
 // Response
 {
   "data": {
