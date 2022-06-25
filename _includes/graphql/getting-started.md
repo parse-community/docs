@@ -6,7 +6,7 @@
 The easiest way to run the Parse GraphQL Server is using the CLI:
 
 ```bash
-$ npm install -g parse-server mongodb-runner
+$ npm install --location=global parse-server mongodb-runner
 $ mongodb-runner start
 $ parse-server --appId APPLICATION_ID --masterKey MASTER_KEY --databaseURI mongodb://localhost/test --mountGraphQL --mountPlayground
 ```
@@ -165,7 +165,7 @@ extend type Query {
 The easiest way to run the Parse Dashboard is through its CLI:
 
 ```sh
-$ npm install -g parse-dashboard
+$ npm install --location=global parse-dashboard
 $ parse-dashboard --dev --appId APPLICATION_ID --masterKey MASTER_KEY --serverURL "http://localhost:1337/parse" --graphQLServerURL "http://localhost:1337/graphql" --appName MyAppName
 ```
 
