@@ -41,7 +41,7 @@ print result
 
 The response body is JSON containing all the schema information of the app.
 
-```json
+```json5
 {
   "results": [
     {

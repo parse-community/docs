@@ -144,7 +144,7 @@ gameScore.save()
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
-```json
+```json5
 objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
 createdAt:"2022-01-01T12:23:45.678Z", updatedAt:"2022-01-01T12:23:45.678Z"
 ```

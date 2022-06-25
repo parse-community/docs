@@ -109,7 +109,7 @@ sudo yarn add parse-server
 ```
 
 Edit the `package.json` file with your preferences, but do not change the start line inside the scripts.
-```json
+```json5
 {
   "name": "my-app",
   "description": "parse-server for my App",
@@ -130,7 +130,7 @@ After that, we need to create a configuration file, use your own `appId`, `maste
 sudo nano -w config.json
 ```
 
-```json
+```json5
 {
   "appId": "exampleAppId",
   "masterKey": "exampleMasterKey",
@@ -186,7 +186,7 @@ Once installed, you need to configure Parse Dashboard, go to `/usr/lib/node_modu
 sudo nano -w parse-dashboard-config.json
 ```
 This is an example of `parse-dashboard.config.json`.
-```json
+```json5
 {
 	"apps": [{
 		"serverURL": "http://example.com:1337/parse",

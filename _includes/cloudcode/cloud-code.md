@@ -2,7 +2,7 @@
 
 Let's look at a slightly more complex example where Cloud Code is useful. One reason to do computation in the cloud is so that you don't have to send a huge list of objects down to a device if you only want a little bit of information. For example, let's say you're writing an app that lets people review movies. A single `Review` object could look like:
 
-```json
+```json5
 {
   "movie": "The Matrix",
   "stars": 5,
@@ -112,13 +112,13 @@ In general, two arguments will be passed into cloud functions:
 
 If the function is successful, the response in the client looks like:
 
-```json
+```json5
 { "result": 4.8 }
 ```
 
 If there is an error, the response in the client looks like:
 
-```json
+```json5
 {
   "code": 141,
   "error": "movie lookup failed"

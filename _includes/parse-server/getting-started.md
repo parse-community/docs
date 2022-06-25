@@ -45,7 +45,7 @@ http://localhost:1337/parse/classes/GameScore
 
 You should get a response similar to this:
 
-```json
+```json5
 {
   "objectId": "2ntvSpRGIK",
   "createdAt": "2022-01-01T12:23:45.678Z"
@@ -60,7 +60,7 @@ curl -X GET \
   http://localhost:1337/parse/classes/GameScore/2ntvSpRGIK
 ```
 
-```json
+```json5
 // Response
 {
   "objectId": "2ntvSpRGIK",
@@ -80,7 +80,7 @@ curl -X GET \
   http://localhost:1337/parse/classes/GameScore
 ```
 
-```json
+```json5
 // The response will provide all the matching objects within the `results` array:
 {
   "results": [

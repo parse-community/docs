@@ -28,7 +28,7 @@ print result
 
 The response body is a JSON object containing all the configuration parameters in the `params` field.
 
-```json
+```json5
 {
   "params": {
     "welcomeMessage": "Welcome to The Internet!",
@@ -65,7 +65,7 @@ return request({
 
 The response body is a JSON object containing a simple boolean value in the `result` field.
 
-```json
+```json5
 {
   "result": true
 }

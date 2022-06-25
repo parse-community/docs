@@ -206,7 +206,7 @@ end
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
-```json
+```json5
 // Sent to webhook
 {
   "master": false,
@@ -225,14 +225,14 @@ Here's an example of the JSON data that would be sent in the request to this web
 
 This response would indicate a success in the webhook:
 
-```json
+```json5
 // Returned from the webhook on success
 { "success": "Hello World!" }
 ```
 
 This response would indicate an error in the webhook:
 
-```json
+```json5
 // Returned from the webhook on error
 { "error": "Error message >:(" }
 ```
@@ -275,7 +275,7 @@ end
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
-```json
+```json5
 // Sent to webhook
 {
   "master": true,
@@ -287,7 +287,7 @@ Here's an example of the JSON data that would be sent in the request to this web
 
 This response would indicate a success in the webhook:
 
-```json
+```json5
 // Returned from the webhook on success
 { "success": "User billed!" }
 ```
@@ -310,7 +310,7 @@ For triggers, the following parameters are sent to your webhook.
 
 To respond to a `beforeSave` request, send a JSON object with the key `error` or `success` set. This is the same as for Cloud functions, but there's an extra capability with `beforeSave` triggers. By returning an error, you will cancel the save request and the object will not be stored on Parse. You can also return a JSON object in this following format to override the values that will be saved for the object:
 
-```json
+```json5
 {
   "className": "AwesomeClass",
   "existingColumn": "sneakyChange",
@@ -348,7 +348,7 @@ end
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
-```json
+```json5
 // Sent to webhook
 {
   "master": false,
@@ -419,7 +419,7 @@ end
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
-```json
+```json5
 // Sent to webhook
 {
   "master": false,
@@ -485,7 +485,7 @@ end
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
-```json
+```json5
 // Sent to webhook
 {
   "master": false,
@@ -509,7 +509,7 @@ Here's an example of the JSON data that would be sent in the request to this web
 
 This response would indicate a success in the webhook:
 
-```json
+```json5
 // Returned from the webhook on success
 { "success": true }
 ```
@@ -554,7 +554,7 @@ end
 
 Here's an example of the JSON data that would be sent in the request to this webhook:
 
-```json
+```json5
 // Sent to webhook
 {
   "master": false,

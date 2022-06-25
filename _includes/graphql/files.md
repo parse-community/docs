@@ -5,7 +5,7 @@ The GraphQL API supports file upload via [GraphQL Upload](https://github.com/jay
 ## Add a File field to a Class
 First of all we will update our `GameScore` class with a `screenshot` field of type `File`.
 
-```json
+```json5
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -29,7 +29,7 @@ mutation updateGameScoreClass {
   }
 }
 ```
-```json
+```json5
 // Response
 {
   "data": {
@@ -46,7 +46,7 @@ mutation updateGameScoreClass {
 
 The GraphQL API supports nested mutation for the `File` type, so you can send the file along with the Parse Object or just upload the file and get the returned information.
 
-```json
+```json5
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -65,7 +65,7 @@ mutation createFile($file: Upload!) {
   }
 }
 ```
-```json
+```json5
 // Response
 {
   "data": {
@@ -83,7 +83,7 @@ mutation createFile($file: Upload!) {
 
 You can add an existing file to an object.
 
-```json
+```json5
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -116,7 +116,7 @@ mutation createGameScore {
   }
 }
 ```
-```json
+```json5
 // Response
 {
   "data": {
@@ -134,7 +134,7 @@ mutation createGameScore {
 
 ## Create and add a file
 Lets create a new `GameScore` object and upload the file.
-```json
+```json5
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -164,7 +164,7 @@ mutation createGameScore($file: Upload! ) {
   }
 }
 ```
-```json
+```json5
 // Response
 {
   "data": {
