@@ -4,7 +4,7 @@ In addition to callbacks, every asynchronous method in the Parse JavaScript SDK 
 
 ## Introduction to Promises
 
-Promises represent the next great paradigm in JavaScript programming. But understanding why they are so great is no simple matter. At its core, a `Promise` represents the result of a task, which may or may not have completed. The only interface requirement of a `Promise` is having a function called `then`, which can be given callbacks to be called when the promise is fulfilled or has failed. This is outlined in the [CommonJS Promises/A proposal](http://wiki.commonjs.org/wiki/Promises/A). For example, consider saving a `Parse.Object`, which is an asynchronous operation. In the old callback paradigm, your code would look like this:
+Promises represent the next great paradigm in JavaScript programming. But understanding why they are so great is no simple matter. At its core, a `Promise` represents the result of a task, which may or may not have completed. The only interface requirement of a `Promise` is having a function called `then`, which can be given callbacks to be called when the promise is fulfilled or has failed. This is outlined in the [CommonJS Promises/A proposal](https://wiki.commonjs.org/wiki/Promises/A). For example, consider saving a `Parse.Object`, which is an asynchronous operation. In the old callback paradigm, your code would look like this:
 
 ```javascript
 object.save({ key: value }, {

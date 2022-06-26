@@ -2,7 +2,7 @@
 
 Server side cloud code is a powerful component of parse server. 
 
-You can read more about how to setup cloud code in the [cloud code guide](http://docs.parseplatform.org/cloudcode/guide/).
+You can read more about how to setup cloud code in the [cloud code guide](https://docs.parseplatform.org/cloudcode/guide/).
 
 ## Cloud Functions
 

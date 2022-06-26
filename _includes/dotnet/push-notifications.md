@@ -42,7 +42,7 @@ While it is possible to modify a `ParseInstallation` just like you would a `Pars
 *   **`channels`**:
     An `IEnumerable<string>` of the channels to which a device is currently subscribed. In .NET, this field is accessible through the `Channels` property.
 *   **`timeZone`**: The current time zone where the target device is located. This field is readonly and can be accessed via the `TimeZone` property. This value is synchronized every time an `Installation` object is saved from the device.
-*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](http://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). This value is synchronized every time a `ParseInstallation` object is saved from the device _(readonly)_.
+*   **`localeIdentifier`**: The locale identifier of the device in the format [language code]-[COUNTRY CODE]. The language codes are two-letter lowercase ISO language codes (such as "en") as defined by [ISO 639-1](https://en.wikipedia.org/wiki/ISO_639-1). The country codes are two-letter uppercase ISO country codes (such as "US") as defined by [ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3). This value is synchronized every time a `ParseInstallation` object is saved from the device _(readonly)_.
 *   **`deviceType`**: The type of device, "ios", "android", "winrt", "winphone", or "dotnet". This field is readonly and can be accessed via the `DeviceType` property.
 *   **`pushType`**: This field is reserved for directing Parse to the push delivery network to be used. If the device is registered to receive pushes via FCM, this field will be marked "gcm". If this device is not using FCM, it will be blank _(readonly)_.
 *   **`installationId`**: Unique Id for the device used by Parse. This field is readonly and can be accessed via the `InstallationId` property.
@@ -390,7 +390,7 @@ On Windows 8, a toast notification can pass a small payload to the launch handle
 virtual void OnLaunched(LaunchActivatedEventArgs args) {
     // 'args' contains arguments that are passed to the app
     // during its launch activation from a Toast.
-    // More on Toasts: http://msdn.microsoft.com/en-us/library/windows/apps/hh779727.aspx
+    // More on Toasts: https://docs.microsoft.com/en-us/previous-versions/windows/apps/hh779727(v=win.10)
     ParseAnalytics.TrackAppOpenedAsync(args);
 }
 ```

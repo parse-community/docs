@@ -282,7 +282,7 @@ If you need to check if a `PFUser` is authenticated, you can invoke the `isAuthe
 
 ## Security For Other Objects
 
-The same security model that applies to the `PFUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `PFACL` class.
+The same security model that applies to the `PFUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](https://en.wikipedia.org/wiki/Access_control_list), implemented by the `PFACL` class.
 
 The simplest way to use a `PFACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `PFUser`. Then, the `ACLWithUser` method generates a `PFACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 

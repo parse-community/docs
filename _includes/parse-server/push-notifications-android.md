@@ -102,6 +102,6 @@ curl -X GET \
   http://your_parse_server:1337/parse/installations
 ```
 
-##### Proceed to [Step 4](http://docs.parseplatform.org/parse-server/guide/#4-send-push-notifications).
+##### Proceed to [Step 4](https://docs.parseplatform.org/parse-server/guide/#4-send-push-notifications).
 
 Note that GCM push support is [deprecated](https://android-developers.googleblog.com/2018/04/time-to-upgrade-from-gcm-to-fcm.html) and FCM should be used instead, but instructions for GCM setup can be found [here](https://github.com/parse-community/Parse-SDK-Android/tree/master/gcm)

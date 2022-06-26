@@ -171,7 +171,7 @@ For example, if you use Heroku to deploy your Live Query server, after you setup
 
 The LiveQuery server provides two ways to secure your app. The first one is key matching. If you provide key pairs when you initialize the LiveQuery server, when clients try to connect to LiveQuery server, they have to provide the necessary key pairs. Otherwise, the connection will be refused.
 
-The second one is ACL. For what is ACL, you can check the definition [here](http://blog.parse.com/learn/engineering/parse-security-iii-are-you-on-the-list/). When clients try to connect and subscribe to the LiveQuery server, they can provide their `sessionToken`. If you give your `Parse.Object` proper ACL, when the LiveQuery server get the updates of the `Parse.Object`, it will try to match `Parse.Object`'s ACL with the `sessionToken` of clients or their subscriptions. The event will be only sent to clients whose `sessionToken` matches the `Parse.Object`'s ACL.
+The second one is ACL. When clients try to connect and subscribe to the LiveQuery server, they can provide their `sessionToken`. If you give your `Parse.Object` proper ACL, when the LiveQuery server get the updates of the `Parse.Object`, it will try to match `Parse.Object`'s ACL with the `sessionToken` of clients or their subscriptions. The event will be only sent to clients whose `sessionToken` matches the `Parse.Object`'s ACL.
 
 ## LiveQuery Clients
 

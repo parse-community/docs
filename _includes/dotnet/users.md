@@ -140,7 +140,7 @@ If you need to check if a `ParseUser` is authenticated, you can check the `IsAut
 
 ## Security For Other Objects
 
-The same security model that applies to the `ParseUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](http://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
+The same security model that applies to the `ParseUser` can be applied to other objects. For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object. To support this type of security, each object has an [access control list](https://en.wikipedia.org/wiki/Access_control_list), implemented by the `ParseACL` class.
 
 The simplest way to use a `ParseACL` is to specify that an object may only be read or written by a single user. To create such an object, there must first be a logged in `ParseUser`. Then, the `ParseACL` constructor generates a `ParseACL` that limits access to that user. An object's ACL is updated when the object is saved, like any other property. Thus, to create a private note that can only be accessed by the current user:
 
@@ -358,7 +358,7 @@ await ParseFacebookUtils.UnlinkAsync(user);
 
 ### Single Sign-on for Windows 8
 
-WinRT lets you implement single sign-on with Facebook using its `[WebAuthenticationBroker](http://msdn.microsoft.com/library/windows/apps/br227025)` API. This allows users to log into Facebook once and then share that login across all of their apps, so they don't have to re-enter their username and password for every app.
+WinRT lets you implement single sign-on with Facebook using its `[WebAuthenticationBroker](https://docs.microsoft.com/en-us/uwp/api/Windows.Security.Authentication.Web.WebAuthenticationBroker?view=winrt-22621)` API. This allows users to log into Facebook once and then share that login across all of their apps, so they don't have to re-enter their username and password for every app.
 
 Parse supports single sign-on with Facebook using this mechanism. Adding it to your app requires just two steps:
 
@@ -388,7 +388,7 @@ Parse supports single sign-on using this mechanism. To add support to your app:
 
 * You will need to locate your app's product ID. During development, you can find this in your app's WMAppManifest.xml. When you submit your app to the store for the first time, your app will be assigned a new product ID, which you'll need to add to your app as described below. Whenever you use your product ID while following this guide, you should remove any of the following characters: `'-'`, `'{'`, `'}'`.
 
-* You will need to configure your WMAppManifest.xml file [as described here](http://msdn.microsoft.com/en-us/library/windowsphone/develop/jj206987(v=vs.105).aspx#BKMK_URIassociations) to have your app handle URIs with the following protocol:
+* You will need to configure your WMAppManifest.xml file as described in [Auto-launching apps using file and URI associations](https://docs.microsoft.com/en-us/previous-versions/windows/apps/jj206987(v=vs.105)?redirectedfrom=MSDN#BKMK_URIassociations) to have your app handle URIs with the following protocol:
 
 ```cs
 <Protocol Name="msft-{ProductId}"
@@ -426,7 +426,7 @@ ParseFacebookUtils.BeginLogin(permissions);
 
 ### Facebook SDK and Parse
 
-Microsoft provides an open-source SDK for making Graph API requests to Facebook. The SDK is [available on NuGet](http://www.nuget.org/packages/facebook), and you can learn more about it from [their website](http://www.csharpsdk.org).
+Microsoft provides an open-source SDK for making Graph API requests to Facebook. The SDK is [available on NuGet](https://www.nuget.org/packages/facebook).
 
 To use the Facebook SDK to fetch information about the current user, for example, you would install it using NuGet and then write code similar to this:
 

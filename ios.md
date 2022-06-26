@@ -5,7 +5,7 @@ layout: guide
 platform: ios
 language:  objective_c-swift
 display_platform: iOS
-api_reference: http://parseplatform.org/Parse-SDK-iOS-OSX/api
+api_reference: https://parseplatform.org/Parse-SDK-iOS-OSX/api
 
 redirect_from:
   - /ios/

@@ -81,4 +81,4 @@ import Parse
 </div>
 
 [releases]: https://github.com/parse-community/Parse-SDK-iOS-OSX/releases
-[docs]: http://docs.parseplatform.org/ios/guide
+[docs]: https://docs.parseplatform.org/ios/guide
