@@ -40,7 +40,7 @@ sudo apt install npm
 
 Install [yarn](https://yarnpkg.com)
 ```bash
-sudo npm install yarn --location=global
+sudo npm install yarn -g
 ```
 
 ### Install PostgreSQL Server
@@ -160,11 +160,11 @@ Shutdown Parse Server pressing `Control+C`.
 
 Check if PM2 is installed
  ```bash
- npm list --depth 0 --location=global pm2
+ npm list --depth 0 -g pm2
  ``` 
 If the terminal shows `/usr/lib/(empty)`, means that PM2 is not installed, procced to install PM2 package globally
 ```bash
-sudo npm install pm2 --location=global
+sudo npm install pm2-g
 ```
 Add Parse Server to PM2
  ```bash
@@ -179,7 +179,7 @@ pm2 save
 
 Install Parse Dashboard globally
 ```bash
-sudo npm install --location=global parse-dashboard
+sudo npm install -g parse-dashboard
 ```
 
 Once installed, you need to configure Parse Dashboard, go to `/usr/lib/node_modules/parse-dashboard/Parse-Dashboard/` and edit the file `parse-dashboard-config.json`

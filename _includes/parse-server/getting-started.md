@@ -22,7 +22,7 @@ The fastest and easiest way to get started is to run MongoDB and Parse Server lo
 
 ```bash
 sh <(curl -fsSL https://raw.githubusercontent.com/parse-community/parse-server/master/bootstrap.sh)
-npm install --location=global mongodb-runner
+npm install -g mongodb-runner
 mongodb-runner start
 npm start
 ```
