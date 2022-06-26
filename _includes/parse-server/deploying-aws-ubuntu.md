@@ -164,7 +164,7 @@ Check if PM2 is installed
  ``` 
 If the terminal shows `/usr/lib/(empty)`, means that PM2 is not installed, procced to install PM2 package globally
 ```bash
-sudo npm install pm2-g
+sudo npm install pm2 -g
 ```
 Add Parse Server to PM2
  ```bash

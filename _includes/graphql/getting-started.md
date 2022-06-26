@@ -165,7 +165,7 @@ extend type Query {
 The easiest way to run the Parse Dashboard is through its CLI:
 
 ```sh
-$ npm install-g parse-dashboard
+$ npm install -g parse-dashboard
 $ parse-dashboard --dev --appId APPLICATION_ID --masterKey MASTER_KEY --serverURL "http://localhost:1337/parse" --graphQLServerURL "http://localhost:1337/graphql" --appName MyAppName
 ```
 
