@@ -81,6 +81,7 @@ Scroll down the file and Add `host, all, all, 0.0.0.0/0, md5`, has to be the fir
 | ---- | -------- | ---- | ------- | ------ |
 | host | all | all | 0.0.0.0/0 | md5 |
 | local | all | postgres |  | peer |
+{: .docs_table}
 
 Close the file and save the changes with `Control+X` and `Y`
 

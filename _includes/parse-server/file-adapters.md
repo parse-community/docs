@@ -148,6 +148,7 @@ If you're running a standalone Parse Server, you can use the following environme
 | S3_REGION                   | The AWS region to connect to. | Optional. Default: 'us-east-1' |
 | S3_BUCKET_PREFIX            | Create all the files with the specified prefix added to the filename. Can be used to put all the files for an app in a folder with 'folder/'. | Optional. |
 | S3_DIRECT_ACCESS            | Whether reads are going directly to S3 or proxied through your Parse Server. If set to true, files will be made publicly accessible, and reads will not be proxied. | Optional. Default: false |
+{: .docs_table}
 
 #### Passing as options
 
@@ -192,6 +193,7 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 | baseUrl | Key in `options`. The base URL the file adapter uses to determine the file location for direct access. | Optional. Default: `null`. To be used when `directAccess=true`. When set the file adapter returns a file URL in format `baseUrl/bucketPrefix` + `filename`. Example for `baseUrl='http://domain.com/folder'` and `bucketPrefix='prefix_'` the returned file location is  `http://domain.com/folder/prefix_file.txt`. |
 | baseUrlDirect | Key in `options`. Is `true` if the file adapter should ignore the bucket prefix when determining the file location for direct access. | Optional. Default: `false`. To be used when `directAccess=true` and `baseUrl` is set. When set to `true`, the file adapter returns a file URL in format `baseUrl/filename`. Example for `baseUrl='http://domain.com/folder'` and `baseUrlDirect=true` the returned file location is `http://domain.com/folder/file.txt`. |
 | globalCacheControl | Key in `options`. The `Cache-Control` http header to set in the file request. | Optional. Default: `null`. Example: `public, max-age=86400` for 24 hrs caching. More info [here](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1). |
+{: .docs_table}
 
 ### S3-compatible Services
 #### Digital Ocean Spaces
