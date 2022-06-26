@@ -16,6 +16,12 @@ If your server does not use or require a REST key you may initialize the ParseCl
 ParseClient::initialize( $app_id, null, $master_key );
 ```
 
+**Note**:
+
+The master key is **NOT** used by default for requests. You have to explicitly specify that a request is allowed to use the master key.
+
+For more information see [Using Master Key](#using-master-key).
+
 ## Server URL
 
 Directly after initializing the sdk you should set the server url.
