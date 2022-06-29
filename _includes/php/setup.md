@@ -22,6 +22,8 @@ Even though you specify the master key for intialization the master key is **NOT
 
 Therefore you can often pass a boolean when calling methods like `get`, `count` and `find`. Find details about method parameters in the [PHP SDK repo](https://github.com/parse-community/parse-php-sdk/blob/master/src/Parse/ParseQuery.php).
 
+**Example**: `public function get($objectId, $useMasterKey = false)`
+
 ## Server URL
 
 Directly after initializing the sdk you should set the server url.
