@@ -87,7 +87,7 @@ print result
 
 This will return a list of results ordered by distance from 30.0 latitude and -20.0 longitude. The first result will be the nearest object. (Note that if an explicit `order` parameter is supplied, it will take precedence over the distance ordering.) For example, here are two results returned for the above query:
 
-```json
+```jsonc
 {
   "results": [
     {
