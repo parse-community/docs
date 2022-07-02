@@ -26,7 +26,7 @@ print result
 
 The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
 
-```json
+```jsonc
 {
   "results": [
     {
@@ -880,7 +880,7 @@ print result
 
 Instead of being represented as a `Pointer`, the `post` field is now expanded into the whole object. `__type` is set to `Object` and `className` is provided as well. For example, a `Pointer` to a `Post` could be represented as:
 
-```json
+```jsonc
 {
   "__type": "Pointer",
   "className": "Post",
@@ -890,7 +890,7 @@ Instead of being represented as a `Pointer`, the `post` field is now expanded in
 
 When the query is issued with an `include` parameter for the key holding this pointer, the pointer will be expanded to:
 
-```json
+```jsonc
 {
   "__type": "Object",
   "className": "Post",
@@ -965,7 +965,7 @@ print result
 
 Since this requests a count as well as limiting to zero results, there will be a count but no results in the response.
 
-```json
+```jsonc
 {
   "results": [],
   "count": 1337
