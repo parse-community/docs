@@ -71,7 +71,7 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created installation:
 
-```json
+```jsonc
 {
   "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "mrmBZvsErB"
@@ -149,7 +149,7 @@ print result
 
 The response body is a JSON object containing all the user-provided fields, plus the `createdAt`, `updatedAt`, and `objectId` fields:
 
-```json
+```jsonc
 {
   "deviceType": "ios",
   "deviceToken": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -233,7 +233,7 @@ print result
 
 The return value is a JSON object that contains a results field with a JSON array that lists the users.
 
-```json
+```jsonc
 {
   "results": [
     {

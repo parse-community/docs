@@ -414,7 +414,7 @@ Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 
 With a response body like:
 
-```json
+```jsonc
 {
   "username": "Parse",
   "createdAt": "2022-01-01T12:23:45.678Z",
@@ -436,7 +436,7 @@ Location: https://YOUR.PARSE-SERVER.HERE/parse/users/uMz0YZeAqc
 ```
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`.  For example:
 
-```json
+```jsonc
 {
   "username": "iwz8sna7sug28v4eyu7t89fij",
   "createdAt": "2022-01-01T12:23:45.678Z",
