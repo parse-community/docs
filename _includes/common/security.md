@@ -389,7 +389,7 @@ All this is just the beginning. Applications can enforce all sorts of complex ac
 
 For the curious, here's the format for an ACL that restricts read and write permissions to the owner (whose `objectId` is identified by `"aSaMpLeUsErId"`) and enables other users to read the object:
 
-```json
+```jsonc
 {
     "*": { "read":true },
     "aSaMpLeUsErId": { "read" :true, "write": true }
@@ -398,7 +398,7 @@ For the curious, here's the format for an ACL that restricts read and write perm
 
 And here's another example of the format of an ACL that uses a Role:
 
-```json
+```jsonc
 {
     "role:RoleName": { "read": true },
     "aSaMpLeUsErId": { "read": true, "write": true }
@@ -413,7 +413,7 @@ Given that objects often already have pointers to the user(s) that should have p
 
 Pointer permissions are like virtual ACLs. They don't appear in the ACL column, but if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
 
-```json
+```jsonc
 {
     "<SENDER_USER_ID>": {
         "read": true,

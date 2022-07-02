@@ -50,7 +50,7 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The response body is a JSON object containing the `objectId`, the `createdAt` timestamp of the newly-created object, and the `sessionToken` which can be used to authenticate subsequent requests as this user:
 
-```json
+```jsonc
 {
   "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "g7y9tkhB7O",
@@ -93,7 +93,7 @@ print result
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, `objectId`, and `sessionToken` fields:
 
-```json
+```jsonc
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
@@ -200,7 +200,7 @@ print result
 
 The response body is a JSON object containing all the user-provided fields except `password`. It also contains the `createdAt`, `updatedAt`, and `objectId` fields:
 
-```json
+```jsonc
 {
   "username": "cooldude6",
   "phone": "415-392-0202",
@@ -238,7 +238,7 @@ print result
 
 The response matches the JSON object above for retrieving users. If the session token is not valid, an error object is returned:
 
-```json
+```jsonc
 {
   "code": 209,
   "error": "invalid session token"
@@ -282,7 +282,7 @@ print result
 
 The response body is a JSON object containing just an `updatedAt` field with the timestamp of the update.
 
-```json
+```jsonc
 {
   "updatedAt": "2022-01-01T12:23:45.678Z"
 }
@@ -314,7 +314,7 @@ print result
 
 The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
 
-```json
+```jsonc
 {
   "results": [
     {
@@ -371,7 +371,7 @@ Parse allows you to link your users with services like Twitter and Facebook, ena
 
 ### Facebook `authData`
 
-```json
+```jsonc
 {
   "facebook": {
     "id": "user's Facebook id number as a string",
@@ -385,7 +385,7 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
 
 ### Twitter `authData`
 
-```json
+```jsonc
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
@@ -402,7 +402,7 @@ Learn more about [Twitter login](https://dev.twitter.com/docs/auth/implementing-
 
 ### Anonymous user `authData`
 
-```json
+```jsonc
 {
   "anonymous": {
     "id": "random UUID with lowercase hexadecimal digits"
@@ -470,7 +470,7 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 With a response body like:
 
-```json
+```jsonc
 {
   "username": "Parse",
   "createdAt": "2022-01-01T12:23:45.678Z",
@@ -499,7 +499,7 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The body of the response will contain the `objectId`, `createdAt`, `sessionToken`, and an automatically-generated unique `username`. For example:
 
-```json
+```jsonc
 {
   "username": "iwz8sna7sug28v4eyu7t89fij",
   "createdAt": "2022-01-01T12:23:45.678Z",
@@ -600,7 +600,7 @@ The ACL is formatted as a JSON object where the keys are either object ids or th
 
 For example, if you want the user with id `"3KmCvT7Zsb"` to have read and write access to an object, plus the object should be publicly readable, that corresponds to an ACL of:
 
-```json
+```jsonc
 "ACL": {
   "3KmCvT7Zsb": {
     "read": true,
@@ -618,7 +618,7 @@ If you want to access your data ignoring all ACLs, you can use the master key pr
 
 An application may allow a user to take action on behalf of another user, without having access to the other user's login credentials. The Parse REST API provides the `/loginAs` endpoint which takes a `userId` parameter, that is the `objectId` of the user for which a session should be created. A session that has been created this way can be identified by its `createdWith` property:
 
-```json
+```jsonc
 "createdWith": {
   "action": "login",
   "authProvider": "masterkey"

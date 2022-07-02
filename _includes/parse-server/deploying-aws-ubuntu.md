@@ -118,7 +118,7 @@ After that, we need to setup the configuration file, use your own `appId`, `mast
 sudo nano -w config.json
 ```
 This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [full options document](https://parseplatform.org/parse-server/api/5.2.0/ParseServerOptions.html) for more details.
-```js
+```jsonc
 {
   "appId": "exampleAppId",
   "masterKey": "exampleMasterKey",
@@ -158,7 +158,7 @@ Once installed, you need to configure Parse Dashboard, go to `/usr/lib/node_modu
 sudo nano -w parse-dashboard-config.json
 ```
 This is an example of parse-dashboard.config.json.
-```js
+```jsonc
 {
 	"apps": [{
 		"serverURL": "http://example.com:1337/parse",
