@@ -6,7 +6,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `createGameScore`, and you should be able to run the code below in your GraphQL Playground:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -45,7 +45,7 @@ mutation createAGameScore {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -53,8 +53,8 @@ mutation createAGameScore {
       "clientMutationId": "anUniqueId",
       "gameScore": {
         "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
-        "updatedAt": "2019-12-02T10:14:28.786Z",
-        "createdAt": "2019-12-02T10:14:28.786Z",
+        "updatedAt": "2022-01-01T12:23:45.678Z",
+        "createdAt": "2022-01-01T12:23:45.678Z",
         "playerName": "Sean Plott",
         "score": 1337,
         "cheatMode": false,
@@ -78,7 +78,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `updateGameScore`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -101,7 +101,7 @@ mutation updateAGameScore {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -122,7 +122,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `deleteGameScore`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -143,7 +143,7 @@ mutation deleteAGameScore {
 
 The code above should resolve to something similar to this:
 
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -163,7 +163,7 @@ The code above should resolve to something similar to this:
 
 The GraphQL API supports nested mutations, so you can create objects with complex relationships in one request. Assuming that we have classes `Country`, `City` and `Company`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -208,7 +208,7 @@ mutation aNestedMutation {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {

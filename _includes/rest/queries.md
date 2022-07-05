@@ -26,22 +26,22 @@ print result
 
 The return value is a JSON object that contains a `results` field with a JSON array that lists the objects.
 
-```json
+```jsonc
 {
   "results": [
     {
       "playerName": "Jang Min Chul",
-      "updatedAt": "2011-08-19T02:24:17.787Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "cheatMode": false,
-      "createdAt": "2011-08-19T02:24:17.787Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
       "objectId": "A22v5zRAgd",
       "score": 80075
     },
     {
       "playerName": "Sean Plott",
-      "updatedAt": "2011-08-21T18:02:52.248Z",
+      "updatedAt": "2022-01-01T12:23:45.678Z",
       "cheatMode": false,
-      "createdAt": "2011-08-20T02:06:57.931Z",
+      "createdAt": "2022-01-01T12:23:45.678Z",
       "objectId": "Ed1nuqPvcm",
       "score": 73453
     }
@@ -412,7 +412,9 @@ print result
 </code></pre>
 </div>
 
-You can restrict the fields returned by passing `keys` or `excludeKeys` a comma-separated list. To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
+You can restrict the fields returned by passing `keys` or `excludeKeys` as an [array](#arrays). To retrieve documents that contain only the `score` and `playerName` fields (and also special built-in fields such as `objectId`, `createdAt`, and `updatedAt`):
+
+* On Parse Server <5.0.0 pass a comma-delimited string, e.g. `"score,playerName"` instead of an array for `keys` and `excludeKeys`.
 
 <div class="language-toggle">
 <pre><code class="bash">
@@ -426,7 +428,7 @@ curl -X GET \
 <pre><code class="python">
 import json,httplib,urllib
 connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"keys":"score,playerName"})
+params = urllib.urlencode({"keys":"[score,playerName]"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -878,7 +880,7 @@ print result
 
 Instead of being represented as a `Pointer`, the `post` field is now expanded into the whole object. `__type` is set to `Object` and `className` is provided as well. For example, a `Pointer` to a `Post` could be represented as:
 
-```json
+```jsonc
 {
   "__type": "Pointer",
   "className": "Post",
@@ -888,13 +890,13 @@ Instead of being represented as a `Pointer`, the `post` field is now expanded in
 
 When the query is issued with an `include` parameter for the key holding this pointer, the pointer will be expanded to:
 
-```json
+```jsonc
 {
   "__type": "Object",
   "className": "Post",
   "objectId": "8TOXdXf3tz",
-  "createdAt": "2011-12-06T20:59:34.428Z",
-  "updatedAt": "2011-12-06T20:59:34.428Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "otherFields": "willAlsoBeIncluded"
 }
 ```
@@ -963,7 +965,7 @@ print result
 
 Since this requests a count as well as limiting to zero results, there will be a count but no results in the response.
 
-```json
+```jsonc
 {
   "results": [],
   "count": 1337
