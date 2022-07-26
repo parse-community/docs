@@ -6,7 +6,7 @@ Storing data through the Parse REST API is built around a JSON encoding of the o
 
 For example, let's say you're tracking high scores for a game. A single object could contain:
 
-```json
+```jsonc
 {
   "score": 1337,
   "playerName": "Sean Plott",
@@ -20,13 +20,13 @@ Each object has a class name that you can use to distinguish different sorts of 
 
 When you retrieve objects from Parse, some fields are automatically added: `createdAt`, `updatedAt`, and `objectId`. These field names are reserved, so you cannot set them yourself. The object above could look like this when retrieved:
 
-```json
+```jsonc
 {
   "score": 1337,
   "playerName": "Sean Plott",
   "cheatMode": false,
-  "createdAt": "2011-08-20T02:06:57.931Z",
-  "updatedAt": "2011-08-20T02:06:57.931Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "Ed1nuqPvcm"
 }
 ```
@@ -92,9 +92,9 @@ Location: <span class="custom-parse-server-protocol">https</span>://<span class=
 
 The response body is a JSON object containing the `objectId` and the `createdAt` timestamp of the newly-created object:
 
-```json
+```jsonc
 {
-  "createdAt": "2011-08-20T02:06:57.931Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
   "objectId": "Ed1nuqPvcm"
 }
 ```
@@ -125,7 +125,7 @@ print result
 
 The response body is a JSON object containing all the user-provided fields, plus the `createdAt`, `updatedAt`, and `objectId` fields:
 
-```json
+```jsonc
 {
   "score": 1337,
   "playerName": "Sean Plott",
@@ -134,8 +134,8 @@ The response body is a JSON object containing all the user-provided fields, plus
     "pwnage",
     "flying"
   ],
-  "createdAt": "2011-08-20T02:06:57.931Z",
-  "updatedAt": "2011-08-20T02:06:57.931Z",
+  "createdAt": "2022-01-01T12:23:45.678Z",
+  "updatedAt": "2022-01-01T12:23:45.678Z",
   "objectId": "Ed1nuqPvcm"
 }
 ```
@@ -225,9 +225,9 @@ print result
 
 The response body is a JSON object containing just an `updatedAt` field with the timestamp of the update.
 
-```json
+```jsonc
 {
-  "updatedAt": "2011-08-21T18:02:52.248Z"
+  "updatedAt": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -530,10 +530,10 @@ print result
 
 The response from batch will be a list with the same number of elements as the input list. Each item in the list with be a dictionary with either the `success` or `error` field set. The value of `success` will be the normal response to the equivalent REST command:
 
-```json
+```jsonc
 {
   "success": {
-    "createdAt": "2012-06-15T16:59:11.276Z",
+    "createdAt": "2022-01-01T12:23:45.678Z",
     "objectId": "YAfSAWwXbL"
   }
 }
@@ -541,7 +541,7 @@ The response from batch will be a list with the same number of elements as the i
 
 The value of `error` will be an object with a numeric `code` and `error` string:
 
-```json
+```jsonc
 {
   "error": {
     "code": 101,
@@ -622,10 +622,10 @@ So far we have only used values that can be encoded with standard JSON. The Pars
 
 The `Date` type contains a field `iso` which contains a UTC timestamp stored in ISO 8601 format with millisecond precision: `YYYY-MM-DDTHH:MM:SS.MMMZ`.
 
-```json
+```jsonc
 {
   "__type": "Date",
-  "iso": "2011-08-21T18:02:52.249Z"
+  "iso": "2022-01-01T12:23:45.678Z"
 }
 ```
 
@@ -637,7 +637,7 @@ curl -X GET \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -G \
-  --data-urlencode 'where={"createdAt":{"$gte":{"__type":"Date","iso":"2011-08-21T18:02:52.249Z"}}}' \
+  --data-urlencode 'where={"createdAt":{"$gte":{"__type":"Date","iso":"2022-01-01T12:23:45.678Z"}}}' \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
@@ -647,7 +647,7 @@ params = urllib.urlencode({"where":json.dumps({
        "createdAt": {
          "$gte": {
            "__type": "Date",
-           "iso": "2011-08-21T18:02:52.249Z"
+           "iso": "2022-01-01T12:23:45.678Z"
          }
        }
      })})
@@ -663,7 +663,7 @@ print result
 
 The `Pointer` type is used when mobile code sets another Parse `Object` as the value of another object. It contains the `className` and `objectId` of the referred-to value.
 
-```json
+```jsonc
 {
   "__type": "Pointer",
   "className": "GameScore",
@@ -675,7 +675,7 @@ Note that the built-in `User`, `Role`, and `Installation` classes are prefixed b
 
 The `Relation` type is used for many-to-many relations. It has a `className` that is the class name of the target objects.
 
-```json
+```jsonc
 {
   "__type": "Relation",
   "className": "GameScore"
@@ -686,7 +686,7 @@ When querying, `Relation` objects behave like arrays of Pointers. Any operation 
 
 We do not recommend storing large pieces of binary data like images or documents on a Parse object. To store more, we recommend you use `File`. You may associate a [previously uploaded file](#files) using the `File` type.
 
-```json
+```jsonc
 {
   "__type": "File",
   "name": "...profile.png"

@@ -219,8 +219,11 @@ and perform a `parse deploy` the usual way.
 ## Create function webhook
 To create a new function webhook post to <code class="highlighter-rouge"><span class="custom-parse-server-mount">/parse/</span>hooks/functions</code> with payload in the format
 
-```json
-{"functionName" : x, "url" : y}
+```jsonc
+{
+  "functionName": "foo", 
+  "url": "https://api.example.com/foo"
+}
 ```
 
 Post example:
