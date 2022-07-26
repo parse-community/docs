@@ -1,6 +1,8 @@
 # Configuring File Upload
 
-Starting at Parse Server V5.0.0, Parse Server restricts file upload to authenticated users only to improve Parse Server's default security. This behaviour can be modified by specifying `fileUpload` options to your Parse Server configuration.
+*Available only on Parse Server starting 5.0.0*
+
+Parse Server restricts file upload to authenticated users only to improve Parse Server's default security. This behaviour can be modified by specifying `fileUpload` options to your Parse Server configuration.
 
 Available options are:
 
@@ -8,7 +10,7 @@ Available options are:
 `enableForAuthenticatedUser`: Whether file upload should be allowed for authenticated users
 `enableForPublic`: Whether file upload should be allowed for public users
 
-An example for allowing public file uploads to Parse Server `index.js` is below:
+To allow public file uploads to Parse Server:
 
 ```javascript
 const api = new ParseServer({
