@@ -59,6 +59,18 @@ Note, most of them don't require a server configuration so you can use them dire
   }
 }
 ```
+
+The options passed to Parse Server:
+```js
+{
+  auth: {
+    facebook: {
+      appIds: "", // can be a string or an array of strings
+    },
+  }
+}
+```
+
 Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
 
 ### Twitter `authData`
@@ -75,7 +87,7 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
 }
 ```
 
-The options passed to Parse server:
+The options passed to Parse Server:
 ```js
 {
   auth: {
