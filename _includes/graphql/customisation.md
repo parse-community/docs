@@ -109,7 +109,7 @@ By default, all of your Parse classes, including the defaults such as `Parse.Use
 
 In the following example, we limit our GraphQL schema to only expose the default `_User` class, along with a few custom classes:
 
-```javascript
+```jsonc
 {
   "enabledForClasses": ["_User", "Book", "Review", "Comment"],
   "disabledForClasses": null
@@ -133,7 +133,7 @@ By default, we enrich the schema by generating a number of [Input Types](https:/
 
 In the following example, we have a custom class called `Review` where the fields `rating` and `body` are allowed on the `create` mutation, and the field `numberOfLikes` on the `update` mutation:
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {
@@ -151,7 +151,7 @@ In the following example, we have a custom class called `Review` where the field
 
 You may decide to restrict which fields can be resolved when getting or finding records from a given class, for example, if you have a class called `Video` which includes a sensitive field `dmcaFlags`, you can hide this field by explicitly stating the fields that can be resolved:
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {
@@ -169,7 +169,7 @@ In production-grade environments where performance optimisation is critical, com
 
 In the following example, we set the fields `name` and `age` as the only two that can be used to filter the `_User` class, and defining the `createdAt` and `age` fields the only sortable field whilst disabling the ascending direction on the `createdAt` field:
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {
@@ -199,7 +199,7 @@ In the following example, we set the fields `name` and `age` as the only two tha
 By default, the schema exposes a `get` and `find` operation for each class, for example, `get_User` and `find_User`. You can disable either of these for any class in your schema, like so:
 
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {
@@ -222,7 +222,7 @@ By default, the schema exposes a `get` and `find` operation for each class, for 
 
 By default, generated query names use pluralized version of `className`. You can override this behaviour with `getAlias`/`findAlias`. This is useful when your collection is named in plural or when singular/plural forms are same e.g. `Data`:
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {
@@ -246,7 +246,7 @@ By default, generated query names use pluralized version of `className`. You can
 By default, the schema exposes a `create`, `update` and `delete` operation for each class, for example, `create_User`, `update_User` and `delete_User`. You can disable any of these mutations for any class in your schema, like so:
 
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {
@@ -273,7 +273,7 @@ By default, the schema exposes a `create`, `update` and `delete` operation for e
 
 You can optionally override the default generated mutation names with aliases:
 
-```javascript
+```jsonc
 {
   "classConfigs": [
     {

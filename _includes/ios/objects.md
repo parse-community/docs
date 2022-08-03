@@ -49,9 +49,15 @@ gameScore.saveInBackground { (succeeded, error)  in
 
 After this code runs, you will probably be wondering if anything really happened. If [Parse Dashboard](https://github.com/parse-community/parse-dashboard) is implemented for your server, you can verify the data was saved in the data browser. You should see something like this:
 
-```js
-objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
-createdAt:"2022-01-01T12:23:45.678Z", updatedAt:"2022-01-01T12:23:45.678Z"
+```jsonc
+{
+  "objectId": "xWMyZ4YEGZ",
+  "score": 1337,
+  "playerName": "Sean Plott",
+  "cheatMode": false,
+  "createdAt":"2022-01-01T12:23:45.678Z",
+  "updatedAt":"2022-01-01T12:23:45.678Z"
+}
 ```
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
