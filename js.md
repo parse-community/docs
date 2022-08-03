@@ -5,7 +5,7 @@ layout: guide
 platform: js
 language: js
 display_platform: JavaScript
-api_reference: https://parse-community.github.io/Parse-SDK-JS/api
+api_reference: https://parseplatform.org/Parse-SDK-JS/api/master
 
 sections:
 - "js/getting-started.md"
