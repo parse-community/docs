@@ -490,6 +490,7 @@ There are some special classes in Parse that don't follow all of the same securi
 |Update|normal behavior [5]|ignores CLP, but not ACL [7]|
 |Delete|normal behavior [5]|master key only [7]|
 |Add Field|normal behavior|normal behavior|
+{: .docs_table}
 
 1. Logging in, or `/parse/login` in the REST API, does not respect the Get CLP on the user class. Login works just based on username and password, and cannot be disabled using CLPs.
 

@@ -59,7 +59,7 @@ Normally, when objects are saved to Parse, they are automatically assigned a uni
 * Use a unique 10 character alphanumeric string as the value of your `objectId` fields.
 * Use a UTC timestamp in the ISO 8601 format when setting a value for the `createdAt` field or the `updatedAt` field.
 
-In addition to the exposed fields, objects in the Parse User class can also have the `bcryptPassword` field set. The value of this field is a `String` that is the bcrypt hashed password + salt in the modular crypt format described in this [StackOverflow answer](http://stackoverflow.com/a/5882472/1351961). Most OpenSSL based bcrypt implementations should have built-in methods to produce these strings.
+In addition to the exposed fields, objects in the Parse User class can also have the `bcryptPassword` field set. The value of this field is a `String` that is the bcrypt hashed password + salt in the modular crypt format described in this [StackOverflow answer](https://stackoverflow.com/a/5882472/1351961). Most OpenSSL based bcrypt implementations should have built-in methods to produce these strings.
 
 A file containing a `User` object could look like:
 

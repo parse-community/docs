@@ -291,7 +291,7 @@ You can pass some data alongside the call if you want to customize the job execu
 
 We don't support at the moment job scheduling and highly recommend to use a 3rd party system for scheduling your jobs.
 
-- On [AWS Elastic Beanstalk](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html#worker-periodictasks)
+- On [AWS Elastic Beanstalk](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features-managing-env-tiers.html#worker-periodictasks)
 - On [Google App Engine](https://cloud.google.com/appengine/docs/flexible/nodejs/scheduling-jobs-with-cron-yaml)
 - On [Heroku](https://devcenter.heroku.com/articles/scheduler#scheduling-jobs)
 

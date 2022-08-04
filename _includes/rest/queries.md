@@ -96,6 +96,7 @@ The values of the `where` parameter also support comparisons besides exact match
 | $all        | Contains all of the given values |
 | $regex      | Requires that a key's value match a regular expression |
 | $text       | Performs a full text search on indexed fields |
+{: .docs_table}
 
 For example, to retrieve scores between 1000 and 3000, including the endpoints, we could issue:
 
@@ -310,6 +311,7 @@ In addition to `where`, there are several parameters you can use to configure wh
 | keys          | Restrict the fields returned by the query         |
 | excludeKeys   | Exclude specific fields from the returned query   |
 | include       | Use on Pointer columns to return the full object  |
+{: .docs_table}
 
 You can use the `order` parameter to specify a field to sort by. Prefixing with a negative sign reverses the order. Thus, to retrieve scores in ascending order:
 
@@ -626,6 +628,7 @@ The format `{"$text": {"$search": {parameters}}}`
 | $language           | Determines the list of stop words and the rules for tokenizer. |
 | $caseSensitive      | Enable or disable case sensitive search.     |
 | $diacriticSensitive | Enable or disable diacritic sensitive search |
+{: .docs_table}
 
 Please refer to your database documentation on Full Text Search to setup your indexes, weights and limitations.
 

@@ -259,7 +259,7 @@ query.find()
   });
 ```
 
-For Case or Diacritic Sensitive search, please use the [REST API](http://docs.parseplatform.org/rest/guide/#queries-on-string-values).
+For Case or Diacritic Sensitive search, please use the [REST API](https://docs.parseplatform.org/rest/guide/#queries-on-string-values).
 
 
 ## Relational Queries

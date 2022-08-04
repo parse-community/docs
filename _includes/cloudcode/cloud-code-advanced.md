@@ -53,7 +53,7 @@ You can specify query parameters to append to the end of the url by setting `par
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.google.com/search',
+  url: 'https://www.google.com/search',
   params: {
     q : 'Sean Plott'
   }
@@ -68,7 +68,7 @@ or as a raw `String` like this:
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.google.com/search',
+  url: 'https://www.google.com/search',
   params: 'q=Sean Plott'
 }).then(function(httpResponse) {
   console.log(httpResponse.text);
@@ -83,7 +83,7 @@ You can send HTTP Headers by setting the `header` attribute of the options objec
 
 ```javascript
 Parse.Cloud.httpRequest({
-  url: 'http://www.example.com/',
+  url: 'https://www.example.com/',
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
   }

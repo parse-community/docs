@@ -98,4 +98,4 @@ curl -X GET \
   http://your_parse_server:1337/parse/installations
 ```
 
-##### Proceed to [Step 4](http://docs.parseplatform.org/parse-server/guide/#4-send-push-notifications).
+##### Proceed to [Step 4](https://docs.parseplatform.org/parse-server/guide/#4-send-push-notifications).

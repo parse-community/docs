@@ -59,7 +59,7 @@ Note, most of them don't require a server configuration so you can use them dire
   }
 }
 ```
-Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
+Learn more about [Facebook login](https://developers.facebook.com/docs/facebook-login/).
 
 ### Twitter `authData`
 

@@ -31,7 +31,7 @@ If you have any fixes or suggestions, simply send us a pull request!
 
 ### Running The Site Locally
 
-You will need [Ruby](https://www.ruby-lang.org/en/documentation/installation/), [Bundler](http://bundler.io/), and [npm](https://www.npmjs.com/get-npm).
+You will need [Ruby](https://www.ruby-lang.org/en/documentation/installation/), [Bundler](https://bundler.io/), and [npm](https://www.npmjs.com/get-npm).
 
 Clone this repository, then install Jekyll and node packages:
 
