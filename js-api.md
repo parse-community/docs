@@ -3,5 +3,5 @@ layout: redirected
 sitemap: false
 permalink: /js/api/
 redirect_to:
-  - https://parseplatform.org/Parse-SDK-JS/api/master
+  - https://parse-community.github.io/Parse-SDK-JS/api
 ---
