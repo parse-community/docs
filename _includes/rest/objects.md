@@ -158,9 +158,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"include":"game"})
+params = urllib.parse.urlencode({"include": "game"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -185,9 +189,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"include":"game","readPreference":"SECONDARY","includeReadPreference":"SECONDARY_PREFERRED"})
+params = urllib.parse.urlencode({"include": "game", "readPreference": "SECONDARY", "includeReadPreference": "SECONDARY_PREFERRED"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -677,9 +685,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "createdAt": {
          "$gte": {
            "__type": "Date",

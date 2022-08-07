@@ -67,9 +67,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"limit":10,"where":json.dumps({
+params = urllib.parse.urlencode({"limit": 10, "where": json.dumps({
        "location": {
          "$nearSphere": {
            "__type": "GeoPoint",
@@ -138,9 +142,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlaceObject
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "location": {
          "$nearSphere": {
            "__type": "GeoPoint",
@@ -189,9 +197,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PizzaPlaceObject
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "location": {
          "$within": {
            "$box": [
@@ -255,9 +267,13 @@ curl -X GET \
   https://api.parse.com/1/classes/PizzaPlaceObject
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('api.parse.com', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "location": {
          "$geoWithin": {
             "$polygon": [

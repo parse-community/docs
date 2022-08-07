@@ -675,9 +675,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>loginAs
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"userId":"abc123"})
+params = urllib.parse.urlencode({"userId": "abc123"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>loginAs?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",

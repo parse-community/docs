@@ -66,9 +66,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "playerName": "Sean Plott",
        "cheatMode": False
      })})
@@ -112,9 +116,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "score": {
          "$gte": 1000,
          "$lte": 3000
@@ -142,9 +150,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "score": {
          "$in": [
            1,
@@ -185,9 +197,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "playerName": {
          "$nin": [
            "Jonathan Walsh",
@@ -218,9 +234,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "score": {
          "$exists": True
        }
@@ -247,9 +267,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "score": {
          "$exists": False
        }
@@ -276,9 +300,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/_User
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "hometown": {
          "$select": {
            "query": {
@@ -326,9 +354,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"order":"score"})
+params = urllib.parse.urlencode({"order": "score"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -351,9 +383,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"order":"-score"})
+params = urllib.parse.urlencode({"order": "-score"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -376,9 +412,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"order":"score,-name"})
+params = urllib.parse.urlencode({"order": "score, -name"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -402,9 +442,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"limit":200,"skip":400})
+params = urllib.parse.urlencode({"limit": 200, "skip": 400})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -429,9 +473,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"keys":"[score,playerName]"})
+params = urllib.parse.urlencode({"keys": "[score, playerName]"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -454,9 +502,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"excludeKeys":"playerName"})
+params = urllib.parse.urlencode({"excludeKeys": "playerName"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/GameScore/Ed1nuqPvcm?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -491,10 +543,14 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({
-    "where":json.dumps({
+params = urllib.parse.urlencode({
+    "where": json.dumps({
       "playerName": {
         "$nin": [
           "Jonathan Walsh",
@@ -532,9 +588,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/RandomObject
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "arrayKey": 2
      })})
 connection.connect()
@@ -559,9 +619,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/RandomObject
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "arrayKey": {
          "$all": [
            2,
@@ -596,9 +660,13 @@ curl -X GET \
 </code></pre>
 <pre><code class="python">
 # Finds barbecue sauces that start with "Big Daddy"
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "name": {
          "$regex": "^Big Daddy"
        }
@@ -652,9 +720,13 @@ curl -X GET \
 </code></pre>
 <pre><code class="python">
 # Finds barbecue sauces that contains "Daddy"
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('api.parse.com', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "name": {
          "$text": {
           "$search": {
@@ -689,9 +761,13 @@ curl -X GET \
 </code></pre>
 <pre><code class="python">
 # Finds string that contains "Daddy" ordered by relevance
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('api.parse.com', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "name": {
          "$text": {
           "$search": {
@@ -729,9 +805,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "post": {
          "__type": "Pointer",
          "className": "Post",
@@ -760,9 +840,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "post": {
          "$inQuery": {
            "where": {
@@ -796,9 +880,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "post": {
          "$notInQuery": {
            "where": {
@@ -832,9 +920,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>users
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "$relatedTo": {
          "object": {
            "__type": "Pointer",
@@ -868,9 +960,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"order":"-createdAt","limit":10,"include":"post"})
+params = urllib.parse.urlencode({"order": "-createdAt", "limit": 10, "include": "post"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -918,9 +1014,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"order":"-createdAt","limit":10,"include":"post.author"})
+params = urllib.parse.urlencode({"order": "-createdAt", "limit": 10, "include": "post.author"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>classes/Comment?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -951,9 +1051,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "playerName": "Jonathan Walsh"
      }),"count":1,"limit":0})
 connection.connect()
@@ -991,9 +1095,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Player
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "$or": [
          {
            "wins": {
@@ -1038,9 +1146,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"distinct":"score"})
+params = urllib.parse.urlencode({"distinct": "score"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore?%s' % params, '', {
        "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
@@ -1065,9 +1177,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/GameScore
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"where":json.dumps({
+params = urllib.parse.urlencode({"where": json.dumps({
        "playerName": "Sean Plott"
      }),"distinct":"score"})
 connection.connect()
@@ -1108,9 +1224,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"group":json.dumps({
+params = urllib.parse.urlencode({"group": json.dumps({
        "objectId": null,
        "total": {
         "$sum":"$score"
@@ -1140,9 +1260,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"project":json.dumps({
+params = urllib.parse.urlencode({"project": json.dumps({
        "score": 1
      })})
 connection.connect()
@@ -1169,9 +1293,13 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>aggregate/Player
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({"match":json.dumps({
+params = urllib.parse.urlencode({"match": json.dumps({
        "score": {
         "$gt":15
        }
@@ -1207,10 +1335,14 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/Comment
 </code></pre>
 <pre><code class="python">
-import json,http.client,urllib
+import http.client
+import json
+import urllib.parse
+
+
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
-params = urllib.urlencode({
-  "where":json.dumps({
+params = urllib.parse.urlencode({
+  "where": json.dumps({
     "post": {
       "$inQuery": {
         "where": {
