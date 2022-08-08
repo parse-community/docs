@@ -665,7 +665,7 @@ Calling the endpoint requires the master key and it returns the same response fo
 
 <div class="language-toggle">
 <pre><code class="bash">
-curl -X GET \
+curl -X POST \
   -H "X-Parse-Application-Id: <span class="custom-parse-server-appid">${APPLICATION_ID}</span>" \
   -H "X-Parse-REST-API-Key: <span class="custom-parse-server-restapikey">${REST_API_KEY}</span>" \
   -H "X-Parse-Master-Key: ${MASTER_KEY}" \
@@ -683,7 +683,7 @@ import urllib.parse
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 params = urllib.parse.urlencode({"userId": "abc123"})
 connection.connect()
-connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>loginAs?%s' % params, '', {
+connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>loginAs?%s' % params, '', {
     "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
     "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
     "X-Parse-Master-Key": "${MASTER_KEY}",
