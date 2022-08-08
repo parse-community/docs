@@ -52,10 +52,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -79,10 +79,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -110,10 +110,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>logout', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -139,10 +139,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>sessions', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -168,10 +168,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>logout', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -195,10 +195,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>sessions/Axy98kq1B09', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -235,13 +235,12 @@ import json
 
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
-connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', json.dumps({
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:aVrtljyb7E8xKo9256gfvp4n2",
-       "Content-Type": "application/json"
-     })
+connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>sessions/me', '', {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:aVrtljyb7E8xKo9256gfvp4n2",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>

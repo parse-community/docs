@@ -30,15 +30,15 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>users', json.dumps({
-       "username": "cooldude6",
-       "password": "p_n7!-e8",
-       "phone": "415-392-0202"
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Revocable-Session": "1",
-       "Content-Type": "application/json"
-     })
+    "username": "cooldude6",
+    "password": "p_n7!-e8",
+    "phone": "415-392-0202"
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Revocable-Session": "1",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -84,14 +84,14 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>login', json.dumps({
-       "username": "cooldude6",
-       "password": "p_n7!-e8"
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Revocable-Session": "1",
-       "Content-Type": "application/json"
-     })
+    "username": "cooldude6",
+    "password": "p_n7!-e8"
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Revocable-Session": "1",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -139,12 +139,12 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>verificationEmailRequest', json.dumps({
-       "email": "email@example.com"
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "email": "email@example.com"
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -173,12 +173,12 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>requestPasswordReset', json.dumps({
-       "email": "coolguy@iloveapps.com"
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "email": "coolguy@iloveapps.com"
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -205,9 +205,9 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -245,10 +245,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users/me', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -289,13 +289,13 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', json.dumps({
-       "phone": "415-369-6201"
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
-       "Content-Type": "application/json"
-     })
+    "phone": "415-369-6201"
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -328,9 +328,9 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>users', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -381,10 +381,10 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>users/g7y9tkhB7O', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -470,22 +470,22 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>users', json.dumps({
-       "authData": {
-         "twitter": {
-           "id": "12345678",
-           "screen_name": "ParseIt",
-           "consumer_key": "SaMpLeId3X7eLjjLgWEw",
-           "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
-           "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
-           "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
-         }
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Revocable-Session": "1",
-       "Content-Type": "application/json"
-     })
+    "authData": {
+        "twitter": {
+            "id": "12345678",
+            "screen_name": "ParseIt",
+            "consumer_key": "SaMpLeId3X7eLjjLgWEw",
+            "consumer_secret": "SaMpLew55QbMR0vTdtOACfPXa5UdO2THX1JrxZ9s3c",
+            "auth_token": "12345678-SaMpLeTuo3m2avZxh5cjJmIrAfx4ZYyamdofM7IjU",
+            "auth_token_secret": "SaMpLeEb13SpRzQ4DAIzutEkCE2LBIm2ZQDsP3WUU"
+        }
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Revocable-Session": "1",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -568,19 +568,19 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc', json.dumps({
-       "authData": {
-         "facebook": {
-           "id": "123456789",
-           "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
-           "expiration_date": "2022-01-01T12:23:45.678Z"
-         }
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
-       "Content-Type": "application/json"
-     })
+    "authData": {
+        "facebook": {
+            "id": "123456789",
+            "access_token": "SaMpLeAAibS7Q55FSzcERWIEmzn6rosftAr7pmDME10008bWgyZAmv7mziwfacNOhWkgxDaBf8a2a2FCc9Hbk9wAsqLYZBLR995wxBvSGNoTrEaL",
+            "expiration_date": "2022-01-01T12:23:45.678Z"
+        }
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -614,15 +614,15 @@ import json
 connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>users/uMz0YZeAqc', json.dumps({
-       "authData": {
-         "facebook": null
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
-       "Content-Type": "application/json"
-     })
+    "authData": {
+        "facebook": null
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "r:samplei3l83eerhnln0ecxgy5",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
@@ -684,11 +684,11 @@ connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">
 params = urllib.parse.urlencode({"userId": "abc123"})
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>loginAs?%s' % params, '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Master-Key": "${MASTER_KEY}",
-       "X-Parse-Revocable-Session": "1"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Master-Key": "${MASTER_KEY}",
+    "X-Parse-Revocable-Session": "1"
+})
 result = json.loads(connection.getresponse().read())
 print(result)
 </code></pre>
