@@ -35,23 +35,26 @@ curl -X POST \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>roles', json.dumps({
-       "name": "Moderators",
-       "ACL": {
-         "*": {
-           "read": True
-         }
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "name": "Moderators",
+    "ACL": {
+        "*": {
+            "read": True
+        }
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -94,43 +97,46 @@ curl -X POST \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>roles', json.dumps({
-       "name": "Moderators",
-       "ACL": {
-         "*": {
-           "read": True
-         }
-       },
-       "roles": {
-         "__op": "AddRelation",
-         "objects": [
-           {
-             "__type": "Pointer",
-             "className": "_Role",
-             "objectId": "Ed1nuqPvc"
-           }
-         ]
-       },
-       "users": {
-         "__op": "AddRelation",
-         "objects": [
-           {
-             "__type": "Pointer",
-             "className": "_User",
-             "objectId": "8TOXdXf3tz"
-           }
-         ]
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "name": "Moderators",
+    "ACL": {
+        "*": {
+            "read": True
+        }
+    },
+    "roles": {
+        "__op": "AddRelation",
+        "objects": [
+            {
+                "__type": "Pointer",
+                "className": "_Role",
+                "objectId": "Ed1nuqPvc"
+            }
+        ]
+    },
+    "users": {
+        "__op": "AddRelation",
+        "objects": [
+            {
+                "__type": "Pointer",
+                "className": "_User",
+                "objectId": "8TOXdXf3tz"
+            }
+        ]
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -162,15 +168,18 @@ curl -X GET \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('GET', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -228,32 +237,35 @@ curl -X PUT \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', json.dumps({
-       "users": {
-         "__op": "AddRelation",
-         "objects": [
-           {
-             "__type": "Pointer",
-             "className": "_User",
-             "objectId": "8TOXdXf3tz"
-           },
-           {
-             "__type": "Pointer",
-             "className": "_User",
-             "objectId": "g7y9tkhB7O"
-           }
-         ]
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "users": {
+        "__op": "AddRelation",
+        "objects": [
+            {
+                "__type": "Pointer",
+                "className": "_User",
+                "objectId": "8TOXdXf3tz"
+            },
+            {
+                "__type": "Pointer",
+                "className": "_User",
+                "objectId": "g7y9tkhB7O"
+            }
+        ]
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -280,27 +292,30 @@ curl -X PUT \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', json.dumps({
-       "roles": {
-         "__op": "RemoveRelation",
-         "objects": [
-           {
-             "__type": "Pointer",
-             "className": "_Role",
-             "objectId": "Ed1nuqPvc"
-           }
-         ]
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "roles": {
+        "__op": "RemoveRelation",
+        "objects": [
+            {
+                "__type": "Pointer",
+                "className": "_Role",
+                "objectId": "Ed1nuqPvc"
+            }
+        ]
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -319,15 +334,18 @@ curl -X DELETE \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -342,16 +360,19 @@ curl -X DELETE \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>roles/mrmBZvsErB', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "X-Parse-Session-Token": "pnktnjyb996sj4p156gjtp4im"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -406,25 +427,28 @@ curl -X PUT \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>roles/&lt;ModeratorsRoleObjectId&gt;
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('PUT', '<span class="custom-parse-server-mount">/parse/</span>roles/&lt;ModeratorsRoleObjectId&gt;', json.dumps({
-       "roles": {
-         "__op": "AddRelation",
-         "objects": [
-           {
-             "__type": "Pointer",
-             "className": "_Role",
-             "objectId": "&lt;AdministratorsRoleObjectId&gt;"
-           }
-         ]
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "roles": {
+        "__op": "AddRelation",
+        "objects": [
+            {
+                "__type": "Pointer",
+                "className": "_Role",
+                "objectId": "&lt;AdministratorsRoleObjectId&gt;"
+            }
+        ]
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
