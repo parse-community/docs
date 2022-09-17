@@ -36,7 +36,7 @@ As a start, you can configure your application so that clients cannot create new
 
 ### Enforcing Private Users
 
-*Available only on Parse Server starting 5.0.0*
+*Requires Parse Server 5.0.0+*
 
 By default, Parse Server creates Users with public read access. This allows other users, and un-authenticated users, to read data such as `email`. When moving to production, set the key `enforcePrivateUsers` to `true`, as this will remove the public read access to new users.
 
