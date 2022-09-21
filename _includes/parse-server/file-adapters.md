@@ -50,7 +50,7 @@ File encryption is available in parse-server 4.4.0+. The `GridStoreAdapter` can 
 
 To use, simply do any of the following:
 - Use the environment variable `PARSE_SERVER_ENCRYPTION_KEY`
-- Pass in --encryptionKey in the command line when starting your server
+- Pass the encryption key via parameter `--encryptionKey` in the command line when starting Parse Server
 - Initialize ParseServer with `encryptionKey="Your file encryptionKey"`.
 
 An example starting your Parse Server in `index.js` is below:
