@@ -6,9 +6,9 @@ Parse Server restricts file upload to authenticated users only to improve Parse 
 
 Available options are:
 
-`enableForAnonymousUser`: Whether file upload should be allowed for anonymous users
-`enableForAuthenticatedUser`: Whether file upload should be allowed for authenticated users
-`enableForPublic`: Whether file upload should be allowed for public users
+- `enableForAnonymousUser`: Enable file upload for anonymous users
+- `enableForAuthenticatedUser`: Enable file upload for authenticated users
+- `enableForPublic`: Enable file upload for the public, i.e. everyone
 
 To allow public file uploads to Parse Server:
 
