@@ -16,6 +16,14 @@ If your server does not use or require a REST key you may initialize the ParseCl
 ParseClient::initialize( $app_id, null, $master_key );
 ```
 
+### Using Master Key
+
+Even though you specify the master key for intialization the master key is **NOT** used by default for requests. You have to explicitly specify that a request is allowed to use the master key.
+
+Therefore you can often pass a boolean when calling methods like `get`, `count` and `find`. Find details about method parameters in the [PHP SDK repo](https://github.com/parse-community/parse-php-sdk/blob/master/src/Parse/ParseQuery.php).
+
+**Example**: `public function get($objectId, $useMasterKey = false)`
+
 ## Server URL
 
 Directly after initializing the sdk you should set the server url.
