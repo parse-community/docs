@@ -65,7 +65,7 @@ The options passed to Parse Server:
 {
   auth: {
     facebook: {
-      appIds: "", // can be a string or an array of strings
+      appIds: ['appId1', 'appId2'], // If set, the app ID is used to validate the authentication token provided by the client when authenticating.
     },
   }
 }
