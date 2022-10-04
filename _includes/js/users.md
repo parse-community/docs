@@ -54,11 +54,11 @@ const user = await Parse.User.logIn("myname", "mypass");
 // Do stuff after successful login.
 ```
 
-By default, the SDK uses the GET HTTP method. If you would like to override this and use a POST HTTP method instead, you may pass an optional Boolean property in the options argument with the key `usePost`.
+By default, the SDK uses the POST HTTP method. If you would like to override this and use a GET HTTP method instead, you may pass an optional Boolean property in the options argument with the key `usePost`.
 
 
 ```javascript
-const user = await Parse.User.logIn("myname", "mypass", { usePost: true });
+const user = await Parse.User.logIn("myname", "mypass", { usePost: false });
 // Do stuff after successful login.
 ```
 > Available with SDK version 2.17.0 and later
