@@ -20,11 +20,7 @@ mutation createAGameScore {
   createGameScore(
     input: {
       clientMutationId: "anUniqueId"
-      fields: {
-        playerName: "Sean Plott",
-        score: 1337,
-        cheatMode: false
-      }
+      fields: { playerName: "Sean Plott", score: 1337, cheatMode: false }
     }
   ) {
     clientMutationId
@@ -45,6 +41,7 @@ mutation createAGameScore {
   }
 }
 ```
+
 ```js
 // Response
 {
@@ -85,6 +82,7 @@ For example, if you have a class named `GameScore` in the schema, Parse Server a
   "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
+
 ```graphql
 # GraphQL
 mutation updateAGameScore {
@@ -101,6 +99,7 @@ mutation updateAGameScore {
   }
 }
 ```
+
 ```js
 // Response
 {
@@ -114,12 +113,14 @@ mutation updateAGameScore {
   }
 }
 ```
+
 **Note:** If you use [Apollo Client](https://www.apollographql.com/docs/react/) it's recommended to request the modified fields and `id` during the Mutation, then the [Apollo Client](https://www.apollographql.com/docs/react/) will automatically update its local store and push the new data across your app; i.e. If you update `playerName` you should request `playerName` and `id` like the code above.
 
 ### Unset a field
+
 Across the whole GraphQL API you can simply unset a field by setting his value to `null`.
 
-**Note:** Following the official GraphQL API Specs, setting a field to `null` through the GraphQL API will completly unset the field in the database on the targeted Parse Object. GraphQL API will transform `null` on the server before saving the object to correctly unset the field into the database.
+Following the official GraphQL API Specs, setting a field to `null` through the GraphQL API will completly unset the field in the database on the targeted Parse Object. GraphQL API will transform `null` on the server before saving the object to correctly unset the field into the database.
 
 ```js
 // Header
@@ -128,14 +129,12 @@ Across the whole GraphQL API you can simply unset a field by setting his value t
   "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
+
 ```graphql
 # GraphQL
 mutation updateAGameScore {
   updateGameScore(
-    input: {
-      id: "R2FtZVNjb3JlOmM3TVpDZEhQY2w="
-      fields: { playerName: null }
-    }
+    input: { id: "R2FtZVNjb3JlOmM3TVpDZEhQY2w=", fields: { playerName: null } }
   ) {
     gameScore {
       id
@@ -144,6 +143,7 @@ mutation updateAGameScore {
   }
 }
 ```
+
 ```js
 // Response
 {
@@ -158,7 +158,7 @@ mutation updateAGameScore {
 }
 ```
 
-**Additional note:** GraphQL API will always return `null` if the field is `null` or `undefined` in the database. A GraphQL API do not support difference between `null` and `undefined` into the data response.
+GraphQL API will always return `null` if the field is `null` or `undefined` in the database. A GraphQL API do not support difference between `null` and `undefined` into the data response.
 
 ## Delete
 
@@ -214,6 +214,7 @@ The GraphQL API supports nested mutations, so you can create objects with comple
   "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
+
 ```graphql
 mutation aNestedMutation {
   createCountry(
@@ -221,13 +222,9 @@ mutation aNestedMutation {
       fields: {
         name: "Mars"
         cities: {
-          createAndAdd: [{ name: "Alpha",
-            companies: {
-              createAndAdd: [{
-                name: "Motors"
-              }]
-            }
-          }]
+          createAndAdd: [
+            { name: "Alpha", companies: { createAndAdd: [{ name: "Motors" }] } }
+          ]
         }
       }
     }
@@ -252,6 +249,7 @@ mutation aNestedMutation {
   }
 }
 ```
+
 ```js
 // Response
 {
