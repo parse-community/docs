@@ -1,3 +1,31 @@
+# Configuring File Upload
+
+*Available on Parse Server >=5.0.0*
+
+Parse Server restricts file upload to authenticated users only to improve Parse Server's default security. This behaviour can be modified by specifying `fileUpload` options to your Parse Server configuration.
+
+Available options are:
+
+- `enableForAnonymousUser`: Enable file upload for anonymous users
+- `enableForAuthenticatedUser`: Enable file upload for authenticated users
+- `enableForPublic`: Enable file upload for the public, i.e. everyone
+
+To allow public file uploads to Parse Server:
+
+```javascript
+const api = new ParseServer({
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
+  appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
+  fileUpload: {
+    enableForPublic: true,
+    enableForAnonymousUser: true,
+    enableForAuthenticatedUser: true,
+  }
+});
+```
+
 # Configuring File Adapters
 
 Parse Server allows developers to choose from several options when hosting files:
@@ -22,8 +50,8 @@ File encryption is available in parse-server 4.4.0+. The `GridStoreAdapter` can 
 
 To use, simply do any of the following:
 - Use the environment variable `PARSE_SERVER_ENCRYPTION_KEY`
-- Pass in --encryptionKey in the command line when starting your server
-- Initialize ParseServer with `encryptionKey="Your file encryptionKey"`. 
+- Pass the encryption key via parameter `--encryptionKey` in the command line when starting Parse Server
+- Initialize Parse Server with `encryptionKey="PATH_TO_ENCRYPTION_KEY_FILE`.
 
 An example starting your Parse Server in `index.js` is below:
 
@@ -32,13 +60,13 @@ const api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
-  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
   encryptionKey: process.env.PARSE_SERVER_ENCRYPTION_KEY, //Add your file key here. Keep it secret
   ...
 });
 ```
 
-Be sure not to lose your key or change it after encrypting files. 
+Be sure not to lose your key or change it after encrypting files.
 
 ### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
@@ -69,7 +97,7 @@ const api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
-  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
   //No encryptionKey here
   ...
 });
@@ -358,7 +386,7 @@ var api = new ParseServer({
 })
 ```
 
-Be sure not to lose your key or change it after encrypting files. 
+Be sure not to lose your key or change it after encrypting files.
 
 ### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
@@ -389,7 +417,7 @@ const api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
-  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
   filesAdapter: new FSFilesAdapter(), //No encryptionKey supplied
   ...
 });
