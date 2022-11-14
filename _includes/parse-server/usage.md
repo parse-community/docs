@@ -5,7 +5,7 @@ Parse Server is meant to be mounted on an [Express](http://expressjs.com/) app. 
 The constructor returns an API object that conforms to an [Express Middleware](http://expressjs.com/en/api.html#app.use). This object provides the REST endpoints for a Parse app. Create an instance like so:
 
 ```js
-var api = new ParseServer({
+const api = new ParseServer({
   databaseURI: 'mongodb://your.mongo.uri',
   cloud: './cloud/main.js',
   appId: 'myAppId',
@@ -18,7 +18,7 @@ var api = new ParseServer({
 
 The parameters are as follows:
 
-* `databaseURI`: Connection string URI for your MongoDB.
+* `databaseURI`: Connection string for your database.
 * `cloud`: Path to your app’s Cloud Code.
 * `appId`: A unique identifier for your app.
 * `fileKey`: A key that specifies a prefix used for file storage. For migrated apps, this is necessary to provide access to files already hosted on Parse.
@@ -35,16 +35,16 @@ The parameters are as follows:
 The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
 
 ```js
-var express = require('express');
-var ParseServer = require('parse-server').ParseServer;
+const express = require('express');
+const ParseServer = require('parse-server').ParseServer;
 
-var app = express();
-var api = new ParseServer({ ... });
+const app = express();
+const api = new ParseServer({ ... });
 
 // Serve the Parse API at /parse URL prefix
 app.use('/parse', api);
 
-var port = 1337;
+const port = 1337;
 app.listen(port, function() {
   console.log('parse-server-example running on port ' + port + '.');
 });

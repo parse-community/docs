@@ -2,7 +2,7 @@
 
 Sessions represent an instance of a user logged into a device. Sessions are automatically created when users log in or sign up. They are automatically deleted when users log out. There is one distinct `Session` object for each user-installation pair; if a user issues a login request from a device they're already logged into, that user's previous `Session` object for that Installation is automatically deleted. `Session` objects are stored on Parse in the Session class, and you can view them on the Parse Dashboard Data Browser. We provide a set of APIs to manage `Session` objects in your app.
 
-`Session` is a subclass of a Parse `Object`, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because Parse Server automatically creates sessions when you log in or sign up users, you should not manually create `Session` objects unless you are building a "Parse for IoT" app (e.g. Arduino or Embedded C). Deleting a `Session` will log the user out of the device that is currently using this session's token.
+`Session` is a subclass of a Parse `Object`, so you can query, update, and delete sessions in the same way that you manipulate normal objects on Parse. Because Parse Server automatically creates sessions when you log in or sign up users, you should not manually create `Session` objects unless you are building an IoT app (e.g. Arduino or Embedded C). Deleting a `Session` will log the user out of the device that is currently using this session's token.
 
 Unlike other Parse objects, the `Session` class does not have Cloud Code triggers. So you cannot register a `beforeSave` or `afterSave` handler for the Session class.
 
