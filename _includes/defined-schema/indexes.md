@@ -1,12 +1,8 @@
 # Indexes
 
-To optimize the Parse Server performance you can define indexes and compound indexes.
+To optimize the Parse Server performance you can define indexes and compound indexes. Parse Server does not support indexes on special `_Join` classes used under the hood by the `Relation` type.
 
-To define an index on a `Pointer` field you need to use a
-special notation `_p_<FIELDNAME>`.
-For example if you define `city: { type: "Pointer", targetClass: "City" }` in your `fields` you can define an index on this pointer with `cityIndexExample: { _p_city: true }`.
-
-Note: Currently Defined Schemas do not support indexes on special `_Join` classes used under the hood by the `Relation` type.
+To define an index on a `Pointer` field you need to use the special notation `_p_<FIELDNAME>`. For example, if you define city: `{ type: "Pointer", targetClass: "City" }` in your `fields` you can define an index on this pointer with `cityIndexExample: { _p_city: true }`.
 
 Example:
 

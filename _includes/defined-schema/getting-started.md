@@ -2,7 +2,7 @@
 
 ## Introduction
 
-For use cases in which a pre-defined schema is beneficial or required, you can define class fields, indexes, Class Level Permissions and more
+For use cases in which a pre-defined schema is beneficial or required, you can define class fields, indexes, Class Level Permissions and more.
 
 ## Quick Start
 
@@ -25,7 +25,7 @@ const UserSchema = {
   },
   indexes: {
     tagsIndex: { tags: 1 },
-    // Special _p_ word to create indexes on pointer fields
+    // The special prefix _p_ is used to create indexes on pointer fields
     cityPointerIndex: { _p_city: 1 },
     tagAndCityIndex: { _p_city: 1, tags: 1 },
   },
@@ -37,8 +37,7 @@ const UserSchema = {
     create: { "role:Admin": true },
     delete: { "role:Admin": true },
     protectedFields: {
-      // These fields will be protected from all other users
-      // authData, and password are already protected by default
+      // These fields will be protected from all other users. AuthData and password are already protected by default
       "*": ["authData", "emailVerified", "password", "username"],
     },
   },
@@ -72,8 +71,7 @@ const Country = {
     find: { requiresAuthentication: true },
     count: { requiresAuthentication: true },
     get: { requiresAuthentication: true },
-    // Empty object meas that only master key
-    // is authorized to manage countries
+    // An empty object means that only master key is authorized to manage countries
     update: {},
     create: {},
     delete: {},
@@ -87,29 +85,24 @@ ParseServer.start({
   serverURL: "http://localhost:1337/parse",
   port: 1337,
   publicServerURL: "http://localhost:1337/parse",
-  // Then just register schemas into Parse Server
+  // Define schemas of Parse Server
   schema: {
     definitions: [User, City, Country],
-    // Parse Schema API will be disabled
-    // If you need to update schemas Parse server
-    // need to be updated and deployed (CI/CD strategy)
+    // If set to `true`, the Parse Server API for schema changes is disabled and schema 
+    // changes are only possible by redeployingParse Server with a new schema definition
     lockSchemas: true,
-    // If true, Parse Server will delete non defined Classes from
-    // the database. (Core classes like Role, User are never deleted)
+    // If set to `true`, Parse Server will automatically delete non-defined classes from
+    // the database; internal classes like `User` or `Role` are never deleted.
     strict: true,
-    // If true, a field type change, the changed field is deleted
-    // from the database (all data in this field will be deleted)
-    // and then create the field with the new type
+    // If set to `true`, a field type change will cause the field including its data to be
+    // deleted from the database, and then a new field to be created with the new type
     recreateModifiedFields: false,
-    // If true, Parse will delete non defined fields on a class. (Core fields are never deleted)
+    // If set to `true`, Parse Server will automatically delete non-defined class fields;
+    // internal fields in classes like User or Role are never deleted.
     deleteExtraFields: false,
   },
   serverStartComplete: () => {
-    // Here your Parse Server is ready
-    // with schemas up to date
-
-    // Just a code example if you want to expose
-    // an endpoint when parse is fully initialized
+    // Parse Server is ready with up-to-date schema
     parseServer.expressApp.get("/ready", (req: any, res: any) => {
       res.send("true");
     });
