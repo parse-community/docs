@@ -54,8 +54,7 @@ const City = {
     find: { requiresAuthentication: true },
     count: { requiresAuthentication: true },
     get: { requiresAuthentication: true },
-    // Only a user linked into the Admin Parse Role
-    // authorized to manage cities
+    // Only a user linked to the Admin Parse Role is authorized to manage cities
     update: { "role:Admin": true },
     create: { "role:Admin": true },
     delete: { "role:Admin": true },
