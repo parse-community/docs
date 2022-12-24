@@ -14,7 +14,7 @@ The master key, on the other hand, is definitely a security mechanism. Using the
 
 The overall philosophy is to limit the power of your clients (using client keys), and to perform any sensitive actions requiring the master key in Cloud Code. You'll learn how to best wield this power in the section titled [Implementing Business Logic in Cloud Code](#implementing-business-logic-in-cloud-code).
 
-A final note: It is recommended to setup HTTPS and SSL in your server, to avoid man-in-the-middle attacks, but Parse works fine as well with non-HTTPS connections.  
+A final note: It is recommended to setup HTTPS and SSL in your server, to avoid man-in-the-middle attacks, but Parse works fine as well with non-HTTPS connections.
 
 ## Class-Level Permissions
 
@@ -33,6 +33,12 @@ Almost every class that you create should have these permissions tweaked to some
 ### Restricting class creation
 
 As a start, you can configure your application so that clients cannot create new classes on Parse. This is done by setting the key `allowClientClassCreation` to `false` in your ParseServer configuration.  See the project Readme for an overview of [Configuring your ParseServer](https://github.com/parse-community/parse-server#configuration).   Once restricted, classes may only be created from the Data Browser or with a the `masterKey`. This will prevent attackers from filling your database with unlimited, arbitrary new classes.
+
+### Enforcing Private Users
+
+*Requires Parse Server 5.0.0+*
+
+By default, Parse Server creates Users with public read access. This allows other users, and un-authenticated users, to read data such as `email`. When moving to production, set the key `enforcePrivateUsers` to `true`, as this will remove the public read access to new users.
 
 ### Configuring Class-Level Permissions
 
@@ -389,7 +395,7 @@ All this is just the beginning. Applications can enforce all sorts of complex ac
 
 For the curious, here's the format for an ACL that restricts read and write permissions to the owner (whose `objectId` is identified by `"aSaMpLeUsErId"`) and enables other users to read the object:
 
-```json
+```jsonc
 {
     "*": { "read":true },
     "aSaMpLeUsErId": { "read" :true, "write": true }
@@ -398,7 +404,7 @@ For the curious, here's the format for an ACL that restricts read and write perm
 
 And here's another example of the format of an ACL that uses a Role:
 
-```json
+```jsonc
 {
     "role:RoleName": { "read": true },
     "aSaMpLeUsErId": { "read": true, "write": true }
@@ -413,7 +419,7 @@ Given that objects often already have pointers to the user(s) that should have p
 
 Pointer permissions are like virtual ACLs. They don't appear in the ACL column, but if you are familiar with how ACLs work, you can think of them like ACLs. In the above example with the `sender` and `receiver`, each object will act as if it has an ACL of:
 
-```json
+```jsonc
 {
     "<SENDER_USER_ID>": {
         "read": true,
