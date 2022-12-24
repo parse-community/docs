@@ -179,7 +179,7 @@ mutation createGameScore($file: Upload!) {
 
 ## Unlink a file
 
-Let's update a `GameScore` object and unset the file linked in the `screenshot` field. By setting the `screenshot` field to null, the linked file will be removed from the `Gamescore` object.
+Let's update a `GameScore` object and unset the file linked in the `screenshot` field. By setting the `screenshot` field to `null`, the linked file will be removed from the `Gamescore` object.
 
 **Note:** The file will be not deleted from your file storage.
 
