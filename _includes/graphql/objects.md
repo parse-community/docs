@@ -116,7 +116,7 @@ mutation updateAGameScore {
 
 ### Unset a field
 
-Across the whole GraphQL API you can simply unset a field by setting his value to `null`.
+Across the whole GraphQL API you can simply unset a field by setting its value to `null`.
 
 Following the official GraphQL API Specs, setting a field to `null` through the GraphQL API will completly unset the field in the database on the targeted Parse Object. GraphQL API will transform `null` on the server before saving the object to correctly unset the field into the database.
 
