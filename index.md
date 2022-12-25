@@ -2,7 +2,6 @@
 title: Docs | Parse
 permalink: index.html
 layout: docs
-
 ---
 
 <div class="container padding-top-40 padding-bottom-50" data-nav-waypoint>
@@ -171,7 +170,7 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="cloudcode/guide/">Guide</a></li>
-              <li class="docs-platform__links"><div>&nbsp;</div></li>
+              <li class="docs-platform__links"><a href="defined-schema/guide/">Defined Schema</a></li>
           </ul>
           <footer class="docs-platform__footer">
           </footer>
