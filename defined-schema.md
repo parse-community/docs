@@ -11,6 +11,7 @@ redirect_from:
 
 sections:
   - "defined-schema/getting-started.md"
+  - "defined-schema/how-to-use-on-existing-parse-server.md"
   - "defined-schema/core-classes-fields.md"
   - "defined-schema/fields.md"
   - "defined-schema/indexes.md"
