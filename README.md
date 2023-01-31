@@ -8,7 +8,7 @@
 
 
 These are the markdown sources for all of the [Parse SDK guides](https://parse-community.github.io/#sdks). The content for the guides is stored in this repo, and we use Jekyll to generate a static site that is hosted on GitHub Pages.
-`
+
 ## Repository Structure
 
 The guides are organized by platform inside the _includes directory. Each platform directory contains a set of markdown files, one for each main section in the guide.
