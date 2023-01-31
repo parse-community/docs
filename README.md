@@ -20,7 +20,7 @@ The guides are organized by platform inside the _includes directory. Each platfo
         └── common
             └── {section}
 
-For example, `/ios/` contains all of sections for the iOS guide. There is also a `common` folder that contains content that is shared amongst all of the guides. It helps us avoid duplicating content unnecessarily.
+For example, `/_includes/ios/` contains all of sections for the iOS guide. There is also a `/_includes/common` folder that contains content that is shared amongst all of the guides. It helps us avoid duplicating content unnecessarily.
 
 ## Can I Access The Docs Offline?
 
