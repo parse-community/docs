@@ -501,7 +501,7 @@ print(result)
 
 ## Batch Operations
 
-To reduce the amount of time spent on network round trips, you can create, update, or delete up to 50 objects in one call, using the batch endpoint.
+To reduce the amount of time spent on network round trips, you can create, update, or delete using the batch endpoint. The batch size can be customized, the default batch size is 20.
 
 Each command in a batch has `method`, `path`, and `body` parameters that specify the HTTP command that would normally be used for that command. The commands are run in the order they are given. For example, to create a couple of `GameScore` objects:
 
