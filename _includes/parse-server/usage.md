@@ -16,7 +16,7 @@ const api = new ParseServer({
 });
 ```
 
-The parameters are as follows:
+A few of the [Parse Server Options](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) are as follows:
 
 * `databaseURI`: Connection string for your database.
 * `cloud`: Path to your app’s Cloud Code.
@@ -32,7 +32,9 @@ The parameters are as follows:
 * `auth`: Configure support for [3rd party authentication](#oauth-and-3rd-party-authentication).
 * `maxUploadSize`: Maximum file upload size. Make sure your server does not restrict max request body size (e.g. nginx.conf `client_max_body_size 100m;`)
 
-The Parse Server object was built to be passed directly into `app.use`, which will mount the Parse API at a specified path in your Express app:
+Next, Parse Server can be started with the `.start` method. This ensures that the database connection is establised, cloud code is registered, and any other startup actions.
+
+In order to access an express middleware for `app.use`, you can all `.app` value. This will mount the Parse API at a specified path in your Express app:
 
 ```js
 const express = require('express');
@@ -40,9 +42,10 @@ const ParseServer = require('parse-server').ParseServer;
 
 const app = express();
 const api = new ParseServer({ ... });
+await api.start();
 
 // Serve the Parse API at /parse URL prefix
-app.use('/parse', api);
+app.use('/parse', api.app);
 
 const port = 1337;
 app.listen(port, function() {

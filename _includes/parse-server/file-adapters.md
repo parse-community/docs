@@ -24,6 +24,7 @@ const api = new ParseServer({
     enableForAuthenticatedUser: true,
   }
 });
+await api.start();
 ```
 
 # Configuring File Adapters
@@ -64,6 +65,7 @@ const api = new ParseServer({
   encryptionKey: process.env.PARSE_SERVER_ENCRYPTION_KEY, //Add your file key here. Keep it secret
   ...
 });
+await api.start();
 ```
 
 Be sure not to lose your key or change it after encrypting files.
@@ -101,6 +103,7 @@ const api = new ParseServer({
   //No encryptionKey here
   ...
 });
+await api.start();
 
 //This can take awhile depending on how many files and how larger they are. It will attempt to rotate the key of all files in your filesSubDirectory
 //It is not recommended to do this on the production server, deploy a development server to complete the process.
@@ -421,6 +424,7 @@ const api = new ParseServer({
   filesAdapter: new FSFilesAdapter(), //No encryptionKey supplied
   ...
 });
+await api.start();
 
 //This can take awhile depending on how many files and how larger they are. It will attempt to rotate the key of all files in your filesSubDirectory
 //It is not recommended to do this on the production server, deploy a development server to complete the process.
