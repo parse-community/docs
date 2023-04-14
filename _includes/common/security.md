@@ -562,6 +562,65 @@ Parse.Cloud.define("like", async request => {
 
 One very common use case for Cloud Code is sending push notifications to particular users. In general, clients can't be trusted to send push notifications directly, because they could modify the alert text, or push to people they shouldn't be able to. Your app's settings will allow you to set whether "client push" is enabled or not; we recommend that you make sure it's disabled. Instead, you should write Cloud Code functions that validate the data to be pushed and sent before sending a push.
 
+## Rate Limiting
+
+* Available only on parse-server starting 6.0.0 *
+
+It's important to restrict how often a client can call Parse Server, to prevent a malicious client from brute forcing an endpoint.
+
+Rate limits can be defined by setting the Parse Server Option rateLimit, or by specifying a rateLimit object on a cloud function validator.
+
+The valid options for a rate limit are:
+
+- `requestPath`: The path of the API route to be rate limited.
+- `requestMethods`: Optional, the HTTP request methods to be rate limited.
+- `requestTimeWindow`: The window of time in milliseconds within which the number of requests set in `requestCount` can be made before the rate limit is applied.
+- `requestCount`: The number of requests that can be made per IP address within the time window set in `requestTimeWindow` before the rate limit is applied.
+- `errorResponseMessage`: The error message that should be returned in the body of the HTTP 429 response when the rate limit is hit. Default is `Too many requests.`.
+- `includeInternalRequests`: Optional, whether the rate limit will also apply to requests that are made in by Cloud Code.
+- `includeMasterKey`: Optional, whether the rate limit will also apply to requests using the `masterKey`
+- `redisUrl` Optional, the URL of the Redis server to store rate limit data.
+
+To specify a server-wide rate limit of 200 requests per 15 minute window:
+
+```js
+const parseServer = new ParseServer({
+  rateLimit: {
+    requestPath: '*',
+    requestTimeWindow: 15 * 60 * 1000,
+    requestCount: 200,
+  },
+});
+```
+
+Multiple rate limits can be defined for
+
+To specify a cloud function specific rate limit of 3 request per hour:
+
+```js
+Parse.Cloud.define('someFunction', () => {
+  return 'Hello world';
+}, {
+  rateLimit: {
+    requestTimeWindow: 60 * 60 * 1000,
+    requestCount: 3,
+  }
+});
+```
+
+Rate limits can also be applied to `beforeSave` triggers to restrict how often a given class is written to:
+
+```js
+Parse.Cloud.beforeSave('TestObject', () => {}, {
+  rateLimit: {
+    requestTimeWindow: 1 * 60 * 1000 // one write per minute,,
+    requestCount: 1,
+    errorResponseMessage: 'Too many requests!',
+  },
+});
+```
+
+
 ## Parse Security Summary
 
 Parse provides a number of ways for you to secure data in your app. As you build your app and evaluate the kinds of data you will be storing, you can make the decision about which implementation to choose.
