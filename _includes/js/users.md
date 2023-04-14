@@ -512,7 +512,8 @@ const api = new ParseServer({
   ...
 });
 ...
-app.use('/parse', api);
+await api.start();
+app.use('/parse', api.app);
 ```
 
 Use the `CustomAuth`:
