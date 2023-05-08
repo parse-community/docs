@@ -33,17 +33,14 @@ Check the install was ok, you should see the version installed.
 node -v
 ```
 
-
 Install [npm](https://www.npmjs.com)
 ```bash
 sudo apt install npm
 ```
 
-
-
 Install [yarn](https://yarnpkg.com)
 ```bash
-sudo npm install yarn –g
+sudo npm install yarn -g
 ```
 
 ### Install PostgreSQL Server
@@ -62,7 +59,7 @@ sudo su postgres
 psql
 ```
 
-```bash
+```sql
 ALTER USER postgres password 'myStrongPassword';
 ```
 
@@ -70,13 +67,13 @@ Quit psql typing `\q`
 
 Exit postgres user typing `exit`
 
-Navigate to main folder inside postgresql/version/
+Navigate to main folder inside `postgresql/version/`
 ```bash
 cd /etc/postgresql/14/main/
 ```
 We need to edit two files, `pg_hba.conf` and `postgresql.conf`
 ```bash
-sudo nano pg_hba.conf
+sudo nano -w pg_hba.conf
 ```
 Scroll down the file and Add `host, all, all, 0.0.0.0/0, md5`, has to be the first line before `local, all, postgres, , peer`
 
@@ -84,12 +81,16 @@ Scroll down the file and Add `host, all, all, 0.0.0.0/0, md5`, has to be the fir
 | ---- | -------- | ---- | ------- | ------ |
 | host | all | all | 0.0.0.0/0 | md5 |
 | local | all | postgres |  | peer |
+{: .docs_table}
 
+Close the file and save the changes with `Control+X` and `Y`
 
 ```bash
-sudo nano postgresql.conf
+sudo nano -w postgresql.conf
 ```
 Search for `#listen_addresses='localhost'`, uncomment the line and replace `localhost` for `*`
+
+Close the file and save the changes with `Control+X` and `Y`
 
 Restart the PostgreSQL server
 ```bash
@@ -98,53 +99,81 @@ sudo service postgresql restart
 
 ### Setup Parse Server
 
-Create a directory
+Create a folder called parse-server
 ```bash
-cd ~
-```
-```bash
-mkdir parse-server
-```
-```bash
-cd parse-server
+cd ~ && mkdir parse-server && cd parse-server
 ```
 
-Run the bash script and follow the instructions, the script have some visual issues and the keys generation doesn't work.
+Install Parse Server Locally
 ```bash
-sh <(curl -fsSL https://raw.githubusercontent.com/parse-community/parse-server/master/bootstrap.sh)
+sudo yarn add parse-server
 ```
-After that, we need to setup the configuration file, use your own `appId`, `masterKey` and `clientKey`, use random strings or some generator tool to create secured keys.
+
+Edit the `package.json` file with your preferences, but do not change the start line inside the scripts.
+```jsonc
+{
+  "name": "my-app",
+  "description": "parse-server for my App",
+  "scripts": {
+    "start": "parse-server config.json"
+  },
+  "dependencies": {
+    "parse-server": "^5.2.1"
+  }
+}
+
+```
+Close the file and save the changes with `Control+X` and `Y`
+
+After that, we need to create a configuration file, use your own `appId`, `masterKey` and `clientKey`, use random strings or some generator tool to create secured keys.
+
 ```bash
 sudo nano -w config.json
 ```
-This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [full options document](https://parseplatform.org/parse-server/api/5.2.0/ParseServerOptions.html) for more details.
+
 ```jsonc
 {
   "appId": "exampleAppId",
   "masterKey": "exampleMasterKey",
-  "clientKey": "exampleClientKey",
   "appName": "MyApp",
-  "cloud": "./cloud/main",
+  "serverURL": "http://<IP_OR_DOMAIN>",
+  "mountPath": "/parse",
+  "publicServerURL": "http://<IP_OR_DOMAIN>",
   "databaseURI": "postgres://postgres:myStrongPassword@localhost:5432/postgres"
 }
 ```
+Close the file and save the changes with `Control+X` and `Y`
+
+This are the basic options of the `config.json` file, for the full list you can type `parse-server --help` or refer to the [full options document](https://parseplatform.org/parse-server/api/5.2.0/ParseServerOptions.html) for more details.
 
 
-Install Parse Server globally
-
-```bash
-sudo npm install -g parse-server
-```
-
-Start Parse Server using the script command in the config.json
+Start Parse Server using the script command in the package.json
 ```bash
 npm start
 ```
-or manually with the nohup command and specifying the configuration file, this option will keep the server running even if you close the terminal
+
+Check if Parse Server is running typing `http://<IP_OR_DOMAIN>:1337` in your browser's address bar, you should see `{"error":"unauthorized"}`, that means the server is running.
+
+To daemonized parse-server to keep it running and alive all the time, you can use the package [PM2](https://pm2.keymetrics.io).
+
+Shutdown Parse Server pressing `Control+C`.
+
+Check if PM2 is installed
+ ```bash
+ npm list --depth 0 -g pm2
+ ``` 
+If the terminal shows `/usr/lib/(empty)`, means that PM2 is not installed, procced to install PM2 package globally
 ```bash
-nohup parse-server config.json &
+sudo npm install pm2 -g
 ```
-Check if Parse Server is running typing `http://<IP_OR_DOMAIN>:1337` in your browser's address bar, you should see `{"error":"unauthorized"}`
+Add Parse Server to PM2
+ ```bash
+pm2 start npm --name "parse-server" -- start
+``` 
+Save and syncronize this list
+```bash
+pm2 save
+``` 
 
 ### Setup Parse Dashboard
 
@@ -157,7 +186,7 @@ Once installed, you need to configure Parse Dashboard, go to `/usr/lib/node_modu
 ```bash
 sudo nano -w parse-dashboard-config.json
 ```
-This is an example of parse-dashboard.config.json.
+This is an example of `parse-dashboard.config.json`.
 ```jsonc
 {
 	"apps": [{
@@ -178,10 +207,21 @@ Start Parse Dashboard
 ```bash
 parse-dashboard
 ```
-or with the nohup command and specifying the configuration file, this option will keep the dashboard running even if you close the terminal
-```bash
-nohup parse-dashboard --dev --config parse-dashboard-config.json &
-```
 
 Check if Parse Dashboard is running typing `http://<IP_OR_DOMAIN>:4040` in your browser's address bar, you should see the login form, use the `user` and `pass` that you set in the `parse-dashboard-config.json` file.
 
+Shutdown Parse Dashboard pressing `Control+C`.
+
+Add Parse Dashboard to the process manager PM2
+```bash
+pm2 start parse-dashboard
+``` 
+ Save and syncronize PM2 list
+```bash
+pm2 save
+``` 
+
+Adding Parse Server and Parse Dashboard to PM2, will ensure that if the server restarts or reboot for some reason, this two apps will be relaunched automatically.
+PM2 stores the logs in a subfolder called `logs` where the apps are. To sneak peek the logs you can run `pm2 logs` in the terminal.
+
+Note: if you are using a secure certificate in your host, be sure to modify the urls related to your configuration in the examples above from `http` to `https`.
