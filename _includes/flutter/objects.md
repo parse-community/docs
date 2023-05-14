@@ -110,3 +110,104 @@ and to retrieve it
 ```dart
 var dietPlan = DietPlan().fromPin('OBJECT ID OF OBJECT');
 ```
+## Increment Counter Values
+
+Retrieve it, call
+
+```dart
+var response = await dietPlan.increment("count", 1);
+
+```
+or using with save function
+
+```dart
+dietPlan.setIncrement('count', 1);
+dietPlan.setDecrement('count', 1);
+var response = dietPlan.save()
+
+```
+
+## Array Operator in Objects
+
+Retrieve it, call
+
+```dart
+var response = await dietPlan.add("listKeywords", ["a", "a","d"]);
+
+var response = await dietPlan.addUnique("listKeywords", ["a", "a","d"]);
+
+var response = await dietPlan.remove("listKeywords", ["a"]);
+
+```
+or using with save function
+
+```dart
+dietPlan.setAdd('listKeywords', ['a','a','d']);
+dietPlan.setAddUnique('listKeywords', ['a','a','d']);
+dietPlan.setRemove('listKeywords', ['a']);
+var response = dietPlan.save()
+```
+
+## Security for Objects - ParseACL
+For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object.
+To support this type of security, each object has an access control list, implemented by the __ParseACL__ class.
+
+If ParseACL is not specified (with the exception of the ParseUser class) all objects are set to Public for read and write.
+The simplest way to use a ParseACL is to specify that an object may only be read or written by a single user.
+To create such an object, there must first be a logged in ParseUser. Then, new ParseACL(user) generates a ParseACL that
+limits access to that user. An object’s ACL is updated when the object is saved, like any other property.
+
+```dart
+ParseUser user = await ParseUser.currentUser() as ParseUser;
+ParseACL parseACL = ParseACL(owner: user);
+  
+ParseObject parseObject = ParseObject("TestAPI");
+...
+parseObject.setACL(parseACL);
+var apiResponse = await parseObject.save();
+```
+Permissions can also be granted on a per-user basis. You can add permissions individually to a ParseACL using
+__setReadAccess__ and __setWriteAccess__
+```dart
+ParseUser user = await ParseUser.currentUser() as ParseUser;
+ParseACL parseACL = ParseACL();
+//grant total access to current user
+parseACL.setReadAccess(userId: user.objectId, allowed: true);
+parseACL.setWriteAccess(userId: user.objectId, allowed: true);
+//grant read access to userId: 'TjRuDjuSAO' 
+parseACL.setReadAccess(userId: 'TjRuDjuSAO', allowed: true);
+parseACL.setWriteAccess(userId: 'TjRuDjuSAO', allowed: false);
+
+ParseObject parseObject = ParseObject("TestAPI");
+...
+parseObject.setACL(parseACL);
+var apiResponse = await parseObject.save();
+```
+You can also grant permissions to all users at once using setPublicReadAccess and setPublicWriteAccess.
+```dart
+ParseACL parseACL = ParseACL();
+parseACL.setPublicReadAccess(allowed: true);
+parseACL.setPublicWriteAccess(allowed: true);
+
+ParseObject parseObject = ParseObject("TestAPI");
+...  
+parseObject.setACL(parseACL);
+var apiResponse = await parseObject.save();
+```
+Operations that are forbidden, such as deleting an object that you do not have write access to, result in a
+ParseError with code 101: 'ObjectNotFound'.
+For security purposes, this prevents clients from distinguishing which object ids exist but are secured, versus which
+object ids do not exist at all.
+
+You can retrieve the ACL list of an object using:
+```dart
+ParseACL parseACL = parseObject.getACL();
+```
+
+To set the ACL to `ParseRole` use:
+
+```dart
+parseACL.setReadAccess(userId: "role:ROLE_NAME", allowed: true);
+parseACL.setWriteAccess(userId: "role:ROLE_NAME", allowed: true);
+
+```

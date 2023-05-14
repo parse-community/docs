@@ -42,3 +42,53 @@ Other user features are:-
 * Save
 * Destroy user
 * Queries
+
+## Facebook, OAuth and 3rd Party Login/User
+
+Usually, each provider will provide their own library for logins, but the loginWith method on ParseUser accepts a name of provider, then a Map<String, dynamic> with the authentication details required.
+For Facebook and the example below, we used the library provided at https://pub.dev/packages/flutter_facebook_login
+
+ ```
+ Future<void> goToFacebookLogin() async {
+        final FacebookLogin facebookLogin = FacebookLogin();
+        final FacebookLoginResult result = await facebookLogin.logInWithReadPermissions(['email']);
+    
+        switch (result.status) {
+          case FacebookLoginStatus.loggedIn:
+            final ParseResponse response = await ParseUser.loginWith(
+                'facebook',
+                facebook(result.accessToken.token,
+                    result.accessToken.userId,
+                    result.accessToken.expires));
+    
+            if (response.success) {
+              // User is logged in, test with ParseUser.currentUser()
+            }
+            break;
+          case FacebookLoginStatus.cancelledByUser:
+                // User cancelled
+            break;
+          case FacebookLoginStatus.error:
+                // Error
+            break;
+        }
+      }
+```
+
+For Google and the example below, we used the library provided at https://pub.dev/packages/google_sign_in
+
+```
+class OAuthLogin {
+  final GoogleSignIn _googleSignIn = GoogleSignIn( scopes: ['email', 'https://www.googleapis.com/auth/contacts.readonly'] );
+  
+  sigInGoogle() async {
+    GoogleSignInAccount account = await _googleSignIn.signIn();
+    GoogleSignInAuthentication authentication = await account.authentication;
+    await ParseUser.loginWith(
+        'google',
+        google(_googleSignIn.currentUser.id, 
+               authentication.accessToken, 
+               authentication.idToken));
+  }
+}
+```
