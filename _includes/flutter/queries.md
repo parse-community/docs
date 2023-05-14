@@ -330,11 +330,61 @@ You can change these by providing a custom list using the `liveListRetryInterval
 ## ParseLiveList
 ParseLiveList makes implementing a dynamic List as simple as possible.
 
-### General Use
+#### General Use
 It ships with the ParseLiveList class itself, this class manages all elements of the list, sorts them,
 keeps itself up to date and Notifies you on changes.
 
-### Included Sub-Objects
+ParseLiveListWidget is a widget that handles all the communication with the ParseLiveList for you.
+Using ParseLiveListWidget you can create a dynamic List by just providing a QueryBuilder.
+
+```dart
+ParseLiveListWidget<ParseObject>(
+      query: query,
+    );
+```
+To customize the List Elements, you can provide a childBuilder.
+```dart
+ParseLiveListWidget<ParseObject>(
+  query: query,
+  reverse: false,
+  childBuilder:
+      (BuildContext context, ParseLiveListElementSnapshot<ParseObject> snapshot) {
+    if (snapshot.failed) {
+      return const Text('something went wrong!');
+    } else if (snapshot.hasData) {
+      return ListTile(
+        title: Text(
+          snapshot.loadedData.get("text"),
+        ),
+      );
+    } else {
+      return const ListTile(
+        leading: CircularProgressIndicator(),
+      );
+    }
+  },
+);
+```
+Similar to the standard ListView, you can provide arguments like reverse or shrinkWrap.
+By providing the listLoadingElement, you can show the user something while the list is loading.
+```dart
+ParseLiveListWidget<ParseObject>(
+  query: query,
+  childBuilder: childBuilder,
+  listLoadingElement: Center(
+    child: CircularProgressIndicator(),
+  ),
+);
+```
+By providing the duration argument, you can change the animation speed.
+```dart
+ParseLiveListWidget<ParseObject>(
+  query: query,
+  childBuilder: childBuilder,
+  duration: Duration(seconds: 1),
+);
+```
+### Include Sub-Objects
 
 By default, ParseLiveQuery will provide you with all the objects you included in your Query like this:
 ```dart
@@ -344,6 +394,39 @@ ParseLiveList will not listen for updates on this objects by default.
 To activate listening for updates on all included objects, add `listenOnAllSubItems: true` to your ParseLiveListWidgets constructor.
 If you want ParseLiveList to listen for updates on only some sub-objects, use `listeningIncludes: const <String>[/*all the included sub-objects*/]` instead.
 Just as QueryBuilder, ParseLiveList supports nested sub-objects too.
+
+### Lazy Loading
+
+By default, ParseLiveList lazy loads the content.
+You can avoid that by setting `lazyLoading: false`.
+In case you want to use lazyLoading but you need some columns to be preloaded, you can provide a list of `preloadedColumns`.
+Preloading fields of a pointer is supported by using the dot-notation.
+You can access the preloaded data is stored in the `preLoadedData` field of the `ParseLiveListElementSnapshot`.
+```dart
+ParseLiveListWidget<ParseObject>(
+  query: query,
+  lazyLoading: true,
+  preloadedColumns: ["test1", "sender.username"],
+  childBuilder:
+      (BuildContext context, ParseLiveListElementSnapshot<ParseObject> snapshot) {
+    if (snapshot.failed) {
+      return const Text('something went wrong!');
+    } else if (snapshot.hasData) {
+      return ListTile(
+        title: Text(
+          snapshot.loadedData.get<String>("text"),
+        ),
+      );
+    } else {
+      return ListTile(
+        title: Text(
+          "loading comment from: ${snapshot.preLoadedData?.get<ParseObject>("sender")?.get<String>("username")}",
+        ),
+      );
+    }
+  },
+);
+```
 
 **NOTE:** To use this features you have to enable [Live Queries](#live-queries) first.
 

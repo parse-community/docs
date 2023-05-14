@@ -1,6 +1,7 @@
 # Getting Started
 
-To install, either add [dependency in your pubspec.yaml file](https://pub.dev/packages/parse_server_sdk/install).
+To install Parse Server Sdk, add [dependency in your pubspec.yaml file](https://pub.dev/packages/parse_server_sdk/install).
+To install Parse Server Sdk Flutter, add [dependency in your pubspec.yaml file](https://pub.dev/packages/parse_server_sdk_flutter/install).
 
 Once you have the library added to your project, upon first call to your app (Similar to what your application class would be) add the following...
 
@@ -37,8 +38,32 @@ It's possible to add other parameters to work with your instance of Parse Server
 ⚠️ Please note that the master key should only be used in safe environments and never on client side ‼️ Using this package on a server should be fine.
 
 ### Early Web support
-Currently this requires adding `X-Parse-Installation-Id` as an allowed header to parse-server.
+Due to Cross-origin resource sharing (CORS) restrictions, this requires adding `X-Parse-Installation-Id` as an allowed header to parse-server.
 When running directly via docker, set the env var `PARSE_SERVER_ALLOW_HEADERS=X-Parse-Installation-Id`.
 When running via express, set [ParseServerOptions](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) `allowHeaders: ['X-Parse-Installation-Id']`.
 
-Be aware that for web ParseInstallation does include app name, version or package identifier.
+### Desktop Support (macOS)
+The security entitlements posed by the macOS framework require that your app is granted permission to open outgoing network connections, so that the Parse Flutter SDK can communicate with Parse Server. To grant this permission, add the following lines:
+```
+<key>com.apple.security.network.client</key>
+<true/>
+```
+to the following files:
+```
+/macOS/Runner/Release.entitlements
+/macOS/Runner/DebugProfile.entitlements
+```
+to help the Parse SDK for Flutter communicate with the Web to access the server and send/retrive data.
+
+### Network client
+By default, this SDK uses the `ParseHTTPClient`.
+Another option is use `ParseDioClient`. This client supports the most features (for example a progress callback at the file upload), but a benchmark has shown, that dio is slower than http on web.
+
+If you want to use the `ParseDioClient`, which uses the dio network library,
+you can provide a custom `ParseClientCreator` at the initialization of the SDK.
+```dart
+await Parse().initialize(
+  //...
+  clientCreator: ({bool? sendSessionId, SecurityContext? securityContext}) => ParseDioClient(sendSessionId: sendSessionId, securityContext: securityContext),
+);
+```
