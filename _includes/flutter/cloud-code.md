@@ -1,8 +1,9 @@
 # Cloud Code
 
-The SDK supports call Cloud Functions.
+The SDK supports calling [Cloud Functions](https://docs.parseplatform.org/cloudcode/guide/#cloud-functions).
 
-Executes a cloud function that returns a ParseObject type
+Execute a Cloud Function that returns a `ParseObject`:
+
 ```dart
 final ParseCloudFunction function = ParseCloudFunction('hello');
 final ParseResponse result =
