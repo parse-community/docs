@@ -10,7 +10,10 @@ The classes above are used by default to represent files, but you can also build
 
 Have a look at the example application for a small (non web) example.
 
-When uploading or downloading a file, you can use the `progressCallback`-parameter to track the progress of the http request.
+When uploading or downloading a file, you can use the `progressCallback` parameter to track the progress of the HTTP request.
+
+The following is an example for showing an image from a `ParseFileBase`:
+
 ```dart
 //A short example for showing an image from a ParseFileBase
 Widget buildImage(ParseFileBase image){
