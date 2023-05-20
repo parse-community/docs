@@ -1,7 +1,7 @@
 # Getting Started
 
-To install Parse Server Sdk, add [dependency in your pubspec.yaml file](https://pub.dev/packages/parse_server_sdk/install).
-To install Parse Server Sdk Flutter, add [dependency in your pubspec.yaml file](https://pub.dev/packages/parse_server_sdk_flutter/install).
+- To install the Parse Dart SDK add it to your app as a dependency via the [pub.dev](https://pub.dev/packages/parse_server_sdk/install) registry.
+- To install the Parse Flutter SDK add it to your app as a dependency via the [pub.dev](https://pub.dev/packages/parse_server_sdk_flutter/install) registry.
 
 Once you have the library added to your project, upon first call to your app (Similar to what your application class would be) add the following...
 
