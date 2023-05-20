@@ -6,7 +6,8 @@ The SDK supports [Parse Config](https://docs.parseplatform.org/cloudcode/guide/#
 var response = await ParseConfig().getConfigs();
 ```
 
-and to add a config:
+To add a new parameter to Parse Config:
+
 ```dart
 ParseConfig().addConfig('TestConfig', 'testing');
 ```
