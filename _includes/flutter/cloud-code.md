@@ -16,7 +16,8 @@ if (result.success) {
 }
 ```
 
-Executes a cloud function with parameters
+Execute a Cloud Function with parameters:
+
 ```dart
 final ParseCloudFunction function = ParseCloudFunction('hello');
 final Map<String, String> params = <String, String>{'plan': 'paid'};
