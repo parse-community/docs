@@ -15,7 +15,6 @@ When uploading or downloading a file, you can use the `progressCallback` paramet
 The following is an example for showing an image from a `ParseFileBase`:
 
 ```dart
-//A short example for showing an image from a ParseFileBase
 Widget buildImage(ParseFileBase image){
   return FutureBuilder<ParseFileBase>(
     future: image.download(),
