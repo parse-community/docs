@@ -1,11 +1,10 @@
 # Files
 
 There are three different file classes in this SDK:
-- `ParseFileBase` is and abstract class and is the foundation of every file class that can be handled by this SDK.
-- `ParseFile` (former the only file class in the SDK) extends ParseFileBase and is by default used as the file class on every platform but web.
-  This class uses a `File` from `dart:io` for storing the raw file.
-- `ParseWebFile` is the equivalent to ParseFile used at Flutter Web.
-  This class uses an `Uint8List` for storing the raw file.
+
+- `ParseFileBase` is an abstract class and is the foundation of every file class that can be handled by the SDK.
+- `ParseFile` extends `ParseFileBase` and is by default used as the file class on every platform but web. This class uses a `File` from `dart:io` for storing the raw file. The class was formerly the only file class in the SDK.
+- `ParseWebFile` is the equivalent of `ParseFile` used for Flutter Web. This class uses a `Uint8List` for storing the raw file data.
 
 These classes are used by default to represent files, but you can also build your own class extending ParseFileBase and provide a custom `ParseFileConstructor` similar to the `SubClasses`.
 
