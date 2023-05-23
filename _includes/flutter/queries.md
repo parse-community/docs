@@ -73,7 +73,7 @@ var apiResponse = await mainQuery.query();
 
 To find objects that match several queries use `QueryBuilder.and`. To find objects that do not match any given query use `QueryBuilder.nor`.
 
-The features available are:-
+The features available are:
 * Equals
 * Contains
 * LessThan

@@ -42,7 +42,7 @@ var user = ParseUser("TestFlutter", "TestPassword123", "TestFlutterSDK@gmail.com
             ..set("userLocation", "FlutterLand");
 ```
 
-Other user features are:-
+Other user features are:
 * Request Password Reset
 * Verification Email Request
 * Get all users

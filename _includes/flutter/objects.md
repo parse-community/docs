@@ -42,7 +42,7 @@ Types supported:
 * List (all types supported)
 
 You then have the ability to do the following with that object:
-The features available are:-
+The features available are:
 * Get
 * GetAll
 * Create
