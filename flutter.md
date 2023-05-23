@@ -14,6 +14,7 @@ sections:
 - "flutter/cloud-code.md"
 - "flutter/config.md"
 - "flutter/files.md"
+- "flutter/push-notifications.md"
 - "flutter/other-features.md"
 - "flutter/storage.md"
 - "flutter/users.md"
