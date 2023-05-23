@@ -14,5 +14,5 @@ User:
 
 Objects:
 * Create new object
-* Extend Parse Object and create local objects that can be saved and retreived
+* Extend Parse Object and create local objects that can be saved and retrieved
 * Queries
