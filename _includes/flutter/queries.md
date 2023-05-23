@@ -398,12 +398,12 @@ ParseLiveListWidget<ParseObject>(
 By default, `ParseLiveQuery` will provide you with all the objects you included in your Query like this:
 
 ```dart
-queryBuilder.includeObject(/*List of all the included sub-objects*/);
+queryBuilder.includeObject(/* List of all the included sub-objects */);
 ```
 
 `ParseLiveList` will not listen for updates on this objects by default.
 To activate listening for updates on all included objects, add `listenOnAllSubItems: true` to your `ParseLiveListWidgets` constructor.
-If you want `ParseLiveList` to listen for updates on only some sub-objects, use `listeningIncludes: const <String>[/*all the included sub-objects*/]` instead.
+If you want `ParseLiveList` to listen for updates on only some sub-objects, use `listeningIncludes: const <String>[/* all the included sub-objects */]` instead.
 Just as `QueryBuilder`, `ParseLiveList` supports nested sub-objects too.
 
 ### Lazy Loading
