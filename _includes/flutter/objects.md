@@ -1,5 +1,6 @@
 # Objects
-You can create custom objects by calling:
+
+You can create a custom object like this:
 
 ```dart
 var dietPlan = ParseObject('DietPlan')
@@ -9,7 +10,7 @@ var dietPlan = ParseObject('DietPlan')
 await dietPlan.save();
 ```
 
-Or update existing object by its objectId by calling:
+You can update an existing object via its `objectId`:
 
 ```dart
 var dietPlan = ParseObject('DietPlan')
@@ -19,7 +20,7 @@ var dietPlan = ParseObject('DietPlan')
 await dietPlan.save();
 ```
 
-Verify that the object has been successfully saved using
+Check the response to verify that the object has been successfully saved:
 
 ```dart
 var response = await dietPlan.save();
@@ -29,7 +30,8 @@ if (response.success) {
 }
 ```
 
-Types supported:
+## Supported Types
+
 * String
 * Double
 * Int
@@ -41,8 +43,8 @@ Types supported:
 * Map
 * List (all types supported)
 
-You then have the ability to do the following with that object:
-The features available are:
+## Object Methods
+
 * Get
 * GetAll
 * Create
@@ -56,7 +58,8 @@ The features available are:
 * Array Operators
 
 ## Custom Objects
-You can create your own `ParseObjects` or convert your existing objects into `ParseObjects` by doing the following:
+
+You can create your own `ParseObjects` or convert your existing objects into `ParseObjects`:
 
 ```dart
 class DietPlan extends ParseObject implements ParseCloneable {
@@ -64,8 +67,7 @@ class DietPlan extends ParseObject implements ParseCloneable {
   DietPlan() : super(_keyTableName);
   DietPlan.clone(): this();
 
-  /// Looks strangely hacky but due to Flutter not using reflection, we have to
-  /// mimic a clone
+  /// Mimic a clone due to Flutter not using reflection
   @override clone(Map map) => DietPlan.clone()..fromJson(map);
 
   static const String _keyTableName = 'Diet_Plans';
@@ -77,8 +79,7 @@ class DietPlan extends ParseObject implements ParseCloneable {
   
 ```
 
-When receiving an `ParseObject` from the SDK, you can often provide an instance of your custom object as an copy object.
-To always use your custom object class, you can register your subclass at the initialization of the SDK.
+When receiving a `ParseObject` you can often provide an instance of your custom object as an object copy. To always use your custom object class, register your subclass at the initialization of the SDK:
 
 ```dart
 Parse().initialize(
@@ -90,7 +91,7 @@ Parse().initialize(
 );
 ```
 
-Additionally you can register `SubClasses` after the initialization of the SDK.
+Additionally you can register `SubClasses` after the initialization of the SDK:
 
 ```dart
 ParseCoreData().registerSubClass('Diet_Plans', () => DietPlan());
@@ -99,8 +100,9 @@ ParseCoreData().registerUserSubClass((username, password, emailAddress, {client,
 
 Providing a `ParseObject` as described above should still work, even if you have registered a different `SubClass`.
 
-## Add New Values to Objects
-To add a variable to an object call and retrieve it, call
+## Add Object Property
+
+To add a new object property:
 
 ```dart
 dietPlan.set<int>('RandomInt', 8);

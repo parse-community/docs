@@ -1,4 +1,5 @@
 # Files
+
 There are three different file classes in this SDK:
 
 - `ParseFileBase` is an abstract class and is the foundation of every file class that can be handled by the SDK.
@@ -33,15 +34,16 @@ Widget buildImage(ParseFileBase image){
 }
 ```
 
-A short example for storing a selected picture
+A short example for storing a selected image:
 
 ```dart
-// libraries: image_picker (https://pub.dev/packages/image_picker), image_picker_for_web (https://pub.dev/packages/image_picker_for_web)
+// Libraries: image_picker (https://pub.dev/packages/image_picker), image_picker_for_web (https://pub.dev/packages/image_picker_for_web)
 PickedFile pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
 
 ParseFileBase parseFile;
+
 if (kIsWeb) {
-  // Seems weird, but this lets you get the data from the selected file as an Uint8List very easily. 
+  // Get data from selected file as an Uint8List
   ParseWebFile file = ParseWebFile(null, name: null, url: pickedFile.path);
   await file.download();
   parseFile = ParseWebFile(file.file, name: file.name);
@@ -50,11 +52,12 @@ if (kIsWeb) {
 }
 
 someParseObject.set("image", parseFile);
-// This saves the ParseObject as well as all of its children, and the ParseFileBase is such a child. 
+// Save ParseObject and its children like the ParseFileBase
 await someParseObject.save();
 ```
 
+Example for using the progress callback:
+
 ```dart
-// progressCallback example
 file.upload(progressCallback: (int count, int total) => print("$count of $total"));
 ```

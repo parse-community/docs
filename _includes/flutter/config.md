@@ -1,4 +1,5 @@
 # Config
+
 The SDK supports [Parse Config](https://docs.parseplatform.org/cloudcode/guide/#config). A map of config parameters can be retrieved from Parse Server with:
 
 ```dart
