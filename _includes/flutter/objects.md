@@ -109,8 +109,9 @@ dietPlan.set<int>('RandomInt', 8);
 var randomInt = dietPlan.get<int>('RandomInt');
 ```
 
-## Save Objects using Pins
-You can now save an object by calling `.pin()` on an instance of an object
+## Pin Object
+
+You can save an object by calling `.pin()`:
 
 ```dart
 dietPlan.pin();
