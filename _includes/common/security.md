@@ -566,9 +566,12 @@ One very common use case for Cloud Code is sending push notifications to particu
 
 * Available on Parse Server >=6.0.0 *
 
-It's important to restrict how often a client can call Parse Server, to prevent a malicious client from brute forcing an endpoint.
+It's important to restrict how often a client can call the Parse Server API. This prevents malicious attacks that could:
+- overwhelm server resources by exceeding expected API traffic
+- collect large amounts of data ("data scraping")
+- repeatedly guess passwords, object IDs, installation IDs or other data ("brute force")
 
-Rate limits can be defined by setting the Parse Server Option rateLimit, or by specifying a rateLimit object on a cloud function validator.
+Parse Sever offers a mechanism to enforce rate limits by setting the Parse Server option `rateLimit`, or by specifying a `rateLimit` object on a Cloud Function validator.
 
 The valid options for a rate limit are:
 
