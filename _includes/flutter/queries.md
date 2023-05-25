@@ -24,7 +24,7 @@ if (dietPlan.success) {
 }
 ```
 
-### Alternative Query Methods
+## Alternative Query Methods
 
 The standard query method `query()` returns a `ParseResponse` that contains the result or the error. As an alternative, you can also use `Future<List<T>> find()` for receiving options.
 This method returns an `Future` that either resolves in an error (equivalent to the error in the `ParseResponse`) or an `List` containing the queried objects. One difference, you should be aware of, is the fact that `Future<List<T>> find()` will return an empty list instead of the `No results` error you receive in case no object matches your query.
