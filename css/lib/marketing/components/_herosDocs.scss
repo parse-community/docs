@@ -31,6 +31,9 @@
         &.unity_docs_header{
           background-color: $unityPlatform;
         }
+        &.flutter_docs_header{
+          background-color: $flutterPlatform;
+        }
         &.php_docs_header{
           background-color: $phpPlatform;
         }
