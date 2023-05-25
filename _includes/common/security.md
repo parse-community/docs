@@ -564,7 +564,7 @@ One very common use case for Cloud Code is sending push notifications to particu
 
 ## Rate Limiting
 
-* Available only on parse-server starting 6.0.0 *
+* Available on Parse Server >=6.0.0 *
 
 It's important to restrict how often a client can call Parse Server, to prevent a malicious client from brute forcing an endpoint.
 
