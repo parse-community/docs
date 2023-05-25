@@ -37,14 +37,14 @@ await Parse().initialize(
 
 ⚠️ The master key should only be used in safe environments and never on client side. Using this package on a server should be fine.
 
-### Early Web Support
+## Early Web Support
 
 Due to Cross-Origin Resource Sharing (CORS) restrictions, web support requires adding `X-Parse-Installation-Id` as an allowed header in the Parse Server configuration:
 
 - When running directly via docker, set the env var `PARSE_SERVER_ALLOW_HEADERS=X-Parse-Installation-Id`.
 - When running via express, set the [Parse Server option](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) `allowHeaders: ['X-Parse-Installation-Id']`.
 
-### Desktop Support (macOS)
+## Desktop Support (macOS)
 
 The security entitlements posed by the macOS framework require that your app is granted permission to open outgoing network connections, so that the Parse Flutter SDK can communicate with Parse Server. To grant this permission, add the following code:
 
@@ -60,7 +60,7 @@ to the following files:
 /macOS/Runner/DebugProfile.entitlements
 ```
 
-### Network client
+## Network client
 
 By default, this SDK uses the `ParseHTTPClient`. Another option is use `ParseDioClient`. This client supports the most features (for example a progress callback at the file upload), but a benchmark has shown that dio is slower than http on web.
 
