@@ -72,6 +72,9 @@ input {
     &.unity_docs_docsearch{
       background-color: $unityPlatform;
     }
+    &.flutter_docs_header{
+      background-color: $flutterPlatform;
+    }
     &.php_docs_docsearch{
       background-color: $phpPlatform;
     }
