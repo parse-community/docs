@@ -1,9 +1,11 @@
 # Push Notifications
+
 Push notifications are a great way to keep your users engaged and informed about your app. You can reach your user base quickly and effectively. This guide will help you through the setup process and the general usage of Parse Platform to send push notifications.
 
 To configure push notifications in Parse Server, check out the [push notification guide](https://docs.parseplatform.org/parse-server/guide/#push-notifications).
 
 ## Installation
+
 1. Install [Firebase Core](https://firebase.flutter.dev/docs/overview) and [Cloud Messaging](https://firebase.flutter.dev/docs/messaging/overview). For more details review the [Firebase Core Manual](https://firebase.flutter.dev/docs/manual-installation/).
 
 2. Add the following code after `Parse().initialize(...);`:
@@ -24,6 +26,7 @@ Future<void> onBackgroundMessage(RemoteMessage message) async => ParsePush.insta
 ```
 
 ## Implementation Example
+
 The following is a code example for a simple implementation of push notifications:
 
 ```dart

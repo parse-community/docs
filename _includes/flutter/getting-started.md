@@ -12,7 +12,7 @@ await Parse().initialize(
 );
 ```
 
-If you want to use secure storage or use the Flutter web/desktop SDK, please change to the below instance of  `CoreStorage` as it has no dependencies on Flutter. `CoreStoreSembastImp` does not encrypt the data on web and Web is not safe anyway. Encrypt fields manually as needed.
+If you want to use secure storage or use the Flutter web/desktop SDK, please change to the below instance of  `CoreStorage` as it has no dependencies on Flutter. `CoreStoreSembastImp` does not encrypt the data on the web and Web is not safe anyway. Encrypt fields manually as needed.
 
 ```dart
 await Parse().initialize(
@@ -38,6 +38,7 @@ await Parse().initialize(
 ⚠️ The master key should only be used in safe environments and never on client side. Using this package on a server should be fine.
 
 ### Early Web Support
+
 Due to Cross-Origin Resource Sharing (CORS) restrictions, web support requires adding `X-Parse-Installation-Id` as an allowed header in the Parse Server configuration:
 
 - When running directly via docker, set the env var `PARSE_SERVER_ALLOW_HEADERS=X-Parse-Installation-Id`.
@@ -61,7 +62,7 @@ to the following files:
 
 ### Network client
 
-By default, this SDK uses the `ParseHTTPClient`. Another option is use `ParseDioClient`. This client supports the most features (for example a progress callback at the file upload), but a benchmark has shown, that dio is slower than http on web.
+By default, this SDK uses the `ParseHTTPClient`. Another option is use `ParseDioClient`. This client supports the most features (for example a progress callback at the file upload), but a benchmark has shown that dio is slower than http on web.
 
 If you want to use the `ParseDioClient`, which uses the dio network library, you can provide a custom `ParseClientCreator` at the initialization of the SDK:
 

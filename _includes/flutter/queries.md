@@ -1,5 +1,6 @@
 # Queries
-Once you have setup the project and initialised the instance, you can then retrieve data from your server by calling:
+
+Once you have setup the project and initialized the instance, you can then retrieve data from your server by calling:
 
 ```dart
 var apiResponse = await ParseObject('ParseTableName').getAll();
@@ -24,14 +25,16 @@ if (dietPlan.success) {
 ```
 
 ### Alternative Query Methods
+
 The standard query method `query()` returns a `ParseResponse` that contains the result or the error. As an alternative, you can also use `Future<List<T>> find()` for receiving options.
-This method returns an `Future` that either resolves in an error (equivalent of the error in the `ParseResponse`) or an `List` containing the queried objects. One difference, you should be aware of, is the fact, that `Future<List<T>> find()` will return an empty list instead of the `No results` error you receive in case no object matches you query.
+This method returns an `Future` that either resolves in an error (equivalent to the error in the `ParseResponse`) or an `List` containing the queried objects. One difference, you should be aware of, is the fact that `Future<List<T>> find()` will return an empty list instead of the `No results` error you receive in case no object matches your query.
 
 Choosing between `query()` and `find()` comes down to personal preference. Both methods can be used for querying a `ParseQuery`, just the output method differs.
 
-Similar to `find()` the `QueryBuilder` also has a function called `Future<T?> first()`. Just like `find()` `first()` is just a convenience method that makes querying the first object satisfying the query simpler. `first()` returns an `Future`, that resoles in an error or the first object matching the query. In case no object satisfies the query, the result will be `null`.
+Similar to `find()` the `QueryBuilder` also has a function called `Future<T?> first()`. Just like `find()` `first()` is just a convenience method that makes querying the first object satisfying the query simpler. `first()` returns an `Future`, that results in an error or the first object matching the query. In case no object satisfies the query, the result will be `null`.
 
 ## Complex Queries
+
 You can create complex queries to really put your database to the test:
 
 ```dart
@@ -50,7 +53,7 @@ if (response.success) {
 }
 ```
 
-if you want to find objects that match one of several queries, you can use `QueryBuilder.or` method to construct a query that is an OR of the queries passed in. For instance if you want to find players who either have a lot of wins or a few wins, you can do:
+If you want to find objects that match one of several queries, you can use the `QueryBuilder.or` method to construct a query that is an OR of the queries passed in. For instance if you want to find players who either have a lot of wins or a few wins, you can do:
 
 ```dart
 ParseObject playerObject = ParseObject("Player");
@@ -103,8 +106,9 @@ The features available are:
 * Plenty more!
 
 ## Relational queries
+
 If you want to retrieve objects where a field contains an object that matches another query, you can use the `whereMatchesQuery` condition.
-For example, imagine you have post class and a comment class, where each comment has a pointer to its parent Post.
+For example, imagine you have a post class and a comment class, where each comment has a pointer to its parent Post.
 You can find comments on posts with images by doing:
 
 ```dart
@@ -120,7 +124,7 @@ var apiResponse = await queryComment.query();
 ```
 
 If you want to retrieve objects where a field contains an object that does not match another query,  you can use the `whereDoesNotMatchQuery` condition.
-Imagine you have post class and a comment class, where each comment has a pointer to its parent post.
+Imagine you have a post class and a comment class, where each comment has a pointer to its parent post.
 You can find comments on posts without images by doing:
 
 ```dart
@@ -163,7 +167,7 @@ QueryBuilder<ParseUser> losingUserQuery =
 var apiResponse = await losingUserQuery.query();
 ```
 
-To filter rows based on `objectId’s` from pointers in a second table, you can use dot notation:
+To filter rows based on `objectId` from pointers in a second table, you can use dot notation:
 
 ```dart
 QueryBuilder<ParseObject> rolesOfTypeX =
@@ -178,6 +182,7 @@ var apiResponse = await groupsWithRoleX.query();
 ```
 
 ## Counting objects
+
 If you only care about the number of games played by a particular player:
 
 ```dart
@@ -226,6 +231,7 @@ QueryBuilder<ParseObject> query =
 ```
 
 ### Create a subscription
+
 You’ll get the LiveQuery events through this subscription.
 The first time you call `subscribe`, we’ll try to open the WebSocket connection to the `LiveQuery` server for you.
 
@@ -234,10 +240,12 @@ Subscription subscription = await liveQuery.client.subscribe(query);
 ```
 
 ### Event Handling
+
 We define several types of events you’ll get through a subscription object:
 
 ### Create event
-When a new `ParseObject` is created and it fulfills the `QueryBuilder` you subscribe, you’ll get this event.
+
+When a new `ParseObject` is created and it fulfills the `QueryBuilder` you subscribe to, you’ll get this event.
 The object is the `ParseObject` which was created.
 
 ```dart
@@ -253,7 +261,8 @@ subscription.on(LiveQueryEvent.create, (value) {
 ```
 
 ### Update event
-When an existing `ParseObject` which fulfills the `QueryBuilder` you subscribe is updated (The `ParseObject` fulfills the `QueryBuilder` before and after changes), you’ll get this event.
+
+When an existing `ParseObject` which fulfills the `QueryBuilder` you subscribe to is updated (The `ParseObject` fulfills the `QueryBuilder` before and after changes), you’ll get this event.
 The object is the `ParseObject` which was updated. Its content is the latest value of the `ParseObject`.
 
 ```dart
@@ -269,6 +278,7 @@ subscription.on(LiveQueryEvent.update, (value) {
 ```
 
 ### Enter event
+
 When an existing `ParseObject’s` old value does not fulfill the `QueryBuilder` but its new value fulfills the `QueryBuilder`, you’ll get this event. The object is the `ParseObject` which enters the `QueryBuilder`.
 Its content is the latest value of the `ParseObject`.
 
@@ -285,6 +295,7 @@ subscription.on(LiveQueryEvent.enter, (value) {
 ```
 
 ### Leave event
+
 When an existing `ParseObject’s` old value fulfills the `QueryBuilder` but its new value doesn’t fulfill the `QueryBuilder`, you’ll get this event. The object is the `ParseObject` which leaves the `QueryBuilder`.
 Its content is the latest value of the `ParseObject`.
 
@@ -301,6 +312,7 @@ subscription.on(LiveQueryEvent.leave, (value) {
 ```
 
 ### Delete event
+
 When an existing `ParseObject` which fulfills the `QueryBuilder` is deleted, you’ll get this event.
 The object is the `ParseObject` which is deleted.
 
@@ -317,6 +329,7 @@ subscription.on(LiveQueryEvent.delete, (value) {
 ```
 
 ### Unsubscribe
+
 If you would like to stop receiving events from a `QueryBuilder`, you can just `unsubscribe` the `subscription`.
 After that, you won’t get any events from the `subscription` object and will close the WebSocket connection to the LiveQuery server.
 
@@ -325,17 +338,20 @@ liveQuery.client.unSubscribe(subscription);
 ```
 
 ### Disconnection
+
 In case the client's connection to the server breaks, `LiveQuery` will automatically try to reconnect.
 `LiveQuery` will wait at increasing intervals between reconnection attempts.
 By default, these intervals are set to `[0, 500, 1000, 2000, 5000, 10000]` for mobile and `[0, 500, 1000, 2000, 5000]` for web.
 You can change these by providing a custom list using the `liveListRetryIntervals` parameter at `Parse.initialize()` (`-1` means `do not try to reconnect`).
 
 ## ParseLiveList
+
 `ParseLiveList` makes implementing a dynamic List as simple as possible.
 
 ### General Use
+
 It ships with the `ParseLiveList` class itself, this class manages all elements of the list, sorts them,
-keeps itself up to date and Notifies you on changes.
+keeps itself up to date and Notifies you of changes.
 
 `ParseLiveListWidget` is a widget that handles all the communication with the `ParseLiveList` for you.
 Using `ParseLiveListWidget` you can create a dynamic List by just providing a `QueryBuilder`.
@@ -395,23 +411,25 @@ ParseLiveListWidget<ParseObject>(
 ```
 
 ### Include Sub-Objects
+
 By default, `ParseLiveQuery` will provide you with all the objects you included in your Query like this:
 
 ```dart
 queryBuilder.includeObject(/* List of all the included sub-objects */);
 ```
 
-`ParseLiveList` will not listen for updates on this objects by default.
+`ParseLiveList` will not listen for updates on these objects by default.
 To activate listening for updates on all included objects, add `listenOnAllSubItems: true` to your `ParseLiveListWidgets` constructor.
 If you want `ParseLiveList` to listen for updates on only some sub-objects, use `listeningIncludes: const <String>[/* all the included sub-objects */]` instead.
 Just as `QueryBuilder`, `ParseLiveList` supports nested sub-objects too.
 
 ### Lazy Loading
+
 By default, `ParseLiveList` lazy loads the content.
 You can avoid that by setting `lazyLoading: false`.
 In case you want to use `lazyLoading` but you need some columns to be preloaded, you can provide a list of `preloadedColumns`.
 Preloading fields of a pointer is supported by using the dot-notation.
-You can access the preloaded data is stored in the `preLoadedData` field of the `ParseLiveListElementSnapshot`.
+You can access the preloaded data stored in the `preLoadedData` field of the `ParseLiveListElementSnapshot`.
 
 ```dart
 ParseLiveListWidget<ParseObject>(
@@ -439,9 +457,10 @@ ParseLiveListWidget<ParseObject>(
 );
 ```
 
-**NOTE:** To use this features you have to enable Live Queries first.
+**NOTE:** To use these features you have to enable Live Queries first.
 
 ## Relation
+
 The SDK supports Relation.
 
 To add relation to object:

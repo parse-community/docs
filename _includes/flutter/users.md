@@ -1,4 +1,5 @@
 # Users
+
 You can create and control users just as normal using this SDK.
 
 To register a user, first create one:
@@ -51,6 +52,7 @@ Other user features are:
 * Queries
 
 ## Facebook, OAuth and 3rd Party Login/User
+
 Usually, each provider will provide their own library for logins, but the `loginWith` method on `ParseUser` accepts a name of provider, then a `Map<String, dynamic>` with the authentication details required.
 For Facebook and the example below, we used the library provided at [flutter_facebook_login](https://pub.dev/packages/flutter_facebook_login)
 
@@ -72,7 +74,7 @@ Future<void> goToFacebookLogin() async {
         }
         break;
       case FacebookLoginStatus.cancelledByUser:
-            // User cancelled
+            // User canceled
         break;
       case FacebookLoginStatus.error:
             // Error

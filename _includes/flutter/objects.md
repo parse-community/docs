@@ -124,6 +124,7 @@ var dietPlan = DietPlan().fromPin('OBJECT ID OF OBJECT');
 ```
 
 ## Increment Counter Values
+
 Retrieve it, call
 
 ```dart
@@ -139,6 +140,7 @@ var response = dietPlan.save()
 ```
 
 ## Array Operator in Objects
+
 Retrieve it, call
 
 ```dart
@@ -159,6 +161,7 @@ var response = dietPlan.save()
 ```
 
 ## Security for Objects - ParseACL
+
 For any object, you can specify which users are allowed to read the object, and which users are allowed to modify an object.
 To support this type of security, each object has an access control list, implemented by the `ParseACL` class.
 
