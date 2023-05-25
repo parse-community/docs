@@ -593,8 +593,6 @@ const parseServer = new ParseServer({
 });
 ```
 
-Multiple rate limits can be defined for
-
 To specify a cloud function specific rate limit of 3 request per hour:
 
 ```js
