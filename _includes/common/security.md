@@ -564,11 +564,14 @@ One very common use case for Cloud Code is sending push notifications to particu
 
 ## Rate Limiting
 
-* Available only on parse-server starting 6.0.0 *
+* Available on Parse Server >=6.0.0 *
 
-It's important to restrict how often a client can call Parse Server, to prevent a malicious client from brute forcing an endpoint.
+It's important to restrict how often a client can call the Parse Server API. This prevents malicious attacks that could:
+- overwhelm server resources by exceeding expected API traffic
+- collect large amounts of data ("data scraping")
+- repeatedly guess passwords, object IDs, installation IDs or other data ("brute force")
 
-Rate limits can be defined by setting the Parse Server Option rateLimit, or by specifying a rateLimit object on a cloud function validator.
+Parse Sever offers a mechanism to enforce rate limits by setting the Parse Server option `rateLimit`, or by specifying a `rateLimit` object on a Cloud Function validator.
 
 The valid options for a rate limit are:
 
@@ -618,6 +621,7 @@ Parse.Cloud.beforeSave('TestObject', () => {}, {
 });
 ```
 
+> ⚠️ Rate limits should be enforced as far away from Parse Server as possible to mitigate possible impacts on resource costs, availability and integrity. While Parse Server offers a rate limiting mechanism as a conveniently available security feature without requiring a deep level of expertise, it is *not considered best practice* to enforce rate limits only after requests already reached the server. For better protection we advice to examine your network architecture an consider enforcing rate limits on the outer edge of the cloud if using a content delivery network, or at least before requests reach the server resource. Consult your cloud service provider for recommended rate limit and firewall solutions for your resources.
 
 ## Parse Security Summary
 
