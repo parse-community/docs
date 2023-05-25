@@ -31,7 +31,7 @@ This method returns an `Future` that either resolves in an error (equivalent to 
 
 Choosing between `query()` and `find()` comes down to personal preference. Both methods can be used for querying a `ParseQuery`, just the output method differs.
 
-Similar to `find()` the `QueryBuilder` also has a function called `Future<T?> first()`. Just like `find()` `first()` is just a convenience method that makes querying the first object satisfying the query simpler. `first()` returns an `Future`, that results in an error or the first object matching the query. In case no object satisfies the query, the result will be `null`.
+Similar to `find()` the `QueryBuilder` also has a function called `Future<T?> first()`. Just like `find()` `first()` is just a convenience method that makes querying the first object satisfying the query simpler. `first()` returns an `Future`, that resolves in an error or the first object matching the query. In case no object satisfies the query, the result will be `null`.
 
 ## Complex Queries
 
