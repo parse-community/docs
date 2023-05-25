@@ -623,6 +623,7 @@ Parse.Cloud.beforeSave('TestObject', () => {}, {
 });
 ```
 
+> ⚠️ Rate limits should be enforced as far away from Parse Server as possible to mitigate possible impacts on resource costs, availability and integrity. While Parse Server offers a rate limiting mechanism as a conveniently available security feature without requiring a deep level of expertise, it is *not considered best practice* to enforce rate limits only after requests already reached the server. For better protection we advice to examine your network architecture an consider enforcing rate limits on the outer edge of the cloud if using a content delivery network, or at least before requests reach the server resource. Consult your cloud service provider for recommended rate limit and firewall solutions for your resources.
 
 ## Parse Security Summary
 
