@@ -1,7 +1,11 @@
 ---
-layout: redirected
-sitemap: false
+title: Flutter API | Parse
 permalink: /flutter/api/
-redirect_to:
-  - https://pub.dev/documentation/parse_server_sdk_flutter/latest/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html
+layout: api
+
 ---
+
+<ul class="docs-platform__links">
+  <li class="docs-platform__links"><a href="{{ site.apis.flutter }}">API Reference Flutter</a></li>
+  <li class="docs-platform__links"><a href="{{ site.apis.dart }}">API Reference Dart</a></li>
+</ul>

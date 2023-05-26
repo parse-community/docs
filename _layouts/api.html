@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<body class="pure p_docs p_docs_index  user_logged_in">
+
+<div class="site__wrapper">
+    <div class="site__content">
+
+        {% include menu.html %}
+        <div class="content__wrapper">
+            {% include header.html %}
+
+            <aside class="hero hero--docs-landing">
+                <div class="grid-container">
+
+                    <div class="col--9">
+                        <div class="hero--docs-landing__content">
+                            <h1 class="h1 h1--white">
+                                <span class="show-mobile">API</span>
+                                <span class="hide-mobile">API Reference</span>
+                            </h1>
+                        </div>
+                    </div>
+
+                </div>
+            </aside><!-- .hero -->
+
+            {{ content }}
+
+        </div><!-- /.content__wrapper -->
+    </div><!-- /.site__content -->
+</div><!-- /.site__wrapper -->
+</body>

@@ -5,7 +5,7 @@ layout: guide
 platform: flutter
 language: dart
 display_platform: Flutter
-api_reference: https://pub.dev/documentation/parse_server_sdk_flutter/latest/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html
+api_reference: /flutter/api
 
 sections:
 - "flutter/getting-started.md"

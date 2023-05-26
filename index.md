@@ -72,7 +72,7 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="flutter/guide/">Guide</a></li>
-              <li class="docs-platform__links"><a href="{{ site.apis.flutter }}">API Reference</a></li>
+              <li class="docs-platform__links"><a href="flutter/api/">API Reference</a></li>
           </ul>
           <footer class="docs-platform__footer">
               <a href="https://github.com/parse-community/Parse-SDK-Flutter/releases/latest" class="btn btn--outline">Latest Downloads</a>
