@@ -9,14 +9,14 @@ api_reference: /flutter/api
 
 sections:
 - "flutter/getting-started.md"
-- "flutter/objects.md"
-- "flutter/queries.md"
-- "flutter/cloud-code.md"
-- "flutter/config.md"
-- "flutter/files.md"
+- "dart/objects.md"
+- "dart/queries.md"
+- "dart/cloud-code.md"
+- "dart/config.md"
+- "dart/files.md"
 - "flutter/push-notifications.md"
-- "flutter/other-features.md"
-- "flutter/storage.md"
-- "flutter/users.md"
+- "dart/other-features.md"
+- "dart/storage.md"
+- "dart/users.md"
 
 ---
