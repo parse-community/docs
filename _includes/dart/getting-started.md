@@ -1,6 +1,6 @@
 # Getting Started
 
-- To install the Parse Flutter SDK add it to your app as a dependency via the [pub.dev](https://pub.dev/packages/parse_server_sdk_flutter/install) registry.
+- To install the Parse Dart SDK add it to your app as a dependency via the [pub.dev](https://pub.dev/packages/parse_server_sdk/install) registry.
 
 Once you have the SDK added as a dependency, initialize the SDK as early as possible in your application (e.g. in your application class) like this:
 
