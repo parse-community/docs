@@ -34,6 +34,9 @@
         &.flutter_docs_header{
           background-color: $flutterPlatform;
         }
+        &.dart_docs_header{
+          background-color: $dartPlatform;
+        }
         &.php_docs_header{
           background-color: $phpPlatform;
         }

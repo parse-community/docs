@@ -20,10 +20,11 @@ support_url: https://community.parseplatform.org
 apis:
   osx: https://parseplatform.org/Parse-SDK-iOS-OSX/api/
   android: https://parseplatform.org/Parse-SDK-Android/api/
-  js: https://parseplatform.org/Parse-SDK-JS/api/master/
+  js: https://parseplatform.org/Parse-SDK-JS/api/
   php: https://parseplatform.org/parse-php-sdk/
   dotnet: https://parseplatform.org/Parse-SDK-dotNET/api/
-  flutter: flutter/api/
+  flutter: https://parseplatform.org/Parse-SDK-Flutter/flutter/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html
+  dart: https://parseplatform.org/Parse-SDK-Flutter/dart/flutter_parse_sdk/flutter_parse_sdk-library.html
   parse-server: https://parseplatform.org/parse-server/api/
 
 # Build settings

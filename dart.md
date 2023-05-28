@@ -1,20 +1,19 @@
 ---
-title: Flutter Guide | Parse
-permalink: /flutter/guide/
+title: Dart Guide | Parse
+permalink: /dart/guide/
 layout: guide
-platform: flutter
+platform: dart
 language: dart
-display_platform: Flutter
-api_reference: /flutter/api
+display_platform: Dart
+api_reference: /dart/api
 
 sections:
-- "flutter/getting-started.md"
+- "dart/getting-started.md"
 - "dart/objects.md"
 - "dart/queries.md"
 - "dart/cloud-code.md"
 - "dart/config.md"
 - "dart/files.md"
-- "flutter/push-notifications.md"
 - "dart/other-features.md"
 - "dart/storage.md"
 - "dart/users.md"
