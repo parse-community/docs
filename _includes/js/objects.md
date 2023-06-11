@@ -144,9 +144,15 @@ gameScore.save()
 
 After this code runs, you will probably be wondering if anything really happened. To make sure the data was saved, you can look at the Data Browser in your app on Parse. You should see something like this:
 
-```json
-objectId: "xWMyZ4YEGZ", score: 1337, playerName: "Sean Plott", cheatMode: false,
-createdAt:"2011-06-10T18:33:42Z", updatedAt:"2011-06-10T18:33:42Z"
+```jsonc
+{
+  "objectId": "xWMyZ4YEGZ",
+  "score": 1337,
+  "playerName": "Sean Plott",
+  "cheatMode": false,
+  "createdAt":"2022-01-01T12:23:45.678Z",
+  "updatedAt":"2022-01-01T12:23:45.678Z"
+}
 ```
 
 There are two things to note here. You didn't have to configure or set up a new Class called `GameScore` before running this code. Your Parse app lazily creates this Class for you when it first encounters it.
@@ -197,6 +203,19 @@ teamMember.set('ownerAccount', ownerAccount);   // Suppose `ownerAccount` has be
 teamMember.save(null, { cascadeSave: false });
 // Will save `teamMember` wihout attempting to save or modify `ownerAccount`
 
+```
+
+### Saving Objects Offline
+
+Most save functions execute immediately, and inform your app when the save is complete. If you don’t need to know when the save has finished, you can use `saveEventually` instead. The advantage is that if the user currently doesn’t have a network connection, `saveEventually` will store the update on the device until a network connection is re-established. If your app is closed before the connection is back, Parse will try again the next time the app is opened. All calls to `saveEventually` (and `destroyEventually`) are executed in the order they are called, so it is safe to call `saveEventually` on an object multiple times. If you have the local datastore enabled, then any object you saveEventually will be pinned as long as that save is in progress. That makes it easy to retrieve your local changes while waiting for the network to be available. `Parse.enableLocalDatastore()` must be called to use this feature.
+
+```javascript
+const TeamMember = Parse.Object.extend("TeamMember");
+const teamMember = new TeamMember();
+
+teamMember.set('ownerAccount', ownerAccount); 
+
+await teamMember.saveEventually();
 ```
 
 ### Cloud Code context

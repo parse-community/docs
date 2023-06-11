@@ -2,7 +2,7 @@
 
 Now that you have set up your GraphQL environment, it is time to run your first query. Execute the following code in your GraphQL Playground to check your API's health:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -16,7 +16,7 @@ query healthy {
   health
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {

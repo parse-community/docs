@@ -36,14 +36,14 @@ You may import data into your Parse app by using CSV or JSON files. To create a 
 
 The JSON format is an array of objects in our REST format or a JSON object with a `results` that contains an array of objects. It must adhere to the [JSON standard](http://json.org/). A file containing regular objects could look like:
 
-```js
+```jsonc
 { "results": [
   {
     "score": 1337,
     "playerName": "Sean Plott",
     "cheatMode": false,
-    "createdAt": "2012-07-11T20:56:12.347Z",
-    "updatedAt": "2012-07-11T20:56:12.347Z",
+    "createdAt": "2022-01-01T12:23:45.678Z",
+    "updatedAt": "2022-01-01T12:23:45.678Z",
     "objectId": "fchpZwSuGG"
   }]
 }
@@ -63,7 +63,7 @@ In addition to the exposed fields, objects in the Parse User class can also have
 
 A file containing a `User` object could look like:
 
-```js
+```jsonc
 { "results":
   [{
     "username": "cooldude",

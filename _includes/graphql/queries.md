@@ -6,7 +6,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScore`, and you should be able to run the code below in your GraphQL Playground:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -31,7 +31,7 @@ query getAGameScore {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -55,7 +55,7 @@ query getAGameScore {
 
 With the Relay specification you also have the choice to use [GraphQL Fragments](https://graphql.org/learn/queries/#fragments) through the `node` GraphQL Query. For a `GameScore` object the following query will do the job.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -77,7 +77,7 @@ query getGameScoreWithNodeRelay {
 }
 ```
 
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -94,7 +94,7 @@ query getGameScoreWithNodeRelay {
 
 Here using `Node Relay` is useful for writing generic requests for your front end components. For example, assuming we already have a `User` with a `Relay Node Id: X1VzZXI6Q1lMeWJYMjFjcw==` and `username: "johndoe"`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -119,7 +119,7 @@ query genericGet {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -138,7 +138,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new query called `gameScores`, and you should be able to run the code below in your GraphQL Playground:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -168,7 +168,7 @@ query getSomeGameScores{
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -218,7 +218,7 @@ query getSomeGameScores{
 
 You can use the `where` argument to add constraints to a class find query. See the example below:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -244,7 +244,7 @@ query getSomeGameScores {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -271,7 +271,7 @@ Visit your GraphQL Playground if you want to know all the available constraints.
 
 You can use the `order` argument to select in which order the results are returned in a class find query. See the example below:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -300,7 +300,7 @@ query getSomeGameScores {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -346,7 +346,7 @@ You can combine multiple parameters like: `before & last` or `after & first`, as
 
 Note: `cursor` is different to `id`, it is a temporary pagination ID for the query.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -376,7 +376,7 @@ query getSomeGameScores {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -410,7 +410,7 @@ query getSomeGameScores {
 
 The GraphQL API supports nested queries, so you can find object and then execute query on relational child fields. Assuming that we have classes `Country`, `City`, `Company`:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -440,7 +440,7 @@ query aNestedQuery {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -479,7 +479,7 @@ Let's build a query matching countries that contain at least one city with more 
 
 The GraphQL API can handle this type of complex relational query with ease.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -524,7 +524,7 @@ The GraphQL API can handle this type of complex relational query with ease.
                         ... too many brackets here
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -562,7 +562,7 @@ Assuming that we have a `Country` class, `City` class, `Street` class, `House` c
 
 Let's build a query matching houses where the street has a city that has a country with a name equal to `France`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -607,7 +607,7 @@ Let's build a query matching houses where the street has a city that has a count
 }
 
 ```
-```js
+```jsonc
 // Response
 {
   "data": {

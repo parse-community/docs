@@ -6,7 +6,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `createGameScore`, and you should be able to run the code below in your GraphQL Playground:
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -20,11 +20,7 @@ mutation createAGameScore {
   createGameScore(
     input: {
       clientMutationId: "anUniqueId"
-      fields: {
-        playerName: "Sean Plott",
-        score: 1337,
-        cheatMode: false
-      }
+      fields: { playerName: "Sean Plott", score: 1337, cheatMode: false }
     }
   ) {
     clientMutationId
@@ -45,7 +41,7 @@ mutation createAGameScore {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -53,8 +49,8 @@ mutation createAGameScore {
       "clientMutationId": "anUniqueId",
       "gameScore": {
         "id": "R2FtZVNjb3JlOjZtdGlNcmtXNnY=",
-        "updatedAt": "2019-12-02T10:14:28.786Z",
-        "createdAt": "2019-12-02T10:14:28.786Z",
+        "updatedAt": "2022-01-01T12:23:45.678Z",
+        "createdAt": "2022-01-01T12:23:45.678Z",
         "playerName": "Sean Plott",
         "score": 1337,
         "cheatMode": false,
@@ -78,13 +74,14 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `updateGameScore`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
   "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
+
 ```graphql
 # GraphQL
 mutation updateAGameScore {
@@ -101,7 +98,7 @@ mutation updateAGameScore {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -114,7 +111,52 @@ mutation updateAGameScore {
   }
 }
 ```
+
 **Note:** If you use [Apollo Client](https://www.apollographql.com/docs/react/) it's recommended to request the modified fields and `id` during the Mutation, then the [Apollo Client](https://www.apollographql.com/docs/react/) will automatically update its local store and push the new data across your app; i.e. If you update `playerName` you should request `playerName` and `id` like the code above.
+
+### Unset a field
+
+Across the whole GraphQL API you can simply unset a field by setting its value to `null`.
+
+Following the official GraphQL API Specs, setting a field to `null` through the GraphQL API will completly unset the field in the database on the targeted Parse Object. GraphQL API will transform `null` on the server before saving the object to correctly unset the field into the database.
+
+```js
+// Header
+{
+  "X-Parse-Application-Id": "APPLICATION_ID",
+  "X-Parse-Master-Key": "MASTER_KEY" // (optional)
+}
+```
+
+```graphql
+# GraphQL
+mutation updateAGameScore {
+  updateGameScore(
+    input: { id: "R2FtZVNjb3JlOmM3TVpDZEhQY2w=", fields: { playerName: null } }
+  ) {
+    gameScore {
+      id
+      playerName
+    }
+  }
+}
+```
+
+```js
+// Response
+{
+  "data": {
+    "updateGameScore": {
+      "gameScore": {
+        "id": "R2FtZVNjb3JlOmM3TVpDZEhQY2w=",
+        "playerName": null
+      }
+    }
+  }
+}
+```
+
+The GraphQL API will always return `null` if the field is `null` or `undefined` in the database. The GraphQL API does not differentiate between `null` and `undefined` in the data response.
 
 ## Delete
 
@@ -122,7 +164,7 @@ For each class in your application's schema, Parse Server automatically generate
 
 For example, if you have a class named `GameScore` in the schema, Parse Server automatically generates a new mutation called `deleteGameScore`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
@@ -143,7 +185,7 @@ mutation deleteAGameScore {
 
 The code above should resolve to something similar to this:
 
-```js
+```jsonc
 // Response
 {
   "data": {
@@ -163,13 +205,14 @@ The code above should resolve to something similar to this:
 
 The GraphQL API supports nested mutations, so you can create objects with complex relationships in one request. Assuming that we have classes `Country`, `City` and `Company`.
 
-```js
+```jsonc
 // Header
 {
   "X-Parse-Application-Id": "APPLICATION_ID",
   "X-Parse-Master-Key": "MASTER_KEY" // (optional)
 }
 ```
+
 ```graphql
 mutation aNestedMutation {
   createCountry(
@@ -177,13 +220,9 @@ mutation aNestedMutation {
       fields: {
         name: "Mars"
         cities: {
-          createAndAdd: [{ name: "Alpha",
-            companies: {
-              createAndAdd: [{
-                name: "Motors"
-              }]
-            }
-          }]
+          createAndAdd: [
+            { name: "Alpha", companies: { createAndAdd: [{ name: "Motors" }] } }
+          ]
         }
       }
     }
@@ -208,7 +247,7 @@ mutation aNestedMutation {
   }
 }
 ```
-```js
+```jsonc
 // Response
 {
   "data": {

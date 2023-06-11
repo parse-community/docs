@@ -46,7 +46,7 @@ if($health['status'] === 200) {
 
 If you wanted to analyze it further the health response may look something like this.
 
-```json
+```jsonc
 {
     "status"    : 200,
     "response"  : {
@@ -62,7 +62,7 @@ Note that it is _not_ guaranteed that 'response' will be a parsable json array. 
 
 A couple examples of bad health responses could include an incorrect mount path, port or domain.
 
-```json
+```jsonc
 // ParseClient::setServerURL('http://localhost:1337', 'not-good');
 {
     "status": 404,

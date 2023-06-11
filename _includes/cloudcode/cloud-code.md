@@ -2,7 +2,7 @@
 
 Let's look at a slightly more complex example where Cloud Code is useful. One reason to do computation in the cloud is so that you don't have to send a huge list of objects down to a device if you only want a little bit of information. For example, let's say you're writing an app that lets people review movies. A single `Review` object could look like:
 
-```json
+```jsonc
 {
   "movie": "The Matrix",
   "stars": 5,
@@ -112,13 +112,13 @@ In general, two arguments will be passed into cloud functions:
 
 If the function is successful, the response in the client looks like:
 
-```json
+```jsonc
 { "result": 4.8 }
 ```
 
 If there is an error, the response in the client looks like:
 
-```json
+```jsonc
 {
   "code": 141,
   "error": "movie lookup failed"
@@ -216,6 +216,8 @@ The full range of built-in Validation Options are:
 - `requireUser`: whether the function requires a `request.user` to run.
 - `validateMasterKey`: whether the validator should run on `masterKey` (defaults to false).
 - `fields`: an `Array` or `Object` of fields that are required on the request.
+- `requireAnyUserRoles`: an `Array` or `function` that returns an array. `request.user` must match one of the specified roles.
+- `requireAllUserRoles`: an `Array` or `function` that returns an array. `request.user` must match all of the specified roles.
 - `requireUserKeys`: an `Array` of fields to be validated on `request.user`.
 
 The full range of built-in Validation Options on `.fields` are:
@@ -798,7 +800,7 @@ Parse.Cloud.afterLiveQueryEvent('MyObject', (request) => {
 });
 ```
 
-By default, ParseLiveQuery does not perform queries that require additional database operations. This is to keep your Parse Server as fast and effient as possible. If you require this functionality, you can perform these in `afterLiveQueryEvent`.  
+By default, ParseLiveQuery does not perform queries that require additional database operations. This is to keep your Parse Server as fast and efficient as possible. If you require this functionality, you can perform these in `afterLiveQueryEvent`.  
 
 ```javascript
 // Including an object on LiveQuery event, on update only.

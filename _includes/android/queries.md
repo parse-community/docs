@@ -230,7 +230,7 @@ You can use `whereFullText` for efficient search capabilities. Text indexes are 
 ```java
 // Finds barbecue sauces that start with 'Big Daddy's'.
 ParseQuery<ParseObject> query = ParseQuery.getQuery("BarbecueSauce");
-query.whereFullText("name", "Big Daddy's");
+query.whereFullText("name", "bbq");
 ```
 
 The above example will match any `BarbecueSauce` objects where the value in the "name" String key contains "bbq". For example, both "Big Daddy's BBQ", "Big Daddy's bbq" and "Big BBQ Daddy" will match.

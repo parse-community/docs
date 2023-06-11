@@ -2,7 +2,6 @@
 title: Docs | Parse
 permalink: index.html
 layout: docs
-
 ---
 
 <div class="container padding-top-40 padding-bottom-50" data-nav-waypoint>
@@ -63,6 +62,34 @@ layout: docs
           </ul>
           <footer class="docs-platform__footer">
               <a href="https://github.com/parse-community/Parse-SDK-Android/releases/latest" class="btn btn--outline">Latest Downloads</a>
+          </footer>
+      </div>
+
+      <div class="docs-platform">
+          <header class="docs-platform__header">
+              <span class="docs-platform__name">Flutter</span>
+              <svg class="icon icon-flutter"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#flutter"></use></svg>
+          </header>
+          <ul class="docs-platform__links">
+              <li class="docs-platform__links"><a href="flutter/guide/">Guide</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.flutter }}">API Reference</a></li>
+          </ul>
+          <footer class="docs-platform__footer">
+              <a href="https://github.com/parse-community/Parse-SDK-Flutter/releases/latest" class="btn btn--outline">Latest Downloads</a>
+          </footer>
+      </div>
+
+      <div class="docs-platform">
+          <header class="docs-platform__header">
+              <span class="docs-platform__name">Dart</span>
+              <svg class="icon icon-dart"><use xlink:href="{{ site.baseurl }}/assets/symbols.svg#dart"></use></svg>
+          </header>
+          <ul class="docs-platform__links">
+              <li class="docs-platform__links"><a href="dart/guide/">Guide</a></li>
+              <li class="docs-platform__links"><a href="{{ site.apis.dart }}">API Reference</a></li>
+          </ul>
+          <footer class="docs-platform__footer">
+              <a href="https://github.com/parse-community/Parse-SDK-Flutter/releases/latest" class="btn btn--outline">Latest Downloads</a>
           </footer>
       </div>
 
@@ -171,7 +198,7 @@ layout: docs
           </header>
           <ul class="docs-platform__links">
               <li class="docs-platform__links"><a href="cloudcode/guide/">Guide</a></li>
-              <li class="docs-platform__links"><div>&nbsp;</div></li>
+              <li class="docs-platform__links"><a href="defined-schema/guide/">Defined Schema</a></li>
           </ul>
           <footer class="docs-platform__footer">
           </footer>

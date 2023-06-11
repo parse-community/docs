@@ -180,6 +180,16 @@
         width: 24px;
         height: 24px;
     }
+    svg.icon-flutter{
+        fill: $flutterPlatform;
+        width: 23px;
+        height: 24px;
+    }
+    svg.icon-dart{
+        fill: $dartPlatform;
+        width: 23px;
+        height: 24px;
+    }
     svg.icon-js{
         fill: $jsPlatform;
         width: 33px;
