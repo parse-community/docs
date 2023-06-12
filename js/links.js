@@ -1,99 +1,106 @@
 const links = {
-  "parse-server": {
-    image: "https://parseplatform.org/img/cloudcode.svg",
+  'parse-server': {
+    image: 'https://parseplatform.org/img/cloudcode.svg',
   },
-  "Parse-SDK-iOS-OSX": {
-    name: "Objective-C",
-    image: "https://parseplatform.org/img/ios.svg",
+  'Parse-SDK-iOS-OSX': {
+    name: 'Objective-C',
+    image: 'https://parseplatform.org/img/ios.svg',
     guides: [
       {
-        name: "iOS Guide",
-        link: "https://docs.parseplatform.org/ios/guide/",
+        name: 'iOS Guide',
+        link: 'https://docs.parseplatform.org/ios/guide/',
       },
       {
-        name: "macOS Guide",
-        link: "https://docs.parseplatform.org/macos/guide/",
+        name: 'macOS Guide',
+        link: 'https://docs.parseplatform.org/macos/guide/',
       },
     ],
-    modules: [{ name: "Live Query", link: "https://github.com/parse-community/ParseLiveQuery-iOS-OSX" }],
-  },
-  "Parse-SDK-Android": {
-    image: "https://parseplatform.org/img/android.svg",
-    name: "Android",
-    guide: "https://docs.parseplatform.org/android/guide/",
     modules: [
-      { name: "Parse UI", link: "https://github.com/parse-community/ParseUI-Android" },
-      { name: "Live Query", link: "https://github.com/parse-community/ParseLiveQuery-Android" },
+      { name: 'Live Query', link: 'https://github.com/parse-community/ParseLiveQuery-iOS-OSX' },
     ],
   },
-  "Parse-SDK-JS": {
-    image: "https://parseplatform.org/img/javascript.svg",
-    guide: "https://docs.parseplatform.org/js/guide/",
-    name: "JavaScript",
+  'Parse-SDK-Android': {
+    image: 'https://parseplatform.org/img/android.svg',
+    name: 'Android',
+    guide: 'https://docs.parseplatform.org/android/guide/',
+    modules: [
+      { name: 'Parse UI', link: 'https://github.com/parse-community/ParseUI-Android' },
+      { name: 'Live Query', link: 'https://github.com/parse-community/ParseLiveQuery-Android' },
+    ],
   },
-  "Parse-Swift": {
-    image: "https://parseplatform.org/img/swiftColour.svg",
-    guide: "https://github.com/parse-community/Parse-Swift#usage-guide",
-    name: "Swift",
+  'Parse-SDK-JS': {
+    image: 'https://parseplatform.org/img/javascript.svg',
+    guide: 'https://docs.parseplatform.org/js/guide/',
+    name: 'JavaScript',
   },
-  "Parse-SDK-Flutter": [
+  'Parse-Swift': {
+    image: 'https://parseplatform.org/img/swiftColour.svg',
+    guide: 'https://github.com/parse-community/Parse-Swift#usage-guide',
+    name: 'Swift',
+  },
+  'Parse-SDK-Flutter': [
     {
-      image: "https://parseplatform.org/img/flutter.svg",
-      guide: "https://docs.parseplatform.org/flutter/guide/",
-      api: "https://parseplatform.org/Parse-SDK-Flutter/flutter/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html",
-      name: "Flutter",
+      image: 'https://parseplatform.org/img/flutter.svg',
+      guide: 'https://docs.parseplatform.org/flutter/guide/',
+      api:
+        'https://parseplatform.org/Parse-SDK-Flutter/flutter/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html',
+      name: 'Flutter',
     },
     {
-      image: "https://parseplatform.org/img/dart.svg",
-      guide: "https://docs.parseplatform.org/dart/guide/",
-      api: "https://parseplatform.org/Parse-SDK-Flutter/flutter/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html",
-      name: "Dart",
-    },
-  ],
-  "parse-php-sdk": {
-    image: "https://parseplatform.org/img/php.svg",
-    guide: "https://docs.parseplatform.org/php/guide/",
-    api: "https://parseplatform.org/parse-php-sdk/",
-    name: "PHP",
-  },
-  "Parse-SDK-dotNET": [
-    {
-      image: "https://parseplatform.org/img/net.svg",
-      guide: "https://docs.parseplatform.org/dotnet/guide/",
-      name: ".NET + Xaramin",
-    },
-    {
-      image: "https://parseplatform.org/img/unity.svg",
-      guide: "https://docs.parseplatform.org/unity/guide/",
-      name: "Unity",
+      image: 'https://parseplatform.org/img/dart.svg',
+      guide: 'https://docs.parseplatform.org/dart/guide/',
+      api:
+        'https://parseplatform.org/Parse-SDK-Flutter/flutter/flutter_parse_sdk_flutter/flutter_parse_sdk_flutter-library.html',
+      name: 'Dart',
     },
   ],
-  "Parse-SDK-Arduino": {
-    image: "https://parseplatform.org/img/arduino.svg",
-    guide: "https://docs.parseplatform.org/arduino/guide/",
-    name: "Arduino",
+  'parse-php-sdk': {
+    image: 'https://parseplatform.org/img/php.svg',
+    guide: 'https://docs.parseplatform.org/php/guide/',
+    api: 'https://parseplatform.org/parse-php-sdk/',
+    name: 'PHP',
   },
-  "parse-embedded-sdks": {
-    image: "https://parseplatform.org/img/c.svg",
-    guide: "https://docs.parseplatform.org/embedded_c/guide/",
-    name: "Embedded C",
+  'Parse-SDK-dotNET': [
+    {
+      image: 'https://parseplatform.org/img/net.svg',
+      guide: 'https://docs.parseplatform.org/dotnet/guide/',
+      name: '.NET + Xaramin',
+    },
+    {
+      image: 'https://parseplatform.org/img/unity.svg',
+      guide: 'https://docs.parseplatform.org/unity/guide/',
+      name: 'Unity',
+    },
+  ],
+  'Parse-SDK-Arduino': {
+    image: 'https://parseplatform.org/img/arduino.svg',
+    guide: 'https://docs.parseplatform.org/arduino/guide/',
+    name: 'Arduino',
+  },
+  'parse-embedded-sdks': {
+    image: 'https://parseplatform.org/img/c.svg',
+    guide: 'https://docs.parseplatform.org/embedded_c/guide/',
+    name: 'Embedded C',
   },
 };
 const additionalMeta = [
   {
-    name: "Cloud Code",
-    image: "https://parseplatform.org/img/cloudcode.svg",
-    guide: "https://docs.parseplatform.org/cloudcode/guide/",
+    name: 'Cloud Code',
+    image: 'https://parseplatform.org/img/cloudcode.svg',
+    guide: 'https://docs.parseplatform.org/cloudcode/guide/',
+    other: [
+      { title: 'Defined Schemas', link: 'https://docs.parseplatform.org/defined-schema/guide/' },
+    ],
   },
   {
-    name: "REST API",
-    image: "https://parseplatform.org/img/rest.svg",
-    guide: "https://docs.parseplatform.org/rest/guide/",
+    name: 'REST API',
+    image: 'https://parseplatform.org/img/rest.svg',
+    guide: 'https://docs.parseplatform.org/rest/guide/',
   },
   {
-    name: "GraphQL API",
-    image: "https://parseplatform.org/img/graphql.svg",
-    guide: "https://docs.parseplatform.org/graphql/guide/",
+    name: 'GraphQL API',
+    image: 'https://parseplatform.org/img/graphql.svg',
+    guide: 'https://docs.parseplatform.org/graphql/guide/',
   },
 ];
 
@@ -113,19 +120,23 @@ jQuery(function ($) {
     }
     for (const metaData of Array.isArray(meta) ? meta : [meta]) {
       const formattedTitle = title
-        .split("-")
-        .map((string) => string.charAt(0).toUpperCase() + string.slice(1))
-        .join(" ");
+        .split('-')
+        .map(string => string.charAt(0).toUpperCase() + string.slice(1))
+        .join(' ');
       const guideLink = metaData.guides
         ? `
       <div class="repoLink expandableRepoLink">
         <p>Guides</p>
         <ul>
-          ${metaData.guides.map((row) => `<a href="${row.link}" target="_blank"><li>${row.name}</li></a>`).join("")}
+          ${metaData.guides
+    .map(row => `<a href="${row.link}" target="_blank"><li>${row.name}</li></a>`)
+    .join('')}
         </ul>
       </div>`
         : `
-      <a href="${metaData?.guide || `https://docs.parseplatform.org/${title}/guide/`}" target="_blank">
+      <a href="${
+  metaData?.guide || `https://docs.parseplatform.org/${title}/guide/`
+}" target="_blank">
         <div class="repoLink">
           <p>Guide</p>
         </div>
@@ -135,7 +146,9 @@ jQuery(function ($) {
       <div class="repoLink expandableRepoLink">
         <p>Modules</p>
         <ul>
-          ${metaData.modules.map((row) => `<a href="${row.link}" target="_blank"><li>${row.name}</li></a>`).join("")}
+          ${metaData.modules
+    .map(row => `<a href="${row.link}" target="_blank"><li>${row.name}</li></a>`)
+    .join('')}
         </ul>
       </div>`
         : ``;
@@ -173,11 +186,20 @@ jQuery(function ($) {
           </a>
       </div>
   </div>`;
-      $(".repoRow").append(text);
+      $('.repoRow').append(text);
     }
   }
 
   for (const row of additionalMeta) {
+    const additonal = (row.other || [])
+      .map(
+        other => `<a href="${other.link}" target="_blank">
+    <div class="repoLink">
+      <p>${other.title}</p>
+    </div>
+    </a>`
+      )
+      .join('');
     const text = `
   <div class="repo">
     <div class="repoTitle">
@@ -189,13 +211,16 @@ jQuery(function ($) {
           <p>Guide</p>
         </div>
     </a>
-</div>`;
-    $(".repoRow").append(text);
+    ${additonal}
+    <div class="repoButton">
+    </div>
+  </div>`;
+    $('.repoRow').append(text);
   }
 
-  $(".expandableRepoLink").on("click", function () {
+  $('.expandableRepoLink').on('click', function () {
     const clicked = $(this);
-    $(".expandableRepoLink").not(clicked).removeClass("expanded");
-    clicked.toggleClass("expanded");
+    $('.expandableRepoLink').not(clicked).removeClass('expanded');
+    clicked.toggleClass('expanded');
   });
 });
