@@ -104,10 +104,11 @@ $svg-plus: "{{ '/assets/svgs/plus.svg' | prepend: site.baseurl }}";
   .repo:nth-of-type(3n) {
     margin-right: 0px; }
   .repo h4 {
+    margin: 10px 0px;
     color: #66637A;
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 28px;
+    font-size: 20px;;
   }
   .repo .SDKLogo {
     height: 30px;
