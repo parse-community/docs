@@ -104,12 +104,13 @@ const additionalMeta = [
   },
 ];
 
-jQuery(function ($) {
+document.addEventListener("DOMContentLoaded", () => {
   if (!gitJson) {
     return;
   }
   gitJson = gitJson.sort((a, b) => b.stargazers_count - a.stargazers_count);
   const formatNumber = new Intl.NumberFormat().format;
+  const repoRow = document.querySelector('.repoRow');
   for (const git of gitJson) {
     const title = git.name;
     const stars = parseInt(git.stargazers_count);
@@ -186,7 +187,7 @@ jQuery(function ($) {
           </a>
       </div>
   </div>`;
-      $('.repoRow').append(text);
+      repoRow.insertAdjacentHTML('beforeend', text);
     }
   }
 
@@ -215,12 +216,10 @@ jQuery(function ($) {
     <div class="repoButton">
     </div>
   </div>`;
-    $('.repoRow').append(text);
+    repoRow.insertAdjacentHTML('beforeend', text);
   }
-
-  $('.expandableRepoLink').on('click', function () {
-    const clicked = $(this);
-    $('.expandableRepoLink').not(clicked).removeClass('expanded');
-    clicked.toggleClass('expanded');
-  });
+  const expandButtons = document.querySelectorAll('.expandableRepoLink')
+  for (const button of expandButtons) {
+    button.addEventListener('click', () => button.classList.toggle('expanded'));
+  }
 });
