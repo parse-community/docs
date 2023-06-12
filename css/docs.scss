@@ -75,6 +75,7 @@ $svg-plus: "{{ '/assets/svgs/plus.svg' | prepend: site.baseurl }}";
   gap: 40px;
   justify-content: center;
   flex-wrap: wrap;
+  align-items: start;
 }
 
 .repo, .repoList {

@@ -97,7 +97,7 @@ const additionalMeta = [
   },
 ];
 
-$(document).ready(function () {
+jQuery(function ($) {
   if (!gitJson) {
     return;
   }
@@ -108,36 +108,38 @@ $(document).ready(function () {
     const stars = parseInt(git.stargazers_count);
     const forks = parseInt(git.forks_count);
     const meta = links[title];
-    if (meta) {
-      for (const metaData of Array.isArray(meta) ? meta : [meta]) {
-        const formattedTitle = title
-          .split("-")
-          .map((string) => string.charAt(0).toUpperCase() + string.slice(1))
-          .join(" ");
-        const guideLink = metaData.guides
-          ? `
+    if (!meta) {
+      continue;
+    }
+    for (const metaData of Array.isArray(meta) ? meta : [meta]) {
+      const formattedTitle = title
+        .split("-")
+        .map((string) => string.charAt(0).toUpperCase() + string.slice(1))
+        .join(" ");
+      const guideLink = metaData.guides
+        ? `
       <div class="repoLink expandableRepoLink">
         <p>Guides</p>
         <ul>
           ${metaData.guides.map((row) => `<a href="${row.link}" target="_blank"><li>${row.name}</li></a>`).join("")}
         </ul>
       </div>`
-          : `
+        : `
       <a href="${metaData?.guide || `https://docs.parseplatform.org/${title}/guide/`}" target="_blank">
         <div class="repoLink">
           <p>Guide</p>
         </div>
       </a>`;
-        const modules = metaData.modules
-          ? `
+      const modules = metaData.modules
+        ? `
       <div class="repoLink expandableRepoLink">
         <p>Modules</p>
         <ul>
           ${metaData.modules.map((row) => `<a href="${row.link}" target="_blank"><li>${row.name}</li></a>`).join("")}
         </ul>
       </div>`
-          : ``;
-        const text = `
+        : ``;
+      const text = `
     <div class="repo">
       <div class="repoTitle">
           <img src="${metaData.image}" alt="" class="SDKLogo">
@@ -171,8 +173,7 @@ $(document).ready(function () {
           </a>
       </div>
   </div>`;
-        $(".repoRow").append(text);
-      }
+      $(".repoRow").append(text);
     }
   }
 
@@ -192,9 +193,9 @@ $(document).ready(function () {
     $(".repoRow").append(text);
   }
 
-  $(".expandableRepoLink").on("click", function(){
-		const clicked = $(this);
-		$(".expandableRepoLink").not(clicked).removeClass("expanded");
-		clicked.toggleClass("expanded");
-	});
+  $(".expandableRepoLink").on("click", function () {
+    const clicked = $(this);
+    $(".expandableRepoLink").not(clicked).removeClass("expanded");
+    clicked.toggleClass("expanded");
+  });
 });
