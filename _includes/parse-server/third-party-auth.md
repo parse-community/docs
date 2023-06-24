@@ -61,6 +61,7 @@ Note, most of them don't require a server configuration so you can use them dire
 ```
 
 The options passed to Parse Server:
+
 ```js
 {
   auth: {
@@ -88,6 +89,7 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
 ```
 
 The options passed to Parse Server:
+
 ```js
 {
   auth: {
@@ -202,7 +204,7 @@ The options passed to Parse Server:
 {
   auth: {
     keycloak: {
-      config: require(`./auth/keycloak.json`) // Required
+      config: require(`./auth/keycloak.json`); // Required
     }
   }
 }
@@ -305,7 +307,7 @@ As of Parse Server 3.7.0 you can use [PhantAuth](https://www.phantauth.net/).
 {
   "phantauth": {
     "id": "user's PhantAuth sub (string)",
-    "access_token": "an authorized PhantAuth access token for the user",
+    "access_token": "an authorized PhantAuth access token for the user"
   }
 }
 ```
@@ -401,7 +403,172 @@ On this module, you need to implement and export those two functions `validateAu
 
 For more information about custom auth please see the examples:
 
-- [Facebook OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/facebook.js)
-- [Twitter OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/twitter.js)
-- [Instagram OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/instagram.js)
-- [Microsoft Graph OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/microsoft.js)
+* [Facebook OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/facebook.js)
+* [Twitter OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/twitter.js)
+* [Instagram OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/instagram.js)
+* [Microsoft Graph OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/microsoft.js)
+
+## Multi-factor authentication
+
+### Time-based One-Time passwords (TOTP)
+
+Time-based one-time passwords are considered best practise for multi-factor authentication, as SMS OTPs can be intercepted via [SS7](https://www.theguardian.com/technology/2016/apr/19/ss7-hack-explained-mobile-phone-vulnerability-snooping-texts-calls) or [sim swap](https://us.norton.com/blog/mobile/sim-swap-fraud) attacks. TOTP authentication can be configured using:
+
+```js
+{
+  auth: {
+    mfa: {
+      enabled: true,
+      options: ['TOTP'],
+      algorithm: 'SHA1',
+      digits: 6,
+      period: 30,
+    },
+  },
+}
+```
+
+To enable MFA for a user, the [OTPAuth](https://github.com/hectorm/otpauth) package can be used.
+
+First, create an TOTP object:
+
+```js
+const secret = new OTPAuth.Secret();
+const totp = new OTPAuth.TOTP({
+  algorithm: "SHA1",
+  digits: 6,
+  period: 30,
+  secret,
+});
+```
+
+Next, ask the user to add the TOTP code to their authenticator app:
+
+```js
+const uri = totp.toString();
+```
+
+This URI can also be scanned as a QR code, using the [QRCode](https://www.npmjs.com/package/qrcode) package.
+
+```js
+QRCode.toCanvas(document.getElementById("canvas"), uri);
+```
+
+Now, to confirm the user has correctly added the TOTP to their authenticator app, ask them to provide a valid code.
+
+```js
+const token = ""; // user inputted code
+await user.save({
+  authData: {
+    mfa: {
+      secret: secret.base32, // secret is from the TOTP object above
+      token, // token is generated from the users authenticator app
+    },
+  },
+});
+```
+
+Now, MFA will be enabled for the user. You can access recovery keys by:
+
+```js
+const recovery = user.get("authDataResponse");
+```
+
+It's also recommended to clear the authData from the client side:
+
+```js
+await user.fetch();
+```
+
+Now, when this user logs in, the will need to provide a valid MFA code:
+
+```js
+const login = async () => {
+  try {
+    await Parse.User.logIn(username, password);
+  } catch (e) {
+    if (e.message === 'Missing additional authData mfa') {
+      // show code input dialog here
+    }
+  }
+}
+const loginWithTOTP = async () => {
+  try {
+    await Parse.User.logInWithAdditionalAuth(username, password, {
+      mfa: // mfa code here
+    });
+  } catch (e) {
+    // display error
+  }
+}
+```
+
+### SMS One-Time passwords
+
+It is recommended to use TOTP MFA over SMS OTPs as SMS OTPs can be intercepted via [SS7](https://www.theguardian.com/technology/2016/apr/19/ss7-hack-explained-mobile-phone-vulnerability-snooping-texts-calls) or [sim swap](https://us.norton.com/blog/mobile/sim-swap-fraud) attacks.
+
+```js
+{
+  auth: {
+    mfa: {
+      enabled: true,
+      options: ['SMS'],
+      sendSMS(otp, mobileNumber) {
+        // Use an SMS service to send the SMS OTP
+      },
+      digits: 6,
+      period: 30,
+    },
+  },
+}
+```
+
+To enable SMS MFA for a user, first set the users' mobile number.
+
+```js
+await user.save({ authData: { mfa: { mobile: "+11111111111" } } });
+```
+
+Next, ask the user to confirm the SMS code they just received
+
+```js
+await user.save({ authData: { mfa: { mobile: "+11111111111", token: code } } });
+```
+
+Now, SMS MFA will be enabled for the user. You can access recovery keys by accessing:
+
+```js
+const recovery = user.get("authDataResponse");
+```
+
+It's also recommended to clear the authData from the client side:
+
+```js
+await user.fetch();
+```
+
+Now, when this user logs in, the will need to provide a valid MFA code:
+
+```js
+const login = async () => {
+  try {
+    await Parse.User.logIn(username, password);
+  } catch (e) {
+    if (e.message === 'Missing additional authData mfa') {
+      // show code input dialog here
+      await Parse.User.logInWithAdditionalAuth(username, password, {
+        mfa: true // this triggers an SMS to be sent
+      });
+    }
+  }
+}
+const loginWithTOTP = async () => {
+  try {
+    await Parse.User.logInWithAdditionalAuth(username, password, {
+      mfa: // mfa code here
+    });
+  } catch (e) {
+    // display error
+  }
+}
+```
