@@ -12,7 +12,7 @@ Protect all Parse Server endpoints using a Firewall to mitigate the risk of mali
 
 ### Security-First Mindset
 
-When developing Parse Server, assume that any cloud function or custom trigger is going to be abused by a malicous client. It's best to assume that the client code cannot be trusted. Even if you have written the client code, it's very simple for an attacker to replicate a request to your Parse Server and modify arguments.
+When developing for Parse Server, consider any Cloud Function or Cloud Trigger as a potential target for a malicious attack. In general, it's best to always assume that the sender of a request cannot be trusted. Even if you have control over the client's code when shipping it, it's simple for an attacker to replicate a request to Parse Server and modify arguments, or reverse-engineer a client app and extract hard coded keys to send requests with unexpected arguments.
 
 The following cloud code is **not recommended** and is an example of poor security practise:
 
