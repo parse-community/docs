@@ -46,7 +46,7 @@ while (true) {
 }
 ```
 
-Regardless of how secure your Parse Server is with ACLs and CLPs, a few lines of insecure cloud functions can undo it.
+Regardless of how secure your Parse Server is with ACLs and CLPs, a few lines of insecure Cloud Functions can undo it.
 
 A secure solution would be to ensure that users can only update their email, such as:
 
