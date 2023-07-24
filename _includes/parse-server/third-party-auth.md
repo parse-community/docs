@@ -474,7 +474,7 @@ Now, MFA will be enabled for the user. You can access recovery keys by:
 const recovery = user.get("authDataResponse");
 ```
 
-It's also recommended to clear the authData from the client side:
+It's also recommended to clear the authData from the client side, so that the recovery keys cannot be accessed by inspecing the console:
 
 ```js
 await user.fetch();
@@ -505,7 +505,7 @@ const loginWithTOTP = async () => {
 
 ### SMS One-Time passwords
 
-It is recommended to use TOTP MFA over SMS OTPs as SMS OTPs can be intercepted via [SS7](https://www.theguardian.com/technology/2016/apr/19/ss7-hack-explained-mobile-phone-vulnerability-snooping-texts-calls) or [sim swap](https://us.norton.com/blog/mobile/sim-swap-fraud) attacks.
+It is recommended to use TOTP MFA over SMS OTPs as SMS OTPs are sent in plain-text and can be intercepted by attacks at the client end, such as sim-swap attacks, or SS7 interception attacks.
 
 ```js
 {
@@ -526,13 +526,13 @@ It is recommended to use TOTP MFA over SMS OTPs as SMS OTPs can be intercepted v
 To enable SMS MFA for a user, first set the users' mobile number.
 
 ```js
-await user.save({ authData: { mfa: { mobile: "+11111111111" } } });
+await user.save({ authData: { mfa: { mobile: "+15555555555" } } });
 ```
 
 Next, ask the user to confirm the SMS code they just received
 
 ```js
-await user.save({ authData: { mfa: { mobile: "+11111111111", token: code } } });
+await user.save({ authData: { mfa: { mobile: "+15555555555", token: code } } });
 ```
 
 Now, SMS MFA will be enabled for the user. You can access recovery keys by accessing:
@@ -541,7 +541,7 @@ Now, SMS MFA will be enabled for the user. You can access recovery keys by acces
 const recovery = user.get("authDataResponse");
 ```
 
-It's also recommended to clear the authData from the client side:
+It's also recommended to clear the authData from the client side, so that the recovery keys cannot be accessed by inspecing the console:
 
 ```js
 await user.fetch();
@@ -557,7 +557,9 @@ const login = async () => {
     if (e.message === 'Missing additional authData mfa') {
       // show code input dialog here
       await Parse.User.logInWithAdditionalAuth(username, password, {
-        mfa: true // this triggers an SMS to be sent
+        mfa: {
+          token: 'request',
+        } // this triggers an SMS to be sent
       });
     }
   }
@@ -565,7 +567,9 @@ const login = async () => {
 const loginWithTOTP = async () => {
   try {
     await Parse.User.logInWithAdditionalAuth(username, password, {
-      mfa: // mfa code here
+      mfa: {
+        token: // mfa code here
+      }
     });
   } catch (e) {
     // display error
