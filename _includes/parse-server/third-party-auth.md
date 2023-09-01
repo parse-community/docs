@@ -3,17 +3,21 @@
 Parse Server supports 3rd party authentication with
 
 * Apple
+* Apple Game Center
 * Facebook
 * Github
 * Google
+* Google Play Game Services
 * Instagram
 * Janrain Capture
 * Janrain Engage
 * Keycloak
 * LDAP
+* Line
 * LinkedIn
 * Meetup
 * Microsoft Graph
+* OAuth
 * PhantAuth
 * QQ
 * Spotify
@@ -46,7 +50,7 @@ Note, most of them don't require a server configuration so you can use them dire
 
 ### Facebook `authData`
 
-```js
+```jsonc
 {
   "facebook": {
     "id": "user's Facebook id number as a string",
@@ -55,11 +59,23 @@ Note, most of them don't require a server configuration so you can use them dire
   }
 }
 ```
+
+The options passed to Parse Server:
+```js
+{
+  auth: {
+    facebook: {
+      appIds: ['appId1', 'appId2'], // If set, the app ID is used to validate the authentication token provided by the client when authenticating.
+    },
+  }
+}
+```
+
 Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
 
 ### Twitter `authData`
 
-```js
+```jsonc
 {
   "twitter": {
     "id": "user's Twitter id number as a string",
@@ -71,7 +87,7 @@ Learn more about [Facebook login](https://developers.facebook.com/docs/authentic
 }
 ```
 
-The options passed to Parse server:
+The options passed to Parse Server:
 ```js
 {
   auth: {
@@ -87,7 +103,7 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
 
 ### Anonymous user `authData`
 
-```js
+```jsonc
 {
   "anonymous": {
     "id": "random UUID with lowercase hexadecimal digits"
@@ -99,7 +115,7 @@ Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-f
 
 As of Parse Server 3.5.0 you can use [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/).
 
-```js
+```jsonc
 {
   "apple": {
     "id": "user",
@@ -117,7 +133,7 @@ Using Apple Sign In through the Apple JS SDK or through the REST service will on
 {
   auth: {
    apple: {
-     client_id: "", // optional (for extra validation), use the Service ID from Apple.
+     clientId: 'com.example.app', // optional, for extra validation; replace with the bundle ID provided by Apple.
    },
   }
 }
@@ -127,7 +143,7 @@ Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04
 
 ### Github `authData`
 
-```js
+```jsonc
 {
   "github": {
     "id": "user's Github id (string)",
@@ -140,7 +156,7 @@ Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04
 
 Google oauth supports validation of id_token's and access_token's.
 
-```js
+```jsonc
 {
   "google": {
     "id": "user's Google id (string)",
@@ -152,7 +168,7 @@ Google oauth supports validation of id_token's and access_token's.
 
 ### Instagram `authData`
 
-```js
+```jsonc
 {
   "instagram": {
     "id": "user's Instagram id (string)",
@@ -164,7 +180,7 @@ Google oauth supports validation of id_token's and access_token's.
 
 ### Keycloak `authData`
 
-```js
+```jsonc
 {
   "keycloak": {
     "access_token": "access token from keycloak JS client authentication",
@@ -201,7 +217,7 @@ The query should return all groups which the user is a member of. The `cn` attri
 
 To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directory Studio](https://directory.apache.org/studio/).
 
-```js
+```jsonc
 {
   "ldap": {
     "url": "ldap://host:port",
@@ -217,7 +233,7 @@ If either `groupCN` or `groupFilter` is not specified, the group check is not pe
 
 Example Configuration (this works with the public LDAP test server hosted by Forumsys):
 
-```js
+```jsonc
 {
   "ldap": {
     "url": "ldap://ldap.forumsys.com:389",
@@ -231,7 +247,7 @@ Example Configuration (this works with the public LDAP test server hosted by For
 
 authData:
 
-```js
+```jsonc
 {
   "authData": {
     "ldap": {
@@ -244,7 +260,7 @@ authData:
 
 ### LinkedIn `authData`
 
-```js
+```jsonc
 {
   "linkedin": {
     "id": "user's LinkedIn id (string)",
@@ -256,7 +272,7 @@ authData:
 
 ### Meetup `authData`
 
-```js
+```jsonc
 {
   "meetup": {
     "id": "user's Meetup id (string)",
@@ -267,7 +283,7 @@ authData:
 
 ### Microsoft Graph `authData`
 
-```js
+```jsonc
 {
   "microsoft": {
     "id": "user's microsoft id (string)", // required
@@ -285,7 +301,7 @@ To [get access on behalf of a user](https://docs.microsoft.com/en-us/graph/auth-
 
 As of Parse Server 3.7.0 you can use [PhantAuth](https://www.phantauth.net/).
 
-```js
+```jsonc
 {
   "phantauth": {
     "id": "user's PhantAuth sub (string)",
@@ -298,7 +314,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### QQ `authData`
 
-```js
+```jsonc
 {
   "qq": {
     "id": "user's QQ id (string)",
@@ -309,7 +325,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### Spotify `authData`
 
-```js
+```jsonc
 {
   "spotify": {
     "id": "user's spotify id (string)",
@@ -320,7 +336,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### vKontakte `authData`
 
-```js
+```jsonc
 {
   "vkontakte": {
     "id": "user's vkontakte id (string)",
@@ -344,7 +360,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### WeChat `authData`
 
-```js
+```jsonc
 {
   "wechat": {
     "id": "user's wechat id (string)",
@@ -355,7 +371,7 @@ Learn more about [PhantAuth](https://www.phantauth.net/).
 
 ### Weibo `authData`
 
-```js
+```jsonc
 {
   "weibo": {
     "id": "user's weibo id (string)",

@@ -580,7 +580,7 @@ You should avoid using regular expression constraints that don't use indexes. Fo
 
 {% if page.language == "js" %}
 ```javascript
-query.matches("playerName", "Michael", “i”);
+query.matches("playerName", "Michael", "i");
 ```
 {% endif %}
 
@@ -1114,7 +1114,7 @@ Suppose you are displaying movie information in your app and your data model con
 ```javascript
 var Review = Parse.Object.extend("Review");
 var query = new Parse.Query("Review");
-query.equalTo(“movie”, movie);
+query.equalTo("movie", movie);
 query.count().then(function(count) {
   // Request succeeded
 });
@@ -1328,7 +1328,7 @@ Once you've got the keywords set up, you can efficiently look them up using “A
 ```javascript
 var Post = Parse.Object.extend("Post");
 var query = new Parse.Query(Post);
-query.containsAll("hashtags", [“#parse”, “#ftw”]);
+query.containsAll("hashtags", ["#parse", "#ftw"]);
 query.find().then(function(results) {
   // Request succeeded
 }, function(error) {
@@ -1400,7 +1400,7 @@ var results = await ParseObject.GetQuery("Post")
 ```php
 $query = new ParseQuery("Post");
 
-$query->containsAll("hashtags", [“#parse”, “#ftw”]);
+$query->containsAll("hashtags", ["#parse", "#ftw"]);
 
 $posts = $query->find();
 // posts containing all the given hash tags

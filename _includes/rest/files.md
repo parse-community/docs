@@ -14,16 +14,19 @@ curl -X POST \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>files/hello.txt
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>files/hello.txt', 'Hello, World!', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "text/plain"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "text/plain"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -36,7 +39,7 @@ Location: http://files.parsetfss.com/bc9f32df-2957-4bb1-93c9-ec47d9870a05/tfss-d
 
 The response body is a JSON object containing the `name` of the file, which is the original file name prefixed with a unique identifier in order to prevent name collisions. This means you can save files with the same name, and the files will not overwrite one another.
 
-```json
+```jsonc
 {
   "url": "http://files.parsetfss.com/bc9f32df-2957-4bb1-93c9-ec47d9870a05/tfss-db295fb2-8a8b-49f3-aad3-dd911142f64f-hello.txt",
   "name": "db295fb2-8a8b-49f3-aad3-dd911142f64f-hello.txt"
@@ -55,16 +58,19 @@ curl -X POST \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>files/pic.jpg
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>files/pic.jpg', open('myPicture.jpg', 'rb').read(), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "image/jpeg"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "image/jpeg"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -89,23 +95,26 @@ curl -X POST \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>classes/PlayerProfile
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('POST', '<span class="custom-parse-server-mount">/parse/</span>classes/PlayerProfile', json.dumps({
-       "name": "Andrew",
-       "picture": {
-         "name": "...profile.png",
-         "url:": "...profile.png",
-         "__type": "File"
-       }
-     }), {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
-       "Content-Type": "application/json"
-     })
+    "name": "Andrew",
+    "picture": {
+        "name": "...profile.png",
+        "url:": "...profile.png",
+        "__type": "File"
+    }
+}), {
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-REST-API-Key": "<span class="custom-parse-server-restapikey">${REST_API_KEY}</span>",
+    "Content-Type": "application/json"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 
@@ -124,15 +133,18 @@ curl -X DELETE \
   <span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span>files/...profile.png
 </code></pre>
 <pre><code class="python">
-import json,httplib
-connection = httplib.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
+import http.client
+import json
+
+
+connection = http.client.HTTPSConnection('<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span>', 443)
 connection.connect()
 connection.request('DELETE', '<span class="custom-parse-server-mount">/parse/</span>files/...profile.png', '', {
-       "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
-       "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>"
-     })
+    "X-Parse-Application-Id": "<span class="custom-parse-server-appid">${APPLICATION_ID}</span>",
+    "X-Parse-Master-Key": "<span class="custom-parse-server-masterkey">${MASTER_KEY}</span>"
+})
 result = json.loads(connection.getresponse().read())
-print result
+print(result)
 </code></pre>
 </div>
 

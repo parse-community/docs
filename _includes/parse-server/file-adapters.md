@@ -1,3 +1,32 @@
+# Configuring File Upload
+
+*Available on Parse Server >=5.0.0*
+
+Parse Server restricts file upload to authenticated users only to improve Parse Server's default security. This behaviour can be modified by specifying `fileUpload` options to your Parse Server configuration.
+
+Available options are:
+
+- `enableForAnonymousUser`: Enable file upload for anonymous users
+- `enableForAuthenticatedUser`: Enable file upload for authenticated users
+- `enableForPublic`: Enable file upload for the public, i.e. everyone
+
+To allow public file uploads to Parse Server:
+
+```javascript
+const api = new ParseServer({
+  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
+  cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
+  appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
+  fileUpload: {
+    enableForPublic: true,
+    enableForAnonymousUser: true,
+    enableForAuthenticatedUser: true,
+  }
+});
+await api.start();
+```
+
 # Configuring File Adapters
 
 Parse Server allows developers to choose from several options when hosting files:
@@ -22,8 +51,8 @@ File encryption is available in parse-server 4.4.0+. The `GridStoreAdapter` can 
 
 To use, simply do any of the following:
 - Use the environment variable `PARSE_SERVER_ENCRYPTION_KEY`
-- Pass in --encryptionKey in the command line when starting your server
-- Initialize ParseServer with `encryptionKey="Your file encryptionKey"`. 
+- Pass the encryption key via parameter `--encryptionKey` in the command line when starting Parse Server
+- Initialize Parse Server with `encryptionKey="PATH_TO_ENCRYPTION_KEY_FILE`.
 
 An example starting your Parse Server in `index.js` is below:
 
@@ -32,13 +61,14 @@ const api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
-  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
   encryptionKey: process.env.PARSE_SERVER_ENCRYPTION_KEY, //Add your file key here. Keep it secret
   ...
 });
+await api.start();
 ```
 
-Be sure not to lose your key or change it after encrypting files. 
+Be sure not to lose your key or change it after encrypting files.
 
 ### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
@@ -69,10 +99,11 @@ const api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
-  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
   //No encryptionKey here
   ...
 });
+await api.start();
 
 //This can take awhile depending on how many files and how larger they are. It will attempt to rotate the key of all files in your filesSubDirectory
 //It is not recommended to do this on the production server, deploy a development server to complete the process.
@@ -110,8 +141,7 @@ First you will create a bucket in S3 to hold these files.
 8. Now select the **Policies** tab, then **Create Policy**.
 9. Select **Create Your Own Policy**, fill out a **Policy Name**.
 10. Copy the following config in **Policy Document**, changing **BUCKET_NAME** for the name of the bucket you created earlier. (note: this is a little more permissive than Parse Server needs, but it works for now)
-
-    ```js
+  ```jsonc
     {
         "Version": "2012-10-17",
         "Statement": [
@@ -175,7 +205,7 @@ var api = new ParseServer({
 
 Don't forget to change **S3_ACCESS_KEY**, **S3_SECRET_KEY** and **S3_BUCKET** to their correct value.
 
-##### S3Adapter constructor options
+### Adapter Options
 
 ```js
 new S3Adapter(accessKey, secretKey, bucket, options)
@@ -193,6 +223,60 @@ new S3Adapter(accessKey, secretKey, bucket, options)
 | baseUrl | Key in `options`. The base URL the file adapter uses to determine the file location for direct access. | Optional. Default: `null`. To be used when `directAccess=true`. When set the file adapter returns a file URL in format `baseUrl/bucketPrefix` + `filename`. Example for `baseUrl='http://domain.com/folder'` and `bucketPrefix='prefix_'` the returned file location is  `http://domain.com/folder/prefix_file.txt`. |
 | baseUrlDirect | Key in `options`. Is `true` if the file adapter should ignore the bucket prefix when determining the file location for direct access. | Optional. Default: `false`. To be used when `directAccess=true` and `baseUrl` is set. When set to `true`, the file adapter returns a file URL in format `baseUrl/filename`. Example for `baseUrl='http://domain.com/folder'` and `baseUrlDirect=true` the returned file location is `http://domain.com/folder/file.txt`. |
 | globalCacheControl | Key in `options`. The `Cache-Control` http header to set in the file request. | Optional. Default: `null`. Example: `public, max-age=86400` for 24 hrs caching. More info [here](http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.1). |
+
+### S3-compatible Services
+#### Digital Ocean Spaces
+
+[Digital Ocean Spaces](https://try.digitalocean.com/cloud-storage) is an S3-compatible storage service in the cloud. See their [documentation](https://docs.digitalocean.com/products/spaces/) for more details.
+
+```javascript
+const s3Options = {
+  bucket: "SPACES_BUCKET_NAME",
+  baseUrl: "SPACES_BASE_URL",
+  region: "SPACES_REGION",
+  bucketPrefix: "SPACES_BUCKET_PREFIX",
+  s3overrides: {
+    accessKeyId: "SPACES_ACCESS_KEY",
+    secretAccessKey: "SPACES_SECRET_KEY",
+    endpoint: 'SPACES_ENDPOINT'
+  }
+};
+```
+
+#### Linode Object Storage
+
+[Linode Object Storage](https://www.linode.com/products/object-storage/) is an S3-compatible storage service in the cloud. See their [documentation](https://www.linode.com/docs/guides/how-to-use-object-storage/) for more details.
+
+```js
+const s3Options = {
+  bucket: "S3_BUCKET_NAME",
+  baseUrl: "S3_BASE_URL", // https://myBucket.myRegion.linodeobjects.com
+  region: "S3_REGION", // possible values: eu-central-1 or us-east-1
+  s3overrides: {
+    accessKeyId: "S3_ACCESS_KEY", // bucket access key
+    secretAccessKey: "S3_SECRET_KEY", // bucket secret key
+    endpoint: "S3_ENDPOINT", // regionName.linodeobjects.com
+  },
+};
+```
+
+#### Backblaze B2 Cloud Storage
+
+[Backblaze B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html) is an S3-compatible storage service in the cloud. See their [documentation](https://www.backblaze.com/b2/docs/) for more details.
+
+```js
+const s3Options = {
+  bucket: "S3_BUCKET",
+  baseUrl: "S3_BASE_URL", // taken from BackBlaze, normally https://BUCKET.s3.REGION.backblazeb2.com
+  signatureVersion: 'v4',
+  region: 'us-west-000',
+  s3overrides: {
+    endpoint: "S3_ENDPOINT", // check backblaze bucket endpoint
+    accessKeyId: "S3_ACCESS_KEY",
+    secretAccessKey: "S3_SECRET_KEY"
+  },
+};
+```
 
 
 ## Configuring `GCSAdapter`
@@ -248,46 +332,6 @@ var api = new ParseServer({
   ...
 });
 ```
-
-##### S3Adapter configuration for Digital Ocean Spaces
-
-Spaces is an S3 equivalent prodivided by Digital Ocean. It's use the same api as S3 so you can use it with the S3 Adapter.
-You just need to change the AWS Endpoint to point to your Spaces endpoint.
-
-```javascript
-...
-var S3Adapter = require('parse-server').S3Adapter;
-var AWS = require("aws-sdk");
-
-//Set Digital Ocean Spaces EndPoint
-const spacesEndpoint = new AWS.Endpoint(process.env.SPACES_ENDPOINT);
-//Define S3 options
-var s3Options = {
-  bucket: process.env.SPACES_BUCKET_NAME,
-  baseUrl: process.env.SPACES_BASE_URL,
-  region: process.env.SPACES_REGION,
-  directAccess: true,
-  globalCacheControl: "public, max-age=31536000",
-  bucketPrefix: process.env.SPACES_BUCKET_PREFIX,
-  s3overrides: {
-    accessKeyId: process.env.SPACES_ACCESS_KEY,
-    secretAccessKey: process.env.SPACES_SECRET_KEY,
-    endpoint: spacesEndpoint
-  }
-};
-
-var s3Adapter = new S3Adapter(s3Options);
-
-var api = new ParseServer({
-  databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
-  appId: process.env.APP_ID || 'APPLICATION_ID',
-  masterKey: process.env.MASTER_KEY || 'MASTER_KEY',
-  ...
-  filesAdapter: s3Adapter
-  ...
-});
-```
-
 
 ##### GCSAdapter constructor options
 
@@ -345,7 +389,7 @@ var api = new ParseServer({
 })
 ```
 
-Be sure not to lose your key or change it after encrypting files. 
+Be sure not to lose your key or change it after encrypting files.
 
 ### Enabling encryption on a server that already has unencrypted files
 When this is the case, it is recommended to start up a development parse-server (or a separate process from your main process) that has the same configuration as your production server. On the development server, initialize the file adapter as above with the new key and do the following after initialization in your `index.js`:
@@ -376,10 +420,11 @@ const api = new ParseServer({
   databaseURI: databaseUri || 'mongodb://localhost:27017/dev',
   cloud: process.env.PARSE_SERVER_CLOUD || __dirname + '/cloud/main.js',
   appId: process.env.PARSE_SERVER_APPLICATION_ID || 'myAppId',
-  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '', 
+  masterKey: process.env.PARSE_SERVER_MASTER_KEY || '',
   filesAdapter: new FSFilesAdapter(), //No encryptionKey supplied
   ...
 });
+await api.start();
 
 //This can take awhile depending on how many files and how larger they are. It will attempt to rotate the key of all files in your filesSubDirectory
 //It is not recommended to do this on the production server, deploy a development server to complete the process.
