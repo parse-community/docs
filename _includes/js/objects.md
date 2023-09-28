@@ -220,7 +220,7 @@ await teamMember.saveEventually();
 
 ### Saving Objects Offline Advanced API
 
-The SDK provides utility functions to queue objects that will be saved to the server at a later date with `Parse.EventuallyQueue`. See <a href="https://parseplatform.org/Parse-SDK-JS/api/main/Parse.EventuallyQueue.html">EventuallyQueue API</a> for full documentation.
+The SDK provides utility functions to queue objects that will be saved to the server at a later date with `Parse.EventuallyQueue`. See <a href="https://parseplatform.org/Parse-SDK-JS/api/release/Parse.EventuallyQueue.html">EventuallyQueue API</a> for full documentation.
 
 #### Add Object to Queue
 Adding unique hashes to your objects is highly recommended
