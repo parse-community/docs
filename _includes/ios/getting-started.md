@@ -9,6 +9,8 @@ The easiest way to integrate the Parse SDK into your iOS, iPadOS, macOS, watchOS
 https://github.com/parse-community/Parse-SDK-iOS-OSX
 ```
 
+**Note: You may have to add submodules under Link Binary with Libraries**
+
 To initialize the Parse client, add the following to your AppDelegate.swift file (AppDelegate.m for Objective-C), in the `application:didFinishLaunchingWithOptions:` method.
 
 <div class="language-toggle" markdown="1">
