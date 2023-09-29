@@ -41,7 +41,7 @@ Make sure to import the Parse module at the top of any file in which you want to
 
 <div class="language-toggle" markdown="1">
 ```objective_c
-@import ParseCore
+@import ParseCore;
 ```
 ```swift
 import ParseCore
