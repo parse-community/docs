@@ -94,8 +94,8 @@ class OAuthLogin {
     GoogleSignInAuthentication authentication = await account.authentication;
     await ParseUser.loginWith(
         'google',
-        google(_googleSignIn.currentUser.id, 
-               authentication.accessToken, 
+        google(authentication.accessToken,
+               _googleSignIn.currentUser.id, 
                authentication.idToken));
   }
 }
