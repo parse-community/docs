@@ -173,7 +173,7 @@ The following is a list of all the error codes that can be returned by the Parse
 | `ClientDisconnected`	           |    4 | Connection failure.                                             |
 {: .docs_table}
 
-## Custom Error Code Ranges
+## Error Code Ranges
 
 In order to provide better organization and avoid conflicts with Parse Platform's built-in `Parse.Error` codes, the following ranges are defined:
 
