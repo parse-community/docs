@@ -83,7 +83,9 @@ For example, with secure authentication, the GitHub authentication adapter does 
 
 ## Migration of Existing Apps
 
-If you are starting a new app, you would want to require secure authentication from the beginning. If you are migrating an existing app, you would first want to check which authentication adapters Parse Server is currently using. There are 3 possible scenarios:
+If you are starting a new app, you would want to require secure authentication from the beginning. If you are migrating an existing app, you would first want to check which authentication adapters Parse Server is currently using.
+
+There are 3 possible scenarios:
 
 1. Parse Server is not configured to use any authentication adapters. Verify this by checking that the Parse Server `auth` option is missing or empty. In this case no action is required.
 
