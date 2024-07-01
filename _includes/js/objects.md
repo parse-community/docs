@@ -207,7 +207,7 @@ teamMember.save(null, { cascadeSave: false });
 
 ### Saving Objects Offline
 
-Most save functions execute immediately, and inform your app when the save is complete. If you don’t need to know when the save has finished, you can use `saveEventually` instead. The advantage is that if the user currently doesn’t have a network connection, `saveEventually` will store the update on the device until a network connection is re-established. If your app is closed before the connection is back, Parse will try again the next time the app is opened. All calls to `saveEventually` (and `destroyEventually`) are executed in the order they are called, so it is safe to call `saveEventually` on an object multiple times. If you have the local datastore enabled, then any object you saveEventually will be pinned as long as that save is in progress. That makes it easy to retrieve your local changes while waiting for the network to be available. `Parse.enableLocalDatastore()` must be called to use this feature.
+Most save functions execute immediately, and inform your app when the save is complete. If you don’t need to know when the save has finished, you can use `saveEventually` instead. The advantage is that if the user currently doesn’t have a network connection, `saveEventually` will store the update on the device until a network connection is re-established. If your app is closed before the connection is back, Parse will try again the next time the app is opened. All calls to `saveEventually` (and `destroyEventually`) are executed in the order they are called, so it is safe to call `saveEventually` on an object multiple times. If you have the local datastore enabled, then any object you saveEventually will be pinned as long as that save is in progress. That makes it easy to retrieve your local changes while waiting for the network to be available. If an error occurs while saving or deleting an object the data will be lost. `Parse.enableLocalDatastore()` must be called to use this feature.
 
 ```javascript
 const TeamMember = Parse.Object.extend("TeamMember");
@@ -216,6 +216,38 @@ const teamMember = new TeamMember();
 teamMember.set('ownerAccount', ownerAccount); 
 
 await teamMember.saveEventually();
+```
+
+### Saving Objects Offline Advanced API
+
+The SDK provides utility functions to queue objects that will be saved to the server at a later date with `Parse.EventuallyQueue`. See <a href="https://parseplatform.org/Parse-SDK-JS/api/release/Parse.EventuallyQueue.html">EventuallyQueue API</a> for full documentation.
+
+#### Add Object to Queue
+Adding unique hashes to your objects is highly recommended
+
+```javascript
+const object = new Parse.Object('TestObject');
+object.save({ hash: 'unique' });
+
+await Parse.EventuallyQueue.save(object, options);
+await Parse.EventuallyQueue.destroy(object, options);
+```
+
+#### Send Queue to Parse Server
+```javascript
+await Parse.EventuallyQueue.sendQueue();
+```
+You can send the queue either right after adding an object or on connect (or other events).
+
+#### Clear Queue
+```javascript
+await Parse.EventuallyQueue.clear();
+```
+
+#### Polling
+This will call sendQueue when a connection to the server is established. Uses the `serverURL` used to initialize sdk
+```javascript
+Parse.EventuallyQueue.poll();
 ```
 
 ### Cloud Code context
