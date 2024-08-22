@@ -4,7 +4,7 @@
 
 Parse Server supports 3rd party authentication by using authentication adapters. You can find the full list of authentication adapters in the [/src/Adapters/Auth/](https://github.com/parse-community/parse-server/tree/release/src/Adapters/Auth) directory of Parse Server.
 
-ℹ️ A detailed documentation for each authentication adapter can be found in the comment section at the top of each adapter file.
+A detailed documentation for each authentication adapter can be found in the comment section at the top of each adapter file.
 
 ## Example of GitHub Authentication Adapter
 
