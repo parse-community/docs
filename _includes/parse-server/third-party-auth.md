@@ -4,15 +4,13 @@
 
 Parse Server supports 3rd party authentication by using authentication adapters. You can find the full list of authentication adapters in the [/src/Adapters/Auth/](https://github.com/parse-community/parse-server/tree/release/src/Adapters/Auth) directory of Parse Server.
 
-> [!NOTE]
-> A detailed documentation for each authentication adapter can be found in the comment section at the top of each adapter file.
+ℹ️ A detailed documentation for each authentication adapter can be found in the comment section at the top of each adapter file.
 
 ## Example of GitHub Authentication Adapter
 
 The following example shows how to configure Parse Server to enable the GitHub authentication adapter.
 
-> [!WARNING]
-> This adapter, as some other adapters, can be configured to allow insecure authentication or require secure authentication. The insecure authentication is deprecated and we discourage from using it. More information can be found in [Secure and Insecure Authentication](#secure-and-insecure-authentication).
+⚠️ This adapter, as some other adapters, can be configured to allow insecure authentication or require secure authentication. The insecure authentication is deprecated and we discourage from using it. More information can be found in [Secure and Insecure Authentication](#secure-and-insecure-authentication).
 
 ### Secure Authentication
 
@@ -103,6 +101,6 @@ The following describes the process to migrate an app with one or multiple adapt
 4. Roll out the modified client. If the rollout takes place gradually, for example because you have to wait for your users to upgrade their client app, Parse Server will receive payloads for secure authentication from new clients, and payloads for insecure authentication from old clients.
 5. Set the authentication adapter option `enableInsecureAuth: false`, once sufficient old clients have upgraded to new clients, depending on your client rollout strategy. This option can be set for each adapter individually, for example in case of multiple clients with different rollout speed.
 
-   > [!WARNING]
-   > From now on, old clients that try to authenticate with insecure authentication payloads will receive an error as response from Parse Server. You may want to inform users of old clients that they need to upgrade.
+   ⚠️ From now on, old clients that try to authenticate with insecure authentication payloads will receive an error as response from Parse Server. You may want to inform users of old clients that they need to upgrade.
+
 6. Once all adapters that allow insecure authentication are set to `enableInsecureAuth: false`, set the general Parse Server option `enableInsecureAuthAdapters: false` to disable insecure authentication for all adapters. This does not have any effect on your app as we assume no authentication adapter is allowing insecure authentication at this point.
