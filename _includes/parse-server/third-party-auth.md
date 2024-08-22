@@ -2,9 +2,58 @@
 
 ## Supported Authentication Services
 
-Parse Server supports 3rd party authentication by using authentication adapters. You can find the full list of authentication adapters in the [/src/Adapters/Auth/](https://github.com/parse-community/parse-server/tree/release/src/Adapters/Auth) directory of Parse Server.
+Parse Server supports 3rd party authentication by using authentication adapters, to allow users to sign up and log in using 3rd party authentication providers.
+
+You can find the full list of authentication adapters in the [/src/Adapters/Auth/](https://github.com/parse-community/parse-server/tree/release/src/Adapters/Auth) directory of Parse Server.
 
 A detailed documentation for each authentication adapter can be found in the comment section at the top of each adapter file.
+
+<div id="file-list"></div>
+
+<script>
+  async function fetchGitHubFiles() {
+    const repoOwner = 'parse-community';
+    const repoName = 'parse-server';
+    const branch = 'release';
+    const folderPath = 'src/Adapters/Auth';
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}?ref=${branch}`;
+
+    // List of non-adapter files to exclude
+    const excludeFiles = [
+      'AuthAdapter.js',
+      'httpsRequest.js',
+      'index.js',
+    ];
+
+    try {
+      const response = await fetch(apiUrl);
+      const files = await response.json();
+
+      if (Array.isArray(files)) {
+        const fileListElement = document.getElementById('file-list');
+        fileListElement.innerHTML = '';
+
+        files
+          .filter(file => !excludeFiles.includes(file.name))
+          .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+          .forEach(file => {
+            const fileLink = document.createElement('a');
+            fileLink.href = file.html_url;
+            fileLink.textContent = file.name;
+            const listItem = document.createElement('li');
+            listItem.appendChild(fileLink);
+            fileListElement.appendChild(listItem);
+          });
+      } else {
+        console.error('Error: ', 'No adapters found.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  fetchGitHubFiles();
+</script>
 
 ## Example of GitHub Authentication Adapter
 
