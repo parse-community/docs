@@ -6,7 +6,7 @@ There are two types of errors you may encounter. The first is those dealing with
 
 ```cs
 var user = new ParseUser();
-await user.SignUpAsync();
+await ParseClient.Instance.SignUpAsync();
 ```
 
 This will throw an `InvalidOperationException` because `SignUpAsync` was called without first setting the required properties (`Username` and `Password`).
@@ -14,7 +14,7 @@ This will throw an `InvalidOperationException` because `SignUpAsync` was called 
 The second type of error is one that occurs when interacting with Parse Server over the network. These errors are either related to problems connecting to the cloud or problems performing the requested operation. Let's take a look at another example:
 
 ```cs
-await ParseObject.GetQuery("Note").GetAsync("thisObjectIdDoesntExist");
+await  ParseClient.Instance.GetQuery("Note").GetAsync("thisObjectIdDoesntExist");
 ```
 
 In the above code, we try to fetch an object with a non-existent `ObjectId`. Parse Server will return an error -- so here's how to handle it properly:
@@ -22,7 +22,7 @@ In the above code, we try to fetch an object with a non-existent `ObjectId`. Par
 ```cs
 try
 {
-    await ParseObject.GetQuery("Note").GetAsync(someObjectId);
+    await  ParseClient.Instance.GetQuery("Note").GetAsync(someObjectId);
     // Everything went fine!
 }
 catch (ParseException e)

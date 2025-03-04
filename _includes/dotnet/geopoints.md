@@ -24,7 +24,9 @@ Now that you have a bunch of objects with spatial coordinates, it would be nice 
 
 ```cs
 // User's location
-var userGeoPoint = ParseUser.CurrentUser.Get<ParseGeoPoint>("location");
+var user = await ParseClient.Instance.GetCurrentUser();
+var userGeoPoint = user.Get<ParseGeoPoint>("location");
+
 // Create a query for places
 var query = ParseObject.GetQuery("PlaceObject");
 //Interested in locations near user.
