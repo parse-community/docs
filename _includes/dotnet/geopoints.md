@@ -28,7 +28,7 @@ var user = await ParseClient.Instance.GetCurrentUser();
 var userGeoPoint = user.Get<ParseGeoPoint>("location");
 
 // Create a query for places
-var query = ParseObject.GetQuery("PlaceObject");
+var query = ParseClient.Instance.GetQuery("PlaceObject");
 //Interested in locations near user.
 query = query.WhereNear("location", userGeoPoint);
 // Limit what could be a lot of points.
@@ -46,7 +46,7 @@ It's also possible to query for the set of objects that are contained within a p
 ```cs
 var swOfSF = new ParseGeoPoint(37.708813, -122.526398);
 var neOfSF = new ParseGeoPoint(37.822802, -122.373962);
-var query = ParseObject.GetQuery("PizzaPlaceObject")
+var query = ParseClient.Instance.GetQuery("PizzaPlaceObject")
     .WhereWithinGeoBox("location", swOfSF, neOfSF);
 var pizzaPlacesInSF = await query.FindAsync();
 ```
@@ -65,7 +65,7 @@ You can also query for `ParseObject`s within a radius using a `ParseGeoDistance`
 
 ```cs
 ParseGeoPoint userGeoPoint = ParseUser.CurrentUser.Get<ParseGeoPoint>("location");
-ParseQuery<ParseObject> query = ParseObject.GetQuery("PlaceObject")
+ParseQuery<ParseObject> query = ParseClient.Instance.GetQuery("PlaceObject")
     .WhereWithinDistance("location", userGeoPoint, ParseGeoDistance.FromMiles(5));
 IEnumerable<ParseObject> nearbyLocations = await query.FindAsync();
 // nearbyLocations contains PlaceObjects within 5 miles of the user's location

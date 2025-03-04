@@ -45,7 +45,7 @@ public class Role: ParseRole
 }
 
 //....
-ParseObject.RegisterSubclass<Role>();
+ParseClient.Instance.RegisterSubclass<Role>();
 //....
 
     var adminRoleSubClass = ParseClient.Instance.CreateObjectWithData<Role>(new Dictionary<string, object>
