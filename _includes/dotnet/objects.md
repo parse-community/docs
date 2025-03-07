@@ -97,7 +97,7 @@ To retrieve an object by its `objectId`, use `ParseQuery<T>`:
 ```csharp
 ParseQuery<ParseObject>? query = ParseClient.Instance.GetQuery("GameScore");
 ParseObject? gameScore = await query.FirstOrDefaultAsync();
- // Or:  new ParseQuery<ParseObject>("GameScore");
+ // Or:  ParseClient.Instance.GetQuery("ParseObject>("GameScore");
 ParseObject gameScore = await query.GetAsync("xWMyZ4YEGZ"); // Replace with the actual objectId
 ```
 
@@ -429,7 +429,7 @@ await shield.SaveAsync();
 1.  **Inherit:** Subclass `ParseObject`.
 2.  **`ParseClassName` Attribute:** Add `[ParseClassName("YourClassName")]`.
 3.  **Default Constructor:**  Must have a public, parameterless constructor. *Don't* modify `ParseObject` fields in this constructor.
-4.  **Register:** Call `ParseClient.Instance.RegisterSubclass<YourClass>()` *before* `ParseClient.Initialize()`.
+4.  **Register:** Call `ParseClient.Instance.RegisterSubclass(YourClass)` *AFTER* `ParseClient.Initialize()`.
 
 Example (`Armor` subclass):
 
@@ -451,16 +451,17 @@ public App()
     InitializeComponent();
 
     MainPage = new AppShell();
-    ParseClient.Instance.RegisterSubclass<Armor>(); // Register BEFORE Initialize
-    ParseClient.Instance.RegisterSubclass<Post>(); // Register all used custom classes.
-    ParseClient.Instance.RegisterSubclass<Comment>();
-
+   
     // Initialize Parse Client.  (See initialization documentation)
     if (!InitializeParseClient())
     {
         // Handle initialization failure
         Console.WriteLine("Failed to initialize Parse.  Check your keys and internet connection.");
     }
+     ParseClient.Instance.RegisterSubclass(Armor); // Register AFTER Initialize
+    ParseClient.Instance.RegisterSubclass(Post); // Register all used custom classes.
+    ParseClient.Instance.RegisterSubclass(Comment);
+
 }
 ```
 
@@ -539,15 +540,15 @@ Use `ParseQuery<T>` for subclass-specific queries:
 
 ```csharp
 // Get armors the user can afford (assuming a "Player" subclass of ParseUser)
-var query = from armor in new ParseQuery<Armor>()
+var query = from armor in ParseClient.Instance.GetQuery("Armor")
             where armor.Rupees <= ((Player)ParseClient.Instance.GetCurrentUserResult).Rupees
             select armor;
 IEnumerable<Armor> affordableArmors = await query.FindAsync();
 
 //or
 
-var query = new ParseQuery<Armor>()
-.WhereLessThanOrEqualTo("rupees", ((Player)ParseClient.Instance.GetCurrentUserResult).Rupees);
+var query = ParseClient.Instance.GetQuery("Armor")
+.WhereLessThanOrEqualTo("rupees", (await ParseClient.Instance.GetCurrentUser()).Rupees);
 ```
 
 The `ParseQuery` LINQ provider understands `[ParseFieldName]` attributes, enabling strongly-typed queries.

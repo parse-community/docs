@@ -61,10 +61,7 @@ ParseFile? applicantResumeFile = jobApplication.Get<ParseFile>("applicantResumeF
 
 if (applicantResumeFile != null)
 {
-    // Option 1: Get the file data as a byte array (for smaller files)
-     byte[] fileData = await applicantResumeFile.GetBytesAsync();
-
-    // Option 2: Download the file using HttpClient (more versatile)
+    Download the file using HttpClient (more versatile)
     using (HttpClient client = new HttpClient())
     {
         // As a byte array:
@@ -83,17 +80,7 @@ if (applicantResumeFile != null)
             }
         }
     }
-    // Option 3: Get the file data as a Stream (for larger files)
-    using (Stream dataStream = await applicantResumeFile.GetDataStreamAsync())
-    {
-        // Use dataStream to read file content.
-        // Example: If it is a text file, you may want to use StreamReader:
-        using (StreamReader reader = new StreamReader(dataStream))
-        {
-            string fileContent = await reader.ReadToEndAsync();
-            // Process the file content.
-        }
-    }
+  
 }
 ```
 
@@ -105,30 +92,9 @@ if (applicantResumeFile != null)
 *   **`GetBytesAsync()`, `GetDataStreamAsync()`:** `ParseFile` provides convenient methods `GetBytesAsync()` and `GetDataStreamAsync()` to download data.
 * **Stream Management:** Always wrap Stream and `HttpClient` in using statements, to release resources.
 
-## Progress Reporting
+## Progress Reporting (WIP..)
 
-Track upload progress using the `IProgress<ParseUploadProgressEventArgs>` interface:
 
-```csharp
-byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
-ParseFile file = new ParseFile("resume.txt", data);
-
-var progress = new Progress<ParseUploadProgressEventArgs>(args =>
-{
-    Console.WriteLine($"Upload Progress: {args.Progress}%");
-    // You could also update a UI element here (e.g., a progress bar)
-    // *but* make sure to dispatch UI updates to the main thread if needed:
-    // MainThread.BeginInvokeOnMainThread(() => { ... });
-});
-
-await file.SaveAsync(progress);
-```
-
-**Key Points about Progress:**
-
-*   **`IProgress<ParseUploadProgressEventArgs>`:**  This interface provides a standard way to report progress.
-*   **`ParseUploadProgressEventArgs`:**  This class (part of the Parse SDK) provides the progress information (percentage).
-*   **UI Updates:** If you update UI elements from the progress handler, you *must* do so on the main thread (using `MainThread.BeginInvokeOnMainThread` in MAUI).  Network operations and progress handlers typically run on background threads.
 
 ## Deleting Files
 

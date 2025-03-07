@@ -109,7 +109,6 @@ else
 }
 ```
 
-*    You can use `ParseClient.Instance.GetCurrentUserResult` when no async/await is possible.
 *   `ParseClient.Instance.GetCurrentUser()` returns the cached user, or `null` if no user is logged in.
 * **Important:** Always check if is not null, as user might log out from another device.
 
