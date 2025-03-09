@@ -22,7 +22,7 @@ categories:nil];
 ```
 
 ```csharp
-// Xamarin
+// XAMARIN/.NET MAUI
 UIUserNotificationType notificationTypes = (UIUserNotificationType.Alert |
 UIUserNotificationType.Badge |
 UIUserNotificationType.Sound);
@@ -72,7 +72,7 @@ UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTy
 ```
 
 ```csharp
-// Xamarin
+// XAMARIN/.NET MAUI
 UIUserNotificationType notificationTypes = (UIUserNotificationType.Alert |
                                             UIUserNotificationType.Badge |
                                             UIUserNotificationType.Sound);

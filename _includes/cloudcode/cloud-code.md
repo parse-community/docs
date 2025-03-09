@@ -72,7 +72,7 @@ $ratings = ParseCloud::run("averageRatings", ["movie" => "The Matrix"]);
 // $ratings is 4.5
 ```
 
-The following example shows how you can call the "averageRatings" Cloud function from a .NET C# app such as in the case of Windows 10, Unity, and Xamarin applications:
+The following example shows how you can call the "averageRatings" Cloud function from a .NET C# app such as in the case of Windows 10, Unity, and Xamarin/.NET MAUI applications:
 
 ```cs
 IDictionary<string, object> params = new Dictionary<string, object>
