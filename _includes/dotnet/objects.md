@@ -541,7 +541,7 @@ Use `ParseQuery<T>` for subclass-specific queries:
 ```csharp
 // Get armors the user can afford (assuming a "Player" subclass of ParseUser)
 var query = from armor in ParseClient.Instance.GetQuery("Armor")
-            where armor.Rupees <= ((Player)ParseClient.Instance.GetCurrentUserResult).Rupees
+            where armor.Rupees <= ((Player)ParseClient.Instance.GetCurrentUser()).Rupees
             select armor;
 IEnumerable<Armor> affordableArmors = await query.FindAsync();
 
