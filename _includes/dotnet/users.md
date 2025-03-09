@@ -29,14 +29,15 @@ public async Task SignUpUserAsync(string username, string password, string email
         // Optional: Add other fields
         user["phone"] = "415-392-0202";
 
-        await user.SignUpAsync(); // Use SignUpAsync, NOT SaveAsync, for new users.
+
+        ParseUser onlineUser = await ParseClient.Instance.SignUpWithAsync(user); // Use SignUpWithAsync, NOT SaveAsync, for new users.
         // Signup successful!
         Console.WriteLine("User signed up successfully!");
          // The current user reference will be updated to this user.
-        // You can now use ParseClient.Instance.GetCurrentUser();
+        // You can now use ParseClient.Instance.GetCurrentUser(); or onlineUser
 
     }
-    catch (ParseException ex)
+    catch (Exceptino ex)
     {
         // Handle signup errors (e.g., username taken, invalid email)
         Console.WriteLine($"Signup failed: {ex.Message}");
@@ -48,13 +49,11 @@ public async Task SignUpUserAsync(string username, string password, string email
 
 Key points:
 
-*   `SignUpAsync()` creates the user on the Parse Server.
-*   It checks for unique usernames and emails.
+*   `SignParseClient.Instance.SignUpWithAsync(ParseUser user,CancellationToken cancellationToken = default)` creates the user on the Parse Server.
+*   There also exists `SignParseClient.Instance.SignUpWithAsync(string userName, string password,CancellationToken cancellationToken = default)`
 *   Passwords are *securely hashed* (using bcrypt) on the server.  They are *never* stored or transmitted in plain text.
-*   Use `SignUpAsync()` for *new* users.  Use `SaveAsync()` for *updates* to existing users.
-*   **Error Handling:** Always catch `ParseException` to handle signup failures (duplicate username/email, network issues, etc.).
-
-You can use an email address as the username.  Set both the `Username` and `Email` properties.
+*   Use `SignUpWithAsync()` for *new* users.  Use `SaveAsync()` for *updates* to existing users.
+*   **Error Handling:** Always catch `Exception` to handle signup failures (duplicate username/email, network issues, etc.).
 
 ## Logging In
 
@@ -70,7 +69,7 @@ public async Task<ParseUser?> LoginUserAsync(string username, string password)
         // The current user reference will be updated to this user.
         // You can now use ParseClient.Instance.GetCurrentUser();
     }
-    catch (ParseException ex)
+    catch (Exception ex)
     {
         // Handle login errors (e.g., incorrect username/password)
         Console.WriteLine($"Login failed: {ex.Message}");
@@ -80,7 +79,7 @@ public async Task<ParseUser?> LoginUserAsync(string username, string password)
 ```
 
 *   `LogInAsync()` authenticates the user.
-*   **Error Handling:** Catch `ParseException` for login failures.
+*   **Error Handling:** Catch `Exception` for login failures.
 
 ## Verifying Emails
 
