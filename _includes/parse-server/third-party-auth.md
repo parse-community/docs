@@ -1,420 +1,155 @@
 # OAuth and 3rd Party Authentication
 
-Parse Server supports 3rd party authentication with
+## Supported Authentication Services
 
-* Apple
-* Apple Game Center
-* Facebook
-* Github
-* Google
-* Google Play Game Services
-* Instagram
-* Janrain Capture
-* Janrain Engage
-* Keycloak
-* LDAP
-* Line
-* LinkedIn
-* Meetup
-* Microsoft Graph
-* OAuth
-* PhantAuth
-* QQ
-* Spotify
-* Twitter
-* vKontakte
-* WeChat
-* Weibo
+Parse Server supports 3rd party authentication by using authentication adapters, to allow users to sign up and log in using 3rd party authentication providers.
 
-Configuration options for these 3rd-party modules is done with the `auth` option passed to Parse Server:
+You can find the full list of authentication adapters in the [/src/Adapters/Auth/](https://github.com/parse-community/parse-server/tree/release/src/Adapters/Auth) directory of Parse Server.
+
+A detailed documentation for each authentication adapter can be found in the comment section at the top of each adapter file.
+
+<div id="file-list"></div>
+
+<script>
+  async function fetchGitHubFiles() {
+    const repoOwner = 'parse-community';
+    const repoName = 'parse-server';
+    const branch = 'release';
+    const folderPath = 'src/Adapters/Auth';
+    const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}?ref=${branch}`;
+
+    // List of non-adapter files to exclude
+    const excludeFiles = [
+      'AuthAdapter.js',
+      'httpsRequest.js',
+      'index.js',
+    ];
+
+    try {
+      const response = await fetch(apiUrl);
+      const files = await response.json();
+
+      if (Array.isArray(files)) {
+        const fileListElement = document.getElementById('file-list');
+        fileListElement.innerHTML = '';
+
+        files
+          .filter(file => !excludeFiles.includes(file.name))
+          .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
+          .forEach(file => {
+            const fileLink = document.createElement('a');
+            fileLink.href = file.html_url;
+            fileLink.textContent = file.name;
+            const listItem = document.createElement('li');
+            listItem.appendChild(fileLink);
+            fileListElement.appendChild(listItem);
+          });
+      } else {
+        console.error('Error: ', 'No adapters found.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
+  fetchGitHubFiles();
+</script>
+
+## Example of GitHub Authentication Adapter
+
+The following example shows how to configure Parse Server to enable the GitHub authentication adapter.
+
+⚠️ This adapter, as some other adapters, can be configured to allow insecure authentication or require secure authentication. The insecure authentication is deprecated and we discourage from using it. More information can be found in [Secure and Insecure Authentication](#secure-and-insecure-authentication).
+
+### Secure Authentication
+
+An example of the Parse Server configuration:
 
 ```js
 {
+  appId: 'APP_ID',
+  masterKey: 'MASTER_KEY',
+  serverURL: 'SERVER_URL',
+  databaseURI: 'DATABASE_URI',
+  enableInsecureAuthAdapters: false,
   auth: {
-   twitter: {
-     consumer_key: "", // REQUIRED
-     consumer_secret: "" // REQUIRED
-   },
-   facebook: {
-     appIds: "FACEBOOK APP ID"
-   }
-  }
-}
-```
-
-## Supported 3rd party authentications
-
-Below, you will find all expected payloads for logging in with a 3rd party auth.
-
-Note, most of them don't require a server configuration so you can use them directly, without particular server configuration.
-
-### Facebook `authData`
-
-```jsonc
-{
-  "facebook": {
-    "id": "user's Facebook id number as a string",
-    "access_token": "an authorized Facebook access token for the user",
-    "expiration_date": "token expiration date of the format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-  }
-}
-```
-
-With Facebook's iOS SDK 17, you are required to implement Facebook Limited Login. If the user does not allow tracking through Apple's App Tracking Transparency, then the Facebook returns a JWT token instead of an access token. Therefore, in your app you would need to check if tracking is allowed or not and pass the relevant tokens. If your app does not receive an access token, then you will need to pass the below instead. *Available on Parse Server >= 6.5.6 < 7 and >=7.0.1.*
-
-```jsonc
-{
-  "facebook": {
-    "id": "user's Facebook id number as a string",
-    "token": "a JWT token from Facebook SDK limited login",
-  }
-}
-```
-
-The options passed to Parse Server:
-```js
-{
-  auth: {
-    facebook: {
-      appIds: ['appId1', 'appId2'], // If set, the app ID is used to validate the authentication token provided by the client when authenticating.
-    },
-  }
-}
-```
-
-```
-
-Learn more about [Facebook login](https://developers.facebook.com/docs/authentication/).
-
-### Twitter `authData`
-
-```jsonc
-{
-  "twitter": {
-    "id": "user's Twitter id number as a string",
-    "consumer_key": "your application's consumer key",
-    "consumer_secret": "your application's consumer secret",
-    "auth_token": "an authorized Twitter token for the user with your application",
-    "auth_token_secret": "the secret associated with the auth_token"
-  }
-}
-```
-
-The options passed to Parse Server:
-```js
-{
-  auth: {
-    twitter: {
-     consumer_key: "", // REQUIRED
-     consumer_secret: "" // REQUIRED
-   },
-  }
-}
-```
-
-Learn more about [Twitter login](https://developer.twitter.com/en/docs/twitter-for-websites/log-in-with-twitter/guides/implementing-sign-in-with-twitter).
-
-### Anonymous user `authData`
-
-```jsonc
-{
-  "anonymous": {
-    "id": "random UUID with lowercase hexadecimal digits"
-  }
-}
-```
-
-### Apple `authData`
-
-As of Parse Server 3.5.0 you can use [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/get-started/).
-
-```jsonc
-{
-  "apple": {
-    "id": "user",
-    "token": "the identity token for the user"
-  }
-}
-```
-
-Using Apple Sign In on a iOS device will give you a `ASAuthorizationAppleIDCredential.user` string for the user identifier, which can be match the `sub` component of the JWT identity token.
-Using Apple Sign In through the Apple JS SDK or through the REST service will only give you the JWT identity token (`id_token`) which you'll have to decompose to obtain the user identifier in its `sub` component. As an example you could use something like `JSON.parse(atob(token.split(".")[1])).sub`.
-
-#### Configuring parse-server for Sign In with Apple
-
-```js
-{
-  auth: {
-   apple: {
-     clientId: 'com.example.app', // optional, for extra validation; replace with the bundle ID provided by Apple.
-   },
-  }
-}
-```
-
-Learn more about [Sign In With Apple](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple).
-
-### Github `authData`
-
-```jsonc
-{
-  "github": {
-    "id": "user's Github id (string)",
-    "access_token": "an authorized Github access token for the user"
-  }
-}
-```
-
-### Google `authData`
-
-Google oauth supports validation of id_token's and access_token's.
-
-```jsonc
-{
-  "google": {
-    "id": "user's Google id (string)",
-    "id_token": "an authorized Google id_token for the user (use when not using access_token)",
-    "access_token": "an authorized Google access_token for the user (use when not using id_token)"
-  }
-}
-```
-
-### Instagram `authData`
-
-```jsonc
-{
-  "instagram": {
-    "id": "user's Instagram id (string)",
-    "access_token": "an authorized Instagram access token for the user",
-    "apiURL": "an api url to make requests. Default: https://api.instagram.com/v1/"
-  }
-}
-```
-
-### Keycloak `authData`
-
-```jsonc
-{
-  "keycloak": {
-    "access_token": "access token from keycloak JS client authentication",
-    "id": "the id retrieved from client authentication in Keycloak",
-    "roles": ["the roles retrieved from client authentication in Keycloak"],
-    "groups": ["the groups retrieved from client authentication in Keycloak"]
-  }
-}
-```
-
-The authentication module will test if the authData is the same as the userinfo oauth call, by comparing the attributes.
-
-Copy the JSON config file generated on Keycloak ([tutorial](https://www.keycloak.org/docs/latest/securing_apps/index.html#_javascript_adapter))
-and paste it inside of a folder (Ex.: `auth/keycloak.json`) in your server.
-
-The options passed to Parse Server:
-
-```js
-{
-  auth: {
-    keycloak: {
-      config: require(`./auth/keycloak.json`) // Required
+    github: {
+      appIds: 'GITHUB_APP_ID',
+      clientId: 'GITHUB_CLIENT_ID',
+      clientSecret: 'GITHUB_CLIENT_SECRET',
+      enableInsecureAuth: false
     }
   }
 }
 ```
 
-### Configuring Parse Server for LDAP
+An example of the authentication payload that Parse Server expects to receive from the client:
 
-The [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol) module can check if a
-user can authenticate (bind) with the given credentials. Optionally, it can also check if the user is in a certain group.
-This check is done using a user specified query, called an [LDAP Filter](https://ldap.com/ldap-filters/).
-The query should return all groups which the user is a member of. The `cn` attribute of the query results is compared to `groupCn`.
-
-To build a query which works with your LDAP server, you can use a LDAP client like [Apache Directory Studio](https://directory.apache.org/studio/).
-
-```jsonc
-{
-  "ldap": {
-    "url": "ldap://host:port",
-    "suffix": "the root of your LDAP tree",
-    "dn": "Bind dn. {{id}} is replaced with the id suppied in authData",
-    "groupCn": "Optional. A group which the user must be a member of.",
-    "groupFilter": "Optional. An LDAP filter for finding groups which the user is part of. {{id}} is replaced with the id supplied in authData."
-  }
+```js
+authData: {
+  "code": "GITHUB_AUTH_CODE"
 }
 ```
 
-If either `groupCN` or `groupFilter` is not specified, the group check is not performed.
+### Insecure Authentication
 
-Example Configuration (this works with the public LDAP test server hosted by Forumsys):
+An example of the Parse Server configuration:
 
-```jsonc
+```js
 {
-  "ldap": {
-    "url": "ldap://ldap.forumsys.com:389",
-    "suffix": "dc=example,dc=com",
-    "dn": "uid={{id}}, dc=example, dc=com",
-    "groupCn": "Chemists",
-    "groupFilter": "(&(uniqueMember=uid={{id}},dc=example,dc=com)(objectClass=groupOfUniqueNames))"
-  }
-}
-```
-
-authData:
-
-```jsonc
-{
-  "authData": {
-    "ldap": {
-      "id": "user id",
-      "password": "password"
+  appId: 'APP_ID',
+  masterKey: 'MASTER_KEY',
+  serverURL: 'SERVER_URL',
+  databaseURI: 'DATABASE_URI',
+  enableInsecureAuthAdapters: true,
+  auth: {
+    github: {
+      appIds: 'GITHUB_APP_ID',
+      clientId: 'GITHUB_CLIENT_ID',
+      clientSecret: 'GITHUB_CLIENT_SECRET',
+      enableInsecureAuth: true
     }
   }
 }
 ```
 
-### LinkedIn `authData`
-
-```jsonc
-{
-  "linkedin": {
-    "id": "user's LinkedIn id (string)",
-    "access_token": "an authorized LinkedIn access token for the user",
-    "is_mobile_sdk": true|false // set to true if you acquired the token through LinkedIn mobile SDK
-  }
-}
-```
-
-### Meetup `authData`
-
-```jsonc
-{
-  "meetup": {
-    "id": "user's Meetup id (string)",
-    "access_token": "an authorized Meetup access token for the user"
-  }
-}
-```
-
-### Microsoft Graph `authData`
-
-```jsonc
-{
-  "microsoft": {
-    "id": "user's microsoft id (string)", // required
-    "access_token": "an authorized microsoft graph access token for the user", // required
-    "mail": "user's microsoft email (string)"
-  }
-}
-```
-
-Learn more about [Microsoft Graph Auth Overview](https://docs.microsoft.com/en-us/graph/auth/?view=graph-rest-1.0).
-
-To [get access on behalf of a user](https://docs.microsoft.com/en-us/graph/auth-v2-user?view=graph-rest-1.0).
-
-### PhantAuth `authData`
-
-As of Parse Server 3.7.0 you can use [PhantAuth](https://www.phantauth.net/).
-
-```jsonc
-{
-  "phantauth": {
-    "id": "user's PhantAuth sub (string)",
-    "access_token": "an authorized PhantAuth access token for the user",
-  }
-}
-```
-
-Learn more about [PhantAuth](https://www.phantauth.net/).
-
-### QQ `authData`
-
-```jsonc
-{
-  "qq": {
-    "id": "user's QQ id (string)",
-    "access_token": "an authorized QQ access token for the user"
-  }
-}
-```
-
-### Spotify `authData`
-
-```jsonc
-{
-  "spotify": {
-    "id": "user's spotify id (string)",
-    "access_token": "an authorized spotify access token for the user"
-  }
-}
-```
-
-### vKontakte `authData`
-
-```jsonc
-{
-  "vkontakte": {
-    "id": "user's vkontakte id (string)",
-    "access_token": "an authorized vkontakte access token for the user"
-  }
-}
-```
-
-#### Configuring parse-server for vKontakte
+An example of the authentication payload that Parse Server expects to receive from the client:
 
 ```js
-{
-  auth: {
-   vkontakte: {
-     appSecret: "", // REQUIRED, your vkontakte application secret
-     appIds: "" // REQUIRED, your vkontakte application id
-   },
-  }
+authData: {
+  "id": "GITHUB_USER_ID",
+  "access_token": "GITHUB_ACCESS_TOKEN"
 }
 ```
 
-### WeChat `authData`
+# Secure and Insecure Authentication
 
-```jsonc
-{
-  "wechat": {
-    "id": "user's wechat id (string)",
-    "access_token": "an authorized wechat access token for the user"
-  }
-}
-```
+Some Parse Server authentication adapters can be configured to allow insecure authentication or require secure authentication. The insecure authentication is what Parse Server traditionally used. It's deprecated and we discourage from using it, as it requires the client to send sensitive authentication information to Parse Server which could be exploited. Secure authentication requires less sensitive authentication data to be sent from the client to Parse Server. This minimizes the exposure of sensitive data to Parse Server and reduces the risk of data exposure in case of a data leak.
 
-### Weibo `authData`
+For example, with secure authentication, the GitHub authentication adapter does not require a user to disclose their access token. Instead, the client redirects the user to GitHub for authentication. GitHub then issues an authentication code which the client forwards to Parse Server. This approach does not send the access token to Parse Server. It enhances security by safeguarding the access token and preventing its exposure to unauthorized parties.
 
-```jsonc
-{
-  "weibo": {
-    "id": "user's weibo id (string)",
-    "access_token": "an authorized weibo access token for the user"
-  }
-}
-```
+## Migration of Existing Apps
 
-## Custom authentication
+If you are starting a new app, you would want to require secure authentication from the beginning. If you are migrating an existing app, you would first want to check which authentication adapters Parse Server is currently using.
 
-It is possible to leverage the OAuth support with any 3rd party authentication that you bring in.
+There are 3 possible scenarios:
 
-```js
-{
+1. Parse Server is not configured to use any authentication adapters. Verify this by checking that the Parse Server `auth` option is missing or empty. In this case no action is required.
 
-  auth: {
-   my_custom_auth: {
-     module: "PATH_TO_MODULE" // OR object,
-     option1: "",
-     option2: "",
-   }
-  }
-}
-```
+2. Parse Server is configured to use authentication adapters, but none of the adapters allow insecure authentication. Verify this by checking that none of the adapters set in the Parse Server `auth` option have an `enableInsecureAuth` option according to their documentation. To find the documentation for each adapter see [Supported Authentication Services](#supported-authentication-services). In this case no action is required.
 
-On this module, you need to implement and export those two functions `validateAuthData(authData, options) {} ` and `validateAppId(appIds, authData, options) {}`.
+3. Parse Server is configured to use authentication adapters, and at least one of the adapters allows insecure authentication. Verify this by checking that at least one of the adapters set in the Parse Server `auth` option has an insecure option according to its documentation. To find the documentation for each adapter see [Supported Authentication Services](#supported-authentication-services). In this case we recommend to migrate as soon as possible, see [Migration Process](#migration-process).
 
-For more information about custom auth please see the examples:
+### Migration Process
 
-- [Facebook OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/facebook.js)
-- [Twitter OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/twitter.js)
-- [Instagram OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/instagram.js)
-- [Microsoft Graph OAuth](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Auth/microsoft.js)
+The following describes the process to migrate an app with one or multiple adapters with insecure authentication to secure authentication. The migration can be done for all affected adapters simultaneously, or for each adapter individually on their own timeline.
+
+1. Set the Parse Server option `enableInsecureAuthAdapters: true` to explicitly allow insecure authentication. This does not have any effect on your app as we assume that the Parse Server version you are currently using allows insecure authentication by default.
+2. Set the authentication adapter option `enableInsecureAuth: true` of the adapter to migrate to explicitly allow insecure authentication for the specific adapter. This does not have any effect on your app as we assume that the adapter of the Parse Server version your are currently using allows insecure authentication by default.
+3. Modify your client app code so that instead of sending the insecure authentication payload it sends the secure authentication payload for the adapters to migrate, see the adapter documentation for details about the payload.
+4. Roll out the modified client. If the rollout takes place gradually, for example because you have to wait for your users to upgrade their client app, Parse Server will receive payloads for secure authentication from new clients, and payloads for insecure authentication from old clients.
+5. Set the authentication adapter option `enableInsecureAuth: false`, once sufficient old clients have upgraded to new clients, depending on your client rollout strategy. This option can be set for each adapter individually, for example in case of multiple clients with different rollout speed.
+
+   ⚠️ From now on, old clients that try to authenticate with insecure authentication payloads will receive an error as response from Parse Server. You may want to inform users of old clients that they need to upgrade.
+
+6. Once all adapters that allow insecure authentication are set to `enableInsecureAuth: false`, set the general Parse Server option `enableInsecureAuthAdapters: false` to disable insecure authentication for all adapters. This does not have any effect on your app as we assume no authentication adapter is allowing insecure authentication at this point.
