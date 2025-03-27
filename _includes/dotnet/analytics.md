@@ -83,7 +83,7 @@ public async Task TrackErrorEventAsync(int errorCode)
     }
     catch (Exception ex)
     {
-       //It failed.. not much to do, is there?
+        // It failed.. not much to do, is there?
         Console.WriteLine($"Analytics tracking failed: {ex.Message}");
     }
 }
