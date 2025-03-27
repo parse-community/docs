@@ -30,8 +30,8 @@ public App()
 
 **Important Considerations:**
 
-*   **`Task.Run()`:** We use `Task.Run()` to call `TrackLaunchAsync()` *without* awaiting it in the `App` constructor.  This is crucial because the constructor should complete quickly to avoid delaying app startup.  `TrackLaunchAsync` will run in the background.  If Parse initialization fails, we *don't* track the app open.
-*   **MAUI Lifecycle:** MAUI's lifecycle events are different from older platforms.  There isn't a single, universally appropriate "launching" event.  The `App` constructor is generally a good place, *provided* you initialize Parse first and handle potential initialization failures.  Other possible locations (depending on your specific needs) might include the `OnStart` method of your `App` class, or the first page's `OnAppearing` method. However, the constructor ensures it's tracked as early as possible.
+* **`Task.Run()`:** We use `Task.Run()` to call `TrackLaunchAsync()` *without* awaiting it in the `App` constructor.  This is crucial because the constructor should complete quickly to avoid delaying app startup.  `TrackLaunchAsync` will run in the background.  If Parse initialization fails, we *don't* track the app open.
+* **MAUI Lifecycle:** MAUI's lifecycle events are different from older platforms.  There isn't a single, universally appropriate "launching" event.  The `App` constructor is generally a good place, *provided* you initialize Parse first and handle potential initialization failures.  Other possible locations (depending on your specific needs) might include the `OnStart` method of your `App` class, or the first page's `OnAppearing` method. However, the constructor ensures it's tracked as early as possible.
 * **Push Notifications:** If you are using Push Notifications, you'll likely need to handle tracking opens from push notifications separately, in the code that handles the push notification reception and user interaction.  This is *not* covered in this basic analytics section (see the Push Notifications documentation).
 
 ## Custom Analytics
