@@ -1,141 +1,86 @@
 # Roles
 
-As your app grows, you may need more granular control over data access than user-linked ACLs provide. Parse supports Role-Based Access Control (RBAC) using `ParseRole` objects. Roles group users with common access privileges. Permissions granted to a role are implicitly granted to its users and to users of any child roles (roles contained within the role).
+As your app grows in scope and user-base, you may find yourself needing more coarse-grained control over access to pieces of your data than user-linked ACLs can provide. To address this requirement, Parse supports a form of [Role-based Access Control](http://en.wikipedia.org/wiki/Role-based_access_control). Roles provide a logical way of grouping users with common access privileges to your Parse data. Roles are named objects that contain users and other roles.  Any permission granted to a role is implicitly granted to its users as well as to the users of any roles that it contains.
 
-Example:  A content curation app might have "Moderators" (who can modify/delete content) and "Administrators" (who have Moderator privileges plus the ability to change app settings).  Adding users to these roles simplifies permission management.
+For example, in your application with curated content, you may have a number of users that are considered "Moderators" and can modify and delete content created by other users.  You may also have a set of users that are "Administrators" and are allowed all of the same privileges as Moderators, but can also modify the global settings for the application. By adding users to these roles, you can ensure that new users can be made moderators or administrators, without having to manually grant permission to every resource for each user.
 
-`ParseRole` is a subclass of `ParseObject` with the same features (flexible schema, persistence, key-value interface) plus role-specific additions.
+We provide a specialized class called `ParseRole` that represents these role objects in your client code.  `ParseRole` is a subclass of `ParseObject`, and has all of the same features, such as a flexible schema, automatic persistence, and a key value interface.  All the methods that are on `ParseObject` also exist on `ParseRole`.  The difference is that `ParseRole` has some additions specific to management of roles.
 
 ## `ParseRole` Properties
 
-*   **`Name`:** (Required, Unique, Immutable) The role's name.  Must be alphanumeric, spaces, `-`, or `_`.  Used to identify the role without its `objectId`.  Cannot be changed after creation.
-*   **`Users`:** A `ParseRelation<ParseUser>` to the users who inherit the role's permissions.
-*   **`Roles`:** A `ParseRelation<ParseRole>` to child roles whose users and roles inherit the parent role's permissions.
+`ParseRole` has several properties that set it apart from `ParseObject`:
+
+* name: The name for the role.  This value is required, must be unique, and can only be set once as a role is being created.  The name must consist of alphanumeric characters, spaces, -, or _.  This name will be used to identify the Role without needing its objectId.
+* users: A [relation] (#using-pointers) to the set of users that will inherit permissions granted to the containing role.
+* roles: A [relation] (#using-pointers) to the set of roles whose users and roles will inherit permissions granted to the containing role.
 
 ## Security for Role Objects
 
-`ParseRole` uses the same ACL-based security as other Parse objects, but you *must* set an ACL explicitly when creating a `ParseRole`.  Typically, only highly privileged users (e.g., administrators) should create or modify roles.  Carefully define ACLs to restrict role modification.  A user with write access to a role can add other users to it or even delete it.
+The `ParseRole` uses the same security scheme (ACLs) as all other objects on Parse, except that it requires an ACL to be set explicitly. Generally, only users with greatly elevated privileges (e.g. a master user or Administrator) should be able to create or modify a Role, so you should define its ACLs accordingly.  Remember, if you give write-access to a `ParseRole` to a user, that user can add other users to the role, or even delete the role altogether.
 
-**Creating a `ParseRole`:**
+To create a new `ParseRole`, you would write:
 
-```csharp
-// Create an "Administrator" role with restricted access.
+```cs
+// By specifying no write privileges for the ACL, we can ensure the role cannot be altered.
 var roleACL = new ParseACL()
-{
-    PublicReadAccess = true, // Allow everyone to *read* the role (e.g., to check if a user is in it).
-    // Do NOT set PublicWriteAccess = true!  Only authorized users should modify roles.
-};
-
-// Option 1: Using ParseRole constructor.
-var adminRole = new ParseRole("Administrator", roleACL);
-await adminRole.SaveAsync();
-
-// Option 2:  Using ParseObject (less common, but valid)
-var adminRoleObj = new ParseObject("Role");
-adminRoleObj["name"] = "Administrator";
-adminRoleObj.ACL = roleACL;
-await adminRoleObj.SaveAsync();
-
-
-// Option 3: Using ParseClient and subclasses (best for subclasses)
-[ParseClassName("Role")]
-public class Role: ParseRole
-{
-    public Role() : base() { }
-}
-
-//....
-ParseClient.Instance.RegisterSubclass(Role);
-//....
-
-    var adminRoleSubClass = ParseClient.Instance.CreateObjectWithData<Role>(new Dictionary<string, object>
-    {
-        {"name","Administrator" }
-    });
-adminRoleSubClass.ACL = roleACL;
-await adminRoleSubClass.SaveAsync();
+roleACL.PublicReadAccess = true;
+var role = new ParseRole("Administrator", roleACL);
+await role.SaveAsync();
 ```
 
-**Adding Users and Child Roles:**
+You can add users and roles that should inherit your new role's permissions through the "users" and "roles" relations on `ParseRole`:
 
-```csharp
-// Assuming adminRole is an existing ParseRole, and you have lists of users and roles.
-
-//Get the users relation
-ParseRelation<ParseUser> usersRelation = adminRole.GetRelation<ParseUser>("users");
+```cs
+var role = new ParseRole(roleName, roleACL);
 foreach (ParseUser user in usersToAddToRole)
 {
-    usersRelation.Add(user);
+    role.Users.Add(user);
 }
-//Get the roles relation
-ParseRelation<ParseRole> rolesRelation = adminRole.GetRelation<ParseRole>("roles");
 foreach (ParseRole childRole in rolesToAddToRole)
 {
-    rolesRelation.Add(childRole);
+    role.Roles.Add(childRole);
 }
-
-await adminRole.SaveAsync();
-
-// Alternative, using the Users and Roles properties if you have a subclass:
-// Assuming 'Role' subclass as defined above.
-// adminRole.Users.Add(user); // If you have a 'Users' property of type ParseRelation<ParseUser>
-// adminRole.Roles.Add(childRole); // If you have a 'Roles' property of type ParseRelation<ParseRole>
+await role.SaveAsync();
 ```
 
-**Important:**  Be *extremely* careful with role ACLs to prevent unauthorized modification.
+Take great care when assigning ACLs to your roles so that they can only be modified by those who should have permissions to modify them.
 
-## Role-Based Security for Other Objects
+## Role Based Security for Other Objects
 
-Use roles with ACLs to define object-level permissions.
+Now that you have created a set of roles for use in your application, you can use them with ACLs to define the privileges that their users will receive. Each `ParseObject` can specify a `ParseACL`, which provides an access control list that indicates which users and roles should be granted read or write access to the object.
 
-**Granting Access to a Role:**
+Giving a role read or write permission to an object is straightforward.  You can either use the `ParseRole`:
 
-```csharp
-// Option 1: Using a queried ParseRole object:
-//(Make sure you registered your custom class first)
-var moderators = await ParseClient.Instance.GetQuery<ParseRole>()
-    .WhereEqualTo("name", "Moderators")
-    .FirstOrDefaultAsync(); // Or FirstAsync() if you're sure it exists
-
-if (moderators != null)
-{
-    var wallPost = new ParseObject("WallPost");
-    var postACL = new ParseACL();
-    postACL.SetRoleWriteAccess(moderators, true); // Grant write access to the Moderators role.
-    // Could also set postACL.SetRoleReadAccess(moderators, true);
-    wallPost.ACL = postACL;
-    await wallPost.SaveAsync();
-}
-
-// Option 2: Using the role name directly (more efficient, avoids a query):
+```cs
+var moderators = await (from role in ParseRole.Query
+                        where role.Name == "Moderators"
+                        select role).FirstAsync();
 var wallPost = new ParseObject("WallPost");
 var postACL = new ParseACL();
-postACL.SetRoleWriteAccess("Moderators", true); // Grant write access by role name.
+postACL.SetRoleWriteAccess(moderators, true);
 wallPost.ACL = postACL;
 await wallPost.SaveAsync();
 ```
 
-Option 2 is generally preferred as it avoids an extra query to fetch the role object.
+You can avoid querying for a role by specifying its name for the ACL:
+
+```cs
+var wallPost = new ParseObject("WallPost");
+var postACL = new ParseACL();
+postACL.SetRoleWriteAccess("Moderators", true);
+wallPost.ACL = postACL;
+await wallPost.SaveAsync();
+```
 
 ## Role Hierarchy
 
-Roles can contain other roles, creating a parent-child relationship.  Permissions granted to a parent role are implicitly granted to all child roles (and their children, recursively).
+As described above, one role can contain another, establishing a parent-child relationship between the two roles. The consequence of this relationship is that any permission granted to the parent role is implicitly granted to all of its child roles.
 
-Example:  "Administrators" have all "Moderator" permissions, plus more.
+These types of relationships are commonly found in applications with user-managed content, such as forums. Some small subset of users are "Administrators", with the highest level of access to tweaking the application's settings, creating new forums, setting global messages, and so on. Another set of users are "Moderators", who are responsible for ensuring that the content created by users remains appropriate. Any user with Administrator privileges should also be granted the permissions of any Moderator. To establish this relationship, you would make your "Administrators" role a child role of "Moderators", like this:
 
-```csharp
-// Assuming you have existing ParseRole objects for "Administrators" and "Moderators".
-//(Make sure you registered your custom class first)
-ParseRole? administrators = await ParseClient.Instance.GetQuery<ParseRole>()
-    .WhereEqualTo("name", "Administrators").FirstOrDefaultAsync();
-ParseRole? moderators = await ParseClient.Instance.GetQuery<ParseRole>()
-    .WhereEqualTo("name", "Moderators").FirstOrDefaultAsync();
-
-if (administrators != null && moderators != null)
-{
-    moderators.GetRelation<ParseRole>("roles").Add(administrators); // Add "Administrators" as a *child* of "Moderators".
-    //Or
-    //moderators.Roles.Add(administrators);
-    await moderators.SaveAsync();
-}
+```cs
+ParseRole administrators = /* Your "Administrators" role */;
+ParseRole moderators = /* Your "Moderators" role */;
+moderators.Roles.Add(administrators);
+await moderators.SaveAsync();
 ```
