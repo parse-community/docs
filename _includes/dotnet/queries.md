@@ -1,358 +1,411 @@
 # Queries
 
-We've already seen how to use `ParseQuery<T>` with `GetAsync()` to retrieve a single `ParseObject` by its `objectId`.  `ParseQuery` offers much more powerful ways to retrieve data. You can retrieve multiple objects, filter results based on conditions, and more.
+We've already seen how a `ParseQuery` with `GetAsync` can retrieve a single `ParseObject` from Parse. There are many other ways to retrieve data with `ParseQuery` - you can retrieve many objects at once, put conditions on the objects you wish to retrieve, and more.
 
 ## Basic Queries
 
-`GetAsync()` is limited (Well, "Simplified").  `ParseQuery<T>` lets you retrieve lists of objects based on criteria.
+In many cases, `GetAsync` isn't powerful enough to specify which objects you want to retrieve. The `ParseQuery` offers different ways to retrieve a list of objects rather than just a single object.
 
-The general pattern is:
+The general pattern is to create a `ParseQuery`, constraints to it, and then retrieve an `IEnumerable` of matching `ParseObjects`s using `FindAsync`. While `ParseQuery` supports a method-based approach for building your query, we highly recommend you use LINQ.  This allows to use the full power of the LINQ C# and Visual Basic language features to create rich queries over your data.
 
-1.  Create a `ParseQuery<T>` (where `T` is `ParseObject` or your subclass).
-2.  Add constraints (filters, limits, ordering).
-3.  Retrieve matching objects using `FindAsync()`, which returns an `IEnumerable<T>`.
+For example, to retrieve scores with a particular `playerName`, use a "where" clause to constrain the value for a key.
 
-While `ParseQuery<T>` supports a method-based (fluent) syntax, we strongly recommend using LINQ for its expressiveness and type safety.
-
-Example: Retrieve scores for a specific player:
-
-```csharp
-// Using LINQ (Recommended)
-var query = from gameScore in ParseClient.Instance.GetQuery("GameScore") // Use ParseClient.Instance
+```cs
+var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
             where gameScore.Get<string>("playerName") == "Dan Stemkoski"
             select gameScore;
 IEnumerable<ParseObject> results = await query.FindAsync();
 
-// Using the fluent syntax (less recommended)
-var query = ParseClient.Instance.GetQuery("GameScore") // Use ParseClient.Instance
+// or using LINQ
+var query = ParseClient.Instance.GetQuery("GameScore")
     .WhereEqualTo("playerName", "Dan Stemkoski");
 IEnumerable<ParseObject> results = await query.FindAsync();
-```
-If you use subclasses.
-```csharp
-//If you use subclasses
-var query = from gameScore in ParseClient.Instance.GetQuery<GameScore>() // Use ParseClient.Instance
-            where gameScore.PlayerName == "Dan Stemkoski"
-            select gameScore;
-IEnumerable<GameScore> results = await query.FindAsync();
 ```
 
 ## Query Constraints
 
-You can add constraints to filter the objects returned.
+There are several ways to put constraints on the objects found by a `ParseQuery`. You can filter out objects with a particular key-value pair with a LINQ `where ... != ...` clause or a call to `WhereNotEqualTo`:
 
-**Filtering by Value:**
-
-```csharp
-// LINQ (Recommended)
+```cs
 var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
             where gameScore.Get<string>("playerName") != "Michael Yabuti"
             select gameScore;
 
-// Fluent Syntax
+// or using LINQ
 var query = ParseClient.Instance.GetQuery("GameScore")
     .WhereNotEqualTo("playerName", "Michael Yabuti");
 ```
 
-**Multiple Constraints (AND):**
+You can give multiple constraints, and objects will only be in the results if they match all of the constraints.  In other words, it's like an AND of constraints.
 
-Multiple constraints act as an "AND" – objects must match *all* constraints.
-
-```csharp
-// LINQ (Recommended) - Equivalent ways to express the same query
+```cs
+// The following queries are equivalent:
 var query1 = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-             where gameScore.Get<string>("playerName") != "Michael Yabuti"
+             where !gameScore.Get<string>("playerName").Equals("Michael Yabuti")
              where gameScore.Get<int>("playerAge") > 18
              select gameScore;
 
 var query2 = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-             where gameScore.Get<string>("playerName") != "Michael Yabuti"
+             where !gameScore.Get<string>("playerName").Equals("Michael Yabuti")
                  && gameScore.Get<int>("playerAge") > 18
              select gameScore;
 
-// Fluent Syntax
+// or using LINQ
 var query = ParseClient.Instance.GetQuery("GameScore")
     .WhereNotEqualTo("playerName", "Michael Yabuti")
     .WhereGreaterThan("playerAge", 18);
 ```
 
-**Limiting Results (`Limit`):**
+You can limit the number of results by calling `Limit`. By default, results are limited to 100. In the old Parse hosted backend, the maximum limit was 1,000, but Parse Server removed that constraint:
 
-```csharp
-query = query.Limit(10); // Limit to at most 10 results.  Default is 100. No maximum.
+```cs
+query = query.Limit(10); // limit to at most 10 results
 ```
 
-**Getting a Single Result (`FirstAsync`, `FirstOrDefaultAsync`):**
+If you want exactly one result, a more convenient alternative may be to use `FirstAsync` or `FirstOrDefaultAsync` instead of using `FindAsync`.
 
-For a single result, use `FirstAsync()` or `FirstOrDefaultAsync()` instead of `FindAsync()`:
-
-```csharp
-// LINQ
+```cs
 var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
             where gameScore.Get<string>("playerEmail") == "dstemkoski@example.com"
             select gameScore;
-ParseObject obj = await query.FirstAsync(); // Throws if no results.
-// Or:
-ParseObject objOrNull = await query.FirstOrDefaultAsync(); // Returns null if no results.
+ParseObject obj = await query.FirstAsync();
 
-// Fluent Syntax
+// or using LINQ
 var query = ParseClient.Instance.GetQuery("GameScore")
     .WhereEqualTo("playerEmail", "dstemkoski@example.com");
-ParseObject obj = await query.FirstAsync(); // Throws if no results.
+ParseObject obj = await query.FirstAsync();
 ```
 
-**Pagination (`Skip`):**
+You can skip the first results by calling `Skip`. In the old Parse hosted backend, the maximum skip value was 10,000, but Parse Server removed that constraint. This can be useful for pagination:
 
-```csharp
-query = query.Skip(10); // Skip the first 10 results.  No Maximum.
+```cs
+query = query.Skip(10); // skip the first 10 results
 ```
 
-**Ordering Results (`OrderBy`, `OrderByDescending`, `ThenBy`, `ThenByDescending`):**
+For sortable types like numbers and strings, you can control the order in which results are returned:
 
-```csharp
-// LINQ (Recommended)
+```cs
+// Sorts the results in ascending order by score and descending order by playerName
 var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-            orderby gameScore.Get<int>("score") ascending, gameScore.Get<string>("playerName") descending
+            orderby gameScore.Get<int>("score") descending, gameScore.Get<string>("playerName")
             select gameScore;
 
-// Fluent Syntax
+// or using LINQ
+// Sorts the results in ascending order by score and descending order by playerName
 var query = ParseClient.Instance.GetQuery("GameScore")
-    .OrderBy("score")         // Ascending by score
-    .ThenByDescending("playerName"); // Then descending by playerName
+    .OrderBy("score")
+    .ThenByDescending("playerName");
 ```
 
-**Comparison Operators (`>`, `>=`, `<`, `<=`)**:
+For sortable types, you can also use comparisons in queries:
 
-```csharp
-// LINQ (Recommended)
-query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
+```cs
+// Restricts to wins < 50
+query = from gameScore in query
         where gameScore.Get<int>("wins") < 50
         select gameScore;
 
-// Fluent Syntax
-query = ParseClient.Instance.GetQuery("GameScore")
-    .WhereLessThan("wins", 50); // Other methods: WhereLessThanOrEqualTo, WhereGreaterThan, WhereGreaterThanOrEqualTo
+// Restricts to wins <= 50
+query = from gameScore in query
+        where gameScore.Get<int>("wins") <= 50
+        select gameScore;
+
+// Restricts to wins > 50
+query = from gameScore in query
+        where gameScore.Get<int>("wins") > 50
+        select gameScore;
+
+// Restricts to wins >= 50
+query = from gameScore in query
+        where gameScore.Get<int>("wins") >= 50
+        select gameScore;
+
+// or using LINQ
+// Restricts to wins < 50
+query = query.WhereLessThan("wins", 50);
+
+// Restricts to wins <= 50
+query = query.WhereLessThanOrEqualTo("wins", 50);
+
+// Restricts to wins > 50
+query = query.WhereGreaterThan("wins", 50);
+
+// Restricts to wins >= 50
+query = query.WhereGreaterThanOrEqualTo("wins", 50);
 ```
 
-**Multiple Values (`WhereContainedIn`, `WhereNotContainedIn`, `Contains`, `!Contains`):**
+If you want to retrieve objects matching several different values, you can use `WhereContainedIn` or a `Contains` LINQ query, providing an list of acceptable values. This is often useful to replace multiple queries with a single query. For example, if you want to retrieve scores made by any player in a particular list:
 
-```csharp
-// LINQ (Recommended)
+```cs
+// Finds scores from any of Jonathan, Dario, or Shawn
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-            where names.Contains(gameScore.Get<string>("playerName"))  // Contains
+            where names.Contains(gameScore.Get<string>("playerName"))
             select gameScore;
 
-// Fluent Syntax
+// or using LINQ
+// Finds scores from any of Jonathan, Dario, or Shawn
 var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = ParseClient.Instance.GetQuery("GameScore")
-    .WhereContainedIn("playerName", names); // WhereContainedIn
-
-// For NOT contained in:
-var queryNotIn = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-                  where !names.Contains(gameScore.Get<string>("playerName")) // !Contains
-                  select gameScore;
-
-var queryNotInFluent = ParseClient.Instance.GetQuery("GameScore")
-    .WhereNotContainedIn("playerName", names); //WhereNotContainedIn
+    .WhereContainedIn("playerName", names);
 ```
 
-**Checking for Key Existence (`ContainsKey`, `!ContainsKey`, `WhereExists`, `WhereDoesNotExist`):**
+If you want to retrieve objects that do not match any of several values you can use `WhereNotContainedIn` or a `!Contains` LINQ query, providing an list of acceptable values. For example, if you want to retrieve scores from players besides those in a list:
 
-```csharp
-// LINQ (Recommended)
+```cs
+// Finds scores from any of Jonathan, Dario, or Shawn
+var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-            where gameScore.ContainsKey("score") // Key exists
+            where !names.Contains(gameScore.Get<string>("playerName"))
             select gameScore;
 
-var queryNotExists = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-                    where !gameScore.ContainsKey("score") // Key does NOT exist
-                    select gameScore;
-
-// Fluent Syntax
+// or using LINQ
+// Finds scores from any of Jonathan, Dario, or Shawn
+var names = new[] { "Jonathan Walsh", "Dario Wunsch", "Shawn Simon" };
 var query = ParseClient.Instance.GetQuery("GameScore")
-    .WhereExists("score"); // Key exists
-
-var queryNotExists = ParseClient.Instance.GetQuery("GameScore")
-    .WhereDoesNotExist("score"); // Key does NOT exist
+    .WhereNotContainedIn("playerName", names);
 ```
 
-**Matching Keys in Related Queries (`WhereMatchesKeyInQuery`, `join`):**
+If you want to retrieve objects that have a particular key set, you can use `WhereExists` or an `ContainsKey` LINQ query. Conversely, if you want to retrieve objects without a particular key set, you can use `WhereDoesNotExist` or an `!ContainsKey` LINQ query.
 
-Find users whose hometown teams have winning records:
+```cs
+// Finds objects that have the score set
+var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
+            where gameScore.ContainsKey("score")
+            select gameScore;
 
-```csharp
-// LINQ (Recommended)
+// Finds objects that don't have the score set
+var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
+            where !gameScore[.ContainsKey("score")
+            select gameScore;
+
+// or using LINQ
+// Finds objects that have the score set
+var query = ParseClient.Instance.GetQuery("GameScore")
+    .WhereExists("score");
+
+// Finds objects that don't have the score set
+var query = ParseClient.Instance.GetQuery("GameScore")
+    .WhereDoesNotExist("score");
+```
+
+You can use the `WhereMatchesKeyInQuery` method or a `join` LINQ query to get objects where a key matches the value of a key in a set of objects resulting from another query.  For example, if you have a class containing sports teams and you store a user's hometown in the user class, you can issue one query to find the list of users whose hometown teams have winning records.  The query would look like:
+
+```cs
 var teamQuery = from team in ParseClient.Instance.GetQuery("Team")
                 where team.Get<double>("winPct") > 0.5
                 select team;
-var userQuery = from user in ParseClient.Instance.GetQuery<ParseUser>() // Use ParseUser.Query for users
-                join team in teamQuery on user.Get<string>("hometown") equals team.Get<string>("city")
+var userQuery = from user in ParseUser.Query
+                join team in teamQuery on user["hometown"] equals team["city"]
                 select user;
 IEnumerable<ParseUser> results = await userQuery.FindAsync();
+// results will contain users with a hometown team with a winning record
 
-// Fluent Syntax
-var teamQuery = ParseClient.Instance.GetQuery("Team")
+// or using LINQ
+var teamQuery = ParseQuery.GetQuery("Team")
     .WhereGreaterThan("winPct", 0.5);
-var userQuery = ParseClient.Instance.GetQuery<ParseUser>() // Use ParseUser.Query
+var userQuery = ParseUser.Query
     .WhereMatchesKeyInQuery("hometown", "city", teamQuery);
 IEnumerable<ParseUser> results = await userQuery.FindAsync();
+// results will contain users with a hometown team with a winning record
 ```
 
 ## Queries on List Values
 
-To find objects where a list field contains a specific value:
+For keys with an array type, you can find objects where the key's array value contains 2 by:
 
-```csharp
-// LINQ
+ ```cs
+// Find objects where the list in listKey contains 2.
 var query = from obj in ParseClient.Instance.GetQuery("MyClass")
             where obj.Get<IList<int>>("listKey").Contains(2)
             select obj;
 
-// Fluent Syntax
+// or using LINQ
+// Find objects where the list in listKey contains 2.
 var query = ParseClient.Instance.GetQuery("MyClass")
-    .WhereEqualTo("listKey", 2); // Note: This works for *exact* element matching within the list.
+    .WhereEqualTo("listKey", 2);
 ```
 
 ## Queries on String Values
 
-**`StartsWith` (Indexed, Efficient):**
+Use `WhereStartsWith` or a `StartsWith` LINQ query to restrict to string values that start with a particular string. Similar to a MySQL LIKE operator, this is indexed so it is efficient for large datasets:
 
-```csharp
-// LINQ (Recommended)
+```cs
+// Finds barbecue sauces that start with "Big Daddy's".
 var query = from sauce in ParseClient.Instance.GetQuery("BarbecueSauce")
             where sauce.Get<string>("name").StartsWith("Big Daddy's")
             select sauce;
 
-// Fluent Syntax
+// or using LINQ
+// Finds barbecue sauces that start with "Big Daddy's".
 var query = ParseClient.Instance.GetQuery("BarbecueSauce")
     .WhereStartsWith("name", "Big Daddy's");
 ```
 
-This matches "Big Daddy's" and "Big Daddy's BBQ" but *not* "big daddy's" (case-sensitive) or "BBQ Sauce: Big Daddy's".
+The above example will match any `BarbecueSauce` objects where the value in the "name" String key starts with "Big Daddy's". For example, both "Big Daddy's" and "Big Daddy's BBQ" will match, but "big daddy's" or "BBQ Sauce: Big Daddy's" will not.
 
-**Regular Expressions (Expensive):**  Avoid regular expression queries if possible, as they are very slow. See the Performance Guide for details.
+Queries that have regular expression constraints are very expensive. Refer to the [Performance Guide] (#regular-expressions) for more details.
+
 
 ## Relational Queries
 
-**Querying for Related Objects (`WhereEqualTo`, `==`):**
+There are several ways to issue queries for relational data. If you want to retrieve objects where a field matches a particular `ParseObject`, you can use `WhereEqualTo` or a `==` LINQ query just like for other data types. For example, if each `Comment` has a `Post` object in its `post` field, you can fetch comments for a particular `Post`:
 
-```csharp
-// Assuming myPost is an existing ParseObject
-// LINQ
+```cs
+// Assume ParseObject myPost was previously created.
 var query = from comment in ParseClient.Instance.GetQuery("Comment")
-            where comment.Get<ParseObject>("post") == myPost // Use Get<ParseObject> for pointers
+            where comment["post"] == myPost
             select comment;
 
-// Fluent Syntax
+var comments = await query.FindAsync();
+// comments now contains the comments for myPost
+
+// or using LINQ
+// Assume ParseObject myPost was previously created.
 var query = ParseClient.Instance.GetQuery("Comment")
     .WhereEqualTo("post", myPost);
 
-// Querying by objectId:
-var queryById = from comment in ParseClient.Instance.GetQuery("Comment")
-                where comment.Get<ParseObject>("post").ObjectId == "1zEcyElZ80" //compare objectId
-                select comment;
-
-// Fluent
- var queryByIdFluent = ParseClient.Instance.GetQuery("Comment")
-     .WhereEqualTo("post", ParseClient.Instance.CreateWithoutData("Post", "1zEcyElZ80"));
+var comments = await query.FindAsync();
+//comments now contains the comments for myPost
 ```
 
-**Matching a Subquery (`WhereMatchesQuery`, `join`):**
+You can also do relational queries by `ObjectId`:
 
-Find comments for posts that have images:
+```cs
+var query = from comment in ParseClient.Instance.GetQuery("Comment")
+            where comment["post"] == ParseClient.Instance.CreateWithoutData(("Post", "1zEcyElZ80")
+            select comment;
 
-```csharp
-// LINQ (Recommended)
+// or using LINQ
+var query = ParseClient.Instance.GetQuery("Comment")
+    .WhereEqualTo("post",ParseClient.Instance.CreateWithoutData(("Post", "1zEcyElZ80"));
+```
+
+If you want to retrieve objects where a field contains a `ParseObject` that matches a different query, you can use `WhereMatchesQuery` or a `join` LINQ query. In order to find comments for posts with images, you can do:
+
+```cs
 var imagePosts = from post in ParseClient.Instance.GetQuery("Post")
                  where post.ContainsKey("image")
                  select post;
 var query = from comment in ParseClient.Instance.GetQuery("Comment")
-            join post in imagePosts on comment.Get<ParseObject>("post") equals post // Use Get<ParseObject>
+            join post in imagePosts on comment["post"] equals post
             select comment;
 
-// Fluent Syntax
+var comments = await query.FindAsync();
+// comments now contains the comments for posts with images
+
+// or using LINQ
 var imagePosts = ParseClient.Instance.GetQuery("Post")
     .WhereExists("image");
 var query = ParseClient.Instance.GetQuery("Comment")
     .WhereMatchesQuery("post", imagePosts);
+
+var comments = await query.FindAsync();
+// comments now contains the comments for posts with images
 ```
 
-**Not Matching a Subquery (`WhereDoesNotMatchQuery`):**
+If you want to retrieve objects where a field contains a `ParseObject` that does not match a different query, you can use `WhereDoesNotMatchQuery`.  In order to find comments for posts without images, you can do:
 
-Find comments for posts *without* images:
+```cs
+var imagePosts = from post in ParseClient.Instance.GetQuery("Post")
+                 where post.ContainsKey("image")
+                 select post;
+var query = ParseClient.Instance.GetQuery("Comment")
+    .WhereDoesNotMatchQuery("post", imagePosts);
 
-```csharp
-// Fluent Syntax (LINQ equivalent is more complex and less readable)
+var comments = await query.FindAsync();
+// comments now contains the comments for posts without images
+
+// or using LINQ
 var imagePosts = ParseClient.Instance.GetQuery("Post")
     .WhereExists("image");
 var query = ParseClient.Instance.GetQuery("Comment")
     .WhereDoesNotMatchQuery("post", imagePosts);
+
+var comments = await query.FindAsync();
+// comments now contains the comments for posts without images
 ```
 
-**Including Related Objects (`Include`):**
+In some situations, you want to return multiple types of related objects in one query. You can do this with the `Include` method. For example, let's say you are retrieving the last ten comments, and you want to retrieve their related posts at the same time:
 
-Retrieve comments and their related posts in a single query:
-
-```csharp
-// LINQ (Recommended)
+```cs
+// Retrieve the most recent comments
 var query = from comment in ParseClient.Instance.GetQuery("Comment")
+                                       // Only retrieve the last 10 comments
+                                       .Limit(10)
+                                       // Include the post data with each comment
+                                       .Include("post")
             orderby comment.CreatedAt descending
             select comment;
 
-query = query.Take(10);  // Limit to 10 results (Take is equivalent to Limit)
-query = query.Include(x => x.Get<ParseObject>("post")); // Include the "post" object.
+var comments = await comments.FindAsync();
 
-// Fluent Syntax
-var query = ParseClient.Instance.GetQuery("Comment")
-    .OrderByDescending("createdAt")
-    .Limit(10)
-    .Include("post");
-
-var comments = await query.FindAsync();
-
+// Comments now contains the last ten comments, and the "post" field
+// contains an object that has already been fetched.  For example:
 foreach (var comment in comments)
 {
-    // Access the related post without another network request:
+    // This does not require a network access.
     var post = comment.Get<ParseObject>("post");
-    Console.WriteLine("Post title: " + post.Get<string>("title")); // Use Get<string>
+    Debug.WriteLine("Post title: " + post["title"]);
+}
+
+// or using LINQ
+// Retrieve the most recent comments
+var query = ParseClient.Instance.GetQuery("Comment")
+    .OrderByDescending("createdAt")
+    .Limit(10) // Only retrieve the last 10 comments
+    .Include("post"); // Include the post data with each comment
+
+// Only retrieve the last 10 comments
+query = query.Limit(10);
+
+// Include the post data with each comment
+query = query.Include("post");
+
+var comments = await comments.FindAsync();
+
+// Comments now contains the last ten comments, and the "post" field
+// contains an object that has already been fetched.  For example:
+foreach (var comment in comments)
+{
+    // This does not require a network access.
+    var post = comment.Get<ParseObject>("post");
+    Debug.WriteLine("Post title: " + post["title"]);
 }
 ```
 
-**Multi-Level Include:**
+You can also do multi level includes using dot notation.  If you wanted to include the post for a comment and the post's author as well you can do:
 
-```csharp
-query = query.Include(x => x.Get<ParseObject>("post").Get<ParseUser>("author")); // Include post and post's author
-//or
+```cs
 query = query.Include("post.author");
 ```
 
-You can call `Include` multiple times to include multiple fields.
+You can issue a query with multiple fields included by calling `Include` multiple times. This functionality also works with `ParseQuery` helpers like `FirstAsync` and `GetAsync`
 
-## Counting Objects (`CountAsync`)
+## Counting Objects
 
-To get the *number* of matching objects without retrieving the objects themselves:
+Note: In the old Parse hosted backend, count queries were rate limited to a maximum of 160 requests per minute. They also returned inaccurate results for classes with more than 1,000 objects. But, Parse Server has removed both constraints and can count objects well above 1,000.
 
-```csharp
-// LINQ
+If you just need to count how many objects match a query, but you do not need to retrieve the objects that match, you can use `CountAsync` instead of `FindAsync`. For example, to count how many games have been played by a particular player:
+
+```cs
 var query = from gameScore in ParseClient.Instance.GetQuery("GameScore")
-            where gameScore.Get<string>("playerName") == "Sean Plott"
+            where gameScore["playerName"] == "Sean Plott"
             select gameScore;
 var count = await query.CountAsync();
 
-// Fluent Syntax
+// or using LINQ
+// First set up a callback.
 var query = ParseClient.Instance.GetQuery("GameScore")
     .WhereEqualTo("playerName", "Sean Plott");
 var count = await query.CountAsync();
 ```
-`CountAsync` queries are no longer rate limited and do not have the 1,000 object limitation of the old Parse hosted backend.
 
-## Compound Queries (`Or`)
+## Compound Queries
 
-Combine multiple queries with a logical OR:
+If you want to find objects that match one of several queries, you can use the `Or` method.  For instance, if you want to find players with either have a lot of wins or a few wins, you can do:
 
-```csharp
-// LINQ (Recommended) -  More complex, fluent syntax is generally preferred for this.
+```cs
 var lotsOfWins = from player in ParseClient.Instance.GetQuery("Player")
                  where player.Get<int>("wins") > 150
                  select player;
@@ -361,10 +414,12 @@ var fewWins = from player in ParseClient.Instance.GetQuery("Player")
               where player.Get<int>("wins") < 5
               select player;
 
-var combinedQuery = lotsOfWins.Or(fewWins);
-var results = await combinedQuery.FindAsync(); // Players with many OR few wins
+ParseQuery<ParseObject> query = lotsOfWins.Or(fewWins);
 
-// Fluent Syntax (Generally preferred for compound queries)
+var results = await query.FindAsync();
+// results contains players with lots of wins or only a few wins.
+
+// or using LINQ
 var lotsOfWins = ParseClient.Instance.GetQuery("Player")
     .WhereGreaterThan("wins", 150);
 
@@ -372,10 +427,9 @@ var fewWins = ParseClient.Instance.GetQuery("Player")
     .WhereLessThan("wins", 5);
 
 ParseQuery<ParseObject> query = lotsOfWins.Or(fewWins);
-var results = await query.FindAsync();
+// results contains players with lots of wins or only a few wins.
 ```
 
-**Limitations of Compound Queries:**
+You can add additional constraints to the newly created `ParseQuery` that act as an 'and' operator.
 
-*   You *cannot* use GeoPoint or non-filtering constraints (`Near`, `WhereWithinGeoBox`, `Limit`, `Skip`, `OrderBy`, `Include`) in the subqueries of a compound `Or` query.
-* The newly created `ParseQuery`, however, can have other constraints added.
+Note that we do not, however, support GeoPoint or non-filtering constraints (e.g. `Near`, `WhereWithinGeoBox`, `Limit`, `Skip`, `OrderBy...`, `Include`) in the subqueries of the compound query.
