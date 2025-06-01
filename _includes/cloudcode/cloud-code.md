@@ -479,15 +479,15 @@ Parse.Cloud.afterDelete(Parse.User, async (request) => {
 
 # File Triggers
 
-## beforeSaveFile
+## beforeSave
 
-With the `beforeSaveFile` method you can run custom Cloud Code before any file is saved. Returning a new `Parse.File` will save the new file instead of the one sent by the client.
+With the `beforeSave` method you can run custom Cloud Code before any file is saved. Returning a new `Parse.File` will save the new file instead of the one sent by the client.
 
 ### Examples
 
 ```javascript
 // Changing the file name
-Parse.Cloud.beforeSaveFile(async (request) => {
+Parse.Cloud.beforeSave(Parse.File, async (request) => {
   const { file } = request;
   const fileData = await file.getData();
   const newFile = new Parse.File('a-new-file-name.txt', { base64: fileData });
@@ -495,14 +495,14 @@ Parse.Cloud.beforeSaveFile(async (request) => {
 });
 
 // Returning an already saved file
-Parse.Cloud.beforeSaveFile((request) => {
+Parse.Cloud.beforeSave(Parse.File, (request) => {
   const { user } = request;
   const avatar = user.get('avatar'); // this is a Parse.File that is already saved to the user object
   return avatar;
 });
 
 // Saving a different file from uri
-Parse.Cloud.beforeSaveFile((request) => {
+Parse.Cloud.beforeSave(Parse.File, (request) => {
   const newFile = new Parse.File('some-file-name.txt', { uri: 'www.somewhere.com/file.txt' });
   return newFile;
 });
@@ -510,25 +510,25 @@ Parse.Cloud.beforeSaveFile((request) => {
 
 ### Metadata and Tags
 
-Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3). The `beforeSaveFile` hook is a great place to set the metadata and/or tags on your files.
+Adding Metadata and Tags to your files allows you to add additional bits of data to the files that are stored within your storage solution (i.e AWS S3). The `beforeSave` hook is a great place to set the metadata and/or tags on your files.
 
 Note: not all storage adapters support metadata and tags. Check the documentation for the storage adapter you're using for compatibility.
 
 ```javascript
 // Adding metadata and tags
-Parse.Cloud.beforeSaveFile((request) => {
+Parse.Cloud.beforeSave(Parse.File, (request) => {
   const { file, user } = request;
   file.addMetadata('createdById', user.id);
   file.addTag('groupId', user.get('groupId'));
 });
 ```
 
-## afterSaveFile
+## afterSave
 
-The `afterSaveFile` method is a great way to keep track of all of the files stored in your app. For example:
+The `afterSave` method is a great way to keep track of all of the files stored in your app. For example:
 
 ```javascript
-Parse.Cloud.afterSaveFile(async (request) => {
+Parse.Cloud.afterSave(Parse.File, async (request) => {
   const { file, fileSize, user } = request;
   const fileObject = new Parse.Object('FileObject');
   fileObject.set('file', file);
@@ -539,12 +539,12 @@ Parse.Cloud.afterSaveFile(async (request) => {
 });
 ```
 
-## beforeDeleteFile
+## beforeDelete
 
-You can run custom Cloud Code before any file gets deleted. For example, lets say you want to add logic that only allows files to be deleted by the user who created it. You could use a combination of the `afterSaveFile` and the `beforeDeleteFile` methods as follows:
+You can run custom Cloud Code before any file gets deleted. For example, lets say you want to add logic that only allows files to be deleted by the user who created it. You could use a combination of the `afterSave` and the `beforeDelete` methods as follows:
 
 ```javascript
-Parse.Cloud.afterSaveFile(async (request) => {
+Parse.Cloud.afterSave(Parse.File, async (request) => {
   const { file, user } = request;
   const fileObject = new Parse.Object('FileObject');
   fileObject.set('fileName', file.name());
@@ -552,7 +552,7 @@ Parse.Cloud.afterSaveFile(async (request) => {
   await fileObject.save(null, { useMasterKey: true );
 });
 
-Parse.Cloud.beforeDeleteFile(async (request) => {
+Parse.Cloud.beforeDelete(Parse.File, async (request) => {
   const { file, user } = request;
   const query = new Parse.Query('FileObject');
   query.equalTo('fileName', file.name());
@@ -563,17 +563,49 @@ Parse.Cloud.beforeDeleteFile(async (request) => {
 });
 ```
 
-## afterDeleteFile
+## afterDelete
 
-In the above `beforeDeleteFile` example the `FileObject` collection is used to keep track of saved files in your app. The `afterDeleteFile` trigger is a good place to clean up these objects once a file has been successfully deleted.
+In the above `beforeDelete` example the `FileObject` collection is used to keep track of saved files in your app. The `afterDelete` trigger is a good place to clean up these objects once a file has been successfully deleted.
 
 ```javascript
-Parse.Cloud.afterDeleteFile(async (request) => {
+Parse.Cloud.afterDelete(Parse.File, async (request) => {
   const { file } = request;
   const query = new Parse.Query('FileObject');
   query.equalTo('fileName', file.name());
   const fileObject = await query.first({ useMasterKey: true });
   await fileObject.destroy({ useMasterKey: true });
+});
+```
+
+## beforeFind
+
+*Available only on parse-server cloud code starting 8.1.0*
+
+The beforeFind trigger allows you to intercept file retrieval requests and perform logic before the file is served. This is useful for adding access control, logging, or modifying the file's response behavior.
+
+```javascript
+Parse.Cloud.beforeFind(Parse.File, (request) => {
+  const { file, user, log } = request;
+  log.info(`User ${user.id} is trying to access file ${file.name()}`);
+  if (!user || !user.get('isAdmin')) {
+    throw 'Access denied: only admins can view this file';
+  }
+});
+```
+
+## afterFind
+
+*Available only on parse-server cloud code starting 8.1.0*
+
+The afterFind trigger allows you to modify the behavior of a file download after it has been retrieved. For example, you can enforce a forced download of the file or log usage statistics.
+
+```javascript
+Parse.Cloud.afterFind(Parse.File, (request) => {
+  const { file, log } = request;
+  log.info(`File ${file.name()} was served to the user.`);
+  if (file.name().endsWith('.txt')) {
+    request.forceDownload = true;
+  }
 });
 ```
 
