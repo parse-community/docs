@@ -761,6 +761,53 @@ Parse.Cloud.afterLogout(async request => {
 - if a user logs out and no `_Session` object was found to delete
 - if a `_Session` object is deleted without the user logging out by calling the logout method of an SDK
 
+## beforePasswordResetRequest
+
+*Available only on parse-server cloud code starting 8.5.0*
+
+Sometimes you may want to run custom validation on a password reset request before the reset email (or any other channels in the future) is sent. The `beforePasswordResetRequest` trigger can be used for blocking password reset requests (for example, if the user is banned), implementing rate limiting, or adding additional validation logic.
+
+This function provides control in validating a password reset request before the reset email is sent. It is triggered after the user is found by email, but before the reset token is generated and the email is sent.
+
+```javascript
+Parse.Cloud.beforePasswordResetRequest(request => {
+  if (request.object.get('banned')) {
+    throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User is banned.');
+  }
+});
+```
+
+You can also add rate limiting to prevent abuse of the password reset endpoint:
+
+```javascript
+Parse.Cloud.beforePasswordResetRequest(request => {
+  // Your validation logic here
+  if (request.object.get('banned')) {
+    throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User is banned.');
+  }
+}, {
+  rateLimit: {
+    requestLimit: 5,
+    windowMs: 60000 // 1 minute
+  }
+});
+```
+
+### Considerations
+- It waits for any promises to resolve
+- The user object is available on `request.object` - this is the user found by email
+- If the function throws an error, the password reset email will not be sent
+- You can use `Parse.Error.EMAIL_NOT_FOUND` to prevent information disclosure about whether an email exists in the system
+
+#### The trigger will run...
+- When a password reset is requested via `/requestPasswordReset` endpoint
+- After the user is found by email address
+- Before the reset token is generated and email is sent
+
+#### The trigger won't run...
+- If the email address doesn't match any user in the system
+- If the request is invalid
+
 # LiveQuery Triggers
 
 ## beforeConnect
