@@ -781,7 +781,6 @@ You can also add rate limiting to prevent abuse of the password reset endpoint:
 
 ```javascript
 Parse.Cloud.beforePasswordResetRequest(async request => {
-  // Your validation logic here
   if (request.object.get('banned')) {
     throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User is banned.');
   }
