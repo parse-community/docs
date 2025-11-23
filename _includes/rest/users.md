@@ -186,6 +186,8 @@ print(result)
 
 If successful, the response body is an empty JSON object.
 
+You can use the [`beforePasswordResetRequest`]({{ site.baseUrl }}/cloudcode/guide/#beforepasswordresetrequest) Cloud Code trigger to add custom validation logic before the password reset email is sent.
+
 ## Retrieving Users
 
 You can also retrieve the contents of a user object by sending a GET request to the URL returned in the location header when it was created. For example, to retrieve the user created above:

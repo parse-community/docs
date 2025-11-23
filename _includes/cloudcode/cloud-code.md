@@ -761,6 +761,52 @@ Parse.Cloud.afterLogout(async request => {
 - if a user logs out and no `_Session` object was found to delete
 - if a `_Session` object is deleted without the user logging out by calling the logout method of an SDK
 
+## beforePasswordResetRequest
+
+*Available only in Cloud Code on Parse Server >= 8.5.0.*
+
+The `beforePasswordResetRequest` trigger is invoked before a password reset email is sent. It is triggered after the user is found by email, but before the reset token is generated and the email is sent. It can be used for blocking password reset requests, implementing rate limiting, or adding additional validation logic.
+
+An example would be to prevent sending a password reset email if the user has a ban flag set in your application.
+
+```javascript
+Parse.Cloud.beforePasswordResetRequest(request => {
+  if (request.object.get('banned')) {
+    throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User is banned.');
+  }
+});
+```
+
+You can also add rate limiting to prevent abuse of the password reset endpoint:
+
+```javascript
+Parse.Cloud.beforePasswordResetRequest(async request => {
+  if (request.object.get('banned')) {
+    throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User is banned.');
+  }
+}, {
+  rateLimit: {
+    requestLimit: 5,
+    windowMs: 60_000
+  }
+});
+```
+
+Considerations:
+
+- The user object is available on `request.object`, which is the user who requested the password reset.
+- If the function throws an error, the password reset email will not be sent.
+
+The trigger will run:
+
+- When a password reset is requested via `/requestPasswordReset` endpoint.
+- After the user is found by email address.
+- Before the reset token is generated and the email is sent.
+
+The trigger won't run:
+
+- If the email address doesn't match any user in the system.
+
 # LiveQuery Triggers
 
 ## beforeConnect
