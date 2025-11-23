@@ -763,11 +763,11 @@ Parse.Cloud.afterLogout(async request => {
 
 ## beforePasswordResetRequest
 
-*Available only on parse-server cloud code starting 8.5.0*
+*Available only in Cloud Code on Parse Server >= 8.5.0.*
 
-Sometimes you may want to run custom validation on a password reset request before the reset email (or any other channels in the future) is sent. The `beforePasswordResetRequest` trigger can be used for blocking password reset requests (for example, if the user is banned), implementing rate limiting, or adding additional validation logic.
+The `beforePasswordResetRequest` trigger is invoked before a password reset email is sent. It is triggered after the user is found by email, but before the reset token is generated and the email is sent. It can be used for blocking password reset requests, implementing rate limiting, or adding additional validation logic.
 
-This function provides control in validating a password reset request before the reset email is sent. It is triggered after the user is found by email, but before the reset token is generated and the email is sent.
+An example would be to prevent sending a password reset email if the user has a ban flag set in your application.
 
 ```javascript
 Parse.Cloud.beforePasswordResetRequest(request => {
@@ -780,7 +780,7 @@ Parse.Cloud.beforePasswordResetRequest(request => {
 You can also add rate limiting to prevent abuse of the password reset endpoint:
 
 ```javascript
-Parse.Cloud.beforePasswordResetRequest(request => {
+Parse.Cloud.beforePasswordResetRequest(async request => {
   // Your validation logic here
   if (request.object.get('banned')) {
     throw new Parse.Error(Parse.Error.EMAIL_NOT_FOUND, 'User is banned.');
@@ -788,25 +788,25 @@ Parse.Cloud.beforePasswordResetRequest(request => {
 }, {
   rateLimit: {
     requestLimit: 5,
-    windowMs: 60000 // 1 minute
+    windowMs: 60_000
   }
 });
 ```
 
-### Considerations
-- It waits for any promises to resolve
-- The user object is available on `request.object` - this is the user found by email
-- If the function throws an error, the password reset email will not be sent
-- You can use `Parse.Error.EMAIL_NOT_FOUND` to prevent information disclosure about whether an email exists in the system
+Considerations:
 
-#### The trigger will run...
-- When a password reset is requested via `/requestPasswordReset` endpoint
-- After the user is found by email address
-- Before the reset token is generated and email is sent
+- The user object is available on `request.object`, which is the user who requested the password reset.
+- If the function throws an error, the password reset email will not be sent.
 
-#### The trigger won't run...
-- If the email address doesn't match any user in the system
-- If the request is invalid
+The trigger will run:
+
+- When a password reset is requested via `/requestPasswordReset` endpoint.
+- After the user is found by email address.
+- Before the reset token is generated and the email is sent.
+
+The trigger won't run:
+
+- If the email address doesn't match any user in the system.
 
 # LiveQuery Triggers
 
