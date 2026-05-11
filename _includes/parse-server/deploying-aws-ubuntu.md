@@ -117,7 +117,7 @@ After that, we need to setup the configuration file, use your own `appId`, `mast
 ```bash
 sudo nano -w config.json
 ```
-This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [full options document](https://parseplatform.org/parse-server/api/5.2.0/ParseServerOptions.html) for more details.
+This are the basic options of the config.json file, for the full list you can type `parse-server --help` or refer to the [full options document](https://website.parseplatform.org/parse-server/api/5.2.0/ParseServerOptions.html) for more details.
 ```jsonc
 {
   "appId": "exampleAppId",
