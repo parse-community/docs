@@ -1,6 +1,8 @@
-# Your Configuration
+# Server Configuration
 
-The examples in this guide use placeholder values. Replace them in your own requests with your Parse Server configuration, and keep secret keys such as your master key private.
+The REST examples in this guide use placeholder values. Replace them only in your own local code or terminal requests with your Parse Server configuration; never paste production secrets into docs pages or third-party websites.
+
+Note: `masterKey` overrides all permissions. Keep this secret.
 
 - serverUrl: <code class="highlighter-rouge"><span class="custom-parse-server-protocol">https</span>://<span class="custom-parse-server-url">YOUR.PARSE-SERVER.HERE</span><span class="custom-parse-server-mount">/parse/</span></code>
 - appId: <code class="highlighter-rouge"><span class="custom-parse-server-appid">APPLICATION_ID</span></code>
