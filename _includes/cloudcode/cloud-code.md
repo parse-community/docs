@@ -847,6 +847,43 @@ Parse.Cloud.beforeSubscribe('MyObject', request => {
 });
 ```
 
+## beforeLiveQueryEvent
+
+<!-- TODO: set the parse-server version in which beforeLiveQueryEvent is released -->
+*Available only on parse-server cloud code starting X.X.X*
+
+When LiveQuery is enabled for a class, every object change on that class is published to the LiveQuery server, which then evaluates each subscription to determine which clients to notify. For classes with a high write volume this can consume significant network and CPU resources, even for changes that no client is interested in. The `beforeLiveQueryEvent` trigger runs on the Parse Server instance, once per object write, *before* the change is published, and lets you prevent the publish entirely.
+
+This is different from [`afterLiveQueryEvent`](#afterlivequeryevent), which runs on the LiveQuery server once per matching subscription, after the event has already been published. Use `beforeLiveQueryEvent` when you want to avoid publishing an event at all — for example to skip objects that are still drafts — and `afterLiveQueryEvent` when you want to manipulate or filter the payload delivered to a specific client.
+
+Return `false` from the trigger to prevent the event from being published. Returning any other value (including `undefined`) publishes the event as usual.
+
+### Examples
+
+```javascript
+// Do not publish LiveQuery events for objects that are still drafts.
+Parse.Cloud.beforeLiveQueryEvent('MyObject', (request) => {
+  if (request.object.get('status') === 'draft') {
+    return false;
+  }
+});
+
+// The trigger can be async.
+Parse.Cloud.beforeLiveQueryEvent('MyObject', async (request) => {
+  const shouldPublish = await someAsyncCheck(request.object);
+  if (!shouldPublish) {
+    return false;
+  }
+});
+```
+
+The `request` has the same shape as an `afterSave` request (`object`, `original`, `user`, `master`, `installationId`, `context`, `log`). The `object` is the saved object, with its `objectId`.
+
+### Considerations
+- The trigger runs on the Parse Server instance that performs the write, not on the LiveQuery server. Its purpose is to allow or deny publishing an event; it is not intended to change the payload delivered to clients (use `afterLiveQueryEvent` for that).
+- LiveQuery events won't be published until the `beforeLiveQueryEvent` trigger has completed. Make sure any logic inside the trigger is efficient to prevent bottlenecks.
+- If the trigger throws, the error is logged and the event is published as usual.
+
 ## afterLiveQueryEvent
 
 *Available only on parse-server cloud code starting 4.4.0*
