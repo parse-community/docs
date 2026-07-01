@@ -880,7 +880,8 @@ Parse.Cloud.beforeLiveQueryEvent('MyObject', async (request) => {
 The `request` has the same shape as an `afterSave` request (`object`, `original`, `user`, `master`, `installationId`, `context`, `log`). The `object` is the saved object, with its `objectId`.
 
 ### Considerations
-- The trigger runs on the Parse Server instance that performs the write, not on the LiveQuery server. Its purpose is to allow or deny publishing an event; it is not intended to change the payload delivered to clients (use `afterLiveQueryEvent` for that).
+- The trigger runs on the Parse Server instance that performs the write, not on the LiveQuery server. Its purpose is to allow or deny publishing an event.
+- Do not mutate `request.object` in this trigger. It is the same object instance that is passed to the `afterSave` trigger, so any changes would leak into `afterSave` and into the save response returned to the client. To transform the payload delivered to LiveQuery clients, use [`afterLiveQueryEvent`](#afterlivequeryevent) instead. Similarly, `request.context` is provided read-only and is not merged back into the request context.
 - LiveQuery events won't be published until the `beforeLiveQueryEvent` trigger has completed. Make sure any logic inside the trigger is efficient to prevent bottlenecks.
 - If the trigger throws, the error is logged and the event is published as usual.
 
