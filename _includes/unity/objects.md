@@ -89,7 +89,7 @@ For more information about how Parse handles data, check out our documentation o
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `ParseObject` has been uploaded to the server, you can retrieve it with its `ObjectId` using a `ParseQuery`:
 
 ```cs
-ParseQuery<ParseObject> query = ParseObject.GetQuery("GameScore");
+ParseQuery<ParseObject> query = ParseClient.Instance.GetQuery("GameScore");
 query.GetAsync("xWMyZ4YEGZ").ContinueWith(t =>
 {
     ParseObject gameScore = t.Result;
@@ -245,7 +245,7 @@ Task saveTask = myComment.SaveAsync();
 You can also link objects using just their `ObjectId`s like so:
 
 ```cs
-myComment["parent"] = ParseObject.CreateWithoutData("Post", "1zEcyElZ80");
+myComment["parent"] = ParseClient.Instance.CreateWithoutData("Post", "1zEcyElZ80");
 ```
 
 By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
@@ -336,7 +336,7 @@ To create a `ParseObject` subclass:
 1.  Declare a subclass which extends `ParseObject`.
 2.  Add a `ParseClassName` attribute. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
 3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
-4.  Call `ParseObject.RegisterSubclass<YourClass>()` in a `MonoBehaviour`'s `Awake` method and attach this to your Parse initialization `GameObject.`.
+4.  Call `ParseClient.Instance.RegisterSubclass<YourClass>()` in a `MonoBehaviour`'s `Awake` method and attach this to your Parse initialization `GameObject.`.
 
 The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
 
@@ -358,7 +358,7 @@ public class ExtraParseInitialization : MonoBehaviour
 {
   void Awake()
   {
-    ParseObject.RegisterSubclass<Armor>();
+    ParseClient.Instance.RegisterSubclass<Armor>();
   }
 }
 ```
@@ -416,10 +416,10 @@ public void TakeDamage(int amount) {
 
 You should create new instances of your subclasses using the constructors you have defined. Your subclass must define a public default constructor that does not modify fields of the `ParseObject`, which will be used throughout the Parse SDK to create strongly-typed instances of your subclass.
 
-To create a reference to an existing object, use `ParseObject.CreateWithoutData<T>()`:
+To create a reference to an existing object, use `ParseClient.Instance.CreateWithoutData<T>()`:
 
 ```cs
-var armorReference = ParseObject.CreateWithoutData<Armor>(armor.ObjectId);
+var armorReference = ParseClient.Instance.CreateWithoutData<Armor>(armor.ObjectId);
 ```
 
 ### Queries on Subclasses

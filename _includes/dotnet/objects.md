@@ -14,7 +14,6 @@ Keys must start with a letter, and can contain alphanumeric characters and under
 
 Each `ParseObject` has a class name that you can use to distinguish different sorts of data. For example, we could call the high score object a `GameScore`. We recommend that you NameYourClassesLikeThis and nameYourKeysLikeThis, just to keep your code looking pretty.
 
-
 ## Saving Objects
 
 Let's say you want to save the `GameScore` described above to your Parse Server. The interface is similar to an `IDictionary<string, object>`, plus the `SaveAsync` method:
@@ -80,17 +79,19 @@ bigObject["myDictionary"] = dictionary;
 await bigObject.SaveAsync();
 ```
 
-We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See [Files](#files) for more details.
+We do not recommend storing large pieces of binary data like images or documents on `ParseObject`. We recommend you use `ParseFile`s to store images, documents, and other types of files. You can do so by instantiating a `ParseFile` object and setting it on a field. See [Files] (#files) for more details.
 
-For more information about how Parse handles data, check out our documentation on [Data](#data).
+For more information about how Parse handles data, check out our documentation on [Data] (#data).
 
 ## Retrieving Objects
 
 Saving data to the cloud is fun, but it's even more fun to get that data out again. If the `ParseObject` has been uploaded to the server, you can retrieve it with the `ObjectId` using a `ParseQuery`:
 
 ```cs
-ParseQuery<ParseObject> query = ParseObject.GetQuery("GameScore");
-ParseObject gameScore = await query.GetAsync("xWMyZ4YEGZ");
+ParseQuery<ParseObject>? query = ParseClient.Instance.GetQuery("GameScore");
+ParseObject? gameScore = await query.FirstOrDefaultAsync();
+ // Or:  ParseClient.Instance.GetQuery<ParseObject>("GameScore");
+ParseObject gameScore = await query.GetAsync("xWMyZ4YEGZ"); // Replace with the actual objectId
 ```
 
 To get the values out of the `ParseObject`, use the `Get<T>` method.
@@ -157,9 +158,9 @@ You can also increment by any amount using `Increment(key, amount)`.
 
 To help with storing list data, there are three operations that can be used to atomically change a list field:
 
-*   `AddToList` and `AddRangeToList` append the given objects to the end of an list field.
-*   `AddUniqueToList` and `AddRangeUniqueToList` add only the given objects which aren't already contained in an list field to that field. The position of the insert is not guaranteed.
-*   `RemoveAllFromList` removes all instances of each given object from an array field.
+* `AddToList` and `AddRangeToList` append the given objects to the end of an list field.
+* `AddUniqueToList` and `AddRangeUniqueToList` add only the given objects which aren't already contained in an list field to that field. The position of the insert is not guaranteed.
+* `RemoveAllFromList` removes all instances of each given object from an array field.
 
 For example, we can add items to the set-like "skills" field like so:
 
@@ -218,7 +219,7 @@ await myComment.SaveAsync();
 You can also link objects using just their `ObjectId`s like so:
 
 ```cs
-myComment["parent"] = ParseObject.CreateWithoutData("Post", "1zEcyElZ80");
+var armorReference = ParseClient.Instance.CreateWithoutData<Post>("1zEcyElZ80");
 ```
 
 By default, when fetching an object, related `ParseObject`s are not fetched.  These objects' values cannot be retrieved until they have been fetched like so:
@@ -265,72 +266,46 @@ var query = relation.Query
 var relatedObjects = await query.FindAsync();
 ```
 
-For more details on `ParseQuery` please look at the [query](#queries) portion of this guide.  A `ParseRelation` behaves similar to a `List<ParseObject>`, so any queries you can do on lists of objects you can do on `ParseRelation`s.
-
-## Subclasses
-
-Parse is designed to get you up and running as quickly as possible. You can access all of your data using the `ParseObject` class and access any field with `Get<T>()`. In mature codebases, subclasses have many advantages, including terseness, extensibility, type-safety, and support for IntelliSense. Subclassing is completely optional, but can transform this code:
-
-```cs
-// Using dictionary-initialization syntax:
-var shield = new ParseObject("Armor")
-{
-  { "displayName", "Wooden Shield" },
-  { "fireproof", false },
-  { "rupees", 50 }
-};
-
-// And later:
-Console.WriteLine(shield.Get<string>("displayName"));
-shield["fireproof"] = true;
-shield["rupees"] = 500;
-```
-
-Into this:
-
-```cs
-// Using object-initialization syntax:
-var shield = new Armor
-{
-  DisplayName = "Wooden Shield",
-  IsFireproof = false,
-  Rupees = 50
-};
-
-// And later:
-Console.WriteLine(shield.DisplayName);
-shield.IsFireproof = true;
-shield.Rupees = 500;
-```
+For more details on `ParseQuery` please look at the [query] (#queries) portion of this guide.  A `ParseRelation` behaves similar to a `List<ParseObject>`, so any queries you can do on lists of objects you can do on `ParseRelation`s.
 
 ### Subclassing ParseObject
 
 To create a `ParseObject` subclass:
 
-1.  Declare a subclass which extends `ParseObject`.
-2.  Add a `ParseClassName` attribute. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
-3.  Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
-4.  Call `ParseObject.RegisterSubclass<YourClass>()` in your code before calling `ParseClient.Initialize()`. The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
+1. Declare a subclass which extends `ParseObject`.
+2. Add a `ParseClassName` attribute. Its value should be the string you would pass into the `ParseObject` constructor, and makes all future class name references unnecessary.
+3. Ensure that your subclass has a public default (i.e. zero-argument) constructor. You must not modify any `ParseObject` fields in this constructor.
+4. Call `ParseObject.RegisterSubclass<YourClass>()` in your code before calling `ParseClient.Initialize()`. The following code sucessfully implements and registers the `Armor` subclass of `ParseObject`:
 
-```cs
+```csharp
 // Armor.cs
 using Parse;
+using Parse.Infrastructure; //If you want to use ServerConnectionData
 
 [ParseClassName("Armor")]
 public class Armor : ParseObject
 {
+    // Default constructor is required.
+    public Armor() { }
 }
 
-// App.xaml.cs
-using Parse;
-
-public class App : Application
+// App.xaml.cs (or wherever you initialize Parse)
+public App()
 {
-  public App()
-  {
-    ParseObject.RegisterSubclass<Armor>();
-    ParseClient.Initialize(ParseApplicationId, ParseWindowsKey);
-  }
+    InitializeComponent();
+
+    MainPage = new AppShell();
+   
+    // Initialize Parse Client.  (See initialization documentation)
+    if (!InitializeParseClient())
+    {
+        // Handle initialization failure
+        Console.WriteLine("Failed to initialize Parse.  Check your keys and internet connection.");
+    }
+     ParseClient.Instance.RegisterSubclass(Armor); // Register AFTER Initialize
+    ParseClient.Instance.RegisterSubclass(Post); // Register all used custom classes.
+    ParseClient.Instance.RegisterSubclass(Comment);
+
 }
 ```
 
@@ -387,10 +362,44 @@ public void TakeDamage(int amount) {
 
 You should create new instances of your subclasses using the constructors you have defined. Your subclass must define a public default constructor that does not modify fields of the `ParseObject`, which will be used throughout the Parse SDK to create strongly-typed instances of your subclass.
 
-To create a reference to an existing object, use `ParseObject.CreateWithoutData<T>()`:
+**Without Subclasses:**
+
+```csharp
+var shield = new ParseObject("Armor")
+{
+    { "displayName", "Wooden Shield" },
+    { "fireproof", false },
+    { "rupees", 50 }
+};
+
+Console.WriteLine(shield.Get<string>("displayName"));
+shield["fireproof"] = true;
+shield["rupees"] = 500;
+await shield.SaveAsync();
+```
+
+**With Subclasses:**
+
+```csharp
+// Using object-initialization syntax:
+var shield = new Armor
+{
+    DisplayName = "Wooden Shield",
+    IsFireproof = false,
+    Rupees = 50
+};
+
+Console.WriteLine(shield.DisplayName);
+shield.IsFireproof = true;
+shield.Rupees = 500;
+await shield.SaveAsync();
+```
+
+To create a reference to an existing object, use `ParseClient.Instance.CreateWithoutData<T>()`:
 
 ```cs
-var armorReference = ParseObject.CreateWithoutData<Armor>(armor.ObjectId);
+var armorReference = ParseClient.Instance.CreateWithoutData<Armor>(armor.ObjectId);
+
 ```
 
 ### Queries on Subclasses

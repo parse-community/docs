@@ -2,9 +2,9 @@
 title: .NET Developers Guide | Parse
 permalink: /dotnet/guide/
 layout: guide
-platform: dotnet
-language: cs
-display_platform: .NET
+platform: dotnet/dotnet MAUI
+language: csharp
+display_platform: .NET MAUI
 api_reference: https://parse-community.github.io/Parse-SDK-dotNET/api/
 
 sections:

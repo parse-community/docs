@@ -45,13 +45,13 @@ At the moment there are a couple of things to watch out for:
 Let's take a look at another error handling example:
 
 ```cs
-ParseObject.GetQuery("Note").GetAsync("thisObjectIdDoesntExist");
+ParseClient.Instance.GetQuery("Note").GetAsync("thisObjectIdDoesntExist");
 ```
 
 In the above code, we try to fetch an object with a non-existent `ObjectId`. The Parse Cloud will return an error -- so here's how to handle it properly:
 
 ```cs
-ParseObject.GetQuery("Note").GetAsync(someObjectId).ContinueWith(t =>
+ParseClient.Instance.GetQuery("Note").GetAsync(someObjectId).ContinueWith(t =>
 {
     if (t.IsFaulted)
     {

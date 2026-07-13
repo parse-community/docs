@@ -74,10 +74,10 @@ public void onCreate() {
 ```
 
 ```csharp
-// Xamarin: Application.cs
+// XAMARIN/.NET MAUI: Application.cs
 
-// IMPORTANT: Change "parsexamarinpushsample" to match your namespace.
-[Application(Name = "parsexamarinpushsample.ParseApplication")]
+// IMPORTANT: Change "parseXAMARIN/.NET MAUIpushsample" to match your namespace.
+[Application(Name = "parseXAMARIN/.NET MAUIpushsample.ParseApplication")]
 class ParseApplication : Application {
   // ...
 

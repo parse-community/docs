@@ -1,45 +1,105 @@
 # Analytics
 
-Parse provides a number of hooks for you to get a glimpse into the ticking heart of your app. We understand that it's important to understand what your app is doing, how frequently, and when.
+Parse provides tools to gain insights into your app's activity. You can track app launches, custom events, and more. These analytics are available even if you primarily use Parse for data storage. Your app's dashboard provides real-time graphs and breakdowns (by device type, class name, or REST verb) of API requests, and you can save graph filters.
 
-While this section will cover different ways to instrument your app to best take advantage of Parse's analytics backend, developers using Parse to store and retrieve data can already take advantage of metrics on Parse.
+## App-Open Analytics
 
-Without having to implement any client-side logic, you can view real-time graphs and breakdowns (by device type, Parse class name, or REST verb) of your API Requests in your app's dashboard and save these graph filters to quickly access just the data you're interested in.
+Track application launches by calling `TrackAppOpenedAsync()` in your app's launch event handler. This provides data on when and how often your app is opened. Since MAUI does not have a single, clear "launching" event like some other platforms, the best place to put this call is in your `App.xaml.cs` constructor, *after* initializing the Parse client:
 
-## App-Open / Push Analytics
+```csharp
+public App()
+{
+    InitializeComponent();
+    MainPage = new AppShell();
 
-Our initial analytics hook allows you to track your application being launched. By adding the following line to your Launching event handler, you'll be able to collect data on when and how often your application is opened.
-
-```cs
-ParseAnalytics.TrackAppOpenedAsync();
+    // Initialize Parse Client, see initialization documentation
+    if (!InitializeParseClient())
+    {
+        // Handle initialization failure
+        Console.WriteLine("Failed to initialize Parse.");
+    }
+    else
+    {
+        // Track app open after successful Parse initialization
+        // Do not await in the constructor.
+        Task.Run(() => ParseClient.Instance.TrackLaunchAsync());
+    }
+}
 ```
+
+### Important Considerations
+
+* We use `Task.Run()` to call `TrackLaunchAsync()` *without* awaiting it in the `App` constructor. This is crucial because the constructor should complete quickly to avoid delaying app startup. `TrackLaunchAsync` will run in the background. If Parse initialization fails, we *don't* track the app open.
+* MAUI's lifecycle events are different from older platforms. There isn't a single, universally appropriate "launching" event. The `App` constructor is generally a good place, *provided* you initialize Parse first and handle potential initialization failures. Other possible locations (depending on your specific needs) might include the `OnStart` method of your `App` class, or the first page's `OnAppearing` method. However, the constructor ensures it's tracked as early as possible.
+* If you are using push notifications, you'll likely need to handle tracking opening from push notifications separately, in the code that handles the push notification reception and user interaction. This is *not* covered in this basic analytics section, see the Push Notification documentation.
 
 ## Custom Analytics
 
-`ParseAnalytics` also allows you to track free-form events, with a handful of `string` keys and values. These extra dimensions allow segmentation of your custom events via your app's Dashboard.
+Track custom events with `TrackAnalyticsEventAsync()`. You can include a dictionary of `string` key-value pairs (dimensions) to segment your events.
 
-Say your app offers search functionality for apartment listings, and you want to track how often the feature is used, with some additional metadata.
+The following example shows tracking apartment searches:
 
-```cs
-var dimensions = new Dictionary<string, string> {
-  // Define ranges to bucket data points into meaningful segments
-  { "priceRange", "1000-1500" },
-  // Did the user filter the query?
-  { "source", "craigslist" },
-  // Do searches happen more often on weekdays or weekends?
-  { "dayType", "weekday" }
-};
-// Send the dimensions to Parse along with the 'search' event
-ParseAnalytics.TrackEventAsync("search", dimensions);
+```csharp
+public async Task TrackSearchEventAsync(string price, string city, string date)
+{
+    var dimensions = new Dictionary<string, string>
+    {
+        { "price", priceRange },
+        { "city", city },
+        { "date", date }
+    };
+
+    try
+    {
+        await ParseClient.Instance.TrackAnalyticsEventAsync("search", dimensions);
+    }
+    catch (Exception ex)
+    {
+        // Handle errors like network issues
+        Console.WriteLine($"Analytics tracking failed: {ex.Message}");
+    }
+}
 ```
 
-`ParseAnalytics` can even be used as a lightweight error tracker &mdash; simply invoke the following and you'll have access to an overview of the rate and frequency of errors, broken down by error code, in your application:
+You can use `TrackAnalyticsEventAsync` for lightweight error tracking:
 
-```cs
-var errDimensions = new Dictionary<string, string> {
-  { "code", Convert.ToString(error.Code) }
-};
-ParseAnalytics.TrackEventAsync("error", errDimensions );
+```csharp
+public async Task TrackErrorEventAsync(int errorCode)
+{
+    var dimensions = new Dictionary<string, string>
+    {
+        { "code", errorCode.ToString() }
+    };
+
+    try
+    {
+        await ParseClient.Instance.TrackAnalyticsEventAsync("error", dimensions);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Analytics tracking failed: {ex.Message}");
+    }
+}
 ```
 
-Note that Parse currently only stores the first eight dimension pairs per call to `ParseAnalytics.TrackEventAsync()`.
+For tracking within a catch block:
+
+```csharp
+catch (Exception ex)
+{
+    // Replace `123` with a meaningful error code
+    await TrackErrorEventAsync(123);
+}
+```
+
+### Limitations
+
+* Parse stores only the first eight dimension pairs per `TrackAnalyticsEventAsync()` call.
+
+### API Changes and Usage
+
+* `ParseAnalytics.TrackAppOpenedAsync()` is now `ParseClient.Instance.TrackLaunchAsync()`. The methods are now extension methods on the `IServiceHub` interface, and you access them via `ParseClient.Instance`.
+* `ParseAnalytics.TrackAppOpenedAsync()` is now `ParseClient.Instance.TrackLaunchAsync()`. The methods are now extension methods on the `IServiceHub` interface, and you access them via `ParseClient.Instance`.
+* `ParseAnalytics.TrackEventAsync()` is now `ParseClient.Instance.TrackAnalyticsEventAsync()`. Similar to the above, this is now an extension method.
+* All analytics methods are now asynchronous (`async Task`). Use `await` when calling them, except in specific cases like the `App` constructor, where you should use `Task.Run()` to avoid blocking.
+* For error handling use `try-catch` and handle `Exception`.

@@ -1,56 +1,110 @@
 # Files
 
-## The ParseFile
+## ParseFile
 
-`ParseFile` lets you store application files in the cloud that would otherwise be too large or cumbersome to fit into a regular `ParseObject`. The most common use case is storing images but you can also use it for documents, videos, music, and any other binary data.
+`ParseFile` allows you to store large files like images, documents, or videos in the cloud, which would be impractical to store directly within a `ParseObject`.
 
-Getting started with `ParseFile` is easy. First, you'll need to have the data in `byte[]` or `Stream` form and then create a `ParseFile` with it. In this example, we'll just use a string:
+### Creating a `ParseFile`
 
-```cs
+You need to provide the file data as a `byte[]` or a `Stream`, and provide a filename. The filename must include the correct file extension (e.g. `.txt`). This allows Parse Server to determine the file type and handle it appropriately, for example to later serve the file with the correct `Content-Type` header.
+
+To create a file from a byte array:
+
+```csharp
 byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
 ParseFile file = new ParseFile("resume.txt", data);
 ```
 
-Notice in this example that we give the file a name of `resume.txt`. There's two things to note here:
+To create a file from a stream:
 
-*   You don't need to worry about filename collisions. Each upload gets a unique identifier so there's no problem with uploading multiple files named `resume.txt`.
-*   It's important that you give a name to the file that has a file extension. This lets Parse figure out the file type and handle it accordingly. So, if you're storing PNG images, make sure your filename ends with `.png`.
+```csharp
+using (FileStream stream = File.OpenRead("path/to/your/file.png"))
+{
+    ParseFile fileFromStream = new ParseFile("image.png", stream);
+    await fileFromStream.SaveAsync();
+}
+```
 
-Next you'll want to save the file up to the cloud. As with `ParseObject`, you can call `SaveAsync` to save the file to Parse.
+When creating a `ParseFile` from a `Stream`, you can optionally provide the content type (MIME type) as a third argument (e.g., `image/png`, `application/pdf`, `text/plain`).  This is recommended as it ensures the file is later served correctly. Without it, Parse Server will try to infer it from various file properties, but providing it explicitly is more reliable.
 
-```cs
+To create a file from a stream and provide a content type:
+
+```csharp
+using (FileStream stream = File.OpenRead("path/to/your/file.pdf"))
+{
+   ParseFile fileFromStream = new ParseFile("document.pdf", stream, "application/pdf");
+   await fileFromStream.SaveAsync();
+}
+```
+
+#### Important Considerations
+
+- Parse handles filename collisions. Each uploaded file gets a unique identifier. This allows you to upload multiple files with the same name.
+
+### Saving a `ParseFile`
+
+```csharp
 await file.SaveAsync();
 ```
 
-Finally, after the save completes, you can assign a `ParseFile` into a `ParseObject` just like any other piece of data:
+You must save the `ParseFile` to Parse before you can associate it with a `ParseObject`. The `SaveAsync()` method uploads the file data to the Parse Server.
 
-```cs
+### Associating `ParseFile` with `ParseObject`
+
+```csharp
 var jobApplication = new ParseObject("JobApplication");
 jobApplication["applicantName"] = "Joe Smith";
 jobApplication["applicantResumeFile"] = file;
 await jobApplication.SaveAsync();
 ```
 
-Retrieving it back involves downloading the resource at the `ParseFile`'s `Url`. Here we retrieve the resume file off another JobApplication object:
+### Retrieving a `ParseFile`
 
-```cs
-var applicantResumeFile = anotherApplication.Get<ParseFile>("applicantResumeFile");
-string resumeText = await new HttpClient().GetStringAsync(applicantResumeFile.Url);
+You retrieve the `ParseFile` object using `Get<ParseFile>()`. This object contains metadata like the URL, filename, and content type. It does not contain the file data itself. The `ParseFile.Url` property provides the publicly accessible URL where the file data can be downloaded.
+
+The recommended way to download the file data is to use `HttpClient`. This gives you the most flexibility (handling different file types, large files, etc.). `ParseFile` provides convenient methods `GetBytesAsync()` and `GetDataStreamAsync()` to download data. Always wrap Stream and `HttpClient` in `using` statements to ensure releasing the resources.
+
+The following example shows various ways to download the file data:
+
+```csharp
+ParseFile? applicantResumeFile = jobApplication.Get<ParseFile>("applicantResumeFile");
+
+if (applicantResumeFile != null)
+{
+    Download the file using HttpClient (more versatile)
+    using (HttpClient client = new HttpClient())
+    {
+        // As a byte array
+        byte[] downloadedData = await client.GetByteArrayAsync(applicantResumeFile.Url);
+
+        // As a string (if it's text)
+        string resumeText = await client.GetStringAsync(applicantResumeFile.Url);
+
+        // To a Stream (for larger files, or to save directly to disk)
+        using (Stream fileStream = await client.GetStreamAsync(applicantResumeFile.Url))
+        {
+            // Process the stream (e.g., save to a file)
+            using (FileStream outputStream = File.Create("downloaded_resume.txt"))
+            {
+                await fileStream.CopyToAsync(outputStream);
+            }
+        }
+    }
+}
 ```
 
-## Progress
+## Progress Reporting
 
-It's easy to get the progress of `ParseFile` uploads by passing a `Progress` object to `SaveAsync`. For example:
+*Work In Progress*
 
-```cs
-byte[] data = System.Text.Encoding.UTF8.GetBytes("Working at Parse is great!");
-ParseFile file = new ParseFile("resume.txt", data);
+## Deleting a `ParseFile`
 
-await file.SaveAsync(new Progress<ParseUploadProgressEventArgs>(e => {
-    // Check e.Progress to get the progress of the file upload
-}));
-```
+A Parse File is just a reference to a file source inside a Parse Object. Deleting this reference from a Parse Object will not delete the referenced file source as well.
 
-You can delete files that are referenced by objects using the [REST API]({{ site.baseUrl }}/rest/guide/#deleting-files). You will need to provide the master key in order to be allowed to delete a file.
+When deleting a reference, you usually want to delete the file source as well, otherwise your data storage is increasingly occupied by file data that is not being used anymore. Without any reference, Parse Server won't be aware of the file's existence.
 
-If your files are not referenced by any object in your app, it is not possible to delete them through the REST API. You may request a cleanup of unused files in your app's Settings page. Keep in mind that doing so may break functionality which depended on accessing unreferenced files through their URL property. Files that are currently associated with an object will not be affected.
+For that reason, it's an important consideration what do to with the file source *before* you remove its reference.
+
+This SDK currently does not provide a method for deleting files. See the REST API documentation for how to delete a file.
+
+**Important Security Note:** File deletion via the REST API requires the master key. The master key should never be included in client-side code. File deletion should therefore be handled by server-side logic via Cloud Code.

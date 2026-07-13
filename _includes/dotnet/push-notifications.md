@@ -5,12 +5,12 @@ Push Notifications are a great way to keep your users engaged and informed about
 If you haven't installed the SDK yet, please [head over to the Push QuickStart]({{ site.baseUrl }}/parse-server/guide/#push-notifications-quick-start) to get our SDK up and running.
 
 <div class='tip info'><div>
-The .NET SDK can send push notifications from all runtimes, but only Windows 8, Windows Phone 8, and Xamarin apps can receive pushes from the push servers.
+The .NET SDK can send push notifications from all runtimes, but only Windows 8, Windows Phone 8, and XAMARIN/.NET MAUI apps can receive pushes from the push servers.
 </div></div>
 
 ## Setting Up Push
 
-Currently .NET SDK can receive push on Windows 8, Windows Phone 8, Xamarin iOS and Xamarin Android.
+Currently .NET SDK can receive push on Windows 8, Windows Phone 8, XAMARIN/.NET MAUI iOS and XAMARIN/.NET MAUI Android.
 
 ### Push on Windows 8
 
@@ -23,11 +23,11 @@ Windows Phone 8 supports authenticated and unauthenticated push notifications. A
 *   The communication between Parse and Microsoft's cloud is unencrypted. The communication between your device and Parse will always be secure.
 *   You are limited to 500 pushes per day per subscription.
 
-### Push on Xamarin iOS
+### Push on XAMARIN/.NET MAUI iOS
 
-If you want to start using push on Xamarin iOS, start by completing the [iOS Push tutorial](/tutorials/ios-push-notifications) to learn how to configure your push certificate.
+If you want to start using push on XAMARIN/.NET MAUI iOS, start by completing the [iOS Push tutorial](/tutorials/ios-push-notifications) to learn how to configure your push certificate.
 
-### Push on Xamarin Android
+### Push on XAMARIN/.NET MAUI Android
 
 If you want to start using push on Unity Android, start by completing [Android Push tutorial](/tutorials/android-push-notifications) to learn how to configure your app.
 
@@ -220,7 +220,7 @@ await push.SendAsync();
 
 ## Sending Options
 
-Push notifications can do more than just send a message. On Xamarin, Windows, Windows Phone 8, pushes can also include a title, as well as any custom data you wish to send. An expiration date can also be set for the notification in case it is time sensitive.
+Push notifications can do more than just send a message. On XAMARIN/.NET MAUI, Windows, Windows Phone 8, pushes can also include a title, as well as any custom data you wish to send. An expiration date can also be set for the notification in case it is time sensitive.
 
 ### Customizing your Notifications
 
@@ -332,7 +332,7 @@ ParsePush.ParsePushNotificationReceived += (sender, args) => {
 };
 ```
 
-In Xamarin iOS, you need to call `ParsePush.HandlePush` inside `AppDelegate.ReceivedRemoteNotification`
+In XAMARIN/.NET MAUI iOS, you need to call `ParsePush.HandlePush` inside `AppDelegate.ReceivedRemoteNotification`
 
 ```cs
 public override void ReceivedRemoteNotification(UIApplication application, NSDictionary userInfo) {
@@ -408,9 +408,9 @@ this.Startup += (sender, args) => {
 
 This method will set up event handlers necessary to track all app launches; you should not use `TrackAppOpenedAsync` if you register event handlers with `TrackAppOpens`.
 
-### Tracking on Xamarin Applications
+### Tracking on XAMARIN/.NET MAUI Applications
 
-This feature is not supported yet in Xamarin Applications.
+This feature is not supported yet in XAMARIN/.NET MAUI Applications.
 
 ## Push Experiments
 

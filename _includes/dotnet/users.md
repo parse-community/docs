@@ -10,9 +10,9 @@ With this class, you'll be able to add user account functionality in your app.
 
 `ParseUser` has several properties that set it apart from `ParseObject`:
 
-*   `Username`: The username for the user (required).
-*   `Password`: The password for the user (required on signup).
-*   `Email`: The email address for the user (optional).
+* `Username`: The username for the user (required).
+* `Password`: The password for the user (required on signup).
+* `Email`: The email address for the user (optional).
 
 We'll go through each of these in detail as we run through the various use cases for users. Keep in mind that if you set `Username` and `Email` through these properties, you do not need to set it using the indexer on `ParseObject` &mdash; this is set for you automatically.
 
@@ -67,9 +67,9 @@ Enabling email verification in an application's settings allows the application 
 
 There are three `emailVerified` states to consider:
 
-1.  `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `ParseUser`s can never have a `true` value when the user account is first created.
-2.  `false` - at the time the `ParseUser` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `FetchAsync` on the `ParseUser`.
-3.  _missing_ - the `ParseUser` was created when email verification was off or the `ParseUser` does not have an `email`.
+1. `true` - the user confirmed his or her email address by clicking on the link Parse emailed them. `ParseUser`s can never have a `true` value when the user account is first created.
+2. `false` - at the time the `ParseUser` object was last refreshed, the user had not confirmed his or her email address. If `emailVerified` is `false`, consider calling `FetchAsync` on the `ParseUser`.
+3. _missing_ - the `ParseUser` was created when email verification was off or the `ParseUser` does not have an `email`.
 
 ## Current User
 
@@ -200,10 +200,10 @@ This will attempt to match the given email with the user's email or username fie
 
 The flow for password reset is as follows:
 
-1.  User requests that their password be reset by typing in their email.
-2.  Parse sends an email to their address, with a special password reset link.
-3.  User clicks on the reset link, and is directed to a special Parse page that will allow them type in a new password.
-4.  User types in a new password. Their password has now been reset to a value they specify.
+1. User requests that their password be reset by typing in their email.
+2. Parse sends an email to their address, with a special password reset link.
+3. User clicks on the reset link, and is directed to a special Parse page that will allow them type in a new password.
+4. User types in a new password. Their password has now been reset to a value they specify.
 
 Note that the messaging in this flow will reference your app by the name that you specified when you created this app on Parse.
 
@@ -239,7 +239,7 @@ var post = new ParseObject("Post")
 await post.SaveAsync();
 
 // Find all posts by the current user
-var usersPosts = await (from post in ParseObject.GetQuery("Post")
+var usersPosts = await (from post in ParseClient.Instance.GetQuery("Post")
                         where post.Get<ParseUser>("user") == ParseUser.CurrentUser
                         select post).FindAsync();
 
@@ -254,7 +254,7 @@ var post = new ParseObject("Post")
 await post.SaveAsync();
 
 // Find all posts by the current user
-var usersPosts = await ParseObject.GetQuery("Post")
+var usersPosts = await ParseClient.Instance.GetQuery("Post")
     .WhereEqualTo("user", ParseUser.CurrentUser)
     .FindAsync();
 ```
@@ -269,9 +269,9 @@ Using our Facebook integration, you can associate an authenticated Facebook user
 
 To start using Facebook with Parse, you need to:
 
-1.  [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already. In the "Advanced" tab of your app's settings page, Make sure that your app's "App Type" (in the "Authentication" section) is set to "Native/Desktop".
-2.  Add your application's Facebook Application ID on your Parse application's settings page.
-3.  In your `Application` constructor, call `ParseFacebookUtils.Initialize()` with your Facebook App ID:
+1. [Set up a Facebook app](https://developers.facebook.com/apps), if you haven't already. In the "Advanced" tab of your app's settings page, Make sure that your app's "App Type" (in the "Authentication" section) is set to "Native/Desktop".
+2. Add your application's Facebook Application ID on your Parse application's settings page.
+3. In your `Application` constructor, call `ParseFacebookUtils.Initialize()` with your Facebook App ID:
 
 ```cs
 public App()
@@ -301,11 +301,11 @@ ParseUser user = await ParseFacebookUtils.LogInAsync(browser, null);
 
 When this code is run, the following happens:
 
-1.  The user is shown the Facebook login dialog.
-2.  The user authenticates via Facebook, and your app receives a callback.
-3.  Our SDK receives the user's Facebook access data and saves it to a `ParseUser`. If no `ParseUser` exists with the same Facebook ID, then a new `ParseUser` is created.
-4.  The awaited `Task` completes and your code continues executing.
-5.  The current user reference will be updated to this user.
+1. The user is shown the Facebook login dialog.
+2. The user authenticates via Facebook, and your app receives a callback.
+3. Our SDK receives the user's Facebook access data and saves it to a `ParseUser`. If no `ParseUser` exists with the same Facebook ID, then a new `ParseUser` is created.
+4. The awaited `Task` completes and your code continues executing.
+5. The current user reference will be updated to this user.
 
 You may optionally provide a list of strings that specifies what [permissions](https://developers.facebook.com/docs/authentication/permissions/) your app requires from the Facebook user.  For example:
 
@@ -354,7 +354,6 @@ If you want to unlink a Facebook account from a user, simply do this:
 ```cs
 await ParseFacebookUtils.UnlinkAsync(user);
 ```
-
 
 ### Single Sign-on for Windows 8
 
