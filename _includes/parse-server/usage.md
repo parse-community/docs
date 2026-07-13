@@ -31,6 +31,7 @@ A few of the [Parse Server Options](https://parseplatform.org/parse-server/api/m
 * `filesAdapter`: An object that implements the [FilesAdapter](https://github.com/parse-community/parse-server/blob/master/src/Adapters/Files/FilesAdapter.js) interface. For example, [the S3 files adapter](#configuring-file-adapters)
 * `auth`: Configure support for [3rd party authentication](#oauth-and-3rd-party-authentication).
 * `maxUploadSize`: Maximum file upload size. Make sure your server does not restrict max request body size (e.g. nginx.conf `client_max_body_size 100m;`)
+* `cluster`: Runs Parse Server in Node.js cluster mode when starting it with the Parse Server CLI. Set this to `true` to fork one worker per CPU, or to a number to choose the worker count. The CLI starts the worker processes, so this option cannot be used in the `new ParseServer({...})` constructor.
 
 Next, Parse Server can be started with the `.start` method. This ensures that the database connection is establised, cloud code is registered, and any other startup actions.
 
