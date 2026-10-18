@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "jquery": "3.5.1",
-    "underscore": "1.12.1"
+    "underscore": "1.13.8"
   }
 }
