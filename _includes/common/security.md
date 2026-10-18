@@ -492,7 +492,7 @@ This protection is based on CLPs and ACLs only and does not cover:
 
 - access rules implemented in `beforeFind` or `afterFind` triggers;
 - protected fields, which in Parse Server 9 are governed by the option `protectedFieldsSaveResponseExempt`;
-- a plain object that an `afterSave` trigger returns as the response, which is sent as is;
+- a plain object that an `afterSave` trigger returns as the response, which is not filtered for read access;
 - in a batch request with `transaction: true`, read access that depends on authentication, Pointer Permissions, a special class or an `afterSave` trigger, which is decided on the state before the transaction.
 
 ### Security Edge Cases
