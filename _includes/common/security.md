@@ -484,6 +484,17 @@ Now lets look at example that uses Pointer Permissions. Say we have a `Post` cla
 
 Because of the complex interaction between CLPs, Pointer Permissions, and ACLs, we recommend being careful when using them together. Often it can be useful to use CLPs only to disable all permissions for a certain request type, and then using Pointer Permissions or ACLs for other request types. For example, you may want to disable Delete for a `Photo` class, but then put a Pointer Permission on `Photo` so the user who created it can edit it, just not delete it. Because of the especially complex way that Pointer Permissions and ACLs interact, we usually recommend only using one of those two types of security mechanisms.
 
+### Update Responses
+
+The response to an update request can contain stored field values, for example the result of an `Increment` operation or a value that a Cloud Code trigger set. Since Parse Server 8.6.109 and 9.10.6, the response contains these values only if the client can read the object after the update, which means it passes both the Get CLP and the object's read ACL. For any other client, Parse Server removes these fields from the response or marks them as deleted, and the Parse JavaScript SDK removes them from the local object after the save. A client that needs these values requires read access to the object.
+
+This protection is based on CLPs and ACLs only and does not cover:
+
+- access rules implemented in `beforeFind` or `afterFind` triggers;
+- protected fields, which in Parse Server 9 are governed by the option `protectedFieldsSaveResponseExempt`;
+- a plain object that an `afterSave` trigger returns as the response, which is sent as is;
+- in a batch request with `transaction: true`, read access that depends on authentication, Pointer Permissions, a special class or an `afterSave` trigger, which is decided on the state before the transaction.
+
 ### Security Edge Cases
 
 There are some special classes in Parse that don't follow all of the same security rules as every other class. Not all classes follow [Class-Level Permissions (CLPs)](#class-level-permissions) or [Access Control Lists (ACLs)](#object-level-access-control) exactly how they are defined, and here those exceptions are documented. Here "normal behavior" refers to CLPs and ACLs working normally, while any other special behaviors are described in the footnotes.
