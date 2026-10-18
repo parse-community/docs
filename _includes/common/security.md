@@ -38,7 +38,7 @@ As a start, you can configure your application so that clients cannot create new
 
 *Requires Parse Server 5.0.0+*
 
-By default, Parse Server creates Users with public read access. This allows other users, and un-authenticated users, to read data such as `email`. When moving to production, set the key `enforcePrivateUsers` to `true`, as this will remove the public read access to new users.
+Since Parse Server 6.0.0, new users are created without public read and write access, so other users and unauthenticated users cannot read data such as `email`. This is controlled by the Parse Server option `enforcePrivateUsers`, which defaults to `true`. Before Parse Server 6.0.0 the default was `false`, and new users were created with public read access.
 
 ### Configuring Class-Level Permissions
 
@@ -500,27 +500,27 @@ This protection is based on CLPs and ACLs only and does not cover:
 There are some special classes in Parse that don't follow all of the same security rules as every other class. Not all classes follow [Class-Level Permissions (CLPs)](#class-level-permissions) or [Access Control Lists (ACLs)](#object-level-access-control) exactly how they are defined, and here those exceptions are documented. Here "normal behavior" refers to CLPs and ACLs working normally, while any other special behaviors are described in the footnotes.
 
 ||`_User`|`_Installation`|
-| --- | --- |
-|Get|normal behaviour [1, 2, 3]|ignores CLP, but not ACL|
-|Find|normal behavior [3]|master key only [6]|
-|Create|normal behavior [4]|ignores CLP|
-|Update|normal behavior [5]|ignores CLP, but not ACL [7]|
-|Delete|normal behavior [5]|master key only [7]|
+| --- | --- | --- |
+|Get|normal behavior [1, 2]|normal behavior|
+|Find|normal behavior|master key only [5]|
+|Create|normal behavior [3]|normal behavior [6]|
+|Update|normal behavior [4]|normal behavior [7]|
+|Delete|normal behavior [4]|master key only [7]|
 |Add Field|normal behavior|normal behavior|
 
-1. Logging in, or `/parse/login` in the REST API, does not respect the Get CLP on the user class. Login works just based on username and password, and cannot be disabled using CLPs.
+1. Logging in, or `/parse/login` in the REST API, does not respect the Get CLP on the user class. Login works based on username and password, and cannot be disabled using CLPs. A user whose ACL is empty, which only the master key can set, cannot log in. Since Parse Server 9.10.0, if the Get CLP or the user's read ACL doesn't allow the user to read itself, the login still succeeds, but the response contains only the user's `objectId` and `sessionToken`.
 
-2. Retrieving the current user, or becoming a User based on a session token, which are both `/parse/users/me` in the REST API, do not respect the Get CLP on the user class.
+2. Since Parse Server 8.6.61 and 9.6.0, retrieving the current user, or becoming a user based on a session token, which are both `/parse/users/me` in the REST API, follow the Get CLP and the user's read ACL like a normal Get.
 
-3. Read ACLs do not apply to the logged in user. For example, if all users have ACLs with Read disabled, then doing a find query over users will still return the logged in user. However, if the Find CLP is disabled, then trying to perform a find on users will still return an error.
+3. Create CLPs also apply to signing up. So disabling Create CLPs on the user class also disables people from signing up without the master key.
 
-4. Create CLPs also apply to signing up. So disabling Create CLPs on the user class also disables people from signing up without the master key.
+4. A request without a logged-in user cannot Update or Delete a user, even if the user's ACL grants public write access. By default, a user's ACL grants write access only to the user itself, so only that user can Update or Delete itself; if the ACL also grants write access to another user, that user can Update and Delete it as well. Parse Server keeps the user's own read and write access in its ACL when the user is created and whenever a request without the master key sets the ACL, so only the master key can remove it. The Update and Delete CLPs still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. As always, however, using the master key allows you to Update or Delete any user, independent of CLPs or ACLs.
 
-5. Users can only Update and Delete themselves. Public CLPs for Update and Delete may still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. But no matter what the write ACL on a user is, that user can still Update or Delete itself, and no other user can Update or Delete that user. As always, however, using the master key allows users to update other users, independent of CLPs or ACLs.
+5. Find requests on installations are not allowed without the master key, even if you supply the `installationId` as a constraint.
 
-6. Get requests on installations follow ACLs normally. Find requests without master key is not allowed unless you supply the `installationId` as a constraint.
+6. If you create an installation with the `installationId` of an existing installation, Parse Server updates the existing installation, so the Update CLP applies rather than the Create CLP.
 
-7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide]({{ site.baseUrl }}/rest/guide/#installations).
+7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only, even if the ACL grants write access to the public or to the user making the request. For more information about how installations work, check out the [installations section of the REST guide]({{ site.baseUrl }}/rest/guide/#installations).
 
 ## Data Integrity in Cloud Code
 
