@@ -38,7 +38,7 @@ As a start, you can configure your application so that clients cannot create new
 
 *Requires Parse Server 5.0.0+*
 
-Since Parse Server 6.0.0, new users are created without public read and write access, so other users and unauthenticated users cannot read data such as `email`. This is controlled by the Parse Server option `enforcePrivateUsers`, which defaults to `true`. Before Parse Server 6.0.0 the default was `false`, and new users were created with public read access.
+Since Parse Server 6.0.0, new users are created without public read and write access, so other users and unauthenticated users cannot read them. This is controlled by the Parse Server option `enforcePrivateUsers`, which defaults to `true`. Before Parse Server 6.0.0 the default was `false`, and new users were created with public read access, so any client could read their fields, except protected fields such as `email`, which is protected by default.
 
 ### Configuring Class-Level Permissions
 
