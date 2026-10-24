@@ -383,7 +383,7 @@ You can use an `afterSave` handler to perform lengthy operations after sending a
 
 ### Save Response
 
-The response to the save request also contains the values that an `afterSave` handler sets on `request.object` before the response is sent; these values are saved only if the handler saves the object. Like stored field values, they are returned only to a client that can read the object. Since Parse Server 9.10.7-alpha.4, read access is decided on the object as the save writes it, so an `afterSave` handler that restricts read access does not remove these values or the stored field values from the response; to restrict the response, set the ACL in a `beforeSave` handler. See [Save Responses]({{ site.baseUrl }}/parse-server/guide/#save-responses) in the Parse Server Guide.
+The response to the save request also contains the values that an `afterSave` handler sets on `request.object` before the response is sent; these values are saved only if the handler saves the object. Like stored field values, they are returned only to a client that can read the object. Since Parse Server 8.6.117 and 9.10.7-alpha.4, read access is decided on the object as the save writes it, so an `afterSave` handler that restricts read access does not remove these values or the stored field values from the response; to restrict the response, set the ACL in a `beforeSave` handler. See [Save Responses]({{ site.baseUrl }}/parse-server/guide/#save-responses) in the Parse Server Guide.
 
 ### Predefined Classes
 
