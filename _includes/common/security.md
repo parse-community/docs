@@ -490,14 +490,14 @@ The response to a create or update request can contain stored field values, for 
 
 If the client cannot read the object, the response contains no stored field values, and a client SDK keeps its own local values, except that the Parse JavaScript SDK applies a pending operation to an empty value; for example, after `increment` the local value is the increment amount. For a dot notation key such as `stats.count`, the response can contain the top-level field `stats` with only the paths of the request and values computed from the request alone. Before Parse Server 8.6.116 and 9.10.7-alpha.2, Parse Server marked these fields as deleted in the response instead.
 
-Since Parse Server 9.10.7-alpha.TBD, read access is decided as the save writes the object. Changes after the write are not considered: if an `afterSave` trigger restricts read access, for example with a new ACL, the response still contains the stored field values and the values that the trigger sets on its object. To restrict a save response, set the ACL in a `beforeSave` trigger. A field that a `beforeSave` trigger reverts is returned with its value before the save, unless the Parse Server option `protectedFieldsTriggerExempt` is `true`, in which case it is not returned. In earlier versions, read access is decided after the `afterSave` trigger.
+Since Parse Server 9.10.7-alpha.4, read access is decided as the save writes the object. Changes after the write are not considered: if an `afterSave` trigger restricts read access, for example with a new ACL, the response still contains the stored field values and the values that the trigger sets on its object. To restrict a save response, set the ACL in a `beforeSave` trigger. A field that a `beforeSave` trigger reverts is returned with its value before the save, unless the Parse Server option `protectedFieldsTriggerExempt` is `true`, in which case it is not returned. In earlier versions, read access is decided after the `afterSave` trigger.
 
 This protection is based on CLPs and ACLs only and does not cover:
 
 - access rules implemented in `beforeFind` or `afterFind` triggers;
 - protected fields: a client that can read the object also receives the values of protected fields that the save returns, unless the Parse Server option `protectedFieldsSaveResponseExempt`, which defaults to `true`, is set to `false`; Parse Server 8 doesn't have this option and always includes them;
 - a plain object that an `afterSave` trigger returns as the response, which is not filtered for read access;
-- before Parse Server 9.10.7-alpha.TBD, in a batch request with `transaction: true`, read access that depends on the Requires Authentication permission, Pointer Permissions, a system class (a class whose name starts with `_`) or an `afterSave` trigger, which is decided on the state before the transaction.
+- before Parse Server 9.10.7-alpha.4, in a batch request with `transaction: true`, read access that depends on the Requires Authentication permission, Pointer Permissions, a system class (a class whose name starts with `_`) or an `afterSave` trigger, which is decided on the state before the transaction.
 
 ### Security Edge Cases
 
