@@ -381,6 +381,10 @@ In the example above, the client will receive a successful response before the p
 
 You can use an `afterSave` handler to perform lengthy operations after sending a response back to the client.  In order to respond to the client before the `afterSave` handler completes, your handler may not return a promise and your `afterSave` handler may not use async/await.
 
+### Save Response
+
+The response to the save request contains the values that an `afterSave` handler sets on `request.object` before the response is sent. Since Parse Server 9.10.7-alpha.TBD, whether the response contains stored values depends on whether the client can read the object as the save writes it, so an `afterSave` handler that restricts read access does not remove them from the response; to restrict the response, set the ACL in a `beforeSave` handler. See [Save Responses]({{ site.baseUrl }}/parse-server/guide/#save-responses) in the Parse Server Guide.
+
 ### Predefined Classes
 
 If you want to use `afterSave` for a predefined class in the Parse JavaScript SDK (e.g. [Parse.User]({{ site.apis.js }}classes/Parse.User.html)), you should not pass a String for the first argument. Instead, you should pass the class itself, for example:

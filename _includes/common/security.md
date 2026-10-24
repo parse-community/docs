@@ -484,16 +484,20 @@ Now lets look at example that uses Pointer Permissions. Say we have a `Post` cla
 
 Because of the complex interaction between CLPs, Pointer Permissions, and ACLs, we recommend being careful when using them together. Often it can be useful to use CLPs only to disable all permissions for a certain request type, and then using Pointer Permissions or ACLs for other request types. For example, you may want to disable Delete for a `Photo` class, but then put a Pointer Permission on `Photo` so the user who created it can edit it, just not delete it. Because of the especially complex way that Pointer Permissions and ACLs interact, we usually recommend only using one of those two types of security mechanisms.
 
-### Update Responses
+### Save Responses
 
-The response to an update request can contain stored field values, for example the result of an `Increment` operation or a value that a Cloud Code trigger set. Since Parse Server 8.6.109 and 9.10.6-alpha.1, the response contains these values only if the client can read the object after the update, which means it passes both the Get CLP and the object's read ACL. For any other client, Parse Server marks these fields as deleted in the response, and the Parse JavaScript SDK removes them from the local object after the save; for a dot notation key such as `stats.count`, this applies to the whole top-level field `stats`. Parse Server removes the `ACL` field from the response instead, so the SDK keeps its local `ACL`. A client that needs these values requires read access to the object.
+The response to a create or update request can contain stored field values, for example the result of an `Increment` operation, a default value, or a value that a Cloud Code trigger set. For a request without the master key or maintenance key, the response contains these values only if the client can read the object, which means it passes the Get CLP, including Pointer Permissions, and the object's read ACL. Parse Server does this for updates since Parse Server 8.6.109 and 9.10.6-alpha.1, and for creates since Parse Server 8.6.114 and 9.10.6-alpha.6.
+
+If the client cannot read the object, the response contains no stored field values, and a client SDK keeps its own local values, except that the Parse JavaScript SDK applies a pending operation to an empty value; for example, after `increment` the local value is the increment amount. For a dot notation key such as `stats.count`, the response can contain the top-level field `stats` with only the paths of the request and values computed from the request alone. Before Parse Server 8.6.116 and 9.10.7-alpha.2, Parse Server marked these fields as deleted in the response instead.
+
+Since Parse Server 9.10.7-alpha.TBD, read access is decided as the save writes the object. Changes after the write are not considered: if an `afterSave` trigger restricts read access, for example with a new ACL, the response still contains the stored field values and the values that the trigger sets on its object. To restrict a save response, set the ACL in a `beforeSave` trigger. A field that a `beforeSave` trigger reverts is returned with its value before the save, unless the Parse Server option `protectedFieldsTriggerExempt` is `true`, in which case it is not returned. In earlier versions, read access is decided after the `afterSave` trigger.
 
 This protection is based on CLPs and ACLs only and does not cover:
 
 - access rules implemented in `beforeFind` or `afterFind` triggers;
-- protected fields: a client that can read the object also receives the values of protected fields that the update returns, unless the Parse Server option `protectedFieldsSaveResponseExempt`, which defaults to `true`, is set to `false`; Parse Server 8 doesn't have this option and always includes them;
+- protected fields: a client that can read the object also receives the values of protected fields that the save returns, unless the Parse Server option `protectedFieldsSaveResponseExempt`, which defaults to `true`, is set to `false`; Parse Server 8 doesn't have this option and always includes them;
 - a plain object that an `afterSave` trigger returns as the response, which is not filtered for read access;
-- in a batch request with `transaction: true`, read access that depends on the Requires Authentication permission, Pointer Permissions, a system class (a class whose name starts with `_`) or an `afterSave` trigger, which is decided on the state before the transaction.
+- before Parse Server 9.10.7-alpha.TBD, in a batch request with `transaction: true`, read access that depends on the Requires Authentication permission, Pointer Permissions, a system class (a class whose name starts with `_`) or an `afterSave` trigger, which is decided on the state before the transaction.
 
 ### Security Edge Cases
 
