@@ -38,7 +38,7 @@ As a start, you can configure your application so that clients cannot create new
 
 *Requires Parse Server 5.0.0+*
 
-By default, Parse Server creates Users with public read access. This allows other users, and un-authenticated users, to read data such as `email`. When moving to production, set the key `enforcePrivateUsers` to `true`, as this will remove the public read access to new users.
+Since Parse Server 6.0.0, a user created without an ACL gets an ACL that grants read and write access only to the user itself, so other users and unauthenticated users cannot read it. This is controlled by the Parse Server option `enforcePrivateUsers`, which defaults to `true`. Before Parse Server 6.0.0 the default was `false`, and that ACL also granted public read access, so any client could read the user's fields, except `authData` and protected fields such as `email`, which is protected by default.
 
 ### Configuring Class-Level Permissions
 
@@ -132,7 +132,7 @@ $user->setACL(new ParseACL($user))
 ```
 {% endif %}
 
-Most apps should do this. If you store any sensitive user data, such as email addresses or phone numbers, you need to set an ACL like this so that the user's private information isn't visible to other users. If an object doesn't have an ACL, it's readable and writeable by everyone. The only exception is the `_User` class. We never allow users to write each other's data, but they can read it by default. (If you as the developer need to update other `_User` objects, remember that your master key can provide the power to do this.)
+Most apps should do this. If you store any sensitive user data, such as email addresses or phone numbers, you need to set an ACL like this so that the user's private information isn't visible to other users. If an object doesn't have an ACL, it's readable and writeable by everyone. The `_User` class is an exception: Parse Server gives every new user an ACL that, by default, grants read and write access only to the user itself, so other users can read or modify a user only if its ACL grants them access. Before Parse Server 6.0.0, this default ACL also granted public read access; see [Enforcing Private Users](#enforcing-private-users) and [Security Edge Cases](#security-edge-cases). (If you as the developer need to update other `_User` objects, remember that your master key can provide the power to do this.)
 
 To make it super easy to create user-private ACLs for every object, we have a way to set a default ACL that will be used for every new object you create:
 
@@ -486,41 +486,43 @@ Because of the complex interaction between CLPs, Pointer Permissions, and ACLs, 
 
 ### Update Responses
 
-The response to an update request can contain stored field values, for example the result of an `Increment` operation or a value that a Cloud Code trigger set. Since Parse Server 8.6.109 and 9.10.6, the response contains these values only if the client can read the object after the update, which means it passes both the Get CLP and the object's read ACL. For any other client, Parse Server removes these fields from the response or marks them as deleted, and the Parse JavaScript SDK removes them from the local object after the save. A client that needs these values requires read access to the object.
+The response to an update request can contain stored field values, for example the result of an `Increment` operation or a value that a Cloud Code trigger set. Since Parse Server 8.6.109 and 9.10.6-alpha.1, the response contains these values only if the client can read the object after the update, which means it passes both the Get CLP and the object's read ACL. For any other client, Parse Server marks these fields as deleted in the response, and the Parse JavaScript SDK removes them from the local object after the save; for a dot notation key such as `stats.count`, this applies to the whole top-level field `stats`. Parse Server removes the `ACL` field from the response instead, so the SDK keeps its local `ACL`. A client that needs these values requires read access to the object.
 
 This protection is based on CLPs and ACLs only and does not cover:
 
 - access rules implemented in `beforeFind` or `afterFind` triggers;
-- protected fields, which in Parse Server 9 are governed by the option `protectedFieldsSaveResponseExempt`;
+- protected fields: a client that can read the object also receives the values of protected fields that the update returns, unless the Parse Server option `protectedFieldsSaveResponseExempt`, which defaults to `true`, is set to `false`; Parse Server 8 doesn't have this option and always includes them;
 - a plain object that an `afterSave` trigger returns as the response, which is not filtered for read access;
-- in a batch request with `transaction: true`, read access that depends on authentication, Pointer Permissions, a special class or an `afterSave` trigger, which is decided on the state before the transaction.
+- in a batch request with `transaction: true`, read access that depends on the Requires Authentication permission, Pointer Permissions, a system class (a class whose name starts with `_`) or an `afterSave` trigger, which is decided on the state before the transaction.
 
 ### Security Edge Cases
 
 There are some special classes in Parse that don't follow all of the same security rules as every other class. Not all classes follow [Class-Level Permissions (CLPs)](#class-level-permissions) or [Access Control Lists (ACLs)](#object-level-access-control) exactly how they are defined, and here those exceptions are documented. Here "normal behavior" refers to CLPs and ACLs working normally, while any other special behaviors are described in the footnotes.
 
 ||`_User`|`_Installation`|
-| --- | --- |
-|Get|normal behaviour [1, 2, 3]|ignores CLP, but not ACL|
-|Find|normal behavior [3]|master key only [6]|
-|Create|normal behavior [4]|ignores CLP|
-|Update|normal behavior [5]|ignores CLP, but not ACL [7]|
-|Delete|normal behavior [5]|master key only [7]|
+| --- | --- | --- |
+|Get|normal behavior [1, 2]|normal behavior [5]|
+|Find|normal behavior|master key only [5]|
+|Create|normal behavior [3]|normal behavior [6, 8]|
+|Update|normal behavior [4]|normal behavior [7, 8]|
+|Delete|normal behavior [4]|master key only [7, 8]|
 |Add Field|normal behavior|normal behavior|
 
-1. Logging in, or `/parse/login` in the REST API, does not respect the Get CLP on the user class. Login works just based on username and password, and cannot be disabled using CLPs.
+1. Logging in with a username or email and a password, which is `/parse/login` in the REST API, is not blocked by the Get CLP on the user class and cannot be disabled using CLPs. A user whose ACL is empty, which only the master key can set, cannot log in without the master key; this doesn't end the user's existing sessions. Since Parse Server 9.10.0, if the Get CLP or the user's read ACL doesn't allow the user to read itself, the login still succeeds, but the response contains only the user's `objectId` and `sessionToken`, and `authDataResponse` if the login includes `authData`.
 
-2. Retrieving the current user, or becoming a User based on a session token, which are both `/parse/users/me` in the REST API, do not respect the Get CLP on the user class.
+2. Since Parse Server 8.6.61 and 9.6.0, retrieving the current user, or becoming a user based on a session token, which are both `/parse/users/me` in the REST API, follow the Get CLP and the user's read ACL like a normal Get. Where a normal Get fails with error 101 (object not found), for example because the user's read ACL doesn't allow the user to read itself, `/parse/users/me` fails with error 209 (invalid session token), although the session is still valid.
 
-3. Read ACLs do not apply to the logged in user. For example, if all users have ACLs with Read disabled, then doing a find query over users will still return the logged in user. However, if the Find CLP is disabled, then trying to perform a find on users will still return an error.
+3. Create CLPs also apply to signing up. So disabling Create CLPs on the user class also disables people from signing up without the master key.
 
-4. Create CLPs also apply to signing up. So disabling Create CLPs on the user class also disables people from signing up without the master key.
+4. A request without a logged-in user cannot Update or Delete a user, even if the user's ACL grants public write access. By default, a user's ACL grants write access only to the user itself, so only that user can Update or Delete itself; if the ACL also grants write access to another user or to a role, that user or the users in that role can Update and Delete it as well, and if it grants public write access, any logged-in user can. Parse Server keeps the user's own read and write access in its ACL when the user is created and whenever a request without the master key sets the ACL, so only the master key can remove it. The Update and Delete CLPs still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. As always, however, using the master key allows you to Update or Delete any user, independent of CLPs or ACLs.
 
-5. Users can only Update and Delete themselves. Public CLPs for Update and Delete may still apply. For example, if you disable public Update for the user class, then users cannot edit themselves. But no matter what the write ACL on a user is, that user can still Update or Delete itself, and no other user can Update or Delete that user. As always, however, using the master key allows users to update other users, independent of CLPs or ACLs.
+5. Find requests on installations are not allowed without the master key, even if you supply the `installationId` or `objectId` as a constraint. This includes getting an installation with a query, such as `Parse.Query#get` in the JavaScript SDK, which sends a Find request. Fetching an installation, or `GET /parse/installations/<objectId>` in the REST API, is a Get request.
 
-6. Get requests on installations follow ACLs normally. Find requests without master key is not allowed unless you supply the `installationId` as a constraint.
+6. If you create an installation that matches an existing installation, for example by its `installationId`, Parse Server updates the existing installation instead, so the Update CLP and the existing installation's ACL apply rather than the Create CLP.
 
-7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only. For more information about how installations work, check out the [installations section of the REST guide]({{ site.baseUrl }}/rest/guide/#installations).
+7. Update requests on installations do adhere to the ACL defined on the installation, but Delete requests are master-key-only, even if the ACL grants write access to the public or to the user making the request. For more information about how installations work, check out the [installations section of the REST guide]({{ site.baseUrl }}/rest/guide/#installations).
+
+8. When a client creates or updates an installation with a `deviceToken` that another installation already has, Parse Server may delete the other installation, by default regardless of its ACL and the CLPs. Since Parse Server 9.9.0, you can set the Parse Server option `installation.duplicateDeviceTokenAction` to `update` to clear the conflicting field on the other installation instead, and `installation.duplicateDeviceTokenActionEnforceAuth` to `true` to make this follow the other installation's ACL and the CLPs.
 
 ## Data Integrity in Cloud Code
 
@@ -638,7 +640,7 @@ Parse.Cloud.beforeSave('TestObject', () => {}, {
 
 Parse provides a number of ways for you to secure data in your app. As you build your app and evaluate the kinds of data you will be storing, you can make the decision about which implementation to choose.
 
-It is worth repeating that that the Parse User object is readable by all other users by default. You will want to set the ACL on your User object accordingly if you wish to prevent data contained in the User object (for example, the user's email address) from being visible by other users.
+It is worth repeating that before Parse Server 6.0.0, or if the Parse Server option `enforcePrivateUsers` is `false`, new users are created with public read access, so any client can read their fields, except `authData` and protected fields such as `email`. Upgrading Parse Server or changing the option doesn't change the ACL of existing users, so you will want to set the ACL of these users accordingly if you wish to prevent the data they contain from being visible to other users.
 
 Most classes in your app will fall into one of a couple of easy-to-secure categories. For fully public data, you can use class-level permissions to lock down the table to put publicly readable and writeable by no one. For fully private data, you can use ACLs to make sure that only the user who owns the data can read it. But occasionally, you'll run into situations where you don't want data that’s fully public or fully private. For example, you may have a social app, where you have data for a user that should be readable only to friends whom they’ve approved. For this you'll need to a combination of the techniques discussed in this guide to enable exactly the sharing rules you desire.
 

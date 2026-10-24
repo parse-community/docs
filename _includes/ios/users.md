@@ -239,7 +239,7 @@ PFUser.becomeInBackground("session-token-here", {
 
 ## Security For User Objects
 
-The `PFUser` class is secured by default. Data stored in a `PFUser` can only be modified by that user. By default, the data can still be read by any client. Thus, some `PFUser` objects are authenticated and can be modified, whereas others are read-only.
+The `PFUser` class is secured by default. By default, data stored in a `PFUser` can only be modified by that user, and since Parse Server 6.0.0, a new `PFUser` can also only be read by that user; other users can read or modify it only if its ACL grants them access, see [Enforcing Private Users](#enforcing-private-users). Thus, some `PFUser` objects are authenticated and can be modified, whereas others cannot.
 
 Specifically, you are not able to invoke any of the `save` or `delete` methods unless the `PFUser` was obtained using an authenticated method, like `logIn` or `signUp`. This ensures that only the user can alter their own data.
 
