@@ -41,7 +41,7 @@ await Parse().initialize(
 Due to Cross-Origin Resource Sharing (CORS) restrictions, web support requires adding `X-Parse-Installation-Id` as an allowed header in the Parse Server configuration:
 
 - When running directly via docker, set the env var `PARSE_SERVER_ALLOW_HEADERS=X-Parse-Installation-Id`.
-- When running via express, set the [Parse Server option](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) `allowHeaders: ['X-Parse-Installation-Id']`.
+- When running via express, set the [Parse Server option](https://website.parseplatform.org/parse-server/api/master/ParseServerOptions.html) `allowHeaders: ['X-Parse-Installation-Id']`.
 
 ## Desktop Support (macOS)
 

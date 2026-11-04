@@ -16,7 +16,7 @@ const api = new ParseServer({
 });
 ```
 
-A few of the [Parse Server Options](https://parseplatform.org/parse-server/api/master/ParseServerOptions.html) are as follows:
+A few of the [Parse Server Options](https://website.parseplatform.org/parse-server/api/master/ParseServerOptions.html) are as follows:
 
 * `databaseURI`: Connection string for your database.
 * `cloud`: Path to your app’s Cloud Code.
