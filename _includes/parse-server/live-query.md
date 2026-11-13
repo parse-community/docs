@@ -27,7 +27,7 @@ After that, you need to initialize a LiveQuery server like this:
 // Initialize a LiveQuery server instance, app is the express app of your Parse Server
 let httpServer = require('http').createServer(app);
 httpServer.listen(port);
-var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer);
+var parseLiveQueryServer = await ParseServer.createLiveQueryServer(httpServer);
 ```
 
 The `ws` protocol URL of the LiveQuery server is the hostname and port which the `httpServer` is listening to. For example, if the `httpServer` is listening to `localhost:8080`, the `ws` protocol of the LiveQuery server is `ws://localhost:8080/`. We will allow you to customize the path of `ws` protocol URL of the LiveQuery server later, currently it is fixed and you can not set path.
@@ -121,6 +121,25 @@ The full configuration of the LiveQuery server should look like this:
 * `websocketTimeout` - Optional. Number of milliseconds between ping/pong frames. The WebSocket server sends ping/pong frames to the clients to keep the WebSocket alive. This value defines the interval of the ping/pong frame from the server to clients. Defaults to 10 * 1000 ms (10 s).
 * `cacheTimeout` - Optional. Number in milliseconds. When clients provide the `sessionToken` to the LiveQuery server, the LiveQuery server will try to fetch its `ParseUser`'s objectId from parse server and store it in the cache. The value defines the duration of the cache. Check the following Security section and our protocol specification for details. Defaults to 30 * 24 * 60 * 60 * 1000 ms (~30 days).
 * `logLevel` - Optional. This string defines the log level of the LiveQuery server. We support `VERBOSE`, `INFO`, `ERROR`, `NONE`. Defaults to `INFO`.
+* `wssAdapter` - Optional. The WebSocket server adapter. Defaults to an adapter on the [ws](https://www.npmjs.com/package/ws) module, which takes the WebSocket upgrade from the `httpServer` passed to `createLiveQueryServer`. See [Custom WebSocket server](#custom-websocket-server).
+
+### Custom WebSocket server
+
+The default adapter needs a Node.js `http.Server` that emits `upgrade`. If your server answers the upgrade in some other way, give the LiveQuery server an adapter for it with `wssAdapter`. The adapter is a class built with the options passed to `createLiveQueryServer`, where `options.server` is the first argument, and it has these methods:
+
+* `start()` - Start listening for WebSocket connections.
+* `close()` - Stop listening.
+* `onListen()`, `onConnection(ws)`, `onError(error)` - Set by the LiveQuery server. Call `onConnection(ws)` for each new connection.
+
+The `ws` passed to `onConnection` is used like a socket of the `ws` module: the LiveQuery server sets `ws.onmessage` (call it with `{ data }`, where `data` is the message as a string) and `ws.onclose`, calls `send(message)`, `ping()`, `terminate()` and `close()`, and listens for the `pong` and `error` events.
+
+```javascript
+var parseLiveQueryServer = await ParseServer.createLiveQueryServer(httpServer, {
+  wssAdapter: MyWebSocketAdapter
+});
+```
+
+For example, [fulmine.js](https://fulmine.sndesign.it/frameworks#livequery) answers WebSocket upgrades in uWebSockets.js, so the upgrade never reaches Node.js, and its guide has an adapter for it.
 
 ### Basic Architecture
 
@@ -152,7 +171,7 @@ let api = new ParseServer({
 
 let httpServer = require('http').createServer(app);
 httpServer.listen(port);
-var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer,  {
+var parseLiveQueryServer = await ParseServer.createLiveQueryServer(httpServer,  {
   ...,
   redisURL: 'redis://localhost:6379'
 });
