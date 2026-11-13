@@ -131,10 +131,10 @@ The default adapter needs a Node.js `http.Server` that emits `upgrade`. If your 
 * `close()` - Stop listening.
 * `onListen()`, `onConnection(ws)`, `onError(error)` - Set by the LiveQuery server. Call `onConnection(ws)` for each new connection.
 
-The `ws` passed to `onConnection` is used like a socket of the `ws` module: the LiveQuery server sets `ws.onmessage` (called with `{ data }`) and `ws.onclose`, calls `send(message)`, `ping()`, `terminate()` and `close()`, and listens for the `pong` and `error` events.
+The `ws` passed to `onConnection` is used like a socket of the `ws` module: the LiveQuery server sets `ws.onmessage` (call it with `{ data }`, where `data` is the message as a string) and `ws.onclose`, calls `send(message)`, `ping()`, `terminate()` and `close()`, and listens for the `pong` and `error` events.
 
 ```javascript
-var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer, {
+var parseLiveQueryServer = await ParseServer.createLiveQueryServer(httpServer, {
   wssAdapter: MyWebSocketAdapter
 });
 ```
