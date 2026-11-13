@@ -27,7 +27,7 @@ After that, you need to initialize a LiveQuery server like this:
 // Initialize a LiveQuery server instance, app is the express app of your Parse Server
 let httpServer = require('http').createServer(app);
 httpServer.listen(port);
-var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer);
+var parseLiveQueryServer = await ParseServer.createLiveQueryServer(httpServer);
 ```
 
 The `ws` protocol URL of the LiveQuery server is the hostname and port which the `httpServer` is listening to. For example, if the `httpServer` is listening to `localhost:8080`, the `ws` protocol of the LiveQuery server is `ws://localhost:8080/`. We will allow you to customize the path of `ws` protocol URL of the LiveQuery server later, currently it is fixed and you can not set path.
@@ -171,7 +171,7 @@ let api = new ParseServer({
 
 let httpServer = require('http').createServer(app);
 httpServer.listen(port);
-var parseLiveQueryServer = ParseServer.createLiveQueryServer(httpServer,  {
+var parseLiveQueryServer = await ParseServer.createLiveQueryServer(httpServer,  {
   ...,
   redisURL: 'redis://localhost:6379'
 });
